@@ -1,0 +1,11 @@
+# Fictional display names for simulated staff. Authored for this project: invented given-name / family-name
+# parts combined by index, never taken from real clinicians or from the organizers' clinician profiles.
+# Names are cosmetic: they are read only in the snapshot path and cannot affect the simulation.
+# 31 given x 37 family names (coprime counts) give 1,147 distinct combinations.
+given: [Arlen, Bexley, Corin, Dalia, Emrys, Fenna, Garrick, Halden, Isolde, Jorah, Kestrel, Lior, Maren, Nevin, Odalys, Perrin,
+        Quilla, Roswen, Sorrel, Tamsin, Ulric, Vesna, Wren, Xanthe, Yorick, Zinnia, Ansel, Briony, Caspian, Delphine, Evander]
+family: [Aldermoor, Brackenfell, Castellane, Dunwiddie, Elmhollow, Fairweather-Okoro, Glenmarrow, Hartsong, Inglethorpe, Jessamyn,
+         Kettleby, Larkspur, Marrowdale, Netherby, Oakhaven, Pennywhistle, Quillfeather, Ravensworth, Silverlake, Thistlewood,
+         Underhaye, Vantongeren, Wexcombe, Yarrowby, Zellweger-Amadi, Ashgrove, Birchmere, Coldbrooke, Dovecote, Eastmarch,
+         Foxhollow, Greywether, Hollowell, Ironbridge, Juniperus, Kingsmead, Lindqvist-Mbeki]
+titles: {attending: "Dr. ", resident: "Dr. "}

@@ -257,5 +257,6 @@
   ],
   "finished": "2026-10-10T02:47:05-0400"
  },
+ "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
  "installed_from": "runs/tune_min_cost/best.json"
 }

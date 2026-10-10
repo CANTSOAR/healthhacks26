@@ -59,5 +59,6 @@
   "overtime_hours_per_day": 0.0
  },
  "p95_wait_threshold_min": 60.0,
- "note": "scale = fixed-policy mean per hour (floored); wait = waiting_count*60 patient-minutes; revenue uses the cost scale; p95 threshold is a chosen service target (default 60 min door-to-provider at the 95th percentile), fixed baseline p95 here = 61 min"
+ "note": "scale = fixed-policy mean per hour (floored); wait = waiting_count*60 patient-minutes; revenue uses the cost scale; p95 threshold is a chosen service target (default 60 min door-to-provider at the 95th percentile), fixed baseline p95 here = 61 min",
+ "sim_behaviour_fingerprint": "6ee020eaaf7eca57"
 }

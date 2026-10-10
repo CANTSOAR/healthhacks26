@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import json
 import math
+import os
 import sys
 from pathlib import Path
 
@@ -458,3 +459,138 @@ def test_server_additions(device):
             assert d["orders"] == [] and d["disposition"] == "discharge"
             break
     assert started is not None or pid not in sim._deferred[0]
+
+
+# ------------------------------------------------------------------------------------------
+# 10. round 2: viewer robustness
+# ------------------------------------------------------------------------------------------
+@pytest.mark.parametrize("device", DEVICES)
+def test_exited_patient_record_names_and_bay_column(device):
+    sim = HospitalSim(load_scenario("normal_week"), batch_size=2, device=device, seed=12)
+    res_v, snap_v = validator("interaction.schema.json", "result"), validator("snapshot.schema.json")
+    seen_live, names = {}, {}
+    for _ in range(12 * 14):
+        sim.tick()
+        if sim._tick % 12 == 0:
+            snap = sim.snapshot(0)
+            for pid, st in zip(snap["patients"]["id"], snap["patients"]["state"]):
+                seen_live[pid] = st
+            for sid, nm in zip(snap["staff"]["id"], snap["staff"]["name"]):
+                assert isinstance(nm, str) and nm
+                assert names.setdefault(sid, nm) == nm                      # stable for the episode
+    snap_v.validate(snap)
+    assert len(set(names.values())) == len(names)                           # distinct people, distinct names
+    lay = sim.layout(0)
+    P = snap["patients"]
+    held = [(b, s) for b, s in zip(P["bay"], P["state"]) if b >= 0]
+    assert held and all(lay["rooms"][b]["type"] in ("treatment_bay", "resus_bay", "fast_track", "peds_ed") for b, _ in held)
+    assert all(b == -1 for b, s in zip(P["bay"], P["state"]) if s in (0, 1, 9))
+    now = set(P["id"])
+    gone = [pid for pid in seen_live if pid not in now]
+    assert len(gone) > 20
+    exits = set()
+    for pid in gone:
+        d = sim.patient_detail(0, pid)
+        assert d["state"] == "exited" and d["exit"] != "none" and d["in_hospital"] is False and d["exit_t"] >= d["arrival_t"]
+        json.dumps(d)
+        for r in d["interactions"]:
+            res_v.validate(r)
+        exits.add(d["exit"])
+        assert "severity" not in sim.patient_detail(0, pid, public=True)
+    assert "discharged_ed" in exits
+    with pytest.raises(KeyError):
+        sim.patient_detail(0, 10 ** 9)
+
+
+@pytest.mark.parametrize("device", DEVICES)
+def test_start_day_shifts_calendar_only(device):
+    scn = load_scenario("normal_week")
+    a = HospitalSim(scn, batch_size=1, device=device, seed=3)
+    b = HospitalSim(scn, batch_size=1, device=device, seed=3)
+    b.reset(3, start_day=7)                       # one week later: same weekday, same month -> identical
+    c = HospitalSim(scn, batch_size=1, device=device, seed=3)
+    c.reset(3, start_day=5)                       # starts on a Saturday: lower arrival rate than Monday
+    assert b.action_mask()["bays_delta"].all()    # cadence boundaries stay tied to the episode clock
+    ta = tb = tc = 0.0
+    for _ in range(24):
+        ma, mb, mc = a.step(), b.step(), c.step()
+        ta, tb, tc = ta + float(ma["arrivals"]), tb + float(mb["arrivals"]), tc + float(mc["arrivals"])
+    assert ta == tb and tc != ta
+    assert a._lam == b._lam and c._lam != a._lam
+
+
+# ------------------------------------------------------------------------------------------
+# 11. round 2: structural actions over a long horizon (slow: run with SIM_SLOW=1)
+# ------------------------------------------------------------------------------------------
+@pytest.mark.skipif(not os.environ.get("SIM_SLOW"), reason="slow (120 simulated days); set SIM_SLOW=1")
+@pytest.mark.parametrize("device", ["cpu"])
+def test_structural_actions_120_days(device):
+    """Three hospitals on one seed. 0: hold. 1: builds (bays +, ward + x3, CT) then removes. 2: closes ward beds.
+    The ward pool is stressed (ward_pool_los_factor 1.0) so bed counts visibly matter."""
+    scn = load_scenario("normal_week", overrides={"hospital.ward_pool_los_factor": 1.0})
+    sim = HospitalSim(scn, batch_size=3, device=device, seed=torch.tensor([7, 7, 7]))
+    c, P = sim.cfg, sim.cfg
+    lay_v = validator("layout.schema.json")
+    L = lambda *v: torch.tensor(v, device=device)   # noqa: E731
+    plan = {0: dict(bays_delta=L(1, 2, 1), ward_beds_delta=L(1, 2, 0), equipment_buy=L(0, 1, 0)),
+            28: dict(ward_beds_delta=L(1, 2, 0)),
+            56: dict(bays_delta=L(1, 0, 1), ward_beds_delta=L(1, 2, 1)),
+            84: dict(ward_beds_delta=L(1, 0, 1))}
+    n_main = lambda: (sim.bay_exists & sim.bay_is[1]).sum(1).tolist()   # noqa: E731
+    main0, ward0, ct0, ver0 = n_main()[0], int(sim.ward_cap[0]), int(sim.eq_units[0, 1]), sim.layout_version.clone()
+    bd, wd, ed = sim.delay_days["bays"], sim.delay_days["ward"], sim.delay_days["equip"]
+    assert (bd, wd, ed) == (int(c["build_delay_days"]), int(c["ward_bed_open_delay_days"]), int(c["install_delay_days"]))
+    day_tot = []
+    struct = torch.zeros(3, device=device)
+    for d in range(120):
+        tot = dict(boarding=torch.zeros(3, device=device), fixed=torch.zeros(3, device=device))
+        for h in range(24):
+            acts = sim.default_actions()
+            if h == 0 and d in plan:
+                assert bool(sim.action_mask()["bays_delta"].all())
+                acts.update(plan[d])
+            elif h == 0:
+                assert bool(sim.action_mask()["bays_delta"].any()) == (d % sim.dpm == 0)
+            m = sim.step(acts)
+            if h == 0 and d in plan:
+                booked = m["cost_structural"].tolist()
+                assert booked[0] == 0
+                if d == 0:
+                    want = c["bay_step"] * c["bay_build_cost"] + c["ward_step"] * c["ward_bed_open_cost"] + c["equip"]["ct"]["purchase"]
+                    assert abs(booked[1] - want) < 1 and booked[2] == 0          # closing ward beds is free
+                if d == 56:
+                    assert abs(booked[1] - (c["bay_step"] * c["bay_close_cost"] + c["ward_step"] * c["ward_bed_open_cost"])) < 1
+            else:
+                assert float(m["cost_structural"].abs().sum()) == 0              # one-off: booked once, at the decision
+            struct += m["cost_structural"]
+            tot["boarding"] += m["boarding_hours"]
+            tot["fixed"] += m["cost_fixed"]
+        day_tot.append(tot)
+        assert int(sim.conservation()["residual"].abs().max()) == 0
+        # ---- capacity follows the plan with the catalog delays (state at the end of day d)
+        exp_main = main0 + (c["bay_step"] if d >= bd else 0) - (c["bay_step"] if d >= 56 else 0)
+        exp_ward1 = ward0 + c["ward_step"] * sum(1 for s in (0, 28, 56) if d >= s + wd) - (c["ward_step"] if d >= 84 else 0)
+        exp_ward2 = ward0 - c["ward_step"] * (1 + (1 if d >= 28 else 0))
+        assert n_main() == [main0, exp_main, main0], (d, n_main())
+        assert sim.ward_cap.tolist() == [ward0, exp_ward1, exp_ward2], (d, sim.ward_cap.tolist())
+        assert sim.eq_units[:, 1].tolist() == [ct0, ct0 + (1 if d >= ed else 0), ct0]
+        if d in (0, wd, ed, bd, 56, 84, 119):
+            lay = sim.layout(1)
+            lay_v.validate(lay)
+            assert sum(1 for r in lay["rooms"] if r["type"] == "treatment_bay" and r.get("physical", True)
+                       and r.get("zone") != "Hallway overflow") == exp_main
+            assert sum(r["capacity"] for r in lay["rooms"] if r["type"] in ("ward_unit", "icu_bed", "stepdown_bed")) == exp_ward1
+            assert sum(1 for e in lay["equipment"] if e["type"] == "ct") == ct0 + (1 if d >= ed else 0)
+            assert sim.snapshot(1)["layout_version"] == lay["version"]
+    # hospital 1: remove(0 at d0? no) -> completions: ward x3, CT, bays; removals: bays (d56), ward (d84) = 7 bumps
+    # (the day-42 bay and ward completions share one bump: the version rises once per day with any change)
+    assert (sim.layout_version - ver0).tolist() == [0, 6, 2]
+    assert struct[0] == 0 and struct[1] > 0
+    assert int(sim.invalid_actions.sum()) == 0
+    # ---- direction: more beds -> less boarding; fewer -> more. More capacity -> more fixed cost.
+    sl = slice(30, 84)
+    board = sum(t["boarding"] for t in day_tot[sl]).tolist()
+    fixed = sum(t["fixed"] for t in day_tot[sl]).tolist()
+    print("\nboarding patient-hours, days 30-83 [hold, build, close]:", [round(x) for x in board], " fixed cost:", [round(x) for x in fixed])
+    assert board[1] < board[0] < board[2]
+    assert fixed[1] > fixed[0] > fixed[2]

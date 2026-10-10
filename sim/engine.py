@@ -117,6 +117,7 @@ class HospitalSim(ViewerMixin, InteractMixin):
         self.K = int(eng["max_arrivals_per_tick"])
         self.record = self.B <= int(eng["event_log_max_batch"])
         self._seed_arg = seed
+        self.start_day = int(eng.get("start_day", 0))
         self._build_static()
         self.reset(seed)
 
@@ -276,8 +277,12 @@ class HospitalSim(ViewerMixin, InteractMixin):
     # ======================================================================================
     # reset
     # ======================================================================================
-    def reset(self, seed=None) -> None:
+    def reset(self, seed=None, start_day: int | None = None) -> None:
+        """start_day (additive): calendar day of tick 0 (0 = a Monday at the scenario's start month); shifts the
+        weekday and seasonal arrival profiles only. Default: engine setting `start_day` (0)."""
         B, P, dev = self.B, self.P, self.device
+        if start_day is not None:
+            self.start_day = int(start_day)
         if seed is None:
             seed = self._seed_arg
         self._seed_arg = seed
@@ -353,10 +358,11 @@ class HospitalSim(ViewerMixin, InteractMixin):
         self.acc = {k: zfb() for k in SUM_METRICS}
         self.acc["md_busy"], self.acc["md_on"], self.acc["rn_load"] = zfb(), zfb(), zfb()
         self.acc["waiting_patient_minutes"] = zfb()
-        self.ep = {k: zfb() for k in SUM_METRICS + EXTRA_METRICS}
+        zdb = lambda: torch.zeros((B,), device=dev, dtype=torch.float64)                   # noqa: E731  (long episodes)
+        self.ep = {k: zdb() for k in SUM_METRICS + EXTRA_METRICS}
         for k in ["ed_census", "waiting_count", "boarding_count", "bay_occupancy", "ward_occupancy", "md_utilization",
                   "rn_utilization", "staff_on_shift", "fatigue_mean"]:
-            self.ep[k] = zfb()
+            self.ep[k] = zdb()
         self.ep_hours = 0
         i32 = torch.int32
         self.wait_hist_cur = torch.zeros((B, self.wait_bins), device=dev, dtype=i32)
@@ -386,6 +392,7 @@ class HospitalSim(ViewerMixin, InteractMixin):
         self._q_base = torch.full((B,), float(self.cfg["encounter_quality_base"]), device=dev)
         self._any_played = False
         self._deferred = [dict() for _ in range(B)]
+        self._gone = [dict() for _ in range(B)] if self.record else []
         self._deferred_n = 0
         self._callin_pending, self._callin_active = 0, False
         self.ft_open = torch.ones((B,), device=dev, dtype=torch.bool)
@@ -697,8 +704,9 @@ class HospitalSim(ViewerMixin, InteractMixin):
             self._complete_structural(day)
         ev, mci_mix = self._scenario_state(hour)
         # ---- arrival rate for this hour (same for the whole batch: exogenous, scenario-level)
-        month = (int(self.scn.engine["start_month"]) + int(day // 30.4375)) % 12
-        lam = c["arrivals_per_day"] / self.tpd * c["hour_prof"][hod] * c["dow_prof"][day % 7] * c["month_prof"][month] * ev["arr"]
+        cal = day + self.start_day
+        month = (int(self.scn.engine["start_month"]) + int(cal // 30.4375)) % 12
+        lam = c["arrivals_per_day"] / self.tpd * c["hour_prof"][hod] * c["dow_prof"][cal % 7] * c["month_prof"][month] * ev["arr"]
         lam_tot = lam + ev["mci_rate"]
         ev["mci_share"] = ev["mci_rate"] / lam_tot if lam_tot > 0 else 0.0
         ks = torch.arange(self.K, dtype=torch.float64)
@@ -899,6 +907,8 @@ class HospitalSim(ViewerMixin, InteractMixin):
             elif actions:
                 self._hour_start_redo()
         self._tick_core()
+        if self.record:
+            self._capture_exits()
         if self._deferred_n:
             self._apply_deferred()
         if self._tick % self.tph == 0:
@@ -949,6 +959,7 @@ class HospitalSim(ViewerMixin, InteractMixin):
         acc = self.acc
         rec = self.record
         ps, pd = self.ps, self.pd
+        zf = self._zf
         # ---------------- 1. free the slots of patients who exited last tick
         state = p["state"]
         active = p["active"] & (state != S_EXIT)
@@ -1041,8 +1052,8 @@ class HospitalSim(ViewerMixin, InteractMixin):
             in_ft = (bcls == C_FAST) & self.ft_open.unsqueeze(1)
             dec = torch.where(in_ft & is_prov, dec * self.ft_speed, dec)
         if self._any_played:      # a played encounter lasts exactly its played duration (no fatigue scaling)
-            dec = dec.masked_fill(is_prov & (phase == 1) & ((flags & F_PLAYED) > 0), dt)
-        dec = dec.masked_fill(hold & is_prov, 0.0)
+            dec.masked_fill_(is_prov & (phase == 1) & ((flags & F_PLAYED) > 0), dt)
+        dec.masked_fill_(hold & is_prov, 0.0)
         timer = p["timer"] - dec
         treat_left = treat_left - self._treat_dec
         res_left = res_left - dt
@@ -1059,7 +1070,7 @@ class HospitalSim(ViewerMixin, InteractMixin):
         paym = self.payer_mult[ps[:, :, I_PAYER]]
 
         # triage finished
-        state = state.masked_fill(m_tri, S_WB if fl["bays"] else S_WP)
+        state.masked_fill_(m_tri, S_WB if fl["bays"] else S_WP)
         # clinician encounter finished
         if fl["post_encounter"]:
             # the treatment clock started at first provider contact; low encounter quality stretches it
@@ -1068,7 +1079,7 @@ class HospitalSim(ViewerMixin, InteractMixin):
             res_left = torch.where(m_enc, torch.where((needs & N_LAB) > 0, pd[:, :, F_LAB], self._zf), res_left)
             state = torch.where(m_enc, torch.where(has_img, self._c_wtest, self._c_wres), state)
         else:
-            ex = ex.masked_fill(m_enc, X_DISCH)
+            ex.masked_fill_(m_enc, X_DISCH)
         # walking finished
         state = torch.where(m_walk, nxt, state)
         timer = torch.where(m_walk, timer2 + timer, timer)
@@ -1076,17 +1087,17 @@ class HospitalSim(ViewerMixin, InteractMixin):
         if fl["post_encounter"]:
             eqi = eq.clamp(min=0)
             res_left = torch.where(m_test, torch.maximum(res_left, self.eq_result_delay[eqi]), res_left)
-            acc["revenue"] += (self.eq_revenue[eqi] * paym * m_test).sum(1)
-            acc["cost_variable"] += (self.eq_var_cost[eqi] * m_test).sum(1)
+            acc["revenue"] += torch.where(m_test, self.eq_revenue[eqi] * paym, zf).sum(1)
+            acc["cost_variable"] += torch.where(m_test, self.eq_var_cost[eqi], zf).sum(1)
             if fl["walking"]:
                 back = self.legs.gather(1, LEG_SCAN + bcls * 2 + eqi) * self._inv_transport
-                state = state.masked_fill(m_test, S_WALK)
-                nxt = nxt.masked_fill(m_test, S_WRES)
+                state.masked_fill_(m_test, S_WALK)
+                nxt.masked_fill_(m_test, S_WRES)
                 walk_total = torch.where(m_test, back, walk_total)
-                timer2 = timer2.masked_fill(m_test, 0.0)
+                timer2.masked_fill_(m_test, 0.0)
                 timer = torch.where(m_test, back + timer, timer)
             else:
-                state = state.masked_fill(m_test, S_WRES)
+                state.masked_fill_(m_test, S_WRES)
             # disposition finished
             derr = pd[:, :, F_DERR] < (1.0 - enc_q) * c["wrong_disposition_max_prob"]
             samp = torch.where(derr & (tdisp != D_TRANSFER), 1 - tdisp, tdisp)
@@ -1095,17 +1106,17 @@ class HospitalSim(ViewerMixin, InteractMixin):
                 n_ward = ((state == S_WARD) | ((state == S_WALK) & (nxt == S_WARD))).sum(1)
                 n_board = ((state == S_BOARD) & (disp == D_ADMIT)).sum(1)
                 capped = (n_ward + n_board).float() >= self.cap_thr * self.ward_cap.float()
-                d = d.masked_fill((d == D_ADMIT) & capped.unsqueeze(1), D_TRANSFER)
+                d.masked_fill_((d == D_ADMIT) & capped.unsqueeze(1), D_TRANSFER)
             else:
-                d = d.masked_fill(d == D_ADMIT, D_DISCHARGE)
+                d.masked_fill_(d == D_ADMIT, D_DISCHARGE)
             disp = torch.where(m_dis, d, disp)
             m_adm = m_dis & (d == D_ADMIT)
             m_tro = m_dis & (d == D_TRANSFER)
             m_dc = m_dis & (d == D_DISCHARGE)
-            ex = ex.masked_fill(m_dc, X_DISCH)
+            ex.masked_fill_(m_dc, X_DISCH)
             m_brd = m_adm | m_tro
-            state = state.masked_fill(m_brd, S_BOARD)
-            timer = timer.masked_fill(m_tro, c["transfer_wait_min"])
+            state.masked_fill_(m_brd, S_BOARD)
+            timer.masked_fill_(m_tro, c["transfer_wait_min"])
             flags = torch.where(m_adm, flags | F_ADMIT, flags)
             p["t_board"] = p["t_board"].masked_fill(m_brd, t)
             acc["admissions"] += m_adm.sum(1)
@@ -1113,12 +1124,12 @@ class HospitalSim(ViewerMixin, InteractMixin):
             acc["adverse_events"] += wrong_dc.sum(1)
             acc["cost_variable"] += m_tro.sum(1).float() * c["transfer_out_cost"]
             # transfer leaves / ward stay finished
-            ex = ex.masked_fill(m_trn, X_TRANSFER)
-            ex = ex.masked_fill(m_wdone, X_WARD)
-            acc["revenue"] += (paym * m_wdone).sum(1) * c["inpatient_revenue"]
-            t_state = t_state.masked_fill(m_tri | m_enc | m_walk | m_test | m_dis, t)
+            ex.masked_fill_(m_trn, X_TRANSFER)
+            ex.masked_fill_(m_wdone, X_WARD)
+            acc["revenue"] += torch.where(m_wdone, paym, zf).sum(1) * c["inpatient_revenue"]
+            t_state.masked_fill_(m_tri | m_enc | m_walk | m_test | m_dis, t)
         else:
-            t_state = t_state.masked_fill(m_tri | m_walk, t)
+            t_state.masked_fill_(m_tri | m_walk, t)
 
         # ---------------- 5. hazards for patients still here
         wait_ticks = t - t_arr
@@ -1126,7 +1137,7 @@ class HospitalSim(ViewerMixin, InteractMixin):
         live = active & (ex == 0)
         if fl["abandonment"]:
             m_lwbs = live & self.tab_leave[state] & (mode == 0) & (wait_min >= pd[:, :, F_PATIENCE])
-            ex = ex.masked_fill(m_lwbs, X_LWBS)
+            ex.masked_fill_(m_lwbs, X_LWBS)
             acc["lwbs"] += m_lwbs.sum(1)
             if rec and bool(m_lwbs.any()):
                 self._log_patient_events(m_lwbs, "lwbs", "Patient {} left without being seen")
@@ -1136,12 +1147,12 @@ class HospitalSim(ViewerMixin, InteractMixin):
             h_die = h_die + self.haz_die[hz]
             m_det = live & (h_det >= pd[:, :, F_THR_DET]) & (acu > 1)
             m_die = live & (h_die >= pd[:, :, F_THR_DIE])
-            h_det = h_det.masked_fill(m_det, 0.0)
+            h_det.masked_fill_(m_det, 0.0)
             dl = m_det.long()
             acu = acu - dl
             aq = (aq - dl).clamp(min=1)
             flags = torch.where(m_det, flags | F_DET, flags)
-            ex = ex.masked_fill(m_die, X_DIED)
+            ex.masked_fill_(m_die, X_DIED)
             nd, ndie = m_det.sum(1), m_die.sum(1)
             acc["deteriorations"] += nd
             acc["deaths"] += ndie
@@ -1157,10 +1168,10 @@ class HospitalSim(ViewerMixin, InteractMixin):
         fidx = torch.where(m_ex, bay, self._c_nb)
         self.bay_busy.scatter_(1, fidx, self._false_bp)
         self.bay_clean.scatter_(1, fidx, self.bay_turn[fidx])
-        bay = bay.masked_fill(m_ex, NB)
-        state = state.masked_fill(m_ex, S_EXIT)
+        bay.masked_fill_(m_ex, NB)
+        state.masked_fill_(m_ex, S_EXIT)
         pexit = torch.where(m_ex, ex, pexit)
-        t_state = t_state.masked_fill(m_ex, t)
+        t_state.masked_fill_(m_ex, t)
         hold = hold & ~m_ex
         self.exits.scatter_add_(1, ex, m_ex.long())
         acc["treated"] += (m_ex & ((ex == X_DISCH) | (ex == X_WARD) | (ex == X_TRANSFER))).sum(1)
@@ -1180,7 +1191,7 @@ class HospitalSim(ViewerMixin, InteractMixin):
             dur = pd[:, :, F_TRI]
             if fl["walking"]:
                 dur = dur + self.legs[:, LEG_TRI:LEG_TRI + 1] * self._inv_walk
-            state = state.masked_fill(sel, S_TRI)
+            state.masked_fill_(sel, S_TRI)
             timer = torch.where(sel, dur, timer)
             moved = moved | sel
         # ---- bays
@@ -1217,13 +1228,13 @@ class HospitalSim(ViewerMixin, InteractMixin):
             bcls = self.bay_cls[bay]
             if fl["walking"]:
                 wt = self.legs.gather(1, torch.where(mode == 0, LEG_WAIT + bcls, LEG_AMB + bcls)) * self._inv_walk
-                state = state.masked_fill(got, S_WALK)
-                nxt = nxt.masked_fill(got, S_WP)
+                state.masked_fill_(got, S_WALK)
+                nxt.masked_fill_(got, S_WP)
                 timer = torch.where(got, wt, timer)
                 walk_total = torch.where(got, wt, walk_total)
-                timer2 = timer2.masked_fill(got, 0.0)
+                timer2.masked_fill_(got, 0.0)
             else:
-                state = state.masked_fill(got, S_WP)
+                state.masked_fill_(got, S_WP)
             moved = moved | got
         # ---- providers (pool 0 = main, pool 1 = fast track)
         post = fl["post_encounter"]
@@ -1268,19 +1279,19 @@ class HospitalSim(ViewerMixin, InteractMixin):
         treat_left = torch.where(seen_new, pd[:, :, F_TREAT], treat_left)
         p["enc_dur"] = torch.where(seen_new, dur, p["enc_dur"])
         enc_q = torch.where(seen_new, qual, enc_q)
-        t_seen = t_seen.masked_fill(seen_new, t)
-        phase = phase.masked_fill(seen_new, 1)
+        t_seen.masked_fill_(seen_new, t)
+        phase.masked_fill_(seen_new, 1)
         acc["first_seen"] += seen_new.sum(1)
-        acc["door_to_provider_sum_min"] += (wait_min * seen_new).sum(1)
-        acc["cost_variable"] += (self.supply[acu] * seen_new).sum(1)
+        acc["door_to_provider_sum_min"] += torch.where(seen_new, wait_min, zf).sum(1)
+        acc["cost_variable"] += torch.where(seen_new, self.supply[acu], zf).sum(1)
         self.wait_hist_cur.scatter_add_(1, wait_ticks.clamp(0, self.wait_bins - 1), seen_new.to(torch.int32))
         if post:
             timer = torch.where(seen_dis, pd[:, :, F_REEVAL], timer)
-            phase = phase.masked_fill(seen_dis, 2)
+            phase.masked_fill_(seen_dis, 2)
             seen_any = seen_new | seen_dis
         else:
             seen_any = seen_new
-        state = state.masked_fill(seen_any, S_PROV)
+        state.masked_fill_(seen_any, S_PROV)
         moved = moved | seen_any
         n_ward = None
         if post:
@@ -1291,16 +1302,16 @@ class HospitalSim(ViewerMixin, InteractMixin):
             for ti in range(2):
                 n = (self.eq_avail[:, ti] - (scanning & (eq == ti)).sum(1)).clamp(min=0)
                 sel, _ = self._select(wtest & ((needs & (1 << ti)) > 0), n)
-                eq = eq.masked_fill(sel, ti)
+                eq.masked_fill_(sel, ti)
                 if fl["walking"]:
                     go = self.legs.gather(1, LEG_SCAN + bcls * 2 + ti) * self._inv_transport
-                    state = state.masked_fill(sel, S_WALK)
-                    nxt = nxt.masked_fill(sel, S_TEST)
+                    state.masked_fill_(sel, S_WALK)
+                    nxt.masked_fill_(sel, S_TEST)
                     timer = torch.where(sel, go, timer)
                     walk_total = torch.where(sel, go, walk_total)
                     timer2 = torch.where(sel, proc, timer2)
                 else:
-                    state = state.masked_fill(sel, S_TEST)
+                    state.masked_fill_(sel, S_TEST)
                     timer = torch.where(sel, proc, timer)
                 moved = moved | sel
             # ---- ward beds
@@ -1313,31 +1324,31 @@ class HospitalSim(ViewerMixin, InteractMixin):
                 fidx = torch.where(sel, bay, self._c_nb)
                 self.bay_busy.scatter_(1, fidx, self._false_bp)
                 self.bay_clean.scatter_(1, fidx, self.bay_turn[fidx])
-                bay = bay.masked_fill(sel, NB)
+                bay.masked_fill_(sel, NB)
                 if fl["walking"]:
                     go = self.legs.gather(1, LEG_WARD + bcls) * self._inv_transport
-                    state = state.masked_fill(sel, S_WALK)
-                    nxt = nxt.masked_fill(sel, S_WARD)
+                    state.masked_fill_(sel, S_WALK)
+                    nxt.masked_fill_(sel, S_WARD)
                     timer = torch.where(sel, go, timer)
                     walk_total = torch.where(sel, go, walk_total)
                     timer2 = torch.where(sel, los, timer2)
                 else:
-                    state = state.masked_fill(sel, S_WARD)
+                    state.masked_fill_(sel, S_WARD)
                     timer = torch.where(sel, los, timer)
                 moved = moved | sel
                 m_dep = m_dep | sel
                 m_rev = m_rev | sel
                 n_ward = n_ward + sel.sum(1)
-        t_state = t_state.masked_fill(moved, t)
+        t_state.masked_fill_(moved, t)
         p["state"], p["timer"], p["acu"], p["acu_q"], p["flags"], p["exit"], p["hold"] = state, timer, acu, aq, flags, pexit, hold
         p["disp"], p["t_seen"], p["t_state"], p["h_det"], p["h_die"], p["bay"], p["phase"] = disp, t_seen, t_state, h_det, h_die, bay, phase
         p["next_state"], p["eq"], p["timer2"], p["walk_total"], p["treat_left"], p["res_left"], p["enc_q"] = nxt, eq, timer2, walk_total, treat_left, res_left, enc_q
 
         # ---------------- 7. accounting
         acc["ed_departures"] += m_dep.sum(1)
-        acc["ed_los_sum_min"] += (wait_min * m_dep).sum(1)
+        acc["ed_los_sum_min"] += torch.where(m_dep, wait_min, zf).sum(1)
         self.los_hist_cur.scatter_add_(1, wait_ticks.clamp(0, self.los_bins - 1), m_dep.to(torch.int32))
-        acc["revenue"] += (self.rev_ed[acu] * paym * m_rev).sum(1)
+        acc["revenue"] += torch.where(m_rev, self.rev_ed[acu] * paym, zf).sum(1)
         n_prov = (state == S_PROV).sum(1).float()
         acc["md_busy"] += n_prov
         acc["md_on"] += self.md_eff
@@ -1351,7 +1362,7 @@ class HospitalSim(ViewerMixin, InteractMixin):
             acc["cost_labor"] += (self.extra_md.float() * self._ot_rate_md + self.extra_rn.float() * self._ot_rate_rn) / self.tph
         if fl["bays"]:
             in_bay = bay < NB
-            care = (self.nurse_care[acu] * in_bay).sum(1)
+            care = torch.where(in_bay, self.nurse_care[acu], zf).sum(1)
             self.rn_load = care / (60.0 * self.rn_eff.float().clamp(min=1.0))
             acc["rn_load"] += self.rn_load.clamp(max=1.0)
         if fl["fatigue"]:
@@ -1447,12 +1458,12 @@ class HospitalSim(ViewerMixin, InteractMixin):
             boarding_hours_per_day=ep["boarding_hours"] / days,
             diversion_hours_per_day=ep["diversion_hours"] / days,
             overtime_hours_per_day=ep["overtime_hours"] / days)
-        return {k: out[k] for k in self.scn.summary_defs}
+        return {k: out[k].to(torch.float32) for k in self.scn.summary_defs}
 
     def episode_means(self) -> dict:
         """Episode means of the instant / utilisation metrics (not part of the contract summary)."""
         h = max(self.ep_hours, 1)
-        return {k: self.ep[k] / h for k in ["ed_census", "waiting_count", "boarding_count", "bay_occupancy", "ward_occupancy",
+        return {k: (self.ep[k] / h).to(torch.float32) for k in ["ed_census", "waiting_count", "boarding_count", "bay_occupancy", "ward_occupancy",
                                              "md_utilization", "rn_utilization", "staff_on_shift", "fatigue_mean"]}
 
     def conservation(self) -> dict:
@@ -1505,9 +1516,10 @@ class HospitalSim(ViewerMixin, InteractMixin):
         n_rs = float(max(1, int(self.bay_is[C_RESUS].sum())))
         last = self._last
         two_pi = 2 * math.pi
-        hod, day = hour % 24, int(hour // 24)
+        hod, day = hour % 24, int(hour // 24) + self.start_day
+        eday = int(hour // 24)                # episode day (cadence boundaries); `day` is the calendar day
         nxt = int(hour + 1)
-        fc = c["hour_prof"][nxt % 24] * c["dow_prof"][(nxt // 24) % 7]
+        fc = c["hour_prof"][nxt % 24] * c["dow_prof"][(nxt // 24 + self.start_day) % 7]
         mean_h = max(1e-6, c["arrivals_per_day"] / 24.0)
         const = lambda v: torch.full((self.B,), float(v), device=self.device)   # noqa: E731
         n_main = (self.bay_exists & self.bay_is[C_MAIN]).sum(1).float()
@@ -1524,8 +1536,8 @@ class HospitalSim(ViewerMixin, InteractMixin):
              self.extra_md.float() / 2.0, self.extra_rn.float() / 4.0,
              const(math.sin(two_pi * hod / 24)), const(math.cos(two_pi * hod / 24)),
              const(math.sin(two_pi * (day % 7) / 7)), const(math.cos(two_pi * (day % 7) / 7)),
-             const(math.sin(two_pi * (day % self.dpm) / self.dpm)), const(math.cos(two_pi * (day % self.dpm) / self.dpm)),
-             const(min(day / 1000.0, 2.0)),
+             const(math.sin(two_pi * (eday % self.dpm) / self.dpm)), const(math.cos(two_pi * (eday % self.dpm) / self.dpm)),
+             const(min(eday / 1000.0, 2.0)),
              last["arrivals"] / mean_h, self.ring_arr.sum(1) / (24.0 * mean_h), last["lwbs_rate"] * 10.0, const(fc * self._ev["arr"]),
              self.eq_avail[:, 0].float() / max(1, self.eq_units0[0]), self.eq_avail[:, 1].float() / max(1, self.eq_units0[1]),
              last["wait_p95_min"] / 240.0, last["ed_los_median_min"] / 600.0, self.divert_on.float(),

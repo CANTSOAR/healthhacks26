@@ -30,6 +30,8 @@ def main():
             shutil.copyfile(pt, POLICY_DIR / f"{d['id']}.pt.tmp")
             (POLICY_DIR / f"{d['id']}.pt.tmp").replace(POLICY_DIR / f"{d['id']}.pt")
             d["checkpoint"] = f"{d['id']}.pt"
+        if "sim_behaviour_fingerprint" not in d and d.get("sim_fingerprint") == "8f9f6cc4b1a47804":
+            d["sim_behaviour_fingerprint"] = "6ee020eaaf7eca57"      # M2 dynamics; stamped at install (run predates the field)
         d["installed_from"] = str(f)
         write_json(POLICY_DIR / f"{d['id']}.json", d, indent=1)
         print("installed", d["id"], "from", f)

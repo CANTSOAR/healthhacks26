@@ -21,7 +21,7 @@ from pathlib import Path
 import torch
 
 from .common import (CONSTRAINED, OBJ_SLUG, OBJECTIVES, RESULTS_DIR, SEED_EVAL, TERMS, load_scales, now_iso,
-                     objective_score, sim_fingerprint, write_json)
+                     objective_score, behaviour_fingerprint, sim_fingerprint, write_json)
 from .env import HospitalEnv
 from .managers import MultiPolicy, list_managers, load_manager
 
@@ -64,11 +64,13 @@ def run_scenario(scenario: str, manager_ids: list[str], n_seeds: int, days: int,
     vals["p95_within_threshold"] = (vals["wait_p95_min"] <= thr).float()
     vals["invalid_actions"] = per(info["invalid_actions"].float())
     exo = torch.stack(exo, 1)                        # [n_seeds, hours] exogenous arrivals (incl. diverted)
-    return dict(scenario=scenario, managers=[p.info() | {"file_fingerprint": getattr(p, "file_fingerprint", None)} for p in pols],
+    return dict(scenario=scenario, managers=[p.info() | {"file_fingerprint": getattr(p, "file_fingerprint", None),
+                                        "behaviour_fingerprint": getattr(p, "behaviour_fingerprint", None)} for p in pols],
                 seeds=[seed0 + i for i in range(n_seeds)], days=days, seconds=time.time() - t0, device=str(device),
                 values={k: v.tolist() for k, v in vals.items()},
                 daily_exogenous_arrivals=exo.reshape(n_seeds, days, 24).sum(2).tolist(),
-                sim_fingerprint=sim_fingerprint(), scales_fingerprint=scales.get("sim_fingerprint"))
+                sim_fingerprint=sim_fingerprint(), sim_behaviour_fingerprint=behaviour_fingerprint(),
+                scales_behaviour_fingerprint=scales.get("sim_behaviour_fingerprint"))
 
 
 def stat(x: list[float]) -> dict:
@@ -95,13 +97,14 @@ def merge(parts: list[dict]) -> dict:
         for i, m in enumerate(part["managers"]):
             rows.append(dict(manager_id=m["id"], kind=m["kind"], label=m["label"], objective=m["objective"],
                              scenario=part["scenario"], n_seeds=len(part["seeds"]),
+                             stale=bool(m.get("behaviour_fingerprint") and m["behaviour_fingerprint"] != part["sim_behaviour_fingerprint"]),
                              metrics={k: stat(v[i]) for k, v in part["values"].items()}))
         for obj, slug in OBJ_SLUG.items():
             key = "score_" + slug
             sc = part["values"][key]
             pairs = [(f"ppo_{slug}", f"tuned_{slug}"), (f"ppo_{slug}", "rule_based"), (f"ppo_{slug}", "fixed"),
                      (f"tuned_{slug}", "rule_based"), (f"tuned_{slug}", "fixed")]
-            pairs += [(f"ppo_cond@{slug}", f"tuned_{slug}"), (f"ppo_cond@{slug}", f"ppo_{slug}")]
+            pairs += [(f"ppo_cond_{slug}", f"tuned_{slug}"), (f"ppo_cond_{slug}", "rule_based"), (f"ppo_cond_{slug}", f"ppo_{slug}")]
             for a, b in pairs:
                 if a in ids and b in ids:
                     d = stat([x - y for x, y in zip(sc[ids.index(a)], sc[ids.index(b)])])
@@ -110,6 +113,8 @@ def merge(parts: list[dict]) -> dict:
                                       paired_diff=d, verdict=verdict(d)))
     p0 = parts[0]
     return dict(generated=now_iso(), synthetic=True, sim_fingerprint=sim_fingerprint(),
+                sim_behaviour_fingerprint=p0["sim_behaviour_fingerprint"],
+                stale_scales=bool(p0.get("scales_behaviour_fingerprint") and p0["scales_behaviour_fingerprint"] != p0["sim_behaviour_fingerprint"]),
                 protocol=dict(seeds=p0["seeds"], days=p0["days"], scenarios=[p["scenario"] for p in parts],
                               seed_note="held-out: evaluation seeds are 9,000,000+; tuning and training seeds are below 1,000,000",
                               paired="all managers run on the same seeds (common random numbers)",
@@ -128,7 +133,10 @@ def fmt(s: dict, nd=1) -> str:
 
 def write_markdown(res: dict, path: Path):
     L = ["# Held-out evaluation of hospital managers (all numbers SIMULATED)", "",
-         f"Generated {res['generated']}; simulator fingerprint `{res['sim_fingerprint']}`.", "",
+         f"Generated {res['generated']}; simulator behaviour fingerprint `{res['sim_behaviour_fingerprint']}` (hash of a fixed-seed "
+         f"trajectory; staleness is keyed on it), file hash `{res['sim_fingerprint']}` (information only).", "",
+         "Managers tuned or trained against a different simulator behaviour: "
+         + (", ".join(sorted({'`' + r['manager_id'] + '`' for r in res['rows'] if r.get('stale')})) or "none") + ".", "",
          f"Protocol: {len(res['protocol']['seeds'])} held-out seeds ({res['protocol']['seeds'][0]}..{res['protocol']['seeds'][-1]}) x "
          f"{res['protocol']['days']} days per manager per scenario; every manager faces the same seeds (paired). "
          "Tuning and training never used seeds at or above 1,000,000. Values are mean ± 95% CI half-width over seeds.", "",
@@ -164,10 +172,13 @@ def write_markdown(res: dict, path: Path):
         L += ["No learned (PPO) agent was available for this evaluation, so there is no learned-vs-heuristic verdict here.", ""]
     L += ["| objective | scenario | a | b | a score | b score | a - b (± CI95) | verdict |", "|---|---|---|---|---|---|---|---|"]
     for c in res["comparisons"]:
-        L.append(f"| {c['objective']} | {c['scenario']} | `{c['a']}` | `{c['b']}` | {c['a_mean']:.3f} | {c['b_mean']:.3f} | "
-                 f"{c['paired_diff']['mean']:+.3f} ± {c['paired_diff']['ci95']:.3f} | a {c['verdict']} b |")
+        L.append(f"| {c['objective']} | {c['scenario']} | `{c['a']}` | `{c['b']}` | {c['a_mean']:.4f} | {c['b_mean']:.4f} | "
+                 f"{c['paired_diff']['mean']:+.4f} ± {c['paired_diff']['ci95']:.4f} | a {c['verdict']} b |")
     L += ["", "A verdict of 'beats' or 'loses to' means the 95% interval of the paired difference excludes zero; otherwise the two are "
-          "reported as matching. Nothing outside this table should be read as a claim that a learned agent beats a baseline.", ""]
+          "reported as matching. The verdict is statistical, not practical: because seeds are paired, differences of a fraction of a "
+          "percent of the score can be significant; read the size of the difference. The learned agents are warm-started by behaviour "
+          "cloning from the tuned heuristic of the same objective and then fine-tuned with PPO, so a learned agent that 'matches' is "
+          "largely reproducing that heuristic. Nothing outside this table should be read as a claim that a learned agent beats a baseline.", ""]
     path.write_text("\n".join(L))
 
 

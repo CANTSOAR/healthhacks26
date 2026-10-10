@@ -10,7 +10,7 @@ import argparse
 
 import torch
 
-from rl.common import SCALE_FLOORS, SCALES_PATH, SEED_SCALES, TERMS, now_iso, sim_fingerprint, write_json
+from rl.common import behaviour_fingerprint, SCALE_FLOORS, SCALES_PATH, SEED_SCALES, TERMS, now_iso, sim_fingerprint, write_json
 from rl.env import HospitalEnv
 from rl.managers import FixedPolicy
 
@@ -37,7 +37,7 @@ def main():
     summ = {k: float(v.mean()) for k, v in info["summary"].items()}
     p95 = summ["wait_p95_min"]
     thr = float(a.p95_threshold)
-    out = dict(generated=now_iso(), synthetic=True, sim_fingerprint=sim_fingerprint(), policy="fixed", scenario="normal_week",
+    out = dict(generated=now_iso(), synthetic=True, sim_fingerprint=sim_fingerprint(), sim_behaviour_fingerprint=behaviour_fingerprint(), policy="fixed", scenario="normal_week",
                seeds=[SEED_SCALES, SEED_SCALES + a.seeds - 1], days=a.days, terms=TERMS,
                raw_per_hour={k: float(info["terms_mean"].mean(0)[i]) for i, k in enumerate(TERMS)},
                floors=SCALE_FLOORS, scales=scales, baseline_summary=summ, p95_wait_threshold_min=thr,

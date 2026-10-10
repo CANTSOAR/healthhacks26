@@ -257,5 +257,6 @@
   ],
   "finished": "2026-10-10T02:51:41-0400"
  },
+ "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
  "installed_from": "runs/tune_cost_p95/best.json"
 }

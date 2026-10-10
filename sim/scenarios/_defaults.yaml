@@ -18,7 +18,9 @@ engine:
   los_hist_bins: 576                  # 5-minute bins (48 h)
   pool_size: 0                        # 0 = auto: ward beds (max) + bays (max) + pool_waiting_slack
   start_month: 9                      # calendar month of day 0 (0 = January) for the seasonal profile
+  start_day: 0                        # calendar day of tick 0 (shifts weekday and seasonal profiles; reset(start_day=) overrides)
   days_per_month: 28                  # "monthly" cadence in contracts/actions.yaml
+  exited_history: 5000                # last-known records of departed patients kept per hospital (B <= event_log_max_batch)
   event_log_max_batch: 8              # python-side event/decision logs are kept only for B <= this
   structural_max_steps: 6             # max net number of add steps per structural head
   obs_clip: 5.0

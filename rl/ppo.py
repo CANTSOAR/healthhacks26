@@ -28,7 +28,7 @@ import torch
 import torch.nn.functional as F
 
 from .common import (CONSTRAINED, OBJ_SLUG, OBJECTIVES, POLICY_DIR, SEED_TRAIN, SEED_VAL, STAGES, TERMS, load_scales, now_iso,
-                     objective_score, sim_fingerprint, weights_dict, weights_vec, write_json)
+                     objective_score, behaviour_fingerprint, sim_fingerprint, weights_dict, weights_vec, write_json)
 from .env import ConcatEnv, HospitalEnv
 from .managers import load_manager
 from .net import ActorCritic
@@ -81,12 +81,14 @@ def main():
     ap.add_argument("--export", default=None, help="export stem (default <run>/best; install with rl.scripts.install_policies)")
     ap.add_argument("--no-export", action="store_true")
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--conditioned", action="store_true",
+                    help="one weight-conditioned agent: rows carry the min_cost/min_wait/balanced presets or random mixtures of them")
     a = ap.parse_args()
     assert a.episode_hours % a.T == 0
     torch.manual_seed(a.seed)
     dev = torch.device(a.device)
     slug = OBJ_SLUG[a.objective]
-    pid = a.id or f"ppo_{slug}"
+    pid = a.id or ("ppo_cond" if a.conditioned else f"ppo_{slug}")
     run = Path(a.run or f"runs/{pid}")
     run.mkdir(parents=True, exist_ok=True)
     log = open(run / "log.txt", "a")
@@ -98,27 +100,41 @@ def main():
 
     scales = load_scales()
     thr = float(scales["p95_wait_threshold_min"])
-    constrained = a.objective == CONSTRAINED
-    w = weights_vec(a.objective, dev)
+    constrained = a.objective == CONSTRAINED and not a.conditioned
     lag = a.lag_init if constrained else 0.0
+    WAIT = TERMS.index("wait")
+    # groups: one per objective. Single-objective runs have one group; the weight-conditioned run has one per
+    # weighted preset (each with its own tuned heuristic as reference) plus training rows on random mixtures.
+    objs = [o for o in OBJECTIVES if o != CONSTRAINED] if a.conditioned else [a.objective]
+    NG = len(objs)
+    if a.conditioned:
+        refs = [load_manager(f"tuned_{OBJ_SLUG[o]}", dev) for o in objs]
+    else:
+        refs = [load_manager(a.ref, dev)] if a.ref else None
+    ref = refs
+    presets = torch.stack([weights_vec(o, dev) for o in objs])
     if constrained:
-        w[TERMS.index("wait")] = lag
+        presets[0, WAIT] = lag
     nS = len(a.scenarios)
     per = a.envs // nS
-    ref = load_manager(a.ref, dev) if a.ref else None
     nv = a.nv
-    n_fix = nv * (2 if ref is not None else 1)
-    envs = [HospitalEnv(s, per, dev, 0, a.episode_hours, stage=a.stage, weights=w, scales=scales, auto_reset=False) for s in a.scenarios]
+    blk = nv * (2 if refs else 1)
+    n_fix = blk * NG
+    envs = [HospitalEnv(s, per, dev, 0, a.episode_hours, stage=a.stage, weights=presets[0], scales=scales, auto_reset=False) for s in a.scenarios]
     env = ConcatEnv(envs)
     B, H = env.B, len(env.head_names)
     row = torch.arange(B, device=dev) % per
-    is_val, is_ref = row < nv, (row >= nv) & (row < n_fix) if ref is not None else torch.zeros(B, dtype=torch.bool, device=dev)
     is_train = row >= n_fix
+    gid = torch.where(is_train, (row - n_fix) % NG, (row // blk).clamp(max=NG - 1))
+    is_val = ~is_train & (row % blk < nv)
+    is_ref = ~is_train & ~is_val
+    mix = (is_train & ((row - n_fix) >= (per - n_fix) // 2)) if a.conditioned else torch.zeros(B, dtype=torch.bool, device=dev)
+    W = presets[gid].clone()
     n_train = int(is_train.sum())
     enabled = torch.tensor([env.enabled[n] for n in env.head_names], device=dev)
     net = ActorCritic(env.obs_dim, env.head_sizes, a.hidden, a.layers, env.defaults).to(dev)
     opt = torch.optim.Adam(net.parameters(), lr=a.lr, eps=1e-5)
-    fp = sim_fingerprint()
+    fp, bfp = sim_fingerprint(), behaviour_fingerprint()
     say(f"[{now_iso()}] ppo {pid} objective={a.objective} B={B} (train rows {n_train}, val {int(is_val.sum())}, ref {int(is_ref.sum())}) "
         f"T={a.T} ep={a.episode_hours}h scen={a.scenarios} stage={a.stage} ref={a.ref} bc={a.bc} fp={fp} args={vars(a)}")
 
@@ -127,24 +143,37 @@ def main():
         for si in range(nS):
             val = SEED_VAL + (ep * nv + torch.arange(nv)) % 100_000
             tr = SEED_TRAIN + (ep * per * nS + si * per + torch.arange(per - n_fix)) % 500_000
-            out.append(torch.cat([val, val, tr]) if ref is not None else torch.cat([val, tr]))
+            out.append(torch.cat([val.repeat(n_fix // nv), tr]))
         return out
 
     def reset(ep):
-        for e in env.envs:
-            e.set_weights(w)
+        W.copy_(presets[gid])
+        if a.conditioned:                               # random convex mixtures of the presets, resampled per episode
+            d = torch.distributions.Dirichlet(torch.ones(NG, device=dev)).sample((int(mix.sum()),))
+            W[mix] = d @ presets
+        for e, sl in zip(env.envs, env.slices):
+            e.set_weights(W[sl])
         return torch.cat([e.reset(s) for e, s in zip(env.envs, seeds_for(ep))], 0)
 
     def ref_actions(obs, rows):
-        acts = ref.act(obs[rows], {n: m[rows] for n, m in env.action_mask().items()})
-        return torch.stack([acts[n] for n in env.head_names], 1)
+        am = env.action_mask()
+        out = torch.zeros((B, H), device=dev, dtype=torch.long)
+        for g in range(NG):
+            m_ = rows & (gid == g)
+            if bool(m_.any()):
+                acts = refs[g].act(obs[m_], {n: v[m_] for n, v in am.items()})
+                out[m_] = torch.stack([acts[n] for n in env.head_names], 1)
+        return out[rows]
 
     def config(extra):
-        rw = {k: float(w[i]) for i, k in enumerate(TERMS)}
-        return dict(id=pid, kind="learned", label=f"Learned (PPO): {a.objective}", objective=a.objective, reward_weights=rw, type="ppo",
+        rw = {k: float(presets[-1 if a.conditioned else 0][i]) for i, k in enumerate(TERMS)}
+        lab = "Learned (PPO, weight-conditioned)" if a.conditioned else f"Learned (PPO): {a.objective}"
+        extra = dict(extra, **(dict(weight_presets={o: weights_dict(o) for o in objs}) if a.conditioned else {}))
+        return dict(id=pid, kind="learned", label=lab, objective=None if a.conditioned else a.objective, reward_weights=rw, type="ppo",
+                    weight_conditioned=bool(a.conditioned),
                     obs_dim=env.obs_dim, sim_obs_dim=env.sim_obs_dim, head_names=env.head_names, head_sizes=env.head_sizes,
                     enabled_heads=[n for n in env.head_names if env.enabled[n]], hidden=a.hidden, layers=a.layers, stage=a.stage,
-                    obs_names=env.envs[0].sim.obs_names() + ["w_" + k for k in TERMS], sim_fingerprint=fp, synthetic=True,
+                    obs_names=env.envs[0].sim.obs_names() + ["w_" + k for k in TERMS], sim_fingerprint=fp, sim_behaviour_fingerprint=bfp, synthetic=True,
                     training=dict(algorithm="PPO (rl/ppo.py)", args=vars(a), **extra))
 
     ep, t_start = 0, time.time()
@@ -153,7 +182,7 @@ def main():
     total_steps = 0
 
     # ------------------------------------------------------------------ behaviour cloning
-    if a.bc and ref is not None:
+    if a.bc and refs:
         t0 = time.time()
         O, A, M, R = [], [], [], []
         for t in range(a.bc_hours):
@@ -175,7 +204,7 @@ def main():
         keep = max(1, a.bc_hours - 96)                       # the last days have truncated returns: not used for the critic
         net.update_ret_stats(G[:keep])
         Of, Af, Gf = O.reshape(-1, O.shape[-1]), A.reshape(-1, H), ((G - net.ret_mean) / torch.sqrt(net.ret_var + 1e-8)).reshape(-1)
-        Mf = M.unsqueeze(1).expand(-1, B, -1).reshape(-1, H)
+        Mf = (M.unsqueeze(1) & (~mix).view(1, B, 1)).reshape(-1, H)       # mixture-weight rows have no reference to clone
         vmask = (torch.arange(a.bc_hours, device=dev) < keep).unsqueeze(1).expand(-1, B).reshape(-1)
         bopt = torch.optim.Adam(net.parameters(), lr=1e-3)
         N = Of.shape[0]
@@ -236,7 +265,7 @@ def main():
                     lps.append(lp.gather(-1, s.unsqueeze(-1)).squeeze(-1))
                 act = torch.stack(acts, 1)
                 lp = (torch.stack(lps, 1) * mv).sum(1)
-                if ref is not None:
+                if refs:
                     act[is_ref] = ref_actions(obs, is_ref)
                 v = net.value(obs)
             obs_buf[t], act_buf[t], lp_buf[t], val_buf[t], mask_buf[t] = obs, act, lp, v, mv
@@ -250,15 +279,20 @@ def main():
                     r = r + a.gamma * net.value(obs)           # time-limit bootstrap from the final observation
                 done_buf[t] = 1.0
                 p95 = info["summary"]["wait_p95_min"]
-                sc = objective_score(a.objective, info["terms_mean"], p95, thr)
+                sc = torch.zeros(B, device=dev)
+                for g, o in enumerate(objs):
+                    sc = torch.where(gid == g, objective_score(o, info["terms_mean"], p95, thr), sc)
                 rec = dict(ep=ep, it=it, steps=total_steps, minutes=(time.time() - t_start) / 60, val=float(sc[is_val].mean()),
-                           train=float(sc[is_train].mean()), val_wait=float(info["summary"]["wait_mean_min"][is_val].mean()),
+                           train=float((info["return_mean"] if a.conditioned else sc)[is_train].mean()), val_wait=float(info["summary"]["wait_mean_min"][is_val].mean()),
                            val_p95=float(p95[is_val].mean()), val_cost=float(info["summary"]["cost_per_day"][is_val].mean()),
                            val_lwbs=float(info["summary"]["lwbs_rate"][is_val].mean()), lag=float(lag))
-                if ref is not None:
+                if refs:
                     d = sc[is_val] - sc[is_ref]
                     rec.update(ref=float(sc[is_ref].mean()), diff=float(d.mean()), diff_ci95=float(1.96 * d.std() / math.sqrt(d.numel())),
                                ref_wait=float(info["summary"]["wait_mean_min"][is_ref].mean()), ref_cost=float(info["summary"]["cost_per_day"][is_ref].mean()))
+                    if NG > 1:
+                        for g, o in enumerate(objs):
+                            rec["diff_" + OBJ_SLUG[o]] = float((sc[is_val & (gid == g)] - sc[is_ref & (gid == g)]).mean())
                 hist.append(rec)
                 say("EP " + json.dumps({k: (round(v, 4) if isinstance(v, float) else v) for k, v in rec.items()}))
                 # selection: paired margin over the reference when there is one, else the raw validation score
@@ -273,7 +307,7 @@ def main():
                 if constrained:
                     viol = (p95_acc / max(p95_n, 1)) / thr - 1.0
                     lag = float(min(5.0, max(0.0, lag + a.lag_lr * viol)))
-                    w[TERMS.index("wait")] = lag
+                    presets[0, WAIT] = lag
                     p95_acc, p95_n = 0.0, 0
                 ep += 1
                 obs = reset(ep)

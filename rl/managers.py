@@ -208,7 +208,13 @@ class LearnedPolicy(Policy):
         self.net.load_state_dict(state_dict)
         self.net.to(device).eval()
         self.deterministic = deterministic
-        self.w = torch.tensor([float((self.reward_weights or {}).get(k, 0.0)) for k in TERMS], dtype=torch.float32)
+        self.set_weights(self.reward_weights or {})
+
+    def set_weights(self, weights: dict):
+        """Reward weights this agent is conditioned on (they are part of its observation). Only a
+        weight-conditioned agent (config `weight_conditioned`) was trained to respond to changes."""
+        self.reward_weights = {k: float(weights.get(k, 0.0)) for k in TERMS}
+        self.w = torch.tensor([self.reward_weights[k] for k in TERMS], dtype=torch.float32)
 
     def reset(self, B, device):
         super().reset(B, device)
@@ -222,6 +228,8 @@ class LearnedPolicy(Policy):
         n_sim = self.config["sim_obs_dim"]
         if obs.shape[1] == n_sim:                     # raw sim.observe(): append this agent's own weights
             obs = torch.cat([obs, self.w.to(dev).unsqueeze(0).expand(B, -1)], 1)
+        elif self.config.get("weight_conditioned"):   # conditioned agent: its own weights override whatever the env appended
+            obs = torch.cat([obs[:, :n_sim], self.w.to(dev).unsqueeze(0).expand(B, -1)], 1)
         acts, _ = self.net.act(obs, deterministic=self.deterministic)
         out = {}
         for n in self.head_names:
@@ -256,9 +264,10 @@ class MultiPolicy:
 # registry
 # ------------------------------------------------------------------------------------------
 def save_heuristic(path: Path, pol: RulePolicy, extra: dict | None = None):
-    from .common import sim_fingerprint, write_json
+    from .common import behaviour_fingerprint, sim_fingerprint, write_json
     d = dict(id=pol.id, kind=pol.kind, label=pol.label, objective=pol.objective, reward_weights=pol.reward_weights,
              type="rule_params", stage=pol.stage, params=pol.params_dict(), param_names=PARAM_NAMES, sim_fingerprint=sim_fingerprint(),
+             sim_behaviour_fingerprint=behaviour_fingerprint(),
              synthetic=True)
     d.update(extra or {})
     write_json(path, d, indent=1)
@@ -309,6 +318,15 @@ def list_managers() -> list[dict]:
             r["available"] = bool(ok)
         seen.add(r["id"])
         rows.append(r)
+    cond = files.get("ppo_cond")
+    cond_ok = cond is not None and (cond[0].parent / cond[1]["checkpoint"]).exists()
+    rows.append(dict(id="ppo_cond", kind="learned", label="Learned (PPO, weight-conditioned; balanced weights by default)",
+                     objective=None, reward_weights=weights_dict("balanced"), available=bool(cond_ok), weight_conditioned=True))
+    seen.add("ppo_cond")
+    for obj in ("min_cost", "min_wait", "balanced"):
+        rows.append(dict(id=f"ppo_cond_{obj}", kind="learned", label=f"Learned (PPO, weight-conditioned) at {obj} weights",
+                         objective=obj, reward_weights=weights_dict(obj), available=bool(cond_ok), weight_conditioned=True))
+        seen.add(f"ppo_cond_{obj}")
     for mid, (f, d) in files.items():                 # anything else saved under rl/policies/
         if mid in seen:
             continue
@@ -327,6 +345,9 @@ def load_manager(id: str, device="cpu") -> Policy:
         p = RandomPolicy()
     else:
         files = _policy_files()
+        preset = None
+        if id.startswith("ppo_cond_") and id[len("ppo_cond_"):] in OBJECTIVES:
+            preset, real_id, id = id[len("ppo_cond_"):], id, "ppo_cond"
         if id not in files:
             raise KeyError(f"manager '{id}' is not available (no file under rl/policies/)")
         f, d = files[id]
@@ -336,6 +357,11 @@ def load_manager(id: str, device="cpu") -> Policy:
         else:
             sd = torch.load(f.parent / d["checkpoint"], map_location="cpu")
             p = LearnedPolicy(d, sd, device=device)
+            if preset is not None:
+                p.id, p.objective = real_id, preset
+                p.label = f"Learned (PPO, weight-conditioned) at {preset} weights"
+                p.set_weights(weights_dict(preset))
         p.file_fingerprint = d.get("sim_fingerprint")
+        p.behaviour_fingerprint = d.get("sim_behaviour_fingerprint")
     p.reset(1, device)
     return p

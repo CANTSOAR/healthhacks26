@@ -124,3 +124,32 @@ def test_multipolicy_matches_single(scales):
         obs, r, d, info = env.step(mp.act(obs, env.action_mask()))
     exo = info["metrics"]["arrivals"] + info["metrics"]["diverted"]
     assert torch.equal(exo[:2], exo[2:])
+
+
+def test_behaviour_fingerprint_and_conditioned_presets(tmp_path, monkeypatch):
+    from rl.common import behaviour_fingerprint, weights_dict
+    import rl.managers as M
+    fp = behaviour_fingerprint()
+    assert len(fp) == 16 and fp == behaviour_fingerprint()
+    sp = get_spec()
+    sizes = [len(h["options"]) for h in sp["action_spec"]]
+    net = ActorCritic(sp["obs_dim"] + len(TERMS), sizes, 16, 1)
+    cfg = dict(id="ppo_cond", kind="learned", label="c", objective=None, reward_weights=weights_dict("balanced"), type="ppo",
+               weight_conditioned=True, obs_dim=net.obs_dim, sim_obs_dim=sp["obs_dim"], head_names=sp["head_names"], head_sizes=sizes,
+               hidden=16, layers=1, sim_behaviour_fingerprint=fp)
+    export_policy(net, cfg, tmp_path / "ppo_cond")
+    monkeypatch.setattr(M, "POLICY_DIR", tmp_path)
+    rows = {r["id"]: r for r in M.list_managers()}
+    assert rows["ppo_cond"]["available"] and rows["ppo_cond_min_wait"]["available"]
+    p = M.load_manager("ppo_cond_min_wait")
+    assert p.id == "ppo_cond_min_wait" and p.objective == "min_wait" and p.reward_weights == weights_dict("min_wait")
+    assert p.behaviour_fingerprint == fp
+    q = M.load_manager("ppo_cond")
+    q.set_weights({"wait": 2.0})
+    assert float(q.w[TERMS.index("wait")]) == 2.0
+    # a conditioned agent uses its own weights even when the observation already carries (other) weights
+    obs = torch.rand(2, sp["obs_dim"])
+    mask = {n: torch.ones(2, dtype=torch.bool) for n in sp["head_names"]}
+    a1 = p.act(obs, mask)
+    a2 = p.act(torch.cat([obs, torch.full((2, len(TERMS)), 9.0)], 1), mask)
+    assert all(torch.equal(a1[n], a2[n]) for n in sp["head_names"])

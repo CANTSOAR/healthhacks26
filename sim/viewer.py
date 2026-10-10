@@ -74,6 +74,28 @@ class ViewerMixin:
                 out.append(dict(id=f"{ROLE_PREFIX[role]}-{shift * n + k + 1:02d}", role=role, group=role, k=k))
         return out
 
+    def _staff_name(self, s):
+        """Stable fictional display name for a roster entry (cosmetic; sim/scenarios/_staff_names.yaml)."""
+        nm = getattr(self, "_names", None)
+        if nm is None:
+            from .config import SCENARIOS, _yaml
+            try:
+                nm = _yaml(SCENARIOS / "_staff_names.yaml")
+            except Exception:
+                nm = {}
+            self._names = nm
+        given, family = nm.get("given") or [], nm.get("family") or []
+        if not given or not family:
+            return None
+        try:
+            num = int(str(s["id"]).rsplit("-", 1)[1])
+        except Exception:
+            num = 0
+        roles = self.enums["staff_role"]
+        g = s.get("group")
+        i = num if g == "provider" else (100 + num if g in ("rn", "triage") else 300 + 40 * roles.index(s["role"]) + num)
+        return f"{(nm.get('titles') or {}).get(s['role'], '')}{given[i % len(given)]} {family[i % len(family)]}"
+
     # ---- snapshot -------------------------------------------------------------------------
     def _patient_cols(self, b):
         p = self.p
@@ -230,7 +252,7 @@ class ViewerMixin:
 
         def add(s, state, ri, x, z, pat_i=None, fat=0.0, off=0.6):
             k = len(st_staff["id"])
-            st_staff["id"].append(s["id"]), st_staff["name"].append(None), st_staff["role"].append(role_idx[s["role"]])
+            st_staff["id"].append(s["id"]), st_staff["name"].append(self._staff_name(s)), st_staff["role"].append(role_idx[s["role"]])
             st_staff["state"].append(state), st_staff["room"].append(ri)
             st_staff["x"].append(round(x + (off if pat_i is not None else 0.0), 2)), st_staff["z"].append(round(z, 2))
             st_staff["patient"].append(cols["pid"][pat_i] if pat_i is not None else -1)
@@ -380,7 +402,8 @@ class ViewerMixin:
             patients=dict(id=cols["pid"], acuity=cols["acu_q"], condition=cols["cond"], state=cols["state"], exit=cols["exit"],
                           room=room, x=xs, z=zs, age_min=[(t - a) * dt for a in cols["t_arr"]],
                           state_min=[max(0, (t - a) * dt) for a in cols["t_state"]], arrival_mode=cols["mode"],
-                          age_band=cols["age"], payer=cols["payer"], flags=cols["flags"], staff=pat_staff),
+                          age_band=cols["age"], payer=cols["payer"], flags=cols["flags"], staff=pat_staff,
+                          bay=[lm.bay_room[bj] if bj < self.NB else -1 for bj in cols["bay"]]),
             staff=st_staff, rooms=dict(status=status, occupancy=occ, queue=queue), equipment=dict(status=eq_status),
             ambulances=ambulances, kpis=kp, events=events, decisions=decisions)
 
@@ -394,7 +417,10 @@ class ViewerMixin:
 
     def patient_detail(self, b: int, patient_id: int, public: bool = False) -> dict:
         """public=True omits latent values (true acuity, severity, sampled encounter quality)."""
-        d = self._patient_detail(b, patient_id)
+        if self._slot(b, patient_id) is None and b < len(self._gone) and int(patient_id) in self._gone[b]:
+            d = self._gone_detail(b, int(patient_id))
+        else:
+            d = self._patient_detail(b, patient_id)
         if public:
             for k in self.LATENT_KEYS:
                 d.pop(k, None)
@@ -429,10 +455,70 @@ class ViewerMixin:
             remaining_min=round(max(0.0, float(g("timer"))), 1) if int(g("state")) in (1, 4, 6, 9, 10) else None,
             orders=[nm for bit, nm in ((1, "xray"), (2, "ct"), (4, "lab")) if needs & bit] if g("t_seen") >= 0 else [],
             disposition=(["discharge", "admit", "transfer"][int(g("disp"))] if g("disp") >= 0 else "undecided"),
-            held_for_play=bool(g("hold")), encounter_quality=round(float(g("enc_q")), 3) if g("t_seen") >= 0 else None,
+            in_hospital=True, held_for_play=bool(g("hold")), encounter_quality=round(float(g("enc_q")), 3) if g("t_seen") >= 0 else None,
             interactions=self.interaction_log(b, patient_id),
             catalog_refs=[f"patient/esi{int(g('acu_q'))}", f"conditions/{cond}"],
             synthetic=True)
+
+    # ---- patients who have left: last-known record (kept only for small batches) ---------
+    RAW_KEYS = ("acu", "acu_q", "cond", "exit", "mode", "age", "payer", "sev", "flags", "t_arr", "t_state", "t_seen", "needs",
+                "disp", "eq", "enc_dur", "enc_q", "tri_dur", "test_dur", "dis_dur", "t_board", "tdisp")
+
+    def _capture_exits(self):
+        p = self.p
+        m = p["active"] & (p["state"] == 11)
+        if not bool(m.any()):
+            return
+        cap = int(self.scn.engine.get("exited_history", 5000))
+        for b, s in torch.nonzero(m).tolist():
+            raw = {k: p[k][b, s].item() for k in self.RAW_KEYS}
+            g = self._gone[b]
+            g[int(p["pid"][b, s])] = raw
+            if len(g) > cap:
+                g.pop(next(iter(g)))
+
+    def _gone_detail(self, b: int, pid: int) -> dict:
+        E, dt = self.enums, self.tick_minutes
+        r = self._gone[b][pid]
+        seen = r["t_seen"] >= 0
+        needs = int(r["needs"])
+        cond = E["condition_group"][int(r["cond"])]
+        ex = E["patient_exit"][int(r["exit"])]
+        orders = [nm for bit, nm in ((1, "xray"), (2, "ct"), (4, "lab")) if needs & bit] if seen else []
+        log = []
+        if r["mode"] == 0 and seen and self.flags["triage"] and self.flags["bays"]:
+            log.append(dict(interaction_id=f"tri-{b}-{pid}", interaction_type="triage", patient_id=pid, resolver="sampled",
+                            duration_min=round(r["tri_dur"], 1), information_gained=[],
+                            decision=dict(kind="acuity_assigned", acuity=int(r["acu_q"])), quality=1.0))
+        if seen:
+            played = self._played[b].get(pid)
+            log.append(dict(played) if played is not None else dict(
+                interaction_id=f"enc-{b}-{pid}", interaction_type="clinician_encounter", patient_id=pid, resolver="sampled",
+                t_start=int(r["t_seen"]), duration_min=round(r["enc_dur"], 1), information_gained=[],
+                decision=dict(kind="orders", orders=orders, disposition="undecided"), quality=round(r["enc_q"], 3)))
+            if (needs & 3) and r["eq"] >= 0:
+                log.append(dict(interaction_id=f"img-{b}-{pid}", interaction_type="imaging_test", patient_id=pid, resolver="sampled",
+                                duration_min=round(r["test_dur"], 1), information_gained=[],
+                                decision=dict(kind="none", detail=["xray", "ct"][int(r["eq"])]), quality=1.0))
+            if r["disp"] >= 0 and ex in ("discharged_ed", "discharged_ward", "transferred"):
+                log.append(dict(interaction_id=f"dis-{b}-{pid}", interaction_type="disposition", patient_id=pid, resolver="sampled",
+                                duration_min=round(r["dis_dur"], 1), information_gained=[],
+                                decision=dict(kind="disposition", disposition=["discharge", "admit", "transfer"][int(r["disp"])]),
+                                quality=round(r["enc_q"], 3)))
+        fl = int(r["flags"])
+        return dict(
+            patient_id=pid, display_id=f"P-{pid:06d}", acuity=int(r["acu_q"]), true_acuity=int(r["acu"]), condition_group=cond,
+            state="exited", exit=ex, in_hospital=False, arrival_mode=E["arrival_mode"][int(r["mode"])],
+            age_band=E["age_band"][int(r["age"])], payer=E["payer"][int(r["payer"])], severity=round(float(r["sev"]), 3), flags=fl,
+            flag_names=[nm for bit, nm in ((1, "deteriorated"), (2, "admitted"), (4, "fast_track"), (8, "played")) if fl & bit],
+            room=None, room_index=-1, x=None, z=None, bay=None, bay_class=None,
+            arrival_t=int(r["t_arr"]), exit_t=int(r["t_state"]), total_min=int((r["t_state"] - r["t_arr"]) * dt),
+            age_min=int((self._tick - r["t_arr"]) * dt), state_min=int((self._tick - r["t_state"]) * dt),
+            first_seen_t=int(r["t_seen"]) if seen else None,
+            door_to_provider_min=int((r["t_seen"] - r["t_arr"]) * dt) if seen else None, remaining_min=None, orders=orders,
+            disposition=(["discharge", "admit", "transfer"][int(r["disp"])] if r["disp"] >= 0 else "undecided"),
+            held_for_play=False, encounter_quality=round(float(r["enc_q"]), 3) if seen else None, interactions=log,
+            catalog_refs=[f"patient/esi{int(r['acu_q'])}", f"conditions/{cond}"], synthetic=True)
 
     def staff_detail(self, b: int, staff_id: str) -> dict:
         snap = self.snapshot(b, consume=False)

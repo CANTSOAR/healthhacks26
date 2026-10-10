@@ -76,6 +76,56 @@ def sim_fingerprint() -> str:
     return h.hexdigest()[:16]
 
 
+_BEHAVIOUR_METRICS = ["arrivals", "diverted", "first_seen", "lwbs", "ed_departures", "admissions", "treated", "deaths"]
+
+
+@functools.lru_cache(maxsize=None)
+def behaviour_fingerprint() -> str:
+    """Hash of what the simulator DOES: hourly patient counts (and labour cost rounded to $10) on a
+    fixed seed under a fixed action script over the hourly and daily heads, for normal_week (48 h)
+    and flu_surge (72 h), 2 hospitals on CPU. Unlike `sim_fingerprint` (a hash of files) it only
+    changes when the dynamics change, so staleness of policies, results and rollouts is keyed on it.
+    Cached per file hash in the system temp dir."""
+    import tempfile
+    cache = Path(tempfile.gettempdir()) / "hospitalgym_behaviour_fp.json"
+    fh = sim_fingerprint()
+    try:
+        c = json.loads(cache.read_text())
+        if fh in c:
+            return c[fh]
+    except Exception:
+        c = {}
+    from sim import HospitalSim
+    h = hashlib.sha256()
+    nt = torch.get_num_threads()
+    torch.set_num_threads(1)
+    for scen, hours in (("normal_week", 48), ("flu_surge", 72)):
+        sim = HospitalSim(scen, batch_size=2, device="cpu", seed=424242)
+        spec = [x for x in sim.action_spec() if x["cadence"] in ("hourly", "daily")]
+        for t in range(hours):
+            acts = {}
+            for i, x in enumerate(spec):
+                n = len(x["options"])
+                v0 = (t // 6 + i) % n if x["name"] != "divert" else int(t % 24 == 13)
+                acts[x["name"]] = torch.tensor([v0, (v0 + 1) % n if x["name"] != "divert" else 0])
+            m = sim.step(acts)
+            row = [int(round(float(v))) for k in _BEHAVIOUR_METRICS for v in m[k]] + [int(round(float(v) / 10.0)) for v in m["cost_labor"]]
+            h.update(json.dumps(row).encode())
+    torch.set_num_threads(nt)
+    out = h.hexdigest()[:16]
+    try:
+        c[fh] = out
+        cache.write_text(json.dumps(c))
+    except Exception:
+        pass
+    return out
+
+
+def fingerprints() -> dict:
+    """Both fingerprints, for stamping artefacts."""
+    return dict(sim_fingerprint=sim_fingerprint(), sim_behaviour_fingerprint=behaviour_fingerprint())
+
+
 @functools.lru_cache(maxsize=None)
 def get_spec(scenario: str = "normal_week") -> dict:
     """Action spec and observation names taken from a tiny CPU simulator instance."""

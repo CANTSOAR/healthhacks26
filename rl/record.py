@@ -20,7 +20,7 @@ from pathlib import Path
 
 import torch
 
-from .common import IMPULSE_HEADS, RECORD_SEED, RESULTS_DIR, ROLLOUT_DIR, ROOT, TERMS, load_scales, now_iso, sim_fingerprint, write_json
+from .common import IMPULSE_HEADS, RECORD_SEED, RESULTS_DIR, ROLLOUT_DIR, ROOT, TERMS, load_scales, behaviour_fingerprint, now_iso, sim_fingerprint, write_json
 from .env import HospitalEnv
 from .managers import list_managers, load_manager
 
@@ -59,7 +59,7 @@ def busiest_day(scenario: str, seed: int, days: int) -> int:
     part = RESULTS_DIR / "parts" / f"{scenario}.json"
     if part.exists():
         d = json.loads(part.read_text())
-        if seed in d["seeds"] and d["days"] >= days and d.get("sim_fingerprint") == sim_fingerprint():
+        if seed in d["seeds"] and d["days"] >= days and d.get("sim_behaviour_fingerprint") == behaviour_fingerprint():
             arr = d["daily_exogenous_arrivals"][d["seeds"].index(seed)][:days]
             return max(range(min(2, days - 1), days), key=lambda i: arr[i])
     env = HospitalEnv(scenario, 1, "cpu", seed, days * 24, auto_reset=False, scales={"scales": {k: 1.0 for k in TERMS}})
@@ -140,7 +140,8 @@ def record(manager_id: str, scenario: str, seed: int = RECORD_SEED, days: int = 
                 header=dict(rollout_id=rid, manager=man, scenario=scenario, hospital_id=str(getattr(sim.scn, "hospital_id", "rwjuh_nb")),
                             seed=int(seed), tick_minutes=int(sim.tick_minutes), days=int(days), created=now_iso(), synthetic=True,
                             enums=sim.enums, layout=layout0, action_spec=spec, summary=summary,
-                            sim_fingerprint=sim_fingerprint(), policy_fingerprint=getattr(pol, "file_fingerprint", None),
+                            sim_fingerprint=sim_fingerprint(), sim_behaviour_fingerprint=behaviour_fingerprint(),
+                            policy_behaviour_fingerprint=getattr(pol, "behaviour_fingerprint", None),
                             invalid_actions=int(sim.invalid_actions[0])),
                 hourly=hourly, decisions=decisions, structural_changes=structural, segments=segs)
     if validate:
@@ -151,7 +152,7 @@ def record(manager_id: str, scenario: str, seed: int = RECORD_SEED, days: int = 
         json.dump(roll, f, separators=(",", ":"))
     return dict(rollout_id=rid, manager={k: man.get(k) for k in ("id", "kind", "label", "objective")}, scenario=scenario, seed=int(seed),
                 days=int(days), summary=summary, has_segments=bool(segs and segs[0]["snapshots"]), file=path.name,
-                bytes=path.stat().st_size, sim_fingerprint=sim_fingerprint(), n_decisions=len(decisions))
+                bytes=path.stat().st_size, sim_behaviour_fingerprint=behaviour_fingerprint(), n_decisions=len(decisions))
 
 
 def validate_rollout(roll: dict):
@@ -180,7 +181,7 @@ def write_index(out_dir: Path = ROLLOUT_DIR):
         rows.append(dict(rollout_id=h["rollout_id"], manager={k: h["manager"].get(k) for k in ("id", "kind", "label", "objective")},
                          scenario=h["scenario"], seed=h["seed"], days=h["days"], summary=h.get("summary", {}),
                          has_segments=bool(r["segments"] and r["segments"][0]["snapshots"]), file=f.name, bytes=f.stat().st_size,
-                         sim_fingerprint=h.get("sim_fingerprint"), created=h.get("created"), synthetic=True))
+                         sim_fingerprint=h.get("sim_fingerprint"), sim_behaviour_fingerprint=h.get("sim_behaviour_fingerprint"), created=h.get("created"), synthetic=True))
     write_json(out_dir / "index.json", rows, indent=1)
     return rows
 
