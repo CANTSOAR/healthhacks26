@@ -1,0 +1,38 @@
+{
+  "scope": "Parent source spot checks; not exhaustive claim verification or human clinical approval",
+  "checked_at": "2026-10-10",
+  "checks": [
+    {
+      "record_ids": [
+        "gap-diagnostics-plain-film-transport"
+      ],
+      "source_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC5584336/fullTextXML",
+      "result": "Confirmed original article reports pre/post mean transport times22.89/9.87min and shares32.3/71.6percent; no local transfer activated."
+    },
+    {
+      "record_ids": [
+        "gap-flow-room-turnover-isolation",
+        "gap-flow-room-cleaning-duration"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/31345277/",
+      "result": "Confirmed publisher abstract values130/65median turnover and57/37cleaning; endpoint and pediatric isolation setting retained."
+    },
+    {
+      "record_ids": [
+        "gap-medication-cpoe-verification-time",
+        "gap-medication-pharmacy-queue-components"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/19635778/",
+      "result": "Confirmed115/3order-composition-to-verification and31/3pharmacy-receipt-to-verification means; corrected both access labels to abstract-only."
+    },
+    {
+      "record_ids": [
+        "gap-medication-instrument-delay"
+      ],
+      "source_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC11017563/fullTextXML",
+      "result": "Confirmed10.16minute mean in report; denominator restrictions retained."
+    }
+  ],
+  "pending_candidate": "gap-diagnostics-ct-order-to-final-report; direct text unavailable, excluded from acquisition and transfer register",
+  "timestamp_correction": "Diagnostics retrieval times known to day precision only; record-level timestamp precision explicitly labels midnight placeholder."
+}

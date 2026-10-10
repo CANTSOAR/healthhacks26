@@ -1,0 +1,46 @@
+{
+  "campaign": "hospital-operations-gaps-2026-10-10",
+  "execution": "Three GPT-6 Luna research agents and parent primary-source resilience research",
+  "jobs": [
+    {
+      "domain": "diagnostics",
+      "agent_model": "gpt-6-luna",
+      "status": "completed",
+      "extract_path": "data/research/gaps-diagnostics.json",
+      "extract_sha256": "b2857d9406af05f89aab6c9fd1163b38e437cebf64524eea84679cfffd5f1f7d",
+      "record_count": 8,
+      "pending_candidate_count": 1
+    },
+    {
+      "domain": "medication-supply",
+      "agent_model": "gpt-6-luna",
+      "status": "completed",
+      "extract_path": "data/research/gaps-medication-supply.json",
+      "extract_sha256": "bd73df4c7e2d3346043261e81e46a42e96e79478be85eb9b98f1b9240806c6cb",
+      "record_count": 12,
+      "pending_candidate_count": 0
+    },
+    {
+      "domain": "patient-flow",
+      "agent_model": "gpt-6-luna",
+      "status": "completed",
+      "extract_path": "data/research/gaps-patient-flow.json",
+      "extract_sha256": "1c11f7eda7bf7c05ad8aef1dc1f324600be0aae71756596939e152497bf22038",
+      "record_count": 9,
+      "pending_candidate_count": 0
+    },
+    {
+      "domain": "resilience",
+      "agent_model": "parent_agent",
+      "status": "completed",
+      "extract_path": "data/research/gaps-resilience.json",
+      "extract_sha256": "78b60a30b1b444673ab4cb13d527e8a14b23948be8e143fba6d0841be547386d",
+      "record_count": 4,
+      "pending_candidate_count": 0
+    }
+  ],
+  "sources_added": 19,
+  "records_added": 33,
+  "status": "completed_extraction_not_human_approved",
+  "next_step": "Human source comparison in data/review/index.html; priority review all operational parameters before adoption"
+}

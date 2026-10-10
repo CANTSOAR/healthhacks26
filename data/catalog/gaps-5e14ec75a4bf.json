@@ -1,0 +1,26 @@
+{
+  "dataset_id": "gaps-5e14ec75a4bf",
+  "source_id": "gaps-5e14ec75a4bf",
+  "title": "Improving Emergency Department radiology transportation time: a successful implementation of lean methodology",
+  "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5584336/",
+  "scope": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+  "access": "public_primary_article_or_abstract",
+  "rights": {
+    "source_license": "not assessed for full-text redistribution",
+    "redistribution": "Short factual paraphrases; no full article copied"
+  },
+  "acquisition_status": "acquired",
+  "raw_paths": [],
+  "normalized_path": "data/normalized/gaps-5e14ec75a4bf.jsonl",
+  "record_count": 1,
+  "limits": [
+    "Setting, period, applicability and endpoint are source-specific.",
+    "No original snapshot retained; human review should follow source URL and locator.",
+    "A role description or guideline does not establish local operational performance."
+  ],
+  "provenance": {
+    "doi": "10.1186/s12245-017-0146-0",
+    "retrieved_at": "2026-10-10T00:00:00+00:00",
+    "raw_artifact_kind": "no_raw_limited_paraphrase"
+  }
+}

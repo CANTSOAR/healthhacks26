@@ -1,0 +1,16 @@
+{
+  "campaign": "hospital-operations-gaps-2026-10-10",
+  "status": "finite_campaign; extraction outcomes in gaps-receipt.json",
+  "execution": "Three user-authorized GPT-6 Luna subagents plus parent resilience research",
+  "max_parallel_agents": 3,
+  "future_rerun_status": "draft_not_scheduled",
+  "future_job_max_runtime_seconds": 600,
+  "jobs": [
+    {"domain":"diagnostics","model":"gpt-6-luna","output":"research/gaps-diagnostics.json","questions":["Specimen lifecycle and rejection?","Diagnostic order to collection, receipt, report endpoints?","Transport and blood-product dependencies?"]},
+    {"domain":"medication-supply","model":"gpt-6-luna","output":"research/gaps-medication-supply.json","questions":["Medication verification, dispensing and administration?","Medication reconciliation?","Instrument and supply readiness?"]},
+    {"domain":"patient-flow","model":"gpt-6-luna","output":"research/gaps-patient-flow.json","questions":["Admission and bed readiness?","Transport and environmental cleaning?","Discharge planning and placement constraints?"]}
+  ],
+  "source_policy": "Inspect primary studies and official hospital documents. Record abstract-only or inaccessible full text. Preserve endpoint, cohort, period, units and observed-versus-modeled status. No restricted records or full copyrighted article redistribution.",
+  "integration": ["python3 scripts/build_gap_evidence.py","python3 scripts/build_gap_transfers.py","python3 scripts/build_citations.py","python3 scripts/build_review_index.py","bash scripts/run-verification.sh"],
+  "approval_state": "All extracts pending human review; no numerical transfer automatically activated"
+}

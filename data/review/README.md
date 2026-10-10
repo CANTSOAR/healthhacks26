@@ -39,3 +39,7 @@ New records are in `data/research/breadth-*.json`. Rebuild with `python3 data/sc
 ### Full procedure reference
 
 Choose `cms-icd10pcs-2027-full (load full reference)` in the Source selector. This 79,256-code reference loads on demand from its normalized JSONL; use the localhost server above (direct file opening cannot fetch it). Search applies to currently loaded records. Loading verifies the full file checksum; exported decisions contain the exact reviewed line checksum. Large-catalog citations are stored in `data/sources/record-citations-large.jsonl.gz`; the ordinary JSONL retains other sources. The full reference overlaps the older 444-code subset and is not a count of unique clinical facts or performed procedures.
+
+## Operational gap expansion
+
+Search `gap-` for the new external literature and guidance extracts. The [expansion report](../research/operations-gap-expansion.md) explains coverage and remaining gaps. Each record retains access scope; the uninspected CT candidate appears only in the pending-source file. [Transfer proposals](../knowledge/gap-transfer-candidates.json) remain inactive and require local validation.

@@ -1,0 +1,731 @@
+{
+  "status": "proposals_only",
+  "transfers": [
+    {
+      "id": "transfer-gap-diagnostics-lab-rejection-rate",
+      "source_record_ids": [
+        "gap-diagnostics-lab-rejection-rate"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Use as an external reference point for a scenario with specimen accept/reject decision and recollection consequences; keep any local rejection probability uncalibrated until RWJ data are acquired.",
+      "source_basis": "observed_retrospective_single_center",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-gap-diagnostics-lab-rejection-reasons",
+      "source_record_ids": [
+        "gap-diagnostics-lab-rejection-reasons"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Represent specimen lifecycle states (collected, labeled, transported, received, accepted/rejected, recollection pending, resulted) and rejection reason; do not sample category proportions from this single-center mix as RWJ facts.",
+      "source_basis": "observed_retrospective_single_center",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-gap-diagnostics-lab-tat-lean",
+      "source_record_ids": [
+        "gap-diagnostics-lab-tat-lean"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Separate collection, transport, accession, analysis, reflex-test, and result-report stages; reflex testing can add a second queue. Use medians only as external plausibility checks, not as a fitted distribution or RWJ target.",
+      "source_basis": "observed_prospective_before_after",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-gap-diagnostics-plain-film-transport",
+      "source_record_ids": [
+        "gap-diagnostics-plain-film-transport"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Represent transport request queue and transporter availability separately from imaging-room capacity; account for local modality, acuity, preparation, and staffing before applying any timing. Include preliminary and final reporting as distinct events.",
+      "source_basis": "observed_before_after_quality_improvement",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-gap-diagnostics-mtp-product-delays",
+      "source_record_ids": [
+        "gap-diagnostics-mtp-product-delays"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Represent emergency release and subsequent patient-specific compatibility workflows as separate paths; MTP activation coordinates blood bank, trauma, and clinical teams and repeated product cycles. Do not use these cohort means as generic per-unit processing times.",
+      "source_basis": "observed_retrospective_before_after_cohort",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-gap-diagnostics-blood-emergency-refrigerator",
+      "source_record_ids": [
+        "gap-diagnostics-blood-emergency-refrigerator"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Blood-bank model may include controlled ED emergency-stock location, issue/traceability, replenishment and compatibility follow-up, alongside central blood-bank MTP workflow. These counts describe one center and cannot establish RWJ stock levels or demand rates.",
+      "source_basis": "observed_retrospective_single_center",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-gap-diagnostics-blood-crossmatched-pathway",
+      "source_record_ids": [
+        "gap-diagnostics-blood-crossmatched-pathway"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Maintain separate states for emergency release versus completed type-and-screen/crossmatch; capture request, preparation, dispatch, receipt, transfusion, return/waste, and reconciliation timestamps if local data become available.",
+      "source_basis": "observed_retrospective_before_after_cohort_plus_workflow_description",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-gap-diagnostics-lab-error-rejection-criteria",
+      "source_record_ids": [
+        "gap-diagnostics-lab-error-rejection-criteria"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Use a rejection branch that records reason, notification, recollection request and repeat transport, so a rejected specimen does not silently become a result. Obtain local critical-sample exceptions and escalation policies before operationalizing.",
+      "source_basis": "observed_workflow_description",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-gap-medication-cpoe-verification-time",
+      "source_record_ids": [
+        "gap-medication-cpoe-verification-time"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Represent order transmission and pharmacist verification as explicit timed stages, with an optional CPOE-era comparison scenario only when clearly labeled historical external evidence. Do not use the reported mean as an RWJ service-time distribution.",
+      "source_basis": "observational_before_after_study",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-gap-medication-pharmacy-queue-components",
+      "source_record_ids": [
+        "gap-medication-pharmacy-queue-components"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Keep verification completion separate from medication prepared, delivered, and administered states. Treat the source values as a historical external comparison, not a local baseline or service-time distribution.",
+      "source_basis": "observational_before_after_study",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-gap-medication-reconciliation-workflow",
+      "source_record_ids": [
+        "gap-medication-reconciliation-workflow"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Represent medication history capture, source comparison, discrepancy review, and clinician resolution as linked tasks with ownership and timestamps. Keep home medication history distinct from inpatient prescribing; do not encode drug or dose advice.",
+      "source_basis": "randomized_trial_workflow_description",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-gap-medication-reconciliation-discrepancy-burden",
+      "source_record_ids": [
+        "gap-medication-reconciliation-discrepancy-burden"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Use only as evidence that reconciliation may expose a substantial discrepancy workload in a selected cohort. If illustrating queues, label the cohort and keep counts distinct from local incidence; do not generate patient-specific medication content.",
+      "source_basis": "randomized_trial_observed_process_measure",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-gap-medication-reconciliation-clinical-outcome-limit",
+      "source_record_ids": [
+        "gap-medication-reconciliation-clinical-outcome-limit"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Separate process measures (history collected, discrepancies found/resolved) from downstream outcomes; do not assume a specific reduction in length of stay, readmission, or adverse events from completing a reconciliation task.",
+      "source_basis": "randomized_controlled_trial",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-gap-medication-management-stage-map",
+      "source_record_ids": [
+        "gap-medication-management-stage-map"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Use the stage map to prevent a single \u201cmedication available\u201d event from collapsing order review, supply preparation, transport, administration, and monitoring. Configure actors and task times only from local workflow evidence.",
+      "source_basis": "official_evidence_report_framework",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-gap-medication-administration-data-boundary",
+      "source_record_ids": [
+        "gap-medication-administration-data-boundary"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "For an operations simulation, require separate event evidence for verified, prepared/dispensed, delivered, and administered states. Avoid inferring elapsed times between these states from the framework.",
+      "source_basis": "official_evidence_report_framework",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-gap-medication-instrument-delay",
+      "source_record_ids": [
+        "gap-medication-instrument-delay"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Use as an external illustration that missing/broken/contaminated instruments can pause setup or operative progress. Do not apply its delay mean to RWJ or interpret it as instrument processing time.",
+      "source_basis": "direct_observational_study",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-gap-medication-sterile-supply-release-workflow",
+      "source_record_ids": [
+        "gap-medication-sterile-supply-release-workflow"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Treat used, in-process, sterile-released, stored, and case-carted instruments as distinct inventory states; include quarantined loads and reprocessing only when modeling the locally validated workflow. Do not infer local cycle duration or sterile inventory quantities.",
+      "source_basis": "official_policy_guidance",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-gap-medication-sterile-device-equipment-readiness",
+      "source_record_ids": [
+        "gap-medication-sterile-device-equipment-readiness"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Model sterilizer out-of-service or a load on hold as separate from instrument-set stock, and only return resources after local verification/release. Confirm actual equipment, indicator supplies, and local process before assigning capacity or failure rates.",
+      "source_basis": "official_policy_guidance",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-gap-medication-sterile-tray-error-counts",
+      "source_record_ids": [
+        "gap-medication-sterile-tray-error-counts"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Use as examples of assembly, sterilization-documentation, and case-cart failure states that can trigger rework or urgent instrument handling. Do not model routine throughput or local error probabilities from these counts.",
+      "source_basis": "prospective_observational_study",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-gap-medication-sterile-immediate-use-workflow",
+      "source_record_ids": [
+        "gap-medication-sterile-immediate-use-workflow"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Represent unavailable or incorrect tray contents, sterilization documentation hold, and missing case-cart tray as distinct events that may prompt correction or escalation. Model emergency sterilization only if local policy validates the pathway.",
+      "source_basis": "prospective_observational_study_and_local_workflow_description",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-gap-flow-admission-cycle",
+      "source_record_ids": [
+        "gap-flow-admission-cycle"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "External reference for admission-to-bed cycle-time scenarios; retain baseline/post as separate contextual benchmarks, and decompose locally into bed request, assignment, EVS, ready signal, handoff, and transport only when local timestamps exist.",
+      "source_basis": "observed_EHR_patient_level_pre_post_quality_improvement",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-gap-flow-admission-delay-causes",
+      "source_record_ids": [
+        "gap-flow-admission-delay-causes"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Represent admission delays as competing transition blockers (receiving-unit acceptance, bed readiness, late orders); use the reported proportions only as qualitative external prioritization, not local probabilities or time distributions.",
+      "source_basis": "observed_operational_event_tallies",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-gap-flow-room-turnover-isolation",
+      "source_record_ids": [
+        "gap-flow-room-turnover-isolation"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Model cleaning/turnaround as a gated room-readiness transition with separate cleaning and post-clean disinfection steps where locally applicable. Use the observed result only as an external isolation-room benchmark, not a standard bed-turnaround parameter.",
+      "source_basis": "observed_manual_time_study_before_after",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-gap-flow-room-cleaning-duration",
+      "source_record_ids": [
+        "gap-flow-room-cleaning-duration"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Keep active EVS task duration separate from queue/wait for cleaning start and any required post-clean disinfection. Treat observed medians as scenario references only; do not sum medians as a patient-level total or assign a distribution.",
+      "source_basis": "observed_manual_time_study_before_after",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-gap-flow-intrahospital-transfer-staff-time",
+      "source_record_ids": [
+        "gap-flow-intrahospital-transfer-staff-time"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Use as an external labor-demand anchor for transfer episodes, keeping staff-minutes distinct from patient elapsed time. Represent acuity changes, equipment/belongings setup, handoff, destination readiness, and elevator use as transition/resource factors.",
+      "source_basis": "direct_structured_observation",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-gap-flow-intrahospital-transport-segments",
+      "source_record_ids": [
+        "gap-flow-intrahospital-transport-segments"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Separate moving time from room preparation, handoff, setup, return tasks, and staff labor. Use elevator as a context-sensitive factor to test, not a universal fixed multiplier or RWJ-specific estimate.",
+      "source_basis": "direct_structured_observation_and_regression",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-gap-flow-tbi-discharge-delay-duration",
+      "source_record_ids": [
+        "gap-flow-tbi-discharge-delay-duration"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Represent clinical readiness and physical discharge as distinct states; allow downstream authorization, accepting-facility bed availability, and family coordination blockers. Use the median only as a conditional external stress-case benchmark.",
+      "source_basis": "observed_retrospective_multicenter_patient_cohort",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-gap-flow-tbi-discharge-blockers",
+      "source_record_ids": [
+        "gap-flow-tbi-discharge-blockers"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Use as evidence that discharge planning needs parallel social-work/family, payer authorization, and post-acute placement transitions. Preserve overlapping blockers and external population scope; calibrate from local workflow data.",
+      "source_basis": "observed_case_management_record_review",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-gap-flow-discharge-to-rehabilitation-pathways",
+      "source_record_ids": [
+        "gap-flow-discharge-to-rehabilitation-pathways"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Represent discharge readiness, destination selection, referral, acceptance/authorization, transport, and post-discharge support as explicit linked states. Treat pathway choices and roles as candidate process structure requiring local workflow confirmation.",
+      "source_basis": "official_operating_guidance",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-gap-resilience-communication",
+      "source_record_ids": [
+        "gap-resilience-communication"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Propose a separate communication-channel resource with its own availability state.",
+      "source_basis": "published_guidance",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-gap-resilience-reconciliation",
+      "source_record_ids": [
+        "gap-resilience-reconciliation"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Propose a recovery queue linking paper events to reconciled electronic records; restoration does not instantly clear the backlog.",
+      "source_basis": "published_guidance",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-gap-resilience-training",
+      "source_record_ids": [
+        "gap-resilience-training"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Propose role-specific preparedness as an authored scenario dimension; no measured staff competence or failure probabilities inferred.",
+      "source_basis": "published_guidance",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-gap-resilience-model-validation",
+      "source_record_ids": [
+        "gap-resilience-model-validation"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Use external extracts to propose structure; obtain local process traces and review before claiming a calibrated hospital simulation.",
+      "source_basis": "published_guidance",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    }
+  ]
+}

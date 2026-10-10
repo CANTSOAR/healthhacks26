@@ -1,0 +1,26 @@
+{
+  "dataset_id": "gaps-fd2096cfa767",
+  "source_id": "gaps-fd2096cfa767",
+  "title": "Effects of computerized prescriber order entry on pharmacy order-processing time",
+  "source_url": "https://pubmed.ncbi.nlm.nih.gov/19635778/",
+  "scope": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+  "access": "public_primary_article_or_abstract",
+  "rights": {
+    "source_license": "not assessed for full-text redistribution",
+    "redistribution": "Short factual paraphrases; no full article copied"
+  },
+  "acquisition_status": "acquired",
+  "raw_paths": [],
+  "normalized_path": "data/normalized/gaps-fd2096cfa767.jsonl",
+  "record_count": 2,
+  "limits": [
+    "Setting, period, applicability and endpoint are source-specific.",
+    "No original snapshot retained; human review should follow source URL and locator.",
+    "A role description or guideline does not establish local operational performance."
+  ],
+  "provenance": {
+    "doi": "10.2146/ajhp080303",
+    "retrieved_at": "2026-10-10T18:00:36Z",
+    "raw_artifact_kind": "no_raw_limited_paraphrase"
+  }
+}

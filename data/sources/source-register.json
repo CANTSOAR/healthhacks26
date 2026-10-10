@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0.0",
   "generation": "Deterministic offline derivation; no source refetch and no inferred publication date or author",
-  "source_count": 89,
-  "record_count": 84159,
+  "source_count": 108,
+  "record_count": 84192,
   "sources": [
     {
       "source_id": "breadth-068cbcf1bb53",
@@ -2134,6 +2134,747 @@
       "normalized_path": "data/normalized/expansion-f9433cd5b3f0.jsonl",
       "normalized_sha256": "7a1b729734f7ef892ec69638c6a8e9b1118f4c90537d68eb56d520acdbdca6b3",
       "record_count": 3,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "gaps-1179d8a2a866",
+      "bibtex_key": "gaps-1179d8a2a866",
+      "title": "Observed rates of surgical instrument errors point to visualization tasks as being a critically vulnerable point in sterile processing and a significant cause of lost chargeable OR minutes",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11017563/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1186/s12893-024-02407-1",
+        "retrieved_at": "2026-10-10T18:00:36Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T18:00:36Z"
+        }
+      ],
+      "catalog_path": "data/catalog/gaps-1179d8a2a866.json",
+      "catalog_sha256": "6f50ea42166b0adac40ecf3b9596b6ba9b47079d397b6aaf1cc58ad50e04d36d",
+      "normalized_path": "data/normalized/gaps-1179d8a2a866.jsonl",
+      "normalized_sha256": "c93d9499afd8d23f1873c4bb8dd012e76977cf506d5601a1dd45d6ed2104406b",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "gaps-13eaf093c21f",
+      "bibtex_key": "gaps-13eaf093c21f",
+      "title": "Sterilizing Practices",
+      "source_url": "https://www.cdc.gov/infection-control/hcp/disinfection-sterilization/sterilizing-practices.html",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T18:00:36Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T18:00:36Z"
+        }
+      ],
+      "catalog_path": "data/catalog/gaps-13eaf093c21f.json",
+      "catalog_sha256": "fdad84ae964d5ba4affe6aea5e6b3b338293cbd69b9fc0e0ac3f20747324fe71",
+      "normalized_path": "data/normalized/gaps-13eaf093c21f.jsonl",
+      "normalized_sha256": "56bbc95db896fdf53ca83705d763944c98b7963fa91f0788d7b113ab7f4b1814",
+      "record_count": 2,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "gaps-1f0129625940",
+      "bibtex_key": "gaps-1f0129625940",
+      "title": "An Observational Study of the Factors Affecting Staffing Demands During Intrahospital Transfers",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12715022/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T18:01:10Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T18:01:10Z"
+        }
+      ],
+      "catalog_path": "data/catalog/gaps-1f0129625940.json",
+      "catalog_sha256": "0b8e833ff5f18eb2730dcbed8ee6192d1d43fe00352d890bc58413486e4e3762",
+      "normalized_path": "data/normalized/gaps-1f0129625940.jsonl",
+      "normalized_sha256": "f54c8a433b0c9d9f189e69d1bf018075a738b4555dc5f2c4ab60968955049b00",
+      "record_count": 2,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "gaps-33129bf908be",
+      "bibtex_key": "gaps-33129bf908be",
+      "title": "AHRQ Workflow Assessment Toolkit: Simulation Modeling",
+      "source_url": "https://digital.ahrq.gov/health-it-tools-and-resources/evaluation-resources/workflow-assessment-health-it-toolkit/all-workflow-tools/simulation-modeling",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T17:57:58.295121+00:00",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:57:58.295121+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/gaps-33129bf908be.json",
+      "catalog_sha256": "d7505ffe591d415977fc0c34dbdaea7eb9fb648f923239ea2890e29a9f2856c2",
+      "normalized_path": "data/normalized/gaps-33129bf908be.jsonl",
+      "normalized_sha256": "4068ed9100f38401944e747641281ba940b083ceb2b35f397cab3b44c66e8002",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "gaps-40ed1d2e25c9",
+      "bibtex_key": "gaps-40ed1d2e25c9",
+      "title": "Experience with uncrossmatched blood refrigerator in emergency department",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6203135/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1136/tsaco-2018-000184",
+        "retrieved_at": "2026-10-10T00:00:00+00:00",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T00:00:00+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/gaps-40ed1d2e25c9.json",
+      "catalog_sha256": "9ce16b1ac6e1fd199a3881fe0237f66c173b7acbb188417f017e24cb8b865fc1",
+      "normalized_path": "data/normalized/gaps-40ed1d2e25c9.jsonl",
+      "normalized_sha256": "fc649c3332a75cde14fd636f2883096ef6820f2e2607d08b307e3899fe19103e",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "gaps-5dfec94281a7",
+      "bibtex_key": "gaps-5dfec94281a7",
+      "title": "2142. Understanding Errors in Sterile Processing of Surgical Instruments That Lead to Need for Immediate Use Sterilization in the Operating Room",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6252925/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1093/ofid/ofy210.2142",
+        "retrieved_at": "2026-10-10T18:00:36Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T18:00:36Z"
+        }
+      ],
+      "catalog_path": "data/catalog/gaps-5dfec94281a7.json",
+      "catalog_sha256": "1954f5022e4b5870750583300cf00ee6351fff89c88d0b73f95be16e6a8f9811",
+      "normalized_path": "data/normalized/gaps-5dfec94281a7.jsonl",
+      "normalized_sha256": "939d5d6c7628b35b78aec39da58b2cb51692a16b7577426f179e285ffe5de967",
+      "record_count": 2,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "gaps-5e14ec75a4bf",
+      "bibtex_key": "gaps-5e14ec75a4bf",
+      "title": "Improving Emergency Department radiology transportation time: a successful implementation of lean methodology",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5584336/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1186/s12245-017-0146-0",
+        "retrieved_at": "2026-10-10T00:00:00+00:00",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T00:00:00+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/gaps-5e14ec75a4bf.json",
+      "catalog_sha256": "b43aacd84813d812b5d74a02a93cbb1ac58a5a9e173f0ade8c84fdd0afd9bc4b",
+      "normalized_path": "data/normalized/gaps-5e14ec75a4bf.jsonl",
+      "normalized_sha256": "70bb28fa5d8564831f2719975d2369536719003e4dd205bea3103e654df72955",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "gaps-71892a5a3053",
+      "bibtex_key": "gaps-71892a5a3053",
+      "title": "Applying Lean methodologies reduces ED laboratory turnaround times",
+      "source_url": "https://www.em-consulte.com/article/1011139/figures/applying-lean-methodologies-reduces-ed-laboratory-",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1016/j.ajem.2015.06.013",
+        "retrieved_at": "2026-10-10T00:00:00+00:00",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T00:00:00+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/gaps-71892a5a3053.json",
+      "catalog_sha256": "473f433fa1839f24b9a235bb24fddf977461876b3a4c8a347236b474870fd740",
+      "normalized_path": "data/normalized/gaps-71892a5a3053.jsonl",
+      "normalized_sha256": "a5778f63043ce3c9bc14bfef2737189c58edd668e4e11db7c0d606e1281bfcff",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "gaps-923885b9d69b",
+      "bibtex_key": "gaps-923885b9d69b",
+      "title": "2025 SAFER Guide: Contingency Planning",
+      "source_url": "https://healthit.gov/wp-content/uploads/2025/06/SAFER-Guide-2.-Contingency-Planning-Final.pdf",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T17:57:58.294937+00:00",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:57:58.294937+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/gaps-923885b9d69b.json",
+      "catalog_sha256": "905e37a90913f0313ced0a8578cf15b1f426009386d3da16b438537d8c0a45fd",
+      "normalized_path": "data/normalized/gaps-923885b9d69b.jsonl",
+      "normalized_sha256": "a4c46f78e0dfb377698f637a0a8c08ba5fd214a9fa99f20c8aa81051bd69a02a",
+      "record_count": 3,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "gaps-930e79ced284",
+      "bibtex_key": "gaps-930e79ced284",
+      "title": "Challenges in Preanalytical Phase of Laboratory Medicine: Rate of Blood Sample Nonconformity in a Tertiary Care Hospital",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7109505/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.11613/BM.2020.010",
+        "retrieved_at": "2026-10-10T00:00:00+00:00",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T00:00:00+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/gaps-930e79ced284.json",
+      "catalog_sha256": "2ee6e77ff2f114e3f2027f0b950ce32cf8511e0d275278a27556502feaedcbfa",
+      "normalized_path": "data/normalized/gaps-930e79ced284.jsonl",
+      "normalized_sha256": "14547507fcb33ea4cb70f808b87e40b617f9b5faf62812473e23d7362ba90ab6",
+      "record_count": 2,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "gaps-975ed04a57da",
+      "bibtex_key": "gaps-975ed04a57da",
+      "title": "Reduced isolation room turnover time using Lean methodology",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/31345277/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1017/ice.2019.199",
+        "retrieved_at": "2026-10-10T18:01:10Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T18:01:10Z"
+        }
+      ],
+      "catalog_path": "data/catalog/gaps-975ed04a57da.json",
+      "catalog_sha256": "a70bc12a3631606c0b4f5b9b0dca198a3956fcbecd7e0c5c2e5db810d76804dd",
+      "normalized_path": "data/normalized/gaps-975ed04a57da.jsonl",
+      "normalized_sha256": "041cc8b951bb9a91ac46d97cf5b130c1c271ceaa07cc10bc53b7f3a698765b18",
+      "record_count": 2,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "gaps-b4de99f18e24",
+      "bibtex_key": "gaps-b4de99f18e24",
+      "title": "Hospital discharge and community support guidance",
+      "source_url": "https://www.gov.uk/government/publications/hospital-discharge-and-community-support-guidance/hospital-discharge-and-community-support-guidance",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T18:01:10Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T18:01:10Z"
+        }
+      ],
+      "catalog_path": "data/catalog/gaps-b4de99f18e24.json",
+      "catalog_sha256": "58aa7da0629cd113b7cfa675fcf5cbc8d5cd086cf32ed96b198b529bae2dd8f8",
+      "normalized_path": "data/normalized/gaps-b4de99f18e24.jsonl",
+      "normalized_sha256": "460bcc11e77f28c62ff5c976f3063541e134fffca0914199eba3eb16002cb2b3",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "gaps-b995fecc397f",
+      "bibtex_key": "gaps-b995fecc397f",
+      "title": "Effect of Medication Reconciliation at Hospital Admission on 30-Day Returns to Hospital: A Randomized Clinical Trial",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8446815/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1001/jamanetworkopen.2021.24672",
+        "retrieved_at": "2026-10-10T18:00:36Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T18:00:36Z"
+        }
+      ],
+      "catalog_path": "data/catalog/gaps-b995fecc397f.json",
+      "catalog_sha256": "9b0c2792f10e6b26bb2afdc349b37fbaec2fb2959be5dccb174224997e4aa6d6",
+      "normalized_path": "data/normalized/gaps-b995fecc397f.jsonl",
+      "normalized_sha256": "82ca8e0a703095809941073d064ba61e0789e147fbb994a05b3a77f071583224",
+      "record_count": 3,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "gaps-c4c3bd171df9",
+      "bibtex_key": "gaps-c4c3bd171df9",
+      "title": "The effect of discharge destination and primary insurance provider on hospital discharge delays among patients with traumatic brain injury: a multicenter study of 1,543 patients",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6945617/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1186/s12873-019-0233-7",
+        "retrieved_at": "2026-10-10T18:01:10Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T18:01:10Z"
+        }
+      ],
+      "catalog_path": "data/catalog/gaps-c4c3bd171df9.json",
+      "catalog_sha256": "d445efa1b35b9a274cc6c758beaf5a6acd75f57edaad9598791487aa15c53a5b",
+      "normalized_path": "data/normalized/gaps-c4c3bd171df9.jsonl",
+      "normalized_sha256": "55ad2772976c7070a562683484da3a5a30c8ac76ac728a03cde9a9a82b32058f",
+      "record_count": 2,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "gaps-e74ffc748280",
+      "bibtex_key": "gaps-e74ffc748280",
+      "title": "Enabling Medication Management Through Health Information Technology",
+      "source_url": "https://www.ahrq.gov/downloads/pub/evidence/pdf/healthit/medmgt.pdf",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T18:00:36Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T18:00:36Z"
+        }
+      ],
+      "catalog_path": "data/catalog/gaps-e74ffc748280.json",
+      "catalog_sha256": "efe0b5b2488df8ad51091586876e9d5298890e9e3f5dfb0ddcb46bf07d98f193",
+      "normalized_path": "data/normalized/gaps-e74ffc748280.jsonl",
+      "normalized_sha256": "4d9656e1d43dd9f0c960e7934ad56dc886a24136d03e3ff2ad08d1fa9ec935cc",
+      "record_count": 2,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "gaps-eab33bb9edd2",
+      "bibtex_key": "gaps-eab33bb9edd2",
+      "title": "Massive Transfusion Protocols: The Role of Aggressive Resuscitation Versus Product Ratio in Mortality Reduction",
+      "source_url": "https://pqcnc-documents.s3.amazonaws.com/aim/aimexpert/PQCNCOBHMassiveTransfusionProtocolsAmCollegeofSurgeons20090416.pdf",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1016/j.jamcollsurg.2009.04.016",
+        "retrieved_at": "2026-10-10T00:00:00+00:00",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T00:00:00+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/gaps-eab33bb9edd2.json",
+      "catalog_sha256": "d87349e29cd9eb7ff85ee82494ca512e88ca3f0a91cfec3fe6346decc9d9460e",
+      "normalized_path": "data/normalized/gaps-eab33bb9edd2.jsonl",
+      "normalized_sha256": "4150f43a8623d71e18bde9669526c07eb26d0f8236bd5151c4f7259f79e07c96",
+      "record_count": 2,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "gaps-eb1fcb1078c0",
+      "bibtex_key": "gaps-eb1fcb1078c0",
+      "title": "Challenges in Preanalytical Phase of Laboratory Medicine: Rate of Blood Sample Nonconformity in a Tertiary Care Hospital",
+      "source_url": "https://cms.ifcc.org/wp-content/uploads/2020/03/ejifcc2020vol31no1.pdf",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.11613/BM.2020.010",
+        "retrieved_at": "2026-10-10T00:00:00+00:00",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T00:00:00+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/gaps-eb1fcb1078c0.json",
+      "catalog_sha256": "52c358db0fe0968d9c69e0b1ea61082595572856c7e46d9f8c7317be3b8a1e1e",
+      "normalized_path": "data/normalized/gaps-eb1fcb1078c0.jsonl",
+      "normalized_sha256": "34df0184ea81a0637b043f7c3a42eceef777e8ba74f873f210b0d23416ae0488",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "gaps-f72fa890bc33",
+      "bibtex_key": "gaps-f72fa890bc33",
+      "title": "Reducing Emergency Department (ED) Boarding Time Through Lean Redesign of the ED-to-Inpatient Admission Pathway: A Single-Center Quality-Improvement Study",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13310080/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T18:01:10Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T18:01:10Z"
+        }
+      ],
+      "catalog_path": "data/catalog/gaps-f72fa890bc33.json",
+      "catalog_sha256": "cc6267ee55b93376667de0d5b11c5be2f30d061fb4a35c5a7b421d95b158d1b0",
+      "normalized_path": "data/normalized/gaps-f72fa890bc33.jsonl",
+      "normalized_sha256": "65ed7f2cb8782c489a0a56efd8383add1150177ca075e90e31183b3e34a27b33",
+      "record_count": 2,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "gaps-fd2096cfa767",
+      "bibtex_key": "gaps-fd2096cfa767",
+      "title": "Effects of computerized prescriber order entry on pharmacy order-processing time",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/19635778/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.2146/ajhp080303",
+        "retrieved_at": "2026-10-10T18:00:36Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T18:00:36Z"
+        }
+      ],
+      "catalog_path": "data/catalog/gaps-fd2096cfa767.json",
+      "catalog_sha256": "c300b1240d2b73e7512b9312e8c43de6810e0d18c7ca8ef598db6eed765af237",
+      "normalized_path": "data/normalized/gaps-fd2096cfa767.jsonl",
+      "normalized_sha256": "8bc7b3616fde1152ee5a3dc4484c129315c4d35eaf7241d5c807f3b406b0fb41",
+      "record_count": 2,
       "stored_artifacts": [],
       "raw_availability": "no_raw_source_available"
     },
