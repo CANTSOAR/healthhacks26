@@ -1,33 +1,33 @@
 {
- "generated": "2026-10-10T01:38:28",
+ "generated": "2026-10-10T09:12:27",
  "files": {
   "catalog/patient.yaml": {
-   "attributes": 72,
+   "attributes": 88,
    "measured": 41,
    "literature": 4,
-   "assumed": 27,
-   "measured_share": 0.569
+   "assumed": 43,
+   "measured_share": 0.466
   },
   "catalog/staff.yaml": {
-   "attributes": 37,
+   "attributes": 52,
    "measured": 10,
-   "literature": 7,
-   "assumed": 20,
-   "measured_share": 0.27
+   "literature": 9,
+   "assumed": 33,
+   "measured_share": 0.192
   },
   "catalog/space.yaml": {
-   "attributes": 86,
+   "attributes": 91,
    "measured": 3,
    "literature": 4,
-   "assumed": 79,
-   "measured_share": 0.035
+   "assumed": 84,
+   "measured_share": 0.033
   },
   "catalog/equipment.yaml": {
-   "attributes": 49,
+   "attributes": 53,
    "measured": 4,
-   "literature": 2,
-   "assumed": 43,
-   "measured_share": 0.082
+   "literature": 3,
+   "assumed": 46,
+   "measured_share": 0.075
   },
   "catalog/event.yaml": {
    "attributes": 16,
@@ -37,11 +37,11 @@
    "measured_share": 0.188
   },
   "catalog/hospitals/rwjuh_nb.yaml": {
-   "attributes": 42,
+   "attributes": 48,
    "measured": 24,
    "literature": 6,
-   "assumed": 12,
-   "measured_share": 0.571
+   "assumed": 18,
+   "measured_share": 0.5
   },
   "catalog/validation_targets.yaml": {
    "attributes": 54,
@@ -108,7 +108,9 @@
    "shared.rn_patients_per_nurse_max [literature]",
    "attending.wage_per_hour [measured]",
    "attending.patients_per_hour_by_acuity [literature]",
+   "resident.productivity [literature]",
    "app.wage_per_hour [measured]",
+   "app.productivity [literature]",
    "rn.wage_per_hour [measured]",
    "charge_rn.wage_per_hour [measured]",
    "tech.wage_per_hour [measured]",
@@ -133,7 +135,8 @@
    "ct.result_delay_min [literature]",
    "mri.revenue_per_use [measured]",
    "xray.revenue_per_use [measured]",
-   "ultrasound.revenue_per_use [measured]"
+   "ultrasound.revenue_per_use [measured]",
+   "lab_analyzer.procedure_min [literature]"
   ],
   "catalog/event.yaml": [
    "flu_wave.arrival_multiplier [literature]",
@@ -233,10 +236,10 @@
   ]
  },
  "total_excluding_validation_targets": {
-  "attributes": 302,
+  "attributes": 348,
   "measured": 85,
-  "literature": 26,
-  "assumed": 191,
-  "measured_share": 0.281
+  "literature": 29,
+  "assumed": 234,
+  "measured_share": 0.244
  }
 }
