@@ -24,7 +24,7 @@ _IGNORE = set(
     "telling anyone anybody want wants wanted does doesnt did didnt hiding hides hide hidden conceals concealing mention mentions admit admits reluctant "
     "currently current recently past still now then both all only very quite some any the and for from into out off than that this these those there here "
     "are was were not nor yes its into onto upon etc regular regularly include includes including well other others each every per via ago time times "
-    "works work working worked employed job level levels value values result results shows show showed found noted note on in at of to is it by as or an be am if so up".split()
+    "pmh pmhx hx meds says say describes describe notes goes found given seen last one whom where give gives gave cause causes caused make makes rated rates rate scored out over works work working worked employed job level levels value values result results shows show showed found noted note on in at of to is it by as or an be am if so up".split()
 )
 _WORD = re.compile(r"[a-z][a-z'\-]*|\d+(?:\.\d+)?(?:\s*/\s*\d+(?:\.\d+)?)?")
 _ABBR = re.compile(r"(?:\b(?:mr|mrs|ms|dr|st|vs|approx|e\.g|i\.e|y\.o)|\b[a-z])\.$", re.I)

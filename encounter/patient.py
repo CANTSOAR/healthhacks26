@@ -275,6 +275,8 @@ def approved_lines(case: dict, engine: Engine, outcome: dict, intent: Intent, la
     if outcome["patient_unknown"] and not lines:
         knows = [fid for fid in outcome["patient_unknown"] if by_id[fid].get("patient_knows") is not False]
         add(NEEDS_CHECK if knows and len(knows) == len(outcome["patient_unknown"]) else DONT_KNOW)
+    if outcome.get("soft_negative") and not lines:
+        add(conv.pick(conv.SOFT_NEGATIVE, key, last_reply))
     if outcome.get("noncommittal") and not lines:
         add(conv.pick(conv.NONCOMMITTAL, key, last_reply))
     if outcome.get("social") == "complaint_fallback" and not lines:

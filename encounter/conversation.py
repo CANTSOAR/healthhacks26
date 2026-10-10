@@ -30,7 +30,7 @@ PROBE_HIDDEN = ["afraid to tell", "scared to tell", "worried to tell", "embarras
                 "anything you are worried about telling", "hard to say out loud", "anything else i should know", "anything i should know"]
 GENERIC_PAIN = ["pain anywhere", "any pain", "in pain", "in any pain", "hurt anywhere", "hurting anywhere", "anything hurt", "anywhere hurt", "where does it hurt",
                 "does anything hurt", "are you hurting", "any aches", "sore anywhere", "the pain", "your pain"]
-PAIN_WORDS = {"pain", "hurt", "ache", "ach", "sore", "tender", "painful", "cramp", "discomfort"}
+PAIN_WORDS = {"pain", "hurt", "ache", "ach", "sore", "tender", "painful", "cramp", "discomfort", "burn", "sting", "throb"}
 # body regions a student names loosely ("the leg") -> words a case may use for it
 BODY_SYNONYMS = {
     "leg": ["leg", "calf", "thigh", "knee", "ankle", "shin", "foot"], "arm": ["arm", "elbow", "wrist", "hand", "shoulder", "forearm"],
@@ -110,12 +110,14 @@ CLOSING_Q_LINES = ["No, I don't think so. Thank you.", "No questions right now. 
 CLOSING_LINES = ["Okay. Thank you.", "All right, thank you.", "Thanks, doctor."]
 SUMMARY_LINES = ["Okay.", "Mm-hm.", "All right."]
 # said instead of a default "no" when the case's own text touches the topic but no fact answers the question
+# yes/no questions about one's own body or habits on a draft whose description was not fully placed: softer than "no", never "I'm not sure"
+SOFT_NEGATIVE = ["Not that I've noticed.", "Not that I know of.", "I don't think so."]
 NONCOMMITTAL = ["It's hard to say, honestly.", "I couldn't say for certain.", "I'm not sure, to be honest."]
 COMPLAINT_FALLBACK = "I haven't been feeling right, so I came in to get checked."
 
 ALL_FIXED_LINES = set(_GENERIC_NEG + UNKNOWN_VARIANTS + OFF_TOPIC + INJECTION_LINES + ICE_LINES + NOTHING_MORE + THANKS_LINES + INTRO_LINES + EMPATHY_LINES
                       + EXPLAIN_LINES + BACKCHANNEL_LINES + CLOSING_Q_LINES + CLOSING_LINES + SUMMARY_LINES + ["No. That isn't possible for me."]
-                      + NONCOMMITTAL + [COMPLAINT_FALLBACK]
+                      + NONCOMMITTAL + SOFT_NEGATIVE + [COMPLAINT_FALLBACK]
                       + [v for vs in list(NEGATABLE.values()) + list(_SPECIFIC_NEG.values()) for v in vs])
 
 

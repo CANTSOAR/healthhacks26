@@ -41,25 +41,30 @@ _END = r"(?=\.(?:\s|$)|;|\n|$)"
 _AGE = re.compile(r"\b(\d{1,3})\s*[- ]?\s*(?:year[- ]old|years?[- ]old|yrs?[- ]old|yo|y/o|y\.o\.?)(?![a-z])", re.I)
 _AGE_SHORT = re.compile(r"(?<![\w/.])(\d{1,3})\s*(?:yo|y/o|yr|yrs)?\s*([MF])\b")
 _AGE_MONTHS = re.compile(r"\b(\d{1,2})[- ]?(month|week|day)s?[- ]old\b", re.I)
-_AGE2 = re.compile(r"\b(?:age|aged)\s*(\d{1,3})\b|^[^,.]{2,40},\s*(\d{1,3})\s*,", re.I)
+_AGE2 = re.compile(r"\b(?:age|aged)\s*(\d{1,3})\b|\bwho is (\d{1,3})(?=\s+and\b|\s*,)|\bis (\d{1,3}) years? old\b|^[^,.]{2,40},\s*(\d{1,3})\s*,", re.I)
 _SEX_AFTER_AGE = re.compile(r"(?:year[- ]old|years?[- ]old|yrs?[- ]old|month[- ]old|week[- ]old|yo|y/o|y\.o\.?)\s*,?\s*(?:[a-z\-]+\s+){0,2}?(woman|female|girl|lady|man|male|boy|gentleman|f|m)\b", re.I)
 _FEMALE = r"woman|female|girl|lady|she|her|hers|herself|mrs|ms|miss"
 _MALE = r"man|male|boy|gentleman|he|his|him|himself|mr"
 _OCC3 = re.compile(r",\s*\d{1,3},\s+(?:an?\s+)?([a-z][a-z\- ]{2,40}?)(?=\s+(?:who|with|and|presenting|presents|comes|came)\b|[,.;])", re.I)
 _NAME_LEAD = re.compile(r"^\s*(?:(?:Mr|Mrs|Ms|Miss|Dr)\.?\s+)?([A-Z][a-z'\-]+(?:\s+[A-Z][a-zA-Z'\-]+){1,2})(?=\s*(?:,|\(|:|\bis\b|\bhas\b|\bcomes\b|\bpresents\b|\bwas\b|\barrives\b|\bcame\b))")
 _NAME_SINGLE = re.compile(r"^\s*([A-Z][a-z'\-]{2,})(?=\s+is\s+an?\s+\d|,\s*(?:an?\s+)?\d{1,3}\b)")
+_NAME_CHILD = re.compile(r"\b(?:[Mm]y|[Hh]er|[Hh]is|[Tt]heir) (?:son|daughter|child|baby|grandson|granddaughter),? ([A-Z][a-z'\-]{1,})\b")
+_NOT_NAME = ("A", "An", "The", "This", "Patient", "She", "He", "I", "Brought", "Presents", "History", "No", "My", "Her", "His", "Blood", "Heart", "Temp", "Temperature",
+             "Allergic", "Medications", "On", "Black", "Denies", "Reports", "Lives")
 _NAME_ANY = re.compile(r"\b(?:[Nn]amed|[Nn]ame is|[Cc]alled|[Pp]atient:?|Mrs?\.?|Ms\.?|Miss)\s+([A-Z][a-zA-Z'\-]+(?:\s+[A-Z][a-zA-Z'\-]+)?)")
-_OCC1 = re.compile(r"(?:year[- ]old|years old|yo|y/o),?\s+(?:(?:fe)?male\s+|man\s+|woman\s+)?([a-z][a-z\- ]{2,40}?)(?=\s+(?:who|with|presenting|presents|comes|came|complaining|brought|arrives|has|had|in)\b|[,.;])", re.I)
+_OCC1 = re.compile(r"(?:year[- ]old|years old|yo|y/o),?\s+(?:(?:fe)?male\s+|man\s+|woman\s+)?([a-z][a-z\- ]{2,40}?)(?=\s+(?:who|with|presenting|presents|comes|came|complaining|brought|arrives|has|had|in|reports|reporting|c/o|and|was|is)\b|[,.;])", re.I)
 _OCC2 = re.compile(r"\b(?:works? as|working as|employed as|job as|is|am)\s+(?:an?\s+)(?:retired\s+)?([a-z][a-z\- ]{2,40}?)(?=\s+(?:who|with|and|presenting|presents|comes|came)\b|[,.;]|$)", re.I)
-_NOT_JOB = re.compile(r"^(man|woman|male|female|patient|lady|gentleman|boy|girl|person|adult|child|infant|baby|toddler|smoker|non-?smoker|diabetic|\d)", re.I)
+_NOT_JOB = re.compile(r"^(man|woman|male|female|patient|lady|gentleman|boy|girl|person|adult|child|infant|baby|toddler|smoker|non-?smoker|diabetic|\d|presents?|presenting|"
+                      r"was|is|who|comes?|came|brought|with|reports?|has|had|complains?|c/o|widow|widower|married|single|divorced|found|seen|woman|known)\b", re.I)
 
 _PRESENT_STRONG = re.compile(
     r"\b(?:comes? in (?:with|for|because of|after)|came in (?:with|for|because of|after)|presents? (?:with|for|after)|presenting (?:with|for|after)|"
     r"presented (?:with|for|after)|complains? of|complaining of|c/o|chief complaint(?: is| of|:)?|brought in (?:by [^,.;]{2,40}? )?(?:with|for|after)|"
     r"brought (?:to [^,.;]{2,30}? )?by [^,.;]{2,40}? (?:with|for|after)|arrives? with|arrived with|has had|have had|i've had|i've got|has been having|"
-    r"have been having|i've been having|is having|am having|i'm having|suffering from|is experiencing|has developed|developed)\s+(.+?)" + _END, re.I | re.S)
+    r"have been having|i've been having|is having|am having|i'm having|suffering from|is experiencing|has developed|developed|"
+    r"(?<!\bhe )(?<!\bshe )reports|reporting|with complaints? of|complaint of)\s+(.+?)" + _END, re.I | re.S)
 _PRESENT_WEAK = re.compile(
-    r"(?:\b(?:year[- ]old|years?[- ]old|yrs?[- ]old|month[- ]old|yo|y/o)(?:\s+[a-z\-]+){0,5}?\s+with|(?<![\w/.])\d{1,3}\s*[MF]\s+with|\b(?:has|have))\s+(.+?)" + _END, re.I | re.S)
+    r"(?:\b(?:year[- ]old|years?[- ]old|yrs?[- ]old|month[- ]old|yo|y/o)(?:\s+[a-z\-]+){0,5}?\s+with|(?<![\w/.])\d{1,3}\s*[MF]\s+with|\b(?:she|he|i|pt|patient)\s+(?:has|have|reports|describes))\s+(.+?)" + _END, re.I | re.S)
 _NOT_COMPLAINT = re.compile(r"^(?:a\s+|an\s+)?(?:known|history|past|medical history|type [12]|diabetes|hypertension|asthma|copd|no\b|not\b|been taking|been on|stopped|"
                             r"allerg|a long|his|her|their|my)\b", re.I)
 _DUR_OF = re.compile(rf"^({_N})\s+({_UNIT})\s+of\s+(.+)$", re.I)
@@ -71,11 +76,11 @@ _SUBJ = r"(?:she|he|i|the patient|patient|pt|the child|the boy|the girl)"
 _HIDE = re.compile(
     r"\b(?:is hiding|am hiding|hides|hiding|conceals|concealing|is concealing|will deny|denies(?= that\b)|won'?t (?:admit|mention|say|tell (?:you|anyone))|"
     r"(?:doesn'?t|does not|don'?t|do not|did not|didn'?t) (?:admit|mention|want to (?:say|admit|talk about|mention|tell (?:anyone|anybody|you|the doctor|(?:his|her|my) \w+)))|"
-    r"is reluctant to (?:admit|discuss|talk about|mention)|reluctant to (?:admit|discuss|talk about|mention)|"
+    r"(?:doesn'?t|does not|don'?t|do not) want (?:his|her|my|the) \w+ to (?:know|find out)|is reluctant to (?:admit|discuss|talk about|mention)|reluctant to (?:admit|discuss|talk about|mention)|"
     r"is embarrassed (?:about|to admit|by)|embarrassed (?:about|to admit|by)|ashamed (?:of|to admit)|secretly|"
     r"avoids? (?:talking about|mentioning|discussing)|minimi[sz]es|downplays|under-?reports|not forthcoming about|"
     r"(?:has not|have not|hasn'?t|haven'?t) told (?:anyone|anybody|(?:his|her|my|the) \w+)|keeps quiet about)\b\s*(?:that\s+|to\s+|about\s+|the fact that\s+)?(.+?)" + _END, re.I | re.S)
-_HIDE_DENIES = re.compile(r"\bdenies\s+((?:[a-z]+ing)\s+(?:\S+\s+){2,}?\S+?)" + _END, re.I | re.S)
+_HIDE_DENIES = re.compile(r"\bdenies\s+((?:[a-z]+ing)\s+(?:[^\s.;]+\s+){2,}?[^\s.;]+?)" + _END, re.I | re.S)
 _HIDE_AFTER = re.compile(
     r"(?:^|(?<=[.;]\s))\s*(?:" + _SUBJ + r"\s+)?((?:has|have|had|is|am|was|takes?|uses?|drinks?|smokes?|stopped|started)\b[^.;]{3,160}?),?\s+(?:but|and|though|although)\s+"
     r"(?:(?:she|he|i)\s+)?(?:(?:has not|have not|hasn'?t|haven'?t|did not|didn'?t|does not|doesn'?t|do not|don'?t|won'?t|will not|never)\s+"
@@ -84,11 +89,11 @@ _HIDE_AFTER = re.compile(
 _STOPPED = re.compile(r"\b(?:stopped|quit|not|isn'?t|hasn'?t been|skips?|skipping|misses|missing)\s+(?:taking\s+|been taking\s+)?(?:(?:her|his|their|the|my)\s+)?"
                       r"([a-z][a-z\- ]{2,40}?(?:pills?|tablets?|medication|medicine|meds|inhalers?|insulin|injections?|thinners?|drops|patch(?:es)?|statins?|antibiotics?))\b", re.I)
 _VITALS = [
-    ("blood_pressure", "Blood pressure", "mmHg", re.compile(r"\b(?:bp|blood[- ]pressure)\s*(?:is|was|of|:|=)?\s*(\d{2,3}\s*/\s*\d{2,3})(?:\s*mm\s*hg)?", re.I)),
-    ("heart_rate", "Heart rate", "beats/min", re.compile(r"\b(?:hr|heart[- ]rate|pulse)\s*(?:is|was|of|:|=)?\s*(\d{2,3})\b(?:\s*(?:bpm|beats per minute|/min))?", re.I)),
-    ("temperature", "Temperature", "", re.compile(r"\b(?:temp(?:erature)?|fever(?: of)?)\s*(?:is|was|of|:|=)?\s*(\d{2,3}(?:\.\d)?)\s*(?:°|degrees)?\s*([CF])?\b", re.I)),
-    ("spo2", "Oxygen saturation", "%", re.compile(r"\b(?:spo2|sp02|o2 sats?|sats?|oxygen saturations?|saturations?)\s*(?:is|are|was|of|:|=)?\s*(\d{2,3})\s*%?(?:\s*on (?:room air|ra|\d+ ?l(?:itres?)?(?: of)?(?: oxygen)?))?", re.I)),
-    ("respiratory_rate", "Respiratory rate", "breaths/min", re.compile(r"\b(?:rr|resp(?:iratory)?[- ]rate)\s*(?:is|was|of|:|=)?\s*(\d{1,2})\b", re.I)),
+    ("blood_pressure", "Blood pressure", "mmHg", re.compile(r"\b(?:bp|blood[- ]pressure)\s*(?:is|was|of|at|:|=)?\s*(\d{2,3}\s*(?:/|over)\s*\d{2,3})(?:\s*mm\s*hg)?", re.I)),
+    ("heart_rate", "Heart rate", "beats/min", re.compile(r"\b(?:hr|heart[- ]rate|pulse)\s*(?:is|was|of|at|:|=)?\s*(\d{2,3})\b(?:\s*(?:bpm|beats per minute|/min))?", re.I)),
+    ("temperature", "Temperature", "", re.compile(r"\b(?:temp(?:erature)?|fever)\s*(?:is|was|of|at|to|:|=)?\s*(\d{2,3}(?:\.\d)?)\s*(?:°|degrees)?\s*([CF])?\b", re.I)),
+    ("spo2", "Oxygen saturation", "%", re.compile(r"\b(?:spo2|sp02|o2 sats?|sats?|oxygen saturations?|saturations?)\s*(?:is|are|was|were|of|at|:|=)?\s*(\d{2,3})\s*%?(?:\s*on (?:room air|ra|\d+ ?l(?:itres?)?(?: of)?(?: oxygen)?))?", re.I)),
+    ("respiratory_rate", "Respiratory rate", "breaths/min", re.compile(r"\b(?:rr|resp(?:iratory)?[- ]rate)\s*(?:is|was|of|at|:|=)?\s*(\d{1,2})\b", re.I)),
     ("glucose", "Blood glucose", "mg/dL", re.compile(r"\b(?:glucose|blood sugar|sugar)\s*(?:is|was|of|:|=)?\s*(\d{2,3})\b", re.I)),
 ]
 # lab name pattern -> (key, label, the order that releases it)
@@ -106,6 +111,34 @@ _LAB_UNIT = r"g/dl|mg/dl|mmol/l|mmol/mol|ng/l|ng/ml|ng/dl|pg/ml|mg/l|x\s?10\^?9/
 _LAB_RX = [(re.compile(rf"\b(?:{pat})\s*(?:is|was|of|:|=|at|level(?: of| is)?)?\s*([<>]?\s*\d+(?:[.,]\d+)?)\s*({_LAB_UNIT})?(?![\w/])", re.I), key, label, req) for pat, key, label, req in _LABS]
 _LAB_TITLES = {"order:cbc": "Blood count", "order:coags": "Clotting tests", "order:bmp": "Basic metabolic panel", "order:lft": "Liver tests", "order:abg": "Blood gas"}
 
+_BODY = "arm|leg|hand|foot|feet|jaw|neck|back|chest|head|shoulder|knee|hip|ankle|wrist|elbow|face|eye|ear|side|flank|groin|abdomen|belly|stomach|thigh|calf|shin"
+_ADJ_LIST = "red|hot|warm|swollen|painful|tender|severe|sharp|dull|sudden|mild|constant|itchy|dry|wet|productive|new|worsening|persistent|intermittent|large|small"
+_PAIN_SCORE = re.compile(r"(?:,\s*)?\b(?:(?:which |that )?(?:she|he|i) (?:rates?|scores?)(?: it)?(?: as| at)?|rated|rates|scored|scoring|severity(?: of)?|(?:pain )?score(?: of)?)\s*"
+                         r"(?:as |at |of )?(?:an? )?(\d{1,2})\s*(?:/|out of)\s*10\b", re.I)
+_FUNCTION = set("a an the and or but of with for to in on at by from as which who that whom whose is are was were has have had also both then so than "
+                "her his my their she he i it they when while because since if though although until after before".split())
+
+
+def _tidy(p: str) -> str:
+    """Trim what is left when a neighbouring clause was lifted out: dangling articles, conjunctions, prepositions, stray commas.
+    Returns "" when nothing but function words remains."""
+    p = re.sub(r"\s+", " ", p or "").strip(" ,;:.-")
+    p = re.sub(r"\s+,", ",", p)
+    p = re.sub(r",\s*(?:and|or|but)?\s*,", ",", p)
+    while True:
+        q = re.sub(r"(?:,?\s+|^)(?:a|an|the|and|or|but|of|with|for|to|in|on|at|by|from|as|which|who|that|is|are|was|were|has|have|had|also|both|when|while|because|since)$", "", p, flags=re.I).strip(" ,;:-")
+        q = re.sub(r"^(?:and|or|but|of|with|for|to|by|from|as|which|who|that|also|both|then|so|,)\s+", "", q, flags=re.I).strip(" ,;:-")
+        q = re.sub(r"\b(and|or|but)\s+(?:and|or|but)\b", r"\1", q, flags=re.I)
+        q = re.sub(r"\b(?:a|an|the)\s+(and|or|but|of|with|,)\b", r"\1", q, flags=re.I)        # "confusion and a and cough"
+        q = re.sub(r"\s+", " ", q)
+        if q == p:
+            break
+        p = q
+    if not [w for w in re.findall(r"[A-Za-z]{2,}", p) if w.lower() not in _FUNCTION]:
+        return ""
+    return p
+
+
 _DRUG_NAMES = {m for members in DRUG_CLASSES.values() for m in members if " " not in m} - {"contrast", "latex", "nsaid", "nsaids", "sulfa", "opioid", "opioids",
                                                                                            "statin", "macrolide", "fluoroquinolone", "cephalosporin", "asa"}
 _DRUG_NAMES |= set(
@@ -122,16 +155,22 @@ _DRUG_NAMES |= set(
 _DRUG_SUFFIX = re.compile(r"^[a-z]{3,}(?:pril|olol|statin|sartan|formin|dipine|parin|xaban|cillin|mycin|floxacin|prazole|conazole|tidine|zepam|zolam|oxetine|triptan|"
                           r"gliptin|flozin|glutide|cycline|semide|thiazide|lukast|isone|isolone|codone|morphone|profen|gatran|setron|pidem|mab|nib)$")
 _DRUG_GENERIC = re.compile(r"\b(?:pills?|tablets?|inhalers?|puffers?|insulin|blood[- ]thinners?|the pill|birth control|contraceptive|water pills?|vitamins?|supplements?|"
-                           r"patch(?:es)?|eye drops|drops|statins?|antibiotics?|painkillers?|steroids?|injections?|antidepressants?|laxatives?|antacids?|nebuli[sz]ers?)\b", re.I)
+                           r"patch(?:es)?|eye drops|drops|statins?|antibiotics?|painkillers?|steroids?|injections?|antidepressants?|laxatives?|antacids?|nebuli[sz]ers?|sprays?|gtn|folic acid|"
+                           r"creams?|ointments?|hrt)\b", re.I)
 _DOSE = re.compile(r"\d+(?:[.,]\d+)?\s*(?:mg|mcg|µg|micrograms?|g|units?|iu|ml|puffs?)\b", re.I)
 _MED_TRIGGER = re.compile(r"\b(?:takes?|taking|is on|am on|i'm on|on|prescribed|uses?|using|started on|(?:regular |current |home )?(?:medications?|meds|medicines)(?: include| are|:)?)\s+", re.I)
+_NO_MEDS = re.compile(r"\b(?:(?:takes?|is on|on|uses?)\s+(?:no|nothing)(?:\s+regular(?:ly)?)?(?:\s+(?:medications?|meds|medicines|tablets))?(?:\s+regularly)?|"
+                      r"no regular (?:medications?|meds|medicines)|not on any (?:medications?|meds|medicines|regular \w+)|(?:does not|doesn'?t|do not|don'?t) take any (?:medications?|meds|medicines))\b", re.I)
+_PREGNANT = re.compile(r"\b(?:is |am )?((?:\d{1,2} weeks(?: and \d days)? )pregnant)\b", re.I)
 _ALLERGY = re.compile(r"\ballerg(?:ic|y|ies)\s*(?:to|:)\s*(.+?)" + _END, re.I | re.S)
 _NO_ALLERGY = re.compile(r"\bno (?:known )?(?:drug |medication )?allergies\b|\bnkda\b|\bnka\b", re.I)
 _RELATIVE = r"mother|father|mom|mum|mummy|mommy|dad|daddy|parents?|grandmother|grandfather|grandma|grandpa|grandparents?|wife|husband|partner|girlfriend|boyfriend|" \
             r"daughter|son|sister|brother|aunt|uncle|friend|neighbou?r|carer|caregiver|guardian|foster (?:mother|father|parents?)"
 _ACCOMPANY = re.compile(rf"\b(?:brought (?:in |to [^,.;]{{2,30}}? )?by|accompanied by|comes? (?:in )?with|came (?:in )?with|attends? with|here with|together with)\s+"
                         rf"(?:his|her|their|my|the|a)\s+((?:{_RELATIVE})(?:\s+and\s+(?:{_RELATIVE}))?)\b", re.I)
-_LIVES = re.compile(r"\b(lives? (?:alone|with [^.;,]{2,40}|in [^.;,]{2,40})|(?:is|am) (?:married|widowed|divorced|single|homeless)[^.;,]{0,30})", re.I)
+_ACCOMPANY2 = re.compile(rf"(?:\b[A-Z][a-z]+'s|\b[Hh]is|\b[Hh]er|\b[Mm]y|\b[Tt]he)\s+((?:{_RELATIVE}))\s+(?:has |have )?brought\s+(?:him|her|me|them)(?:\s+in)?\b")
+_LIVES = re.compile(r"\b(lives? (?:alone|with (?:(?!\s+(?:and|who|which)\s)[^.;,]){2,40}|in (?:(?!\s+(?:and|who|which)\s)[^.;,]){2,40})|(?:is|am) (?:married|widowed|divorced|single|homeless)|"
+                    r"(?<=, )(?:married|widowed|divorced)(?=,)|\b(?:widow|widower)\b)", re.I)
 _WORRY = re.compile(r"\b(?:is |am |feels? |feeling )?(worried|anxious|afraid|scared|frightened|concerned|terrified|stressed|embarrassed)\s+(about|that|of|by)\s+([^.;]{3,90})", re.I)
 _SMOKES = re.compile(r"\b(non[- ]?smoker|never[- ]smoker|never smoked|(?:ex|former)[- ]?smoker(?:\s*\([^)]{2,40}\))?|(?:quit|stopped|gave up) smoking[^.;,]{0,40}|"
                      r"(?:heavy |lifelong |current |light |long[- ]?term |daily )?smoker(?: of [^.;,]{2,40}| for [^.;,]{2,30})?|(?:smokes?|vapes?)(?:\s+(?:(?!\s+(?:and|but)\s)[^.;,]){0,50})?|"
@@ -144,7 +183,8 @@ _PMH = re.compile(r"\b(?:(?:past |medical )?history of|h/o|hx of|known|long-?sta
                   r"pmhx?(?: of|:)?|background of)\s+([a-z0-9][^.;]{2,90}?)(?=,?\s+(?:takes?|taking|on|and takes|who|brought|presents|comes|came|presenting|is|was|but)\b|"
                   r"\.(?:\s|$)|;|\n|$|\s*,?\s{3,})", re.I)
 _PMH_HAS = re.compile(r"\b(?:has|have)\s+((?:type [12] )?(?:diabetes|hypertension|high blood pressure|asthma|copd|heart failure|atrial fibrillation|epilepsy|"
-                      r"depression|anxiety|high cholesterol|kidney disease|migraines?|arthritis|cancer|hiv|angina)[^.;,]{0,50})", re.I)
+                      r"depression|anxiety|high cholesterol|kidney disease|migraines?|arthritis|cancer|hiv|angina)[^.;]{0,90}?)(?=,?\s+(?:and\s+)?(?:takes?|is on|uses?|for which|who|which)\b|"
+                      r"\.(?:\s|$)|;|\n|$|\s*,?\s{3,})", re.I)
 _PMH_ADJ = {"diabetic": "diabetes", "hypertensive": "hypertension", "asthmatic": "asthma", "epileptic": "epilepsy"}
 _PMH_NONE = re.compile(r"\b(?:no (?:significant |relevant |known )?(?:past )?medical (?:history|problems)|previously (?:fit and )?(?:well|healthy)|otherwise (?:fit and )?(?:healthy|well)|"
                        r"no (?:pmh|pmhx))\b", re.I)
@@ -178,6 +218,8 @@ _CONCEAL_SYNONYMS = [
     (r"\bfell\b|\bfall\b|\bfalls\b|fallen", ["fall", "fell", "fallen", "trip", "tripped"]),
     (r"hit (?:him|her|me)|hits (?:him|her|me)|abus|violen|assault", ["feel safe", "safe at home", "anyone hurt", "hurting you", "hit you", "violence"]),
     (r"chest pain", ["chest pain", "pain in your chest"]),
+    (r"urinat|\bpee|passing (?:urine|water)|urine", ["burning when you pee", "pee", "peeing", "urinate", "passing urine", "passing water", "waterworks", "urine", "sting"]),
+    (r"harm\w* (?:her|him|my)self|hurt\w* (?:her|him|my)self", ["harm yourself", "hurt yourself", "hurting yourself", "suicide", "self harm", "end your life"]),
     (r"faint|pass(?:ed|ing)? out|black(?:ed|ing)? out|collaps", ["faint", "fainted", "passed out", "blacked out", "collapse", "collapsed"]),
     (r"weight", ["weight", "lost weight", "losing weight"]),
     (r"\bsex\b|sexual|unprotected", ["sex", "sexually active", "partners", "condoms", "protection"]),
@@ -244,6 +286,7 @@ def _pronouns(s: str, name: str = "") -> str:
         subj = [re.escape(name), re.escape(parts[0])] + ([r"(?:mr|mrs|ms|miss)\.?\s+" + re.escape(parts[-1])] if len(parts) > 1 else []) + subj
         s = re.sub(rf"\b(?:{re.escape(name)}|{re.escape(parts[0])})'s\b", "my", s)
     sub = "(?:" + "|".join(subj) + ")"
+    s = re.sub(r"\b(?:she|he)\s+(?:says|states|reports|notes|thinks|feels|describes)\s+(?:that\s+)?(?=(?:it|she|he|the|this|her|his)\b)", "", s, flags=re.I)
 
     def verb(m):
         adv = m.group(1) or ""
@@ -268,12 +311,18 @@ def _cap(s: str) -> str:
     return s[0].upper() + s[1:] if s else s
 
 
+_FINITE = re.compile(r"^(?:the|this|these|those|a|an|one|some|several|both|his|her|their|[a-z]+'s)\s+(?:[a-z'\-]+\s+){0,4}?(?:is|are|was|were|goes|gets|has|have|had|comes|came|"
+                     r"spreads|moves|radiates|started|began|feels|hurts|wakes|keeps|makes|died|does|did|can|cannot|will|brought|gave|said|says|told)\b")
+
+
 def _lead(s: str, past: bool = False) -> str:
     """Give a clause with no subject one: "feeling lightheaded" -> "I feel lightheaded", "black stools" -> "I've had black stools"."""
     low = s.lower()
     w = low.split(" ", 1)
     first, rest = w[0], (" " + s.split(" ", 1)[1] if len(w) > 1 else "")
     if re.match(r"^(i|i'm|i've|i'd|i'll|my|yes|there|it|it's|that|nobody|no one|we)\b", low):
+        return s
+    if _FINITE.match(low):              # already a sentence with its own subject ("the pain goes down my left leg")
         return s
     if re.match(r"^(no|not|never)\b", low):
         return "No, " + s[0].lower() + s[1:] if first == "no" else "I " + ("have " if first == "never" else "do ") + s[0].lower() + s[1:]
@@ -298,6 +347,8 @@ def first_person(clause: str, name: str = "", past: bool = False) -> str:
     s = re.sub(r"\s+", " ", (clause or "").strip().rstrip(".").strip())
     if not s:
         return ""
+    s = re.sub(rf"^(?:{_SUBJ}\s+)?(?:reports?|states?|notes?|endorses?|describes?|complains? of|admits? to|says?)\s+(?:that\s+)?(?=(?:an?|the|some|having|feeling|\w+ing|[a-z]+\s))",
+               "", s, count=1, flags=re.I) if re.match(rf"^(?:{_SUBJ}\s+)?(?:reports?|states?|notes?|endorses?|complains? of|admits? to)\b", s, re.I) else s
     s = _lead(_pronouns(s, name), past)
     s = re.sub(r"\bI've had (?:a )?history of\b", "I have a history of", s)
     s = re.sub(r"\bI have (been|had|not|never|got)\b", r"I've \1", s)
@@ -402,7 +453,9 @@ class _Text:
 
     def claim(self, a: int, b: int) -> None:
         if b > a:
-            self.work = self.work[:a] + re.sub(r"[^.;\n]", " ", self.work[a:b]) + self.work[b:]
+            seg = "".join(ch if ch in ";\n" or (ch == "." and (a + i + 1 >= len(self.work) or self.work[a + i + 1].isspace())) else " "
+                          for i, ch in enumerate(self.work[a:b]))
+            self.work = self.work[:a] + seg + self.work[b:]
 
 
 def extract(text: str) -> dict:
@@ -452,14 +505,22 @@ def extract(text: str) -> dict:
             out["gender"] = "female"
         elif ma:
             out["gender"] = "male"
-    m = _NAME_LEAD.search(t) or _NAME_ANY.search(t) or _NAME_SINGLE.search(t)
-    if m and m.group(1).split()[0] not in ("A", "An", "The", "This", "Patient", "She", "He", "I", "Brought", "Presents", "History", "No"):
+    m = _NAME_LEAD.search(t) or _NAME_ANY.search(t) or _NAME_SINGLE.search(t) or _NAME_CHILD.search(t)
+    if not m:                           # the name may open a later sentence ("Oliver's mother brought him in. Oliver Grant is a 9-year-old ...")
+        for a0, b0 in split_sentences(t)[1:3]:
+            lead_ws = len(t[a0:b0]) - len(t[a0:b0].lstrip())
+            m2 = _NAME_LEAD.search(t[a0 + lead_ws:b0]) or _NAME_SINGLE.search(t[a0 + lead_ws:b0])
+            if m2 and m2.group(1).split()[0] not in _NOT_NAME:
+                out["name"] = m2.group(1).strip()
+                demo_spans.append((a0 + lead_ws + m2.start(), a0 + lead_ws + m2.end()))
+                break
+    if m and m.group(1).split()[0] not in _NOT_NAME:
         out["name"] = m.group(1).strip()
-        demo_spans.append((m.start(), m.end()))
+        demo_spans.append((m.start(1), m.end(1)) if m.re is _NAME_CHILD else (m.start(), m.end()))
     for rx in (_OCC1, _OCC3, _OCC2):
         m = rx.search(t)
         if m:
-            job = m.group(1).strip()
+            job = re.sub(r"\s+(?:and|who|which|that)\b.*$", "", m.group(1).strip())
             if 1 <= len(job.split()) <= 4 and not _NOT_JOB.match(job) and not re.search(r"\b(old|year|with|pain|history|smoker|hiding|allergic|worried|anxious|afraid|on)\b", job):
                 out["occupation"] = job
                 demo_spans.append((m.start(1), m.end(1)))
@@ -471,14 +532,21 @@ def extract(text: str) -> dict:
     for key, label, unit, rx in _VITALS:
         m = rx.search(T.work)
         if m:
-            val = m.group(1).replace(" ", "")
+            val = m.group(1).replace(" ", "").replace("over", "/")
             u = unit
+            start = m.start()
             if key == "temperature":
                 if not 30 <= float(val) <= 110:
                     continue
                 u = (m.group(2) or ("F" if float(val) > 45 else "C")).upper()
+                if m.group(0).lower().startswith("fever"):
+                    start += len("fever")       # "a fever of 38.9" is a symptom AND a reading: only the number is lifted out
             out["vitals"].append({"key": key, "label": label, "value": val, "unit": u, "source": m.group(0).strip()})
-            T.claim(m.start(), m.end())
+            T.claim(start, m.end())
+    m = _PAIN_SCORE.search(T.work)
+    if m:
+        out["pain_score"] = {"score": m.group(1), "source": re.sub(r"\s+", " ", m.group(0)).strip()}
+        T.claim(m.start(), m.end())
     for rx, key, label, req in _LAB_RX:
         m = rx.search(T.work)
         if m:
@@ -495,6 +563,15 @@ def extract(text: str) -> dict:
         for piece in re.finditer(r"[^,]+", m.group(1)):
             for sub in re.split(r"\s+and\s+", piece.group(0)):
                 sub = sub.strip()
+                rc = re.match(r"^(?:which|that|it|they|this|these)\s+(?:gives?|gave|causes?|caused|makes?|made|brings?|brought)\s+(?:her|him|me|them)?\s*"
+                              r"(?:out in |come out in |to |feel )?(?:an?\s+)?(.+)$", sub, re.I) or re.match(r"^(?:causing|with|giving (?:her|him|me))\s+(?:an?\s+)?(.+)$", sub, re.I)
+                if rc and items and "(" not in items[-1]:
+                    items[-1] += f" ({rc.group(1).strip()})"       # "sulfa drugs, which give her a rash" -> sulfa drugs (rash)
+                    continue
+                inline = re.match(r"^(.+?)\s+(?:which|that)\s+(?:gives?|gave|causes?|caused|makes?|made)\s+(?:her|him|me|them)?\s*(?:an?\s+)?(.+)$", sub, re.I) \
+                    or re.match(r"^(.+?)(?:\s+[-–]\s+|:\s*)(?:an?\s+)?([a-z][a-z ]{2,30})$", sub, re.I) or re.match(r"^(.+?)\s+(?:causes?|caused|gives? (?:her|him|me))\s+(?:an?\s+)?(.+)$", sub, re.I)
+                if inline and "(" not in sub:
+                    sub = f"{inline.group(1).strip()} ({inline.group(2).strip()})"
                 if not sub or re.match(rf"^(?:{_SUBJ}|takes?|is|has|on)\b", sub, re.I) or len(sub.split()) > 6:
                     items = items if items else []
                     break
@@ -503,9 +580,19 @@ def extract(text: str) -> dict:
                 end = m.start(1) + piece.end()
                 continue
             break
+        items = [i for i in (_tidy(x) for x in items) if i]
         if items:
             out["allergies"] += [i for i in items if i not in out["allergies"]]
+            out["allergy_source"] = (out.get("allergy_source", "") + " " + re.sub(r"\s+", " ", T.t[m.start():end])).strip()
             T.claim(m.start(), end)
+    m = _NO_MEDS.search(T.work)
+    if m:
+        out["meds_none"] = re.sub(r"\s+", " ", m.group(0)).strip()
+        T.claim(m.start(), m.end())
+    m = _PREGNANT.search(T.work)
+    if m:
+        out["pregnant"] = re.sub(r"\s+", " ", m.group(1)).strip()
+        T.claim(m.start(1), m.end(1))
     for m in list(_MED_TRIGGER.finditer(T.work)):
         tail = re.match(r"(.+?)" + _END, T.work[m.end():], re.S)
         if not tail or not T.work[m.start():m.end()].strip():
@@ -513,16 +600,18 @@ def extract(text: str) -> dict:
         items, end = [], m.end()
         for piece in re.finditer(r"[^,]+", tail.group(1)):
             ok = True
-            for sub in re.split(r"\s+and\s+|\s*\+\s*", piece.group(0)):
-                sub = re.sub(r"^(?:and|also|his|her|my|their)\s+", "", sub.strip(), flags=re.I)
+            pos = piece.start()
+            for sm in re.finditer(r"(?:(?!\s+and\s+|\s*\+\s*).)+", piece.group(0), re.S):
+                sub = re.sub(r"^(?:(?:and|also|occasionally|sometimes|then)\s+)*(?:(?:takes?|uses?|using|is on)\s+)?(?:(?:his|her|my|their)\s+)?", "", sm.group(0).strip(), flags=re.I)
+                sub = re.sub(r"^and\s+", "", sub)
                 if sub and _is_drug(sub):
-                    items.append(sub)
+                    items.append(sm.group(0).strip() if re.match(r"^(?:occasionally|sometimes)\b", sm.group(0).strip(), re.I) else sub)
+                    end = m.end() + piece.start() + sm.end()
                 elif sub:
                     ok = False
                     break
             if not ok:
                 break
-            end = m.end() + piece.end()
         if items:
             for it in items:
                 ind = re.search(r"\s+for\s+(?:his |her |my |the )?([a-z][a-z0-9 \-]{3,40})$", it, re.I)
@@ -533,9 +622,14 @@ def extract(text: str) -> dict:
             T.claim(m.start(), end)
 
     # ---- 5. who came with the patient; presenting complaint
-    m = _ACCOMPANY.search(T.work)
+    m = _ACCOMPANY.search(T.work) or _ACCOMPANY2.search(T.work)
     if m:
         out["accompanied_by"] = {"who": m.group(1).lower(), "source": re.sub(r"\s+", " ", m.group(0)).strip()}
+        if m.re is _ACCOMPANY2:
+            T.claim(m.start(), m.end())
+    elif _NAME_CHILD.search(t):         # a parent is the one writing ("My son Leo is 2 ...")
+        out["accompanied_by"] = {"who": "parent", "source": "Brought in by a parent"}
+        out["parent_narrator"] = True
 
     def take_complaint(m) -> bool:
         comp = re.sub(r"\s+", " ", m.group(1)).strip(" ,")
@@ -645,17 +739,32 @@ def extract(text: str) -> dict:
         if tail:
             out["onset_tail"] = tail.group(1).strip()
             comp = comp[: tail.start()].strip(" ,")
+        rel = re.search(r",?\s+(?:which|that)\s+(?=(?:she|he|i|is|are|was|has|have|had|gets?|got|goes|went|comes?|came|feels?|hurts?|wakes?|keeps?|makes?|does|did|will|"
+                        r"spreads?|radiates?|moves?|improves?|started|began)\b)(.+)$", comp, re.I)
+        if rel:                         # "..., which gets worse when he climbs stairs and which is still there": said after the complaint, not inside it
+            out["complaint_tail"] = [x.strip(" ,") for x in re.split(r"\s*,?\s+and\s+(?:which|that)\s+", rel.group(1)) if x.strip(" ,")]
+            comp = comp[: rel.start()].strip(" ,")
+        if comp[:1].isupper() and comp[1:2].islower() and comp.split()[0] not in (out.get("name") or ""):
+            comp = comp[0].lower() + comp[1:]
         out["complaint"] = comp
         if dur:
             out["duration"] = dur
         parts = [p.strip() for p in re.split(r"\s*,\s*(?:and\s+)?|\s+and\s+(?:also\s+)?", comp) if p.strip()]
         merged: list[str] = []
+        pending_adj = False
         for p in parts:                 # "pain and swelling in his right calf" is one thing, not two
             if merged and len(merged[-1].split()) <= 2 and not re.search(r"\b(?:in|of|on|when|with|after)\b", merged[-1]) and re.search(r"\b(?:in|of|on)\b", p) \
                     and len(parts) == 2:
                 merged[-1] = merged[-1] + " and " + p
+            elif merged and re.fullmatch(rf"(?:(?:his|her|my|the|left|right|both|upper|lower)\s+)*(?:{_BODY})s?", p, re.I):
+                merged[-1] = merged[-1] + " and " + p                       # "pain in her jaw | left arm"
+            elif merged and re.match(r"^(?:after|before|worse|better|while|when|since|with|on|especially|mainly|mostly|but|then|x\b|\d)", p, re.I):
+                merged[-1] = merged[-1] + ", " + p                          # a modifier of the previous symptom, not a symptom
+            elif merged and pending_adj:
+                merged[-1] = merged[-1] + ", " + p
             else:
                 merged.append(p)
+            pending_adj = bool(re.search(rf"\b(?:{_ADJ_LIST})$", p, re.I))  # "a red | hot | swollen area ..."
         out["symptoms"] = merged
 
     # ---- 7. whatever is left: one fact per remaining sentence, or reported as not placed
@@ -668,13 +777,120 @@ def extract(text: str) -> dict:
             p = re.sub(r"^(?:and|but|who|which|also|,)\s+", "", p, flags=re.I).strip(" ,")
             words = [w for w in re.findall(r"[a-z]{3,}", p.lower()) if w not in tx.STOPWORDS and w not in
                      ("she", "he", "his", "her", "the", "patient", "has", "had", "takes", "presents", "with", "who", "old", "year", "brought", "comes", "came", "also")]
+            words = [w for w in words if w not in ("reports", "report", "presents", "comes", "came", "brought", "student", "states", "says", "then", "now")]
+            if re.match(r"^(?:one of )?(?:whom|who|which|where|that|whose)\b", p, re.I):
+                if words:
+                    out["unplaced"].append(p)
+                continue
             if len(words) >= 2 or (len(words) == 1 and len(words[0]) >= 6):
                 (out["leftover"] if (whole or len(words) >= 3) and not demo.search(p) else out["unplaced"]).append(p)
+    # ---- 8. nothing leaves here with a dangling article or conjunction where a neighbour was lifted out
+    out["pmh"] = list(dict.fromkeys(x for x in (_tidy(p) for p in out["pmh"]) if x))
+    out["meds"] = [x for x in (_tidy(p) for p in out["meds"]) if x]
+    out["social"] = [(k, x) for k, x in ((k, _tidy(p)) for k, p in out["social"]) if x]
+    out["concerns"] = [x for x in (_tidy(p) for p in out["concerns"]) if x]
+    out["leftover"] = [x for x in (_tidy(p) for p in out["leftover"]) if len(x.split()) >= 2]
+    out["unplaced"] = [x for x in (_tidy(p) for p in out["unplaced"]) if x]
+    out["negatives"] = [n for n in ({**n, "items": _tidy(n["items"])} for n in out["negatives"]) if n["items"]]
+    out["concealed"] = [c for c in ({**c, "phrase": _tidy(c["phrase"]), "reason": _tidy(c.get("reason") or "")} for c in out["concealed"]) if c["phrase"]]
+    if "complaint" in out:
+        out["symptoms"] = [x for x in (_tidy(s) for s in out["symptoms"]) if x]
+        out["complaint"] = _tidy(out["complaint"])
+        out["complaint_raw"] = _tidy(out["complaint_raw"]) or out["complaint"]
+        if not out["complaint"] or not out["symptoms"]:
+            for k in ("complaint", "complaint_raw", "symptoms", "duration", "complaint_lead"):
+                out.pop(k, None)
+            out["symptoms"] = []
     hi, lo = _SEVERITY_HI.search(low), _SEVERITY_LO.search(low)
     out["severity"] = "severe" if hi else ("mild" if lo else "moderate")
     if hi or lo:
         out["severity_word"] = (hi or lo).group(1)
     return out
+
+
+_BAD_END = re.compile(r"(?:^|[\s,])(?:a|an|the|and|or|but|of|for|by|from|as|which|who|is|are|was|were|has|have|had|because|when|while|my)\s*[.,;:!?]*$|(?<!\bhere)(?<!\bme)\s+with\s*[.,;:!?]*$", re.I)
+_BAD_MID = re.compile(r"\b(?:a|an|the|and|or|but|of|with)\s*[.,;:!?]|\b(?:a|an|the)\s+(?:for|since|and|or|but|of|with|in|on|at|to|is|was|has|a|an|the)\b|,\s*,|\b(and|or|but)\s+(?:and|or|but|which|who)\b|,\s*(?:and|or|but)?\s*[.!?]|\bmy\s+(?:a|an|the|me|my|I)\b|\bme\s+(?:a\s+)?my\b|"
+                      r"\bI\s+(?:is|has|does|takes|drinks|smokes|was not|were)\b|\b(?:give|gives|make|makes)\s+my\s+(?:a|an)\b|\(|\)|\s{2,}|\.\.(?!\.)|^\W", re.I)
+_THIRD_PERSON = re.compile(r"\b(?:she|he|her|his|him|hers|herself|himself)\b", re.I)
+
+
+def text_problems(s: str, kind: str = "answer") -> list[str]:
+    """What is visibly wrong with a drafted sentence: leftovers of the cut-and-paste that built it."""
+    out = []
+    s = s or ""
+    words = re.findall(r"[A-Za-z']+", s)
+    if not words:
+        return ["empty"]
+    if _BAD_END.search(s.strip()) and not (kind == "cover" and s.strip().lower().endswith(("no.", "no"))):
+        out.append("ends in a function word")
+    m = _BAD_MID.search(re.sub(r"\.\.\.\s*", "", s)) or (_BAD_PHRASE.search(s) if kind in ("answer", "parent") else None)
+    if m and not (kind == "title" and m.group(0) in ("(", ")")):
+        out.append(f"dangling or doubled word near '{m.group(0).strip() or 'spaces'}'")
+    if kind == "title" and (len(s) > 110 or re.search(r"\b(?:he|she)\b", s)):
+        out.append("title too long or contains a clause")
+    if kind == "answer" and _THIRD_PERSON.search(s):
+        out.append("third-person pronoun")
+    if kind == "statement" and (len(words) < 2 and len(s) < 4):
+        out.append("one-word statement")
+    return out
+
+
+def wording_problems(case: dict) -> list[str]:
+    """Every drafted title, statement, answer, cover answer and fact id that shows a cut mark. Empty for a clean draft."""
+    out = []
+    for p in text_problems(case.get("title") or "", "title"):
+        out.append(f"title \"{case.get('title')}\": {p}")
+    for f in case.get("facts") or []:
+        fid = f.get("fact_id", "")
+        if re.search(r"(?:^|[._])(?:a|an|the|and|or|of|with|item)$", fid.split(".")[-1]) or fid.endswith("."):
+            out.append(f"{fid}: fact id built from a function word")
+        st = f.get("statement") or ""
+        if not st.strip() or (len(st.split()) == 1 and len(st) < 3) or _BAD_END.search(st.strip()):
+            out.append(f"{fid} statement \"{st}\": empty, one letter or cut off")
+        if f.get("patient_knows") is not False and f.get("patient_answer_auto"):
+            kind = "parent" if case.get("answers_by") else (
+                "answer" if f.get("category") != "family" and not re.search(rf"\b(?:{_RELATIVE})\b", f.get("patient_answer") or "", re.I) else "other")
+            for p in text_problems(f.get("patient_answer") or "", kind):
+                out.append(f"{fid} answer \"{f.get('patient_answer')}\": {p}")
+        if f.get("cover_answer"):
+            for p in text_problems(f["cover_answer"], "cover"):
+                out.append(f"{fid} cover answer \"{f['cover_answer']}\": {p}")
+    return out
+
+
+_KEEP_VERB = set("had was did got went took can cannot could will would should may might must".split())
+
+
+def _to_parent(ans: str, gender: str, who: str) -> str:
+    """A first-person answer -> the same thing said by the adult with a child too young to speak for themselves."""
+    he, his, him = {"male": ("He", "his", "him"), "female": ("She", "her", "her")}.get(gender, ("They", "their", "them"))
+    s = ans
+    s = re.sub(r"\bI've\b", f"{he}'s", s)
+    s = re.sub(r"\bI'm\b", f"{he}'s", s)
+    s = re.sub(r"\bI have\b", f"{he} has", s)
+    s = re.sub(r"\bI don't\b", f"{he} doesn't", s)
+    s = re.sub(r"\bI do not\b", f"{he} does not", s)
+    s = re.sub(r"\bI am\b", f"{he} is", s)
+
+    def verb(m):
+        v = m.group(1)
+        if v.lower() in _KEEP_VERB or v.endswith("ed") or v.endswith("n't"):
+            return f"{he} {v}"
+        return f"{he} {v}es" if v.endswith(("s", "sh", "ch", "x", "o")) else (f"{he} {v[:-1]}ies" if v.endswith("y") and v[-2:-1] not in "aeiou" else f"{he} {v}s")
+    s = re.sub(r"\bI ([a-z']+)\b", verb, s)
+    s = re.sub(r"\b(and|but|or) have\b", r"\1 has", s)
+    s = re.sub(r"\bmy\b", his, s)
+    s = re.sub(r"\bMy\b", his.capitalize(), s)
+    s = re.sub(r"\bme\b", him, s)
+    s = re.sub(r"\bmyself\b", him + "self", s)
+    s = re.sub(r"(?<=[a-z,] )(?:He|She|They)(?='s| )", lambda m_: m_.group(0).lower(), s)
+    return s
+
+
+_BAD_PHRASE = re.compile(
+    r"\bI(?:'ve| have) had (?:the|this|that|he|she|his|her|was|is|has|after|before|worse|better|with|when|student)\b|\bI(?:'ve| have) had (?:hot|a red|left arm|right arm|worse[^.]*)\.|\bI have (?:was|is|has|had been)\b|"
+    r"\bI'm an? (?:was|is|presents|comes|has|who|and)\b|\bgives? me vomit\b|\bI've had [A-Z][a-z]|(?<=[a-z]\. )[a-z]|\b(?:he|she)\.$|\bI've been (?:hitting|the|a)\b|"
+    r"\bfor \d\.$|\band (?:he|she)\.|\bI (?:say|report|describe)\b")
 
 
 def _parent(who: str) -> tuple[str, str]:
@@ -694,6 +910,10 @@ def build_case(text: str, ex: dict, template: dict, model_extra: list[dict] | No
     gender = ex.get("gender")
     child = bool(ex.get("child"))
     young = child and (age is None or age < 10)
+    # too young to give a history: the adult with the child answers, about the child ("He's had a fever since last night.")
+    infant = bool(ex.get("parent_narrator")) or (age is not None and age < 4) or bool(ex.get("age_text"))
+    if infant:
+        young = False
     who = (ex.get("accompanied_by") or {}).get("who")
     adult_with = who and re.search(r"mother|father|mom|mum|dad|parent|grand|guardian|carer|caregiver|aunt|uncle|foster", who)
     facts: list[dict] = []
@@ -701,7 +921,11 @@ def build_case(text: str, ex: dict, template: dict, model_extra: list[dict] | No
     nm = name or ""
 
     def fid(cat: str, slug: str) -> str:
-        base = f"f.{cat}.{slugify(slug, 'item').replace('-', '_')[:30].strip('_')}"
+        sl = slugify(slug, "item").replace("-", "_")[:30].strip("_")
+        while sl != "accompanied_by" and re.search(r"(?:^|_)(?:a|an|the|and|or|of|with|in|on|at|to|for|by|her|his|my|that|which|is|has|was|it|he|she)$", sl) and "_" in sl:
+            sl = sl.rsplit("_", 1)[0]
+        sl = re.sub(r"^(?:a|an|the|he|she|his|her)_(?=.)", "", sl)
+        base = f"f.{cat}.{sl or 'item'}"
         o, n = base, 2
         while o in used:
             o, n = f"{base}_{n}", n + 1
@@ -775,6 +999,20 @@ def build_case(text: str, ex: dict, template: dict, model_extra: list[dict] | No
             taken.append(f"duration: {dur}")
         else:
             missing.append("how long the complaint has been present")
+        for tail in ex.get("complaint_tail") or []:
+            said = _pronouns(tail, nm)
+            said = re.sub(r"^I ([a-z']+) (?!it\b)", r"I \1 it ", said) if said.startswith("I ") and re.match(r"^I (?:got|get|had|have|noticed|felt|feel)\b", said) else \
+                (said if said.startswith("I ") else "It " + said)
+            facts.append({"fact_id": fid("hpi", " ".join(content_words(tail, 3)) or "detail"), "category": "hpi", "statement": _cap(tail), "patient_knows": True,
+                          "patient_answer": said + ".", "topics": topics_for(tail, 2), "disclosure": {"rule": "volunteered"}, "chart_section": "hpi",
+                          "patient_answer_auto": True})
+            taken.append(f"about the complaint: {tail}")
+        if ex.get("pain_score"):
+            ps = ex["pain_score"]
+            facts.append({"fact_id": fid("hpi", "severity"), "category": "hpi", "statement": f"Pain {ps['score']}/10", "patient_knows": True,
+                          "patient_answer": f"It's about {'an' if ps['score'] in ('8', '11', '18') else 'a'} {ps['score']} out of 10.", "topics": ["severity"],
+                          "disclosure": {"rule": "if_asked"}, "chart_section": "hpi", "patient_answer_auto": True, "source_text": ps["source"]})
+            taken.append(f"pain score: {ps['score']}/10")
         if ex.get("onset_tail"):
             facts.append({"fact_id": fid("hpi", "onset"), "category": "hpi", "statement": _cap(ex["onset_tail"]), "patient_knows": True,
                           "patient_answer": "It " + _pronouns(ex["onset_tail"], nm) + ".", "topics": ["onset"] + content_words(ex["onset_tail"], 4),
@@ -818,7 +1056,7 @@ def build_case(text: str, ex: dict, template: dict, model_extra: list[dict] | No
             neg = re.match(r"no\b", phrase, re.I)
             ans, polarity = ("No, I don't use drugs." if neg else first_person(phrase, nm)), ("negative" if neg else "positive")
         else:
-            ans = first_person(phrase, nm)
+            ans = f"I'm a {phrase.lower()}." if phrase.lower() in ("widow", "widower") else first_person(phrase, nm)
         f = {"fact_id": fid("social", topic), "category": "social", "statement": _cap(phrase), "patient_knows": True, "patient_answer": ans, "topics": [topic],
              "disclosure": {"rule": "if_asked"}, "chart_section": "social", "patient_answer_auto": True}
         if polarity:
@@ -833,7 +1071,7 @@ def build_case(text: str, ex: dict, template: dict, model_extra: list[dict] | No
         taken.append(f"concern: {c}")
     implied = set(ex.get("pmh_implied") or [])
     for p in ex.get("pmh", []):
-        ans = f"I have {_pronouns(p, nm)}." if not re.match(r"^(a|an)\b", p) else f"I{' ' if re.search(r'(?:19|20)[0-9][0-9]|ago', p) else chr(39) + 've '}had {_pronouns(p, nm)}."
+        ans = first_person(p, nm) if re.match(r"^(?:was|is|had|has|been|were|underwent|needed|got)\b", p, re.I) else f"I have {_pronouns(p, nm)}." if not re.match(r"^(a|an)\b", p) else f"I{' ' if re.search(r'(?:19|20)[0-9][0-9]|ago', p) else chr(39) + 've '}had {_pronouns(p, nm)}."
         facts.append({"fact_id": fid("pmh", p), "category": "pmh", "statement": _cap(p), "patient_knows": True, "patient_answer": told(ans),
                       "topics": ["pmh"] + topics_for(p, 2), "disclosure": {"rule": "if_asked"}, "chart_section": "pmh", "polarity": "positive", "patient_answer_auto": True})
         (scaffolded if p in implied else taken).append(f"history: {p}" + (" (stated as the reason for a medicine)" if p in implied else ""))
@@ -844,9 +1082,23 @@ def build_case(text: str, ex: dict, template: dict, model_extra: list[dict] | No
         taken.append(f"history: {ex['pmh_none']}")
     for neg in ex.get("negatives", []):
         items = neg["items"]
-        said = re.sub(r"\s*,\s*(?:or\s+|and\s+)?|\s+and\s+", " or ", _pronouns(items, nm))
+        said = re.sub(r"\s+and\s+", " or ", _pronouns(items, nm))
+        low_i = items.lower().strip()
+        g = re.match(r"^([a-z]+ing)\s+(.+)$", low_i)
+        base = {"hitting": "hit", "drinking": "drink", "smoking": "smoke", "using": "use", "taking": "take", "losing": "lose", "having": "have", "feeling": "feel",
+                "falling": "fall", "injuring": "injure", "striking": "strike", "banging": "bang"}
+        if low_i in ("alcohol", "drinking", "drinking alcohol", "alcohol use"):
+            neg_ans = "No, I don't drink."
+        elif low_i in ("smoking", "tobacco", "tobacco use"):
+            neg_ans = "No, I don't smoke."
+        elif low_i in ("drugs", "drug use", "illicit drugs", "recreational drugs"):
+            neg_ans = "No, I don't use drugs."
+        elif g and g.group(1) in base and not re.search(r",|\bor\b|\band\b", low_i):
+            neg_ans = f"No, I didn't {base[g.group(1)]} {_pronouns(g.group(2), nm)}."
+        else:
+            neg_ans = f"No, no {said}."
         facts.append({"fact_id": fid("ros", "no " + items), "category": "ros", "statement": _cap(neg["source"]), "patient_knows": True,
-                      "patient_answer": f"No, no {said}.", "topics": topics_for(items, 5), "disclosure": {"rule": "if_asked"}, "chart_section": "ros",
+                      "patient_answer": neg_ans, "topics": topics_for(items, 5), "disclosure": {"rule": "if_asked"}, "chart_section": "ros",
                       "polarity": "negative", "patient_answer_auto": True})
         taken.append(f"stated negative: {neg['source']}")
     med_items = list(ex.get("meds", []))
@@ -927,10 +1179,14 @@ def build_case(text: str, ex: dict, template: dict, model_extra: list[dict] | No
             for w in content_words(phrase, 6):
                 if w not in syn:
                     syn.append(w)
+            if not keys and not drugs_named:        # a hidden symptom also answers to the shared paraphrases for it
+                syn += [k for k in _topic_keys(phrase, 2) if k not in syn]
             f["topics"] += [s for s in syn if s not in f["topics"]]
             symptomish = bool(syn) and not keys and not drugs_named
             f["cover_answer"] = COVER_CHILD if young else (COVERS[keys[0]] if keys else ("No, nothing like that." if drugs_named else (COVER_SYMPTOM if symptomish else COVER_GENERIC)))
-            f["disclosure"] = {"rule": "after_rapport", "rapport_needed": 3}
+            # an introduction, an agenda and one open question already make rapport 3: a secret also needs one turn of real
+            # empathy or normalising before it opens (QA: it came out on the first direct ask)
+            f["disclosure"] = {"rule": "after_rapport", "rapport_needed": 3, "empathy_needed": 1}
             if drugs_named:
                 f["chart_section"] = "medications"
             missing.append(f"evidence in the chart for the concealed item '{phrase[:50]}' (it opens up after rapport only; add an artifact and switch the rule to denied_until_confronted if you want a confrontation)")
@@ -964,29 +1220,45 @@ def build_case(text: str, ex: dict, template: dict, model_extra: list[dict] | No
                               "release": {"rule": "on_request", "request": "order:medication_list"}, "synthetic": True,
                               "content": [{"medicine": _cap(m)} for m in med_items], "linked_fact_ids": []})
             scaffolded.append("a medication list document holding the stated medicines, released by 'order:medication_list'")
+    elif ex.get("meds_none"):
+        facts.append({"fact_id": fid("medications", "none"), "category": "medications", "statement": _cap(ex["meds_none"]), "patient_knows": True,
+                      "patient_answer": "No, I don't take any regular medicines.", "topics": ["medications"], "disclosure": {"rule": "if_asked"},
+                      "chart_section": "medications", "polarity": "negative", "critical": True, "patient_answer_auto": True})
+        taken.append(f"medication: {ex['meds_none']}")
     else:
         missing.append("medications (none stated: the patient will say they are not sure unless you add them)")
+    if ex.get("pregnant"):
+        facts.append({"fact_id": fid("pmh", "pregnant"), "category": "pmh", "statement": _cap(ex["pregnant"]), "patient_knows": True,
+                      "patient_answer": f"I'm {ex['pregnant']}.", "topics": ["pregnancy", "pmh"], "disclosure": {"rule": "if_asked"}, "chart_section": "pmh",
+                      "polarity": "positive", "critical": True, "patient_answer_auto": True})
+        taken.append(f"pregnancy: {ex['pregnant']}")
     if ex.get("allergies"):
         items = ex["allergies"]
-        said = []
+        names, reactions = [], []
         for a in items:
             r = re.match(r"^(.*?)\s*\(([^)]+)\)\s*$", a)
+            nm_a = (r.group(1) if r else a).strip()
+            names.append(nm_a)
             if r:
-                react = r.group(2).strip()
-                how = {"rash": "it gives me a rash", "hives": "it gives me hives", "vomiting": "it makes me vomit", "nausea": "it makes me feel sick",
-                       "swelling": "it makes me swell up", "anaphylaxis": "I had a very bad reaction", "itching": "it makes me itch"}.get(react.lower(), f"I get {react}")
-                said.append(f"{r.group(1).strip()}, {how}")
-            else:
-                said.append(a)
-        ans = "I'm allergic to " + (said[0] if len(said) == 1 else ", ".join(said[:-1]) + ", and " + said[-1]) + "."
+                react = re.sub(r"^(?:an?|the)\s+", "", r.group(2).strip())
+                plural = nm_a.lower().endswith("s") and not nm_a.lower().endswith(("ss", "us", "is"))
+                g, mk = ("give", "make") if plural else ("gives", "makes")
+                how = {"rash": f"{g} me a rash", "hives": f"{g} me hives", "vomiting": f"{mk} me vomit", "nausea": f"{mk} me feel sick", "swelling": f"{mk} me swell up",
+                       "anaphylaxis": f"{g} me a very bad reaction", "itching": f"{mk} me itch", "vomit": f"{mk} me vomit", "itch": f"{mk} me itch", "sick": f"{mk} me sick", "swell": f"{mk} me swell up",
+                       "swell up": f"{mk} me swell up", "feel sick": f"{mk} me feel sick", "wheeze": f"{mk} me wheeze", "wheezing": f"{mk} me wheeze",
+                       "diarrhea": f"{g} me diarrhea", "diarrhoea": f"{g} me diarrhoea"}.get(react.lower(), f"{g} me {_pronouns(react, nm)}")
+                subj = ("They" if plural else "It") if len(items) == 1 else _cap(nm_a)
+                reactions.append(f"{subj} {how}.")
+        ans = "I'm allergic to " + (names[0] if len(names) == 1 else ", ".join(names[:-1]) + " and " + names[-1]) + "." + "".join(" " + x for x in reactions)
         facts.append({"fact_id": fid("allergies", items[0]), "category": "allergies", "statement": ("Allergy: " if len(items) == 1 else "Allergies: ") + "; ".join(items),
                       "patient_knows": True, "patient_answer": told(_pronouns(ans, nm)), "topics": ["allergies"] + content_words(" ".join(items), 6),
-                      "disclosure": {"rule": "if_asked"}, "chart_section": "allergies", "polarity": "positive", "critical": True, "patient_answer_auto": True})
+                      "disclosure": {"rule": "if_asked"}, "chart_section": "allergies", "polarity": "positive", "critical": True, "patient_answer_auto": True,
+                      "source_text": ex.get("allergy_source", "")})
         for a in items:
             taken.append(f"allergy: {a}")
     elif ex.get("allergy_none"):
         facts.append({"fact_id": fid("allergies", "nkda"), "category": "allergies", "statement": "No known drug allergies", "patient_knows": True,
-                      "patient_answer": told("No allergies that I know of."), "topics": ["allergies"], "disclosure": {"rule": "if_asked"}, "chart_section": "allergies",
+                      "patient_answer": told("No allergies, as far as I know."), "topics": ["allergies"], "disclosure": {"rule": "if_asked"}, "chart_section": "allergies",
                       "polarity": "negative", "critical": True, "source_text": "NKDA no known drug allergies"})
         taken.append("allergy: none known")
     else:
@@ -1030,7 +1302,7 @@ def build_case(text: str, ex: dict, template: dict, model_extra: list[dict] | No
         if ef.get("cover_answer"):
             concealed_ids.append(ef["fact_id"])
 
-    if child:
+    if child or (age is not None and age < 18):
         noun = {"female": "girl", "male": "boy"}.get(gender or "", "child")
     else:
         noun = {"female": "woman", "male": "man"}.get(gender or "", "patient")
@@ -1080,12 +1352,17 @@ def build_case(text: str, ex: dict, template: dict, model_extra: list[dict] | No
         prof["background"] = " ".join(bg)
     if young:
         prof["speech_style"] = "A young child: short, simple sentences."
+    if infant:
+        prof["speech_style"] = f"Too young to give a history: the {who or 'adult with the child'} answers for the child."
     prof.update({k: v for k, v in (profile_extra or {}).items() if isinstance(v, str) and v.strip()})
     sections = [dict(s) for s in (template.get("chart_sections") or [])]
     who_text = f"{age_text} {noun}".strip() if age_text else noun
     art_a = "an" if who_text[:1] in "8" or who_text[:2] in ("11", "18") else "a"
     if comp:
-        tc = _cap(re.sub(r"^(?:a|an|the)\s+", "", comp, flags=re.I))
+        nps = [s for s in (ex.get("symptoms") or []) if _lead(_pronouns(s, nm)).startswith("I've had ") and len(s.split()) <= 9][:3]
+        short = (nps[0] if len(nps) == 1 else ", ".join(nps[:-1]) + " and " + nps[-1]) if nps else re.split(r",|\s+and\s+(?:he|she|i)\b", comp)[0]
+        short = re.sub(r"^(?:he|she|i)\s+(?:was|is|has|had)\s+", "", short, flags=re.I)
+        tc = _cap(re.sub(r"^(?:a|an|the)\s+", "", _tidy(short) or comp, flags=re.I))
         title = f"{tc} in {art_a} {who_text}" if age_text else tc
     else:
         title = f"{_cap(who_text)} (presenting complaint not stated)"
@@ -1107,14 +1384,20 @@ def build_case(text: str, ex: dict, template: dict, model_extra: list[dict] | No
         "rubric_id": (template.get("rubric_links") or {}).get("rubric_id", "default"),
         "sources": [{"source_id": "description", "title": "Faculty free-text description (see review.source_description)", "role": "teaching_artifact"},
                     {"source_id": "template", "title": f"Condition template catalog/conditions/{template['id']}.yaml, used for structure only", "role": "template"}],
-        # a patient drafted from free text never answers "no" by default: what the text did not say is unknown, not absent
-        "default_negatives": False,
+        "default_negatives": False,         # decided below, once the coverage check has run
         "unknown_response": "I'm not sure about that, to be honest.",
     }
     case = fill_defaults(case)
     for f in case["facts"]:                 # clinical shorthand never reaches the patient's mouth
         if f.get("patient_answer_auto") and f.get("patient_answer"):
             f["patient_answer"] = lay(f["patient_answer"])
+            if infant:
+                f["patient_answer"] = _to_parent(f["patient_answer"], gender or "", who or "parent") if f["fact_id"] != "f.social.accompanied_by" else \
+                    ("We're " if (who or "").endswith("s") else "I'm ") + {"male": "his", "female": "her"}.get(gender or "", "their") + " " + (who or "parent") + "."
+            f["patient_answer"] = re.sub(r"(?<=[.!?] )([a-z])", lambda m_: m_.group(1).upper(), f["patient_answer"])
+    if infant:
+        case["answers_by"] = "accompanying adult"
+        scaffolded.append("the child is too young to give a history, so every answer is worded as the accompanying adult speaking about the child")
     # ---- completeness guarantee: every sentence of the description is in the case, or named here
     for p in ex.get("unplaced", []):
         missing.append(f"not placed anywhere in the draft, add it by hand: \"{p}\"")
@@ -1122,5 +1405,16 @@ def build_case(text: str, ex: dict, template: dict, model_extra: list[dict] | No
     for item in cov["uncovered"]:
         missing.append("not fully captured, check this sentence: " + missing_words_text(item))
     case["review"]["coverage"] = {"sentences": cov["sentences"], "covered": cov["covered"], "uncovered": cov["uncovered"], "unplaced": list(ex.get("unplaced", []))}
+    # A person knows whether they smoke. When every sentence of the description was placed, questions on topics the text never
+    # touches get the ordinary "no" (the engine still refuses it wherever a fact or the source text overlaps the question). When
+    # something was not placed, a flat "no" could contradict it, so the patient gives a softer "not that I've noticed" instead.
+    complete = not cov["uncovered"] and not ex.get("unplaced")
+    case["default_negatives"] = bool(complete)
+    case["soft_negatives"] = not complete
+    scaffolded.append("default answers: " + ("a plain \"no\" to yes/no questions on topics your text never mentions (everything in the text was placed)" if complete
+                                             else "\"Not that I've noticed\" to yes/no questions on topics the draft does not hold, because part of your text was not placed"))
+    problems = wording_problems(case)
+    for pr in problems:
+        missing.append("wording to review: " + pr)
     case["review"]["missing"] = missing
     return case, taken, scaffolded, missing

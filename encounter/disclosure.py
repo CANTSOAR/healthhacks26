@@ -50,7 +50,7 @@ def _now() -> str:
 
 
 def new_state() -> dict:
-    return {"turn": 0, "rapport": 0, "ledger": [], "pending_rapport": [], "covered": {}, "pending_artifacts": [],
+    return {"turn": 0, "rapport": 0, "empathic_turns": 0, "ledger": [], "pending_rapport": [], "covered": {}, "pending_artifacts": [],
             "requests_made": [], "flags": {"introduction": False, "agenda": False, "open_questions": 0}}
 
 
@@ -166,6 +166,13 @@ class Engine:
         in_source = bool(src) and self._text_hits(tx.tokens(src), words or self._distinctive(norm), topics, min_len=1) > 0
         return [fid for *_, fid in scored], in_source
 
+    @staticmethod
+    def _open(state: dict, f: dict) -> bool:
+        """Has the learner earned an after_rapport fact? `rapport_needed` points, and `empathy_needed` turns of real empathy or
+        normalising if the author asks for them (an introduction, an agenda and an open question alone make 3 points)."""
+        d = f.get("disclosure") or {}
+        return state["rapport"] >= int(d.get("rapport_needed") or 1) and state.get("empathic_turns", 0) >= int(d.get("empathy_needed") or 0)
+
     def pain_facts(self) -> list[str]:
         """What "do you have pain anywhere?" should be answered from: the complaint first, then any other fact about pain."""
         from . import conversation as conv
@@ -178,6 +185,11 @@ class Engine:
                         + " " + " ".join(str(t).replace("_", " ") for t in f.get("topics") or [])
                     if set(tx.tokens(blob)) & conv.PAIN_WORDS and f["fact_id"] not in out:
                         out.append(f["fact_id"])
+        if not out:                     # the only pain in the case is one the patient is hiding: it answers by its own rule (cover answer)
+            for f in self.facts:
+                if self.rule(f) in ("after_rapport", "denied_until_confronted") and f.get("patient_knows") is not False and \
+                        set(tx.tokens(" ".join(str(f.get(k) or "") for k in ("statement", "patient_answer")))) & conv.PAIN_WORDS:
+                    out.append(f["fact_id"])
         return out[:1]
 
     # ------------------------------------------------------------ start
@@ -348,6 +360,8 @@ class Engine:
         ev["cues"] = sorted(intent.cues)
         delta, why = self._rapport(state, intent.cues)
         state["rapport"] = max(0, state["rapport"] + delta)
+        if {"empathy", "normalising"} & set(intent.cues) and "judgmental" not in intent.cues:
+            state["empathic_turns"] = state.get("empathic_turns", 0) + 1
         ev["rapport_delta"], ev["rapport_reasons"], ev["rapport"] = delta, why, state["rapport"]
 
         self._due_and_on_fact(state, ev)
@@ -387,7 +401,10 @@ class Engine:
                 conv = dict(conv)
                 conv.setdefault("ice", ["probe"])
         in_source = False
-        if not matched and intent.is_question and not blocked and "ice" not in conv and not intent.requests and not getattr(intent, "off_topic", False):
+        # "were you brought in by ambulance?" uses no medical word, but the description this case came from does: not off-topic
+        src_toks = set(tx.tokens(str((self.case.get("review") or {}).get("source_description") or "")))
+        off_topic = bool(getattr(intent, "off_topic", False)) and not (src_toks and self._distinctive(norm) & src_toks)
+        if not matched and intent.is_question and not blocked and "ice" not in conv and not intent.requests and not off_topic:
             if "generic_pain" in conv and not getattr(intent, "topics_asked", None):
                 matched = self.pain_facts()
                 via_extra = "pain, asked in general"
@@ -433,13 +450,14 @@ class Engine:
                 release(fid, rule)
             elif rule == "after_rapport":
                 need = int((f.get("disclosure") or {}).get("rapport_needed") or 1)
-                if state["rapport"] >= need:
+                if self._open(state, f):
                     release(fid, rule)
                     if fid in state["pending_rapport"]:
                         state["pending_rapport"].remove(fid)
                 else:
                     outcome["covered" if f.get("cover_answer") and not probe else "deflected"].append(fid)
-                    ev["withheld"].append({"fact_id": fid, "rule": rule, "reason": f"rapport {state['rapport']} < {need}"})
+                    ev["withheld"].append({"fact_id": fid, "rule": rule, "reason": f"rapport {state['rapport']} < {need}" if state["rapport"] < need
+                                           else "no empathic or normalising turn yet"})
                     if fid not in state["pending_rapport"]:
                         state["pending_rapport"].append(fid)
             elif rule == "denied_until_confronted":
@@ -468,7 +486,7 @@ class Engine:
         # volunteered facts come out at the first open question or question about the complaint
         asked_complaint = any(self.by_id[fid].get("category") == "chief_complaint" for fid in matched)
         # ... but "tell me about your smoking" is an open question about something else
-        if "injection" not in conv and "ice" not in conv and not getattr(intent, "off_topic", False) and (
+        if "injection" not in conv and "ice" not in conv and not off_topic and (
                 asked_complaint or (intent.is_open_question and not [fid for fid in matched if self.by_id[fid].get("category") != "chief_complaint"])):
             for f in self.facts:
                 if self.rule(f) == "volunteered" and f["fact_id"] not in already and f["fact_id"] not in ev["disclosed_fact_ids"] \
@@ -479,8 +497,7 @@ class Engine:
         if delta > 0:
             for fid in list(state["pending_rapport"]):
                 f = self.by_id.get(fid)
-                if f and fid not in ev["disclosed_fact_ids"] and fid not in already and \
-                        state["rapport"] >= int((f.get("disclosure") or {}).get("rapport_needed") or 1) and fid not in matched:
+                if f and fid not in ev["disclosed_fact_ids"] and fid not in already and self._open(state, f) and fid not in matched:
                     release(fid, "after_rapport", "spontaneous")
                     state["pending_rapport"].remove(fid)
 
@@ -524,6 +541,9 @@ class Engine:
                 and tx.phrase_in(norm, tx.TOPICS["chief_complaint"]):
             ev["result"] = "answered_from_case_summary"  # "what brings you in?" is always answerable
             outcome["social"] = "complaint_fallback"
+        elif {"introduction", "agenda", "empathy", "normalising", "thanks"} & set(conv) and not getattr(intent, "topics_asked", None) \
+                and not getattr(intent, "clinical_words", False):
+            ev["result"] = "no_fact_requested"          # "Hello, I'm Dr. Lee. Is it okay if I ask you some questions?" is not off-topic
         elif intent.is_question and "closing" not in intent.cues and "summarising" not in intent.cues and "backchannel" not in conv:
             topics = list(getattr(intent, "topics_asked", []) or [])
             defined = {str(t).lower() for f in self.facts for t in (f.get("topics") or [])} | {f["fact_id"].split(".")[-1] for f in self.facts}
@@ -539,6 +559,10 @@ class Engine:
             elif not topics and not getattr(intent, "clinical_words", False) and self.case.get("default_negatives", True):
                 ev["result"] = "deflected_off_topic"
                 outcome["social"] = "off_topic"
+            elif self.case.get("soft_negatives") and (free or (not topics and getattr(intent, "clinical_yes_no", False))):
+                ev["result"] = "answered_soft_negative_by_default"
+                ev["default_negative_topics"] = free or ["unspecified"]
+                outcome["soft_negative"] = True
             else:
                 ev["result"] = "not_specified"
                 outcome["not_specified"] = True

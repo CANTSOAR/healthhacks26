@@ -79,7 +79,8 @@ def test_every_description_gives_a_first_person_patient_with_a_complaint(key):
     assert len(cc) == 1 and cc[0]["disclosure"]["rule"] == "volunteered", "always a chief-complaint fact"
     assert re.match(r"^(I|I'm|I've|My)\b", cc[0]["patient_answer"]), cc[0]["patient_answer"]
     assert c["review"]["source_description"] == ALL[key]
-    assert c["default_negatives"] is False                       # what the text did not say is unknown, never "no"
+    complete = not c["review"]["coverage"]["uncovered"] and not c["review"]["coverage"]["unplaced"]
+    assert c["default_negatives"] is complete and c["soft_negatives"] is (not complete)    # a plain "no" only when the whole text was placed
     for f in c["facts"]:
         a = f.get("patient_answer") or ""
         if f["disclosure"]["rule"] in ("volunteered", "if_asked", "after_rapport", "denied_until_confronted"):
@@ -195,7 +196,7 @@ def test_longer_descriptions_keep_history_social_and_family():
     assert "sumatriptan" in of(n, "medications")[0]["statement"] and f["f.hpi.onset"]["patient_answer"].startswith("It started suddenly this morning while I was lifting")
     p, _ = draft(PEDS)
     assert p["title"].endswith("in a 4-year-old girl") and p["profile"]["name"] == "Aisha"
-    assert of(p, "allergies")[0]["patient_answer"] == "My dad says I'm allergic to amoxicillin, it gives me hives."
+    assert of(p, "allergies")[0]["patient_answer"] == "My dad says I'm allergic to amoxicillin. It gives me hives."
     assert of(p, "ros")[0]["patient_answer"] == "No, no vomiting or rash." and of(p, "ros")[0]["polarity"] == "negative"
     fp, _ = draft(FIRST)
     assert of(fp, "chief_complaint")[0]["patient_answer"] == "I've had a sore throat and a fever for three days."
@@ -258,7 +259,7 @@ def test_concealed_haemoptysis_cover_then_disclosure_and_feedback(manager):
     c, out = draft(SAMUEL)
     h = of(c, "concealed")[0]
     assert {"blood", "coughing up blood", "cough", "spit", "sputum"} <= set(h["topics"])
-    assert h["cover_answer"] and h["disclosure"] == {"rule": "after_rapport", "rapport_needed": 3}
+    assert h["cover_answer"] and h["disclosure"] == {"rule": "after_rapport", "rapport_needed": 3, "empathy_needed": 1}
     assert h["patient_answer"] == "All right. I've been coughing up blood since yesterday. I didn't say because I'm afraid of losing my commercial licence."
     eid = manager.start(c, preview=True)["encounter_id"]
     say = lambda t: manager.turn(eid, t)        # noqa: E731

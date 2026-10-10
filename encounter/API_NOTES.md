@@ -1790,3 +1790,21 @@ Body `{"text": "...", "voice"?: "<elevenlabs voice id>"}`. `200 audio/mpeg` with
 - Reasoning rationale: when the chosen disposition is one of several in `faculty_truth.acceptable_dispositions` the text reads "is one of the dispositions this
   case accepts (...)" instead of "matches / differs from the case's expected disposition".
 
+
+## Round 4 changes (description reader self-check; additive)
+
+- Description drafts: `default_negatives` is now **true when the coverage check placed every sentence** (`review.coverage.uncovered` and `.unplaced` both empty) and
+  false otherwise; `soft_negatives` (bool, new, top level) is the opposite. With `soft_negatives`, a yes/no question about the patient's own body or habits on a
+  topic the draft does not hold gets "Not that I've noticed." / "Not that I know of." / "I don't think so." with the new ledger `result`
+  `answered_soft_negative_by_default` (never written to the chart). In both modes a question that overlaps any fact or the source description is never answered
+  negatively (`answered_noncommittal` or the fact's own rule).
+- `disclosure.empathy_needed` (int, optional, on `after_rapport` facts): turns with an empathy or normalising cue required in addition to `rapport_needed`.
+  Description drafts set `{"rule": "after_rapport", "rapport_needed": 3, "empathy_needed": 1}` on concealed items, because an introduction, an agenda and one open
+  question already score 3. Seed cases do not use it. Encounter state gains `empathic_turns`.
+- `answers_by: "accompanying adult"` (top level, new) on drafts for a child under 4 or described by a parent: every answer is worded as the adult speaking about
+  the child ("She's had a fever ..."). `profile.speech_style` says so.
+- New fact shapes from descriptions: `f.hpi.severity` ("pain rated 8/10"), `f.medications.none` ("takes no regular medications"), `f.pmh.pregnant`, one `hpi` fact
+  per relative clause of the complaint (", which gets worse when ..."), marital status under `f.social.living_situation`.
+- `review.missing` may contain entries starting "wording to review:" from the reader's own wording check (`encounter.describe.wording_problems(case)`).
+- A greeting or agenda-setting turn that happens to be a question ("Hello, I'm Dr. Lee. Is it okay if I ask some questions?") now has result `no_fact_requested`
+  and a greeting reply instead of the off-topic line. "Do you have pain anywhere?" when the only pain fact is concealed returns that fact's cover answer.
