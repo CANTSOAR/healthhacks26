@@ -45,24 +45,29 @@ function Side({ p }: { p: Provenance }) {
   );
 }
 
-export function DiscrepancyCard({ d }: { d: Discrepancy }) {
+export function DiscrepancyCard({ d, compact = false }: { d: Discrepancy; compact?: boolean }) {
   const open = !d.resolved;
+  const [show, setShow] = useState(!compact || open);
   return (
     <div className="rounded-xl border p-2.5" style={{ background: open ? "#FFF6E0" : "#EEF7F1", borderColor: open ? "#F1D58A" : "#BFE3CC" }} data-testid="discrepancy" data-resolved={d.resolved}>
-      <div className="flex items-start gap-2">
+      <button className="flex w-full items-start gap-2 text-left" onClick={() => setShow((v) => !v)} aria-expanded={show}>
         <span className="chip mt-px" style={{ background: open ? "#F6C445" : "#2FA36B", color: open ? "#4A3500" : "#fff" }}>
           {open ? "Conflict" : "Settled"}
         </span>
-        <div className="text-[12px] font-semibold leading-snug" style={{ color: open ? "#6B4A00" : "#1F6B45" }}>
+        <span className="text-[12px] font-semibold leading-snug" style={{ color: open ? "#6B4A00" : "#1F6B45" }}>
           {d.note}
-        </div>
-      </div>
-      <div className="mt-2 grid gap-1.5">
-        {d.entries.map((p) => (
-          <Side key={p.entry_id} p={p} />
-        ))}
-      </div>
-      <div className="mt-1.5 text-[10.5px] leading-snug text-ink-3">Flagged because {d.basis.replace(/^authored: /, "")}.</div>
+        </span>
+      </button>
+      {show && (
+        <>
+          <div className="mt-2 grid gap-1.5">
+            {d.entries.map((p) => (
+              <Side key={p.entry_id} p={p} />
+            ))}
+          </div>
+          <div className="mt-1.5 text-[10.5px] leading-snug text-ink-3">Flagged because {d.basis.replace(/^authored: /, "")}.</div>
+        </>
+      )}
     </div>
   );
 }
@@ -147,7 +152,7 @@ export function RecordPanel({ record, stages, fresh }: { record: SharedRecord; s
             {(open.length > 0 || settled.length > 0) && (
               <div className="mb-3 grid gap-2">
                 {[...open, ...settled].map((d) => (
-                  <DiscrepancyCard key={d.discrepancy_id} d={d} />
+                  <DiscrepancyCard key={d.discrepancy_id} d={d} compact />
                 ))}
               </div>
             )}
@@ -158,7 +163,7 @@ export function RecordPanel({ record, stages, fresh }: { record: SharedRecord; s
                   <span className="h-px flex-1 bg-line" />
                   <RoleChip by={list[0].by} />
                 </div>
-                <ol className="grid gap-1.5">
+                <ol className="grid grid-cols-[minmax(0,1fr)] gap-1.5">
                   {list.map((e) => (
                     <Entry key={e.entry_id} e={e} fresh={fresh.has(e.entry_id)} stages={stages} />
                   ))}

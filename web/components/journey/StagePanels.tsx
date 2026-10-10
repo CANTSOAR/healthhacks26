@@ -2,7 +2,7 @@
 // What the stage area shows when nobody is in the middle of playing it: the start card, and the summary of a finished stage.
 import { OBJECTIVE_LABEL, OBJECTIVE_TONE } from "@/lib/encounter/labels";
 import type { ObjectiveLabel } from "@/lib/encounter/types";
-import { roleTone, TYPE_LABEL } from "@/lib/journey/api";
+import { lc, roleTone, TYPE_LABEL } from "@/lib/journey/api";
 import type { SbarGrading, Stage, StageObjective } from "@/lib/journey/types";
 import { Spinner, Tone } from "@/components/encounter/ui";
 import { ProvenanceChips } from "./RecordPanel";
@@ -81,7 +81,7 @@ export function StageStart({ stage, busy, onPlay, onAuto, onAutoBefore }: { stag
       ) : (
         <div className="mt-5 flex flex-wrap items-center gap-2">
           <button className="btn-primary !h-9 !px-4 !text-[13px]" disabled={busy} onClick={onPlay} data-testid="stage-play">
-            {busy && <Spinner size={12} />} Play as the {stage.learner_role.label.toLowerCase()}
+            {busy && <Spinner size={12} />} Play as the {lc(stage.learner_role.label)}
           </button>
           <button className="btn-quiet !h-9" disabled={busy} onClick={onAuto} data-testid="stage-auto">
             Let the sampler resolve it
@@ -162,7 +162,7 @@ export function SbarReport({ grading }: { grading: SbarGrading }) {
 
 export function StageSummary({ stage, grading, onNext, nextLabel }: { stage: Stage; grading?: SbarGrading | null; onNext?: () => void; nextLabel?: string }) {
   const r = stage.result;
-  const who = stage.played_by === "human" ? "You played this stage" : stage.played_by === "sim" ? "Resolved by the running simulation" : `Sampled: ${stage.player} stood in as the ${stage.learner_role.label.toLowerCase()}`;
+  const who = stage.played_by === "human" ? "You played this stage" : stage.played_by === "sim" ? "Resolved by the running simulation" : `Sampled: ${stage.player} stood in as the ${lc(stage.learner_role.label)}`;
   const d = r?.decision as { kind?: string; acuity?: number; disposition?: string; orders?: string[]; detail?: string } | undefined;
   return (
     <div className="glass scroll-thin h-full overflow-y-auto p-5" data-testid="stage-summary" data-stage={stage.stage_id}>

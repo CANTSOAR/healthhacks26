@@ -70,3 +70,5 @@ export const KIND_LABEL: Record<string, string> = {
   handoff: "Handoff",
 };
 export const TYPE_LABEL: Record<string, string> = { triage: "Triage", clinician_encounter: "Clinician encounter", nursing_assessment: "Nursing assessment", handoff: "Handoff", disposition: "Disposition", discharge_planning: "Discharge planning" };
+/** "Triage nurse" -> "triage nurse"; "ED pharmacist" keeps its abbreviation. */
+export const lc = (label: string) => (/^[A-Z]{2,}\b/.test(label) ? label : label.charAt(0).toLowerCase() + label.slice(1));

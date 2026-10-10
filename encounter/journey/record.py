@@ -25,6 +25,12 @@ def section_for(category: str | None) -> tuple[str, str]:
     return CATEGORY_SECTION.get(category or "", ("notes", "Notes"))
 
 
+def lc(label: str) -> str:
+    """'Triage nurse' -> 'triage nurse', but 'ED pharmacist' keeps its abbreviation."""
+    first = (label or "").split(" ")[0]
+    return label if first.isupper() and len(first) > 1 else label[:1].lower() + label[1:]
+
+
 def new_record() -> dict:
     return {"entries": [], "discrepancies": [], "seq": 0}
 
@@ -182,11 +188,11 @@ def handover_text(record: dict, upto_index: int) -> str:
         if e["kind"] == "decision":
             lines.append(f"{e['text']} ({who})")
         elif e["kind"] == "patient_report":
-            lines.append(f"Patient told the {who.lower()}: \"{e['text']}\"")
+            lines.append(f"Patient told the {lc(who)}: \"{e['text']}\"")
         elif e["kind"] == "order":
             lines.append(f"{e['text']} [{e.get('order_status') or 'requested'}] ({who})")
         elif e["kind"] == "question":
-            lines.append(f"Open question from the {who.lower()}: {e['text']}")
+            lines.append(f"Open question from the {lc(who)}: {e['text']}")
         else:
             lines.append(f"{e['kind'].capitalize()} ({who}): {e['text']}")
     for d in unresolved(record):

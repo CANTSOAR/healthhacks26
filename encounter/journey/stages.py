@@ -108,8 +108,8 @@ def add_cover(record: dict, stage: dict, idx: int, who: dict, engine: Engine, fi
     cover = f.get("cover_answer")
     if not cover or rec.has_fact(record, fid):
         return None
-    if any(e["kind"] == "patient_report" and e.get("_about") == fid and e["stage_id"] == stage["stage_id"] for e in record["entries"]):
-        return None
+    if any(e["kind"] == "patient_report" and e.get("_about") == fid for e in record["entries"]):
+        return None                                   # the same first answer is recorded once; asking again marks that entry as used
     sid, stitle = rec.section_for(f.get("category"))
     return rec.add(record, stage, idx, who, "patient_report", cover, "patient_statement", turn, status="patient_reported",
                    section=f.get("chart_section") or sid, section_title=stitle, quote=(quote or "")[:240] or None, _about=fid)

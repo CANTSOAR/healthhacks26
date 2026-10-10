@@ -184,7 +184,7 @@ class JourneyManager:
                 cp = next(c for c in sdef["counterparts"] if c["kind"] == "colleague")
                 col = pick_clinician(cp.get("staff_role"), cp.get("clinician_id"))
                 col["label"] = cp.get("label") or col.get("role")
-                opening = f"{col['name']}, {col['label'].lower() if cp.get('label') else col.get('role')}. I am taking over this patient. Go ahead with your handoff."
+                opening = f"{col['name']}, {rec.lc(col['label']) if cp.get('label') else col.get('role')}. I am taking over this patient. Go ahead with your handoff."
                 sst["handoff"] = {"colleague": col, "sbar": None, "questions": [], "answers": [], "phase": "compose", "grading": None,
                                   "messages": [{"who": "colleague", "text": opening, "time": now_iso()}], "replies": []}
             else:
@@ -266,7 +266,7 @@ class JourneyManager:
         patterns = (sdef.get("scope") or {}).get("requests") or []
         raw = (request or "").strip().lower()
         if raw and not st._req_in_scope(raw if ":" in raw else f"order:{raw}", patterns):
-            raise JourneyError(f"'{request}' is outside what the {sdef['learner_role']['label'].lower()} does at this stage", 409)
+            raise JourneyError(f"'{request}' is outside what the {rec.lc(sdef['learner_role']['label'])} does at this stage", 409)
         resp = self._enc_action(jid, sid, lambda eid: self.enc.request(eid, request, request_id))
         if resp.get("result") == "not_available":
             with self._lock(jid):
@@ -280,7 +280,7 @@ class JourneyManager:
                                 Engine._artifact_request(Engine(j["case"]).art_by_id.get(e.get("artifact_id"), {"artifact_id": "", "release": {}})) == prior["request"]:
                             rec.mark_used(e, sid, resp.get("turn"), "looked up a result an earlier stage had requested", request)
                     label = str(resp.get("request") or "").split(":", 1)[-1].replace("_", " ")
-                    resp["notes"] = [f"{label}: already on the shared record (requested by the {prior['by']['role_label'].lower()} during "
+                    resp["notes"] = [f"{label}: already on the shared record (requested by the {rec.lc(prior['by']['role_label'])} during "
                                      f"{prior['stage_title']}). It is in the chart."]
                     resp["result"] = "already_available"
                     resp["record"] = rec.student_view(j["record"])
@@ -525,6 +525,10 @@ class JourneyManager:
             if cur:
                 cur.update(answered=True, answer=text)
             g = ho.grade_sbar(h["sbar"], h["answers"], j["record"], j["case"], sdef)
+            got = {c["item_id"] for el in g["elements"].values() for c in el["conveyed"]}
+            for q in h["questions"]:                     # do not ask for something the learner has just supplied
+                if not q["answered"] and q["item_ids"] and set(q["item_ids"]) <= got:
+                    q.update(answered=True, skipped=True)
             if cur or h["phase"] != "readback":
                 self._colleague_says(j, sdef, h, g)
             else:
@@ -551,6 +555,8 @@ class JourneyManager:
         col_who = {"staff_role": h["colleague"].get("staff_role") or "rn", "role_label": h["colleague"].get("label") or h["colleague"].get("role"),
                    "actor": "ai", "name": h["colleague"].get("name")}
         for q in h["questions"]:
+            if q.get("skipped"):
+                continue
             if q.get("answer") and q["answered"]:
                 rec.add(j["record"], sdef, idx, who, "handoff", q["answer"], "colleague", None, element=q["element"],
                         element_label=f"Answer to {h['colleague'].get('name')}", status="handed_over", in_reply_to=q["text"])
@@ -647,7 +653,7 @@ class JourneyManager:
             if h:
                 hv = {"colleague": h["colleague"], "sbar": h["sbar"], "phase": h["phase"], "messages": h["messages"],
                       "questions": [{k: q.get(k) for k in ("question_id", "text", "about", "element", "answered", "answer")} for q in h["questions"]
-                                    if q.get("asked") or q.get("answered") or sst["status"] == "completed"],
+                                    if q.get("asked") or (q.get("answered") and not q.get("skipped"))],
                       "n_questions": len(h["questions"]), "max_questions": int((sdef.get("sbar") or {}).get("max_questions", 3)),
                       "grading": rec.public(h["grading"]) if sst["status"] == "completed" else None}
                 out["handoff"] = hv

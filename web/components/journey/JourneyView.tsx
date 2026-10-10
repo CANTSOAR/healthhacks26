@@ -65,8 +65,13 @@ export function JourneyView({ journeyId }: { journeyId: string }) {
 
   const stage = journey?.stages.find((s) => s.stage_id === selected) ?? null;
   const stageStatus = stage?.status;
+  const viewRef = useRef<StageView | null>(null);
+  viewRef.current = view;
   useEffect(() => {
     let dead = false;
+    // an action that just returned this stage's view (start, finish) already has the current state: keep it on screen
+    const cur = viewRef.current;
+    if (cur && cur.stage.stage_id === selected && cur.stage.status === stageStatus) return;
     setView(null);
     setActionError(null);
     if (!selected || selected === "outcome" || !stageStatus || stageStatus === "pending") return;

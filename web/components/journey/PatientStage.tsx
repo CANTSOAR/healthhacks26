@@ -8,7 +8,7 @@ import { Field, InlineError, inputCls, Modal, Spinner } from "@/components/encou
 import { ApiError, newRequestId } from "@/lib/encounter/api";
 import { requestLabel } from "@/lib/encounter/labels";
 import type { LedgerEvent } from "@/lib/encounter/types";
-import { journeyApi } from "@/lib/journey/api";
+import { journeyApi, lc } from "@/lib/journey/api";
 import type { SharedRecord, Stage, StageEncounter, StageView } from "@/lib/journey/types";
 
 function fromLedger(ledger: LedgerEvent[]): Msg[] {
@@ -164,18 +164,18 @@ export function PatientStage({ journeyId, stage, view, pane, onRecord, onFinishe
     <div className="flex h-full min-h-0 flex-col gap-2" data-testid="patient-stage">
       <div className="flex shrink-0 flex-wrap items-center gap-2 px-1">
         <span className="text-[12px] text-ink-2">
-          You are the <b className="text-ink">{stage.learner_role.label.toLowerCase()}</b>. Requests outside this role&apos;s scope are not offered.
+          You are the <b className="text-ink">{lc(stage.learner_role.label)}</b>. Requests outside this role&apos;s scope are not offered.
         </span>
         <button className="btn-primary ml-auto" onClick={() => setFinishOpen(true)} disabled={busy} data-testid="stage-finish-open">
           Finish stage and write to the record
         </button>
       </div>
       {error && <InlineError>{error}</InlineError>}
-      <div className="grid min-h-0 flex-1 grid-cols-1 gap-3 2xl:grid-cols-2">
-        <div className={`min-h-0 ${pane === "stage" ? "" : "hidden 2xl:block"}`}>
+      <div className="grid min-h-0 flex-1 grid-cols-1 gap-3 min-[1400px]:grid-cols-2">
+        <div className={`min-h-0 ${pane === "stage" ? "" : "hidden min-[1400px]:block"}`}>
           <ConversationPane kase={enc.case} patient={view.patient} messages={messages} requests={enc.available_requests} requested={requested} rapport={enc.rapport} busy={busy} finished={false} voiceOn={voiceOn} onVoice={setVoiceOn} onSend={(t) => act("turn", t)} onRequest={(r) => act("request", r)} />
         </div>
-        <div className={`min-h-0 ${pane === "chart" ? "" : "hidden 2xl:block"}`}>
+        <div className={`min-h-0 ${pane === "chart" ? "" : "hidden min-[1400px]:block"}`}>
           <ChartPane kase={enc.case} patient={view.patient} chart={enc.chart} ledger={ledger} />
         </div>
       </div>
