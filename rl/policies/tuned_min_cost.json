@@ -1,0 +1,259 @@
+{
+ "id": "tuned_min_cost",
+ "kind": "tuned_heuristic",
+ "label": "Tuned heuristic: min_cost",
+ "objective": "min_cost",
+ "reward_weights": {
+  "cost": 1.0,
+  "wait": 0.05,
+  "lwbs": 0.05,
+  "safety": 0.05,
+  "boarding": 0.0,
+  "staff": 0.0,
+  "revenue": 0.0
+ },
+ "type": "rule_params",
+ "params": {
+  "md_day": 1.0,
+  "md_evening": 0.955,
+  "md_night": 0.2224,
+  "rn_day": 0.1797,
+  "rn_evening": 0.3249,
+  "rn_night": 0.1016,
+  "md_demand_gain": 0.436,
+  "rn_demand_gain": 0.2819,
+  "triage_nurses": 0.6285,
+  "admission_cap": 0.0085,
+  "discharge_push_occ": 0.1688,
+  "priority_rule": 0.8383,
+  "provider_split": 0.3365,
+  "fast_track_thr": 0.4125,
+  "overflow_low_thr": 0.3699,
+  "overflow_high_gap": 0.5126,
+  "callin_rn_thr": 0.3279,
+  "callin_md_thr": 0.4377,
+  "divert_thr": 0.4003,
+  "agency_contract": 0.1868,
+  "imaging_hours": 0.1867
+ },
+ "param_names": [
+  "md_day",
+  "md_evening",
+  "md_night",
+  "rn_day",
+  "rn_evening",
+  "rn_night",
+  "md_demand_gain",
+  "rn_demand_gain",
+  "triage_nurses",
+  "admission_cap",
+  "discharge_push_occ",
+  "priority_rule",
+  "provider_split",
+  "fast_track_thr",
+  "overflow_low_thr",
+  "overflow_high_gap",
+  "callin_rn_thr",
+  "callin_md_thr",
+  "divert_thr",
+  "agency_contract",
+  "imaging_hours"
+ ],
+ "sim_fingerprint": "81960cf933f447cf",
+ "synthetic": true,
+ "tuning": {
+  "method": "cross-entropy method over 21 rule parameters, batched with common random numbers",
+  "pop": 48,
+  "seeds_per_scenario": 6,
+  "days": 10,
+  "gens": 8,
+  "scenarios": [
+   "normal_week",
+   "flu_surge"
+  ],
+  "stage": "stage_1",
+  "seed_range": [
+   200000,
+   300016
+  ],
+  "final_score": -0.9659568071365356,
+  "default_rule_score": -1.006788969039917,
+  "final_summary": {
+   "wait_mean_min": 16.223661422729492,
+   "wait_p95_min": 35.15625,
+   "ed_los_median_min": 180.0,
+   "lwbs_rate": 0.00998139288276434,
+   "cost_per_day": 807637.0,
+   "margin_per_day": 352052.34375,
+   "cost_per_treated": 3597.3974609375,
+   "deaths_per_10k": 5.337551116943359,
+   "boarding_hours_per_day": 22.798959732055664,
+   "diversion_hours_per_day": 0.0,
+   "overtime_hours_per_day": 0.0
+  },
+  "p95_wait_threshold_min": 675.0,
+  "history": [
+   {
+    "gen": 0,
+    "best": -0.9814287424087524,
+    "mean_cand": -1.005146861076355,
+    "pop_mean": -1.0162193775177002,
+    "seconds": 152.06706190109253,
+    "best_summary": {
+     "wait_mean_min": 21.835071563720703,
+     "wait_p95_min": 67.08333587646484,
+     "ed_los_median_min": 205.0,
+     "lwbs_rate": 0.013153871521353722,
+     "cost_per_day": 816010.875,
+     "margin_per_day": 351462.125,
+     "cost_per_treated": 3672.272216796875,
+     "deaths_per_10k": 7.888609886169434,
+     "boarding_hours_per_day": 28.896528244018555,
+     "diversion_hours_per_day": 0.0,
+     "overtime_hours_per_day": 13.183332443237305
+    }
+   },
+   {
+    "gen": 1,
+    "best": -0.9833249449729919,
+    "mean_cand": -1.0002843141555786,
+    "pop_mean": -1.0065404176712036,
+    "seconds": 157.311687707901,
+    "best_summary": {
+     "wait_mean_min": 18.58070945739746,
+     "wait_p95_min": 40.41666793823242,
+     "ed_los_median_min": 185.0,
+     "lwbs_rate": 0.011295030824840069,
+     "cost_per_day": 821370.375,
+     "margin_per_day": 319896.90625,
+     "cost_per_treated": 3616.7666015625,
+     "deaths_per_10k": 8.40317440032959,
+     "boarding_hours_per_day": 52.6472282409668,
+     "diversion_hours_per_day": 0.0,
+     "overtime_hours_per_day": 0.0
+    }
+   },
+   {
+    "gen": 2,
+    "best": -0.971799373626709,
+    "mean_cand": -0.9783613085746765,
+    "pop_mean": -0.9808173775672913,
+    "seconds": 155.19122886657715,
+    "best_summary": {
+     "wait_mean_min": 20.606327056884766,
+     "wait_p95_min": 55.0,
+     "ed_los_median_min": 192.5,
+     "lwbs_rate": 0.012481010518968105,
+     "cost_per_day": 809418.875,
+     "margin_per_day": 343504.21875,
+     "cost_per_treated": 3602.31103515625,
+     "deaths_per_10k": 7.468686103820801,
+     "boarding_hours_per_day": 8.539584159851074,
+     "diversion_hours_per_day": 0.0,
+     "overtime_hours_per_day": 0.21666666865348816
+    }
+   },
+   {
+    "gen": 3,
+    "best": -0.9711984992027283,
+    "mean_cand": -0.977390706539154,
+    "pop_mean": -0.9814400672912598,
+    "seconds": 153.83514547348022,
+    "best_summary": {
+     "wait_mean_min": 16.095069885253906,
+     "wait_p95_min": 40.0,
+     "ed_los_median_min": 185.4166717529297,
+     "lwbs_rate": 0.008510611020028591,
+     "cost_per_day": 811857.875,
+     "margin_per_day": 338322.21875,
+     "cost_per_treated": 3597.91845703125,
+     "deaths_per_10k": 5.728842735290527,
+     "boarding_hours_per_day": 22.085416793823242,
+     "diversion_hours_per_day": 0.0,
+     "overtime_hours_per_day": 0.4583333432674408
+    }
+   },
+   {
+    "gen": 4,
+    "best": -0.9624027609825134,
+    "mean_cand": -0.968464732170105,
+    "pop_mean": -0.9699769020080566,
+    "seconds": 154.91371750831604,
+    "best_summary": {
+     "wait_mean_min": 15.211896896362305,
+     "wait_p95_min": 32.083335876464844,
+     "ed_los_median_min": 180.83334350585938,
+     "lwbs_rate": 0.008421724662184715,
+     "cost_per_day": 805614.0,
+     "margin_per_day": 343936.125,
+     "cost_per_treated": 3567.619873046875,
+     "deaths_per_10k": 6.414966106414795,
+     "boarding_hours_per_day": 10.139582633972168,
+     "diversion_hours_per_day": 0.0,
+     "overtime_hours_per_day": 3.4166665077209473
+    }
+   },
+   {
+    "gen": 5,
+    "best": -0.9527880549430847,
+    "mean_cand": -0.9618043899536133,
+    "pop_mean": -0.9620037078857422,
+    "seconds": 142.55024027824402,
+    "best_summary": {
+     "wait_mean_min": 21.4869441986084,
+     "wait_p95_min": 68.75,
+     "ed_los_median_min": 192.08334350585938,
+     "lwbs_rate": 0.013966857455670834,
+     "cost_per_day": 795820.6875,
+     "margin_per_day": 337546.9375,
+     "cost_per_treated": 3627.05712890625,
+     "deaths_per_10k": 6.276374816894531,
+     "boarding_hours_per_day": 15.299306869506836,
+     "diversion_hours_per_day": 0.0,
+     "overtime_hours_per_day": 0.3166666626930237
+    }
+   },
+   {
+    "gen": 6,
+    "best": -0.9661011099815369,
+    "mean_cand": -0.9697108268737793,
+    "pop_mean": -0.9720602631568909,
+    "seconds": 118.04988121986389,
+    "best_summary": {
+     "wait_mean_min": 18.975875854492188,
+     "wait_p95_min": 56.25,
+     "ed_los_median_min": 192.08334350585938,
+     "lwbs_rate": 0.012392302975058556,
+     "cost_per_day": 805216.1875,
+     "margin_per_day": 329154.5625,
+     "cost_per_treated": 3590.721435546875,
+     "deaths_per_10k": 4.677734851837158,
+     "boarding_hours_per_day": 33.98055648803711,
+     "diversion_hours_per_day": 0.0,
+     "overtime_hours_per_day": 0.3166666626930237
+    }
+   },
+   {
+    "gen": 7,
+    "best": -0.9648768901824951,
+    "mean_cand": -0.9689220190048218,
+    "pop_mean": -0.9704999327659607,
+    "seconds": 104.13648557662964,
+    "best_summary": {
+     "wait_mean_min": 20.68663787841797,
+     "wait_p95_min": 61.66666793823242,
+     "ed_los_median_min": 192.08334350585938,
+     "lwbs_rate": 0.013387851417064667,
+     "cost_per_day": 801455.875,
+     "margin_per_day": 350812.21875,
+     "cost_per_treated": 3592.14208984375,
+     "deaths_per_10k": 8.960229873657227,
+     "boarding_hours_per_day": 18.018056869506836,
+     "diversion_hours_per_day": 0.0,
+     "overtime_hours_per_day": 0.09999999403953552
+    }
+   }
+  ],
+  "finished": "2026-10-10T02:09:34-0400"
+ }
+}

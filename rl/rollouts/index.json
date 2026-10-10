@@ -1,0 +1,436 @@
+[
+ {
+  "rollout_id": "fixed__flu_surge__s9000001",
+  "manager": {
+   "id": "fixed",
+   "kind": "fixed",
+   "label": "Fixed staffing (contract defaults)",
+   "objective": null
+  },
+  "scenario": "flu_surge",
+  "seed": 9000001,
+  "days": 30,
+  "summary": {
+   "wait_mean_min": 28.833715438842773,
+   "wait_p95_min": 95.0,
+   "ed_los_median_min": 215.0,
+   "lwbs_rate": 0.01755617931485176,
+   "cost_per_day": 580747.3125,
+   "margin_per_day": 535235.625,
+   "cost_per_treated": 2511.158935546875,
+   "deaths_per_10k": 2.8089888095855713,
+   "boarding_hours_per_day": 5.466665744781494,
+   "diversion_hours_per_day": 0.0,
+   "overtime_hours_per_day": 0.0
+  },
+  "has_segments": true,
+  "file": "fixed__flu_surge__s9000001.json.gz",
+  "bytes": 375126,
+  "sim_fingerprint": "81960cf933f447cf",
+  "created": "2026-10-10T02:12:28-0400",
+  "synthetic": true
+ },
+ {
+  "rollout_id": "fixed__normal_week__s9000001",
+  "manager": {
+   "id": "fixed",
+   "kind": "fixed",
+   "label": "Fixed staffing (contract defaults)",
+   "objective": null
+  },
+  "scenario": "normal_week",
+  "seed": 9000001,
+  "days": 30,
+  "summary": {
+   "wait_mean_min": 20.623445510864258,
+   "wait_p95_min": 50.0,
+   "ed_los_median_min": 185.0,
+   "lwbs_rate": 0.013492793776094913,
+   "cost_per_day": 572950.6875,
+   "margin_per_day": 452283.96875,
+   "cost_per_treated": 2679.843994140625,
+   "deaths_per_10k": 3.0665440559387207,
+   "boarding_hours_per_day": 5.0666656494140625,
+   "diversion_hours_per_day": 0.0,
+   "overtime_hours_per_day": 0.0
+  },
+  "has_segments": true,
+  "file": "fixed__normal_week__s9000001.json.gz",
+  "bytes": 360687,
+  "sim_fingerprint": "81960cf933f447cf",
+  "created": "2026-10-10T02:12:26-0400",
+  "synthetic": true
+ },
+ {
+  "rollout_id": "random__flu_surge__s9000001",
+  "manager": {
+   "id": "random",
+   "kind": "random",
+   "label": "Random (uniform over hourly and daily options)",
+   "objective": null
+  },
+  "scenario": "flu_surge",
+  "seed": 9000001,
+  "days": 30,
+  "summary": {
+   "wait_mean_min": 83.82362365722656,
+   "wait_p95_min": 330.0,
+   "ed_los_median_min": 260.0,
+   "lwbs_rate": 0.05715995654463768,
+   "cost_per_day": 574355.875,
+   "margin_per_day": 474599.625,
+   "cost_per_treated": 2754.26416015625,
+   "deaths_per_10k": 17.95600700378418,
+   "boarding_hours_per_day": 4.733332633972168,
+   "diversion_hours_per_day": 12.166666030883789,
+   "overtime_hours_per_day": 59.900001525878906
+  },
+  "has_segments": true,
+  "file": "random__flu_surge__s9000001.json.gz",
+  "bytes": 387983,
+  "sim_fingerprint": "81960cf933f447cf",
+  "created": "2026-10-10T02:12:25-0400",
+  "synthetic": true
+ },
+ {
+  "rollout_id": "random__normal_week__s9000001",
+  "manager": {
+   "id": "random",
+   "kind": "random",
+   "label": "Random (uniform over hourly and daily options)",
+   "objective": null
+  },
+  "scenario": "normal_week",
+  "seed": 9000001,
+  "days": 30,
+  "summary": {
+   "wait_mean_min": 59.7109489440918,
+   "wait_p95_min": 225.0,
+   "ed_los_median_min": 225.0,
+   "lwbs_rate": 0.03768352419137955,
+   "cost_per_day": 569063.5625,
+   "margin_per_day": 412785.34375,
+   "cost_per_treated": 2910.314697265625,
+   "deaths_per_10k": 11.419249534606934,
+   "boarding_hours_per_day": 4.600000381469727,
+   "diversion_hours_per_day": 12.166666030883789,
+   "overtime_hours_per_day": 59.900001525878906
+  },
+  "has_segments": true,
+  "file": "random__normal_week__s9000001.json.gz",
+  "bytes": 381464,
+  "sim_fingerprint": "81960cf933f447cf",
+  "created": "2026-10-10T02:12:27-0400",
+  "synthetic": true
+ },
+ {
+  "rollout_id": "rule_based__flu_surge__s9000001",
+  "manager": {
+   "id": "rule_based",
+   "kind": "rule_based",
+   "label": "Rule-based manager (hand-written thresholds)",
+   "objective": null
+  },
+  "scenario": "flu_surge",
+  "seed": 9000001,
+  "days": 30,
+  "summary": {
+   "wait_mean_min": 20.235788345336914,
+   "wait_p95_min": 55.0,
+   "ed_los_median_min": 185.0,
+   "lwbs_rate": 0.013061798177659512,
+   "cost_per_day": 582790.9375,
+   "margin_per_day": 535913.5,
+   "cost_per_treated": 2499.818115234375,
+   "deaths_per_10k": 2.8089888095855713,
+   "boarding_hours_per_day": 5.400000095367432,
+   "diversion_hours_per_day": 0.0,
+   "overtime_hours_per_day": 0.4999999701976776
+  },
+  "has_segments": true,
+  "file": "rule_based__flu_surge__s9000001.json.gz",
+  "bytes": 371860,
+  "sim_fingerprint": "81960cf933f447cf",
+  "created": "2026-10-10T02:13:10-0400",
+  "synthetic": true
+ },
+ {
+  "rollout_id": "rule_based__normal_week__s9000001",
+  "manager": {
+   "id": "rule_based",
+   "kind": "rule_based",
+   "label": "Rule-based manager (hand-written thresholds)",
+   "objective": null
+  },
+  "scenario": "normal_week",
+  "seed": 9000001,
+  "days": 30,
+  "summary": {
+   "wait_mean_min": 16.469175338745117,
+   "wait_p95_min": 35.0,
+   "ed_los_median_min": 170.0,
+   "lwbs_rate": 0.00981294084340334,
+   "cost_per_day": 575897.3125,
+   "margin_per_day": 449329.8125,
+   "cost_per_treated": 2682.3349609375,
+   "deaths_per_10k": 3.0665440559387207,
+   "boarding_hours_per_day": 5.199999809265137,
+   "diversion_hours_per_day": 0.0,
+   "overtime_hours_per_day": 0.0
+  },
+  "has_segments": true,
+  "file": "rule_based__normal_week__s9000001.json.gz",
+  "bytes": 354654,
+  "sim_fingerprint": "81960cf933f447cf",
+  "created": "2026-10-10T02:12:28-0400",
+  "synthetic": true
+ },
+ {
+  "rollout_id": "tuned_balanced__flu_surge__s9000001",
+  "manager": {
+   "id": "tuned_balanced",
+   "kind": "tuned_heuristic",
+   "label": "Tuned heuristic: balanced",
+   "objective": "balanced"
+  },
+  "scenario": "flu_surge",
+  "seed": 9000001,
+  "days": 30,
+  "summary": {
+   "wait_mean_min": 11.864646911621094,
+   "wait_p95_min": 20.0,
+   "ed_los_median_min": 160.0,
+   "lwbs_rate": 0.0075842696242034435,
+   "cost_per_day": 579877.3125,
+   "margin_per_day": 541132.8125,
+   "cost_per_treated": 2469.6650390625,
+   "deaths_per_10k": 1.4044944047927856,
+   "boarding_hours_per_day": 5.4666666984558105,
+   "diversion_hours_per_day": 0.0,
+   "overtime_hours_per_day": 0.0
+  },
+  "has_segments": true,
+  "file": "tuned_balanced__flu_surge__s9000001.json.gz",
+  "bytes": 356766,
+  "sim_fingerprint": "81960cf933f447cf",
+  "created": "2026-10-10T02:12:14-0400",
+  "synthetic": true
+ },
+ {
+  "rollout_id": "tuned_balanced__normal_week__s9000001",
+  "manager": {
+   "id": "tuned_balanced",
+   "kind": "tuned_heuristic",
+   "label": "Tuned heuristic: balanced",
+   "objective": "balanced"
+  },
+  "scenario": "normal_week",
+  "seed": 9000001,
+  "days": 30,
+  "summary": {
+   "wait_mean_min": 11.716117858886719,
+   "wait_p95_min": 20.0,
+   "ed_los_median_min": 155.0,
+   "lwbs_rate": 0.007513032760471106,
+   "cost_per_day": 569232.5625,
+   "margin_per_day": 457627.65625,
+   "cost_per_treated": 2642.267578125,
+   "deaths_per_10k": 1.5332720279693604,
+   "boarding_hours_per_day": 5.266666889190674,
+   "diversion_hours_per_day": 0.0,
+   "overtime_hours_per_day": 0.0
+  },
+  "has_segments": true,
+  "file": "tuned_balanced__normal_week__s9000001.json.gz",
+  "bytes": 344571,
+  "sim_fingerprint": "81960cf933f447cf",
+  "created": "2026-10-10T02:12:36-0400",
+  "synthetic": true
+ },
+ {
+  "rollout_id": "tuned_cost_p95__flu_surge__s9000001",
+  "manager": {
+   "id": "tuned_cost_p95",
+   "kind": "tuned_heuristic",
+   "label": "Tuned heuristic: cost_s.t._p95_wait",
+   "objective": "cost_s.t._p95_wait"
+  },
+  "scenario": "flu_surge",
+  "seed": 9000001,
+  "days": 30,
+  "summary": {
+   "wait_mean_min": 146.91094970703125,
+   "wait_p95_min": 365.0,
+   "ed_los_median_min": 335.0,
+   "lwbs_rate": 0.10238763689994812,
+   "cost_per_day": 556386.0,
+   "margin_per_day": 493279.59375,
+   "cost_per_treated": 2636.48388671875,
+   "deaths_per_10k": 16.853933334350586,
+   "boarding_hours_per_day": 4.933333396911621,
+   "diversion_hours_per_day": 0.0,
+   "overtime_hours_per_day": 0.0
+  },
+  "has_segments": true,
+  "file": "tuned_cost_p95__flu_surge__s9000001.json.gz",
+  "bytes": 354652,
+  "sim_fingerprint": "81960cf933f447cf",
+  "created": "2026-10-10T02:12:27-0400",
+  "synthetic": true
+ },
+ {
+  "rollout_id": "tuned_cost_p95__normal_week__s9000001",
+  "manager": {
+   "id": "tuned_cost_p95",
+   "kind": "tuned_heuristic",
+   "label": "Tuned heuristic: cost_s.t._p95_wait",
+   "objective": "cost_s.t._p95_wait"
+  },
+  "scenario": "normal_week",
+  "seed": 9000001,
+  "days": 30,
+  "summary": {
+   "wait_mean_min": 109.08384704589844,
+   "wait_p95_min": 280.0,
+   "ed_los_median_min": 295.0,
+   "lwbs_rate": 0.0760502889752388,
+   "cost_per_day": 550074.125,
+   "margin_per_day": 435689.28125,
+   "cost_per_treated": 2757.724365234375,
+   "deaths_per_10k": 16.865991592407227,
+   "boarding_hours_per_day": 4.666666030883789,
+   "diversion_hours_per_day": 0.0,
+   "overtime_hours_per_day": 0.0
+  },
+  "has_segments": true,
+  "file": "tuned_cost_p95__normal_week__s9000001.json.gz",
+  "bytes": 340903,
+  "sim_fingerprint": "81960cf933f447cf",
+  "created": "2026-10-10T02:12:29-0400",
+  "synthetic": true
+ },
+ {
+  "rollout_id": "tuned_min_cost__flu_surge__s9000001",
+  "manager": {
+   "id": "tuned_min_cost",
+   "kind": "tuned_heuristic",
+   "label": "Tuned heuristic: min_cost",
+   "objective": "min_cost"
+  },
+  "scenario": "flu_surge",
+  "seed": 9000001,
+  "days": 30,
+  "summary": {
+   "wait_mean_min": 14.526949882507324,
+   "wait_p95_min": 30.0,
+   "ed_los_median_min": 160.0,
+   "lwbs_rate": 0.00912921316921711,
+   "cost_per_day": 570662.0625,
+   "margin_per_day": 546090.5,
+   "cost_per_treated": 2434.911376953125,
+   "deaths_per_10k": 1.4044944047927856,
+   "boarding_hours_per_day": 5.4666666984558105,
+   "diversion_hours_per_day": 0.0,
+   "overtime_hours_per_day": 0.0
+  },
+  "has_segments": true,
+  "file": "tuned_min_cost__flu_surge__s9000001.json.gz",
+  "bytes": 357281,
+  "sim_fingerprint": "81960cf933f447cf",
+  "created": "2026-10-10T02:12:27-0400",
+  "synthetic": true
+ },
+ {
+  "rollout_id": "tuned_min_cost__normal_week__s9000001",
+  "manager": {
+   "id": "tuned_min_cost",
+   "kind": "tuned_heuristic",
+   "label": "Tuned heuristic: min_cost",
+   "objective": "min_cost"
+  },
+  "scenario": "normal_week",
+  "seed": 9000001,
+  "days": 30,
+  "summary": {
+   "wait_mean_min": 13.867326736450195,
+   "wait_p95_min": 25.0,
+   "ed_los_median_min": 155.0,
+   "lwbs_rate": 0.008126341737806797,
+   "cost_per_day": 561209.75,
+   "margin_per_day": 464620.625,
+   "cost_per_treated": 2606.237060546875,
+   "deaths_per_10k": 1.5332720279693604,
+   "boarding_hours_per_day": 5.199999809265137,
+   "diversion_hours_per_day": 0.0,
+   "overtime_hours_per_day": 0.0
+  },
+  "has_segments": true,
+  "file": "tuned_min_cost__normal_week__s9000001.json.gz",
+  "bytes": 343172,
+  "sim_fingerprint": "81960cf933f447cf",
+  "created": "2026-10-10T02:12:54-0400",
+  "synthetic": true
+ },
+ {
+  "rollout_id": "tuned_min_wait__flu_surge__s9000001",
+  "manager": {
+   "id": "tuned_min_wait",
+   "kind": "tuned_heuristic",
+   "label": "Tuned heuristic: min_wait",
+   "objective": "min_wait"
+  },
+  "scenario": "flu_surge",
+  "seed": 9000001,
+  "days": 30,
+  "summary": {
+   "wait_mean_min": 12.709691047668457,
+   "wait_p95_min": 25.0,
+   "ed_los_median_min": 155.0,
+   "lwbs_rate": 0.008146067149937153,
+   "cost_per_day": 594988.125,
+   "margin_per_day": 515322.34375,
+   "cost_per_treated": 2535.1005859375,
+   "deaths_per_10k": 1.4044944047927856,
+   "boarding_hours_per_day": 5.466667175292969,
+   "diversion_hours_per_day": 0.0,
+   "overtime_hours_per_day": 8.266666412353516
+  },
+  "has_segments": true,
+  "file": "tuned_min_wait__flu_surge__s9000001.json.gz",
+  "bytes": 363527,
+  "sim_fingerprint": "81960cf933f447cf",
+  "created": "2026-10-10T02:12:30-0400",
+  "synthetic": true
+ },
+ {
+  "rollout_id": "tuned_min_wait__normal_week__s9000001",
+  "manager": {
+   "id": "tuned_min_wait",
+   "kind": "tuned_heuristic",
+   "label": "Tuned heuristic: min_wait",
+   "objective": "min_wait"
+  },
+  "scenario": "normal_week",
+  "seed": 9000001,
+  "days": 30,
+  "summary": {
+   "wait_mean_min": 12.668161392211914,
+   "wait_p95_min": 25.0,
+   "ed_los_median_min": 155.0,
+   "lwbs_rate": 0.008126341737806797,
+   "cost_per_day": 586718.6875,
+   "margin_per_day": 436556.65625,
+   "cost_per_treated": 2726.387939453125,
+   "deaths_per_10k": 1.5332720279693604,
+   "boarding_hours_per_day": 5.266667366027832,
+   "diversion_hours_per_day": 0.0,
+   "overtime_hours_per_day": 7.966666221618652
+  },
+  "has_segments": true,
+  "file": "tuned_min_wait__normal_week__s9000001.json.gz",
+  "bytes": 353363,
+  "sim_fingerprint": "81960cf933f447cf",
+  "created": "2026-10-10T02:12:28-0400",
+  "synthetic": true
+ }
+]

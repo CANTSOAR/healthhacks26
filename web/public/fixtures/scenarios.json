@@ -1,0 +1,1 @@
+[{"id":"normal_week","label":"Normal week","description":"Fixture scenario list (server offline). Typical demand.","hospital_id":"rwjuh_nb","days_default":7},{"id":"flu_surge","label":"Flu surge","description":"Fixture scenario list (server offline). Respiratory demand wave.","hospital_id":"rwjuh_nb","days_default":14}]
