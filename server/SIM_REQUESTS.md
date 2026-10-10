@@ -9,10 +9,11 @@ Nothing here blocks the server; each item has a working stand-in on the server s
    `_scenario_state` expects (`start_day`, `start_hour`, `duration_days` / `duration_hours` / `window_min`, ...).
    Wanted: `sim.inject_event(b, type, **params) -> dict` so the server stops depending on those. Note the list is
    shared by all hospitals of a batch; the server only ever runs batch 1.
-2. **Played result before the encounter starts.** `apply_interaction_result` raises `ValueError` unless the patient is
-   in `with_provider` phase 1. A learner can finish while the simulated patient is still waiting for a provider, so the
-   server queues the result and applies it on the tick the encounter starts (`Run.apply_result`, `Run._apply_deferred`).
-   Wanted: the simulator accepting an early result itself (store it, use it when the encounter begins).
+2. **Played result before the encounter starts: done in the simulator** (`apply_interaction_result(..., defer=True)`);
+   the server uses it and keeps its own queue only for a simulator without `defer`. Two small things remain: there is
+   no public way to ask "is a result queued for this patient" or to cancel one, so on an abandoned encounter the
+   server pops `sim._deferred[b][pid]` directly (`Run._release`); and `release_hold` does not drop a queued result.
+   Wanted: `sim.deferred_result(b, pid)` and `release_hold` cancelling the queued result.
 3. **Snapshot without side effects.** `snapshot(b)` drains the event and decision buffers. For room and equipment
    detail the server needs the current row without consuming them and saves/restores `sim._events[b]` /
    `sim._decisions[b]` around the call (`Run._quiet_snapshot`, same trick `staff_detail` uses). Wanted:

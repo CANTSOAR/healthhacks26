@@ -223,6 +223,20 @@ def get_run_equipment(run_id: str, equipment_id: str):
         raise HTTPException(status_code=404, detail=str(e.args[0])) from None
 
 
+@app.get("/api/runs/{run_id}/playable")
+def get_run_playable(run_id: str):
+    run = _run(run_id)
+    return J(dict(run_id=run.run_id, t=run.t, playable=run.playable_ids()))
+
+
+@app.delete("/api/runs/{run_id}/patients/{patient_id}/hold")
+def delete_run_patient_hold(run_id: str, patient_id: int):
+    """An encounter was abandoned: give the patient back to the simulation's own sampler."""
+    run = _run(run_id)
+    sim, b = runs.get(run_id)
+    return J(dict(run_id=run.run_id, patient_id=patient_id, released=bool(sim.release_hold(b, patient_id))))
+
+
 # ---------------------------------------------------------------- encounter (optional package)
 encounter_glue.try_mount(app)
 

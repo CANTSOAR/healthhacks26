@@ -8,7 +8,7 @@ entity routes, and (when the `encounter` package is importable) the encounter ro
 ```
 ./run_server.sh            # uvicorn on http://127.0.0.1:8000, loads .env if present   (./run_server.sh 8001 for another port)
 ./run_web.sh               # pnpm --dir web install && pnpm --dir web dev  -> http://localhost:3000
-.venv/bin/python -m pytest server/tests -q          # 33 tests, about 15 s
+.venv/bin/python -m pytest server/tests -q          # 43 tests, about 25 s
 .venv/bin/python -m server.smoke http://localhost:8000   # every GET route + a 3-simulated-hour websocket session
 ```
 
@@ -86,14 +86,46 @@ runs.get_run(run_id)           # the Run object: .sim (raw HospitalSim), .b, .lo
 `sim.hold_for_play(b, pid)` and so on are safe from any thread while the socket keeps ticking. It adds three things:
 
 - `hold_for_play` marks the run as having an open encounter;
-- `apply_interaction_result` applies the result, or, when the learner finished before the simulated patient reached
-  a provider (the simulator rejects that), queues it and applies it on the tick the encounter starts. It returns
-  `"applied"` or `"deferred"`;
+- `apply_interaction_result` returns `"applied"` or `"queued"` (see "Playing a simulated patient"), or raises when the
+  simulation cannot use the result (the hold is released first);
 - `release_hold` clears the mark and any queued result.
 
-Lifetime: a run is registered at `start`. When its socket closes it is kept for 60 s (`runs.GRACE_S`), or for 10
-minutes (`runs.ENCOUNTER_GRACE_S`) while a patient is held for play, then swept. The simulation does not advance
-while no socket is attached.
+Lifetime and rejoining: a run is registered at `start`. When its socket closes the run is kept, paused at its
+current tick with all state intact, for 10 minutes (`runs.GRACE_S`), or 30 minutes (`runs.ENCOUNTER_GRACE_S`) while an
+encounter or journey holds one of its patients or a played result is queued. It does not advance while no socket is
+attached. `{"type": "attach", "run_id": ...}` on any socket rejoins it: the server answers with a normal `header`
+(`attached: true`, plus `speed`, `paused`, `t`, current `manager`), the current snapshot, an `hour` acknowledgement
+and the summary so far, then streams on at the run's previous speed. If the run is gone the answer is
+`{"type": "error", "code": "run_gone"}`. A socket whose run is attached from elsewhere gets
+`{"type": "error", "code": "detached"}`. A second `start` on a socket leaves its previous run resumable.
+`GET /api/runs` lists runs: `{run_id, scenario, seed, manager, t, clock, has_open_encounter, expires_in_s}`
+(`expires_in_s` is null while a socket is attached; also `connected`, `speed`, `paused`, `hospital_id`, `manager_info`).
+At most 12 detached runs without an open encounter are kept.
+
+## Playing a simulated patient
+
+- **Who is playable** (`Run.playable`): a patient before the provider (`waiting_triage`, `in_triage`, `waiting_bay`,
+  `waiting_provider`, or walking to the provider) or with the provider in the clinician encounter; not already played,
+  not held, no result queued. The patient route and `detail` messages carry `playable`, `playable_code`
+  (`pre_provider`, `with_provider`, `past_encounter`, `already_played`, `held`, `result_queued`, `not_in_hospital`) and
+  `playable_reason` (a sentence for the UI). Every `hour` message carries `playable: [patient ids]`, and
+  `GET /api/runs/{run_id}/playable` returns `{run_id, t, playable}` on demand (use it while paused).
+- **Starting**: `POST /api/encounters {run_id, patient_id}` is checked first by the server: 409 with
+  `{"detail": {"message", "code", "playable": false}}` for a patient who is not playable, 404 for an unknown run
+  (`code: "run_gone"`) or patient. Nothing is held when a start is refused.
+- **Write-back**: `apply_interaction_result` goes to `sim.apply_interaction_result(b, result, defer=True)`. A patient in
+  the encounter gets the result at once (`applied`). A patient who has not reached a provider gets it queued inside
+  the simulator, which applies it on the tick that patient's clinician encounter starts, whenever the clock next runs
+  (paused, or socket closed and attached later, makes no difference). A patient past the encounter is `rejected` and
+  the hold is released.
+- **What the page sees**: the answers of `POST /api/encounters/{id}/finish` and `GET /api/encounters/{id}` are
+  annotated by the server (`encounter_glue.SimEncounterMiddleware`): `write_back: {status: "applied" | "queued" |
+  "rejected" | "not_applicable", detail, run_id?, patient_id?}` and `written_back` is true only when `status` is
+  `applied`. `GET /api/encounters/{id}` later turns from `queued` to `applied` (or `rejected` when the patient left
+  without being seen, or the run expired). `not_applicable` is a case that is not a simulated patient.
+- **Holds never leak**: released when a result is rejected, when the page calls
+  `DELETE /api/runs/{run_id}/patients/{patient_id}/hold` (abandoned encounter), after 30 minutes without a result
+  (`runs.HOLD_TTL_S`), and when the run is swept.
 
 ## Encounter glue
 
@@ -112,5 +144,5 @@ next snapshots show the patient moving on with flag bit 8 (`played`). Tested end
 If a future encounter router had no such hook, `SimEncounterMiddleware` answers the `{run_id, patient_id}` form itself
 with the same resolver; it steps aside whenever the router took the hook or mentions `run_id` in its source.
 
-Known gap: an encounter that is abandoned (never finished) keeps its patient held until the run is swept; nothing
-calls `release_hold`.
+An abandoned encounter keeps its patient held (and not playable) until the page calls the `DELETE .../hold` route or
+the 30-minute expiry passes.

@@ -50,3 +50,26 @@ something. All additions are extra keys or extra routes; nothing documented was 
   `services.sim.active_runs`.
 - Patient route: `pending_interaction` (whether the clinician encounter is playable now) and `catalog`
   (resolved refs).
+
+## Round 2 additions (rejoin, queued write-back, playability)
+
+Proposed text for `contracts/api.md`; all implemented and tested.
+
+- Client message `{"type": "attach", "run_id": "..."}`. Reply: `header` with `"attached": true`, `speed`, `paused`,
+  `t`; then `snapshot`, `hour` (ack) and `summary`; streaming resumes at the previous speed. Unknown or expired run:
+  `{"type": "error", "code": "run_gone", "run_id", "message"}`. A socket that loses its run to another attach gets
+  `{"type": "error", "code": "detached"}`. `header` from `start` carries `"attached": false` and the same extra keys.
+- Runs outlive their socket: 10 minutes, 30 with an open encounter or journey or a queued result; paused meanwhile.
+- `stop` now also marks the run paused, so attaching to a stopped run does not restart its clock (`resume` does).
+- `GET /api/runs` -> `[{run_id, scenario, seed, manager, t, clock: {day, minute_of_day, dow}, has_open_encounter,
+  expires_in_s, connected, speed, paused, hospital_id, manager_info}]`. `manager` is the manager id (string);
+  `manager_info` is the full object. `expires_in_s` is null while a socket is attached.
+- `hour` messages carry `playable: [patient ids]`. `GET /api/runs/{run_id}/playable` -> `{run_id, t, playable}`.
+- Patient route and `detail`: `playable`, `playable_code`, `playable_reason`.
+- `POST /api/encounters {run_id, patient_id}`: 409 `{"detail": {"message", "code", "playable": false, "patient_id"}}`
+  when not playable (the encounter router's error shape, with `code` added); `"force": true` skips the check.
+- `POST /api/encounters/{id}/finish` and `GET /api/encounters/{id}`: `write_back: {status, detail, ...}` added;
+  `written_back` is true only for `applied` (it used to be true whenever the simulator did not raise).
+- `DELETE /api/runs/{run_id}/patients/{patient_id}/hold` -> `{run_id, patient_id, released}`.
+- Not covered: journey routes (`/api/journeys...`) are not annotated; their own `writeback.written_back` is true for
+  both applied and queued results.

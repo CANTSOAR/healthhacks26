@@ -20,13 +20,30 @@ class Session:
     def __init__(self, ws: WebSocket):
         self.ws = ws
         self.run: runs.Run | None = None
-        self.speed = 12.0
-        self.paused = False
         self.steps = 0
         self.wake = asyncio.Event()
         self.task: asyncio.Task | None = None
         self.send_lock = asyncio.Lock()
         self.tick_cost = 0.01     # seconds of wall time per simulated tick (running average)
+
+    # speed and pause live on the run, so a later socket that attaches resumes exactly as this one left it
+    @property
+    def speed(self) -> float:
+        return self.run.speed if self.run is not None else 12.0
+
+    @speed.setter
+    def speed(self, v: float) -> None:
+        if self.run is not None:
+            self.run.speed = v
+
+    @property
+    def paused(self) -> bool:
+        return self.run.paused if self.run is not None else False
+
+    @paused.setter
+    def paused(self, v: bool) -> None:
+        if self.run is not None:
+            self.run.paused = v
 
     # ---------------------------------------------------------------- io
     async def send_raw(self, text: str) -> None:
@@ -53,7 +70,7 @@ class Session:
     async def _loop(self, run: runs.Run) -> None:
         next_at = time.monotonic()
         try:
-            while not run.finished:
+            while not run.finished and self.run is run:
                 active = (not self.paused) and self.speed > 0
                 if not active and self.steps <= 0:
                     self.wake.clear()
@@ -105,10 +122,7 @@ class Session:
 
     # ---------------------------------------------------------------- messages
     async def on_start(self, msg: dict) -> None:
-        await self._stop_loop()
-        if self.run is not None:
-            runs.remove(self.run.run_id)
-            self.run = None
+        await self._leave()
         ok, why = runs.sim_available()
         if not ok:
             await self.error(f"simulator unavailable: {why}")
@@ -133,6 +147,7 @@ class Session:
             except Exception as e:  # noqa: BLE001
                 notes.append(f"manager '{manager}' could not be loaded ({str(e)[:200]}); you are in control")
         self.run = runs.register(run)
+        run.owner = self
         self._set_speed(msg.get("speed", 12))
         self.paused, self.steps = False, 0
         header, first, ack = await asyncio.to_thread(lambda: (cache.dumps(run.header()), cache.dumps(dict(type="snapshot", snapshot=run.snapshot())),
@@ -142,6 +157,58 @@ class Session:
             await self.error(n)
         await self.send_raw(first)
         await self.send_raw(ack)
+        self.task = asyncio.create_task(self._loop(run))
+
+    async def _leave(self) -> None:
+        """Stop driving the current run (if any). The run stays in the registry, paused at its tick, and can be attached again."""
+        await self._stop_loop()
+        run, self.run = self.run, None
+        if run is not None and run.owner is self:
+            runs.disconnect(run)
+
+    async def kicked(self, run: runs.Run) -> None:
+        """Another socket attached to our run."""
+        if self.run is run:
+            await self._stop_loop()
+            self.run = None
+            try:
+                await self.send(dict(type="error", code="detached", run_id=run.run_id,
+                                     message="this run was attached from another connection; this socket no longer drives it"))
+            except Exception:  # noqa: BLE001
+                pass
+
+    async def on_attach(self, msg: dict) -> None:
+        rid = str(msg.get("run_id") or "")
+        try:
+            run = runs.get_run(rid)
+        except KeyError:
+            await self.send(dict(type="error", code="run_gone", run_id=rid,
+                                 message=f"run '{rid}' is no longer available (it expired after its connection closed, or the server restarted)"))
+            return
+        if run is not self.run:
+            await self._leave()
+            old = run.owner
+            if old is not None and old is not self:
+                await old.kicked(run)
+        else:
+            await self._stop_loop()
+        self.run, run.owner, run.connected = run, self, True
+        run.last_seen = time.time()
+        self.steps = 0
+
+        def build():
+            with run.lock:
+                h = run.header()
+                h["attached"] = True
+                snap = run._quiet_snapshot()
+                run.clock = snap.get("clock") or run.clock
+                return cache.dumps(h), cache.dumps(dict(type="snapshot", snapshot=snap)), cache.dumps(run.hour_msg(ack=True)), \
+                    cache.dumps(run.summary(final=run.finished))
+        header, snap, ack, summary = await asyncio.to_thread(build)
+        await self.send_raw(header)
+        await self.send_raw(snap)
+        await self.send_raw(ack)
+        await self.send_raw(summary)
         self.task = asyncio.create_task(self._loop(run))
 
     def _set_speed(self, v) -> None:
@@ -157,6 +224,9 @@ class Session:
         kind = msg.get("type")
         if kind == "start":
             await self.on_start(msg)
+            return
+        if kind == "attach":
+            await self.on_attach(msg)
             return
         run = self.run
         if run is None:
@@ -204,6 +274,7 @@ class Session:
             await self.send(await asyncio.to_thread(run.detail, str(ent.get("kind")), ent.get("id")))
         elif kind == "stop":
             await self._stop_loop()
+            self.paused = True          # a stopped run that is attached again stays stopped until resumed
             await self.send(await asyncio.to_thread(run.summary, True))
         else:
             await self.error(f"unknown message type '{kind}'")
@@ -232,9 +303,7 @@ class Session:
         except RuntimeError:
             pass   # receive after close
         finally:
-            await self._stop_loop()
-            if self.run is not None:
-                runs.disconnect(self.run)
+            await self._leave()
 
 
 async def ws_sim(ws: WebSocket) -> None:

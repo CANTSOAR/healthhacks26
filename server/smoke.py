@@ -94,6 +94,20 @@ async def ws_session(base: str, scenario: str, hours: int = 3) -> dict:
             elif t == "summary" and m.get("final"):
                 out["summary"] = m.get("summary")
                 break
+    # rejoin: the run outlives its socket and a new socket can attach to it
+    try:
+        async with websockets.connect(url, max_size=None, open_timeout=10) as ws:
+            await ws.send(json.dumps(dict(type="attach", run_id=out["run_id"])))
+            m = json.loads(await asyncio.wait_for(ws.recv(), timeout=15))
+            out["attach"] = dict(type=m.get("type"), attached=m.get("attached"), t=m.get("t"), speed=m.get("speed"))
+            await ws.send(json.dumps(dict(type="attach", run_id="run-does-not-exist")))
+            for _ in range(200):
+                m = json.loads(await asyncio.wait_for(ws.recv(), timeout=15))
+                if m.get("type") == "error":
+                    out["attach_gone"] = m.get("code")
+                    break
+    except Exception as e:  # noqa: BLE001
+        out["attach"] = dict(error=f"{type(e).__name__}: {e}")
     return out
 
 
@@ -101,7 +115,8 @@ def entity_checks(base: str, run_id, patient, staff) -> list[tuple[str, bool, st
     res = []
     with httpx.Client(base_url=base, timeout=15) as c:
         for name, path, need in ((f"GET /api/runs/<run>/patients/<id>", f"/api/runs/{run_id}/patients/{patient}",
-                                  ("live", "latent_truth_available", "known_state", "interactions", "catalog_refs")),
+                                  ("live", "latent_truth_available", "known_state", "interactions", "catalog_refs", "playable", "playable_reason")),
+                                 ("GET /api/runs/<run>/playable", f"/api/runs/{run_id}/playable", ("run_id", "t", "playable")),
                                  (f"GET /api/runs/<run>/staff/<id>", f"/api/runs/{run_id}/staff/{staff}", ("live", "catalog_refs"))):
             try:
                 r = c.get(path)
@@ -170,6 +185,15 @@ def main(base: str) -> int:
             check(name, ok, detail)
         check("WS stop -> summary", isinstance(w["summary"], dict) and "wait_mean_min" in w["summary"],
               "" if not w["summary"] else f"wait_mean_min={w['summary'].get('wait_mean_min')}, cost_per_day={w['summary'].get('cost_per_day')}")
+        a = w.get("attach") or {}
+        check("WS attach after close -> header (attached)", a.get("type") == "header" and a.get("attached") is True and a.get("t") == w["last_t"],
+              str(a))
+        check("WS attach unknown run -> error run_gone", w.get("attach_gone") == "run_gone", str(w.get("attach_gone")))
+        with httpx.Client(base_url=base, timeout=15) as c:
+            listed = [r for r in c.get("/api/runs").json() if r.get("run_id") == w["run_id"]]
+            need = ("run_id", "scenario", "seed", "manager", "t", "clock", "has_open_encounter", "expires_in_s")
+            check("GET /api/runs lists the resumable run", bool(listed) and all(k in listed[0] for k in need),
+                  f"expires_in_s={listed[0].get('expires_in_s')}" if listed else "run not listed")
         check("WS no error messages", not w["errors"], "; ".join(str(e) for e in w["errors"])[:300])
     except Exception as e:  # noqa: BLE001
         check("WS session", False, f"{type(e).__name__}: {str(e)[:200]}")

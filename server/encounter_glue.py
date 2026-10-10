@@ -161,20 +161,84 @@ def start_from_sim(body: dict) -> tuple[int, dict]:
     return 200, out
 
 
+def precheck(data: dict) -> tuple[int, dict] | None:
+    """`POST /api/encounters {run_id, patient_id}`: refuse a patient who cannot be played, with a readable reason.
+    None = go ahead. The error shape is the encounter router's: {"detail": {"message": ...}}."""
+    try:
+        run = runs.get_run(str(data.get("run_id")))
+    except KeyError:
+        return 404, dict(detail=dict(message=f"run '{data.get('run_id')}' is not live any more", code="run_gone"))
+    try:
+        pid = int(data.get("patient_id"))
+    except (TypeError, ValueError):
+        return 422, dict(detail=dict(message="patient_id must be an integer"))
+    if data.get("force"):
+        return None
+    try:
+        ok, code, reason = run.playable(pid)
+    except Exception:  # noqa: BLE001 - simulator without the needed calls: let the router decide
+        return None
+    if ok:
+        return None
+    return (404 if code == "not_in_hospital" else 409), dict(detail=dict(message=reason, code=code, playable=False, patient_id=pid))
+
+
+def annotate(payload: dict, encounter_id: str | None) -> dict:
+    """Add `write_back: {status, detail}` to an encounter response and make `written_back` true only when applied."""
+    if not isinstance(payload, dict) or "written_back" not in payload:
+        return payload
+    eid = str(encounter_id or payload.get("encounter_id") or "")
+    wb = runs.write_back(eid)
+    if wb is None:
+        fb = payload.get("feedback") if isinstance(payload.get("feedback"), dict) else {}
+        from_sim = bool((payload.get("sim") or {}).get("run_id")) or bool(payload.get("written_back")) or bool(fb.get("writeback_error"))
+        if payload.get("written_back"):
+            wb = dict(status="applied", detail="Applied: the simulated patient continues with your decision.")
+        elif fb.get("writeback_error"):
+            wb = dict(status="rejected", detail="The simulation did not accept the result.", error=fb["writeback_error"])
+        elif payload.get("interaction_result") is None:
+            return payload                       # not finished yet: nothing to say
+        else:
+            wb = dict(status="not_applicable" if not from_sim else "rejected",
+                      detail="This case is not a patient of a running simulation, so there is nothing to write back." if not from_sim
+                      else "The simulation run is no longer available, so the result was not used.")
+    payload["write_back"] = {k: wb[k] for k in ("status", "detail", "run_id", "patient_id", "error") if k in wb}
+    payload["written_back"] = wb["status"] == "applied"
+    return payload
+
+
 class SimEncounterMiddleware:
-    """ASGI middleware: answers `POST /api/encounters` bodies that carry run_id + patient_id when the encounter
-    router cannot; every other request (and every request once the router can) passes through untouched."""
+    """ASGI middleware around the encounter routes:
+
+    - `POST /api/encounters` with run_id + patient_id: 409 with a clear reason when the patient is not playable; when the
+      encounter router has no simulator support at all, the request is answered here (start_from_sim);
+    - `POST /api/encounters/{id}/finish` and `GET /api/encounters/{id}`: the JSON answer gets `write_back`
+      ({status: applied | queued | rejected | not_applicable, detail}) and `written_back` is true only when applied.
+    Everything else passes through untouched."""
 
     def __init__(self, app):
         self.app = app
 
     async def __call__(self, scope, receive, send):
-        if not (scope["type"] == "http" and scope.get("method") == "POST" and scope.get("path", "").rstrip("/") == "/api/encounters") \
-                or router_handles_sim():
+        if scope["type"] != "http":
             await self.app(scope, receive, send)
             return
+        import re
+        path, method = scope.get("path", "").rstrip("/"), scope.get("method")
+        if method == "POST" and path == "/api/encounters":
+            await self._start(scope, receive, send)
+            return
+        m = re.fullmatch(r"/api/encounters/([^/]+)(/finish)?", path)
+        if m and ((method == "POST" and m.group(2)) or (method == "GET" and not m.group(2))):
+            await self._annotated(scope, receive, send, m.group(1))
+            return
+        await self.app(scope, receive, send)
+
+    async def _start(self, scope, receive, send):
         import asyncio
         import json
+        from starlette.responses import Response
+        from . import cache
         body, more = b"", True
         while more:
             msg = await receive()
@@ -187,11 +251,12 @@ class SimEncounterMiddleware:
         except ValueError:
             data = None
         if isinstance(data, dict) and data.get("run_id") is not None and data.get("patient_id") is not None:
-            from starlette.responses import Response
-            from . import cache
-            status, payload = await asyncio.to_thread(start_from_sim, data)
-            await Response(cache.dumps(payload), status_code=status, media_type="application/json")(scope, receive, send)
-            return
+            refused = await asyncio.to_thread(precheck, data)
+            if refused is None and not router_handles_sim():
+                refused = await asyncio.to_thread(start_from_sim, data)
+            if refused is not None:
+                await Response(cache.dumps(refused[1]), status_code=refused[0], media_type="application/json")(scope, receive, send)
+                return
         sent = False
 
         async def replay():
@@ -201,3 +266,34 @@ class SimEncounterMiddleware:
                 return {"type": "http.request", "body": body, "more_body": False}
             return await receive()
         await self.app(scope, replay, send)
+
+    async def _annotated(self, scope, receive, send, encounter_id: str):
+        import asyncio
+        import json
+        from . import cache
+        start, chunks = None, []
+
+        async def capture(msg):
+            nonlocal start
+            if msg["type"] == "http.response.start":
+                start = msg
+                return
+            if msg["type"] != "http.response.body":
+                await send(msg)
+                return
+            chunks.append(msg.get("body", b""))
+            if msg.get("more_body"):
+                return
+            body = b"".join(chunks)
+            ctype = dict(start.get("headers") or []).get(b"content-type", b"")
+            if start["status"] == 200 and ctype.startswith(b"application/json"):
+                try:
+                    data = json.loads(body)
+                    body = cache.dumps(await asyncio.to_thread(annotate, data, encounter_id)).encode()
+                except Exception:  # noqa: BLE001 - never break the encounter's own answer
+                    pass
+            headers = [(k, v) for k, v in (start.get("headers") or []) if k.lower() != b"content-length"]
+            headers.append((b"content-length", str(len(body)).encode()))
+            await send(dict(start, headers=headers))
+            await send({"type": "http.response.body", "body": body, "more_body": False})
+        await self.app(scope, receive, capture)

@@ -10,14 +10,19 @@ encounter can read the latent truth and write its result back while the loop kee
 """
 from __future__ import annotations
 
+import contextlib
 import threading
 import time
 import uuid
 
 from . import cache, catalog, managers
 
-GRACE_S = 60.0            # a run outlives its socket by this long (page reloads, encounter hand-off)
-ENCOUNTER_GRACE_S = 600.0  # ... and by this long while an encounter is open on one of its patients
+GRACE_S = 600.0            # a run outlives its socket by this long, paused at its tick, and can be re-attached
+ENCOUNTER_GRACE_S = 1800.0  # ... and by this long while an encounter or journey is open on one of its patients
+HOLD_TTL_S = 1800.0         # a hold with no result after this much wall time is an abandoned encounter: released
+MAX_IDLE_RUNS = 12          # detached runs kept at most (oldest without an open encounter go first)
+PRE_PROVIDER = ("waiting_triage", "in_triage", "waiting_bay", "waiting_provider")
+WRITE_BACKS: dict[str, dict] = {}   # encounter id -> {run_id, patient_id, status: applied|queued|rejected, detail}
 LATENT_KEYS = ("true_acuity", "severity", "latent_truth", "true_disposition")
 INJECT = {
     "flu_surge": dict(type="flu_wave"),
@@ -155,8 +160,13 @@ class Run:
         self.finished = False
         self.connected = True
         self.created = self.last_seen = time.time()
-        self.encounters: set[str] = set()
-        self.deferred: dict[int, dict] = {}    # played results waiting for their patient to reach a provider
+        self.encounters: set[str] = set()       # "patient-<id>" marks: a hold or a queued result keeps the run longer
+        self.hold_times: dict[int, float] = {}  # patient id -> wall time the hold was taken (for abandoned encounters)
+        self.queued: dict[int, str] = {}        # patient id -> encounter id of a result queued inside the simulator
+        self.deferred: dict[int, dict] = {}     # same, kept here for a simulator without apply_interaction_result(defer=True)
+        self.speed, self.paused = 12.0, False   # remembered across sockets so an attach resumes as it was
+        self.owner = None                       # the websocket session driving this run
+        self.clock = dict(day=0, minute_of_day=0, dow=0)
         if manager and manager != "human":
             self.set_manager(manager)
 
@@ -166,7 +176,7 @@ class Run:
             lay = self.sim.layout(self.b)
             self.layout_version = lay.get("version")
             scn = self.sim.scn
-            return dict(type="header", run_id=self.run_id, scenario=self.scenario, seed=self.seed, hospital_id=self.hospital_id,
+            return dict(type="header", attached=False, speed=self.speed, paused=self.paused, t=self.t, run_id=self.run_id, scenario=self.scenario, seed=self.seed, hospital_id=self.hospital_id,
                         manager=self.manager, tick_minutes=self.tick_minutes, enums=self.sim.enums, layout=lay,
                         action_spec=self.spec, metric_defs=getattr(scn, "metric_defs", None) or (cache.load(_metrics_path()) or {}).get("metrics", {}),
                         ticks_per_hour=self.tph, synthetic=True, notes=self.notes)
@@ -177,7 +187,7 @@ class Run:
     def hour_msg(self, metrics: dict | None = None, ack: bool = False) -> dict:
         with self.lock:
             m = dict(type="hour", t=self.t, metrics=metrics or {}, pending=dict(self.pending), mask=self.mask(),
-                     manager=self.manager["id"])
+                     manager=self.manager["id"], playable=self._try(self.playable_ids, []))
             if ack:
                 m["ack"] = True   # sent in reply to action/manager messages, not at an hour boundary: metrics is empty
             return m
@@ -255,6 +265,8 @@ class Run:
                 self.t += 1
                 if self.deferred:
                     self._apply_deferred(errors)
+                if self.queued:
+                    self._reconcile()
                 out += [dict(type="error", message=m) for m in errors]
                 if self.t % self.tph == 0:
                     metrics = cache.clean({k: _f(v) for k, v in self.sim.metrics_last_hour().items()})
@@ -266,6 +278,7 @@ class Run:
                     out.append(self.summary(final=True))
             if snapshot:
                 snap = self.sim.snapshot(self.b)
+                self.clock = snap.get("clock") or self.clock
                 ver = snap.get("layout_version")
                 if ver is not None and self.layout_version is not None and ver != self.layout_version:
                     out.append(dict(type="layout", layout=self.sim.layout(self.b)))
@@ -275,21 +288,146 @@ class Run:
         return out
 
     def apply_result(self, result: dict) -> str:
-        """Write a played interaction result into the simulation. Returns "applied", or "deferred" when the
-        learner finished before the simulated patient reached a provider: the result is then applied on the
-        tick the patient's clinician encounter starts (the simulator only accepts it during the encounter)."""
+        """Write a played interaction result into the simulation. Returns "applied", or "queued" when the learner
+        finished before the simulated patient reached a provider (any pre-provider state): the result is kept and
+        applied on the tick that patient's clinician encounter starts, whenever the clock next runs.
+        Raises KeyError (patient gone) or ValueError (encounter already resolved); the hold is released then."""
         pid = int(result["patient_id"])
+        eid = str(result.get("session_ref") or result.get("interaction_id") or f"patient-{pid}")
         with self.lock:
             try:
-                self.sim.apply_interaction_result(self.b, result)
+                status = self._apply(result, pid)
+            except Exception as e:  # noqa: BLE001
+                self._release(pid)
+                st = self._try(lambda: self.sim.patient_detail(self.b, pid).get("state"), None)
+                if isinstance(e, KeyError):
+                    detail = "The patient is no longer in the hospital, so the result was not used."
+                else:
+                    detail = ("The simulation had already resolved this patient's clinician encounter"
+                              + (f" (the patient is now {str(st).replace('_', ' ')})" if st else "") + ", so the result was not used.")
+                self._note(eid, pid, "rejected", detail, error=f"{type(e).__name__}: {str(e)[:200]}")
+                raise
+            if status == "queued":
+                self.queued[pid] = eid
+                self.encounters.add(f"patient-{pid}")
+                self._note(eid, pid, "queued", "Queued: it will be applied when this patient reaches the provider.")
+            else:
+                self._release(pid, sim_release=False)
+                self._note(eid, pid, "applied", "Applied: the simulated patient continues with your decision.")
+            return status
+
+    def _apply(self, result: dict, pid: int) -> str:
+        sim, b = self.sim, self.b
+        try:
+            sim.apply_interaction_result(b, result, defer=True)
+        except TypeError:
+            # a simulator without defer=: queue here for every pre-provider state
+            try:
+                sim.apply_interaction_result(b, result)
                 return "applied"
             except ValueError:
-                pend = self._try(lambda: self.sim.pending_interaction(self.b, pid), None)
-                if not pend or pend.get("status") != "waiting":
+                d = sim.patient_detail(b, pid)
+                if d.get("first_seen_t") is not None or d.get("state") == "exited":
                     raise
-                self._try(lambda: self.sim.hold_for_play(self.b, pid), False)
+                self._try(lambda: sim.hold_for_play(b, pid), False)
                 self.deferred[pid] = dict(result)
-                return "deferred"
+                return "queued"
+        d = self._try(lambda: sim.patient_detail(b, pid), None) or {}
+        return "applied" if "played" in (d.get("flag_names") or []) or int(d.get("flags") or 0) & 8 else "queued"
+
+    def _note(self, eid: str, pid: int, status: str, detail: str, **extra) -> None:
+        WRITE_BACKS[eid] = dict(run_id=self.run_id, patient_id=pid, status=status, detail=detail, t=self.t, **extra)
+        while len(WRITE_BACKS) > 500:
+            WRITE_BACKS.pop(next(iter(WRITE_BACKS)))
+
+    def _release(self, pid: int, sim_release: bool = True) -> None:
+        """Forget a hold (and, unless the result was just applied, give the patient back to the sampler)."""
+        self.encounters.discard(f"patient-{pid}")
+        self.hold_times.pop(pid, None)
+        self.queued.pop(pid, None)
+        self.deferred.pop(pid, None)
+        if sim_release:
+            fn = getattr(self.sim, "release_hold", None)
+            if fn:
+                self._try(lambda: fn(self.b, pid), False)
+            dd = getattr(self.sim, "_deferred", None)       # a result queued inside the simulator goes with the hold
+            if isinstance(dd, list) and self.b < len(dd) and isinstance(dd[self.b], dict):
+                dd[self.b].pop(pid, None)
+
+    def _reconcile(self) -> None:
+        """Results queued inside the simulator: notice when one was applied (or its patient left unseen)."""
+        for pid, eid in list(self.queued.items()):
+            try:
+                d = self.sim.patient_detail(self.b, pid)
+            except Exception:  # noqa: BLE001 - gone: exited before reaching a provider, or already left after being seen
+                d = None
+            if d is None:
+                played = eid in WRITE_BACKS and WRITE_BACKS[eid].get("seen_played")
+                self._release(pid, sim_release=False)
+                if not played:
+                    self._note(eid, pid, "rejected", "The patient left the hospital before reaching a provider, so the result was not used.")
+            elif "played" in (d.get("flag_names") or []) or int(d.get("flags") or 0) & 8:
+                self._release(pid, sim_release=False)
+                self._note(eid, pid, "applied", "Applied when the patient reached the provider.")
+
+    def expire_holds(self, now: float | None = None) -> list[int]:
+        """Abandoned encounters: release holds that never got a result."""
+        now = now or time.time()
+        out = []
+        with self.lock:
+            for pid, t0 in list(self.hold_times.items()):
+                if now - t0 > HOLD_TTL_S and pid not in self.queued and pid not in self.deferred:
+                    self._release(pid)
+                    out.append(pid)
+        return out
+
+    def release_all(self) -> None:
+        with self.lock:
+            for pid in list(self.hold_times):
+                if pid not in self.queued and pid not in self.deferred:
+                    self._release(pid)
+
+    # ---------------------------------------------------------------- playability
+    def playable(self, patient_id: int, live: dict | None = None) -> tuple[bool, str, str]:
+        """(playable, code, reason). Playable = before the provider or with the provider, not played, not held."""
+        pid = int(patient_id)
+        with self.lock:
+            if live is None:
+                try:
+                    live = self.sim.patient_detail(self.b, pid)
+                except Exception:  # noqa: BLE001
+                    return False, "not_in_hospital", "This patient is not in the hospital at this moment."
+            state = live.get("state")
+            if "played" in (live.get("flag_names") or []) or int(live.get("flags") or 0) & 8:
+                return False, "already_played", "This patient's clinician encounter has already been played."
+            if pid in self.queued or pid in self.deferred:
+                return False, "result_queued", "A played result is queued for this patient and will be applied when they reach the provider."
+            if live.get("held_for_play") or pid in self.hold_times:
+                return False, "held", "An encounter is already open for this patient."
+            if state in PRE_PROVIDER and live.get("first_seen_t") is None:
+                return True, "pre_provider", ("Not yet seen by a provider: you can play the encounter now; the result is queued and applied "
+                                              "when the patient reaches the provider.")
+            pend = self._try(lambda: self.sim.pending_interaction(self.b, pid), None)
+            if pend:
+                if pend.get("status") == "in_progress":
+                    return True, "with_provider", "The clinician encounter is in progress: your result replaces the sampled one."
+                return True, "pre_provider", "On the way to a provider: the result is queued and applied when the encounter starts."
+            return False, "past_encounter", (f"This patient is past the clinician encounter ({str(state).replace('_', ' ')}); "
+                                             "only patients who have not finished seeing a provider can be played.")
+
+    def playable_ids(self) -> list[int]:
+        with self.lock:
+            snap, E = self._quiet_snapshot(), self.sim.enums
+            p = snap["patients"]
+            pre = {E["patient_state"].index(n) for n in PRE_PROVIDER}
+            maybe = {E["patient_state"].index(n) for n in ("with_provider", "walking")}
+            out = []
+            for pid, st, fl in zip(p["id"], p["state"], p["flags"]):
+                if fl & 8 or pid in self.hold_times or pid in self.queued or pid in self.deferred:
+                    continue
+                if st in pre or (st in maybe and self._try(lambda: self.sim.pending_interaction(self.b, pid), None)):
+                    out.append(pid)
+            return out
 
     def _apply_deferred(self, errors: list) -> None:
         for pid, result in list(self.deferred.items()):
@@ -297,14 +435,19 @@ class Run:
                 pend = self.sim.pending_interaction(self.b, pid)
             except Exception:  # noqa: BLE001
                 pend = None
-            if pend is None:
-                del self.deferred[pid]          # the patient left (or moved on) before being seen
-                errors.append(f"played result for patient {pid} could not be applied: the patient is no longer waiting for a provider")
-            elif pend.get("status") == "in_progress":
-                del self.deferred[pid]
+            eid = str(result.get("session_ref") or result.get("interaction_id") or f"patient-{pid}")
+            gone = self._try(lambda: self.sim.patient_detail(self.b, pid), None) is None
+            if gone:
+                self._release(pid)
+                self._note(eid, pid, "rejected", "The patient left the hospital before reaching a provider, so the result was not used.")
+            elif pend is not None and pend.get("status") == "in_progress":
                 try:
                     self.sim.apply_interaction_result(self.b, result)
+                    self._release(pid, sim_release=False)
+                    self._note(eid, pid, "applied", "Applied when the patient reached the provider.")
                 except Exception as e:  # noqa: BLE001
+                    self._release(pid)
+                    self._note(eid, pid, "rejected", "The simulation did not accept the result.", error=str(e)[:200])
                     errors.append(f"played result for patient {pid} was rejected: {str(e)[:160]}")
 
     def inject(self, event: str, params: dict | None = None) -> dict:
@@ -349,7 +492,9 @@ class Run:
             known = self._try(lambda: sim.known_state(b, pid), None)
             truth_ok = self._try(lambda: bool(sim.latent_truth(b, pid)), False)
             pend = self._try(lambda: sim.pending_interaction(b, pid), None)
+            ok, code, reason = self.playable(pid, live)
         return cache.clean(dict(live=public_live(live), latent_truth_available=bool(truth_ok), known_state=known,
+                                playable=ok, playable_code=code, playable_reason=reason,
                                 interactions=interactions or [], pending_interaction=pend, catalog_refs=refs,
                                 catalog=catalog.resolve_many(refs), synthetic=True))
 
@@ -419,7 +564,7 @@ class Run:
         primary["catalog_refs"] = refs
         out = dict(type="detail", entity=dict(kind=kind, id=entity_id), live=d.get("live"), catalog=primary,
                    interactions=d.get("interactions") or [], run_id=self.run_id, t=self.t)
-        for k in ("known_state", "latent_truth_available", "pending_interaction", "profile"):
+        for k in ("known_state", "latent_truth_available", "pending_interaction", "profile", "playable", "playable_code", "playable_reason"):
             if k in d:
                 out[k] = d[k]
         return out
@@ -471,9 +616,17 @@ class Run:
         return dict(staff_id=sid, name=(s.get("name") or [None] * (i + 1))[i], role=role, state=E["staff_state"][s["state"][i]],
                     room_index=s["room"][i], x=s["x"][i], z=s["z"][i], catalog_refs=[f"staff/{role}"], fictional=True)
 
-    def info(self) -> dict:
-        return dict(run_id=self.run_id, scenario=self.scenario, seed=self.seed, hospital_id=self.hospital_id, t=self.t,
-                    manager=self.manager["id"], connected=self.connected, open_encounters=len(self.encounters))
+    def has_open_encounter(self) -> bool:
+        return bool(self.encounters or self.hold_times or self.queued or self.deferred)
+
+    def info(self, now: float | None = None) -> dict:
+        now = now or time.time()
+        grace = ENCOUNTER_GRACE_S if self.has_open_encounter() else GRACE_S
+        return dict(run_id=self.run_id, scenario=self.scenario, seed=self.seed, hospital_id=self.hospital_id, manager=self.manager["id"],
+                    manager_info=self.manager, t=self.t, clock=self.clock, has_open_encounter=self.has_open_encounter(),
+                    expires_in_s=None if self.connected else max(0, int(grace - (now - self.last_seen))),
+                    connected=self.connected, speed=self.speed, paused=self.paused, finished=self.finished,
+                    open_encounters=len(self.encounters | {f"patient-{p}" for p in self.hold_times}))
 
 
 def _metrics_path():
@@ -490,15 +643,22 @@ def register(run: Run) -> Run:
 
 
 def sweep(now: float | None = None) -> list[str]:
-    """Drop runs whose socket closed longer ago than the grace period."""
+    """Drop detached runs past their grace period (holds released first) and release abandoned holds on the rest."""
     now = now or time.time()
     gone = []
     with _reg_lock:
         for rid, r in list(_runs.items()):
-            grace = ENCOUNTER_GRACE_S if r.encounters else GRACE_S
+            r.expire_holds(now)
+            grace = ENCOUNTER_GRACE_S if r.has_open_encounter() else GRACE_S
             if not r.connected and now - r.last_seen > grace:
                 gone.append(rid)
-                del _runs[rid]
+        idle = sorted((r for r in _runs.values() if not r.connected and r.run_id not in gone and not r.has_open_encounter()),
+                      key=lambda r: r.last_seen)
+        gone += [r.run_id for r in idle[:max(0, len(idle) - MAX_IDLE_RUNS)]]
+        for rid in gone:
+            r = _runs.pop(rid)
+            with contextlib.suppress(Exception):
+                r.release_all()
     return gone
 
 
@@ -508,8 +668,6 @@ def get_run(run_id: str) -> Run:
         r = _runs.get(run_id)
     if r is None:
         raise KeyError(f"run '{run_id}' is not live (unknown, or expired after its socket closed)")
-    if not r.connected and r.encounters:
-        r.last_seen = time.time()   # an open encounter that is still being used keeps the run alive
     return r
 
 
@@ -542,27 +700,26 @@ class LockedSim:
         return locked
 
     def hold_for_play(self, b, patient_id) -> bool:
-        run = self._run
+        run, pid = self._run, int(patient_id)
         with run.lock:
-            ok = bool(run.sim.hold_for_play(b, patient_id))
-        if ok:
-            run.encounters.add(f"patient-{int(patient_id)}")
+            if not run.playable(pid)[0]:
+                return False
+            ok = bool(run.sim.hold_for_play(b, pid))
+            if ok:
+                run.encounters.add(f"patient-{pid}")
+                run.hold_times[pid] = time.time()
         return ok
 
     def release_hold(self, b, patient_id) -> bool:
-        run = self._run
-        run.encounters.discard(f"patient-{int(patient_id)}")
-        run.deferred.pop(int(patient_id), None)
+        run, pid = self._run, int(patient_id)
         with run.lock:
-            fn = getattr(run.sim, "release_hold", None)
-            return bool(fn(b, patient_id)) if fn else False
+            known = pid in run.hold_times or pid in run.queued or pid in run.deferred
+            run._release(pid)
+        return known
 
-    def apply_interaction_result(self, b, result: dict):
-        run = self._run
-        try:
-            return run.apply_result(result)
-        finally:
-            run.encounters.discard(f"patient-{int(result.get('patient_id', -1))}")
+    def apply_interaction_result(self, b, result: dict, defer: bool = True):
+        """ "applied" or "queued" (see Run.apply_result). Raises when the simulation cannot use the result."""
+        return self._run.apply_result(result)
 
 
 def get(run_id: str):
@@ -576,8 +733,27 @@ def lock(run_id: str):
 
 
 def disconnect(run: Run) -> None:
+    """The socket went away: the run stays, paused at its current tick, until it is attached again or swept."""
     run.connected = False
+    run.owner = None
     run.last_seen = time.time()
+
+
+def write_back(encounter_id: str) -> dict | None:
+    """Current write-back state of a played encounter, refreshed against the live run when it was queued."""
+    wb = WRITE_BACKS.get(str(encounter_id))
+    if wb and wb["status"] == "queued":
+        with _reg_lock:
+            r = _runs.get(wb["run_id"])
+        if r is None:
+            wb = dict(wb, status="rejected", detail="The simulation run ended before this patient reached a provider, so the result was not used.")
+            WRITE_BACKS[str(encounter_id)] = wb
+        else:
+            with r.lock:
+                if r.queued:
+                    r._reconcile()
+            wb = WRITE_BACKS.get(str(encounter_id))
+    return dict(wb) if wb else None
 
 
 def remove(run_id: str) -> None:
@@ -600,9 +776,10 @@ def release(run_id: str, encounter_id: str) -> None:
 def list_runs() -> list[dict]:
     with _reg_lock:
         sweep()
-        return [r.info() for r in _runs.values()]
+        return sorted((r.info() for r in _runs.values()), key=lambda i: (not i["connected"], -(i["expires_in_s"] or 0)))
 
 
 def clear() -> None:
     with _reg_lock:
         _runs.clear()
+        WRITE_BACKS.clear()

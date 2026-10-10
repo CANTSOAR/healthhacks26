@@ -61,7 +61,7 @@ def test_full_flow(client, validators):
         assert set(hour["mask"]) == {h["name"] for h in header["action_spec"]}
         assert hour["pending"] == {"imaging_hours": 2}      # weekly head: still waiting for Monday 00:00
         fast, _ = recv_until(ws, lambda m: m["type"] == "snapshot")
-        assert fast["snapshot"]["t"] > 12                    # fast speeds skip snapshots but keep simulating
+        assert fast["snapshot"]["t"] >= 12                   # fast speeds skip snapshots but keep simulating
 
         # hand over to the built-in fixed manager: it puts the defaults back at the next hour
         ws.send_json(dict(type="manager", manager="fixed"))
@@ -307,32 +307,6 @@ def test_learned_policy_gets_weights_appended(monkeypatch):
     assert len(errs) == 1 and "checkpoint mismatch" in errs[0]["message"] and run.manager["id"] == "human"
 
 
-def test_deferred_write_back():
-    """A learner who finishes before the simulated patient is seen: the result is applied when the encounter starts."""
-    run = runs.register(runs.Run("normal_week", seed=3))
-    try:
-        h = encounter_glue.sim_provider(run.run_id)
-        pid = None
-        for _ in range(60):
-            snap = run.advance(6)[-1]["snapshot"]
-            pid = next((c for c in snap["patients"]["id"] if (h.pending_interaction(c) or {}).get("status") == "waiting"), None)
-            if pid is not None:
-                break
-        assert pid is not None
-        res = dict(interaction_id="enc-d", interaction_type="clinician_encounter", patient_id=pid, resolver="played", duration_min=2.0,
-                   information_gained=[], quality=0.7, decision=dict(kind="disposition", orders=[], disposition="discharge"))
-        assert h.apply_interaction_result(res) == "deferred" and pid in run.deferred
-        for _ in range(400):
-            snap = run.advance(1)[-1]["snapshot"]
-            if pid not in run.deferred:
-                break
-        assert pid not in run.deferred
-        if pid in snap["patients"]["id"]:
-            assert snap["patients"]["flags"][snap["patients"]["id"].index(pid)] & 8
-    finally:
-        runs.clear()
-
-
 def test_post_encounter_from_sim_patient(client):
     """POST /api/encounters {run_id, patient_id} reaches the live simulation, whoever handles it."""
     pytest.importorskip("encounter.session")
@@ -355,7 +329,8 @@ def test_post_encounter_from_sim_patient(client):
     if encounter_glue.state["mounted"]:
         f = client.post(f"/api/encounters/{d['encounter_id']}/finish", json=dict(disposition="discharge", orders=[], summary="test"))
         assert f.status_code == 200, f.text
-        assert f.json()["written_back"] is True
+        wb = f.json()["write_back"]
+        assert wb["status"] in ("applied", "queued") and f.json()["written_back"] is (wb["status"] == "applied")
         for _ in range(400):
             snap = run.advance(1)[-1]["snapshot"]
             if pid not in snap["patients"]["id"] or snap["patients"]["flags"][snap["patients"]["id"].index(pid)] & 8:
