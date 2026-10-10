@@ -128,3 +128,13 @@ Copy `.env.example` to `.env`. A service goes online purely because its credenti
 ## Research
 
 The teammate's research on the challenge, sponsors, clinical-education evidence and data sources is in [research/](research/README.md); start with [research/action-plan.md](research/action-plan.md). The operations-side evidence added during the build is in `research/operations-*.md`, with an independent citation audit in [research/operations-citation-audit.md](research/operations-citation-audit.md).
+
+## Static snapshot (GitHub Pages)
+
+https://cantsoar.github.io/healthhacks26/ is a recorded snapshot built from this branch: Watch, Compare, Trade-off and the inspector replay recorded simulated runs. It has no server, so Play, Encounter, Studio and Journey do not work there. To rebuild and republish (the API must be running; stop `next dev` first):
+
+```bash
+.venv/bin/python web/scripts/make_snapshot.py
+cd web && STATIC_EXPORT=1 NEXT_PUBLIC_BASE_PATH=/healthhacks26 NEXT_PUBLIC_STATIC_SNAPSHOT=1 pnpm build
+# then publish web/out (plus an empty .nojekyll) as the gh-pages branch
+```

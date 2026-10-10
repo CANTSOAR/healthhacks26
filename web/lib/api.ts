@@ -12,8 +12,14 @@ export interface Sourced<T> {
 const DEFAULT_BASE = "http://localhost:8000";
 const HUMAN_KEY = "hg.human_runs";
 
+/** Static snapshot build (GitHub Pages): GET routes are served from recorded JSON under <basePath>/snapshot; nothing is live. */
+export const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
+export const STATIC_SNAPSHOT = process.env.NEXT_PUBLIC_STATIC_SNAPSHOT === "1";
+
 /** Base URL: `?api=` in the address bar (remembered for the tab) > NEXT_PUBLIC_API_URL > http://localhost:8000. */
 export function apiBase(): string {
+  // snapshot build: never reach for a server on the visitor's machine; POST routes simply fail and the pages say so
+  if (STATIC_SNAPSHOT) return `${BASE_PATH}/snapshot`;
   if (typeof window !== "undefined") {
     try {
       const q = new URLSearchParams(window.location.search).get("api");
@@ -53,7 +59,9 @@ async function live<T>(path: string, init?: RequestInit, timeoutMs = 2500): Prom
   const ctl = new AbortController();
   const timer = setTimeout(() => ctl.abort(), timeoutMs);
   try {
-    const res = await fetch(apiBase() + path, { ...init, signal: ctl.signal, cache: "no-store" });
+    if (STATIC_SNAPSHOT && init?.method && init.method !== "GET") throw new HttpError(503, path);
+    const url = STATIC_SNAPSHOT ? `${apiBase()}${path.split("?")[0]}.json` : apiBase() + path;
+    const res = await fetch(url, STATIC_SNAPSHOT ? { signal: ctl.signal } : { ...init, signal: ctl.signal, cache: "no-store" });
     setOnline(true);
     if (!res.ok) throw new HttpError(res.status, path);
     return (await res.json()) as T;
@@ -89,7 +97,7 @@ function catalogVariants(entityType: string): Promise<string[] | null> {
 function fixture<T>(file: string): Promise<T> {
   let p = cache.get(file) as Promise<T> | undefined;
   if (!p) {
-    p = fetch(`/fixtures/${file}`).then((r) => {
+    p = fetch(`${BASE_PATH}/fixtures/${file}`).then((r) => {
       if (!r.ok) throw new Error(`missing fixture ${file}`);
       return r.json() as Promise<T>;
     });

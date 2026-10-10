@@ -96,7 +96,7 @@ export function StatusIndicator() {
   const origin = useStore(feeds.a, (s) => s.origin);
   const [open, setOpen] = useState(false);
   const ref = useClickAway<HTMLDivElement>(useCallback(() => setOpen(false), []));
-  const label = online == null ? "Checking…" : online ? "Live" : "Offline · fixture";
+  const label = process.env.NEXT_PUBLIC_STATIC_SNAPSHOT === "1" ? "Recorded snapshot" : online == null ? "Checking…" : online ? "Live" : "Offline · fixture";
   const color = online == null ? "#B4BAD1" : online ? "#1BAF7A" : "#E0A21B";
   const sv = status?.services;
   const rows: [string, boolean, string][] = [

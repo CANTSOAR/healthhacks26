@@ -210,7 +210,7 @@ export function CaseEditor({ caseId, onBack }: { caseId: string; onBack: () => v
   const preview = () =>
     run("preview", async () => {
       await saveIfDirty();
-      window.open(`/encounter?case_id=${encodeURIComponent(caseId)}&preview=1`, "_blank");
+      window.open(`${process.env.NEXT_PUBLIC_BASE_PATH || ""}/encounter?case_id=${encodeURIComponent(caseId)}&preview=1`, "_blank");
     });
 
   const issues: Issue[] = useMemo(() => flatten(report), [report]);
