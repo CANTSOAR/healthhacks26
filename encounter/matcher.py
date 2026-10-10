@@ -153,6 +153,17 @@ _FIRST_PERSON = re.compile(r"\b(i|id|ill|im|ive|we|well|lets|let|were)\b")
 _IMPERATIVE = re.compile(r"^(please )?(order|get|send|run|check|obtain|request|perform|draw|do|examine|repeat|pull|review|show)\b")
 
 
+def is_request_like(text: str) -> bool:
+    """The clinician acting ("can I get an ECG", "let me listen to your chest", "order a troponin"), not a question about the
+    patient ("what medications do you take?"). The same gate match_requests applies; also used on requests a model proposes."""
+    norm = tx.normalize(text)
+    if _ABOUT_PATIENT.match(norm):
+        return False
+    if not (_FIRST_PERSON.search(norm) or _IMPERATIVE.match(norm)):
+        return False
+    return bool(tx.phrase_in(norm, tx.REQUEST_VERBS))
+
+
 def match_requests(text: str, case_requests: list[str], require_verb: bool = True) -> list[str]:
     """Requests named in free text. `case_requests` are the case's own request strings (always preferred)."""
     norm = tx.normalize(text)

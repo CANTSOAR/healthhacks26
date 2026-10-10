@@ -23,7 +23,9 @@ def isolated(tmp_path, monkeypatch):
     monkeypatch.setenv("ENCOUNTER_DATA_DIR", str(data))
     monkeypatch.setenv("ENCOUNTER_PRIVATE_DIR", str(private))
     for k in ("ANTHROPIC_API_KEY", "ELEVENLABS_API_KEY", "AWS_ACCESS_KEY_ID", "AWS_SECRET_ACCESS_KEY", "AWS_SESSION_TOKEN", "AWS_PROFILE",
-              "BEDROCK_MODEL_ID", "ANTHROPIC_MODEL"):
+              "BEDROCK_MODEL_ID", "ANTHROPIC_MODEL", "AWS_BEARER_TOKEN_BEDROCK", "AWS_REGION", "AWS_DEFAULT_REGION", "BEDROCK_FAST_MODEL_ID",
+              "BEDROCK_FALLBACK_MODEL_IDS", "ANTHROPIC_FAST_MODEL", "ENCOUNTER_INTENT_COMBINE", "ENCOUNTER_WORDING_TIER",
+              "ENCOUNTER_LLM_TURN_TIMEOUT_S", "ENCOUNTER_ALLOW_NETWORK_IN_TESTS", "ENCOUNTER_GRADER_TIER"):
         monkeypatch.delenv(k, raising=False)
     monkeypatch.setattr(providers, "aws_credentials_resolve", lambda: False)
     providers.reset_provider(providers.OfflineProvider())
@@ -109,23 +111,57 @@ MINI = {
 
 
 class FakeAnthropic:
-    """Stands in for anthropic.Anthropic(): records calls, answers by prompt type."""
+    """Stands in for anthropic.Anthropic(): records calls, answers by prompt type.
 
-    def __init__(self, intent=None, wording=None, grade=None, fail=False, describe=None):
+    intent / wording / grade / describe / verify set the reply for that kind of call; `verify` defaults to "grounded".
+    A value may be a callable taking the call's keyword arguments. `fail` fails every call; `fail_on` is a set of call
+    kinds ("intent", "wording", "verify", "grade", "describe") that fail while the others succeed."""
+
+    def __init__(self, intent=None, wording=None, grade=None, fail=False, describe=None, verify=None, fail_on=(), extract=None):
         self.calls = []
         self.intent, self.wording, self.grade, self.fail, self.describe = intent, wording, grade, fail, describe
+        self.verify, self.fail_on, self.extract = verify, set(fail_on), extract
         self.messages = SimpleNamespace(create=self._create)
 
-    def _reply(self, system: str) -> str:
+    @staticmethod
+    def kind(system: str) -> str:
         if "You label" in system:
-            return json.dumps(self.intent or {"fact_ids": [], "requests": [], "open_question": False})
+            return "intent"
         if "You voice a patient" in system:
-            return self.wording if isinstance(self.wording, str) else ""
+            return "wording"
+        if "You check one line of dialogue" in system:
+            return "verify"
         if "clinical-skills teacher" in system:
-            return json.dumps(self.grade or {"objectives": [], "rubric": [], "strengths": [], "next_time": []})
+            return "grade"
+        if "structured draft of a teaching patient" in system:
+            return "extract"
         if "clinical teacher turn" in system:
-            return json.dumps(self.describe or {})
+            return "describe"
+        return "other"
+
+    def _reply(self, system: str) -> str:
+        kw = self.calls[-1] if self.calls else {}
+        kind = self.kind(system)
+        if kind in self.fail_on:
+            raise RuntimeError(f"simulated failure of the {kind} call")
+        val = {"intent": self.intent, "wording": self.wording, "verify": self.verify, "grade": self.grade, "describe": self.describe,
+               "extract": self.extract}.get(kind)
+        if callable(val):
+            val = val(kw or {})
+        if kind == "intent":
+            return json.dumps(val or {"fact_ids": [], "requests": [], "open_question": False})
+        if kind == "wording":
+            return val if isinstance(val, str) else ""
+        if kind == "verify":
+            return json.dumps(val or {"grounded": True, "unsupported_claims": [], "omitted": []})
+        if kind == "grade":
+            return json.dumps(val or {"objectives": [], "rubric": [], "strengths": [], "next_time": []})
+        if kind in ("describe", "extract"):
+            return json.dumps(val or {})
         return "{}"
+
+    def kinds(self) -> list[str]:
+        return [self.kind(c["system"] if isinstance(c.get("system"), str) else c["system"][0]["text"]) for c in self.calls]
 
     def _create(self, **kw):
         self.calls.append(kw)
@@ -136,12 +172,18 @@ class FakeAnthropic:
 
 
 class FakeBedrock(FakeAnthropic):
-    """Stands in for boto3.client('bedrock-runtime')."""
+    """Stands in for boto3.client('bedrock-runtime'). `refuse` is a set of model IDs the account may not invoke."""
+
+    def __init__(self, *a, refuse=(), **kw):
+        super().__init__(*a, **kw)
+        self.refuse = set(refuse)
 
     def converse(self, **kw):
         self.calls.append(kw)
         if self.fail:
             raise RuntimeError("simulated AccessDeniedException")
+        if kw.get("modelId") in self.refuse:
+            raise RuntimeError("AccessDeniedException: model access is denied for this account (private marketplace eligibility)")
         system = kw["system"][0]["text"]
         return {"output": {"message": {"role": "assistant", "content": [{"text": self._reply(system)}]}}, "stopReason": "end_turn",
                 "usage": {"inputTokens": 10, "outputTokens": 10}}

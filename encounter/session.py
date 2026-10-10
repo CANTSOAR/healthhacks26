@@ -129,6 +129,7 @@ class EncounterManager:
             engine = Engine(case)
         engine.start(state, known_fact_ids=ks.get("known_fact_ids"))
         prov = self.provider()
+        prov.warm()
         s = {"encounter_id": eid, "case_id": case.get("case_id"), "case_version": case.get("version"), "case": case,
              "state": state, "status": "active", "started": now_iso(), "finished": None, "preview": bool(preview),
              "sim": sim, "learner": learner, "responses": {}, "feedback": None, "interaction_result": None, "written_back": False,
@@ -182,6 +183,9 @@ class EncounterManager:
             engine = Engine(s["case"])
             r = respond(s["case"], engine, s["state"], text, self.provider(), request_id)
             resp = self._response(s, engine, r["event"], r["reply"], r["notes"], r["provider"], r["fallback"])
+            resp["wording"] = r["wording"]                          # "model" or "authored"
+            resp["grounding_fallback"] = r["grounding_fallback"]    # a model-worded reply was rejected; authored wording used
+            resp["timing_ms"] = r["timing_ms"]
             s["responses"][request_id] = resp
             self._save(s)
             return resp

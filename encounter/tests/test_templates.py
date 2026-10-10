@@ -109,23 +109,69 @@ def test_from_description_offline_is_a_draft():
     assert c["review"]["needs_faculty_review"] and out["notes"]
 
 
+RUTH = "Ruth Adeyemi, 39, a baker, presents with low back pain for two weeks. She lifts kettlebells three times a week. She hides that she is taking her sister's oxycodone."
+
+
+def _ruth_draft(**over):
+    d = {"template_id": "musculoskeletal", "name": "Ruth Adeyemi", "age": 39, "gender": "female", "occupation": "baker", "severity": "mild",
+         "personality": "Cheerful", "speech_style": "",
+         "complaint": {"text": "low back pain", "duration": "two weeks", "source": "low back pain for two weeks"},
+         "facts": [{"category": "social", "slug": "kettlebells", "statement": "Lifts kettlebells three times a week",
+                    "patient_answer": "I lift kettlebells three times a week.", "topics": ["exercise"], "negative": False,
+                    "source": "She lifts kettlebells three times a week"}],
+         "concealed": [{"slug": "painkillers from sister", "statement": "Is taking her sister's oxycodone", "reveal_answer": "I've been taking my sister's oxycodone.",
+                        "cover_answer": "Just the usual stuff.", "topics": ["drugs", "medications"], "source": "she is taking her sister's oxycodone"}]}
+    d.update(over)
+    return d
+
+
 def test_from_description_online_uses_model_fields_and_stays_a_draft():
-    fake = FakeAnthropic(describe={"template_id": "musculoskeletal", "name": "Ruth Adeyemi", "age": 39, "gender": "female", "severity": "mild",
-                                   "background": "Works nights as a baker.", "personality": "Cheerful", "speech_style": "Chatty",
-                                   "extra_facts": [{"category": "social", "slug": "kettlebells", "statement": "Lifts kettlebells three times a week",
-                                                    "patient_answer": "I lift kettlebells three times a week.", "concealed": False, "cover_answer": "", "topics": ["exercise"]},
-                                                   {"category": "social", "slug": "painkillers from sister", "statement": "Takes her sister's oxycodone",
-                                                    "patient_answer": "I've been taking my sister's oxycodone.", "concealed": True, "cover_answer": "Just ibuprofen.", "topics": ["drugs", "medications"]}]})
-    out = tpl.from_description("Ruth, 39, baker with back pain, lifts kettlebells; hides taking her sister's oxycodone.", AnthropicProvider(client=fake))
+    fake = FakeAnthropic(extract=_ruth_draft())
+    out = tpl.from_description(RUTH, AnthropicProvider(client=fake))
     c = out["case"]
     assert out["method"] == "anthropic" and out["fallback"] is False and c["status"] == "draft" and c["origin"]["condition_template"] == "musculoskeletal"
-    assert c["profile"]["name"] == "Ruth Adeyemi" and c["profile"]["age"] == 39 and c["profile"]["background"] == "Works nights as a baker."
+    assert c["profile"]["name"] == "Ruth Adeyemi" and c["profile"]["age"] == 39 and c["profile"]["personality"] == "Cheerful"
     f = {x["fact_id"]: x for x in c["facts"]}
-    assert f["f.social.kettlebells"]["patient_answer"] == "I lift kettlebells three times a week."
+    assert f["f.social.kettlebells"]["patient_answer"] == "I lift kettlebells three times a week." and f["f.social.kettlebells"]["drafted_by"] == "model"
     hid = f["f.concealed.painkillers_from_sister"]
-    assert hid["disclosure"]["rule"] == "after_rapport" and hid["cover_answer"] == "Just ibuprofen."
+    assert hid["disclosure"]["rule"] == "after_rapport" and hid["cover_answer"] == "Just the usual stuff."
+    cc = next(x for x in c["facts"] if x["category"] == "chief_complaint")
+    assert "low back pain" in cc["patient_answer"] and "two weeks" in cc["patient_answer"]
     assert validate_case(c)["ok"]
     assert "<description>" in fake.calls[0]["messages"][0]["content"]
+    assert c["review"]["coverage"]["uncovered"] == []                       # the same coverage check as the offline path
+
+
+def test_from_description_online_drops_what_the_description_does_not_support():
+    """Anything the model invents is rejected item by item and listed; supported items survive."""
+    invented = [
+        {"category": "pmh", "slug": "diabetes", "statement": "Has type 2 diabetes", "patient_answer": "I have diabetes.", "topics": ["diabetes"],
+         "negative": False, "source": "She has type 2 diabetes"},                                              # quote not in the text
+        {"category": "social", "slug": "kettlebells5", "statement": "Lifts kettlebells five times a week", "patient_answer": "I lift kettlebells five times a week.",
+         "topics": ["exercise"], "negative": False, "source": "She lifts kettlebells three times a week"},      # changed number
+        {"category": "medications", "slug": "naproxen", "statement": "Lifts kettlebells and takes naproxen", "patient_answer": "I lift kettlebells and take naproxen.",
+         "topics": ["medications"], "negative": False, "source": "She lifts kettlebells"},                       # invented medicine
+    ]
+    d = _ruth_draft()
+    d["facts"] = d["facts"] + invented
+    d["concealed"][0]["cover_answer"] = "Only two oxycodone a day."                                               # a cover that leaks and invents
+    out = tpl.from_description(RUTH, AnthropicProvider(client=FakeAnthropic(extract=d)))
+    c = out["case"]
+    text = " ".join(str(x.get("statement")) + " " + str(x.get("patient_answer")) for x in c["facts"]).lower()
+    assert out["method"] == "anthropic" and "diabetes" not in text and "naproxen" not in text and "five times" not in text
+    assert len(out["model_rejected"]) == 3 and any("source quote" in r["reasons"][0] for r in out["model_rejected"])
+    assert any("Dropped a model-proposed fact" in n for n in out["notes"])
+    hid = next(x for x in c["facts"] if x["category"] == "concealed")
+    assert "oxycodone" not in hid["cover_answer"] and "two" not in hid["cover_answer"].lower() and hid["cover_answer_auto"]
+    assert validate_case(c)["ok"]
+
+
+def test_from_description_online_falls_back_when_the_model_draft_covers_less():
+    d = _ruth_draft(facts=[], concealed=[])                 # the model "forgot" the kettlebells and the oxycodone
+    out = tpl.from_description(RUTH, AnthropicProvider(client=FakeAnthropic(extract=d)))
+    assert out["method"] == "offline" and out["fallback"] is True and any("uncovered" in n for n in out["notes"])
+    out = tpl.from_description(RUTH, AnthropicProvider(client=FakeAnthropic(extract={"facts": "nonsense"})))
+    assert out["method"] == "offline" and out["fallback"] is True
 
 
 def test_from_description_falls_back_when_model_fails():

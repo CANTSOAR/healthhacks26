@@ -1040,6 +1040,9 @@ def build_case(text: str, ex: dict, template: dict, model_extra: list[dict] | No
             if dur:
                 ans = ans.rstrip(".") + dur_tail + "."
         ans = " ".join([ans] + sents)
+        if ex.get("complaint_answer"):          # online path: a first-person sentence drafted by the model and checked against the description
+            ans = str(ex["complaint_answer"])
+            cc_statement = _cap(str(ex.get("complaint_statement") or cc_statement))
         facts.append({"fact_id": fid("chief_complaint", symptoms[0]), "category": "chief_complaint", "statement": cc_statement, "patient_knows": True,
                       "patient_answer": ans, "topics": ["chief_complaint"] + topics_for(comp, 4, [s for s in symptoms if len(s.split()) <= 5]),
                       "disclosure": {"rule": "volunteered"}, "critical": True, "chart_section": "hpi", "polarity": "positive", "patient_answer_auto": True})
@@ -1457,6 +1460,7 @@ def build_case(text: str, ex: dict, template: dict, model_extra: list[dict] | No
                 f["patient_answer"] = _to_parent(f["patient_answer"], gender or "", who or "parent") if f["fact_id"] != "f.social.accompanied_by" else \
                     ("We're " if (who or "").endswith("s") else "I'm ") + {"male": "his", "female": "her"}.get(gender or "", "their") + " " + (who or "parent") + "."
             f["patient_answer"] = re.sub(r"(?<=[.!?] )([a-z])", lambda m_: m_.group(1).upper(), f["patient_answer"])
+            f["patient_answer"] = re.sub(r"\b([Aa])n (uni[vcqt]|use[rd]?\b|one\b|eu)", r"\1 \2", f["patient_answer"])
     if infant:
         case["answers_by"] = "accompanying adult"
         scaffolded.append("the child is too young to give a history, so every answer is worded as the accompanying adult speaking about the child")

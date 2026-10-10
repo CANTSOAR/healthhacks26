@@ -173,6 +173,20 @@ class Engine:
         d = f.get("disclosure") or {}
         return state["rapport"] >= int(d.get("rapport_needed") or 1) and state.get("empathic_turns", 0) >= int(d.get("empathy_needed") or 0)
 
+    @staticmethod
+    def _named_region(norm: str) -> set[str]:
+        """Stems of the body region a question names ('legs' -> leg, calf, thigh, knee, ...), empty if it names none."""
+        from . import conversation as conv
+        parts = ("leg", "arm", "belly", "stomach", "tummy", "abdomen", "head", "chest", "back", "throat", "wrist", "hand", "knee", "hip", "jaw",
+                 "neck", "shoulder", "ankle", "foot", "feet", "elbow", "face", "eye", "ear", "flank", "groin", "thigh", "calf", "shin", "finger", "toe")
+        out: set[str] = set()
+        for raw in norm.replace("-", " ").split():
+            st = tx.stem(raw)
+            for w in (raw, st):
+                if w in parts:
+                    out |= {tx.stem(w)} | {tx.stem(x) for x in conv.BODY_SYNONYMS.get(w, [])}
+        return out
+
     def pain_facts(self, norm: str = "") -> list[str]:
         """What "do you have pain anywhere?" should be answered from: the complaint first, then any other fact about pain.
         "Where does it hurt?" prefers a fact that names a body part; a severity score is never the answer to "where"."""
@@ -422,6 +436,13 @@ class Engine:
             if "generic_pain" in conv and not getattr(intent, "topics_asked", None):
                 matched = self.pain_facts(norm)
                 via_extra = "pain, asked in general"
+                # "any pain in your legs?" names a place: the complaint only answers it if the complaint is about that place.
+                # Otherwise the question falls through to the case's own wording and, if nothing touches it, a plain "no".
+                region = self._named_region(norm)
+                if matched and region:
+                    blob = set(tx.tokens(" ".join(str(self.by_id[matched[0]].get(k) or "") for k in ("statement", "patient_answer"))))
+                    if not (blob & region):
+                        matched = []
             if not matched:
                 cands, in_source = self.case_text_match(norm, list(getattr(intent, "topics_asked", []) or []) + (["progression"] if "progression" in conv else []))
                 matched = cands[:1]

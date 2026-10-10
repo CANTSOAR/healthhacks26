@@ -1819,3 +1819,35 @@ Body `{"text": "...", "voice"?: "<elevenlabs voice id>"}`. `200 audio/mpeg` with
 - A complaint given as a mechanism ("came in after falling off his bicycle an hour ago") is worded "I fell off my bicycle about an hour ago", joined with a following
   "has pain in ..." sentence, and titled "Fall from a bicycle in a ...". Facts that name where it hurts carry the `location` topic.
 - Off-topic questions on description drafts always get the in-character deflection (`deflected_off_topic`), whatever the draft's default-negative mode.
+
+## Round 6 changes: online language-model path (additive)
+
+Nothing was removed or renamed. Offline responses carry the new fields too, with the offline values shown.
+
+- `POST /api/encounters/{id}/turn` response, new fields:
+  - `wording`: `"model"` when the reply is the model's wording (it passed the grounding checks), `"authored"` otherwise (offline, a fixed line, or a fallback).
+  - `grounding_fallback` (bool): `true` when the model produced a reply that was REJECTED (by the deterministic guards or by the verifier, or the verifier could
+    not be reached) and the authored wording was used instead. Offline: always `false`.
+  - `timing_ms`: `{"total": int}` offline; online also `intent`, `wording`, `verify` (milliseconds for each call that ran) and `speculative` (bool: the reply was
+    worded while the intent call was still running, and was kept).
+  - `fallback` keeps its meaning (an online call FAILED). A rejected-but-working turn has `fallback: false, grounding_fallback: true, provider: "bedrock"`.
+- Faculty ledger (`GET /api/encounters/{id}?view=faculty` -> `ledger_full[]`), new per-turn fields: `grounding` (`{checked, guards_passed, guard_reasons[],
+  verifier, grounded, unsupported_claims[], omitted[], verifier_error?}`), `grounding_fallback: true` (only when a candidate was rejected), `wording_rejected`
+  (`{candidate, reasons[]}`, as before), `intent_model` (`{fact_ids[], kind, offline_fact_ids[], combine}`: what the model proposed, what the keyword matcher
+  proposed, and the rule that combined them), `timing_ms`. None of these is in the student view.
+- `llm` status objects (`/api/status`, `/api/encounter/status`, turn responses) gain `fast_model` when a second, faster model is configured.
+- `POST /api/encounters/{id}/finish` -> `feedback`, new fields: `grader_ms` (int), `grader_calls` (int, online only: the judgements are several small concurrent
+  calls), `grader_parts_failed` (list, only when some of those calls failed: those parts keep the offline values while `grader` stays `"llm"`). Each
+  model-judged objective has `offline_result` (what the offline grader said); `uncertain: true` with a `basis` that says so when the model's result contradicts
+  the ledger (it is discarded) or flatly disagrees with the offline heuristic (it is kept, flagged).
+- `POST /api/cases` with `from_description`, online: `created_from.method` is the provider name when the model's draft was used and `"offline"` with
+  `created_from.fallback: true` when it was not (the model failed, returned nothing the description supports, or covered LESS of the description than the
+  pattern extractor; `notes[]` says which). New on the case: `review.model_rejected[]` (`{kind, statement, reasons[]}`: items the model proposed that the
+  description does not support; they are not in the case), and on model-drafted facts `drafted_by: "model"`, `source_text` (the words of the description the
+  item was taken from) and, when the model's cover answer was unusable, `cover_answer_auto: true`. Vital signs and lab values are never taken from the model.
+- Behaviour: a question that names a body part ("any pain in your legs?") is no longer answered with the complaint unless the complaint is about that part; it
+  goes to the case's own wording and otherwise to the default-negative policy. A prompt-injection attempt the phrase list recognises makes no model call at all.
+- Environment (all optional): `BEDROCK_FAST_MODEL_ID` / `ANTHROPIC_FAST_MODEL` (model for intent, wording and verification; falls back to the main model),
+  `ENCOUNTER_WORDING_TIER` (`fast` default, or `main`), `ENCOUNTER_INTENT_COMBINE` (`first` default; `guarded`, `union`, `agree`, `model`, `offline`),
+  `ENCOUNTER_LLM_TURN_TIMEOUT_S` (default 6), `ENCOUNTER_GRADER_TIER` (`fast` default, or `main`). `feedback.grader_call_ms` gives the time of each grading call. Under pytest no real client is ever built and ambient AWS credentials are ignored
+  (`ENCOUNTER_ALLOW_NETWORK_IN_TESTS=1` lifts this).
