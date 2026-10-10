@@ -68,6 +68,9 @@ button {
   .seg > button {
     @apply h-7 whitespace-nowrap rounded-full px-3 text-[12px] font-semibold text-ink-2 transition-colors;
   }
+  .seg > a {
+    @apply inline-flex h-7 items-center whitespace-nowrap rounded-full px-3 text-[12px] font-semibold text-ink-3 transition-colors hover:text-accent-dark;
+  }
   .seg > button[data-on="true"] {
     @apply bg-white text-accent-dark;
     box-shadow: 0 1px 3px rgba(47, 65, 140, 0.18);

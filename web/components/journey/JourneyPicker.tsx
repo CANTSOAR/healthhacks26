@@ -45,7 +45,7 @@ export function JourneyPicker() {
   const list = useMemo(() => (cases ?? []).filter((c) => c.origin?.kind !== "from_sim_patient"), [cases]);
   return (
     <div className="min-h-screen pb-10" data-testid="journey-picker">
-      <SiteNav current={"journey" as never} right={here} />
+      <SiteNav current="journey" right={here} />
       <div className="mx-auto w-full max-w-[1180px] px-3 pt-5 sm:px-5">
         <Intro />
         <div className="mt-3">
@@ -137,7 +137,7 @@ export function JourneySetup({ caseId, templateId }: { caseId: string; templateI
   if (!kase || !templates) return <LoadingCard label="Loading the patient and the journey templates…" />;
   return (
     <div className="min-h-screen pb-10" data-testid="journey-setup">
-      <SiteNav current={"journey" as never} right={here} />
+      <SiteNav current="journey" right={here} />
       <div className="mx-auto w-full max-w-[1180px] px-3 pt-5 sm:px-5">
         <Intro />
         <div className="glass mt-4 flex flex-wrap items-center gap-3 p-4">

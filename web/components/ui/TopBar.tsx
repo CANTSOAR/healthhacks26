@@ -39,6 +39,9 @@ export function ModeTabs({ onMode }: { onMode: (m: Mode) => void }) {
           {m.label}
         </button>
       ))}
+      <a href="/encounter" data-nav="encounter">Encounter</a>
+      <a href="/studio" data-nav="studio">Studio</a>
+      <a href="/journey" data-nav="journey">Journey</a>
     </div>
   );
 }

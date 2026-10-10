@@ -115,7 +115,7 @@ export function InlineError({ children }: { children: ReactNode }) {
 }
 
 /** Top navigation shared by the encounter picker and the studio. */
-export function SiteNav({ current, right }: { current: "encounter" | "studio"; right?: ReactNode }) {
+export function SiteNav({ current, right }: { current: "encounter" | "studio" | "journey"; right?: ReactNode }) {
   const tab = (href: string, label: string, on: boolean) => (
     <Link href={href} className={`inline-flex h-7 items-center rounded-full px-3 text-[12px] font-semibold transition-colors ${on ? "bg-white text-accent-dark shadow-[0_1px_3px_rgba(47,65,140,0.18)]" : "text-ink-2 hover:text-accent-dark"}`}>
       {label}
@@ -136,6 +136,7 @@ export function SiteNav({ current, right }: { current: "encounter" | "studio"; r
           {tab("/", "Hospital", false)}
           {tab("/encounter", "Encounter", current === "encounter")}
           {tab("/studio", "Patient Studio", current === "studio")}
+          {tab("/journey", "Care Journey", current === "journey")}
         </nav>
         <div className="ml-auto flex flex-wrap items-center gap-2">{right}</div>
       </div>
