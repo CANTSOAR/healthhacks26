@@ -1,0 +1,132 @@
+{
+ "cpu|x86_64|torch-2.2.2": {
+  "flu_surge|seed0|default": {
+   "generated": 2683,
+   "invalid_actions": 0,
+   "sha256": "9412367ec99b2f9a6fad75dfc0e4315d93fa74c56ea31d10b4e086d99f4815b0",
+   "sums": {
+    "admissions": 370.0,
+    "arrivals": 2397.0,
+    "cost_total": 5859230.352,
+    "deaths": 3.0,
+    "door_to_provider_sum_min": 51190.0,
+    "ed_departures": 2275.0,
+    "first_seen": 2356.0,
+    "lwbs": 38.0,
+    "revenue": 11288946.269
+   }
+  },
+  "flu_surge|seed0|random": {
+   "generated": 2683,
+   "invalid_actions": 1619,
+   "sha256": "840b83007750fcf6f0c5b54f1d8936b5afed01269527054d6f70efec389014f9",
+   "sums": {
+    "admissions": 348.0,
+    "arrivals": 2249.0,
+    "cost_total": 5876608.295,
+    "deaths": 3.0,
+    "door_to_provider_sum_min": 89130.0,
+    "ed_departures": 2120.0,
+    "first_seen": 2180.0,
+    "lwbs": 60.0,
+    "revenue": 11367956.909
+   }
+  },
+  "flu_surge|seed123|default": {
+   "generated": 2720,
+   "invalid_actions": 0,
+   "sha256": "52c04ba318197377cc7ea352cf62c85a7cb1501fb5201ff4606908c31ac5a73b",
+   "sums": {
+    "admissions": 318.0,
+    "arrivals": 2434.0,
+    "cost_total": 5799448.773,
+    "deaths": 2.0,
+    "door_to_provider_sum_min": 57760.0,
+    "ed_departures": 2327.0,
+    "first_seen": 2403.0,
+    "lwbs": 26.0,
+    "revenue": 10323257.755
+   }
+  },
+  "flu_surge|seed123|random": {
+   "generated": 2720,
+   "invalid_actions": 1619,
+   "sha256": "9a8cacc3a2a5b60263e5fbdb822d743f0741d5fd7dad956cd65acd506449aa78",
+   "sums": {
+    "admissions": 302.0,
+    "arrivals": 2302.0,
+    "cost_total": 5826097.721,
+    "deaths": 2.0,
+    "door_to_provider_sum_min": 111040.0,
+    "ed_departures": 2175.0,
+    "first_seen": 2233.0,
+    "lwbs": 63.0,
+    "revenue": 10268109.541
+   }
+  },
+  "normal_week|seed0|default": {
+   "generated": 2552,
+   "invalid_actions": 0,
+   "sha256": "6e77552c9f6b103d3827ed8d24a9bf718fb823f0c39c7312b7a744fc88cd2a61",
+   "sums": {
+    "admissions": 351.0,
+    "arrivals": 2266.0,
+    "cost_total": 5835632.375,
+    "deaths": 3.0,
+    "door_to_provider_sum_min": 41580.0,
+    "ed_departures": 2160.0,
+    "first_seen": 2228.0,
+    "lwbs": 35.0,
+    "revenue": 11115882.851
+   }
+  },
+  "normal_week|seed0|random": {
+   "generated": 2552,
+   "invalid_actions": 1619,
+   "sha256": "850bc9c3f10edc8475b3d80667b03469ee50ebccca61fd52f1137eaffdcc206b",
+   "sums": {
+    "admissions": 326.0,
+    "arrivals": 2134.0,
+    "cost_total": 5854750.262,
+    "deaths": 3.0,
+    "door_to_provider_sum_min": 59480.0,
+    "ed_departures": 2019.0,
+    "first_seen": 2083.0,
+    "lwbs": 46.0,
+    "revenue": 11268362.437
+   }
+  },
+  "normal_week|seed123|default": {
+   "generated": 2579,
+   "invalid_actions": 0,
+   "sha256": "67eb235ea30bcd8e0714840838a264bbefb4d95f61baa1b1c29bb4efbba02aaf",
+   "sums": {
+    "admissions": 309.0,
+    "arrivals": 2293.0,
+    "cost_total": 5777790.746,
+    "deaths": 1.0,
+    "door_to_provider_sum_min": 46065.0,
+    "ed_departures": 2228.0,
+    "first_seen": 2274.0,
+    "lwbs": 19.0,
+    "revenue": 10070980.883
+   }
+  },
+  "normal_week|seed123|random": {
+   "generated": 2579,
+   "invalid_actions": 1619,
+   "sha256": "8bef220cb8eaaf19fbe04ad444219ada66a21fecd29349b3f130851b98331a3a",
+   "sums": {
+    "admissions": 288.0,
+    "arrivals": 2162.0,
+    "cost_total": 5805291.01,
+    "deaths": 1.0,
+    "door_to_provider_sum_min": 81830.0,
+    "ed_departures": 2072.0,
+    "first_seen": 2119.0,
+    "lwbs": 42.0,
+    "revenue": 10137318.044
+   }
+  }
+ }
+}

@@ -263,7 +263,7 @@ def test_image_route_placeholder_and_private_file(client, tmp_path):
 
 
 def test_routes_match_contract():
-    paths = {(m, r.path) for r in api.router.routes for m in r.methods if m in ("GET", "POST", "PUT")}
+    paths = {(m, r.path) for r in api.router.routes if hasattr(r, "methods") for m in r.methods if m in ("GET", "POST", "PUT")}  # the journey sub-router is checked in encounter/journey/tests
     expected = {("GET", "/cases"), ("GET", "/cases/{case_id}"), ("POST", "/cases"), ("PUT", "/cases/{case_id}"), ("POST", "/cases/{case_id}/validate"),
                 ("POST", "/cases/{case_id}/approve"), ("POST", "/cases/{case_id}/publish"), ("GET", "/templates"), ("GET", "/templates/{template_id}"),
                 ("GET", "/rubrics"), ("GET", "/rubrics/{rubric_id}"), ("GET", "/clinicians"), ("POST", "/encounters"), ("POST", "/encounters/{encounter_id}/turn"),
