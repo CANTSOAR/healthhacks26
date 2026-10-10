@@ -55,7 +55,7 @@ _VERB_3RD = {
     "lives": "live", "works": "work", "denies": "do not have", "reports": "have", "has": "have", "is": "am",
     "was": "was", "struggles": "struggle", "avoids": "avoid", "dislikes": "dislike", "needs": "need", "walks": "walk",
     "plays": "play", "eats": "eat", "feels": "feel", "loves": "love", "mistrusts": "do not really trust",
-    "expresses": "have", "presents": "came in", "challenges": "tend to question", "moved": "moved", "lost": "lost",
+    "expresses": "have", "presents": "came in", "challenges": "tend to push back on", "moved": "moved", "lost": "lost",
     "sleeps": "sleep", "exercises": "exercise", "vapes": "vape", "wants": "want", "worries": "worry", "misses": "miss",
     "skips": "skip", "stopped": "stopped", "noticed": "noticed", "had": "had", "developed": "developed", "fell": "fell",
     "experiences": "get", "complains": "have been bothered", "endorses": "have", "admits": "do",
@@ -288,7 +288,10 @@ class CaseStore:
         c = self.get(case_id, version)
         return validate_case({k: v for k, v in c.items() if not k.startswith("_") and k != "updated"}, get_rubric(c.get("rubric_id")))
 
-    def approve(self, case_id: str, reviewer: str | None = None) -> dict:
+    def approve(self, case_id: str, reviewer: str | None = None, acknowledge_warnings: bool | None = None) -> dict:
+        """Approval needs zero errors and contradictions. `acknowledge_warnings`: None (default) approves and records
+        that 'attention' warnings were not explicitly acknowledged; False refuses (409) while such warnings exist;
+        True records the acknowledgement."""
         with _LOCK:
             c = self.get(case_id)
             if c.get("status") == "published":
@@ -296,11 +299,17 @@ class CaseStore:
             report = self.validate(case_id, c["version"])
             if not report["ok"]:
                 raise CaseError("case does not validate; fix errors and contradictions before approval", 422, report)
+            attention = [w for w in report["warnings"] if w.get("level") == "attention"]
+            if attention and acknowledge_warnings is False:
+                raise CaseError("this case has warnings that need acknowledgement; resend with acknowledge_warnings: true", 409,
+                                {"needs_acknowledgement": True, "warnings": attention})
             c["status"] = "approved"
             rev = dict(c.get("review") or {})
             rev["reviewer"] = reviewer or rev.get("reviewer") or "faculty"
             rev["reviewed_at"] = now_iso()
             rev["synthetic"] = True
+            rev["warnings_at_approval"] = [w["message"] for w in attention]
+            rev["warnings_acknowledged"] = bool(acknowledge_warnings) if attention else True
             c["review"] = rev
             return self._write(c)
 

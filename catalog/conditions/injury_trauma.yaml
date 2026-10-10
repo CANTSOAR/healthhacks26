@@ -800,6 +800,8 @@ facts:
   disclosure:
     rule: on_request
     request: exam:msk
+    also_requests:
+    - exam:general
   critical: true
   discoverable_by:
   - clinician_encounter
@@ -831,6 +833,8 @@ facts:
   disclosure:
     rule: on_request
     request: exam:neuro
+    also_requests:
+    - exam:mental_status
   critical: false
   discoverable_by:
   - clinician_encounter
@@ -1092,4 +1096,19 @@ sources:
     awaiting faculty review'
   role: template
   license: project-authored
+standard_workup:
+- order:xray
+- order:ct_head
+- order:cbc
+- order:bmp
+- order:coags
+- order:ethanol
+- order:ecg
+- exam:msk
+- exam:neuro
+- exam:skin
+- exam:general
+- exam:vitals
+- order:prior_records
+- order:medication_list
 diagnoses_ordered_by_severity: true

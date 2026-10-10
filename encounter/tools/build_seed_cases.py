@@ -155,6 +155,8 @@ def case_chest_pain():
     ]
     return base(
         "chest-pain-line-cook", "Chest pressure in a 41-year-old line cook",
+        standard_workup=["order:ecg", "order:troponin", "order:tox_screen", "order:prior_records", "order:cbc", "order:bmp", "order:chest_xray", "order:d_dimer",
+                         "order:medication_list", "exam:general", "exam:cardiac", "exam:lungs", "exam:vitals", "exam:abdomen"],
         prebrief="You are the emergency medicine resident. Rafael Quintero, 41, walked in with chest pressure that started about two hours ago. Triage has taken vital signs. Take a focused history, request the examination and tests you need, and decide on a disposition. You have about eight minutes.",
         profile={"name": "Rafael Quintero", "age": 41, "gender": "male", "race_ethnicity": "Hispanic/Latino",
                  "background": "Line cook at a busy restaurant, works double shifts, lives with his partner and young daughter.",
@@ -284,6 +286,8 @@ def case_abdominal_pain():
     ]
     return base(
         "abdominal-pain-grad-student", "Lower abdominal pain in a 26-year-old graduate student",
+        standard_workup=["exam:abdomen", "order:pregnancy_test", "order:cbc", "order:crp", "order:urinalysis", "order:ct_abdomen", "order:prior_records", "order:bmp",
+                         "order:lft", "order:lipase", "order:ultrasound", "order:ecg", "order:medication_list", "exam:vitals", "exam:cardiac", "exam:lungs", "exam:general"],
         prebrief="You are the emergency medicine resident. Hannah Lindqvist, 26, has had worsening lower abdominal pain since yesterday evening. Take a history, request the examination and tests you need, and decide on a disposition. She seems in a hurry to leave.",
         profile={"name": "Hannah Lindqvist", "age": 26, "gender": "female", "race_ethnicity": "White",
                  "background": "Chemistry graduate student two days from her thesis defence; lives with a roommate.",
@@ -419,6 +423,8 @@ def case_breathless():
     ]
     return base(
         "breathless-retired-driver", "Breathlessness in a 68-year-old retired bus driver",
+        standard_workup=["exam:lungs", "exam:cardiac", "exam:extremities", "order:bnp", "order:bmp", "order:chest_xray", "order:medication_list", "order:prior_records",
+                         "order:ecg", "order:troponin", "order:cbc", "exam:vitals", "exam:abdomen", "exam:general"],
         prebrief="You are the emergency medicine resident. Leonard Asante, 68, has been brought in by his daughter with worsening breathlessness. Triage has started oxygen. Take a history, request the examination and tests you need, find out why he has got worse, and decide on a disposition.",
         profile={"name": "Leonard Asante", "age": 68, "gender": "male", "race_ethnicity": "Black",
                  "background": "Retired city bus driver, widowed 14 months ago, lives alone on the second floor.",

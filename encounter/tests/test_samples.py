@@ -42,7 +42,7 @@ def test_sample_patients_become_cases_at_run_time(tmp_path, store):
     assert f["f.concealed.alcohol"]["disclosure"] == {"rule": "after_rapport", "rapport_needed": 3} and f["f.concealed.alcohol"]["cover_answer"]
     assert "3-4 glasses of wine" in f["f.concealed.alcohol"]["patient_answer"] and f["f.concealed.drugs"]["disclosure"]["rapport_needed"] == 4
     assert f["f.vitals.bmi"]["value"] == 31 and f["f.lab.ldl"]["value"] == 170 and f["f.lab.ldl"]["disclosure"]["rule"] == "chart_initial"
-    assert f["f.chief_complaint.visit_reason"]["patient_answer"] == "I'm here about my dyslipidemia."     # habits are not volunteered
+    assert f["f.chief_complaint.visit_reason"]["patient_answer"] == "I'm here about my cholesterol."     # lay words; habits are not volunteered
     assert any(o["objective_id"].startswith("obj.uncover_alcohol") for o in c["objectives"])
     assert any(o["objective_id"].startswith("obj.counsel_") and "counseling" in o["criterion"] for o in c["objectives"])
     # it lives in the data dir only
@@ -57,7 +57,7 @@ def test_sample_case_plays_through_the_api_with_photo(tmp_path):
     assert img.headers["content-type"] == "image/png"
     eid = c.post("/api/encounters", json={"case_id": "sample-testa-fixture"}).json()["encounter_id"]
     say = lambda t: c.post(f"/api/encounters/{eid}/turn", json={"text": t}).json()
-    assert say("What brings you in today?")["reply"] == "I'm here about my dyslipidemia."
+    assert say("What brings you in today?")["reply"] == "I'm here about my cholesterol."
     assert say("Do you drink alcohol?")["reply"] == "I drink socially, like anyone."
     r = say("I ask everyone these questions and it stays confidential.")                    # rapport 2 of 3: still guarded
     assert r["disclosed"] == []

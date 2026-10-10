@@ -19,7 +19,7 @@ from typing import Any
 
 from .session import EncounterManager, default_manager
 from .store import CaseStore, default_store
-from .templates import get_template, instantiate_case
+from .templates import get_template, instantiate_case, playability
 
 
 class ResolverError(Exception):
@@ -55,13 +55,30 @@ class ClinicianEncounterResolver:
                 template = get_template("other_medical")
         return instantiate_case(template, latent_truth, known_state)
 
+    def playable(self, sim: Any, b: int, patient_id: int) -> dict:
+        """{"playable": bool, "reason": str|None} without holding the patient: lets the UI hide or explain the Play button."""
+        try:
+            return playability(sim.latent_truth(b, patient_id))
+        except Exception as e:  # noqa: BLE001
+            return {"playable": False, "reason": f"{type(e).__name__}: {str(e)[:160]}"}
+
     def start(self, sim: Any, b: int, patient_id: int, run_id: str | None = None, learner: str | None = None,
               require_hold: bool = True) -> dict:
+        check = playability(sim.latent_truth(b, patient_id))
+        if not check["playable"]:
+            raise ResolverError("this patient cannot be played: " + check["reason"], 409)
         held = bool(sim.hold_for_play(b, patient_id))
         if not held and require_hold:
             raise ResolverError(f"patient {patient_id} cannot be played right now (no clinician encounter pending or already resolved)")
         truth = sim.latent_truth(b, patient_id)
-        known = sim.known_state(b, patient_id) or {}
+        known = dict(sim.known_state(b, patient_id) or {})
+        try:                                    # the triage level the hospital view shows for this patient
+            shown = sim.patient_detail(b, patient_id)
+            shown = (shown.get("live") or shown).get("acuity") if isinstance(shown, dict) else None
+            if isinstance(shown, int) and 1 <= shown <= 5:
+                known["triage_acuity"] = shown
+        except Exception:
+            pass
         case = self.store.save_published(self.build_case(truth, known))
         t_start = None
         try:

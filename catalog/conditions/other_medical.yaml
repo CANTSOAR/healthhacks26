@@ -812,6 +812,9 @@ facts:
   disclosure:
     rule: on_request
     request: exam:general
+    also_requests:
+    - exam:abdomen
+    - exam:lungs
   critical: true
   discoverable_by:
   - clinician_encounter
@@ -1215,4 +1218,19 @@ sources:
     awaiting faculty review'
   role: template
   license: project-authored
+standard_workup:
+- order:glucose
+- order:bmp
+- order:urinalysis
+- order:abg
+- order:cbc
+- order:ecg
+- order:lactate
+- exam:abdomen
+- exam:cardiac
+- exam:lungs
+- exam:general
+- exam:vitals
+- order:prior_records
+- order:medication_list
 diagnoses_ordered_by_severity: true

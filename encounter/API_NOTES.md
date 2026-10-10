@@ -1711,3 +1711,30 @@ Body `{"text": "...", "voice"?: "<elevenlabs voice id>"}`. `200 audio/mpeg` with
 }
 ```
 
+
+## Round 2 changes (additive; nothing above was removed)
+
+**Validation and approval**
+- The validation report has one more key, `needs_acknowledgement` (bool). Warnings may carry `"level": "attention"` (thin case: no chief complaint, fewer than 5 history facts, no diagnosis, no expected disposition, no objectives, nothing in the chart at the start). New errors: a non-numeric value in a numeric lab row or in a lab/vital fact with a unit. New contradiction kind: `stopped_medication_not_listed`.
+- `POST /api/cases/{id}/approve` accepts `acknowledge_warnings`. Omitted: approval proceeds as before and the response lists `warnings_to_acknowledge` (also stored as `review.warnings_at_approval`, `review.warnings_acknowledged: false`). `false`: 409 `{detail: {message, needs_acknowledgement: true, warnings: [...]}}` while attention warnings exist. `true`: approves and records the acknowledgement. Recommended page flow: call with `false`, show the warnings with an "I have read these" tick, then call with `true`.
+
+**From a description**
+- `POST /api/cases {from_description}` now returns a draft that contains only what the text states. The response adds nothing new at top level, but `notes[]` always holds three lines starting "Taken from your text:", "Scaffolded for you to edit:", "Missing, needs your input:" (the same lists are stored in `review.taken_from_text`, `review.scaffolded`, `review.missing`). When no presenting complaint can be read, a note starting "WARNING:" is added. The draft always has `validation.needs_acknowledgement: true`.
+
+**Encounter turns**
+- New `result` values: `answered_negative_by_default` (a plain "no" on a topic the case does not define; never added to the chart; switch off per case with top-level `"default_negatives": false`), `answered_from_persona` (feelings / ideas / concerns with no authored concern fact), `nothing_more_to_add`, `deflected_off_topic` (off-topic and prompt-injection attempts), and for requests `default_normal`.
+- Ledger events add `default_negative_topics[]` and `default_results[]`; `rule_fired` may hold `open_prompt` (a fact released by "tell me more" / "anything else?") or `template_default_normal` (keyed by the request).
+
+**Orders and examinations**
+- `available_requests[]` is now the case's own requests plus the standard workup for its presentation (10 to 20 items instead of 44). Every offered item returns the case's result or a default normal result.
+- A default normal result appears in `chart.artifacts[]` with `artifact_id: "default.<kind>.<name>"`, `default_normal: true`, `synthetic: true` and a `note` to show next to it ("Default normal result (synthetic) ..."). It discloses no fact and is not evidence for objectives.
+- Anything outside the menu returns `not_available` ("not available in this scenario") and is not included in `interaction_result.decision.orders`.
+- Cases may carry `standard_workup: ["order:cbc", ...]`; fact disclosure may carry `also_requests: [...]` (other requests that release the same finding).
+
+**Feedback**
+- `elicited[]` and `missed[]` items add `label` (learner-facing name; use it instead of `fact_id`). Suggestions no longer contain raw identifiers and never ask for something already requested. A disposition given on the finish form is always evidence for the reasoning objective.
+- `faculty_truth.acceptable_dispositions[]` (optional) lists every disposition the grader accepts; simulated patients get both the simulator's and the template's.
+
+**Simulated patients**
+- `ClinicianEncounterResolver.playable(sim, b, patient_id)` -> `{"playable": bool, "reason": str|None}` without holding the patient. `start` (and so `POST /api/encounters {run_id, patient_id}`) answers 409 "this patient cannot be played: ..." for a child whose condition template is adult-only or who is under 5.
+- The case keeps the patient's age (children stay children, "accompanied by a parent") and shows the triage level the hospital view shows (`patient_detail().acuity`); the hidden true acuity stays in `faculty_truth.acuity`, with `faculty_truth.triage_acuity` beside it.

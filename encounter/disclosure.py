@@ -24,6 +24,7 @@ from __future__ import annotations
 from datetime import datetime, timezone
 
 from . import taxonomy as tx
+from . import normals
 from .matcher import Intent, canonical_request, fact_phrases, _match_phrase
 
 PATIENT_VOICED = ("volunteered", "if_asked", "after_rapport", "denied_until_confronted")
@@ -63,6 +64,7 @@ class Engine:
         self.artifacts: list[dict] = list(chart.get("artifacts") or [])
         self.art_by_id = {a["artifact_id"]: a for a in self.artifacts}
         self.case_requests = sorted(self._all_requests())
+        self.workup = [r for r in normals.workup_for(case) if r in tx.REQUEST_ALIASES or r in self.case_requests]
 
     # ------------------------------------------------------------ helpers
     def _all_requests(self) -> set[str]:
@@ -71,6 +73,7 @@ class Engine:
             d = f.get("disclosure") or {}
             if d.get("rule") == "on_request" and d.get("request"):
                 out.add(str(d["request"]).lower())
+                out |= {str(r).lower() for r in d.get("also_requests") or []}
         for a in self.artifacts:
             if (a.get("release") or {}).get("rule") == "on_request":
                 out.add(self._artifact_request(a))
@@ -237,7 +240,7 @@ class Engine:
                 new = new or len(ev["released_artifact_ids"]) > before or bool(ev.get("pending_artifact_ids"))
         for f in self.facts:
             d = f.get("disclosure") or {}
-            if d.get("rule") == "on_request" and str(d.get("request", "")).lower() == req:
+            if d.get("rule") == "on_request" and req in [str(d.get("request", "")).lower()] + [str(r).lower() for r in d.get("also_requests") or []]:
                 hit = True
                 fid = f["fact_id"]
                 if fid in already_f or fid in ev["disclosed_fact_ids"] or fid in delayed_fact_ids:
@@ -245,10 +248,26 @@ class Engine:
                 ev["disclosed_fact_ids"].append(fid)
                 ev["rule_fired"][fid] = "on_request"
                 new = True
+        if not hit:
+            # a standard test the case does not define: the template's unremarkable result, clearly marked synthetic
+            given = {d["request"] for e in state["ledger"] for d in e.get("default_results") or []} | {d["request"] for d in ev.get("default_results") or []}
+            if req in given:
+                if req not in state["requests_made"]:
+                    state["requests_made"].append(req)
+                return "already_available"
+            dr = normals.default_result(self.case, req) if req in self.workup else None
+            if dr is None:
+                state.setdefault("unavailable_requests", [])
+                if req not in state["unavailable_requests"]:
+                    state["unavailable_requests"].append(req)
+                return "not_available"
+            ev.setdefault("default_results", []).append(dr)
+            ev["rule_fired"][req] = "template_default_normal"
+            if req not in state["requests_made"]:
+                state["requests_made"].append(req)
+            return "default_normal"
         if req not in state["requests_made"]:
             state["requests_made"].append(req)
-        if not hit:
-            return "not_available"
         if not new:
             return "pending" if any(p["request"] == req for p in state["pending_artifacts"]) else "already_available"
         if ev.get("pending_artifact_ids") and not ev["released_artifact_ids"] and not ev["disclosed_fact_ids"]:
@@ -268,7 +287,7 @@ class Engine:
         self._due_and_on_fact(state, ev)
         already = self.disclosed(state)
         outcome = {"released": [], "repeated": [], "covered": [], "deflected": [], "patient_unknown": [], "spontaneous": [],
-                   "request_results": {}, "not_specified": False}
+                   "request_results": {}, "not_specified": False, "default_negative": [], "open_prompt": [], "social": None}
         ev["matched_intents"] = [{"fact_id": fid, "score": intent.fact_scores.get(fid), "via": intent.via.get(fid)}
                                  for fid in intent.fact_ids if fid in self.by_id]
 
@@ -279,6 +298,18 @@ class Engine:
             outcome[bucket].append(fid)
 
         matched = [fid for fid in intent.fact_ids if fid in self.by_id]
+        conv = intent.cues
+        if "injection" in conv:
+            matched = []                    # an attempt to talk to the system, not to the patient: no fact is in play
+        if "ice" in conv:                   # "how are you feeling about all this?" is not a request to restate the complaint
+            matched = [fid for fid in matched if self.by_id[fid].get("category") != "chief_complaint"]
+            if not matched:             # ... it asks for the patient's worries: use an authored concern if the case has one
+                tagged = [f["fact_id"] for f in self.facts if {"patient_concerns", "mood"} & {str(t).lower() for t in f.get("topics") or []}
+                          and f.get("patient_knows") is not False]
+                fresh = [fid for fid in tagged if fid not in already]
+                matched = (fresh or tagged)[:1]
+        ev["matched_intents"] = [m for m in ev["matched_intents"] if m["fact_id"] in matched] + \
+            [{"fact_id": fid, "score": None, "via": "feelings"} for fid in matched if fid not in {m["fact_id"] for m in ev["matched_intents"]}]
         statement_only = (not intent.is_question) or bool({"summarising", "closing"} & set(intent.cues))
         for fid in matched:
             f = self.by_id[fid]
@@ -286,12 +317,16 @@ class Engine:
             if fid in already or fid in ev["disclosed_fact_ids"]:
                 if statement_only:
                     continue            # the learner is summarising or explaining, not asking again
+                if f.get("patient_knows") is False and {"explaining", "summarising", "closing"} & set(conv):
+                    continue
                 if f.get("patient_knows") is False:
                     outcome["patient_unknown"].append(fid)
                 else:
                     outcome["repeated"].append(fid)
                 continue
             if f.get("patient_knows") is False or rule in ("on_request", "chart_initial"):
+                if {"explaining", "summarising", "closing"} & set(conv):
+                    continue            # the learner is explaining a finding, not asking the patient for it
                 outcome["patient_unknown"].append(fid)
                 ev["withheld"].append({"fact_id": fid, "rule": rule, "reason": "patient_does_not_know" if f.get("patient_knows") is False else "needs_request"})
             elif rule in ("volunteered", "if_asked"):
@@ -333,7 +368,8 @@ class Engine:
         # volunteered facts come out at the first open question or question about the complaint
         asked_complaint = any(self.by_id[fid].get("category") == "chief_complaint" for fid in matched)
         # ... but "tell me about your smoking" is an open question about something else
-        if asked_complaint or (intent.is_open_question and not [fid for fid in matched if self.by_id[fid].get("category") != "chief_complaint"]):
+        if "injection" not in conv and "ice" not in conv and (
+                asked_complaint or (intent.is_open_question and not [fid for fid in matched if self.by_id[fid].get("category") != "chief_complaint"])):
             for f in self.facts:
                 if self.rule(f) == "volunteered" and f["fact_id"] not in already and f["fact_id"] not in ev["disclosed_fact_ids"] \
                         and len(ev["disclosed_fact_ids"]) < MAX_RELEASE_PER_TURN and f.get("patient_knows") is not False:
@@ -347,6 +383,15 @@ class Engine:
                         state["rapport"] >= int((f.get("disclosure") or {}).get("rapport_needed") or 1) and fid not in matched:
                     release(fid, "after_rapport", "spontaneous")
                     state["pending_rapport"].remove(fid)
+
+        # "tell me more" / "anything else?": the next thing the patient has not yet said, in the thread being discussed
+        if "continuation" in conv and "injection" not in conv and not ev["disclosed_fact_ids"] and not outcome["covered"] and not outcome["deflected"]:
+            nxt = self._next_in_thread(state, matched, already)
+            if nxt:
+                release(nxt, "open_prompt", "open_prompt")
+                outcome["repeated"] = []
+            elif not matched:
+                outcome["social"] = "nothing_more"
 
         for req in intent.requests:
             outcome["request_results"][req] = self._apply_request(state, req, ev)
@@ -364,15 +409,56 @@ class Engine:
             ev["result"] = "patient_does_not_know"
         elif intent.requests:
             ev["result"] = next(iter(outcome["request_results"].values()))
-        elif intent.is_question and "closing" not in intent.cues and "summarising" not in intent.cues:
-            ev["result"] = "not_specified"
-            outcome["not_specified"] = True
+        elif "injection" in conv:
+            ev["result"] = "deflected_off_topic"
+            outcome["social"] = "injection"
+        elif outcome["social"] == "nothing_more":
+            ev["result"] = "nothing_more_to_add"
+        elif "ice" in conv and not outcome["repeated"]:
+            ev["result"] = "answered_from_persona"
+            outcome["social"] = "ice"
+        elif "explaining" in conv and not getattr(intent, "starts_as_question", False):
+            ev["result"] = "no_fact_requested"          # "...does that make sense?" after an explanation
+        elif intent.is_question and "closing" not in intent.cues and "summarising" not in intent.cues and "backchannel" not in conv:
+            topics = list(getattr(intent, "topics_asked", []) or [])
+            defined = {str(t).lower() for f in self.facts for t in (f.get("topics") or [])} | {f["fact_id"].split(".")[-1] for f in self.facts}
+            free = [t for t in topics if t not in defined]
+            if self.case.get("default_negatives", True) and (free or (not topics and getattr(intent, "clinical_yes_no", False))):
+                ev["result"] = "answered_negative_by_default"
+                ev["default_negative_topics"] = free or ["unspecified"]
+                outcome["default_negative"] = free or ["unspecified"]
+            elif not topics and not getattr(intent, "clinical_words", False) and self.case.get("default_negatives", True):
+                ev["result"] = "deflected_off_topic"
+                outcome["social"] = "off_topic"
+            else:
+                ev["result"] = "not_specified"
+                outcome["not_specified"] = True
         else:
             ev["result"] = "no_fact_requested"
         ev["covered_fact_ids"] = outcome["covered"] + outcome["deflected"]
         ev["repeated_fact_ids"] = outcome["repeated"]
         outcome["event"] = ev
         return outcome
+
+    def _next_in_thread(self, state: dict, matched: list[str], already: dict) -> str | None:
+        story = ("chief_complaint", "hpi", "ros")
+        thread = None
+        if matched:
+            thread = self.by_id[matched[0]].get("category")
+        else:
+            for e in reversed(state["ledger"]):
+                voiced = [fid for fid in e.get("disclosed_fact_ids") or [] if e["kind"] == "turn" and (e.get("rule_fired") or {}).get(fid) not in ("on_request", "chart_initial")]
+                if voiced:
+                    thread = self.by_id[voiced[-1]].get("category")
+                    break
+        groups = [story if (thread in story or thread is None) else (thread,)]
+        if groups[0] != story:
+            groups.append(story)
+        for g in groups:
+            for f in self.facts:
+                if f["fact_id"] not in already and f.get("category") in g and self.rule(f) in ("volunteered", "if_asked") and f.get("patient_knows") is not False:
+                    return f["fact_id"]
+        return None
 
     def process_request(self, state: dict, raw_request: str, request_id: str | None = None) -> dict:
         state["turn"] += 1
@@ -459,6 +545,14 @@ class Engine:
             item["turn"] = arts[a["artifact_id"]]
             item["linked_fact_ids"] = [fid for fid in (a.get("linked_fact_ids") or []) if fid in turn_of]
             artifacts.append(item)          # `interpretation` is held back until feedback
+        for ev in state["ledger"]:
+            for dr in ev.get("default_results") or []:
+                sid = {"lab_report": "labs", "ecg": "imaging", "xray": "imaging", "ct": "imaging", "prior_note": "records", "medication_list": "records"}.get(dr["kind"],
+                       "exam" if dr["request"].startswith("exam:") else "imaging")
+                aid = "default." + dr["request"].replace(":", ".")
+                sec(sid)["artifact_ids"].append(aid)
+                artifacts.append({"artifact_id": aid, "kind": dr["kind"], "title": dr["title"], "content": dr["content"], "synthetic": True, "default_normal": True,
+                                  "note": dr["note"], "section_id": sid, "turn": ev["turn"], "linked_fact_ids": []})
         visible, hidden = [], 0
         for sid in order:
             s = sections[sid]
@@ -473,9 +567,11 @@ class Engine:
                 "n_disclosed": len(turn_of), "turn": state["turn"]}
 
     def available_requests(self) -> list[dict]:
-        """An order/exam menu: the shared generic list merged with this case's requests, so the menu itself
-        does not reveal which tests matter. Requests the case does not define return 'not_available'."""
-        keys = sorted(set(tx.REQUEST_ALIASES) | {r for r in self.case_requests if not r.startswith("artifact:")})
+        """The order / examination menu: this case's own requests merged with the standard workup for its kind of
+        presentation, so the menu does not reveal which tests matter. Every item returns something: the case's result,
+        or the default normal result (rule `template_default_normal`). Anything else typed by the learner is
+        'not available in this scenario'."""
+        keys = sorted(set(self.workup) | {r for r in self.case_requests if not r.startswith("artifact:")})
         out = []
         for k in keys:
             kind, _, name = k.partition(":")
@@ -495,6 +591,7 @@ def student_event(ev: dict) -> dict:
             "disclosed_fact_ids": list(ev.get("disclosed_fact_ids") or []),
             "released_artifact_ids": list(ev.get("released_artifact_ids") or []),
             "rule_fired": {k: v for k, v in (ev.get("rule_fired") or {}).items() if k in shown},
+            "default_results": [d["request"] for d in ev.get("default_results") or []],
             "result": "answered" if ev.get("result") == "withheld" else ev.get("result"), "rapport": ev.get("rapport"), "rapport_delta": ev.get("rapport_delta"),
             "rapport_reasons": ev.get("rapport_reasons"), "reply": ev.get("reply"), "provider": ev.get("provider"),
             "fallback": ev.get("fallback", False)}

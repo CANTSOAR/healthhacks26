@@ -17,6 +17,22 @@
   "setting": "Emergency department treatment bay",
   "rubric_id": "default",
   "unknown_response": "I'm not sure. I can't really tell you anything about that.",
+  "standard_workup": [
+    "order:ecg",
+    "order:troponin",
+    "order:tox_screen",
+    "order:prior_records",
+    "order:cbc",
+    "order:bmp",
+    "order:chest_xray",
+    "order:d_dimer",
+    "order:medication_list",
+    "exam:general",
+    "exam:cardiac",
+    "exam:lungs",
+    "exam:vitals",
+    "exam:abdomen"
+  ],
   "prebrief": "You are the emergency medicine resident. Rafael Quintero, 41, walked in with chest pressure that started about two hours ago. Triage has taken vital signs. Take a focused history, request the examination and tests you need, and decide on a disposition. You have about eight minutes.",
   "profile": {
     "name": "Rafael Quintero",

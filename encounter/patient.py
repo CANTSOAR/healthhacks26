@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import re
 
+from . import conversation as conv
 from . import taxonomy as tx
 from .disclosure import Engine
 from .matcher import MAX_FACTS_PER_TURN, Intent, match_facts, match_requests
@@ -105,7 +106,8 @@ def clinical_lexicon() -> set[str]:
         words |= {"cancer", "tumor", "infection", "stroke", "clot", "fracture", "broken", "pneumonia", "appendix", "appendicitis",
                   "ulcer", "kidney", "liver", "thyroid", "anemia", "insulin", "antibiotic", "antibiotics", "steroid", "steroids",
                   "painkiller", "painkillers", "tylenol", "acetaminophen", "paracetamol", "surgery", "diagnosis", "diagnosed"}
-        _lexicon_cache = {tx.stem(w) for w in words if len(w) >= 3 and w not in tx.STOPWORDS and w not in _GENERIC}
+        generic_stems = {tx.stem(g) for g in _GENERIC} | tx.STOPWORDS | {tx.stem(w) for w in tx.STOPWORDS} | {"what", "how", "when", "where", "feel", "like", "kind", "type", "describ"}
+        _lexicon_cache = {tx.stem(w) for w in words if len(w) >= 3 and w not in tx.STOPWORDS and w not in _GENERIC} - generic_stems
     return _lexicon_cache
 
 
@@ -215,7 +217,7 @@ def _answer(f: dict) -> str:
     return a or f"What I can tell you is: {(f.get('statement') or '').strip()}"
 
 
-def approved_lines(case: dict, engine: Engine, outcome: dict, intent: Intent) -> tuple[list[str], list[str]]:
+def approved_lines(case: dict, engine: Engine, outcome: dict, intent: Intent, last_reply: str | None = None) -> tuple[list[str], list[str]]:
     """(patient lines, system notes). Patient lines are the only content the patient may voice this turn."""
     lines: list[str] = []
     notes: list[str] = []
@@ -232,7 +234,9 @@ def approved_lines(case: dict, engine: Engine, outcome: dict, intent: Intent) ->
     for req, res in request_results.items():
         label = req.split(":", 1)[-1].replace("_", " ")
         if res == "not_available":
-            notes.append(f"{label}: not available in this case (no result is defined).")
+            notes.append(f"{label}: not available in this scenario.")
+        elif res == "default_normal":
+            notes.append(f"{label}: result added to the chart (default normal result, synthetic).")
         elif res == "pending":
             notes.append(f"{label}: requested. The result is pending.")
         elif res == "already_available":
@@ -249,7 +253,7 @@ def approved_lines(case: dict, engine: Engine, outcome: dict, intent: Intent) ->
     all_repeat = bool(outcome["repeated"]) and not voiced_now and not outcome["covered"] and not outcome["spontaneous"]
     if all_repeat:      # repeats are voiced only when the turn brings nothing new
         for fid in sorted(outcome["repeated"], key=lambda x: order.get(x, 0)):
-            add(("Like I said: " if not lines else "") + _answer(by_id[fid]))
+            add(("Like I said: " if not lines else "") + re.sub(r"^(?:All right|Okay|Fine|Yes|Okay, honestly|Okay\. Yes|All right\. Yes)[.,]\s+(?:Yes\.\s+)?", "", _answer(by_id[fid])))
     for fid in sorted(voiced_now, key=lambda x: order.get(x, 0)):
         add(_answer(by_id[fid]))
     for fid in outcome["covered"]:
@@ -258,23 +262,46 @@ def approved_lines(case: dict, engine: Engine, outcome: dict, intent: Intent) ->
         add(DEFLECTION)
     for k, fid in enumerate(outcome["spontaneous"]):
         add(("Actually... about what you asked me before. " if k == 0 else "") + _answer(by_id[fid]))
+    for fid in outcome.get("open_prompt") or []:
+        add(_answer(by_id[fid]))
+    key = tx.normalize(ev.get("text") or "")
+    gender = (case.get("profile") or {}).get("gender", "")
+    if outcome.get("default_negative") and not lines:
+        add(conv.default_negative(outcome["default_negative"], gender, last_reply))
     if outcome["patient_unknown"] and not lines:
         knows = [fid for fid in outcome["patient_unknown"] if by_id[fid].get("patient_knows") is not False]
         add(NEEDS_CHECK if knows and len(knows) == len(outcome["patient_unknown"]) else DONT_KNOW)
     if outcome["not_specified"] and not lines:
-        add(case.get("unknown_response") or DEFAULT_UNKNOWN)
+        authored = case.get("unknown_response") or DEFAULT_UNKNOWN
+        add(authored if not (last_reply and authored in last_reply) else conv.pick([v for v in conv.UNKNOWN_VARIANTS if v != authored], key, last_reply))
     if not lines:
         cues = intent.cues
-        if "closing" in cues:
-            add("No, I don't think so. Thank you." if "?" in (outcome["event"].get("text") or "") else "Okay. Thank you.")
+        social = outcome.get("social")
+        if social == "injection":
+            pool = conv.INJECTION_LINES
+        elif social == "off_topic":
+            pool = conv.OFF_TOPIC
+        elif social == "ice":
+            pool = conv.ICE_LINES
+        elif social == "nothing_more":
+            pool = conv.NOTHING_MORE
+        elif "closing" in cues:
+            pool = conv.CLOSING_Q_LINES if "?" in (ev.get("text") or "") else conv.CLOSING_LINES
         elif "empathy" in cues or "normalising" in cues:
-            add("Thank you. I appreciate that.")
+            pool = conv.EMPATHY_LINES
+        elif "thanks" in cues:
+            pool = conv.THANKS_LINES
         elif "introduction" in cues:
-            add("Hello. Okay.")
-        elif "explaining" in cues or "summarising" in cues:
-            add("Okay.")
+            pool = conv.INTRO_LINES
+        elif "explaining" in cues:
+            pool = conv.EXPLAIN_LINES
+        elif "summarising" in cues:
+            pool = conv.SUMMARY_LINES
+        elif "backchannel" in cues:
+            pool = conv.BACKCHANNEL_LINES
         else:
-            add("Okay.")
+            pool = conv.SUMMARY_LINES
+        add(conv.pick(pool, key, last_reply))
     return lines, notes
 
 
@@ -317,7 +344,8 @@ def respond(case: dict, engine: Engine, state: dict, text: str, provider: Provid
             fallback = True
             errors.append(f"intent: {e}")
     outcome = engine.process_turn(state, text, intent, request_id)
-    lines, notes = approved_lines(case, engine, outcome, intent)
+    last_reply = next((e.get("reply") for e in reversed(state["ledger"][:-1]) if e.get("reply")), None)
+    lines, notes = approved_lines(case, engine, outcome, intent, last_reply)
     reply, wording, rejected = " ".join(lines), "authored", None
     if provider.live:
         try:

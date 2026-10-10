@@ -51,6 +51,9 @@ _MEASURES = [
     ("blood_pressure", "Blood pressure", r"\bBP\s*(\d{2,3}/\d{2,3})", "mmHg", "vitals"),
     ("waist", "Waist circumference", r"\bWC\s*(?:of)?\s*(\d+(?:\.\d+)?)", "inches", "vitals"),
 ]
+_LAY = [(r"\bdyslipidemia\b", "cholesterol"), (r"\bhyperlipidemia\b", "cholesterol"), (r"\bhypertension\b", "blood pressure"), (r"\bobesity\b", "weight"),
+        (r"\bheart failure\b", "heart, they call it heart failure"), (r"\bdiabetes mellitus\b", "diabetes"), (r"\bmyocardial infarction\b", "heart attack"),
+        (r"\bcerebrovascular accident\b", "stroke"), (r"\bcopd\b", "lungs")]
 _NEEDS = re.compile(r"\bneeds?\b|key for\b", re.I)
 
 
@@ -173,13 +176,18 @@ def build_case_from_row(row: dict) -> dict:
     habit_pat = "|".join(p for _, p, *_ in _HABITS[:6]) + r"|user\b|abuse"
     medical = [i for i in items if not re.search(habit_pat, i, re.I) and not re.search(r"vegetarian|vegan|frequent flier", i, re.I)]
     def spoken(item: str) -> str:
-        return " ".join(w if w.isupper() else w.lower() for w in item.split())
+        """A diagnosis label as a patient would say it: no staging jargon, everyday words."""
+        t = re.sub(r"\b(?:NYHA\s+)?(?:stage|class|grade)\s+[A-Za-z0-9IV]+\b|\bNYHA\b", "", item, flags=re.I)
+        t = " ".join(w if (w.isupper() and len(w) <= 3) else w.lower() for w in t.split())
+        for pat, lay in _LAY:
+            t = re.sub(pat, lay, t)
+        return re.sub(r"\s+", " ", t).strip(" ,")
 
     first_item = spoken(medical[0]) if medical else ""
     if not first_item:
         reason_line = "I was told to come in for a health review."
     elif re.match(r"^\w+ing\b", first_item):
-        reason_line = f"I'm here because I'm {first_item}."
+        reason_line = "I'm here because I'm " + re.sub(r"\b(from|after|with) (?!a |an |the |my )(\w)", r"\1 a \2", first_item, count=1) + "."
     elif " with " in first_item:
         reason_line = f"I'm here about my {first_item.split(' with ', 1)[1]}."
     else:

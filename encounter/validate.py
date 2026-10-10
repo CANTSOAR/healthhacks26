@@ -37,6 +37,32 @@ _ALLERGY_NOISE = set("allergy allergic allergies reaction reactions rash hives a
                      "caused developed known drug drugs medication medications childhood as a child severe mild".split())
 
 
+MIN_HISTORY_FACTS = 5
+_QUALITATIVE = {"negative", "positive", "detected", "not detected", "trace", "small", "moderate", "large", "normal", "abnormal", "pending", "nil", "none",
+                "present", "absent", "reactive", "non-reactive", "clear", "cloudy"}
+_STOPPED_MED = re.compile(r"\b(?:stopped|quit|no longer|not been|hasnt been|has not been|skips|skipping|ran out of|run out of)\s+(?:taking\s+|using\s+)?(?:(?:her|his|their|the|my)\s+)?"
+                          r"((?:[a-z\-]+\s+){0,3}?(?:pills?|tablets?|medication|medicine|meds|inhalers?|insulin|injections?|thinners?|drops|statins?|antibiotics?|"
+                          r"[a-z]+(?:pril|olol|statin|sartan|formin|dipine|xaban|semide|azide)))\b")
+_MED_SYNONYMS = {
+    "blood pressure": ["amlodipine", "lisinopril", "ramipril", "losartan", "metoprolol", "atenolol", "hydrochlorothiazide", "enalapril", "pressure", "antihypertensive", "doxazosin"],
+    "thinner": ["apixaban", "warfarin", "rivaroxaban", "dabigatran", "anticoagulant", "thinner", "heparin"],
+    "water": ["furosemide", "diuretic", "bumetanide", "water"],
+    "insulin": ["insulin", "glargine", "lispro"],
+    "inhaler": ["inhaler", "salbutamol", "albuterol", "budesonide", "tiotropium"],
+    "diabetes": ["metformin", "insulin", "gliclazide"],
+    "sugar": ["metformin", "insulin"],
+    "cholesterol": ["statin", "atorvastatin", "simvastatin", "rosuvastatin"],
+    "statin": ["statin", "atorvastatin", "simvastatin", "rosuvastatin"],
+    "antibiotic": ["antibiotic", "amoxicillin", "nitrofurantoin", "ciprofloxacin", "trimethoprim"],
+    "heart": ["metoprolol", "bisoprolol", "furosemide", "lisinopril", "heart"],
+}
+
+
+def _measure_ok(v: str) -> bool:
+    t = v.strip().lower()
+    return bool(re.fullmatch(r"[<>]?\s*-?\d+(?:[.,]\d+)?(?:\s*/\s*\d+(?:\.\d+)?)?\s*%?", t)) or t in _QUALITATIVE or any(t.startswith(q) for q in _QUALITATIVE)
+
+
 @lru_cache(maxsize=1)
 def case_schema() -> dict:
     return json.loads((CONTRACTS_DIR / "case.schema.json").read_text())
@@ -71,8 +97,11 @@ def validate_case(case: dict, rubric: dict | None = None) -> dict:
     def err(path, msg):
         errors.append({"path": path, "message": msg})
 
-    def warn(path, msg):
-        warnings.append({"path": path, "message": msg})
+    def warn(path, msg, level="info"):
+        w = {"path": path, "message": msg}
+        if level != "info":
+            w["level"] = level          # "attention": a thin or incomplete case; approval asks for acknowledgement
+        warnings.append(w)
 
     def contra(kind, msg, paths, level="contradiction"):
         consistency.append({"level": level, "kind": kind, "message": msg, "paths": paths})
@@ -253,8 +282,6 @@ def validate_case(case: dict, rubric: dict | None = None) -> dict:
     for i, f in enumerate(facts):
         if f.get("critical") and f.get("fact_id") not in linked_by_obj:
             warn(f"/facts/{i}", f"critical fact {f.get('fact_id')} is not linked to any objective")
-    if not objectives:
-        warn("/objectives", "no learning objectives: feedback will only cover rubric domains")
     ft = case.get("faculty_truth") or {}
     for o in ft.get("expected_orders") or []:
         if str(o).lower() not in requests:
@@ -358,5 +385,56 @@ def validate_case(case: dict, rubric: dict | None = None) -> dict:
         if age < 0 or age > 120:
             err("/profile/age", "age must be between 0 and 120")
 
+    # ---- thin or malformed cases (D18): never silent
+    voiced = [f for f in facts if (f.get("disclosure") or {}).get("rule") in PATIENT_VOICED and f.get("patient_knows") is not False]
+    if not any(f.get("category") == "chief_complaint" for f in facts):
+        warn("/facts", "no chief complaint: add a fact with category chief_complaint so the patient can say why they came", "attention")
+    history = [f for f in voiced if f.get("category") not in ("chief_complaint",)]
+    if len(history) < MIN_HISTORY_FACTS:
+        warn("/facts", f"only {len(history)} history fact(s) the patient can talk about (fewer than {MIN_HISTORY_FACTS}): most questions will get "
+                       "a default answer. Add history, medicines, allergies and social facts", "attention")
+    if not str(ft.get("diagnosis") or "").strip():
+        warn("/faculty_truth/diagnosis", "no diagnosis in the faculty truth: the debrief cannot say what the case was", "attention")
+    if ft.get("expected_disposition") not in ("discharge", "admit", "transfer"):
+        warn("/faculty_truth/expected_disposition", "no expected disposition: the learner's decision cannot be judged", "attention")
+    if not objectives:
+        warn("/objectives", "no learning objectives: feedback cannot be tied to what you want taught", "attention")
+    has_initial = any((f.get("disclosure") or {}).get("rule") == "chart_initial" for f in facts) or \
+        any((a.get("release") or {}).get("rule") == "initial" for a in artifacts) or any(s_.get("release") == "initial" and s_.get("static_text") for s_ in sections)
+    if not has_initial:
+        warn("/chart", "nothing is in the chart at the start (no chart_initial fact, initial artifact or section text): add a triage note or vital signs", "attention")
+    for i, f in enumerate(facts):
+        d = f.get("disclosure") or {}
+        if f.get("category") == "concealed" and d.get("rule") == "after_rapport":
+            warn(f"/facts/{i}/disclosure", f"{f.get('fact_id')} is concealed with no evidence path: it opens up through rapport only. "
+                                           "Add an artifact and use denied_until_confronted if the learner should be able to confront it")
+        if f.get("category") in ("lab", "vitals") and f.get("unit") and isinstance(f.get("value"), str) and not _measure_ok(f["value"]):
+            err(f"/facts/{i}/value", f"{f.get('fact_id')} has unit '{f['unit']}' but its value '{f['value']}' is not a number")
+    for i, a in enumerate(artifacts):
+        rows = a.get("content") if isinstance(a.get("content"), list) and a.get("kind") == "lab_report" else []
+        for r_i, row in enumerate(rows):
+            if isinstance(row, dict) and "value" in row and isinstance(row["value"], str) and not _measure_ok(row["value"]) and \
+                    (row.get("unit") or re.search(r"\d", str(row.get("ref_range") or ""))):
+                err(f"/chart/artifacts/{i}/content/{r_i}/value", f"lab row '{row.get('test')}' has a numeric unit or reference range but its value '{row['value']}' is not a number")
+    # a medicine the story says was stopped must be on the medication list
+    med_text = " ".join(tx.normalize(f"{f.get('statement', '')} {f.get('patient_answer', '')}") for f in facts if f.get("category") == "medications").replace("-", " ")
+    for i, f in enumerate(facts):
+        if f.get("category") == "medications":
+            continue
+        m = _STOPPED_MED.search(tx.normalize(f.get("statement") or "").replace("-", " "))
+        if not m:
+            continue
+        drug = m.group(1).strip()
+        words = {w for w in drug.split() if len(w) > 3 and w not in ("pill", "pills", "tablet", "tablets", "medication", "medicine", "meds", "taking", "blood")}
+        alts = set(words)
+        for key, members in _MED_SYNONYMS.items():
+            if key in drug:
+                alts |= set(members)
+        if not med_text.strip():
+            contra("stopped_medication_not_listed", f"{f.get('fact_id')} says the patient stopped '{drug}', but the case has no medication list", [f"/facts/{i}"])
+        elif not any(w in med_text for w in alts):
+            contra("stopped_medication_not_listed", f"{f.get('fact_id')} says the patient stopped '{drug}', but no medication fact mentions it", [f"/facts/{i}"])
+
     blocking = [c for c in consistency if c["level"] == "contradiction"]
-    return {"ok": not errors and not blocking, "errors": errors, "warnings": warnings, "consistency": consistency}
+    return {"ok": not errors and not blocking, "errors": errors, "warnings": warnings, "consistency": consistency,
+            "needs_acknowledgement": any(w.get("level") == "attention" for w in warnings)}

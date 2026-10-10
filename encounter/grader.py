@@ -35,6 +35,53 @@ FORMATIVE_NOTE = ("Formative coaching generated from transcript heuristics. It i
                   "communication skill or clinical competence; review it with a teacher.")
 
 
+TOPIC_LABELS = {
+    "pregnancy": "periods and the chance of pregnancy", "severity": "how bad it is", "aggravating": "what makes it worse", "relieving": "what makes it better",
+    "onset": "when and how it started", "duration": "how long it has lasted", "character": "what it feels like", "radiation": "whether it spreads anywhere",
+    "location": "where it is", "associated_symptoms": "other symptoms", "pmh": "past medical history", "psh": "previous operations", "medications": "medicines",
+    "allergies": "allergies", "family_history": "family history", "smoking": "smoking", "alcohol": "alcohol", "drugs": "recreational drugs",
+    "sexual_history": "sexual history", "occupation": "work", "living_situation": "home situation", "mood": "mood", "adherence": "whether medicines are actually taken",
+    "nausea_vomiting": "nausea and vomiting", "bowel": "bowel habit", "urinary": "urinary symptoms", "sob": "breathlessness", "pain_chest": "chest pain",
+    "fever": "fever", "weakness_numbness": "weakness or numbness", "speech_vision": "speech and vision", "headache": "headache", "self_harm": "thoughts of self-harm",
+    "red_flags_back": "bladder, bowel and saddle numbness", "weight_change": "weight change", "appetite": "appetite", "last_meal": "when they last ate",
+    "injury_mechanism": "how the injury happened", "patient_concerns": "what worries the patient", "previous_episodes": "previous episodes", "diet": "diet",
+    "swelling": "swelling", "orthopnea": "breathing when lying flat", "cough": "cough", "dizziness": "dizziness", "syncope": "blackouts", "withdrawal": "withdrawal symptoms",
+    "delay": "why they waited before coming in", "chief_complaint": "the main complaint", "exercise": "exercise tolerance", "sleep": "sleep", "travel": "travel and contacts",
+}
+_EXAM_LABELS = {"msk": "an examination of the injured or painful part", "abdomen": "an abdominal examination", "lungs": "a chest examination", "cardiac": "a heart examination",
+                "neuro": "a neurological examination", "general": "a general examination", "vitals": "repeat vital signs", "skin": "a skin examination",
+                "heent": "a head and neck examination", "extremities": "an examination of the legs", "mental_status": "a mental status check"}
+_ORDER_LABELS = {"cbc": "a blood count (CBC)", "bmp": "a basic metabolic panel", "lft": "liver tests", "ecg": "an ECG", "xray": "an X-ray", "chest_xray": "a chest X-ray",
+                 "ct_head": "a CT of the head", "ct_abdomen": "a CT of the abdomen", "ct_chest": "a CT of the chest", "bnp": "a BNP", "crp": "a CRP", "abg": "a blood gas",
+                 "tox_screen": "a urine drug screen", "ethanol": "a blood alcohol level", "d_dimer": "a D-dimer", "mri": "an MRI", "hba1c": "an HbA1c",
+                 "prior_records": "the previous records", "medication_list": "the pharmacy dispensing record", "pregnancy_test": "a pregnancy test",
+                 "urinalysis": "a urinalysis", "glucose": "a glucose check", "coags": "clotting tests", "blood_cultures": "blood cultures"}
+
+
+def fact_label(f: dict) -> str:
+    """Learner-facing name of a fact: never a raw identifier."""
+    if f.get("label"):
+        return str(f["label"]).lower()
+    for t in f.get("topics") or []:
+        k = str(t).lower()
+        if k in TOPIC_LABELS and k != "chief_complaint":
+            return TOPIC_LABELS[k]
+    slug = f["fact_id"].split(".")[-1]
+    if slug in TOPIC_LABELS:
+        return TOPIC_LABELS[slug]
+    cat = {"pmh": "past medical history", "medications": "medicines", "allergies": "allergies", "family": "family history", "social": "social history",
+           "ros": "other symptoms", "hpi": "the story of the illness", "chief_complaint": "the main complaint", "concealed": "what the patient is holding back"}
+    words = slug.replace("_", " ")
+    return words if len(words) > 4 and " " in words else cat.get(f.get("category"), words)
+
+
+def request_label(r: str) -> str:
+    kind, _, name = str(r).partition(":")
+    if kind == "exam":
+        return _EXAM_LABELS.get(name, f"an examination ({name.replace('_', ' ')})")
+    return _ORDER_LABELS.get(name, name.replace("_", " "))
+
+
 def _q(text: str, n: int = 180) -> str:
     t = re.sub(r"\s+", " ", (text or "").strip())
     return t if len(t) <= n else t[: n - 1].rstrip() + "…"
@@ -49,6 +96,14 @@ def build_transcript(state: dict) -> list[dict]:
                 out.append({"turn": ev["turn"], "speaker": "patient", "text": ev["reply"]})
         elif ev["kind"] == "request":
             out.append({"turn": ev["turn"], "speaker": "student", "text": f"[request] {ev.get('request')}"})
+    return out
+
+
+def _acceptable(case: dict) -> list[str]:
+    ft = case.get("faculty_truth") or {}
+    out = [d for d in (ft.get("acceptable_dispositions") or []) if d in ("discharge", "admit", "transfer")]
+    if ft.get("expected_disposition") in ("discharge", "admit", "transfer") and ft["expected_disposition"] not in out:
+        out.insert(0, ft["expected_disposition"])
     return out
 
 
@@ -158,7 +213,7 @@ def _objective_offline(o: dict, sig: Signals) -> dict:
                 evidence.append(sig.ev_quote(ev) if ev else {"turn": sig.state["turn"], "quote": f"[order at finish] {r}"})
         return done
 
-    if kind in ("elicit_fact", "safety", "action") or (kind in ("reasoning",) and (lf or lr) and not sig.finish.get("summary")):
+    if kind in ("elicit_fact", "safety", "action"):
         got, asked_only, initial = fact_part()
         done = req_part()
         need = len([f for f in lf if f not in initial]) + len(lr)
@@ -175,9 +230,9 @@ def _objective_offline(o: dict, sig: Signals) -> dict:
         else:
             result = "not_observed"
         if kind == "safety" and o.get("evidence_rule") and "disposition" in o["evidence_rule"].lower():
-            exp = (sig.case.get("faculty_truth") or {}).get("expected_disposition")
-            if exp and sig.finish.get("disposition") and sig.finish["disposition"] != exp and result == "met":
-                result, note = "partly_demonstrated", f"disposition '{sig.finish['disposition']}' differs from the expected '{exp}'"
+            exp = _acceptable(sig.case)
+            if exp and sig.finish.get("disposition") and sig.finish["disposition"] not in exp and result == "met":
+                result, note = "partly_demonstrated", f"disposition '{sig.finish['disposition']}' differs from the expected '{' or '.join(exp)}'"
     elif kind == "communication":
         dom = canonical_key(o.get("rubric_domain") or "") or canonical_key(o.get("criterion") or "") or "rapport"
         uncertain = True
@@ -210,9 +265,10 @@ def _objective_offline(o: dict, sig: Signals) -> dict:
     elif kind == "reasoning":
         uncertain = True
         summary = (sig.finish.get("summary") or "").strip()
-        exp = (sig.case.get("faculty_truth") or {}).get("expected_disposition")
+        exp = _acceptable(sig.case)
         disp = sig.finish.get("disposition")
-        if not summary and (not disp or disp == "undecided"):
+        decided = bool(disp and disp != "undecided")
+        if not summary and not decided:
             result, note = "not_assessable", "no summary or disposition was given at the end"
         else:
             got, _, initial = fact_part() if lf else ([], [], [])
@@ -222,10 +278,10 @@ def _objective_offline(o: dict, sig: Signals) -> dict:
                 total += 1
                 need = len([f for f in lf if f not in initial]) + len(lr)
                 pts += (len(got) + len(done)) / need if need else 1
-            if exp:
-                total += 1
-                pts += 1.0 if disp == exp else 0.0
+            if decided:                      # the finish form's disposition is evidence in its own right
                 evidence.append({"turn": sig.state["turn"], "quote": f"[disposition at finish] {disp}"})
+                total += 1
+                pts += 1.0 if (not exp or disp in exp) else 0.25
             if summary:
                 total += 1
                 words = set(tx.tokens(summary))
@@ -234,10 +290,15 @@ def _objective_offline(o: dict, sig: Signals) -> dict:
                     key |= {t for t in tx.tokens(sig.engine.by_id[fid].get("statement") or "") if len(t) > 3 and t not in tx.STOPWORDS}
                 dx = {t for t in tx.tokens((sig.case.get("faculty_truth") or {}).get("diagnosis") or "") if len(t) > 3}
                 overlap = len(words & (key | dx))
-                pts += 1.0 if overlap >= 3 else (0.5 if overlap >= 1 else 0.0)
+                pts += 1.0 if overlap >= 3 else (0.5 if overlap >= 1 else 0.25)
                 evidence.append({"turn": sig.state["turn"], "quote": "[summary at finish] " + _q(summary, 150)})
             frac = pts / total if total else 0
-            result = "met" if frac >= 0.8 else ("partly_demonstrated" if frac >= 0.4 else "not_observed")
+            result = "met" if frac >= 0.8 else "partly_demonstrated"      # a decision was made and recorded: never "not observed"
+            if decided and exp and disp not in exp:
+                result = "partly_demonstrated"
+                note = f"a disposition was chosen ('{disp}'); the case was written for '{' or '.join(exp)}'"
+            elif decided and not summary:
+                note = "disposition recorded; no written summary of the reasoning"
     else:
         result, note, uncertain = "not_assessable", f"unknown objective kind '{kind}'", True
 
@@ -265,18 +326,29 @@ def _default_suggestion(o: dict, result: str, sig: Signals) -> str:
             if not f or fid in sig.disclosed:
                 continue
             rule = sig.engine.rule(f)
-            topic = fid.split(".")[-1].replace("_", " ")
+            topic = fact_label(f)
             if rule == "after_rapport":
                 hints.append(f"'{topic}' opens up only after rapport: acknowledge feelings, normalise the question, then ask again")
             elif rule == "denied_until_confronted":
                 hints.append(f"'{topic}' was denied: look for evidence in the chart or results and raise it respectfully")
             elif rule == "on_request":
-                hints.append(f"'{topic}' needs a request ({(f.get('disclosure') or {}).get('request')})")
+                hints.append(f"request {request_label((f.get('disclosure') or {}).get('request') or '')}")
             else:
                 hints.append(f"ask directly about {topic}")
-        return ("Next time: " + "; ".join(hints[:3]) + ".") if hints else "Next time, cover this explicitly."
+        todo = [request_label(r) for r in (o.get("linked_requests") or []) if str(r).lower() not in sig.requests_made]
+        if todo:
+            hints.append("request " + ", ".join(todo))
+        return ("Next time: " + "; ".join(dict.fromkeys(hints[:4])) + ".") if hints else "Next time, cover this explicitly."
     if kind == "action":
-        return "Next time, request: " + ", ".join(o.get("linked_requests") or []) + "."
+        todo = [request_label(r) for r in (o.get("linked_requests") or []) if str(r).lower() not in sig.requests_made]
+        return ("Next time, also request " + ", ".join(todo) + ".") if todo else "You requested everything this objective looks for."
+    if kind == "reasoning" and (sig.finish.get("summary") or "").strip():
+        exp = _acceptable(sig.case)
+        disp = sig.finish.get("disposition")
+        if exp and disp and disp != "undecided" and disp not in exp:
+            return f"You chose '{disp}'; the case was written for '{' or '.join(exp)}'. Go back over the findings that point that way."
+        missing = [fact_label(sig.engine.by_id[f]) for f in (o.get("linked_fact_ids") or []) if f in sig.engine.by_id and f not in sig.disclosed]
+        return ("Your summary would be stronger with: " + ", ".join(dict.fromkeys(missing)) + ".") if missing else "Name the key findings that support your decision in the summary."
     if kind == "communication":
         return "Name the emotion you notice and respond to it before moving to the next question."
     if kind == "sequencing":
@@ -353,8 +425,9 @@ def rubric_offline(rubric: dict, sig: Signals, objectives: list[dict]) -> dict:
     hidden_got = [f for f in hidden if f["fact_id"] in sig.disclosed]
     emp = len(sig.by_cue.get("empathy", [])) + len(sig.by_cue.get("normalising", []))
     bad = len(sig.by_cue.get("judgmental", []))
-    exp = (sig.case.get("faculty_truth") or {}).get("expected_disposition")
+    exp_list = _acceptable(sig.case)
     disp = sig.finish.get("disposition")
+    exp = disp if (disp in exp_list) else (exp_list[0] if exp_list else None)
     out = []
     for d in rubric.get("domains", []):
         canon = canonical_domain(d)
@@ -452,7 +525,7 @@ def findings(sig: Signals, objectives: list[dict]) -> tuple[list[dict], list[dic
     for f in sig.engine.facts:
         fid = f["fact_id"]
         ev = sig.disclosed_at.get(fid)
-        base = {"fact_id": fid, "text": sig.engine.fact_text(f), "category": f.get("category"), "critical": bool(f.get("critical")),
+        base = {"fact_id": fid, "label": fact_label(f), "text": sig.engine.fact_text(f), "category": f.get("category"), "critical": bool(f.get("critical")),
                 "rule": sig.engine.rule(f)}
         if ev is not None and ev["kind"] != "start":
             elicited.append({**base, "turn": ev["turn"], "by": _q(ev.get("text") or ev.get("request") or "", 120)})
@@ -461,7 +534,7 @@ def findings(sig: Signals, objectives: list[dict]) -> tuple[list[dict], list[dic
             how = {"if_asked": "ask about it directly", "volunteered": "ask an open question about the complaint",
                    "after_rapport": f"build rapport first (needs {(f.get('disclosure') or {}).get('rapport_needed')}), then ask",
                    "denied_until_confronted": "the patient denies it until you raise evidence you have seen in the chart or results",
-                   "on_request": f"request {(f.get('disclosure') or {}).get('request')}", "chart_initial": "in the chart"}.get(rule, "")
+                   "on_request": f"request {request_label((f.get('disclosure') or {}).get('request') or '')}", "chart_initial": "in the chart"}.get(rule, "")
             missed.append({**base, "asked": fid in sig.asked, "how_to_reach": how})
     return elicited, missed
 
@@ -477,9 +550,9 @@ def quality_score(case: dict, sig: Signals, objective_results: list[dict]) -> tu
         den += w
         num += w * {"met": 1.0, "partly_demonstrated": 0.5}.get(o["result"], 0.0)
     oscore = num / den if den else 0.5
-    exp = (case.get("faculty_truth") or {}).get("expected_disposition")
+    exp = _acceptable(case)
     disp = sig.finish.get("disposition")
-    dscore = 0.5 if (not exp or not disp or disp == "undecided") else (1.0 if disp == exp else 0.0)
+    dscore = 0.5 if (not exp or not disp or disp == "undecided") else (1.0 if disp in exp else 0.0)
     q = max(0.0, min(1.0, 0.5 * cfrac + 0.3 * oscore + 0.2 * dscore))
     return round(q, 3), {"critical_fraction": round(cfrac, 3), "objective_score": round(oscore, 3), "decision_score": dscore,
                          "formula": "0.5*critical_fraction + 0.3*objective_score + 0.2*decision_score"}

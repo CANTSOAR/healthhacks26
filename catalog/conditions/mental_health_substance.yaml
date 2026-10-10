@@ -861,6 +861,9 @@ facts:
   disclosure:
     rule: on_request
     request: exam:general
+    also_requests:
+    - exam:neuro
+    - exam:mental_status
   critical: true
   discoverable_by:
   - clinician_encounter
@@ -1265,4 +1268,18 @@ sources:
     awaiting faculty review'
   role: template
   license: project-authored
+standard_workup:
+- order:bmp
+- order:lft
+- order:cbc
+- order:glucose
+- order:ethanol
+- order:tox_screen
+- order:ecg
+- exam:neuro
+- exam:mental_status
+- exam:general
+- exam:vitals
+- order:prior_records
+- order:medication_list
 diagnoses_ordered_by_severity: true

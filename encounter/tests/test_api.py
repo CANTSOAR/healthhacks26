@@ -154,7 +154,8 @@ def test_key_demonstration_new_faculty_case_works_immediately(client):
     assert say("When did it start?")["reply"] == "It began the day after my doctor added a new tablet."
     assert say("Any allergies?")["reply"] == "None that I know of."
     assert say("Have you had any falls?")["reply"].startswith("I went down in the kitchen")
-    assert say("Do you have any pets?")["result"] == "not_specified"
+    assert say("Do you have any pets?")["result"] == "deflected_off_topic"
+    assert say("Do you smoke?")["result"] == "answered_negative_by_default"            # the case defines nothing on smoking
     a = say("Do you drink alcohol?")                                # rapport is 2 after an introduction and an open question
     assert "Half a bottle" in a["reply"]
     v = client.post(f"/api/encounters/{eid}/request", json={"request": "exam:vitals"}).json()
@@ -173,7 +174,7 @@ def test_validate_endpoint_reports_errors_for_bad_draft(client, mini_case):
     mini_case["objectives"][0]["linked_fact_ids"] = ["f.ghost"]
     cid = client.post("/api/cases", json=mini_case).json()["case_id"]
     rep = client.post(f"/api/cases/{cid}/validate").json()
-    assert set(rep) == {"ok", "errors", "warnings", "consistency"} and not rep["ok"]
+    assert set(rep) == {"ok", "errors", "warnings", "consistency", "needs_acknowledgement"} and not rep["ok"]
     assert all(set(e) == {"path", "message"} for e in rep["errors"])
     r = client.post(f"/api/cases/{cid}/approve")
     assert r.status_code == 422 and r.json()["detail"]["errors"]
@@ -195,8 +196,10 @@ def test_create_from_template_and_from_description(client):
     assert r.status_code == 201 and d["status"] == "draft" and d["created_from"]["method"] == "offline" and d["created_from"]["template_id"] == "respiratory"
     assert d["profile"]["name"] == "Dale Horn" and d["profile"]["age"] == 47 and d["profile"]["gender"] == "male"
     assert d["validation"]["ok"], d["validation"]["errors"]
+    assert d["validation"]["needs_acknowledgement"]                       # a sparse draft is flagged, not silently "valid"
     hidden = [f for f in d["facts"] if f["category"] == "concealed"]
-    assert len(hidden) == 1 and hidden[0]["patient_answer"] == "I smoke two packs a day." and hidden[0]["cover_answer"]
+    assert len(hidden) == 1 and hidden[0]["patient_answer"] == "All right. I smoke two packs a day." and hidden[0]["cover_answer"]
+    assert any(n.startswith("Taken from your text") for n in d["notes"]) and any(n.startswith("Missing") for n in d["notes"])
     assert any("draft" in n.lower() or "review" in n.lower() for n in d["notes"])
 
 

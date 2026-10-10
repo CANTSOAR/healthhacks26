@@ -17,6 +17,22 @@
   "setting": "Emergency department treatment bay",
   "rubric_id": "default",
   "unknown_response": "I'm not sure. I can't really tell you anything about that.",
+  "standard_workup": [
+    "exam:lungs",
+    "exam:cardiac",
+    "exam:extremities",
+    "order:bnp",
+    "order:bmp",
+    "order:chest_xray",
+    "order:medication_list",
+    "order:prior_records",
+    "order:ecg",
+    "order:troponin",
+    "order:cbc",
+    "exam:vitals",
+    "exam:abdomen",
+    "exam:general"
+  ],
   "prebrief": "You are the emergency medicine resident. Leonard Asante, 68, has been brought in by his daughter with worsening breathlessness. Triage has started oxygen. Take a history, request the examination and tests you need, find out why he has got worse, and decide on a disposition.",
   "profile": {
     "name": "Leonard Asante",

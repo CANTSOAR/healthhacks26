@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import yaml
 
+from ..normals import TEMPLATE_WORKUP
 from ..paths import TEMPLATES_DIR
 
 M, MO, S = "mild", "moderate", "severe"
@@ -984,6 +985,15 @@ def sim_keys(t: dict) -> dict:
                 f["by_severity"] = {b: {"options": [x["statement"] for x in opts[b]]} for b in (M, MO, S) if b in opts}
         else:
             f["value"] = f.get("value", f["statement"])
+    t["standard_workup"] = list(TEMPLATE_WORKUP[t["id"]])
+    also = {"chest_pain": {"f.exam.chest": ["exam:lungs", "exam:general"]}, "infection_fever": {"f.exam.abdomen": ["exam:general"]},
+            "musculoskeletal": {"f.exam.back": ["exam:neuro"]}, "other_medical": {"f.exam.general": ["exam:abdomen", "exam:lungs"]},
+            "mental_health_substance": {"f.exam.general": ["exam:neuro", "exam:mental_status"]}, "respiratory": {"f.exam.lungs": ["exam:general"]},
+            "injury_trauma": {"f.exam.msk": ["exam:general"], "f.exam.neuro": ["exam:mental_status"]}, "neuro": {"f.exam.neuro": ["exam:mental_status", "exam:general"]},
+            "abdominal_pain": {"f.exam.abdomen": ["exam:general"]}}.get(t["id"], {})
+    for f in t["facts"]:
+        if f["fact_id"] in also:
+            f["disclosure"]["also_requests"] = also[f["fact_id"]]
     for d in t["diagnoses"]:
         d["label"] = d["diagnosis"]
     t["diagnoses_ordered_by_severity"] = True

@@ -808,6 +808,8 @@ facts:
   disclosure:
     rule: on_request
     request: exam:abdomen
+    also_requests:
+    - exam:general
   critical: true
   discoverable_by:
   - clinician_encounter
@@ -1164,4 +1166,21 @@ sources:
     awaiting faculty review'
   role: template
   license: project-authored
+standard_workup:
+- order:urinalysis
+- order:urine_culture
+- order:cbc
+- order:bmp
+- order:lactate
+- order:blood_cultures
+- order:crp
+- order:chest_xray
+- order:pregnancy_test
+- exam:abdomen
+- exam:lungs
+- exam:skin
+- exam:general
+- exam:vitals
+- order:prior_records
+- order:medication_list
 diagnoses_ordered_by_severity: true

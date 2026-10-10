@@ -817,6 +817,8 @@ facts:
   disclosure:
     rule: on_request
     request: exam:msk
+    also_requests:
+    - exam:neuro
   critical: true
   discoverable_by:
   - clinician_encounter
@@ -1065,4 +1067,17 @@ sources:
     awaiting faculty review'
   role: template
   license: project-authored
+standard_workup:
+- order:xray
+- order:mri
+- order:crp
+- order:cbc
+- order:urinalysis
+- exam:msk
+- exam:neuro
+- exam:abdomen
+- exam:general
+- exam:vitals
+- order:prior_records
+- order:medication_list
 diagnoses_ordered_by_severity: true

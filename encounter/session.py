@@ -200,10 +200,12 @@ class EncounterManager:
             ev = out["event"]
             req, res = next(iter(out["request_results"].items()))
             label = req.split(":", 1)[-1].replace("_", " ")
-            note = {"not_available": f"{label}: not available in this case (no result is defined).",
+            note = {"not_available": f"{label}: not available in this scenario.",
+                    "default_normal": f"{label}: result added to the chart (default normal result, synthetic).",
                     "pending": f"{label}: requested. The result is pending.",
                     "already_available": f"{label}: already in the chart."}.get(res, f"{label}: result added to the chart.")
             notes = [note] + [f"New in the chart: {engine.art_by_id[a].get('title', a)}." for a in ev["released_artifact_ids"]]
+            notes += [f"New in the chart: {d['title']} (default normal)." for d in ev.get("default_results") or []]
             ev["system_notes"] = notes
             ev["provider"] = "offline"
             resp = self._response(s, engine, ev, None, notes, "offline", False)
@@ -273,8 +275,9 @@ class EncounterManager:
             prov = self.provider()
             feedback = grader.grade(case, state, get_rubric(case.get("rubric_id")), finish, prov)
             requested = list(state.get("requests_made", []))
+            offered = set(engine.workup) | set(engine.case_requests)
             for o in norm_orders:
-                if o not in requested:
+                if o not in requested and o in offered:          # an order the scenario cannot fulfil is not written back
                     requested.append(o)
             all_orders = [lab for lab in (order_label(r) for r in requested) if lab]
             sim = s.get("sim") or {}

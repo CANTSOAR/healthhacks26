@@ -811,6 +811,9 @@ facts:
   disclosure:
     rule: on_request
     request: exam:cardiac
+    also_requests:
+    - exam:lungs
+    - exam:general
   critical: false
   discoverable_by:
   - clinician_encounter
@@ -1084,4 +1087,18 @@ sources:
     awaiting faculty review'
   role: template
   license: project-authored
+standard_workup:
+- order:ecg
+- order:troponin
+- order:cbc
+- order:bmp
+- order:chest_xray
+- order:d_dimer
+- order:tox_screen
+- exam:cardiac
+- exam:lungs
+- exam:general
+- exam:vitals
+- order:prior_records
+- order:medication_list
 diagnoses_ordered_by_severity: true

@@ -114,6 +114,8 @@ def _included(ft: dict, severity: float, seed: int, sex: str, age: int | None, c
         return False
     if inc.get("sex") and not sex:
         return False
+    if inc.get("sex") == "female" and age is not None and age < 12:
+        return False
     if "max_age" in inc and age is not None and age > int(inc["max_age"]):
         return False
     if "min_age" in inc and age is not None and age < int(inc["min_age"]):
@@ -235,6 +237,38 @@ def sample_fact_values(template: dict | str, severity: float, seed: int, age: in
 
 # ------------------------------------------------------------------ instantiate
 
+# Children (D12): a simulated patient under 18 stays a minor. Templates that cannot honestly be told about a child are
+# reported as not playable; the others use a paediatric variant (history from the patient with a parent present).
+PEDIATRIC = {
+    "abdominal_pain": {"max_severity": 0.6, "drop": ["f.concealed.alcohol_intake"]},
+    "respiratory": {"drop": ["f.concealed.inhaler_and_smoking"], "background_option": 0},
+    "injury_trauma": {"max_severity": 0.6, "drop": ["f.concealed.alcohol_before_fall", "f.lab.ethanol"]},
+    "infection_fever": {},
+    "other_medical": {"drop": ["f.concealed.insulin_rationing"], "background_option": 0},
+}
+_PEDS_SWAP = {
+    "f.social.occupation": ("Attends school", "I'm at school."),
+    "f.social.living": ("Lives with parents", "I live with my mom and dad."),
+    "f.social.smoking": ("Does not smoke", "No, I don't smoke."),
+    "f.social.alcohol": ("Does not drink alcohol", "No, I don't drink."),
+}
+
+
+def playability(latent_truth: dict) -> dict:
+    """{"playable": bool, "reason": str|None}: whether this simulated patient can be turned into an honest encounter case."""
+    lt = latent_truth or {}
+    age = lt.get("age")
+    tid = str(lt.get("condition_template") or lt.get("condition_group") or "").replace("catalog/conditions/", "").replace(".yaml", "")
+    if tid not in _load_all(_stamp()):
+        tid = str(lt.get("condition_group") or "")
+    if isinstance(age, int) and not isinstance(age, bool) and age < 18:
+        if tid not in PEDIATRIC:
+            return {"playable": False, "reason": f"this patient is {age} years old and the '{tid or 'unknown'}' teaching template is written for adults only"}
+        if age < 5:
+            return {"playable": False, "reason": f"this patient is {age} years old; an interview-based encounter needs a child old enough to answer questions"}
+    return {"playable": True, "reason": None}
+
+
 def _dx(template: dict, band: str) -> dict:
     for d in template.get("diagnoses") or []:
         if d.get("band") == band:
@@ -254,8 +288,27 @@ def instantiate_case(template: dict | str, latent_truth: dict, known_state: dict
     age = lt.get("age")
     if not isinstance(age, int) or isinstance(age, bool):
         age = _rng(seed, "age").randint(24, 78)
-    age = max(18, int(age)) if age < 18 else int(age)      # templates are written for adults
+    age = int(age)
+    minor = age < 18
+    peds = PEDIATRIC.get(t["id"], {}) if minor else {}
+    true_severity = severity
+    if minor and "max_severity" in peds:
+        severity = min(severity, float(peds["max_severity"]))      # the adult-only severe story is not told about a child
+        band = band_of(severity)
     overrides = {f["fact_id"]: f.get("value") for f in (lt.get("facts") or []) if isinstance(f, dict) and "fact_id" in f}
+    if minor:
+        t["facts"] = [f for f in t["facts"] if f.get("fact_id") not in set(peds.get("drop", []))]
+        for f in t["facts"]:
+            if f.get("choice_group") == "background" and isinstance(f.get("options"), dict):
+                k = peds.get("background_option", 0)
+                f["options"] = {b: [opts[min(k, len(opts) - 1)]] for b, opts in f["options"].items()}
+            if f.get("fact_id") in _PEDS_SWAP:
+                st, ans = _PEDS_SWAP[f["fact_id"]]
+                f.update(kind="fixed", statement=st, patient_answer=ans)
+                f.pop("options", None)
+                if f["fact_id"] in ("f.social.smoking", "f.social.alcohol"):
+                    f["polarity"] = "negative"
+        overrides = {k: v for k, v in overrides.items() if k not in _PEDS_SWAP}
     chosen = _select(t, severity, seed, sex, age, overrides)
     ids = {ft["fact_id"] for ft, _ in chosen}
 
@@ -279,6 +332,11 @@ def instantiate_case(template: dict | str, latent_truth: dict, known_state: dict
             if ft.get(k):
                 f[k] = copy.deepcopy(ft[k])
         facts.append(f)
+    if minor:
+        for f in facts:
+            for k in ("statement", "patient_answer"):
+                if isinstance(f.get(k), str):
+                    f[k] = f[k].replace("since age 14", "diagnosed two years ago").replace("since I was fourteen", "for two years now")
     by_id = {f["fact_id"]: f for f in facts}
 
     # artifacts
@@ -331,13 +389,17 @@ def instantiate_case(template: dict | str, latent_truth: dict, known_state: dict
 
     d = _dx(t, band)
     acuity = int(lt.get("acuity") or {"mild": 4, "moderate": 3, "severe": 2}[band])
+    # the triage level the learner sees is the one the hospital shows for this patient (assigned at triage), not the hidden true acuity
+    shown_acuity = int((known_state or {}).get("triage_acuity") or acuity)
     complaint = t.get("complaint_label", t.get("label", "symptoms"))
     cc = next((f for f in facts if f["category"] == "chief_complaint"), None)
-    noun = "woman" if sex == "female" else "man"
+    noun = ("girl" if sex == "female" else "boy") if minor else ("woman" if sex == "female" else "man")
     arrival = {"ambulance": "Brought in by ambulance", "transfer": "Transferred from another facility"}.get(str(lt.get("arrival_mode") or ""), "Walked in")
     vit = [f["statement"].split(" (reference")[0] for f in facts if f["category"] == "vitals"]
-    triage_text = (known_state or {}).get("triage_note") or \
-        f"{age}-year-old {noun}. {arrival}. {cc['statement'] if cc else complaint.capitalize()}. Triage level ESI {acuity}."
+    triage_text = f"{age}-year-old {noun}{', accompanied by a parent' if minor else ''}. {arrival}. {cc['statement'] if cc else complaint.capitalize()}. Triage level ESI {shown_acuity}."
+    sim_note = (known_state or {}).get("triage_note")
+    if sim_note and f"ESI {shown_acuity}" in sim_note:
+        triage_text += f" (Hospital triage record: {sim_note}.)"
     artifacts.insert(0, {"artifact_id": "art.triage_note", "kind": "document", "title": "Triage note", "section_id": "triage",
                          "release": {"rule": "initial"}, "content": triage_text, "synthetic": True, "linked_fact_ids": [], "source_ids": ["authored"]})
 
@@ -374,18 +436,20 @@ def instantiate_case(template: dict | str, latent_truth: dict, known_state: dict
     expected_orders = [r for r in (d.get("expected_orders") or []) if r in all_requests]
     case = {
         "schema_version": 1, "case_id": cid, "version": 1, "status": "draft",
-        "title": f"{complaint.capitalize()} in a {age}-year-old {noun}",
+        "title": f"{complaint.capitalize()} in {'an' if str(age)[0] == '8' or age in (11, 18) else 'a'} {age}-year-old {noun}",
         "origin": origin,
         "review": {"author": f"instantiated from template '{t['id']}'", "needs_faculty_review": True, "synthetic": True},
         "intended_learner": "Medical students and first-year emergency medicine residents",
         "learner_role": "Emergency medicine resident", "setting": "Emergency department treatment bay",
         "prebrief": f"You are the emergency medicine resident. {prof['name']}, {age}, has come to the emergency department with {complaint}. "
+                    + ("A parent is at the bedside; the patient answers for themselves. " if minor else "") +
                     "Take a focused history, request the examination and tests you need, and decide on a disposition.",
         "profile": prof,
         "faculty_truth": {"diagnosis": lt.get("diagnosis") or d.get("diagnosis"), "differential": d.get("differential") or [],
                           "teaching_points": t.get("teaching_points") or [],
                           "expected_disposition": lt.get("true_disposition") or d.get("expected_disposition"),
-                          "expected_orders": expected_orders, "severity": severity, "acuity": acuity},
+                          "expected_orders": expected_orders, "severity": true_severity, "acuity": acuity, "triage_acuity": shown_acuity,
+                          "acceptable_dispositions": sorted({x for x in (lt.get("true_disposition"), d.get("expected_disposition")) if x in ("discharge", "admit", "transfer")})},
         "facts": facts,
         "chart": {"sections": copy.deepcopy(t.get("chart_sections") or []), "artifacts": artifacts},
         "objectives": objectives,
@@ -471,13 +535,16 @@ def _extra_fact(category: str, slug: str, statement: str, answer: str, topics: l
 
 
 def from_description(text: str, provider: Provider | None = None) -> dict:
-    """Free text -> DRAFT case. Returns {"case": <draft>, "notes": [...], "method": "offline"|"<provider>", "fallback": bool}."""
+    """Free text -> DRAFT case that contains only what the text states (see encounter/describe.py).
+    Returns {"case", "notes", "method", "fallback", "template_id", "taken", "scaffolded", "missing"}."""
+    from . import describe
     text = (text or "").strip()
     notes: list[str] = []
     method, fallback = "offline", False
     tid, scores = pick_template(text)
-    fields: dict = {}
-    extra: list[dict] = []
+    ex = describe.extract(text)
+    model_extra: list[dict] = []
+    profile_extra: dict = {}
     if provider is not None and provider.live:
         try:
             cat = "\n".join(f"- {t['id']}: {t['label']}. {t['description']}" for t in list_templates())
@@ -491,99 +558,41 @@ def from_description(text: str, provider: Provider | None = None) -> dict:
             data = provider.complete_json(system, f"TEMPLATES\n{cat}\n\n<description>{text}</description>", max_tokens=2000, schema=DESCRIBE_SCHEMA)
             if data.get("template_id") in scores:
                 tid = data["template_id"]
-            fields = {k: data.get(k) for k in ("name", "age", "gender", "severity", "background", "personality", "speech_style")}
+            if isinstance(data.get("name"), str) and data["name"].strip():
+                ex["name"] = data["name"].strip()
+            if isinstance(data.get("age"), int) and 0 < data["age"] < 121:
+                ex["age"] = data["age"]
+            if norm_sex(data.get("gender")):
+                ex["gender"] = norm_sex(data["gender"])
+            if data.get("severity") in BANDS:
+                ex["severity"] = data["severity"]
+            profile_extra = {k: data.get(k) for k in ("background", "personality", "speech_style")}
+            model_concealed = False
             for i, ef in enumerate(data.get("extra_facts") or []):
                 if isinstance(ef, dict) and str(ef.get("statement") or "").strip():
-                    extra.append(_extra_fact(str(ef.get("category") or "social"), str(ef.get("slug") or ""), str(ef["statement"]),
-                                             str(ef.get("patient_answer") or ""), [str(x) for x in ef.get("topics") or []][:8],
-                                             bool(ef.get("concealed")), str(ef.get("cover_answer") or ""), i))
+                    model_extra.append(_extra_fact(str(ef.get("category") or "social"), str(ef.get("slug") or ""), str(ef["statement"]),
+                                                   str(ef.get("patient_answer") or ""), [str(x) for x in ef.get("topics") or []][:8],
+                                                   bool(ef.get("concealed")), str(ef.get("cover_answer") or ""), i))
+                    model_concealed = model_concealed or bool(ef.get("concealed"))
+            if model_concealed:
+                ex["concealed"] = []            # the model's wording of the hidden item replaces the pattern-drafted one
             method = provider.name
-            notes.append(f"Profile fields and {len(extra)} extra history item(s) were proposed by the language model ({provider.name}); review every one.")
+            notes.append(f"Profile fields and {len(model_extra)} history item(s) were proposed by the language model ({provider.name}); review every one.")
         except ProviderError as e:
             fallback = True
             notes.append(f"Language model unavailable ({str(e)[:120]}); used the offline pattern extractor.")
-    if method == "offline":
-        m = _AGE.search(text) or _AGE2.search(text)
-        if m:
-            fields["age"] = int(m.group(1))
-        low = text.lower()
-        if re.search(r"\b(woman|female|she|her|mrs|ms|girl|mother|wife)\b", low):
-            fields["gender"] = "female"
-        elif re.search(r"\b(man|male|he|his|mr|boy|father|husband)\b", low):
-            fields["gender"] = "male"
-        m = _NAME.search(text) or _LEAD_NAME.search(text)
-        if m:
-            fields["name"] = m.group(1).strip()
-        m = _OCC.search(text)
-        if m and len(m.group(1).split()) <= 5 and not re.search(r"\d|year|old", m.group(1)):
-            fields["background"] = f"Works as a {m.group(1).strip()}."
-        fields["severity"] = "severe" if re.search(r"\b(severe|critical|unstable|crushing|worst|collapsed|septic)\b", low) else (
-            "mild" if re.search(r"\b(mild|minor|slight|stable)\b", low) else "moderate")
-        for i, m in enumerate(_HIDE.finditer(text)):
-            phrase = m.group(1).strip().rstrip(".")
-            if len(phrase) < 4:
-                continue
-            topics = [k for k, pat in _TOPIC_HINTS if re.search(pat, phrase.lower())]
-            cover = _COVERS.get(topics[0], "I'd rather not get into that.") if topics else "I'd rather not get into that."
-            stmt = phrase[0].upper() + phrase[1:]
-            slug = (topics[0] + "_described") if topics else phrase[:24]
-            extra.append(_extra_fact("concealed", slug, stmt, "", topics + [phrase], True, cover, i))
-        if extra:
-            notes.append(f"{len(extra)} concealed item(s) were extracted from the description by pattern; the patient wording is auto-drafted and must be reviewed.")
-    sev = {"mild": 0.2, "moderate": 0.5, "severe": 0.85}.get(str(fields.get("severity") or "moderate"), 0.5)
-    seed = int(hashlib.sha256(text.encode()).hexdigest()[:8], 16)
-    age = fields.get("age") if isinstance(fields.get("age"), int) and 0 < fields["age"] < 121 else None
-    lt = {"seed": seed, "severity": sev, "sex": norm_sex(fields.get("gender")), "condition_template": tid}
-    if age:
-        lt["age"] = age
-    prof = {k: v for k, v in (("name", fields.get("name")), ("background", fields.get("background")), ("personality", fields.get("personality")),
-                              ("speech_style", fields.get("speech_style"))) if isinstance(v, str) and v.strip()}
-    case = instantiate_case(tid, lt, case_id="draft-" + slugify(prof.get("name") or tid) + "-" + format(seed % 0xFFFFFF, "06x"),
-                            profile=prof, origin_kind="from_template")
-    if age and age < 18:
-        case["profile"]["age"] = age
-        notes.append("Templates are written for adult presentations; review every fact for a patient under 18.")
-    # a habit the description states replaces the template's own version of that habit
-    described = {t for f in extra for t in f.get("topics", []) if t in _COVERS}
-    if described:
-        drop = {f["fact_id"] for f in case["facts"]
-                if f["category"] in ("social", "concealed") and (set(f.get("topics") or []) & described)
-                and (f["fact_id"].split(".")[-1].split("_")[0] in described or f["category"] == "concealed")}
-        if drop:
-            case["facts"] = [f for f in case["facts"] if f["fact_id"] not in drop]
-            for f in case["facts"]:
-                cw = f["disclosure"].get("confront_with")
-                if cw:
-                    f["disclosure"]["confront_with"] = [c for c in cw if c not in drop]
-                    if not f["disclosure"]["confront_with"]:
-                        f["disclosure"] = {"rule": "after_rapport", "rapport_needed": 4}
-            for a in case["chart"]["artifacts"]:
-                a["linked_fact_ids"] = [x for x in a.get("linked_fact_ids") or [] if x not in drop]
-            kept = []
-            for ob in case["objectives"]:
-                if ob.get("linked_fact_ids"):
-                    ob["linked_fact_ids"] = [x for x in ob["linked_fact_ids"] if x not in drop]
-                    if not ob["linked_fact_ids"] and not ob.get("linked_requests"):
-                        continue
-                kept.append(ob)
-            case["objectives"] = kept
-            notes.append("Template facts replaced by what the description says: " + ", ".join(sorted(drop)) + ".")
-    have = {f["fact_id"] for f in case["facts"]}
-    for f in extra:
-        while f["fact_id"] in have:
-            f["fact_id"] += "_x"
-        have.add(f["fact_id"])
-        case["facts"].append(f)
-        if f.get("cover_answer"):
-            case["objectives"].append({"objective_id": "obj.described_" + f["fact_id"].split(".")[-1][:30],
-                                       "criterion": "Uncovers what the patient holds back: " + f["statement"][:90], "kind": "elicit_fact",
-                                       "linked_fact_ids": [f["fact_id"]], "evidence_rule": "met when the patient discloses it", "critical": True,
-                                       "rubric_domain": "listening"})
-    case["review"]["author"] = "Drafted from a free-text description" + (f" with {method}" if method != "offline" else " (offline pattern extraction)")
-    case["review"]["source_description"] = text[:2000]
-    case["status"] = "draft"
-    notes.insert(0, f"Closest condition template: '{tid}' (severity band {band_of(sev)}). Clinical findings come from the template, not from the description; edit them to match your patient.")
-    return {"case": fill_defaults(case), "notes": notes, "method": method, "fallback": fallback, "template_id": tid}
+    case, taken, scaffolded, missing = describe.build_case(text, ex, get_template(tid), model_extra, profile_extra)
+    if method != "offline":
+        case["review"]["author"] = f"Drafted from a free-text description with {method}"
+    notes.insert(0, "This draft contains only what your description states. Nothing was copied from another illness: the condition template "
+                    f"'{tid}' supplied structure only.")
+    notes.append("Taken from your text: " + ("; ".join(taken) if taken else "nothing could be read reliably") + ".")
+    notes.append("Scaffolded for you to edit: " + "; ".join(scaffolded) + ".")
+    notes.append("Missing, needs your input: " + "; ".join(missing) + ".")
+    if "complaint" not in ex:
+        notes.append("WARNING: no presenting complaint could be read from the description. Add one before approving.")
+    return {"case": case, "notes": notes, "method": method, "fallback": fallback, "template_id": tid,
+            "taken": taken, "scaffolded": scaffolded, "missing": missing}
 
 
 def from_template(template_id: str, overrides: dict | None = None) -> dict:

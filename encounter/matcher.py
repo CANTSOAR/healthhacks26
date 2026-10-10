@@ -24,6 +24,10 @@ class Intent:
     via: dict[str, str] = field(default_factory=dict)             # fact_id -> phrase that matched
     requests: list[str] = field(default_factory=list)             # canonical request strings found in free text
     cues: dict[str, list[str]] = field(default_factory=dict)      # rapport / structure cues -> matched phrases
+    topics_asked: list[str] = field(default_factory=list)         # taxonomy keys the question touches, whatever the case defines
+    clinical_yes_no: bool = False                                 # a yes/no question with clinical vocabulary
+    clinical_words: bool = False
+    starts_as_question: bool = False
     is_question: bool = False
     is_open_question: bool = False
     source: str = "offline"
@@ -56,6 +60,9 @@ def _match_phrase(text_toks: list[str], phrase: str) -> float:
     return 0.0
 
 
+_GENERIC_SLUG = {"other", "others", "none", "current", "list", "history", "general", "negatives", "negative", "positive", "main", "new", "old",
+                 "item", "fact", "misc", "details", "detail", "info", "status", "result", "results", "conditions", "condition", "context", "described",
+                 "presenting", "visit", "reason", "symptoms", "symptom", "concern", "own", "words", "stopped", "hidden", "habits", "drug", "nkda"}
 DIMENSION_KEYS = {"onset", "duration", "character", "location", "severity", "radiation", "aggravating", "relieving"}
 
 
@@ -97,7 +104,7 @@ def _fact_phrases_cached(fact_id: str, category: str, topics: tuple[str, ...]) -
             cur[0] = slug
             for p in tx.TOPICS[slug]:
                 add(p, 1.6)
-        words = [w for w in slug.split("_") if len(w) > 2 and w not in tx.STOPWORDS]
+        words = [w for w in slug.split("_") if len(w) > 2 and w not in tx.STOPWORDS and w not in _GENERIC_SLUG]
         if words:
             add(" ".join(words), 1.6)
             for w in words:
@@ -111,6 +118,7 @@ def _fact_phrases_cached(fact_id: str, category: str, topics: tuple[str, ...]) -
     return tuple(out)
 
 
+_YES_NO = re.compile(r"^(and |so |ok |okay )?(do|does|did|are|is|was|were|have|has|had|any|ever|can|could|would)\b")
 _Q_START = re.compile(
     r"^(do|does|did|are|is|was|were|have|has|had|can|could|would|will|what|when|where|who|why|how|which|any|tell|describe|"
     r"walk|explain|show|and|so|ever|been|whats|hows|wheres|whens)\b")
@@ -236,7 +244,14 @@ def match_facts(text: str, facts: list[dict], exclude_categories: tuple[str, ...
     toks = tx.tokens(norm)
     intent = Intent()
     intent.cues = detect_cues(text)
+    from . import conversation as conv
+    intent.cues.update(conv.cues(text))
+    intent.topics_asked = conv.question_topics(norm)
     intent.is_question = "?" in (text or "") or bool(_Q_START.match(norm))
+    intent.starts_as_question = bool(_Q_START.match(norm))
+    from .patient import clinical_lexicon
+    intent.clinical_words = bool(set(toks) & clinical_lexicon())
+    intent.clinical_yes_no = intent.clinical_words and bool(_YES_NO.match(norm))
     intent.is_open_question = "open_question" in intent.cues
     keys: dict[str, str] = {}
     cats: dict[str, str] = {}

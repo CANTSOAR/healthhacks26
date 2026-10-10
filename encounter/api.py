@@ -164,7 +164,11 @@ def validate_stored_case(case_id: str, version: int | None = Query(None), body: 
 @router.post("/cases/{case_id}/approve")
 def approve_case(case_id: str, body: dict | None = Body(None)):
     try:
-        return _clean(store().approve(case_id, (body or {}).get("reviewer")))
+        b = body or {}
+        ack = b.get("acknowledge_warnings")
+        out = _clean(store().approve(case_id, b.get("reviewer"), ack if isinstance(ack, bool) else None))
+        out["warnings_to_acknowledge"] = [] if out["review"].get("warnings_acknowledged") else out["review"].get("warnings_at_approval", [])
+        return out
     except CaseError as e:
         _case_err(e)
 
