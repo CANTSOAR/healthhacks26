@@ -56,3 +56,7 @@ Additional SVI county/tract data adds finer geographic context; Medicare enrollm
 The next highest-value acquisition is now within-unit temporal detail and reviewed clinical/interaction content, rather than more unconnected provider identities. See the separate wave2 source reports for exact counts, definitions, dates and access limits.
 
 Do not divide reported daily patient averages by daily RN/staff averages to infer a concurrent patient-to-staff ratio; these data do not provide time-aligned census and staffing observations.
+
+## Literature extension
+
+Missing local measurements no longer prevent constructing an explicitly provisional model: [literature proxies](literature-proxies.md) supplies source-attributed external evidence and three proposed timing inputs. Local calibration remains outstanding.

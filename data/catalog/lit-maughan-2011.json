@@ -1,0 +1,25 @@
+{
+  "dataset_id": "lit-maughan-2011",
+  "source_id": "lit-maughan-2011",
+  "title": "ED handoffs: observed practices and communication errors",
+  "source_url": "https://pubmed.ncbi.nlm.nih.gov/20825820/",
+  "scope": "External hospital literature; not New Brunswick observations",
+  "access": "public",
+  "rights": {
+    "redistribution": "Limited factual paraphrases only; full article not redistributed",
+    "source_license": "not assessed for full-text redistribution"
+  },
+  "acquisition_status": "acquired",
+  "raw_paths": [],
+  "normalized_path": "data/normalized/lit-maughan-2011.jsonl",
+  "record_count": 1,
+  "limits": [
+    "External setting and historical period; transfer to target simulation requires an explicit inference.",
+    "Published estimates and observed outcomes retain their distinct evidence basis."
+  ],
+  "provenance": {
+    "retrieved_at": "2026-10-10T16:00:17.079781+00:00",
+    "doi": "10.1016/j.ajem.2009.12.004",
+    "raw_artifact_kind": "no_raw_limited_paraphrase"
+  }
+}

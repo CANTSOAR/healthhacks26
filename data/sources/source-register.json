@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0.0",
   "generation": "Deterministic offline derivation; no source refetch and no inferred publication date or author",
-  "source_count": 30,
-  "record_count": 4780,
+  "source_count": 38,
+  "record_count": 4819,
   "sources": [
     {
       "source_id": "cms-complications-deaths",
@@ -679,6 +679,318 @@
         }
       ],
       "raw_availability": "available"
+    },
+    {
+      "source_id": "lit-aranguri-2006",
+      "bibtex_key": "lit-aranguri-2006",
+      "title": "Patterns of Communication through Interpreters: A Detailed Sociolinguistic Analysis",
+      "source_url": "https://onlinelibrary.wiley.com/doi/full/10.1111/j.1525-1497.2006.00451.x",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "redistribution": "Limited factual paraphrases only; full article not redistributed",
+        "source_license": "not assessed for full-text redistribution"
+      },
+      "scope_as_recorded": "External hospital literature; not New Brunswick observations",
+      "limits_as_recorded": [
+        "External setting and historical period; transfer to target simulation requires an explicit inference.",
+        "Published estimates and observed outcomes retain their distinct evidence basis."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "retrieved_at": "2026-10-10T16:00:17.079781+00:00",
+        "doi": "10.1111/j.1525-1497.2006.00451.x",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T16:00:17.079781+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/lit-aranguri-2006.json",
+      "catalog_sha256": "ae4bd89f4336db6fd79a7f68633df51b07029b24761e707320a2afce87154629",
+      "normalized_path": "data/normalized/lit-aranguri-2006.jsonl",
+      "normalized_sha256": "37f45c2a9b287453fe84b420748a58b2267696b0ca7c5562070f437390445ece",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "lit-gabriel-2020",
+      "bibtex_key": "lit-gabriel-2020",
+      "title": "Lean thinking by integrating with discrete event simulation and design of experiments: an emergency department expansion",
+      "source_url": "https://doi.org/10.7717/peerj-cs.284",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "CC BY 4.0",
+        "attribution": "Gabriel Gustavo Teodoro; Campos Afonso Teberga; Magacho Aline de Lima; Segismondi Lucas Cavallieri; Vilela Flávio Fraga; de Queiroz José Antonio; Montevechi José Arnaldo Barra; Mei Gang. Lean thinking by integrating with discrete event simulation and design of experiments: an emergency department expansion. PeerJ Computer Science 6:e284 (2020). https://doi.org/10.7717/peerj-cs.284",
+        "redistribution": "Licensed article XML retained; normalized table is an adaptation"
+      },
+      "scope_as_recorded": "External hospital literature; not New Brunswick observations",
+      "limits_as_recorded": [
+        "External setting and historical period; transfer to target simulation requires an explicit inference.",
+        "Published estimates and observed outcomes retain their distinct evidence basis."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "retrieved_at": "2026-10-10T16:00:17.079781+00:00",
+        "doi": "10.7717/peerj-cs.284",
+        "raw_artifact_kind": "original_downloaded_response_bytes"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T16:00:17.079781+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/lit-gabriel-2020.json",
+      "catalog_sha256": "6e843464ad08625177237e9b9f0d7f30c289058e80f204a44eab5175a27d313a",
+      "normalized_path": "data/normalized/lit-gabriel-2020.jsonl",
+      "normalized_sha256": "1eaf4f51e0dc24ac67439e5216e657fff59de23b70cbbd27d28564cb60b69e45",
+      "record_count": 29,
+      "stored_artifacts": [
+        {
+          "path": "data/raw/lit-gabriel-2020/article.xml",
+          "sha256": "1f93aa7e0d8363e47a5d4f8b4c0ad587b9790ee02fd4cd76d70e248cc10496bb",
+          "bytes": 163656,
+          "storage_kind": "original_downloaded_response_bytes"
+        }
+      ],
+      "raw_availability": "available"
+    },
+    {
+      "source_id": "lit-houston-2015",
+      "bibtex_key": "lit-houston-2015",
+      "title": "Waiting for Triage: Unmeasured Time in Patient Flow",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4307723/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "redistribution": "Limited factual paraphrases only; full article not redistributed",
+        "source_license": "not assessed for full-text redistribution"
+      },
+      "scope_as_recorded": "External hospital literature; not New Brunswick observations",
+      "limits_as_recorded": [
+        "External setting and historical period; transfer to target simulation requires an explicit inference.",
+        "Published estimates and observed outcomes retain their distinct evidence basis."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "retrieved_at": "2026-10-10T16:00:17.079781+00:00",
+        "doi": "10.5811/westjem.2014.11.22824",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T16:00:17.079781+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/lit-houston-2015.json",
+      "catalog_sha256": "2f2d71d368ca04c5702ddef1c9acafbcc25190fcc0f7b46768a5ffbf4ea9d289",
+      "normalized_path": "data/normalized/lit-houston-2015.jsonl",
+      "normalized_sha256": "63e4aa2ba38f7f5680319937cf59918b0c2a43f0cbccbfc0ff2a94976a012081",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "lit-jones-evans",
+      "bibtex_key": "lit-jones-evans",
+      "title": "An Agent Based Simulation Tool for Scheduling Emergency Department Physicians",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2656074/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "redistribution": "Limited factual paraphrases only; full article not redistributed",
+        "source_license": "not assessed for full-text redistribution"
+      },
+      "scope_as_recorded": "External hospital literature; not New Brunswick observations",
+      "limits_as_recorded": [
+        "External setting and historical period; transfer to target simulation requires an explicit inference.",
+        "Published estimates and observed outcomes retain their distinct evidence basis."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "retrieved_at": "2026-10-10T16:00:17.079781+00:00",
+        "doi": null,
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T16:00:17.079781+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/lit-jones-evans.json",
+      "catalog_sha256": "3c0f13490573f8c871ff10e23ba3b3f6ee4520cd7b9f29052ac4dac985538975",
+      "normalized_path": "data/normalized/lit-jones-evans.jsonl",
+      "normalized_sha256": "0ff29d27a751572503000feb3f7155db9da367c2348d7a9579cf4728f420902a",
+      "record_count": 3,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "lit-krall-2014",
+      "bibtex_key": "lit-krall-2014",
+      "title": "Hospital Factors Impact Variation in Emergency Department Length of Stay More Than Physician Factors",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3966443/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "redistribution": "Limited factual paraphrases only; full article not redistributed",
+        "source_license": "not assessed for full-text redistribution"
+      },
+      "scope_as_recorded": "External hospital literature; not New Brunswick observations",
+      "limits_as_recorded": [
+        "External setting and historical period; transfer to target simulation requires an explicit inference.",
+        "Published estimates and observed outcomes retain their distinct evidence basis."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "retrieved_at": "2026-10-10T16:00:17.079781+00:00",
+        "doi": "10.5811/westjem.2013.12.6860",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T16:00:17.079781+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/lit-krall-2014.json",
+      "catalog_sha256": "ba58a7f8c8db00f807a10eadad1111ead18df6706455ca65c555c7f268b33325",
+      "normalized_path": "data/normalized/lit-krall-2014.jsonl",
+      "normalized_sha256": "3ed9b3db73f8a3332172eb818b6479fda3ca414b44943d332f18551d28bb20a4",
+      "record_count": 2,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "lit-maughan-2011",
+      "bibtex_key": "lit-maughan-2011",
+      "title": "ED handoffs: observed practices and communication errors",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/20825820/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "redistribution": "Limited factual paraphrases only; full article not redistributed",
+        "source_license": "not assessed for full-text redistribution"
+      },
+      "scope_as_recorded": "External hospital literature; not New Brunswick observations",
+      "limits_as_recorded": [
+        "External setting and historical period; transfer to target simulation requires an explicit inference.",
+        "Published estimates and observed outcomes retain their distinct evidence basis."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "retrieved_at": "2026-10-10T16:00:17.079781+00:00",
+        "doi": "10.1016/j.ajem.2009.12.004",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T16:00:17.079781+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/lit-maughan-2011.json",
+      "catalog_sha256": "48304c397d46bda5d9675e864a8b021ef3577315388d1b471d60c8484aedaf38",
+      "normalized_path": "data/normalized/lit-maughan-2011.jsonl",
+      "normalized_sha256": "007390a26a659724962f28c0607d59f5105d48e26c96f5825b778460c330638d",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "lit-redley-2017",
+      "bibtex_key": "lit-redley-2017",
+      "title": "Interprofessional communication supporting clinical handover in emergency departments: An observation study",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/28595847/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "redistribution": "Limited factual paraphrases only; full article not redistributed",
+        "source_license": "not assessed for full-text redistribution"
+      },
+      "scope_as_recorded": "External hospital literature; not New Brunswick observations",
+      "limits_as_recorded": [
+        "External setting and historical period; transfer to target simulation requires an explicit inference.",
+        "Published estimates and observed outcomes retain their distinct evidence basis."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "retrieved_at": "2026-10-10T16:00:17.079781+00:00",
+        "doi": "10.1016/j.aenj.2017.05.003",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T16:00:17.079781+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/lit-redley-2017.json",
+      "catalog_sha256": "fb64035563a173711e715cf46460574073a467be3fd72292830b2d4c8c2f2ea6",
+      "normalized_path": "data/normalized/lit-redley-2017.jsonl",
+      "normalized_sha256": "ab9588fe3a8373964360c594bddbd995148b9c02eb040dbb0b5d8e2cd68fd070",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "lit-weigl-2017",
+      "bibtex_key": "lit-weigl-2017",
+      "title": "Workflow interruptions and stress at work: a mixed-methods study among physicians and nurses of a multidisciplinary emergency department",
+      "source_url": "https://bmjopen.bmj.com/content/7/12/e019074",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "redistribution": "Limited factual paraphrases only; full article not redistributed",
+        "source_license": "not assessed for full-text redistribution"
+      },
+      "scope_as_recorded": "External hospital literature; not New Brunswick observations",
+      "limits_as_recorded": [
+        "External setting and historical period; transfer to target simulation requires an explicit inference.",
+        "Published estimates and observed outcomes retain their distinct evidence basis."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "retrieved_at": "2026-10-10T16:00:17.079781+00:00",
+        "doi": "10.1136/bmjopen-2017-019074",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T16:00:17.079781+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/lit-weigl-2017.json",
+      "catalog_sha256": "5d9897e1bae14dc77d5683c767648740b0917356d008f16059790d77a99aff35",
+      "normalized_path": "data/normalized/lit-weigl-2017.jsonl",
+      "normalized_sha256": "8ada2697d46da32dfef6241c7e4378aecbef5ed160f63ab58969bb013e06473e",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
     },
     {
       "source_id": "local-cdc-acs-middlesex-2017-2021",

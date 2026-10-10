@@ -66,3 +66,7 @@ One actual GPT-6 Luna review completed in [the saved run](runs/20261010T150413Z-
 The ontology models the broad system but public evidence does not yet calibrate it. Quarterly unit staffing summaries and annual provider FTE/bed reports are now acquired. Actual shift availability, staffed capacity over time, arrival/transfer timestamps, service durations, operational pathways and dependencies, patient-level trajectories, and plan-specific coverage rules remain missing. Medicare rows do not establish all-payer case mix; community prevalence does not establish hospital patient prevalence. Published affiliation does not establish employment, privileges, schedules or availability. Insurance participation does not establish individual benefits. No real patient records or private clinical notes are included.
 
 Preserve missing/suppressed source values. Promote a source record into a typed entity or simulation parameter only through an explicit mapping and review. Faculty approval applies to a specific case version; model output cannot grant it. See [AGENTS.md](AGENTS.md) for research and contribution rules.
+
+## Literature-derived provisional inputs
+
+The literature extension brings the catalog to **38 datasets and 4,819 records**. Eight papers contribute 39 records, with three explicitly inferred process parameters. See [how external evidence fills local gaps](docs/literature-proxies.md). These extend the earlier acquisition counts above; they do not establish local calibration.

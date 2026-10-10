@@ -99,6 +99,8 @@ def main():
         sources.append(source)
         retrieved=cat.get('retrieved_at',provenance.get('retrieved_at'))
         parts=[f'@misc{{{sid},', '  title = {'+bib_escape(cat['title'])+'},', '  url = {'+cat.get('landing_url',cat.get('source_url',''))+'},']
+        if provenance.get('doi'):
+            parts.append('  doi = {'+bib_escape(provenance['doi'])+'},')
         if retrieved:
             parts.append('  urldate = {'+retrieved[:10]+'},')
         if cat.get('rights',{}).get('attribution'):

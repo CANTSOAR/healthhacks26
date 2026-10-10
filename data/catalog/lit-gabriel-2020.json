@@ -1,0 +1,28 @@
+{
+  "dataset_id": "lit-gabriel-2020",
+  "source_id": "lit-gabriel-2020",
+  "title": "Lean thinking by integrating with discrete event simulation and design of experiments: an emergency department expansion",
+  "source_url": "https://doi.org/10.7717/peerj-cs.284",
+  "scope": "External hospital literature; not New Brunswick observations",
+  "access": "public",
+  "rights": {
+    "source_license": "CC BY 4.0",
+    "attribution": "Gabriel Gustavo Teodoro; Campos Afonso Teberga; Magacho Aline de Lima; Segismondi Lucas Cavallieri; Vilela Flávio Fraga; de Queiroz José Antonio; Montevechi José Arnaldo Barra; Mei Gang. Lean thinking by integrating with discrete event simulation and design of experiments: an emergency department expansion. PeerJ Computer Science 6:e284 (2020). https://doi.org/10.7717/peerj-cs.284",
+    "redistribution": "Licensed article XML retained; normalized table is an adaptation"
+  },
+  "acquisition_status": "acquired",
+  "raw_paths": [
+    "data/raw/lit-gabriel-2020/article.xml"
+  ],
+  "normalized_path": "data/normalized/lit-gabriel-2020.jsonl",
+  "record_count": 29,
+  "limits": [
+    "External setting and historical period; transfer to target simulation requires an explicit inference.",
+    "Published estimates and observed outcomes retain their distinct evidence basis."
+  ],
+  "provenance": {
+    "retrieved_at": "2026-10-10T16:00:17.079781+00:00",
+    "doi": "10.7717/peerj-cs.284",
+    "raw_artifact_kind": "original_downloaded_response_bytes"
+  }
+}

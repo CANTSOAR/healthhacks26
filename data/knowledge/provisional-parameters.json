@@ -1,0 +1,101 @@
+{
+  "version": 1,
+  "parameters": [
+    {
+      "parameter_id": "proxy-gabriel-2020-triage",
+      "quantity": "Triage service duration",
+      "unit": "minutes",
+      "source_record_ids": [
+        "gabriel-2020-triage"
+      ],
+      "source_evidence_basis": "published_expert_estimate",
+      "role": "process_input",
+      "status": "provisional_external_proxy",
+      "target_scope": "Generic exploratory ED, potentially New Brunswick-inspired; not a measured local model",
+      "model": {
+        "family": "triangular",
+        "minimum": 4.0,
+        "mode": 7.0,
+        "maximum": 10.0
+      },
+      "inference": "Analyst interprets T(a,b,c) as triangular(minimum, mode, maximum); that parameterization was not explicitly defined in inspected article text. Transfers Canadian staff estimates to an illustrative ED; not a fitted local duration.",
+      "uncertainty": {
+        "sensitivity_multipliers": [
+          0.5,
+          1,
+          2
+        ],
+        "basis": "Analyst-chosen stress tests, not confidence intervals or published uncertainty"
+      },
+      "replace_when": "Local time-motion observations or better context-matched duration distributions are available",
+      "permitted_use": "exploratory simulation only"
+    },
+    {
+      "parameter_id": "proxy-gabriel-2020-physician-assessment",
+      "quantity": "Physician Assessment service duration",
+      "unit": "minutes",
+      "source_record_ids": [
+        "gabriel-2020-physician-assessment"
+      ],
+      "source_evidence_basis": "published_expert_estimate",
+      "role": "process_input",
+      "status": "provisional_external_proxy",
+      "target_scope": "Generic exploratory ED, potentially New Brunswick-inspired; not a measured local model",
+      "model": {
+        "family": "triangular",
+        "minimum": 7.0,
+        "mode": 12.0,
+        "maximum": 15.0
+      },
+      "inference": "Analyst interprets T(a,b,c) as triangular(minimum, mode, maximum); that parameterization was not explicitly defined in inspected article text. Transfers Canadian staff estimates to an illustrative ED; not a fitted local duration.",
+      "uncertainty": {
+        "sensitivity_multipliers": [
+          0.5,
+          1,
+          2
+        ],
+        "basis": "Analyst-chosen stress tests, not confidence intervals or published uncertainty"
+      },
+      "replace_when": "Local time-motion observations or better context-matched duration distributions are available",
+      "permitted_use": "exploratory simulation only"
+    },
+    {
+      "parameter_id": "proxy-gabriel-2020-take-specimen",
+      "quantity": "Take Specimen service duration",
+      "unit": "minutes",
+      "source_record_ids": [
+        "gabriel-2020-take-specimen"
+      ],
+      "source_evidence_basis": "published_expert_estimate",
+      "role": "process_input",
+      "status": "provisional_external_proxy",
+      "target_scope": "Generic exploratory ED, potentially New Brunswick-inspired; not a measured local model",
+      "model": {
+        "family": "triangular",
+        "minimum": 4.0,
+        "mode": 6.0,
+        "maximum": 15.0
+      },
+      "inference": "Analyst interprets T(a,b,c) as triangular(minimum, mode, maximum); that parameterization was not explicitly defined in inspected article text. Transfers Canadian staff estimates to an illustrative ED; not a fitted local duration.",
+      "uncertainty": {
+        "sensitivity_multipliers": [
+          0.5,
+          1,
+          2
+        ],
+        "basis": "Analyst-chosen stress tests, not confidence intervals or published uncertainty"
+      },
+      "replace_when": "Local time-motion observations or better context-matched duration distributions are available",
+      "permitted_use": "exploratory simulation only"
+    }
+  ],
+  "output_comparator_record_ids": [
+    "jones-evans-2008-observed-door-provider",
+    "krall-2014-door-room-and-throughput",
+    "krall-2014-admit-decision-to-depart",
+    "houston-2015-arrival-triage"
+  ],
+  "comparator_rule": "Waiting and boarding times are outcomes for comparison, not service durations to add to queues. Preserve conditional populations and daily versus patient aggregation.",
+  "scenario_evidence_path": "data/research/literature-interaction-extracts.json",
+  "scenario_rule": "Communication findings motivate authored variations; prevalence is not automatically a scenario probability."
+}

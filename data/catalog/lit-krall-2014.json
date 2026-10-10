@@ -1,0 +1,25 @@
+{
+  "dataset_id": "lit-krall-2014",
+  "source_id": "lit-krall-2014",
+  "title": "Hospital Factors Impact Variation in Emergency Department Length of Stay More Than Physician Factors",
+  "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3966443/",
+  "scope": "External hospital literature; not New Brunswick observations",
+  "access": "public",
+  "rights": {
+    "redistribution": "Limited factual paraphrases only; full article not redistributed",
+    "source_license": "not assessed for full-text redistribution"
+  },
+  "acquisition_status": "acquired",
+  "raw_paths": [],
+  "normalized_path": "data/normalized/lit-krall-2014.jsonl",
+  "record_count": 2,
+  "limits": [
+    "External setting and historical period; transfer to target simulation requires an explicit inference.",
+    "Published estimates and observed outcomes retain their distinct evidence basis."
+  ],
+  "provenance": {
+    "retrieved_at": "2026-10-10T16:00:17.079781+00:00",
+    "doi": "10.5811/westjem.2013.12.6860",
+    "raw_artifact_kind": "no_raw_limited_paraphrase"
+  }
+}

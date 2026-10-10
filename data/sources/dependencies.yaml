@@ -151,6 +151,46 @@ documents:
     path: catalog/w2-ops-nj-staffing.json
     role: acquired_source_manifest
     refresh: manual
+  - id: catalog:lit-aranguri-2006
+    type: local_file
+    path: catalog/lit-aranguri-2006.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:lit-gabriel-2020
+    type: local_file
+    path: catalog/lit-gabriel-2020.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:lit-houston-2015
+    type: local_file
+    path: catalog/lit-houston-2015.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:lit-jones-evans
+    type: local_file
+    path: catalog/lit-jones-evans.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:lit-krall-2014
+    type: local_file
+    path: catalog/lit-krall-2014.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:lit-maughan-2011
+    type: local_file
+    path: catalog/lit-maughan-2011.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:lit-redley-2017
+    type: local_file
+    path: catalog/lit-redley-2017.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:lit-weigl-2017
+    type: local_file
+    path: catalog/lit-weigl-2017.json
+    role: acquired_source_manifest
+    refresh: manual
 - path: topics/brief.md
   depends_on:
   - id: local:research-question
