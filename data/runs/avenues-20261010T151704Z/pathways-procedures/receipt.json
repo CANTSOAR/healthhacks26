@@ -1,0 +1,14 @@
+{
+  "domain_id": "pathways-procedures",
+  "model": "gpt-6-luna",
+  "started_at": "2026-10-10T15:17:57.700439+00:00",
+  "status": "completed",
+  "candidate_review_status": "unreviewed",
+  "prompt_sha256": "10a46f67e310e932dc728770336dd68bc7c1871f889ce9ee609c08d375c69178",
+  "timeout_seconds": 180,
+  "exit_code": 0,
+  "source_candidates": 3,
+  "validation": "schema only; not source entailment or acquired data",
+  "finished_at": "2026-10-10T15:18:25.904248+00:00",
+  "duration_seconds": 28.2
+}

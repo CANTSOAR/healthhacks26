@@ -1,0 +1,128 @@
+{
+  "meaning": "Observed native web-tool activity. Search result or page URL is not proof of successful data acquisition, rights or factual entailment. Source text and private diagnostics excluded.",
+  "events": [
+    {
+      "action": {
+        "type": "search",
+        "queries": [
+          "site:nj.gov Get Covered NJ public information health insurance plan data rate filing network provider directory machine readable",
+          "site:cms.gov Transparency in Coverage machine readable files in-network rates allowed amounts official CMS"
+        ]
+      },
+      "results": [
+        {
+          "url": "https://www.cms.gov/newsroom/fact-sheets/transparency-coverage-final-rules-cms-9882-f",
+          "title": "Transparency in Coverage Final Rules (CMS 9882-F) | CMS",
+          "reference_id": "turn0search0"
+        },
+        {
+          "url": "https://www.cms.gov/initiatives/healthplan-price-transparency/overview/public-data",
+          "title": "Use of Pricing Information Published under the Transparency in Coverage Final Rule | CMS",
+          "reference_id": "turn0search1"
+        },
+        {
+          "url": "https://www.cms.gov/initiatives/healthplan-price-transparency/overview/resources",
+          "title": "Resources | CMS",
+          "reference_id": "turn0search2"
+        },
+        {
+          "url": "https://www.cms.gov/priorities/healthplan-price-transparency/overview/plans-and-issuers",
+          "title": "Plans and Issuers | CMS",
+          "reference_id": "turn0search3"
+        },
+        {
+          "url": "https://www.cms.gov/files/document/transparency-coverage-8-steps-508.pdf",
+          "title": "8 Steps to an In-Network Rate and an Out-of-Network Allowed Amount Machine-Readable File",
+          "reference_id": "turn0search12"
+        },
+        {
+          "url": "https://www.nj.gov/treasury/pensions/aca-transparency-in-coverage.shtml",
+          "title": "State of NJ - Department of the Treasury - NJDPB | ACA Transparency in Coverage",
+          "reference_id": "turn0search4"
+        },
+        {
+          "url": "https://www.cms.gov/newsroom/fact-sheets/transparency-coverage-final-rule-fact-sheet-cms-9915-f",
+          "title": "Transparency in Coverage Final Rule Fact Sheet (CMS-9915-F) | CMS",
+          "reference_id": "turn0search5"
+        },
+        {
+          "url": "https://www.cms.gov/marketplace/resources/data/public-use-files",
+          "title": "Health Insurance Exchange Public Use Files (Exchange PUFs) | CMS",
+          "reference_id": "turn0search6"
+        },
+        {
+          "url": "https://nj.gov/dobi/division_insurance/ihcseh/planmanagement/2026instructions.pdf",
+          "title": "Instructions for Offering",
+          "reference_id": "turn0search13"
+        },
+        {
+          "url": "https://www.cms.gov/initiatives/healthplan-price-transparency/overview/resources/technical-clarification",
+          "title": "Technical Clarification | CMS",
+          "reference_id": "turn0search7"
+        },
+        {
+          "url": "https://www.cms.gov/healthplan-price-transparency/resources/technical-clarification",
+          "title": "Technical Clarification | CMS",
+          "reference_id": "turn0search8"
+        },
+        {
+          "url": "https://nj.gov/getcoverednj/help/about/publicinfo.shtml",
+          "title": "GetCoveredNJ | Public Information",
+          "reference_id": "turn0search9"
+        },
+        {
+          "url": "https://www.nj.gov/dobi/division_insurance/recordrequest.htm",
+          "title": "NJDOBI| Division of Insurance - Request for Public Records of Rates, Rules and Forms",
+          "reference_id": "turn0search10"
+        },
+        {
+          "url": "https://www.cms.gov/CCIIO/Resources/Regulations-and-Guidance/Downloads/CMS-Transparency-in-Coverage-9915F.pdf",
+          "title": "CMS 9915-F",
+          "reference_id": "turn0search14"
+        },
+        {
+          "url": "https://www.cms.gov/sites/default/files/2020-10/CMS-Transparency-in-Coverage-9915F.pdf",
+          "title": "CMS 9915-F",
+          "reference_id": "turn0search15"
+        },
+        {
+          "url": "https://www.cms.gov/cciio/resources/regulations-and-guidance/downloads/cms-transparency-in-coverage-9915f.pdf",
+          "title": "CMS 9915-F",
+          "reference_id": "turn0search16"
+        },
+        {
+          "url": "https://www.cms.gov/digital-service/transparency",
+          "title": "Transparency | CMS",
+          "reference_id": "turn0search11"
+        }
+      ]
+    },
+    {
+      "action": {
+        "type": "other"
+      },
+      "results": [
+        {
+          "url": "https://www.cms.gov/marketplace/resources/data/public-use-files",
+          "title": "Health Insurance Exchange Public Use Files (Exchange PUFs) | CMS",
+          "reference_id": "turn1view0"
+        },
+        {
+          "url": "https://www.nj.gov/treasury/pensions/aca-transparency-in-coverage.shtml",
+          "title": "State of NJ - Department of the Treasury - NJDPB | ACA Transparency in Coverage",
+          "reference_id": "turn1view1"
+        },
+        {
+          "url": "https://nj.gov/getcoverednj/help/about/publicinfo.shtml",
+          "title": "GetCoveredNJ | Public Information",
+          "reference_id": "turn1view2"
+        },
+        {
+          "url": "https://www.cms.gov/initiatives/healthplan-price-transparency/overview/public-data",
+          "title": "Use of Pricing Information Published under the Transparency in Coverage Final Rule | CMS",
+          "reference_id": "turn1view3"
+        }
+      ]
+    }
+  ]
+}

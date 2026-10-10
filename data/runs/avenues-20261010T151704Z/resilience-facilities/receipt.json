@@ -1,0 +1,14 @@
+{
+  "domain_id": "resilience-facilities",
+  "model": "gpt-6-luna",
+  "started_at": "2026-10-10T15:20:19.381878+00:00",
+  "status": "completed",
+  "candidate_review_status": "unreviewed",
+  "prompt_sha256": "fa51c838252b79b17d4d70eeb7602dc47ce3a3f8339eef7daa5e5d2f578f04d1",
+  "timeout_seconds": 180,
+  "exit_code": 0,
+  "source_candidates": 3,
+  "validation": "schema only; not source entailment or acquired data",
+  "finished_at": "2026-10-10T15:20:52.621974+00:00",
+  "duration_seconds": 33.24
+}

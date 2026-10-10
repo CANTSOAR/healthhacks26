@@ -1,0 +1,9 @@
+{
+  "source_url": "https://data.cms.gov/data-api/v1/dataset/d7fabe1e-d19b-4333-9eff-e80e0643f2fd/data?filter%5BBENE_FIPS_CD%5D=34023&size=5000",
+  "metadata_url": "https://data.cms.gov/data-api/v1/dataset/d7fabe1e-d19b-4333-9eff-e80e0643f2fd/data-viewer?size=1",
+  "retrieved_at": "2026-10-10T15:28:54.698623+00:00",
+  "sha256": "166dbaeb00f826b8212a9ed3fe31c4b7adfa4645232b97ac1429b2093cb1641a",
+  "raw_artifact_kind": "original_downloaded_response_bytes",
+  "metadata_sha256": "1a5972e25d0f515a18aa3db3e43971f46a52a5ca0db3757dbd0a393b4bc20571",
+  "row_count": 175
+}

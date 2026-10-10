@@ -1,0 +1,229 @@
+{
+  "meaning": "Observed native web-tool activity. Search result or page URL is not proof of successful data acquisition, rights or factual entailment. Source text and private diagnostics excluded.",
+  "events": [
+    {
+      "action": {
+        "type": "search",
+        "queries": [
+          "site:hrsa.gov blood collection supply data blood products data official",
+          "site:cms.gov hospital medical equipment maintenance dataset API official OR site:fda.gov medical device recalls database API"
+        ]
+      },
+      "results": [
+        {
+          "url": "https://open.fda.gov/apis/device/recall/how-to-use-the-endpoint/",
+          "title": "openFDA",
+          "reference_id": "turn0search0"
+        },
+        {
+          "url": "https://open.fda.gov/apis/device/recall/example-api-queries/",
+          "title": "openFDA",
+          "reference_id": "turn0search1"
+        },
+        {
+          "url": "https://open.fda.gov/apis/device/recall/",
+          "title": "openFDA",
+          "reference_id": "turn0search2"
+        },
+        {
+          "url": "https://open.fda.gov/apis/device/recall/explore-the-api-with-an-interactive-chart/",
+          "title": "openFDA",
+          "reference_id": "turn0search3"
+        },
+        {
+          "url": "https://www.accessdata.fda.gov/scripts/ires/apidocs/",
+          "title": "iRES API",
+          "reference_id": "turn0search4"
+        },
+        {
+          "url": "https://open.fda.gov/data/downloads/",
+          "title": "openFDA",
+          "reference_id": "turn0search5"
+        },
+        {
+          "url": "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfRES/RESSimpleSearch.cfm",
+          "title": "Medical Device Recalls",
+          "reference_id": "turn0search6"
+        },
+        {
+          "url": "https://open.fda.gov/apis/device/recall/understanding-the-api-results/",
+          "title": "openFDA",
+          "reference_id": "turn0search7"
+        },
+        {
+          "url": "https://open.fda.gov/apis/device/recall/searchable-fields/",
+          "title": "openFDA",
+          "reference_id": "turn0search8"
+        },
+        {
+          "url": "https://www.accessdata.fda.gov/scripts/cdrh/Cfdocs/cfTPLC/tplc.cfm",
+          "title": "TPLC - Total Product Life Cycle",
+          "reference_id": "turn0search9"
+        },
+        {
+          "url": "https://open.fda.gov/about/updates/2015_12_23_direct_downloads/",
+          "title": "openFDA",
+          "reference_id": "turn0search10"
+        },
+        {
+          "url": "https://open.fda.gov/apis/device/",
+          "title": "openFDA",
+          "reference_id": "turn0search11"
+        },
+        {
+          "url": "https://www.fda.gov/media/141846/download",
+          "title": "7. Recall History",
+          "reference_id": "turn0search12"
+        },
+        {
+          "url": "https://www.fda.gov/media/149606/download",
+          "title": "Links to FDA/CDRH Databases and Other Information Sources",
+          "reference_id": "turn0search13"
+        },
+        {
+          "url": "https://bloodstemcell.hrsa.gov/sites/default/files/bloodstemcell/about/advisory-council/meetings/acbsct-summary-notes-042008.pdf",
+          "title": "ACBSCT Advisory Committee",
+          "reference_id": "turn0search14"
+        },
+        {
+          "url": "https://bloodstemcell.hrsa.gov/sites/default/files/bloodstemcell/about/legislation/fiscal-year-2021-annual-progress-report.pdf",
+          "title": "III. CWBYCTP Overview",
+          "reference_id": "turn0search15"
+        },
+        {
+          "url": "https://bloodstemcell.hrsa.gov/sites/default/files/bloodstemcell/about/legislation/fiscal-year-2020-annual-progress-report.pdf",
+          "title": "Fiscal Year 2020 Annual Progress Report on the C.W. Bill Young Cell Transplantation Program and National Cord Blood Inventory Program",
+          "reference_id": "turn0search16"
+        },
+        {
+          "url": "https://open.fda.gov/fields/deviceevent_reference.pdf",
+          "title": "<table id=\"e1\">",
+          "reference_id": "turn0search17"
+        }
+      ]
+    },
+    {
+      "action": {
+        "type": "search",
+        "queries": [
+          "site:americasblood.org 2023 national blood collection utilization survey blood supply data report",
+          "site:ahrq.gov hospital supply chain shortages data medical supplies survey"
+        ]
+      },
+      "results": [
+        {
+          "url": "https://americasblood.org/abc-newsletter/2023-nbcus-data-findings/",
+          "title": "2023 NBCUS Data Findings on Blood Collection & Donation Trends",
+          "reference_id": "turn1search0"
+        },
+        {
+          "url": "https://americasblood.org/wp-content/uploads/2026/02/Whitepaper-National-Stats_2026.pdf",
+          "title": "20 Griffin IS, Kracalik I, McDavid K, Bradley T, Ortiz JC, Berger JJ, et al. Supplemental findings of the 2023 National Blood Collection and Utilization Survey. Transfusion 2025. https://doi.org/10.1111/trf.18336.",
+          "reference_id": "turn1search12"
+        },
+        {
+          "url": "https://effectivehealthcare.ahrq.gov/products/monitoring-programs/protocol",
+          "title": "Making Healthcare Safer IV: Supply Chain Disruption Monitoring Programs | Effective Health Care (EHC) Program",
+          "reference_id": "turn1search1"
+        },
+        {
+          "url": "https://www.meps.ahrq.gov/data_files/publications/workingpapers/wp_25001.pdf",
+          "title": "February 28, 2025",
+          "reference_id": "turn1search13"
+        },
+        {
+          "url": "https://meps.ahrq.gov/mepsweb/data_stats/download_data_files_detail.jsp?cboPufNumber=HC-248C",
+          "title": "Medical Expenditure Panel Survey Public Use File Details",
+          "reference_id": "turn1search2"
+        },
+        {
+          "url": "https://americasblood.org/wp-content/uploads/2026/01/ABC_NBCUS_2025comments_final.pdf",
+          "title": "America\u2019s Blood Centers\u00ae",
+          "reference_id": "turn1search14"
+        },
+        {
+          "url": "https://americasblood.org/press-release/new-national-blood-donation-data-released-showing-shifts-in-donors-patients-and-emergency-care/",
+          "title": "New National Blood Donation Data Released Showing Shifts in Donors, Patients, and Emergency Care - America's Blood Centers",
+          "reference_id": "turn1search3"
+        },
+        {
+          "url": "https://americasblood.org/wp-content/uploads/2026/02/New-National-Blood-Donation-Data-Released-Showing-Shifts-in-Donors-Patients-and-Emergency-Care-2.2.26.pdf",
+          "title": "America\u2019s Blood Centers",
+          "reference_id": "turn1search15"
+        },
+        {
+          "url": "https://americasblood.org/abc-newsletter/guidelines-red-blood-cell-transfusion-published/",
+          "title": "Guidelines for Red Blood Cell Transfusion Published",
+          "reference_id": "turn1search4"
+        },
+        {
+          "url": "https://americasblood.org/abc-newsletter/2024-blood-donation-statistics-guide-available/",
+          "title": "2024 Blood Donation Statistics - America's Blood Centers",
+          "reference_id": "turn1search5"
+        },
+        {
+          "url": "https://americasblood.org/letters-and-comments/october-2021-letter-to-hhs-automate-the-collection-of-data-for-the-nbcus/",
+          "title": "Letter & Comments to OASH: Document 0990-0313-30D Agency Information Collection Request: National Blood Collection & Utilization Survey (NBCUS) - America's Blood Centers",
+          "reference_id": "turn1search6"
+        },
+        {
+          "url": "https://meps.ahrq.gov/data_stats/download_data/pufs/h254c/h254cdoc.shtml",
+          "title": "MEPS HC 254C: 2024 Other Medical Expenses",
+          "reference_id": "turn1search7"
+        },
+        {
+          "url": "https://americasblood.org/wp-content/uploads/2021/05/NBCUS-Comment-Letter-and-Attachment.pdf",
+          "title": null,
+          "reference_id": "turn1search16"
+        },
+        {
+          "url": "https://www.ahrq.gov/sops/surveys/hospital/supplemental-items/workplace-safety.html",
+          "title": "Workplace Safety Supplemental Items for the SOPS Hospital Survey | Agency for Healthcare Research and Quality",
+          "reference_id": "turn1search8"
+        },
+        {
+          "url": "https://americasblood.org/abc-newsletter/2021-nbcus-supplemental-data-published/",
+          "title": "2021 NBCUS Supplemental Data Published - America's Blood Centers",
+          "reference_id": "turn1search9"
+        },
+        {
+          "url": "https://psnet.ahrq.gov/issue/aspen-survey-parenteral-nutrition-access-issues-how-system-fails-patients",
+          "title": "ASPEN survey of parenteral nutrition access issues: how the system fails the patients. | PSNet",
+          "reference_id": "turn1search10"
+        },
+        {
+          "url": "https://americasblood.org/abc-newsletter/blood-donation-transfusion-data-2021-nbcus/",
+          "title": "Current U.S. Blood Donation & Transfusion Data Available -",
+          "reference_id": "turn1search11"
+        }
+      ]
+    },
+    {
+      "action": {
+        "type": "other"
+      },
+      "results": [
+        {
+          "url": "https://open.fda.gov/apis/device/recall/",
+          "title": "open.fda.gov",
+          "reference_id": "turn2view0"
+        },
+        {
+          "url": "https://open.fda.gov/data/downloads/",
+          "title": "open.fda.gov",
+          "reference_id": "turn2view1"
+        },
+        {
+          "url": "https://meps.ahrq.gov/data_stats/download_data/pufs/h254c/h254cdoc.shtml",
+          "title": "MEPS HC 254C: 2024 Other Medical Expenses",
+          "reference_id": "turn2view2"
+        },
+        {
+          "url": "https://americasblood.org/abc-newsletter/2023-nbcus-data-findings/",
+          "title": "2023 NBCUS Data Findings on Blood Collection & Donation Trends",
+          "reference_id": "turn2view3"
+        }
+      ]
+    }
+  ]
+}

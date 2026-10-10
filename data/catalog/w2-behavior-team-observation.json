@@ -1,0 +1,28 @@
+{
+  "dataset_id": "w2-behavior-team-observation",
+  "source_id": "w2-behavior-team-observation",
+  "title": "AHRQ TeamSTEPPS observation topic inventory",
+  "source_url": "https://www.ahrq.gov/sites/default/files/wysiwyg/teamstepps-program/tools/ts-team-performance-tool.pdf",
+  "record_count": 5,
+  "raw_paths": [],
+  "normalized_path": "data/normalized/w2-behavior-team-observation.jsonl",
+  "scope": "Limited original descriptions of published instrument topics; no individual items or hospital survey responses copied",
+  "access": "public_document",
+  "rights": {
+    "basis": "Original limited factual paraphrases only; source instrument not redistributed",
+    "attribution": "Agency for Healthcare Research and Quality (AHRQ); no endorsement implied",
+    "terms_url": "https://www.ahrq.gov/faqs/index.html?page=3",
+    "limitations": "AHRQ describes geographic/reuse conditions; consult official materials before reproducing instruments, using trademarks or adapting scores."
+  },
+  "acquisition_status": "acquired_selected_paraphrased_facts",
+  "limits": [
+    "No local staff or patient response data.",
+    "These paraphrases are not an official survey, validated scoring system or clinical behavior probabilities.",
+    "Use original source and permissions/guidance for actual survey administration."
+  ],
+  "provenance": {
+    "retrieved_at": "2026-10-10T15:29:17+00:00",
+    "method": "Manually verified limited topic paraphrases; rerunning script does not refresh source",
+    "raw_artifact_kind": "no_raw_source_available"
+  }
+}

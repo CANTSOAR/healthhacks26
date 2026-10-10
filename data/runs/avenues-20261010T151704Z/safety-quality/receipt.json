@@ -1,0 +1,14 @@
+{
+  "domain_id": "safety-quality",
+  "model": "gpt-6-luna",
+  "started_at": "2026-10-10T15:19:58.833952+00:00",
+  "status": "completed",
+  "candidate_review_status": "unreviewed",
+  "prompt_sha256": "010eeefcbedc7fa756bd6254bff8479800554aa03886e51d9fbe2c5a44f59c3c",
+  "timeout_seconds": 180,
+  "exit_code": 0,
+  "source_candidates": 2,
+  "validation": "schema only; not source entailment or acquired data",
+  "finished_at": "2026-10-10T15:20:19.380952+00:00",
+  "duration_seconds": 20.55
+}

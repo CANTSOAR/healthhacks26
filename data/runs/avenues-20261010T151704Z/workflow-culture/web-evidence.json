@@ -1,0 +1,138 @@
+{
+  "meaning": "Observed native web-tool activity. Search result or page URL is not proof of successful data acquisition, rights or factual entailment. Source text and private diagnostics excluded.",
+  "events": [
+    {
+      "action": {
+        "type": "search",
+        "queries": [
+          "site:ahrq.gov SOPS hospital survey 2.0 database data public download 2024",
+          "New Brunswick NJ hospital workflow handoff public data RWJUH Saint Peter's Middlesex County EMS annual report"
+        ]
+      },
+      "results": [
+        {
+          "url": "https://www.ahrq.gov/sops/databases/hospital/index.html",
+          "title": "SOPS Hospital Database | Agency for Healthcare Research and Quality",
+          "reference_id": "turn0search0"
+        },
+        {
+          "url": "https://sopsdatabase.ahrq.gov/default.aspx?mode=hospital",
+          "title": "Submitting Data | Hospital Survey on Patient Safety Culture",
+          "reference_id": "turn0search1"
+        },
+        {
+          "url": "https://psnet.ahrq.gov/issue/surveys-patient-safety-culture-sops-hospital-survey-20-user-database-report",
+          "title": "Surveys on Patient Safety Culture (SOPS) Hospital Survey 2.0: User Database Report. | PSNet",
+          "reference_id": "turn0search2"
+        },
+        {
+          "url": "https://www.ahrq.gov/sops/surveys/hospital/index.html",
+          "title": "SOPS\u00ae Hospital Survey | Agency for Healthcare Research and Quality",
+          "reference_id": "turn0search3"
+        },
+        {
+          "url": "https://www.ahrq.gov/sops/international/hospital/translators-version-2.html",
+          "title": "Hospital Survey Version 2.0: Background and Information for Translators | Agency for Healthcare Research and Quality",
+          "reference_id": "turn0search4"
+        },
+        {
+          "url": "https://www.ahrq.gov/sops/databases/research-datasets.html",
+          "title": "SOPS Research Datasets | Agency for Healthcare Research and Quality",
+          "reference_id": "turn0search5"
+        },
+        {
+          "url": "https://www.ahrq.gov/sops/news.html",
+          "title": "SOPS Announcements | Agency for Healthcare Research and Quality",
+          "reference_id": "turn0search6"
+        },
+        {
+          "url": "https://www.ahrq.gov/data/sops.html",
+          "title": "Surveys on Patient Safety Culture | Agency for Healthcare Research and Quality",
+          "reference_id": "turn0search7"
+        },
+        {
+          "url": "https://www.ahrq.gov/sites/default/files/wysiwyg/sops/databases/hospital/2024-hospital-database-report-ptI.pdf",
+          "title": "Surveys on Patient Safety Culture (SOPS) Hospital Survey 2.0: 2024 User Database Report Part I",
+          "reference_id": "turn0search12"
+        },
+        {
+          "url": "https://datatools.ahrq.gov/action-alliance/",
+          "title": "NAA Data Tools \u2013 National Healthcare Safety Dashboard",
+          "reference_id": "turn0search8"
+        },
+        {
+          "url": "https://www.ahrq.gov/sops/about/faq/index.html",
+          "title": "SOPS Frequently Asked Questions | Agency for Healthcare Research and Quality",
+          "reference_id": "turn0search9"
+        },
+        {
+          "url": "https://www.ahrq.gov/sops/index.html",
+          "title": "Surveys on Patient Safety Culture (SOPS) | Agency for Healthcare Research and Quality",
+          "reference_id": "turn0search10"
+        },
+        {
+          "url": "https://meps.ahrq.gov/mepsweb/data_stats/download_data_files.jsp",
+          "title": "Medical Expenditure Panel Survey Download Data Files",
+          "reference_id": "turn0search11"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Middlesex_County%2C_New_Jersey",
+          "title": "Middlesex County, New Jersey",
+          "reference_id": "turn0search13"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Robert_Wood_Johnson_University_Hospital",
+          "title": "Robert Wood Johnson University Hospital",
+          "reference_id": "turn0search14"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/RWJBarnabas_Health",
+          "title": "RWJBarnabas Health",
+          "reference_id": "turn0search15"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Saint_Peter%27s_University_Hospital",
+          "title": "Saint Peter's University Hospital",
+          "reference_id": "turn0search16"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/The_Bristol-Myers_Squibb_Children%27s_Hospital",
+          "title": "The Bristol-Myers Squibb Children's Hospital",
+          "reference_id": "turn0search17"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Robert_Wood_Johnson_Medical_School",
+          "title": "Robert Wood Johnson Medical School",
+          "reference_id": "turn0search18"
+        }
+      ]
+    },
+    {
+      "action": {
+        "type": "other"
+      },
+      "results": [
+        {
+          "url": "https://www.ahrq.gov/sops/surveys/hospital/index.html",
+          "title": "SOPS\u00ae Hospital Survey | Agency for Healthcare Research and Quality",
+          "reference_id": "turn1view0"
+        },
+        {
+          "url": "https://www.ahrq.gov/sops/databases/hospital/index.html",
+          "title": "SOPS Hospital Database | Agency for Healthcare Research and Quality",
+          "reference_id": "turn1view1"
+        },
+        {
+          "url": "https://datatools.ahrq.gov/action-alliance/",
+          "title": "NAA Data Tools \u2013 National Healthcare Safety Dashboard",
+          "reference_id": "turn1view2"
+        },
+        {
+          "url": "https://www.ahrq.gov/sops/databases/research-datasets.html",
+          "title": "SOPS Research Datasets | Agency for Healthcare Research and Quality",
+          "reference_id": "turn1view3"
+        }
+      ]
+    }
+  ]
+}

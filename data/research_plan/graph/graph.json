@@ -23,14 +23,14 @@
     "summaryPath": "research_plan/graph/summary.md"
   },
   "counts": {
-    "documents": 18,
-    "nodes": 42,
-    "edges": 57
+    "documents": 22,
+    "nodes": 58,
+    "edges": 77
   },
   "nodeTypeCounts": {
-    "document": 18,
-    "source": 20,
-    "topic": 4
+    "document": 22,
+    "source": 31,
+    "topic": 5
   },
   "entityTypeCounts": {},
   "documents": [
@@ -80,6 +80,63 @@
       "id": "doc:research/local-community-insurance.md",
       "path": "research/local-community-insurance.md",
       "title": "Local Community Insurance",
+      "kind": "research",
+      "topics": [
+        "hospital",
+        "evidence"
+      ],
+      "entities": [],
+      "sources": [],
+      "relations": 0,
+      "updated": null
+    },
+    {
+      "id": "doc:research/wave2-behavior.md",
+      "path": "research/wave2-behavior.md",
+      "title": "Wave2 Behavior",
+      "kind": "research",
+      "topics": [
+        "hospital",
+        "evidence"
+      ],
+      "entities": [],
+      "sources": [],
+      "relations": 0,
+      "updated": null
+    },
+    {
+      "id": "doc:research/wave2-clinical.md",
+      "path": "research/wave2-clinical.md",
+      "title": "Wave2 Clinical",
+      "kind": "research",
+      "topics": [
+        "hospital",
+        "evidence"
+      ],
+      "entities": [],
+      "sources": [],
+      "relations": 0,
+      "updated": null
+    },
+    {
+      "id": "doc:research/wave2-context.md",
+      "path": "research/wave2-context.md",
+      "title": "Wave 2 community context acquisition",
+      "kind": "research",
+      "topics": [
+        "hospital",
+        "evidence",
+        "community"
+      ],
+      "entities": [],
+      "sources": [],
+      "relations": 0,
+      "updated": null
+    },
+    {
+      "id": "doc:research/wave2-operations.md",
+      "path": "research/wave2-operations.md",
+      "title": "Wave2 Operations",
       "kind": "research",
       "topics": [
         "hospital",
@@ -316,6 +373,34 @@
       "kind": "research",
       "path": "research/local-community-insurance.md",
       "id": "doc:research/local-community-insurance.md"
+    },
+    {
+      "label": "Wave2 Behavior",
+      "nodeType": "document",
+      "kind": "research",
+      "path": "research/wave2-behavior.md",
+      "id": "doc:research/wave2-behavior.md"
+    },
+    {
+      "label": "Wave2 Clinical",
+      "nodeType": "document",
+      "kind": "research",
+      "path": "research/wave2-clinical.md",
+      "id": "doc:research/wave2-clinical.md"
+    },
+    {
+      "label": "Wave 2 community context acquisition",
+      "nodeType": "document",
+      "kind": "research",
+      "path": "research/wave2-context.md",
+      "id": "doc:research/wave2-context.md"
+    },
+    {
+      "label": "Wave2 Operations",
+      "nodeType": "document",
+      "kind": "research",
+      "path": "research/wave2-operations.md",
+      "id": "doc:research/wave2-operations.md"
     },
     {
       "label": "Assumptions",
@@ -568,12 +653,105 @@
       "id": "source:catalog-twinverse-patient-profiles"
     },
     {
+      "label": "catalog:w2-behavior-safety-culture",
+      "nodeType": "source",
+      "sourceType": "local_file",
+      "path": "catalog/w2-behavior-safety-culture.json",
+      "refresh": "manual",
+      "id": "source:catalog-w2-behavior-safety-culture"
+    },
+    {
+      "label": "catalog:w2-behavior-team-observation",
+      "nodeType": "source",
+      "sourceType": "local_file",
+      "path": "catalog/w2-behavior-team-observation.json",
+      "refresh": "manual",
+      "id": "source:catalog-w2-behavior-team-observation"
+    },
+    {
+      "label": "catalog:w2-clinical-icd10cm-dx-2027",
+      "nodeType": "source",
+      "sourceType": "local_file",
+      "path": "catalog/w2-clinical-icd10cm-dx-2027.json",
+      "refresh": "manual",
+      "id": "source:catalog-w2-clinical-icd10cm-dx-2027"
+    },
+    {
+      "label": "catalog:w2-clinical-icd10pcs-proc-2027",
+      "nodeType": "source",
+      "sourceType": "local_file",
+      "path": "catalog/w2-clinical-icd10pcs-proc-2027.json",
+      "refresh": "manual",
+      "id": "source:catalog-w2-clinical-icd10pcs-proc-2027"
+    },
+    {
+      "label": "catalog:w2-clinical-rxnorm-forms",
+      "nodeType": "source",
+      "sourceType": "local_file",
+      "path": "catalog/w2-clinical-rxnorm-forms.json",
+      "refresh": "manual",
+      "id": "source:catalog-w2-clinical-rxnorm-forms"
+    },
+    {
+      "label": "catalog:w2-context-cms-medicare-enrollment-middlesex",
+      "nodeType": "source",
+      "sourceType": "local_file",
+      "path": "catalog/w2-context-cms-medicare-enrollment-middlesex.json",
+      "refresh": "manual",
+      "id": "source:catalog-w2-context-cms-medicare-enrollment-middlesex"
+    },
+    {
+      "label": "catalog:w2-context-svi2022-middlesex-county",
+      "nodeType": "source",
+      "sourceType": "local_file",
+      "path": "catalog/w2-context-svi2022-middlesex-county.json",
+      "refresh": "manual",
+      "id": "source:catalog-w2-context-svi2022-middlesex-county"
+    },
+    {
+      "label": "catalog:w2-context-svi2022-middlesex-tract",
+      "nodeType": "source",
+      "sourceType": "local_file",
+      "path": "catalog/w2-context-svi2022-middlesex-tract.json",
+      "refresh": "manual",
+      "id": "source:catalog-w2-context-svi2022-middlesex-tract"
+    },
+    {
+      "label": "catalog:w2-ops-cms-cost-report-2023",
+      "nodeType": "source",
+      "sourceType": "local_file",
+      "path": "catalog/w2-ops-cms-cost-report-2023.json",
+      "refresh": "manual",
+      "id": "source:catalog-w2-ops-cms-cost-report-2023"
+    },
+    {
+      "label": "catalog:w2-ops-nj-licensed-facilities",
+      "nodeType": "source",
+      "sourceType": "local_file",
+      "path": "catalog/w2-ops-nj-licensed-facilities.json",
+      "refresh": "manual",
+      "id": "source:catalog-w2-ops-nj-licensed-facilities"
+    },
+    {
+      "label": "catalog:w2-ops-nj-staffing",
+      "nodeType": "source",
+      "sourceType": "local_file",
+      "path": "catalog/w2-ops-nj-staffing.json",
+      "refresh": "manual",
+      "id": "source:catalog-w2-ops-nj-staffing"
+    },
+    {
       "label": "local:research-question",
       "nodeType": "source",
       "sourceType": "local_file",
       "path": "specs/research_question.yaml",
       "refresh": "manual",
       "id": "source:local-research-question"
+    },
+    {
+      "label": "community",
+      "nodeType": "topic",
+      "id": "topic:community"
     },
     {
       "label": "evidence",
@@ -788,6 +966,116 @@
       "refresh": "manual"
     },
     {
+      "id": "doc:knowledge/README.md::depends_on::source:catalog-w2-behavior-safety-culture::sources/dependencies.yaml",
+      "from": "doc:knowledge/README.md",
+      "type": "depends_on",
+      "to": "source:catalog-w2-behavior-safety-culture",
+      "source": "sources/dependencies.yaml",
+      "document": "doc:knowledge/README.md",
+      "role": "acquired_source_manifest",
+      "refresh": "manual"
+    },
+    {
+      "id": "doc:knowledge/README.md::depends_on::source:catalog-w2-behavior-team-observation::sources/dependencies.yaml",
+      "from": "doc:knowledge/README.md",
+      "type": "depends_on",
+      "to": "source:catalog-w2-behavior-team-observation",
+      "source": "sources/dependencies.yaml",
+      "document": "doc:knowledge/README.md",
+      "role": "acquired_source_manifest",
+      "refresh": "manual"
+    },
+    {
+      "id": "doc:knowledge/README.md::depends_on::source:catalog-w2-clinical-icd10cm-dx-2027::sources/dependencies.yaml",
+      "from": "doc:knowledge/README.md",
+      "type": "depends_on",
+      "to": "source:catalog-w2-clinical-icd10cm-dx-2027",
+      "source": "sources/dependencies.yaml",
+      "document": "doc:knowledge/README.md",
+      "role": "acquired_source_manifest",
+      "refresh": "manual"
+    },
+    {
+      "id": "doc:knowledge/README.md::depends_on::source:catalog-w2-clinical-icd10pcs-proc-2027::sources/dependencies.yaml",
+      "from": "doc:knowledge/README.md",
+      "type": "depends_on",
+      "to": "source:catalog-w2-clinical-icd10pcs-proc-2027",
+      "source": "sources/dependencies.yaml",
+      "document": "doc:knowledge/README.md",
+      "role": "acquired_source_manifest",
+      "refresh": "manual"
+    },
+    {
+      "id": "doc:knowledge/README.md::depends_on::source:catalog-w2-clinical-rxnorm-forms::sources/dependencies.yaml",
+      "from": "doc:knowledge/README.md",
+      "type": "depends_on",
+      "to": "source:catalog-w2-clinical-rxnorm-forms",
+      "source": "sources/dependencies.yaml",
+      "document": "doc:knowledge/README.md",
+      "role": "acquired_source_manifest",
+      "refresh": "manual"
+    },
+    {
+      "id": "doc:knowledge/README.md::depends_on::source:catalog-w2-context-cms-medicare-enrollment-middlesex::sources/dependencies.yaml",
+      "from": "doc:knowledge/README.md",
+      "type": "depends_on",
+      "to": "source:catalog-w2-context-cms-medicare-enrollment-middlesex",
+      "source": "sources/dependencies.yaml",
+      "document": "doc:knowledge/README.md",
+      "role": "acquired_source_manifest",
+      "refresh": "manual"
+    },
+    {
+      "id": "doc:knowledge/README.md::depends_on::source:catalog-w2-context-svi2022-middlesex-county::sources/dependencies.yaml",
+      "from": "doc:knowledge/README.md",
+      "type": "depends_on",
+      "to": "source:catalog-w2-context-svi2022-middlesex-county",
+      "source": "sources/dependencies.yaml",
+      "document": "doc:knowledge/README.md",
+      "role": "acquired_source_manifest",
+      "refresh": "manual"
+    },
+    {
+      "id": "doc:knowledge/README.md::depends_on::source:catalog-w2-context-svi2022-middlesex-tract::sources/dependencies.yaml",
+      "from": "doc:knowledge/README.md",
+      "type": "depends_on",
+      "to": "source:catalog-w2-context-svi2022-middlesex-tract",
+      "source": "sources/dependencies.yaml",
+      "document": "doc:knowledge/README.md",
+      "role": "acquired_source_manifest",
+      "refresh": "manual"
+    },
+    {
+      "id": "doc:knowledge/README.md::depends_on::source:catalog-w2-ops-cms-cost-report-2023::sources/dependencies.yaml",
+      "from": "doc:knowledge/README.md",
+      "type": "depends_on",
+      "to": "source:catalog-w2-ops-cms-cost-report-2023",
+      "source": "sources/dependencies.yaml",
+      "document": "doc:knowledge/README.md",
+      "role": "acquired_source_manifest",
+      "refresh": "manual"
+    },
+    {
+      "id": "doc:knowledge/README.md::depends_on::source:catalog-w2-ops-nj-licensed-facilities::sources/dependencies.yaml",
+      "from": "doc:knowledge/README.md",
+      "type": "depends_on",
+      "to": "source:catalog-w2-ops-nj-licensed-facilities",
+      "source": "sources/dependencies.yaml",
+      "document": "doc:knowledge/README.md",
+      "role": "acquired_source_manifest",
+      "refresh": "manual"
+    },
+    {
+      "id": "doc:knowledge/README.md::depends_on::source:catalog-w2-ops-nj-staffing::sources/dependencies.yaml",
+      "from": "doc:knowledge/README.md",
+      "type": "depends_on",
+      "to": "source:catalog-w2-ops-nj-staffing",
+      "source": "sources/dependencies.yaml",
+      "document": "doc:knowledge/README.md",
+      "role": "acquired_source_manifest",
+      "refresh": "manual"
+    },
+    {
       "id": "doc:knowledge/README.md::has_topic::topic:evidence::knowledge/README.md",
       "from": "doc:knowledge/README.md",
       "type": "has_topic",
@@ -842,6 +1130,69 @@
       "type": "has_topic",
       "to": "topic:hospital",
       "source": "research/local-community-insurance.md"
+    },
+    {
+      "id": "doc:research/wave2-behavior.md::has_topic::topic:evidence::research/wave2-behavior.md",
+      "from": "doc:research/wave2-behavior.md",
+      "type": "has_topic",
+      "to": "topic:evidence",
+      "source": "research/wave2-behavior.md"
+    },
+    {
+      "id": "doc:research/wave2-behavior.md::has_topic::topic:hospital::research/wave2-behavior.md",
+      "from": "doc:research/wave2-behavior.md",
+      "type": "has_topic",
+      "to": "topic:hospital",
+      "source": "research/wave2-behavior.md"
+    },
+    {
+      "id": "doc:research/wave2-clinical.md::has_topic::topic:evidence::research/wave2-clinical.md",
+      "from": "doc:research/wave2-clinical.md",
+      "type": "has_topic",
+      "to": "topic:evidence",
+      "source": "research/wave2-clinical.md"
+    },
+    {
+      "id": "doc:research/wave2-clinical.md::has_topic::topic:hospital::research/wave2-clinical.md",
+      "from": "doc:research/wave2-clinical.md",
+      "type": "has_topic",
+      "to": "topic:hospital",
+      "source": "research/wave2-clinical.md"
+    },
+    {
+      "id": "doc:research/wave2-context.md::has_topic::topic:community::research/wave2-context.md",
+      "from": "doc:research/wave2-context.md",
+      "type": "has_topic",
+      "to": "topic:community",
+      "source": "research/wave2-context.md"
+    },
+    {
+      "id": "doc:research/wave2-context.md::has_topic::topic:evidence::research/wave2-context.md",
+      "from": "doc:research/wave2-context.md",
+      "type": "has_topic",
+      "to": "topic:evidence",
+      "source": "research/wave2-context.md"
+    },
+    {
+      "id": "doc:research/wave2-context.md::has_topic::topic:hospital::research/wave2-context.md",
+      "from": "doc:research/wave2-context.md",
+      "type": "has_topic",
+      "to": "topic:hospital",
+      "source": "research/wave2-context.md"
+    },
+    {
+      "id": "doc:research/wave2-operations.md::has_topic::topic:evidence::research/wave2-operations.md",
+      "from": "doc:research/wave2-operations.md",
+      "type": "has_topic",
+      "to": "topic:evidence",
+      "source": "research/wave2-operations.md"
+    },
+    {
+      "id": "doc:research/wave2-operations.md::has_topic::topic:hospital::research/wave2-operations.md",
+      "from": "doc:research/wave2-operations.md",
+      "type": "has_topic",
+      "to": "topic:hospital",
+      "source": "research/wave2-operations.md"
     },
     {
       "id": "doc:research_plan/assumptions.md::has_topic::topic:evidence::research_plan/assumptions.md",

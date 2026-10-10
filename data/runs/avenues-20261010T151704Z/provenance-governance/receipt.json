@@ -1,0 +1,14 @@
+{
+  "domain_id": "provenance-governance",
+  "model": "gpt-6-luna",
+  "started_at": "2026-10-10T15:20:52.623075+00:00",
+  "status": "completed",
+  "candidate_review_status": "unreviewed",
+  "prompt_sha256": "33a8c47a60c36881c6c57de2a77b641904c83536b6f8d8811b8f56b79b1fcaa9",
+  "timeout_seconds": 180,
+  "exit_code": 0,
+  "source_candidates": 2,
+  "validation": "schema only; not source entailment or acquired data",
+  "finished_at": "2026-10-10T15:22:41.614595+00:00",
+  "duration_seconds": 108.99
+}

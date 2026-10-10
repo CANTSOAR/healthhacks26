@@ -1,0 +1,14 @@
+{
+  "domain_id": "demand-case-mix",
+  "model": "gpt-6-luna",
+  "started_at": "2026-10-10T15:17:48.097729+00:00",
+  "status": "completed",
+  "candidate_review_status": "unreviewed",
+  "prompt_sha256": "93b59918b99059cb728e6324f429aca859827b0259e9bd33fb246964a6b963c8",
+  "timeout_seconds": 180,
+  "exit_code": 0,
+  "source_candidates": 3,
+  "validation": "schema only; not source entailment or acquired data",
+  "finished_at": "2026-10-10T15:18:18.763621+00:00",
+  "duration_seconds": 30.67
+}

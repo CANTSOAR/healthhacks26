@@ -1,0 +1,137 @@
+{
+  "meaning": "Observed native web-tool activity. Search result or page URL is not proof of successful data acquisition, rights or factual entailment. Source text and private diagnostics excluded.",
+  "events": [
+    {
+      "action": {
+        "type": "search",
+        "queries": [
+          "site:rwjbh.org RWJUH charges machine readable file hospital price transparency negotiated rates",
+          "site:cms.gov hospital price transparency data public use files Medicare payment data official"
+        ]
+      },
+      "results": [
+        {
+          "url": "https://www.cms.gov/marketplace/resources/data/public-use-files",
+          "title": "Health Insurance Exchange Public Use Files (Exchange PUFs) | CMS",
+          "reference_id": "turn0search0"
+        },
+        {
+          "url": "https://www.cms.gov/priorities/key-initiatives/hospital-price-transparency/hospitals",
+          "title": "Hospitals | CMS",
+          "reference_id": "turn0search1"
+        },
+        {
+          "url": "https://www.rwjbh.org/rwj-university-hospital-rahway/billing/charges/",
+          "title": "Billing and Charges Information | RWJ University Hospital Rahway",
+          "reference_id": "turn0search2"
+        },
+        {
+          "url": "https://www.cms.gov/priorities/key-initiatives/hospital-price-transparency",
+          "title": "Hospital Price Transparency | CMS",
+          "reference_id": "turn0search3"
+        },
+        {
+          "url": "https://www.cms.gov/medicare/payment/prospective-payment-systems/provider-specific-data-public-use-parquet-format",
+          "title": "Provider Specific Data for Public Use in Parquet Format | CMS",
+          "reference_id": "turn0search4"
+        },
+        {
+          "url": "https://www.cms.gov/digital-service/transparency",
+          "title": "Transparency | CMS",
+          "reference_id": "turn0search5"
+        },
+        {
+          "url": "https://www.cms.gov/initiatives/healthplan-price-transparency/overview/public-data",
+          "title": "Use of Pricing Information Published under the Transparency in Coverage Final Rule | CMS",
+          "reference_id": "turn0search6"
+        },
+        {
+          "url": "https://data.cms.gov/provider-characteristics/hospitals-and-other-facilities",
+          "title": "Hospitals and Other Facilities | CMS Data",
+          "reference_id": "turn0search7"
+        },
+        {
+          "url": "https://data.cms.gov/provider-data/topics/hospitals",
+          "title": "Hospitals | Provider Data Catalog",
+          "reference_id": "turn0search8"
+        },
+        {
+          "url": "https://www.cms.gov/medicare/payment/prospective-payment-systems/hospital-outpatient/regulations-notices/cms-1834-fc",
+          "title": "CMS-1834-FC | CMS",
+          "reference_id": "turn0search9"
+        },
+        {
+          "url": "https://www.cms.gov/data-research/statistics-trends-and-reports/basic-stand-alone-medicare-claims-public-use-files",
+          "title": "Basic Stand Alone (BSA) Medicare Claims Public Use Files (PUFs) | CMS",
+          "reference_id": "turn0search10"
+        },
+        {
+          "url": "https://www.cms.gov/files/document/mln7215754-hospital-price-transparency.pdf",
+          "title": "MLN7215754 \u2013 Hospital Price Transparency",
+          "reference_id": "turn0search12"
+        },
+        {
+          "url": "https://www.cms.gov/medicare/payment/prospective-payment-systems/acute-inpatient-pps/fy-2026-ipps-final-rule-home-page",
+          "title": "FY 2026 IPPS Final Rule Home Page | CMS",
+          "reference_id": "turn0search11"
+        },
+        {
+          "url": "https://www.cms.gov/files/document/hospital-price-transparency-frequently-asked-questions.pdf",
+          "title": "Hospital Price Transparency Frequently Asked Questions",
+          "reference_id": "turn0search13"
+        }
+      ]
+    },
+    {
+      "action": {
+        "type": "open_page",
+        "url": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/billing/charges/"
+      },
+      "results": [
+        {
+          "url": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/billing/charges/",
+          "title": "Charges | RWJ University Hospital New Brunswick",
+          "reference_id": "turn1view0"
+        },
+        {
+          "url": "https://www.cms.gov/priorities/key-initiatives/hospital-price-transparency/hospitals",
+          "title": "Hospitals | CMS",
+          "reference_id": "turn1view1"
+        },
+        {
+          "url": "https://www.cms.gov/initiatives/healthplan-price-transparency/overview/public-data",
+          "title": "Use of Pricing Information Published under the Transparency in Coverage Final Rule | CMS",
+          "reference_id": "turn1view2"
+        },
+        {
+          "url": "https://www.cms.gov/data-research/statistics-trends-and-reports/basic-stand-alone-medicare-claims-public-use-files",
+          "title": "Basic Stand Alone (BSA) Medicare Claims Public Use Files (PUFs) | CMS",
+          "reference_id": "turn1view3"
+        }
+      ]
+    },
+    {
+      "action": {
+        "type": "find_in_page",
+        "pattern": "Machine Readable"
+      },
+      "results": [
+        {
+          "url": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/billing/charges/",
+          "title": "Charges | RWJ University Hospital New Brunswick",
+          "reference_id": "turn2view0"
+        },
+        {
+          "url": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/billing/charges/",
+          "title": "Charges | RWJ University Hospital New Brunswick",
+          "reference_id": "turn2view1"
+        },
+        {
+          "url": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/billing/charges/",
+          "title": "Charges | RWJ University Hospital New Brunswick",
+          "reference_id": "turn2view2"
+        }
+      ]
+    }
+  ]
+}

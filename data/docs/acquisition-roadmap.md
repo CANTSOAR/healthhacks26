@@ -84,3 +84,7 @@ Use `gpt-6-luna` for source discovery, extraction and review-packet drafting wit
 | [twinverse-patient-profiles](../catalog/twinverse-patient-profiles.json) | 8 | acquired |
 
 Source-route research: [whole-hospital blueprint](../../research/whole-hospital-data-blueprint.md). The backlog records official discovery URLs from that research and the current catalogs; it does not claim additional downloads.
+
+## Second-wave update
+
+The acquired inventory is now 30 datasets /4,780 normalized records. See [simulation readiness](simulation-readiness.md) and [campaign results](../research/avenues-campaign.md). The domain table above records the initial planning state; the machine backlog now links the additional source IDs and each of27 domain discovery reports. None of the domains is automatically calibrated by acquisition.

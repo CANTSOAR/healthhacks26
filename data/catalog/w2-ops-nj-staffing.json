@@ -1,0 +1,48 @@
+{
+  "dataset_id": "w2-ops-nj-staffing",
+  "source_id": "w2-ops-nj-staffing",
+  "title": "NJ Hospital Patient Care Staffing Quarterly Reports: RWJUH New Brunswick and Saint Peter’s, 2026 Q2",
+  "source_url": "https://healthapps.nj.gov/nursestaffing/quarterly.aspx",
+  "scope": "Publicly reported Q2 2026 inpatient unit average daily patient-to-staff ratios plus ED/PACU daily staff and patient summaries for two New Brunswick general hospitals; quarter ending June 30, 2026.",
+  "access": "public_no_authentication",
+  "rights": {
+    "basis": "New Jersey Department of Health public factual reports",
+    "source_license": "not established",
+    "redistribution": "limited selected factual values; original report URLs retained"
+  },
+  "acquisition_status": "acquired",
+  "raw_paths": [
+    "data/raw/w2-ops-nj/nj-staffing-11202-2026q2.json",
+    "data/raw/w2-ops-nj/nj-staffing-11205-2026q2.json"
+  ],
+  "normalized_path": "data/normalized/w2-ops-nj-staffing.jsonl",
+  "record_count": 19,
+  "limits": [
+    "Report quarter is 2026 Q2 (ended June 30, 2026); not live staffing.",
+    "NJDOH explicitly cautions that reports should not be used to compare hospitals or state averages because patient needs, policy and layout differ.",
+    "Reports exclude many caregivers and are based on reported monthly averages from facility daily posting forms.",
+    "Selected inpatient ratios and ED/PACU daily summaries were retained; other report history and sections were not acquired.",
+    "Do not divide reported daily patient averages by daily RN/staff averages to infer a concurrent patient-to-staff ratio; these data do not provide time-aligned census and staffing observations."
+  ],
+  "provenance": {
+    "retrieved_at": "2026-10-10T15:29:15.025163+00:00",
+    "raw_artifact_kind": "projected_response",
+    "data_period": {
+      "start": "2026-04-01",
+      "end": "2026-06-30"
+    }
+  },
+  "raw_artifact_kind": "projected_response",
+  "queries": [
+    {
+      "hospital_id": "11202",
+      "quarter": "2026-Q2",
+      "source_url": "https://healthapps.nj.gov/nursestaffing/quarterly.aspx"
+    },
+    {
+      "hospital_id": "11205",
+      "quarter": "2026-Q2",
+      "source_url": "https://healthapps.nj.gov/nursestaffing/quarterly.aspx"
+    }
+  ]
+}

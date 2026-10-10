@@ -1,0 +1,59 @@
+{
+  "dataset_id": "w2-context-cms-medicare-enrollment-middlesex",
+  "source_id": "w2-context-cms-medicare-enrollment-middlesex",
+  "title": "Medicare Monthly Enrollment",
+  "source_url": "https://data.cms.gov/data-api/v1/dataset/d7fabe1e-d19b-4333-9eff-e80e0643f2fd/data?filter%5BBENE_FIPS_CD%5D=34023&size=5000",
+  "landing_url": "https://data.cms.gov/summary-statistics-on-beneficiary-enrollment/medicare-and-medicaid-reports/medicare-monthly-enrollment",
+  "acquisition_status": "acquired_bounded_geographic_slice",
+  "record_count": 175,
+  "raw_paths": [
+    "data/raw/w2-context-cms-medicare-enrollment-middlesex/records.json",
+    "data/raw/w2-context-cms-medicare-enrollment-middlesex/metadata.json",
+    "data/raw/w2-context-cms-medicare-enrollment-middlesex/receipt.json"
+  ],
+  "normalized_path": "data/normalized/w2-context-cms-medicare-enrollment-middlesex.jsonl",
+  "scope": {
+    "geography_level": "county",
+    "state": "NJ",
+    "county_fips": "34023",
+    "county": "Middlesex County",
+    "periods": [
+      "2013",
+      "2014",
+      "2015",
+      "2016",
+      "2017",
+      "2018",
+      "2019",
+      "2020",
+      "2021",
+      "2022",
+      "2023",
+      "2024",
+      "2025",
+      "2026"
+    ],
+    "latest_month": "June"
+  },
+  "access": "public unauthenticated CMS Data API",
+  "rights_status": "U.S. federal government dataset. CMS API metadata provides no specific license field; attribution retained and no third-party content identified in the API response.",
+  "rights": {
+    "source_copyright": "CMS data API response; no license field in API response",
+    "attribution": "Centers for Medicare & Medicaid Services",
+    "basis": "Federal agency administrative aggregate dataset; no third-party source identified. Consult CMS terms for uses beyond public research."
+  },
+  "limits": [
+    "Beneficiary enrollment counts are population aggregates, not hospital utilization.",
+    "Not individual eligibility, negotiated price, provider participation, or hospital payer mix.",
+    "Suppressed/small counts and variable definitions follow CMS documentation."
+  ],
+  "provenance": {
+    "source_url": "https://data.cms.gov/data-api/v1/dataset/d7fabe1e-d19b-4333-9eff-e80e0643f2fd/data?filter%5BBENE_FIPS_CD%5D=34023&size=5000",
+    "metadata_url": "https://data.cms.gov/data-api/v1/dataset/d7fabe1e-d19b-4333-9eff-e80e0643f2fd/data-viewer?size=1",
+    "retrieved_at": "2026-10-10T15:28:54.698623+00:00",
+    "sha256": "166dbaeb00f826b8212a9ed3fe31c4b7adfa4645232b97ac1429b2093cb1641a",
+    "raw_artifact_kind": "original_downloaded_response_bytes",
+    "metadata_sha256": "1a5972e25d0f515a18aa3db3e43971f46a52a5ca0db3757dbd0a393b4bc20571",
+    "row_count": 175
+  }
+}

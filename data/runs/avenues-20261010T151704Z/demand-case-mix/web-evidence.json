@@ -1,0 +1,128 @@
+{
+  "meaning": "Observed native web-tool activity. Search result or page URL is not proof of successful data acquisition, rights or factual entailment. Source text and private diagnostics excluded.",
+  "events": [
+    {
+      "action": {
+        "type": "search",
+        "queries": [
+          "site:nj.gov/health/healthcarequality/njddcs hospital discharge data public aggregate New Jersey data",
+          "site:hcup-us.ahrq.gov New Jersey SID data discharge all payer access HCUP"
+        ]
+      },
+      "results": [
+        {
+          "url": "https://www.nj.gov/health/healthcarequality/health-care-professionals/njddcs/",
+          "title": "Department of Health | Health Care Quality Assessment | NJ Hospital Discharge Data Collection System (NJDDCS)",
+          "reference_id": "turn0search0"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/db/state/siddist/siddist_discharge.jsp",
+          "title": "SID: File Composition - Number of Discharges by Year",
+          "reference_id": "turn0search1"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/db/state/siddist/siddist_filecompnj.jsp",
+          "title": "SID File Composition - New Jersey",
+          "reference_id": "turn0search2"
+        },
+        {
+          "url": "https://nj.gov/health/healthcarequality/health-care-professionals/",
+          "title": "Department of Health | Health Care Quality Assessment",
+          "reference_id": "turn0search3"
+        },
+        {
+          "url": "https://www.nj.gov/health/healthcarequality/",
+          "title": "Department of Health | Health Care Quality Assessment | Office of Health Care Quality Assessment",
+          "reference_id": "turn0search4"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/sidoverview.jsp?TB_iframe=true",
+          "title": "HCUP-US SID Overview",
+          "reference_id": "turn0search5"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/db/vars/siddistnote.jsp?var=dispub04",
+          "title": "Healthcare Cost and Utilization Project (HCUP) SID Notes",
+          "reference_id": "turn0search6"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/db/state/siddist/SID_File_Composition.pdf",
+          "title": "Microsoft Word - sidfilecomps.doc",
+          "reference_id": "turn0search12"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/db/state/siddist/sid_multi.jsp",
+          "title": "SID File Composition",
+          "reference_id": "turn0search7"
+        },
+        {
+          "url": "https://nj.gov/health/healthcarequality/health-care-professionals/submit-reporting/index.shtml",
+          "title": "Department of Health | Health Care Quality Assessment | Report Data to the Department of Health",
+          "reference_id": "turn0search8"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/tech_assist/faq.jsp",
+          "title": "HCUP Frequently Asked Questions",
+          "reference_id": "turn0search9"
+        },
+        {
+          "url": "https://www.nj.gov/health/healthcarequality/health-care-professionals/quality-indicators/usingpsi.shtml",
+          "title": "Department of Health | Health Care Quality Assessment | Understanding and Using Patient Safety Indicators",
+          "reference_id": "turn0search10"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/db/state/siddbdocumentation.jsp",
+          "title": "SID Database Documentation",
+          "reference_id": "turn0search11"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/tech_assist/centdist/HCUP-SID-Database-Catalog-Sep2021.pdf",
+          "title": "HCUP SID Price Structure",
+          "reference_id": "turn0search13"
+        },
+        {
+          "url": "https://www.nj.gov/health/maternal/documents/2024_Report_Card_Methodology.pdf",
+          "title": "2024_Report_Card_Methodology",
+          "reference_id": "turn0search14"
+        },
+        {
+          "url": "https://www.nj.gov/health/healthcarequality/documents/njddcs_v17-2.pdf",
+          "title": "NJDDCS DATA DICTIONARY",
+          "reference_id": "turn0search15"
+        },
+        {
+          "url": "https://www.nj.gov/health/healthcarequality/documents/njddcs_dd_v16-4.pdf",
+          "title": "NJDDCS DATA DICTIONARY",
+          "reference_id": "turn0search16"
+        }
+      ]
+    },
+    {
+      "action": {
+        "type": "other"
+      },
+      "results": [
+        {
+          "url": "https://www.nj.gov/health/healthcarequality/health-care-professionals/njddcs/",
+          "title": "Department of Health | Health Care Quality Assessment | NJ Hospital Discharge Data Collection System (NJDDCS)",
+          "reference_id": "turn1view0"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/sidoverview.jsp?TB_iframe=true",
+          "title": "HCUP-US SID Overview",
+          "reference_id": "turn1view1"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/db/state/siddist/siddist_filecompnj.jsp",
+          "title": "SID File Composition - New Jersey",
+          "reference_id": "turn1view2"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/tech_assist/faq.jsp",
+          "title": "HCUP Frequently Asked Questions",
+          "reference_id": "turn1view3"
+        }
+      ]
+    }
+  ]
+}

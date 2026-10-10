@@ -2,7 +2,7 @@
 
 A first version of the whole-hospital knowledge system, grounded in New Brunswick, New Jersey. This repository contains the acquired data, provenance, ontology and reproducible research workflows. The database and live scenario engine are later work.
 
-**Snapshot: 2026-10-10. 19 datasets, 3,136 normalized records, 49 source files.** These are selected public sources and partial samples, not a complete hospital digital twin. Twenty records are limited, located factual paraphrases with no redistributed source document. Eight teaching profiles are explicitly synthetic.
+**Snapshot: 2026-10-10. 30 datasets, 4,780 normalized records, 70 source files.** These are selected public sources and partial samples, not a complete hospital digital twin. Thirty-five records are limited, located factual paraphrases with no redistributed source document. Eight teaching profiles are explicitly synthetic.
 
 ## Start here
 
@@ -14,6 +14,8 @@ A first version of the whole-hospital knowledge system, grounded in New Brunswic
 - [Prior project research](../research/README.md) and [whole-hospital rationale](../research/whole-hospital-data-blueprint.md).
 
 ## What is actually collected
+
+The first collection below contains 3,136 records. The second wave adds 1,644 records across 11 datasets; source/definition samples are not patients or calibrated simulation parameters.
 
 | Collection | Records | Scope |
 |---|---:|---|
@@ -27,6 +29,19 @@ A first version of the whole-hospital knowledge system, grounded in New Brunswic
 | CHNA, services, insurance and staffing documentation | 20 | Limited sourced facts; no actual staffing values |
 | NLM RxNorm identity lookups | 8 | Identifier matches, not medication instructions |
 | Rutgers VHS teaching profiles | 8 | CC-BY-4.0 synthetic profiles at pinned source revision |
+
+| Second-wave collection | Records | Scope |
+|---|---:|---|
+| NJ acute-care licensing inventory | 69 | Selected facility and reported bed fields; not available capacity |
+| NJ quarterly staffing | 19 | Q2 2026, unit ratios and ED/PACU daily summaries for two hospitals |
+| CMS annual cost reports | 2 | 2023 provider reports, beds/FTE/utilization/accounting fields |
+| Middlesex Medicare enrollment | 175 | Monthly and annual aggregates; not hospital payer mix |
+| Middlesex SVI | 193 | County plus 192 tracts; national rankings, ACS2018–2022 |
+| ICD-10-CM / ICD-10-PCS | 859 | FY2027 selected code descriptions; full source ZIPs retained |
+| RxNorm drug concepts | 312 | Five ingredient queries, terminology only |
+| Qualitative interaction dimensions | 15 | Limited AHRQ-derived topic paraphrases; no local behavioral observations |
+
+Read the [simulation usefulness assessment](docs/simulation-readiness.md), [input contract](specs/simulation-input-contract.json), and [27-job research campaign report](research/avenues-campaign.md). All 27 live-web GPT-6 Luna jobs completed, yielding76 candidate source entries (72 distinct URLs), separately from acquired datasets. Detailed new findings: [operations](research/wave2-operations.md), [clinical terminology](research/wave2-clinical.md), [community/enrollment](research/wave2-context.md), [qualitative dimensions](research/wave2-behavior.md).
 
 `raw/` retains permitted source bytes or explicitly marked minimized projections. `normalized/` contains source-shaped JSONL records. `catalog/` records scope, acquisition state, rights and limitations. `ontology/examples/` contains invented structural fixtures and is excluded from acquired-record totals. Source paths may be repository-relative (`data/...`) or workspace-relative; the resolver accepts both only within this workspace.
 
@@ -48,6 +63,6 @@ One actual GPT-6 Luna review completed in [the saved run](runs/20261010T150413Z-
 
 ## Boundaries and remaining evidence
 
-The ontology models the broad system but public evidence does not yet calibrate it. Unit-level staff, actual staffed capacity, arrival/transfer timestamps, service durations, operational pathways and dependencies, patient-level trajectories, and plan-specific coverage rules remain missing. Medicare rows do not establish all-payer case mix; community prevalence does not establish hospital patient prevalence. Published affiliation does not establish employment, privileges, schedules or availability. Insurance participation does not establish individual benefits. No real patient records or private clinical notes are included.
+The ontology models the broad system but public evidence does not yet calibrate it. Quarterly unit staffing summaries and annual provider FTE/bed reports are now acquired. Actual shift availability, staffed capacity over time, arrival/transfer timestamps, service durations, operational pathways and dependencies, patient-level trajectories, and plan-specific coverage rules remain missing. Medicare rows do not establish all-payer case mix; community prevalence does not establish hospital patient prevalence. Published affiliation does not establish employment, privileges, schedules or availability. Insurance participation does not establish individual benefits. No real patient records or private clinical notes are included.
 
 Preserve missing/suppressed source values. Promote a source record into a typed entity or simulation parameter only through an explicit mapping and review. Faculty approval applies to a specific case version; model output cannot grant it. See [AGENTS.md](AGENTS.md) for research and contribution rules.

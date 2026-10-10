@@ -96,6 +96,61 @@ documents:
     path: catalog/twinverse-patient-profiles.json
     role: acquired_source_manifest
     refresh: manual
+  - id: catalog:w2-behavior-safety-culture
+    type: local_file
+    path: catalog/w2-behavior-safety-culture.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:w2-behavior-team-observation
+    type: local_file
+    path: catalog/w2-behavior-team-observation.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:w2-clinical-icd10cm-dx-2027
+    type: local_file
+    path: catalog/w2-clinical-icd10cm-dx-2027.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:w2-clinical-icd10pcs-proc-2027
+    type: local_file
+    path: catalog/w2-clinical-icd10pcs-proc-2027.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:w2-clinical-rxnorm-forms
+    type: local_file
+    path: catalog/w2-clinical-rxnorm-forms.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:w2-context-cms-medicare-enrollment-middlesex
+    type: local_file
+    path: catalog/w2-context-cms-medicare-enrollment-middlesex.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:w2-context-svi2022-middlesex-county
+    type: local_file
+    path: catalog/w2-context-svi2022-middlesex-county.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:w2-context-svi2022-middlesex-tract
+    type: local_file
+    path: catalog/w2-context-svi2022-middlesex-tract.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:w2-ops-cms-cost-report-2023
+    type: local_file
+    path: catalog/w2-ops-cms-cost-report-2023.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:w2-ops-nj-licensed-facilities
+    type: local_file
+    path: catalog/w2-ops-nj-licensed-facilities.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:w2-ops-nj-staffing
+    type: local_file
+    path: catalog/w2-ops-nj-staffing.json
+    role: acquired_source_manifest
+    refresh: manual
 - path: topics/brief.md
   depends_on:
   - id: local:research-question

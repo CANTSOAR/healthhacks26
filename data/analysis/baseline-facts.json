@@ -1,0 +1,629 @@
+{
+  "scope": "Selected unchanged first-wave observations; exact record IDs resolve to sources/record-citations.jsonl",
+  "facts": [
+    {
+      "record_id": "local-cdc-places-new-brunswick-2025:3451210:2023:ACCESS2:CrdPrv",
+      "source_id": "local-cdc-places-new-brunswick-2025",
+      "data": {
+        "geography": {
+          "fips": "3451210",
+          "level": "place",
+          "name": "New Brunswick",
+          "state": "NJ"
+        },
+        "measure_id": "ACCESS2",
+        "measure": "Current lack of health insurance among adults aged 18-64 years",
+        "category": "Prevention",
+        "period": "2023",
+        "estimate": 24.7,
+        "unit": "%",
+        "estimate_type": "Crude prevalence",
+        "population_scope": "See full measure text; measures have different age/universe restrictions",
+        "uncertainty": {
+          "method": "95% model-based confidence interval",
+          "lower": 22.2,
+          "upper": 27.3,
+          "margin_of_error": null
+        },
+        "geographic_population_context": {
+          "total": 55266.0,
+          "adults": 43015.0,
+          "total_reference": "Total population of Census 2020 ",
+          "adult_reference": "Total population 18 and plus of Census 2020 ",
+          "warning": "Geographic context counts are not necessarily the measure denominator."
+        },
+        "source_fields": {
+          "year": "2023",
+          "stateabbr": "NJ",
+          "statedesc": "New Jersey",
+          "locationname": "New Brunswick",
+          "datasource": "BRFSS",
+          "category": "Prevention",
+          "measure": "Current lack of health insurance among adults aged 18-64 years",
+          "data_value_unit": "%",
+          "data_value_type": "Crude prevalence",
+          "data_value": "24.7",
+          "low_confidence_limit": "22.2",
+          "high_confidence_limit": "27.3",
+          "totalpop18plus": "43015",
+          "totalpopulation": "55266",
+          "geolocation": {
+            "type": "Point",
+            "coordinates": [
+              -74.4444144,
+              40.4866775
+            ]
+          },
+          "locationid": "3451210",
+          "categoryid": "PREVENT",
+          "measureid": "ACCESS2",
+          "datavaluetypeid": "CrdPrv",
+          "short_question_text": "Health Insurance"
+        },
+        "allowed_use": [
+          "community_context",
+          "hypothesis_generation"
+        ],
+        "not_validated_for": [
+          "hospital_case_mix",
+          "individual_patient_sampling",
+          "causal_policy_evaluation",
+          "local_queue_calibration"
+        ]
+      },
+      "interpretation_status": "source_observation_not_simulation_parameter"
+    },
+    {
+      "record_id": "local-cdc-places-new-brunswick-2025:3451210:2023:FOODINSECU:CrdPrv",
+      "source_id": "local-cdc-places-new-brunswick-2025",
+      "data": {
+        "geography": {
+          "fips": "3451210",
+          "level": "place",
+          "name": "New Brunswick",
+          "state": "NJ"
+        },
+        "measure_id": "FOODINSECU",
+        "measure": "Food insecurity in the past 12 months among adults",
+        "category": "Health-Related Social Needs",
+        "period": "2023",
+        "estimate": 33.9,
+        "unit": "%",
+        "estimate_type": "Crude prevalence",
+        "population_scope": "See full measure text; measures have different age/universe restrictions",
+        "uncertainty": {
+          "method": "95% model-based confidence interval",
+          "lower": 30.7,
+          "upper": 37.2,
+          "margin_of_error": null
+        },
+        "geographic_population_context": {
+          "total": 55266.0,
+          "adults": 43015.0,
+          "total_reference": "Total population of Census 2020 ",
+          "adult_reference": "Total population 18 and plus of Census 2020 ",
+          "warning": "Geographic context counts are not necessarily the measure denominator."
+        },
+        "source_fields": {
+          "year": "2023",
+          "stateabbr": "NJ",
+          "statedesc": "New Jersey",
+          "locationname": "New Brunswick",
+          "datasource": "BRFSS",
+          "category": "Health-Related Social Needs",
+          "measure": "Food insecurity in the past 12 months among adults",
+          "data_value_unit": "%",
+          "data_value_type": "Crude prevalence",
+          "data_value": "33.9",
+          "low_confidence_limit": "30.7",
+          "high_confidence_limit": "37.2",
+          "totalpop18plus": "43015",
+          "totalpopulation": "55266",
+          "geolocation": {
+            "type": "Point",
+            "coordinates": [
+              -74.4444144,
+              40.4866775
+            ]
+          },
+          "locationid": "3451210",
+          "categoryid": "SOCLNEED",
+          "measureid": "FOODINSECU",
+          "datavaluetypeid": "CrdPrv",
+          "short_question_text": "Food Insecurity"
+        },
+        "allowed_use": [
+          "community_context",
+          "hypothesis_generation"
+        ],
+        "not_validated_for": [
+          "hospital_case_mix",
+          "individual_patient_sampling",
+          "causal_policy_evaluation",
+          "local_queue_calibration"
+        ]
+      },
+      "interpretation_status": "source_observation_not_simulation_parameter"
+    },
+    {
+      "record_id": "local-cdc-places-new-brunswick-2025:3451210:2023:LACKTRPT:CrdPrv",
+      "source_id": "local-cdc-places-new-brunswick-2025",
+      "data": {
+        "geography": {
+          "fips": "3451210",
+          "level": "place",
+          "name": "New Brunswick",
+          "state": "NJ"
+        },
+        "measure_id": "LACKTRPT",
+        "measure": "Lack of reliable transportation in the past 12 months among adults",
+        "category": "Health-Related Social Needs",
+        "period": "2023",
+        "estimate": 17.3,
+        "unit": "%",
+        "estimate_type": "Crude prevalence",
+        "population_scope": "See full measure text; measures have different age/universe restrictions",
+        "uncertainty": {
+          "method": "95% model-based confidence interval",
+          "lower": 15.6,
+          "upper": 19.2,
+          "margin_of_error": null
+        },
+        "geographic_population_context": {
+          "total": 55266.0,
+          "adults": 43015.0,
+          "total_reference": "Total population of Census 2020 ",
+          "adult_reference": "Total population 18 and plus of Census 2020 ",
+          "warning": "Geographic context counts are not necessarily the measure denominator."
+        },
+        "source_fields": {
+          "year": "2023",
+          "stateabbr": "NJ",
+          "statedesc": "New Jersey",
+          "locationname": "New Brunswick",
+          "datasource": "BRFSS",
+          "category": "Health-Related Social Needs",
+          "measure": "Lack of reliable transportation in the past 12 months among adults",
+          "data_value_unit": "%",
+          "data_value_type": "Crude prevalence",
+          "data_value": "17.3",
+          "low_confidence_limit": "15.6",
+          "high_confidence_limit": "19.2",
+          "totalpop18plus": "43015",
+          "totalpopulation": "55266",
+          "geolocation": {
+            "type": "Point",
+            "coordinates": [
+              -74.4444144,
+              40.4866775
+            ]
+          },
+          "locationid": "3451210",
+          "categoryid": "SOCLNEED",
+          "measureid": "LACKTRPT",
+          "datavaluetypeid": "CrdPrv",
+          "short_question_text": "Transportation Barriers"
+        },
+        "allowed_use": [
+          "community_context",
+          "hypothesis_generation"
+        ],
+        "not_validated_for": [
+          "hospital_case_mix",
+          "individual_patient_sampling",
+          "causal_policy_evaluation",
+          "local_queue_calibration"
+        ]
+      },
+      "interpretation_status": "source_observation_not_simulation_parameter"
+    },
+    {
+      "record_id": "cms-hcahps:310038||||H_COMP_2_A_P|10/01/2024|09/30/2025",
+      "source_id": "cms-hcahps",
+      "data": {
+        "facility_id": "310038",
+        "facility_name": "ROBERT WOOD JOHNSON UNIVERSITY HOSPITAL",
+        "address": "ONE ROBERT WOOD JOHNSON PLACE",
+        "citytown": "NEW BRUNSWICK",
+        "state": "NJ",
+        "zip_code": "08901",
+        "countyparish": "MIDDLESEX",
+        "telephone_number": "(732) 828-3000",
+        "hcahps_measure_id": "H_COMP_2_A_P",
+        "hcahps_question": "Patients who reported that their doctors \"Always\" communicated well",
+        "hcahps_answer_description": "Doctors \"always\" communicated well",
+        "patient_survey_star_rating": "Not Applicable",
+        "patient_survey_star_rating_footnote": "",
+        "hcahps_answer_percent": "77",
+        "hcahps_answer_percent_footnote": "",
+        "hcahps_linear_mean_value": "Not Applicable",
+        "number_of_completed_surveys": "2393",
+        "number_of_completed_surveys_footnote": "",
+        "survey_response_rate_percent": "17",
+        "survey_response_rate_percent_footnote": "",
+        "start_date": "10/01/2024",
+        "end_date": "09/30/2025"
+      },
+      "interpretation_status": "source_observation_not_simulation_parameter"
+    },
+    {
+      "record_id": "cms-hcahps:310070||||H_COMP_2_A_P|10/01/2024|09/30/2025",
+      "source_id": "cms-hcahps",
+      "data": {
+        "facility_id": "310070",
+        "facility_name": "SAINT PETER'S UNIVERSITY HOSPITAL",
+        "address": "254 EASTON AVE",
+        "citytown": "NEW BRUNSWICK",
+        "state": "NJ",
+        "zip_code": "08901",
+        "countyparish": "MIDDLESEX",
+        "telephone_number": "(732) 745-8600",
+        "hcahps_measure_id": "H_COMP_2_A_P",
+        "hcahps_question": "Patients who reported that their doctors \"Always\" communicated well",
+        "hcahps_answer_description": "Doctors \"always\" communicated well",
+        "patient_survey_star_rating": "Not Applicable",
+        "patient_survey_star_rating_footnote": "",
+        "hcahps_answer_percent": "76",
+        "hcahps_answer_percent_footnote": "",
+        "hcahps_linear_mean_value": "Not Applicable",
+        "number_of_completed_surveys": "339",
+        "number_of_completed_surveys_footnote": "",
+        "survey_response_rate_percent": "15",
+        "survey_response_rate_percent_footnote": "",
+        "start_date": "10/01/2024",
+        "end_date": "09/30/2025"
+      },
+      "interpretation_status": "source_observation_not_simulation_parameter"
+    },
+    {
+      "record_id": "cms-timely-effective-care:310038|||OP_18b||10/01/2024|09/30/2025",
+      "source_id": "cms-timely-effective-care",
+      "data": {
+        "facility_id": "310038",
+        "facility_name": "ROBERT WOOD JOHNSON UNIVERSITY HOSPITAL",
+        "address": "ONE ROBERT WOOD JOHNSON PLACE",
+        "citytown": "NEW BRUNSWICK",
+        "state": "NJ",
+        "zip_code": "08901",
+        "countyparish": "MIDDLESEX",
+        "telephone_number": "(732) 828-3000",
+        "_condition": "Emergency Department",
+        "measure_id": "OP_18b",
+        "measure_name": "Average (median) time patients spent in the emergency department before leaving from the visit, excluding patients transferred to another facility or psychiatric care/mental health patients. A lower number of minutes is better",
+        "score": "206",
+        "sample": "408",
+        "footnote": "",
+        "start_date": "10/01/2024",
+        "end_date": "09/30/2025"
+      },
+      "interpretation_status": "source_observation_not_simulation_parameter"
+    },
+    {
+      "record_id": "cms-timely-effective-care:310070|||OP_18b||10/01/2024|09/30/2025",
+      "source_id": "cms-timely-effective-care",
+      "data": {
+        "facility_id": "310070",
+        "facility_name": "SAINT PETER'S UNIVERSITY HOSPITAL",
+        "address": "254 EASTON AVE",
+        "citytown": "NEW BRUNSWICK",
+        "state": "NJ",
+        "zip_code": "08901",
+        "countyparish": "MIDDLESEX",
+        "telephone_number": "(732) 745-8600",
+        "_condition": "Emergency Department",
+        "measure_id": "OP_18b",
+        "measure_name": "Average (median) time patients spent in the emergency department before leaving from the visit, excluding patients transferred to another facility or psychiatric care/mental health patients. A lower number of minutes is better",
+        "score": "208",
+        "sample": "409",
+        "footnote": "",
+        "start_date": "10/01/2024",
+        "end_date": "09/30/2025"
+      },
+      "interpretation_status": "source_observation_not_simulation_parameter"
+    },
+    {
+      "record_id": "cms-inpatient-provider-service-2024:310038|2024|291",
+      "source_id": "cms-inpatient-provider-service-2024",
+      "data": {
+        "Rndrng_Prvdr_CCN": "310038",
+        "Rndrng_Prvdr_Org_Name": "Robert Wood Johnson University Hospital",
+        "Rndrng_Prvdr_City": "New Brunswick",
+        "Rndrng_Prvdr_St": "One Robert Wood Johnson Place",
+        "Rndrng_Prvdr_State_FIPS": "34",
+        "Rndrng_Prvdr_Zip5": "08901",
+        "Rndrng_Prvdr_State_Abrvtn": "NJ",
+        "Rndrng_Prvdr_RUCA": "1",
+        "Rndrng_Prvdr_RUCA_Desc": "Metropolitan area core: primary flow within an urbanized area of 50,000 and greater",
+        "DRG_Cd": "291",
+        "DRG_Desc": "HEART FAILURE AND SHOCK WITH MCC",
+        "Tot_Dschrgs": "278",
+        "Avg_Submtd_Cvrd_Chrg": "134839.60791",
+        "Avg_Tot_Pymt_Amt": "16395.291367",
+        "Avg_Mdcr_Pymt_Amt": "12225.773381"
+      },
+      "interpretation_status": "source_observation_not_simulation_parameter"
+    },
+    {
+      "record_id": "cms-inpatient-provider-service-2024:310038|2024|871",
+      "source_id": "cms-inpatient-provider-service-2024",
+      "data": {
+        "Rndrng_Prvdr_CCN": "310038",
+        "Rndrng_Prvdr_Org_Name": "Robert Wood Johnson University Hospital",
+        "Rndrng_Prvdr_City": "New Brunswick",
+        "Rndrng_Prvdr_St": "One Robert Wood Johnson Place",
+        "Rndrng_Prvdr_State_FIPS": "34",
+        "Rndrng_Prvdr_Zip5": "08901",
+        "Rndrng_Prvdr_State_Abrvtn": "NJ",
+        "Rndrng_Prvdr_RUCA": "1",
+        "Rndrng_Prvdr_RUCA_Desc": "Metropolitan area core: primary flow within an urbanized area of 50,000 and greater",
+        "DRG_Cd": "871",
+        "DRG_Desc": "SEPTICEMIA OR SEVERE SEPSIS WITHOUT MV >96 HOURS WITH MCC",
+        "Tot_Dschrgs": "588",
+        "Avg_Submtd_Cvrd_Chrg": "186460.14626",
+        "Avg_Tot_Pymt_Amt": "24890.408163",
+        "Avg_Mdcr_Pymt_Amt": "19106.277211"
+      },
+      "interpretation_status": "source_observation_not_simulation_parameter"
+    },
+    {
+      "record_id": "cms-inpatient-provider-service-2024:310070|2024|291",
+      "source_id": "cms-inpatient-provider-service-2024",
+      "data": {
+        "Rndrng_Prvdr_CCN": "310070",
+        "Rndrng_Prvdr_Org_Name": "Saint Peter's University Hospital",
+        "Rndrng_Prvdr_City": "New Brunswick",
+        "Rndrng_Prvdr_St": "254 Easton Ave",
+        "Rndrng_Prvdr_State_FIPS": "34",
+        "Rndrng_Prvdr_Zip5": "08901",
+        "Rndrng_Prvdr_State_Abrvtn": "NJ",
+        "Rndrng_Prvdr_RUCA": "1",
+        "Rndrng_Prvdr_RUCA_Desc": "Metropolitan area core: primary flow within an urbanized area of 50,000 and greater",
+        "DRG_Cd": "291",
+        "DRG_Desc": "HEART FAILURE AND SHOCK WITH MCC",
+        "Tot_Dschrgs": "121",
+        "Avg_Submtd_Cvrd_Chrg": "188718.65289",
+        "Avg_Tot_Pymt_Amt": "15106.545455",
+        "Avg_Mdcr_Pymt_Amt": "12568.793388"
+      },
+      "interpretation_status": "source_observation_not_simulation_parameter"
+    },
+    {
+      "record_id": "cms-inpatient-provider-service-2024:310070|2024|871",
+      "source_id": "cms-inpatient-provider-service-2024",
+      "data": {
+        "Rndrng_Prvdr_CCN": "310070",
+        "Rndrng_Prvdr_Org_Name": "Saint Peter's University Hospital",
+        "Rndrng_Prvdr_City": "New Brunswick",
+        "Rndrng_Prvdr_St": "254 Easton Ave",
+        "Rndrng_Prvdr_State_FIPS": "34",
+        "Rndrng_Prvdr_Zip5": "08901",
+        "Rndrng_Prvdr_State_Abrvtn": "NJ",
+        "Rndrng_Prvdr_RUCA": "1",
+        "Rndrng_Prvdr_RUCA_Desc": "Metropolitan area core: primary flow within an urbanized area of 50,000 and greater",
+        "DRG_Cd": "871",
+        "DRG_Desc": "SEPTICEMIA OR SEVERE SEPSIS WITHOUT MV >96 HOURS WITH MCC",
+        "Tot_Dschrgs": "164",
+        "Avg_Submtd_Cvrd_Chrg": "214317.84146",
+        "Avg_Tot_Pymt_Amt": "21889.02439",
+        "Avg_Mdcr_Pymt_Amt": "19103.640244"
+      },
+      "interpretation_status": "source_observation_not_simulation_parameter"
+    },
+    {
+      "record_id": "local-cdc-places-middlesex-2025:34023:2023:ACCESS2:CrdPrv",
+      "source_id": "local-cdc-places-middlesex-2025",
+      "data": {
+        "geography": {
+          "fips": "34023",
+          "level": "county",
+          "name": "Middlesex",
+          "state": "NJ"
+        },
+        "measure_id": "ACCESS2",
+        "measure": "Current lack of health insurance among adults aged 18-64 years",
+        "category": "Prevention",
+        "period": "2023",
+        "estimate": 10.8,
+        "unit": "%",
+        "estimate_type": "Crude prevalence",
+        "population_scope": "See full measure text; measures have different age/universe restrictions",
+        "uncertainty": {
+          "method": "95% model-based confidence interval",
+          "lower": 8.7,
+          "upper": 13.2,
+          "margin_of_error": null
+        },
+        "geographic_population_context": {
+          "total": 863623.0,
+          "adults": 680119.0,
+          "total_reference": "Total population of census 2023 estimates",
+          "adult_reference": "Total population 18 and plus of census 2023 estimates",
+          "warning": "Geographic context counts are not necessarily the measure denominator."
+        },
+        "source_fields": {
+          "year": "2023",
+          "stateabbr": "NJ",
+          "statedesc": "New Jersey",
+          "locationname": "Middlesex",
+          "datasource": "BRFSS",
+          "category": "Prevention",
+          "measure": "Current lack of health insurance among adults aged 18-64 years",
+          "data_value_unit": "%",
+          "data_value_type": "Crude prevalence",
+          "data_value": "10.8",
+          "low_confidence_limit": "8.7",
+          "high_confidence_limit": "13.2",
+          "totalpopulation": "863623",
+          "totalpop18plus": "680119",
+          "locationid": "34023",
+          "categoryid": "PREVENT",
+          "measureid": "ACCESS2",
+          "datavaluetypeid": "CrdPrv",
+          "short_question_text": "Health Insurance",
+          "geolocation": {
+            "type": "Point",
+            "coordinates": [
+              -74.410830751515,
+              40.4395642172698
+            ]
+          }
+        },
+        "allowed_use": [
+          "community_context",
+          "hypothesis_generation"
+        ],
+        "not_validated_for": [
+          "hospital_case_mix",
+          "individual_patient_sampling",
+          "causal_policy_evaluation",
+          "local_queue_calibration"
+        ]
+      },
+      "interpretation_status": "source_observation_not_simulation_parameter"
+    },
+    {
+      "record_id": "local-cdc-places-middlesex-2025:34023:2023:FOODINSECU:CrdPrv",
+      "source_id": "local-cdc-places-middlesex-2025",
+      "data": {
+        "geography": {
+          "fips": "34023",
+          "level": "county",
+          "name": "Middlesex",
+          "state": "NJ"
+        },
+        "measure_id": "FOODINSECU",
+        "measure": "Food insecurity in the past 12 months among adults",
+        "category": "Health-Related Social Needs",
+        "period": "2023",
+        "estimate": 13.7,
+        "unit": "%",
+        "estimate_type": "Crude prevalence",
+        "population_scope": "See full measure text; measures have different age/universe restrictions",
+        "uncertainty": {
+          "method": "95% model-based confidence interval",
+          "lower": 11.2,
+          "upper": 16.5,
+          "margin_of_error": null
+        },
+        "geographic_population_context": {
+          "total": 863623.0,
+          "adults": 680119.0,
+          "total_reference": "Total population of census 2023 estimates",
+          "adult_reference": "Total population 18 and plus of census 2023 estimates",
+          "warning": "Geographic context counts are not necessarily the measure denominator."
+        },
+        "source_fields": {
+          "year": "2023",
+          "stateabbr": "NJ",
+          "statedesc": "New Jersey",
+          "locationname": "Middlesex",
+          "datasource": "BRFSS",
+          "category": "Health-Related Social Needs",
+          "measure": "Food insecurity in the past 12 months among adults",
+          "data_value_unit": "%",
+          "data_value_type": "Crude prevalence",
+          "data_value": "13.7",
+          "low_confidence_limit": "11.2",
+          "high_confidence_limit": "16.5",
+          "totalpopulation": "863623",
+          "totalpop18plus": "680119",
+          "locationid": "34023",
+          "categoryid": "SOCLNEED",
+          "measureid": "FOODINSECU",
+          "datavaluetypeid": "CrdPrv",
+          "short_question_text": "Food Insecurity",
+          "geolocation": {
+            "type": "Point",
+            "coordinates": [
+              -74.410830751515,
+              40.4395642172698
+            ]
+          }
+        },
+        "allowed_use": [
+          "community_context",
+          "hypothesis_generation"
+        ],
+        "not_validated_for": [
+          "hospital_case_mix",
+          "individual_patient_sampling",
+          "causal_policy_evaluation",
+          "local_queue_calibration"
+        ]
+      },
+      "interpretation_status": "source_observation_not_simulation_parameter"
+    },
+    {
+      "record_id": "local-cdc-places-middlesex-2025:34023:2023:LACKTRPT:CrdPrv",
+      "source_id": "local-cdc-places-middlesex-2025",
+      "data": {
+        "geography": {
+          "fips": "34023",
+          "level": "county",
+          "name": "Middlesex",
+          "state": "NJ"
+        },
+        "measure_id": "LACKTRPT",
+        "measure": "Lack of reliable transportation in the past 12 months among adults",
+        "category": "Health-Related Social Needs",
+        "period": "2023",
+        "estimate": 7.0,
+        "unit": "%",
+        "estimate_type": "Crude prevalence",
+        "population_scope": "See full measure text; measures have different age/universe restrictions",
+        "uncertainty": {
+          "method": "95% model-based confidence interval",
+          "lower": 5.9,
+          "upper": 8.1,
+          "margin_of_error": null
+        },
+        "geographic_population_context": {
+          "total": 863623.0,
+          "adults": 680119.0,
+          "total_reference": "Total population of census 2023 estimates",
+          "adult_reference": "Total population 18 and plus of census 2023 estimates",
+          "warning": "Geographic context counts are not necessarily the measure denominator."
+        },
+        "source_fields": {
+          "year": "2023",
+          "stateabbr": "NJ",
+          "statedesc": "New Jersey",
+          "locationname": "Middlesex",
+          "datasource": "BRFSS",
+          "category": "Health-Related Social Needs",
+          "measure": "Lack of reliable transportation in the past 12 months among adults",
+          "data_value_unit": "%",
+          "data_value_type": "Crude prevalence",
+          "data_value": "7.0",
+          "low_confidence_limit": "5.9",
+          "high_confidence_limit": "8.1",
+          "totalpopulation": "863623",
+          "totalpop18plus": "680119",
+          "locationid": "34023",
+          "categoryid": "SOCLNEED",
+          "measureid": "LACKTRPT",
+          "datavaluetypeid": "CrdPrv",
+          "short_question_text": "Transportation Barriers",
+          "geolocation": {
+            "type": "Point",
+            "coordinates": [
+              -74.410830751515,
+              40.4395642172698
+            ]
+          }
+        },
+        "allowed_use": [
+          "community_context",
+          "hypothesis_generation"
+        ],
+        "not_validated_for": [
+          "hospital_case_mix",
+          "individual_patient_sampling",
+          "causal_policy_evaluation",
+          "local_queue_calibration"
+        ]
+      },
+      "interpretation_status": "source_observation_not_simulation_parameter"
+    }
+  ]
+}

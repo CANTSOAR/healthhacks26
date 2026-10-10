@@ -1,0 +1,14 @@
+{
+  "domain_id": "discharge-community",
+  "model": "gpt-6-luna",
+  "started_at": "2026-10-10T15:19:43.494746+00:00",
+  "status": "completed",
+  "candidate_review_status": "unreviewed",
+  "prompt_sha256": "d7f4d06cacf2641bcae84952d60be7daf889e5e63dd13bffd0141e2b98c90114",
+  "timeout_seconds": 180,
+  "exit_code": 0,
+  "source_candidates": 3,
+  "validation": "schema only; not source entailment or acquired data",
+  "finished_at": "2026-10-10T15:20:09.736861+00:00",
+  "duration_seconds": 26.24
+}

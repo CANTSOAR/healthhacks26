@@ -1,0 +1,966 @@
+{
+  "model": "gpt-6-luna",
+  "started_at": "2026-10-10T15:17:04.967902+00:00",
+  "workers": 3,
+  "timeout_per_job_seconds": 180,
+  "jobs": [
+    {
+      "domain_id": "geography-demographics",
+      "title": "Geography, demographics and catchment",
+      "priority": "P0",
+      "status": "partial",
+      "acquired_source_ids": [
+        "local-cdc-acs-middlesex-2017-2021",
+        "local-cdc-acs-new-brunswick-2017-2021"
+      ],
+      "operational_need": "Define population denominators and distinguish hospital users from residents.",
+      "required_grain": "Place/county/tract/ZCTA by demographic variable and estimate period",
+      "units": [
+        "persons",
+        "households",
+        "percent",
+        "margin_of_error"
+      ],
+      "time_requirements": "Retain ACS multiyear windows and geographic vintage.",
+      "official_source_urls": [
+        "https://www.census.gov/data/developers/data-sets/acs-5year.html"
+      ],
+      "next_bounded_collection_task": {
+        "task": "Acquire one latest available ACS New Brunswick/Middlesex table bundle for age, language, insurance, disability, commuting and housing with margins of error.",
+        "acceptance_criteria": "FIPS/vintage explicit; counts and denominators distinct; direct ACS failure recorded if still blocked; no catchment inferred from city boundary.",
+        "max_scope": "One named geography, facility, workflow or source slice; record precise bounds before collection.",
+        "owner_role": "data_researcher",
+        "execution_mode": "public_read_only_research"
+      },
+      "access": "public_sources_first",
+      "restrictions": "Use public aggregates and permitted factual extracts; preserve source attribution and redistribution terms.",
+      "review_required": [
+        "source_scope_and_rights",
+        "domain_owner_applicability"
+      ],
+      "simulation_readiness": "not_calibrated"
+    },
+    {
+      "domain_id": "population-health",
+      "title": "Population health and community risks",
+      "priority": "P0",
+      "status": "partial",
+      "acquired_source_ids": [
+        "local-cdc-places-middlesex-2025",
+        "local-cdc-places-new-brunswick-2025"
+      ],
+      "operational_need": "Provide population context for scenario variation and access research.",
+      "required_grain": "Geography × measure × population × estimate year",
+      "units": [
+        "percent",
+        "confidence_interval"
+      ],
+      "time_requirements": "Separate release year, source survey years and modeled estimate year.",
+      "official_source_urls": [
+        "https://www.cdc.gov/places/about/",
+        "https://www.cdc.gov/places/methodology/index.html"
+      ],
+      "next_bounded_collection_task": {
+        "task": "Review all acquired PLACES measures and extract measure definitions, uncertainty and valid comparison rules for ten relevant measures.",
+        "acceptance_criteria": "Modeled estimates labeled; confidence intervals retained; no conversion to hospital arrival mix.",
+        "max_scope": "One named geography, facility, workflow or source slice; record precise bounds before collection.",
+        "owner_role": "data_researcher",
+        "execution_mode": "public_read_only_research"
+      },
+      "access": "public_sources_first",
+      "restrictions": "Use public aggregates and permitted factual extracts; preserve source attribution and redistribution terms.",
+      "review_required": [
+        "source_scope_and_rights",
+        "domain_owner_applicability"
+      ],
+      "simulation_readiness": "not_calibrated"
+    },
+    {
+      "domain_id": "facilities-topology",
+      "title": "Hospitals, campuses, wings and units",
+      "priority": "P0",
+      "status": "partial",
+      "acquired_source_ids": [
+        "cms-hospital-general-information",
+        "local-rwjuh-services"
+      ],
+      "operational_need": "Locate care capabilities and resource dependencies across the regional network.",
+      "required_grain": "Organization/campus/building/unit/room/bed with separate identifiers",
+      "units": [
+        "licensed_beds",
+        "physical_beds",
+        "staffed_beds",
+        "meters"
+      ],
+      "time_requirements": "Capture map/service publication dates and effective opening/closure dates.",
+      "official_source_urls": [
+        "https://www.nj.gov/health/healthfacilities/findhospital.shtml",
+        "https://www.rwjbh.org/documents/rwj-new-brunswick/for-physicians/physician-relations/Hospital-Map-NB.pdf"
+      ],
+      "next_bounded_collection_task": {
+        "task": "Reconcile three CMS facilities to NJ licensed facilities; extract public service/unit names and historical map date for RWJUH and Saint Peter's.",
+        "acceptance_criteria": "No floor/bed count invented; distinguish organizational services from locations; unresolved campus crosswalks retained.",
+        "max_scope": "One named geography, facility, workflow or source slice; record precise bounds before collection.",
+        "owner_role": "data_researcher",
+        "execution_mode": "public_read_only_research"
+      },
+      "access": "public_sources_first",
+      "restrictions": "Use public aggregates and permitted factual extracts; preserve source attribution and redistribution terms.",
+      "review_required": [
+        "source_scope_and_rights",
+        "domain_owner_applicability"
+      ],
+      "simulation_readiness": "not_calibrated"
+    },
+    {
+      "domain_id": "practitioner-identity",
+      "title": "Practitioners, specialty and affiliations",
+      "priority": "P0",
+      "status": "partial",
+      "acquired_source_ids": [
+        "nppes-new-brunswick-practitioners",
+        "cms-facility-affiliations"
+      ],
+      "operational_need": "Resolve public professional identity and documented affiliation separately.",
+      "required_grain": "NPI × CCN affiliation or NPI × taxonomy assertion",
+      "units": [
+        "practitioners",
+        "affiliation_records"
+      ],
+      "time_requirements": "Preserve registry update date and affiliation release date.",
+      "official_source_urls": [
+        "https://npiregistry.cms.hhs.gov/api-page",
+        "https://data.cms.gov/provider-data/dataset/27ea-46a8"
+      ],
+      "next_bounded_collection_task": {
+        "task": "Look up a deterministic first 100 unique affiliated NPIs, retain minimized professional identity/taxonomy fields and report exact join coverage.",
+        "acceptance_criteria": "Join on NPI/CCN only; no home/contact detail; registry and affiliations do not establish privileges or shifts.",
+        "max_scope": "One named geography, facility, workflow or source slice; record precise bounds before collection.",
+        "owner_role": "data_researcher",
+        "execution_mode": "public_read_only_research"
+      },
+      "access": "public_sources_first",
+      "restrictions": "Use public aggregates and permitted factual extracts; preserve source attribution and redistribution terms.",
+      "review_required": [
+        "source_scope_and_rights",
+        "domain_owner_applicability"
+      ],
+      "simulation_readiness": "not_calibrated"
+    },
+    {
+      "domain_id": "staffing-availability",
+      "title": "Staffing, shifts and skill coverage",
+      "priority": "P0",
+      "status": "partial",
+      "acquired_source_ids": [
+        "local-nj-staffing-discovery"
+      ],
+      "operational_need": "Constrain unit capacity and care-task availability.",
+      "required_grain": "Facility/unit/role/shift or quarterly reported staffing stratum",
+      "units": [
+        "staff_hours",
+        "FTE",
+        "patients_per_nurse",
+        "care_minutes"
+      ],
+      "time_requirements": "Quarter/fiscal year for public reports; shift/event time for operational data.",
+      "official_source_urls": [
+        "https://www.nj.gov/health/healthcarequality/health-care-professionals/nurse-to-patient-staffing/",
+        "https://healthapps.nj.gov/nursestaffing/quarterly.aspx"
+      ],
+      "next_bounded_collection_task": {
+        "task": "Acquire one reported quarter of staffing values for the two hospitals and capture unit definitions and denominators.",
+        "acceptance_criteria": "Actual values distinguished from documentation; missing professions explicit; report ratios not converted into current roster.",
+        "max_scope": "One named geography, facility, workflow or source slice; record precise bounds before collection.",
+        "owner_role": "data_researcher",
+        "execution_mode": "public_research_then_authorized_institutional_collection"
+      },
+      "access": "public_and_institutional",
+      "restrictions": "Public staffing aggregates first; actual schedules/availability need authorized institutional data. No individual performance profiles.",
+      "review_required": [
+        "source_scope_and_rights",
+        "domain_owner_applicability"
+      ],
+      "simulation_readiness": "not_calibrated"
+    },
+    {
+      "domain_id": "authority-credentials",
+      "title": "Authority, privileges and supervision",
+      "priority": "P0",
+      "status": "missing",
+      "acquired_source_ids": [],
+      "operational_need": "Determine which role may authorize or perform each action.",
+      "required_grain": "Role × action × setting × supervision requirement",
+      "units": [
+        "boolean_eligibility",
+        "supervisor_count"
+      ],
+      "time_requirements": "Versioned policy valid dates and credential expiry.",
+      "official_source_urls": [
+        "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/"
+      ],
+      "next_bounded_collection_task": {
+        "task": "Draft an evidence-linked authority matrix for one ED-to-admission workflow using public policies, marking local unresolved rules for faculty review.",
+        "acceptance_criteria": "Every rule has source or assumption label; no privileges inferred from NPI.",
+        "max_scope": "One named geography, facility, workflow or source slice; record precise bounds before collection.",
+        "owner_role": "data_researcher",
+        "execution_mode": "public_research_then_authorized_institutional_collection"
+      },
+      "access": "public_and_institutional",
+      "restrictions": "Local privilege rosters and credentialing details require authorized hospital access; public role descriptions alone are insufficient.",
+      "review_required": [
+        "source_scope_and_rights",
+        "domain_owner_applicability"
+      ],
+      "simulation_readiness": "not_calibrated"
+    },
+    {
+      "domain_id": "demand-case-mix",
+      "title": "Patient demand, diagnoses and case mix",
+      "priority": "P0",
+      "status": "partial",
+      "acquired_source_ids": [
+        "cms-inpatient-provider-service-2024"
+      ],
+      "operational_need": "Select realistic case families and quantify bounded demand.",
+      "required_grain": "Facility × setting × period × diagnosis/DRG × acuity/arrival route where available",
+      "units": [
+        "encounters",
+        "discharges",
+        "arrivals_per_hour"
+      ],
+      "time_requirements": "Annual DRGs separate from hour/day arrival distributions.",
+      "official_source_urls": [
+        "https://www.nj.gov/health/healthcarequality/health-care-professionals/njddcs/",
+        "https://hcup-us.ahrq.gov/dataquerytools.jsp",
+        "https://data.cms.gov/provider-summary-by-type-of-service/medicare-inpatient-hospitals/medicare-inpatient-hospitals-by-provider-and-service"
+      ],
+      "next_bounded_collection_task": {
+        "task": "Acquire one NJ public all-payer aggregate table with hospital/resident geography clearly stated; compare coverage against acquired Medicare DRGs.",
+        "acceptance_criteria": "Suppression and payer coverage explicit; complaint, diagnosis and DRG separate; do not call Medicare-only frequencies all-payer.",
+        "max_scope": "One named geography, facility, workflow or source slice; record precise bounds before collection.",
+        "owner_role": "data_researcher",
+        "execution_mode": "public_research_then_authorized_institutional_collection"
+      },
+      "access": "public_and_institutional",
+      "restrictions": "Public aggregate access first. Detailed NJDDCS/HCUP/iPHD records may require agreements, fees or IRB; discover access without accepting terms.",
+      "review_required": [
+        "source_scope_and_rights",
+        "domain_owner_applicability"
+      ],
+      "simulation_readiness": "not_calibrated"
+    },
+    {
+      "domain_id": "pathways-procedures",
+      "title": "Clinical pathways and procedure definitions",
+      "priority": "P0",
+      "status": "missing",
+      "acquired_source_ids": [],
+      "operational_need": "Connect decisions and actions to prerequisites, recovery and resources.",
+      "required_grain": "Procedure/pathway version × indication × stage × role/resource requirement",
+      "units": [
+        "minutes",
+        "required_staff",
+        "resource_quantity"
+      ],
+      "time_requirements": "Versioned clinical references and case-specific timing assumptions.",
+      "official_source_urls": [
+        "https://www.cms.gov/medicare/payment/prospective-payment-systems/acute-inpatient-pps/ms-drg-classifications-and-software"
+      ],
+      "next_bounded_collection_task": {
+        "task": "Create two reviewed-pathway candidate dossiers for case families present in the acquired DRG data; separate sourced clinical rules from operational assumptions.",
+        "acceptance_criteria": "Clinical reviewer named as pending until reviewed; no DRG-to-procedure equivalence; variants/contraindications/consent captured.",
+        "max_scope": "One named geography, facility, workflow or source slice; record precise bounds before collection.",
+        "owner_role": "data_researcher",
+        "execution_mode": "public_read_only_research"
+      },
+      "access": "public_sources_first",
+      "restrictions": "Use public aggregates and permitted factual extracts; preserve source attribution and redistribution terms.",
+      "review_required": [
+        "source_scope_and_rights",
+        "domain_owner_applicability"
+      ],
+      "simulation_readiness": "not_calibrated"
+    },
+    {
+      "domain_id": "terminology-identifiers",
+      "title": "Clinical terminology and identifier crosswalks",
+      "priority": "P0",
+      "status": "partial",
+      "acquired_source_ids": [
+        "nlm-rxnorm-seed-terms"
+      ],
+      "operational_need": "Give concepts stable versioned identities without conflating code systems.",
+      "required_grain": "Code system × code × release × mapping assertion",
+      "units": [
+        "code",
+        "mapping_confidence"
+      ],
+      "time_requirements": "Record source vocabulary version and mapping valid dates.",
+      "official_source_urls": [
+        "https://www.nlm.nih.gov/research/umls/rxnorm/index.html",
+        "https://loinc.org/",
+        "https://www.cms.gov/medicare/payment/prospective-payment-systems/acute-inpatient-pps/ms-drg-classifications-and-software",
+        "https://www.ama-assn.org/amaone/cpt-current-procedural-terminology"
+      ],
+      "next_bounded_collection_task": {
+        "task": "Extend the eight RxNorm seed concepts to medication names actually needed by two draft cases; research a small permitted lab-code set and CCN/NPI/FIPS crosswalk policy.",
+        "acceptance_criteria": "Exact/approximate matches distinguished; no unrestricted CPT codebook redistribution assumed; mappings retain rights and version.",
+        "max_scope": "One named geography, facility, workflow or source slice; record precise bounds before collection.",
+        "owner_role": "data_researcher",
+        "execution_mode": "public_read_only_research"
+      },
+      "access": "public_sources_first",
+      "restrictions": "Use public aggregates and permitted factual extracts; preserve source attribution and redistribution terms.",
+      "review_required": [
+        "source_scope_and_rights",
+        "domain_owner_applicability"
+      ],
+      "simulation_readiness": "not_calibrated"
+    },
+    {
+      "domain_id": "diagnostics-consults",
+      "title": "Laboratory, imaging and consult services",
+      "priority": "P0",
+      "status": "missing",
+      "acquired_source_ids": [],
+      "operational_need": "Model orders, queues, preparation, results and review delays.",
+      "required_grain": "Order/service stage × urgency × equipment/role × time",
+      "units": [
+        "minutes",
+        "queue_length",
+        "orders",
+        "availability_fraction"
+      ],
+      "time_requirements": "Separate order-to-start, service, result and acknowledgement times; record censoring.",
+      "official_source_urls": [
+        "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/"
+      ],
+      "next_bounded_collection_task": {
+        "task": "Inventory public diagnostic and consult capabilities for one facility; draft event/interval dictionary for one lab and one imaging workflow.",
+        "acceptance_criteria": "Capabilities sourced; operational timings left unknown or explicit assumptions; no fabricated local turnaround.",
+        "max_scope": "One named geography, facility, workflow or source slice; record precise bounds before collection.",
+        "owner_role": "data_researcher",
+        "execution_mode": "public_research_then_authorized_institutional_collection"
+      },
+      "access": "public_and_institutional",
+      "restrictions": "Real turnaround distributions and order events need authorized institutional aggregates or event extracts.",
+      "review_required": [
+        "source_scope_and_rights",
+        "domain_owner_applicability"
+      ],
+      "simulation_readiness": "not_calibrated"
+    },
+    {
+      "domain_id": "flow-capacity",
+      "title": "Patient flow, beds, boarding and capacity",
+      "priority": "P0",
+      "status": "partial",
+      "acquired_source_ids": [
+        "cms-timely-effective-care"
+      ],
+      "operational_need": "Couple arrivals, queues, admission, transfer and bed readiness.",
+      "required_grain": "Unit/resource/event with intervals conditional on acuity and disposition",
+      "units": [
+        "minutes",
+        "beds",
+        "occupancy_percent",
+        "patients"
+      ],
+      "time_requirements": "Hourly census and event times preferred; published aggregate periods preserved.",
+      "official_source_urls": [
+        "https://data.cms.gov/provider-data/dataset/yv7e-xc69",
+        "https://www.cms.gov/data-research/statistics-trends-and-reports/cost-reports"
+      ],
+      "next_bounded_collection_task": {
+        "task": "Document acquired ED measure definitions; construct an aggregate request specification for one ED-to-bed flow with admission decision, departure and bed-cleaning intervals.",
+        "acceptance_criteria": "Median ED duration not used as service-time distribution; staffed/physical/licensed beds separate; censoring specified.",
+        "max_scope": "One named geography, facility, workflow or source slice; record precise bounds before collection.",
+        "owner_role": "data_researcher",
+        "execution_mode": "public_research_then_authorized_institutional_collection"
+      },
+      "access": "public_and_institutional",
+      "restrictions": "No public live census assumed; institution-specific patient-flow extracts require an approved processing arrangement.",
+      "review_required": [
+        "source_scope_and_rights",
+        "domain_owner_applicability"
+      ],
+      "simulation_readiness": "not_calibrated"
+    },
+    {
+      "domain_id": "nursing-allied-health",
+      "title": "Nursing, allied health and interpreter tasks",
+      "priority": "P1",
+      "status": "missing",
+      "acquired_source_ids": [],
+      "operational_need": "Represent care minutes, communication support, therapy and coordination bottlenecks.",
+      "required_grain": "Task × skill × patient need × shift/resource",
+      "units": [
+        "minutes",
+        "tasks",
+        "required_staff"
+      ],
+      "time_requirements": "Task duration and availability vary by shift and case context.",
+      "official_source_urls": [
+        "https://www.nj.gov/health/healthcarequality/health-care-professionals/nurse-to-patient-staffing/"
+      ],
+      "next_bounded_collection_task": {
+        "task": "Create one reviewed task-dependency inventory spanning nursing, interpreter, social work and transport for an ED journey.",
+        "acceptance_criteria": "Roles and prerequisites explicit; public staffing numbers do not supply task durations; interview requirements marked pending.",
+        "max_scope": "One named geography, facility, workflow or source slice; record precise bounds before collection.",
+        "owner_role": "data_researcher",
+        "execution_mode": "public_research_then_authorized_institutional_collection"
+      },
+      "access": "public_and_institutional",
+      "restrictions": "Use public aggregates and permitted factual extracts; preserve source attribution and redistribution terms.",
+      "review_required": [
+        "source_scope_and_rights",
+        "domain_owner_applicability"
+      ],
+      "simulation_readiness": "not_calibrated"
+    },
+    {
+      "domain_id": "pharmacy-medication",
+      "title": "Pharmacy, medication and formulary",
+      "priority": "P1",
+      "status": "partial",
+      "acquired_source_ids": [
+        "nlm-rxnorm-seed-terms"
+      ],
+      "operational_need": "Connect medication identity, ordering, verification, dispensing and inventory.",
+      "required_grain": "Medication concept/formulation × formulary rule × dispensing stage",
+      "units": [
+        "dose_unit",
+        "minutes",
+        "stock_quantity"
+      ],
+      "time_requirements": "Vocabulary version, formulary effective period, expiry and event timestamps.",
+      "official_source_urls": [
+        "https://www.nlm.nih.gov/research/umls/rxnorm/index.html"
+      ],
+      "next_bounded_collection_task": {
+        "task": "Add formulation/ingredient identity only for acquired case medications; define separate medication order, administration and inventory entities.",
+        "acceptance_criteria": "Drug identity does not imply dose or treatment correctness; local formulary and substitution rules remain pending review.",
+        "max_scope": "One named geography, facility, workflow or source slice; record precise bounds before collection.",
+        "owner_role": "data_researcher",
+        "execution_mode": "public_read_only_research"
+      },
+      "access": "public_sources_first",
+      "restrictions": "Use public aggregates and permitted factual extracts; preserve source attribution and redistribution terms.",
+      "review_required": [
+        "source_scope_and_rights",
+        "domain_owner_applicability"
+      ],
+      "simulation_readiness": "not_calibrated"
+    },
+    {
+      "domain_id": "blood-supplies-equipment",
+      "title": "Blood, supplies, equipment and maintenance",
+      "priority": "P1",
+      "status": "missing",
+      "acquired_source_ids": [],
+      "operational_need": "Prevent procedures from consuming nonexistent or incompatible resources.",
+      "required_grain": "Item/equipment type × location × lot/state × replenishment event",
+      "units": [
+        "units",
+        "days_to_expiry",
+        "minutes",
+        "uptime_percent"
+      ],
+      "time_requirements": "Lot expiry and maintenance windows distinct from procurement lead times.",
+      "official_source_urls": [
+        "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/"
+      ],
+      "next_bounded_collection_task": {
+        "task": "Create one public-service-grounded resource taxonomy and a clearly synthetic stock fixture for two procedures; inventory local data needed for calibration.",
+        "acceptance_criteria": "Synthetic stock labeled; compatibility rules require clinical source/review; no local inventory implied.",
+        "max_scope": "One named geography, facility, workflow or source slice; record precise bounds before collection.",
+        "owner_role": "data_researcher",
+        "execution_mode": "public_research_then_authorized_institutional_collection"
+      },
+      "access": "public_and_institutional",
+      "restrictions": "Use public aggregates and permitted factual extracts; preserve source attribution and redistribution terms.",
+      "review_required": [
+        "source_scope_and_rights",
+        "domain_owner_applicability"
+      ],
+      "simulation_readiness": "not_calibrated"
+    },
+    {
+      "domain_id": "insurance-coverage",
+      "title": "Insurance plans, networks and access",
+      "priority": "P0",
+      "status": "partial",
+      "acquired_source_ids": [
+        "local-rwjbh-insurance-directory"
+      ],
+      "operational_need": "Model coverage checks, network eligibility and patient access constraints.",
+      "required_grain": "Plan × facility/professional provider × service × effective date",
+      "units": [
+        "coverage_boolean",
+        "deductible_USD",
+        "copay_USD",
+        "coinsurance_percent"
+      ],
+      "time_requirements": "Plan year and participation effective dates required.",
+      "official_source_urls": [
+        "https://www.rwjbh.org/patients-visitors/accepted-insurances/",
+        "https://www.nj.gov/getcoverednj/help/about/publicinfo.shtml"
+      ],
+      "next_bounded_collection_task": {
+        "task": "Acquire one current NJ plan benefit/policy bundle and record facility/professional network distinctions for a defined service.",
+        "acceptance_criteria": "Directory facts not treated as patient eligibility; benefits and accumulators distinct; stale status recorded.",
+        "max_scope": "One named geography, facility, workflow or source slice; record precise bounds before collection.",
+        "owner_role": "data_researcher",
+        "execution_mode": "public_read_only_research"
+      },
+      "access": "public_sources_first",
+      "restrictions": "Use public aggregates and permitted factual extracts; preserve source attribution and redistribution terms.",
+      "review_required": [
+        "source_scope_and_rights",
+        "domain_owner_applicability"
+      ],
+      "simulation_readiness": "not_calibrated"
+    },
+    {
+      "domain_id": "authorization-claims",
+      "title": "Prior authorization, claims and appeals",
+      "priority": "P1",
+      "status": "missing",
+      "acquired_source_ids": [],
+      "operational_need": "Represent administrative queues, rework and financial access delays.",
+      "required_grain": "Payer/plan × service × policy version × decision/appeal stage",
+      "units": [
+        "business_days",
+        "minutes",
+        "denial_percent",
+        "claims"
+      ],
+      "time_requirements": "Effective policy dates, submission/decision times and censoring.",
+      "official_source_urls": [
+        "https://www.nj.gov/getcoverednj/help/about/publicinfo.shtml",
+        "https://www.cms.gov/initiatives/healthplan-price-transparency/overview/public-data"
+      ],
+      "next_bounded_collection_task": {
+        "task": "For the selected plan, extract one public authorization policy into prerequisites, decision states and stated time standards.",
+        "acceptance_criteria": "Published deadline separated from actual observed delay; no patient claims or denial probabilities fabricated.",
+        "max_scope": "One named geography, facility, workflow or source slice; record precise bounds before collection.",
+        "owner_role": "data_researcher",
+        "execution_mode": "public_research_then_authorized_institutional_collection"
+      },
+      "access": "public_and_institutional",
+      "restrictions": "Use public aggregates and permitted factual extracts; preserve source attribution and redistribution terms.",
+      "review_required": [
+        "source_scope_and_rights",
+        "domain_owner_applicability"
+      ],
+      "simulation_readiness": "not_calibrated"
+    },
+    {
+      "domain_id": "prices-payments",
+      "title": "Charges, negotiated rates and reimbursement",
+      "priority": "P0",
+      "status": "partial",
+      "acquired_source_ids": [
+        "cms-inpatient-provider-service-2024"
+      ],
+      "operational_need": "Keep financial quantities separate and traceable through a care journey.",
+      "required_grain": "Facility × code/service × setting × payer/plan × rate period",
+      "units": [
+        "USD_per_service",
+        "USD_per_discharge"
+      ],
+      "time_requirements": "Rate effective dates and payment data year retained.",
+      "official_source_urls": [
+        "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/billing/charges/",
+        "https://www.cms.gov/initiatives/healthplan-price-transparency/overview/public-data"
+      ],
+      "next_bounded_collection_task": {
+        "task": "Inspect RWJUH machine-readable pricing metadata, then acquire one bounded service/payer slice after rights and size checks.",
+        "acceptance_criteria": "Charges, allowed amounts, total/Medicare payments and patient share remain distinct; no national file dump.",
+        "max_scope": "One named geography, facility, workflow or source slice; record precise bounds before collection.",
+        "owner_role": "data_researcher",
+        "execution_mode": "public_read_only_research"
+      },
+      "access": "public_sources_first",
+      "restrictions": "Use public aggregates and permitted factual extracts; preserve source attribution and redistribution terms.",
+      "review_required": [
+        "source_scope_and_rights",
+        "domain_owner_applicability"
+      ],
+      "simulation_readiness": "not_calibrated"
+    },
+    {
+      "domain_id": "costs-finance",
+      "title": "Hospital costs, accounting and assistance",
+      "priority": "P1",
+      "status": "missing",
+      "acquired_source_ids": [],
+      "operational_need": "Estimate resource costs and financial consequences under explicit scope.",
+      "required_grain": "Provider fiscal report × cost center × worksheet/line; assistance policy version",
+      "units": [
+        "USD",
+        "FTE",
+        "bed_days"
+      ],
+      "time_requirements": "Fiscal year, report status, amendments and provider/campus scope.",
+      "official_source_urls": [
+        "https://www.cms.gov/data-research/statistics-trends-and-reports/cost-reports",
+        "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/billing/charges/"
+      ],
+      "next_bounded_collection_task": {
+        "task": "Acquire one HCRIS report slice per target hospital for reported capacity, cost centers and staffing where available; separately index assistance policy.",
+        "acceptance_criteria": "Original worksheet/line references retained; annual reported capacity not live staffed capacity; charges not costs.",
+        "max_scope": "One named geography, facility, workflow or source slice; record precise bounds before collection.",
+        "owner_role": "data_researcher",
+        "execution_mode": "public_read_only_research"
+      },
+      "access": "public_sources_first",
+      "restrictions": "Use public aggregates and permitted factual extracts; preserve source attribution and redistribution terms.",
+      "review_required": [
+        "source_scope_and_rights",
+        "domain_owner_applicability"
+      ],
+      "simulation_readiness": "not_calibrated"
+    },
+    {
+      "domain_id": "discharge-community",
+      "title": "Discharge, post-acute partners and follow-up",
+      "priority": "P0",
+      "status": "partial",
+      "acquired_source_ids": [
+        "cms-unplanned-visits",
+        "local-rwjuh-chna-2025"
+      ],
+      "operational_need": "Model discharge readiness, placement, transport and continuity of care.",
+      "required_grain": "Partner/service × referral stage × eligibility × patient barrier",
+      "units": [
+        "slots",
+        "minutes",
+        "days",
+        "readmission_percent"
+      ],
+      "time_requirements": "Historical outcome window distinct from follow-up availability.",
+      "official_source_urls": [
+        "https://data.cms.gov/provider-data/topics/hospitals/unplanned-hospital-visits",
+        "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/community-health-needs-assessment/"
+      ],
+      "next_bounded_collection_task": {
+        "task": "Inventory ten public regional post-acute/community service entries with service scope and source date; draft discharge blocker taxonomy.",
+        "acceptance_criteria": "Published contacts/services do not imply available capacity; readmission measures not direct event probabilities.",
+        "max_scope": "One named geography, facility, workflow or source slice; record precise bounds before collection.",
+        "owner_role": "data_researcher",
+        "execution_mode": "public_read_only_research"
+      },
+      "access": "public_sources_first",
+      "restrictions": "Use public aggregates and permitted factual extracts; preserve source attribution and redistribution terms.",
+      "review_required": [
+        "source_scope_and_rights",
+        "domain_owner_applicability"
+      ],
+      "simulation_readiness": "not_calibrated"
+    },
+    {
+      "domain_id": "patient-experience",
+      "title": "Patient goals, experience and communication",
+      "priority": "P0",
+      "status": "partial",
+      "acquired_source_ids": [
+        "cms-hcahps",
+        "local-rwjuh-chna-2025"
+      ],
+      "operational_need": "Represent patient concerns, trust, information needs and observable communication.",
+      "required_grain": "Theme/assertion × participant population/context; survey measure × period",
+      "units": [
+        "percent",
+        "respondents",
+        "qualitative_theme"
+      ],
+      "time_requirements": "Interview/report date, survey period and evidence context preserved.",
+      "official_source_urls": [
+        "https://data.cms.gov/provider-data/topics/hospitals/hcahps/",
+        "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/community-health-needs-assessment/"
+      ],
+      "next_bounded_collection_task": {
+        "task": "Extract a bounded set of ten CHNA themes with page locators and context; map to scenario concerns and evidence-linked communication criteria.",
+        "acceptance_criteria": "Paraphrased themes distinguished from quotes; no demographic or real-clinician personality inference; survey sample counts not summed over questions.",
+        "max_scope": "One named geography, facility, workflow or source slice; record precise bounds before collection.",
+        "owner_role": "data_researcher",
+        "execution_mode": "public_read_only_research"
+      },
+      "access": "public_sources_first",
+      "restrictions": "Use public aggregates and permitted factual extracts; preserve source attribution and redistribution terms.",
+      "review_required": [
+        "source_scope_and_rights",
+        "domain_owner_applicability"
+      ],
+      "simulation_readiness": "not_calibrated"
+    },
+    {
+      "domain_id": "safety-quality",
+      "title": "Safety, complications, infection and outcomes",
+      "priority": "P0",
+      "status": "partial",
+      "acquired_source_ids": [
+        "cms-complications-deaths",
+        "cms-infections",
+        "cms-unplanned-visits"
+      ],
+      "operational_need": "Provide external benchmarks and safety event definitions.",
+      "required_grain": "Facility × measure × period × eligible population",
+      "units": [
+        "rate",
+        "ratio",
+        "percent",
+        "denominator"
+      ],
+      "time_requirements": "Preserve each reporting window, risk adjustment and confidence bounds.",
+      "official_source_urls": [
+        "https://data.cms.gov/provider-data/topics/hospitals",
+        "https://www.nj.gov/health/healthcarequality/health-care-professionals/hospital-performance-report/"
+      ],
+      "next_bounded_collection_task": {
+        "task": "Review ten acquired safety/outcome definitions, populate denominators/units/adjustment applicability and suppression metadata.",
+        "acceptance_criteria": "Risk-adjusted rates/SIRs cannot directly drive individual outcomes; approved use tagged benchmark versus calibration.",
+        "max_scope": "One named geography, facility, workflow or source slice; record precise bounds before collection.",
+        "owner_role": "data_researcher",
+        "execution_mode": "public_read_only_research"
+      },
+      "access": "public_sources_first",
+      "restrictions": "Use public aggregates and permitted factual extracts; preserve source attribution and redistribution terms.",
+      "review_required": [
+        "source_scope_and_rights",
+        "domain_owner_applicability"
+      ],
+      "simulation_readiness": "not_calibrated"
+    },
+    {
+      "domain_id": "workflow-culture",
+      "title": "Workflow narratives, handoffs and staff culture",
+      "priority": "P0",
+      "status": "missing",
+      "acquired_source_ids": [],
+      "operational_need": "Explain decisions, authority, workarounds and exceptions that change flow.",
+      "required_grain": "Role × workflow stage × rule/exception/theme × context",
+      "units": [
+        "qualitative_rule",
+        "sequence",
+        "survey_scale"
+      ],
+      "time_requirements": "Policy versions, study period and interview dates retained.",
+      "official_source_urls": [
+        "https://www.ahrq.gov/sops/index.html"
+      ],
+      "next_bounded_collection_task": {
+        "task": "Index one public safety-culture instrument and produce a draft role-specific process-map/interview guide for the chosen patient journey.",
+        "acceptance_criteria": "Instrument distinguished from local responses; conflicting perspectives retained; no interviews scheduled or messages sent without authorization.",
+        "max_scope": "One named geography, facility, workflow or source slice; record precise bounds before collection.",
+        "owner_role": "data_researcher",
+        "execution_mode": "public_research_then_authorized_institutional_collection"
+      },
+      "access": "public_and_institutional",
+      "restrictions": "Original interviews/observations require agreed consent and research process. Public stories are selected accounts, not representative behavior.",
+      "review_required": [
+        "source_scope_and_rights",
+        "domain_owner_applicability"
+      ],
+      "simulation_readiness": "not_calibrated"
+    },
+    {
+      "domain_id": "teaching-scenarios",
+      "title": "Synthetic cases, learning objectives and evaluation",
+      "priority": "P0",
+      "status": "partial",
+      "acquired_source_ids": [
+        "twinverse-patient-profiles"
+      ],
+      "operational_need": "Ground authored scenarios and assess learning without silently generating clinical facts.",
+      "required_grain": "Case version × assertion/disclosure × objective × rubric/evidence",
+      "units": [
+        "score",
+        "criterion",
+        "case",
+        "expected_answer"
+      ],
+      "time_requirements": "Case version, approval scope and review dates required.",
+      "official_source_urls": [
+        "https://huggingface.co/datasets/joeljames270/virtual-patient-profiles-sample/resolve/ee5c260a6e24cd9d6baf5c0ab7ec636788c64c70/patients.jsonl"
+      ],
+      "next_bounded_collection_task": {
+        "task": "Reconcile two acquired synthetic profiles against their source and create structured fact/disclosure/objective review packets; catalog rubric source separately when rights permit.",
+        "acceptance_criteria": "Case provenance and reuse terms preserved from acquired catalog. Faculty approval remains pending; generated facts labeled; rubric not claimed acquired unless cataloged.",
+        "max_scope": "One named geography, facility, workflow or source slice; record precise bounds before collection.",
+        "owner_role": "data_researcher",
+        "execution_mode": "public_read_only_research"
+      },
+      "access": "public_sources_first",
+      "restrictions": "Use public aggregates and permitted factual extracts; preserve source attribution and redistribution terms.",
+      "review_required": [
+        "source_scope_and_rights",
+        "domain_owner_applicability"
+      ],
+      "simulation_readiness": "not_calibrated"
+    },
+    {
+      "domain_id": "resilience-facilities",
+      "title": "Disruptions, utilities, maintenance and resilience",
+      "priority": "P1",
+      "status": "missing",
+      "acquired_source_ids": [],
+      "operational_need": "Model surge, outages, closures, cancellations and recovery dependencies.",
+      "required_grain": "Service dependency × disruption × duration × contingency policy",
+      "units": [
+        "minutes",
+        "affected_capacity",
+        "backlog",
+        "uptime_percent"
+      ],
+      "time_requirements": "Incident start/recovery and policy effective time.",
+      "official_source_urls": [
+        "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/"
+      ],
+      "next_bounded_collection_task": {
+        "task": "Build one clearly hypothetical outage/surge scenario plus a public policy inventory and explicit unknown dependencies.",
+        "acceptance_criteria": "Hypothetical failure likelihoods labeled; no sensitive operational infrastructure detail collected; contingency authority reviewed.",
+        "max_scope": "One named geography, facility, workflow or source slice; record precise bounds before collection.",
+        "owner_role": "data_researcher",
+        "execution_mode": "public_research_then_authorized_institutional_collection"
+      },
+      "access": "public_and_institutional",
+      "restrictions": "Use public aggregates and permitted factual extracts; preserve source attribution and redistribution terms.",
+      "review_required": [
+        "source_scope_and_rights",
+        "domain_owner_applicability"
+      ],
+      "simulation_readiness": "not_calibrated"
+    },
+    {
+      "domain_id": "fairness-access",
+      "title": "Equity, language, disability and access validation",
+      "priority": "P0",
+      "status": "partial",
+      "acquired_source_ids": [
+        "local-cdc-acs-new-brunswick-2017-2021",
+        "local-cdc-acs-middlesex-2017-2021",
+        "local-cdc-places-new-brunswick-2025",
+        "local-rwjuh-chna-2025"
+      ],
+      "operational_need": "Evaluate whether scenarios and delays systematically misrepresent groups or access needs.",
+      "required_grain": "Population subgroup × need/barrier × measure/outcome × source population",
+      "units": [
+        "percent",
+        "counts",
+        "error_gap",
+        "wait_minutes"
+      ],
+      "time_requirements": "Period alignment, minimum cell size and uncertainty required.",
+      "official_source_urls": [
+        "https://www.census.gov/data/developers/data-sets/acs-5year.html",
+        "https://www.cdc.gov/places/methodology/index.html"
+      ],
+      "next_bounded_collection_task": {
+        "task": "Define five fairness/access evaluation questions with denominators, missing data and subgroup coverage checks using acquired context.",
+        "acceptance_criteria": "Ecological findings not assigned as individual behavior; uncertainty and suppressed groups explicit; no causal disparity claims from simple correlations.",
+        "max_scope": "One named geography, facility, workflow or source slice; record precise bounds before collection.",
+        "owner_role": "data_researcher",
+        "execution_mode": "public_read_only_research"
+      },
+      "access": "public_sources_first",
+      "restrictions": "Use public aggregates and permitted factual extracts; preserve source attribution and redistribution terms.",
+      "review_required": [
+        "source_scope_and_rights",
+        "domain_owner_applicability"
+      ],
+      "simulation_readiness": "not_calibrated"
+    },
+    {
+      "domain_id": "calibration-causality",
+      "title": "Calibration, causal assumptions and independent validation",
+      "priority": "P0",
+      "status": "missing",
+      "acquired_source_ids": [],
+      "operational_need": "Establish what a simulator can predict and separate fit from causal intervention claims.",
+      "required_grain": "Parameter/distribution × conditioning variables × training/holdout scope",
+      "units": [
+        "distribution_parameters",
+        "minutes",
+        "count",
+        "prediction_error",
+        "sensitivity_range"
+      ],
+      "time_requirements": "Untouched validation period; release/valid/event times distinct.",
+      "official_source_urls": [
+        "https://data.cms.gov/provider-data/dataset/yv7e-xc69",
+        "https://www.cms.gov/data-research/statistics-trends-and-reports/cost-reports"
+      ],
+      "next_bounded_collection_task": {
+        "task": "Draft one calibration dossier for ED-to-disposition including joint parameter needs, public benchmarks, institutional gaps and untouched validation design.",
+        "acceptance_criteria": "No calibrated claim from current public snapshots; causal graph assumptions explicit; conservation/replay checks separate from clinical/human validation.",
+        "max_scope": "One named geography, facility, workflow or source slice; record precise bounds before collection.",
+        "owner_role": "data_researcher",
+        "execution_mode": "public_research_then_authorized_institutional_collection"
+      },
+      "access": "public_and_institutional",
+      "restrictions": "Use public aggregates and permitted factual extracts; preserve source attribution and redistribution terms.",
+      "review_required": [
+        "source_scope_and_rights",
+        "domain_owner_applicability"
+      ],
+      "simulation_readiness": "not_calibrated"
+    },
+    {
+      "domain_id": "provenance-governance",
+      "title": "Provenance, rights, lineage and knowledge review",
+      "priority": "P0",
+      "status": "partial",
+      "acquired_source_ids": [
+        "cms-complications-deaths",
+        "cms-facility-affiliations",
+        "cms-hcahps",
+        "cms-hospital-general-information",
+        "cms-infections",
+        "cms-inpatient-provider-service-2024",
+        "cms-timely-effective-care",
+        "cms-unplanned-visits",
+        "local-cdc-acs-middlesex-2017-2021",
+        "local-cdc-acs-new-brunswick-2017-2021",
+        "local-cdc-places-middlesex-2025",
+        "local-cdc-places-new-brunswick-2025",
+        "local-nj-staffing-discovery",
+        "local-rwjbh-insurance-directory",
+        "local-rwjuh-chna-2025",
+        "local-rwjuh-services",
+        "nlm-rxnorm-seed-terms",
+        "nppes-new-brunswick-practitioners",
+        "twinverse-patient-profiles"
+      ],
+      "operational_need": "Make every assertion and transformation auditable and suitable for its intended use.",
+      "required_grain": "Source release × record/assertion × transformation × review decision",
+      "units": [
+        "record_count",
+        "hash",
+        "coverage_fraction"
+      ],
+      "time_requirements": "Retrieval time, release time and valid time separately stored.",
+      "official_source_urls": [
+        "https://data.cms.gov/data.json",
+        "https://npiregistry.cms.hhs.gov/api-page"
+      ],
+      "next_bounded_collection_task": {
+        "task": "Audit every catalog for exact scope, rights, hashes, source references, partial status and intended-use gates; preserve upstream corrections.",
+        "acceptance_criteria": "All 19 current source IDs covered by this backlog; unknown rights block redistribution, not documentation; acquisition never implies clinical approval.",
+        "max_scope": "One named geography, facility, workflow or source slice; record precise bounds before collection.",
+        "owner_role": "data_researcher",
+        "execution_mode": "public_read_only_research"
+      },
+      "access": "public_sources_first",
+      "restrictions": "Use public aggregates and permitted factual extracts; preserve source attribution and redistribution terms.",
+      "review_required": [
+        "source_scope_and_rights",
+        "domain_owner_applicability"
+      ],
+      "simulation_readiness": "not_calibrated"
+    }
+  ],
+  "policy": "finite discovery only; candidate outputs not added to acquired catalogs"
+}

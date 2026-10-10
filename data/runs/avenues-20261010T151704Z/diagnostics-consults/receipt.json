@@ -1,0 +1,14 @@
+{
+  "domain_id": "diagnostics-consults",
+  "model": "gpt-6-luna",
+  "started_at": "2026-10-10T15:18:18.764714+00:00",
+  "status": "completed",
+  "candidate_review_status": "unreviewed",
+  "prompt_sha256": "9328a7c7484ebc30979a466a5836f06237557f5ef7d3b02955bdfd40b87e11cc",
+  "timeout_seconds": 180,
+  "exit_code": 0,
+  "source_candidates": 3,
+  "validation": "schema only; not source entailment or acquired data",
+  "finished_at": "2026-10-10T15:18:58.347292+00:00",
+  "duration_seconds": 39.58
+}

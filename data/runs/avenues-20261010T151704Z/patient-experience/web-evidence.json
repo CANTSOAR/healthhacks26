@@ -1,0 +1,114 @@
+{
+  "meaning": "Observed native web-tool activity. Search result or page URL is not proof of successful data acquisition, rights or factual entailment. Source text and private diagnostics excluded.",
+  "events": [
+    {
+      "action": {
+        "type": "search",
+        "queries": [
+          "site:ahrq.gov CAHPS patient experience survey data download public use file communication measures",
+          "site:health.ny.gov hospital patient experience survey New York State data download HCAHPS patient survey",
+          "site:cms.gov HCAHPS data public use file license reuse"
+        ]
+      },
+      "results": [
+        {
+          "url": "https://www.ahrq.gov/cahps/consumer-reporting/measures/index.html",
+          "title": "CAHPS Measures of Patient Experience | Agency for Healthcare Research and Quality",
+          "reference_id": "turn0search0"
+        },
+        {
+          "url": "https://www.ahrq.gov/cahps/surveys-guidance/hp/index.html",
+          "title": "CAHPS Health Plan Survey | Agency for Healthcare Research and Quality",
+          "reference_id": "turn0search1"
+        },
+        {
+          "url": "https://www.ahrq.gov/cahps/index.html",
+          "title": "Consumer Assessment of Healthcare Providers and Systems (CAHPS\u00ae) | Agency for Healthcare Research and Quality",
+          "reference_id": "turn0search2"
+        },
+        {
+          "url": "https://datatools.ahrq.gov/cahps/",
+          "title": "CAHPS Data Tools \u2013 Consumer Assessment of Healthcare Providers and Systems",
+          "reference_id": "turn0search3"
+        },
+        {
+          "url": "https://www.ahrq.gov/sdm/measures-data-funding/index.html",
+          "title": "Measures, Data, and Funding for Shared Decision Making Research | Agency for Healthcare Research and Quality",
+          "reference_id": "turn0search4"
+        },
+        {
+          "url": "https://www.ahrq.gov/cahps/surveys-guidance/hospital/about/adult_hp_survey.html",
+          "title": "CAHPS Adult Hospital Survey | Agency for Healthcare Research and Quality",
+          "reference_id": "turn0search5"
+        },
+        {
+          "url": "https://www.ahrq.gov/patient-safety/quality-resources/tools/chtoolbx/measures/measure-2.html",
+          "title": "Established Child Health Care Quality Measures\u2014CAHPS | Agency for Healthcare Research and Quality",
+          "reference_id": "turn0search6"
+        },
+        {
+          "url": "https://www.ahrq.gov/sites/default/files/wysiwyg/cahps/surveys-guidance/cg/about/measures-cg30-2309.pdf",
+          "title": "Patient Experience Measures from the CAHPS Clinician & Group Survey",
+          "reference_id": "turn0search12"
+        },
+        {
+          "url": "https://www.ahrq.gov/cahps/surveys-guidance/cancer/index.html",
+          "title": "CAHPS Cancer Care Survey | Agency for Healthcare Research and Quality",
+          "reference_id": "turn0search7"
+        },
+        {
+          "url": "https://www.ahrq.gov/cahps/surveys-guidance/home/index.html",
+          "title": "CAHPS Home Health Care Survey | Agency for Healthcare Research and Quality",
+          "reference_id": "turn0search8"
+        },
+        {
+          "url": "https://profiles.health.ny.gov/hospital/pages/methodology/",
+          "title": "New York State Department of Health: Methodology",
+          "reference_id": "turn0search9"
+        },
+        {
+          "url": "https://www.ahrq.gov/sites/default/files/wysiwyg/cahps/surveys-guidance/hp/about/measures_hp50_2109.pdf",
+          "title": "Patient Experience Measures from the CAHPS Health Plan Survey",
+          "reference_id": "turn0search13"
+        },
+        {
+          "url": "https://www.ahrq.gov/cahps/surveys-guidance/item-sets/elicitation/index.html",
+          "title": "CAHPS Patient Narrative Item Sets | Agency for Healthcare Research and Quality",
+          "reference_id": "turn0search10"
+        },
+        {
+          "url": "https://www.health.ny.gov/statistics/facilities/hospital/",
+          "title": "Hospitals Data, Reports and Surveys",
+          "reference_id": "turn0search11"
+        },
+        {
+          "url": "https://integrationacademy.ahrq.gov/sites/default/files/2020-07/2_CAHPS_cg_measures.pdf",
+          "title": "Patient Experience Measures from the CAHPS Clinician & Group Survey (Four-Point Scale)",
+          "reference_id": "turn0search14"
+        }
+      ]
+    },
+    {
+      "action": {
+        "type": "other"
+      },
+      "results": [
+        {
+          "url": "https://datatools.ahrq.gov/cahps/",
+          "title": "CAHPS Data Tools \u2013 Consumer Assessment of Healthcare Providers and Systems",
+          "reference_id": "turn1view0"
+        },
+        {
+          "url": "https://www.ahrq.gov/cahps/surveys-guidance/hospital/about/adult_hp_survey.html",
+          "title": "CAHPS Adult Hospital Survey | Agency for Healthcare Research and Quality",
+          "reference_id": "turn1view2"
+        },
+        {
+          "url": "https://www.ahrq.gov/sdm/measures-data-funding/index.html",
+          "title": "Measures, Data, and Funding for Shared Decision Making Research | Agency for Healthcare Research and Quality",
+          "reference_id": "turn1view3"
+        }
+      ]
+    }
+  ]
+}

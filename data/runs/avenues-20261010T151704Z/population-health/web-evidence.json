@@ -1,0 +1,133 @@
+{
+  "meaning": "Observed native web-tool activity. Search result or page URL is not proof of successful data acquisition, rights or factual entailment. Source text and private diagnostics excluded.",
+  "events": [
+    {
+      "action": {
+        "type": "search",
+        "queries": [
+          "site:healthdata.gov New Brunswick NJ Middlesex County population health data API official NJ health data",
+          "site:cdc.gov PLACES Middlesex County NJ complementary population health datasets BRFSS SVI official"
+        ]
+      },
+      "results": [
+        {
+          "url": "https://www.cdc.gov/places/tools/data-portal.html",
+          "title": "PLACES Data Portal | PLACES | CDC",
+          "reference_id": "turn0search0"
+        },
+        {
+          "url": "https://svi.cdc.gov/dataDownloads/data-download.html",
+          "title": "The Social Vulnerability Index (SVI): Data and Tools Download for Place and Health | CDC",
+          "reference_id": "turn0search1"
+        },
+        {
+          "url": "https://www.cdc.gov/brfss/smart/smart_data.htm",
+          "title": "SMART: BRFSS City and County Data and Documentation | CDC",
+          "reference_id": "turn0search2"
+        },
+        {
+          "url": "https://www.cdc.gov/brfss/data_documentation/index.htm",
+          "title": "CDC - BRFSS - Survey Data & Documentation",
+          "reference_id": "turn0search3"
+        },
+        {
+          "url": "https://www.cdc.gov/places/about/index.html",
+          "title": "About PLACES: Local Data for Better Health | PLACES | CDC",
+          "reference_id": "turn0search4"
+        },
+        {
+          "url": "https://www.cdc.gov/brfss/brfssprevalence/",
+          "title": "BRFSS Prevalence & Trends Data: Home | DPH | CDC",
+          "reference_id": "turn0search5"
+        },
+        {
+          "url": "https://www.cdc.gov/places/methodology/",
+          "title": "Methodology | PLACES | CDC",
+          "reference_id": "turn0search6"
+        },
+        {
+          "url": "https://www.cdc.gov/places/index.html",
+          "title": "PLACES: Local Data for Better Health | PLACES | CDC",
+          "reference_id": "turn0search7"
+        },
+        {
+          "url": "https://www.cdc.gov/brfss/data_tools.htm",
+          "title": "CDC - BRFSS Prevalence Data & Data Analysis Tools",
+          "reference_id": "turn0search8"
+        },
+        {
+          "url": "https://www.cdc.gov/places/current-release-notes/",
+          "title": "Current Release Notes | PLACES | CDC",
+          "reference_id": "turn0search9"
+        },
+        {
+          "url": "https://www.cdc.gov/brfss/brfssprevalence/help/explore-by-location.html",
+          "title": "BRFSS Prevalence & Trends Data Help | DPH | CDC",
+          "reference_id": "turn0search10"
+        },
+        {
+          "url": "https://data.cdc.gov/500-Cities-Places/PLACES-Local-Data-for-Better-Health-County-Data-20/fu4u-a9bh/about_data",
+          "title": "PLACES: Local Data for Better Health, County Data 2024 release | Data | Centers for Disease Control and Prevention",
+          "reference_id": "turn0search11"
+        },
+        {
+          "url": "https://www.cdc.gov/mmwr/PDF/ss/ss5707.pdf",
+          "title": "Surveillance of Certain Health Behaviors and Conditions Among States and Selected Local Areas \u2014 Behavioral Risk Factor Surveillance System (BRFSS), United States, 2006",
+          "reference_id": "turn0search12"
+        },
+        {
+          "url": "https://healthdata.gov/api/views/gqxm-d9w9/files/842f5495-a0ae-480f-8818-4916da43de92?download=true&filename=Community_Profile_Report_20210110_Public.pdf",
+          "title": "Community Profile Report",
+          "reference_id": "turn0search13"
+        },
+        {
+          "url": "https://healthdata.gov/api/views/gqxm-d9w9/files/f23d597d-c3bd-4148-b9af-1ae8a4bc867a?download=true&filename=Community_Profile_Report_20210425_Public.pdf",
+          "title": "Community Profile Report",
+          "reference_id": "turn0search14"
+        },
+        {
+          "url": "https://healthdata.gov/api/views/gqxm-d9w9/files/e74740c0-1cf6-4aa6-b9e5-4814c7357d1e?download=true&filename=Community+Profile+Report+20220510.pdf",
+          "title": "Community Profile Report",
+          "reference_id": "turn0search15"
+        },
+        {
+          "url": "https://healthdata.gov/api/views/gqxm-d9w9/files/c5988f26-1b59-4a78-862c-964f370418ac?download=true&filename=Community+Profile+Report+20220112.pdf",
+          "title": "Community Profile Report",
+          "reference_id": "turn0search16"
+        },
+        {
+          "url": "https://healthdata.gov/api/views/gqxm-d9w9/files/72c97d7c-e1b5-4089-b39d-bd06954c02fd?download=true&filename=Community+Profile+Report+20220610.pdf",
+          "title": "Community Profile Report",
+          "reference_id": "turn0search17"
+        }
+      ]
+    },
+    {
+      "action": {
+        "type": "other"
+      },
+      "results": [
+        {
+          "url": "https://data.cdc.gov/500-Cities-Places/PLACES-Local-Data-for-Better-Health-County-Data-20/fu4u-a9bh/about_data",
+          "title": "PLACES: Local Data for Better Health, County Data 2024 release | Data | Centers for Disease Control and Prevention",
+          "reference_id": "turn1view0"
+        },
+        {
+          "url": "https://svi.cdc.gov/dataDownloads/data-download.html",
+          "title": "The Social Vulnerability Index (SVI): Data and Tools Download for Place and Health | CDC",
+          "reference_id": "turn1view1"
+        },
+        {
+          "url": "https://www.cdc.gov/brfss/smart/smart_data.htm",
+          "title": "SMART: BRFSS City and County Data and Documentation | CDC",
+          "reference_id": "turn1view2"
+        },
+        {
+          "url": "https://www.cdc.gov/places/current-release-notes/",
+          "title": "Current Release Notes | PLACES | CDC",
+          "reference_id": "turn1view3"
+        }
+      ]
+    }
+  ]
+}

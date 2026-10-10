@@ -129,6 +129,72 @@
       "catalog_path": "data/catalog/twinverse-patient-profiles.json",
       "record_count": 8,
       "acquisition_status": "acquired"
+    },
+    {
+      "source_id": "w2-behavior-safety-culture",
+      "catalog_path": "data/catalog/w2-behavior-safety-culture.json",
+      "record_count": 10,
+      "acquisition_status": "acquired_selected_paraphrased_facts"
+    },
+    {
+      "source_id": "w2-behavior-team-observation",
+      "catalog_path": "data/catalog/w2-behavior-team-observation.json",
+      "record_count": 5,
+      "acquisition_status": "acquired_selected_paraphrased_facts"
+    },
+    {
+      "source_id": "w2-clinical-icd10cm-dx-2027",
+      "catalog_path": "data/catalog/w2-clinical-icd10cm-dx-2027.json",
+      "record_count": 415,
+      "acquisition_status": "acquired"
+    },
+    {
+      "source_id": "w2-clinical-icd10pcs-proc-2027",
+      "catalog_path": "data/catalog/w2-clinical-icd10pcs-proc-2027.json",
+      "record_count": 444,
+      "acquisition_status": "acquired"
+    },
+    {
+      "source_id": "w2-clinical-rxnorm-forms",
+      "catalog_path": "data/catalog/w2-clinical-rxnorm-forms.json",
+      "record_count": 312,
+      "acquisition_status": "acquired"
+    },
+    {
+      "source_id": "w2-context-cms-medicare-enrollment-middlesex",
+      "catalog_path": "data/catalog/w2-context-cms-medicare-enrollment-middlesex.json",
+      "record_count": 175,
+      "acquisition_status": "acquired_bounded_geographic_slice"
+    },
+    {
+      "source_id": "w2-context-svi2022-middlesex-county",
+      "catalog_path": "data/catalog/w2-context-svi2022-middlesex-county.json",
+      "record_count": 1,
+      "acquisition_status": "acquired_bounded_geographic_slice"
+    },
+    {
+      "source_id": "w2-context-svi2022-middlesex-tract",
+      "catalog_path": "data/catalog/w2-context-svi2022-middlesex-tract.json",
+      "record_count": 192,
+      "acquisition_status": "acquired_bounded_geographic_slice"
+    },
+    {
+      "source_id": "w2-ops-cms-cost-report-2023",
+      "catalog_path": "data/catalog/w2-ops-cms-cost-report-2023.json",
+      "record_count": 2,
+      "acquisition_status": "acquired"
+    },
+    {
+      "source_id": "w2-ops-nj-licensed-facilities",
+      "catalog_path": "data/catalog/w2-ops-nj-licensed-facilities.json",
+      "record_count": 69,
+      "acquisition_status": "acquired"
+    },
+    {
+      "source_id": "w2-ops-nj-staffing",
+      "catalog_path": "data/catalog/w2-ops-nj-staffing.json",
+      "record_count": 19,
+      "acquisition_status": "acquired"
     }
   ],
   "domains": [
@@ -139,7 +205,9 @@
       "status": "partial",
       "acquired_source_ids": [
         "local-cdc-acs-middlesex-2017-2021",
-        "local-cdc-acs-new-brunswick-2017-2021"
+        "local-cdc-acs-new-brunswick-2017-2021",
+        "w2-context-svi2022-middlesex-county",
+        "w2-context-svi2022-middlesex-tract"
       ],
       "operational_need": "Define population denominators and distinguish hospital users from residents.",
       "required_grain": "Place/county/tract/ZCTA by demographic variable and estimate period",
@@ -166,7 +234,9 @@
         "source_scope_and_rights",
         "domain_owner_applicability"
       ],
-      "simulation_readiness": "not_calibrated"
+      "simulation_readiness": "not_calibrated",
+      "discovery_candidate_path": "data/runs/avenues-20261010T151704Z/geography-demographics/candidate.json",
+      "wave2_note": "Additional bounded evidence acquired; original next-task text remains a broad planning request. Consult source manifests and simulation-input-contract.json for remaining field/temporal gaps; not calibrated."
     },
     {
       "domain_id": "population-health",
@@ -201,7 +271,8 @@
         "source_scope_and_rights",
         "domain_owner_applicability"
       ],
-      "simulation_readiness": "not_calibrated"
+      "simulation_readiness": "not_calibrated",
+      "discovery_candidate_path": "data/runs/avenues-20261010T151704Z/population-health/candidate.json"
     },
     {
       "domain_id": "facilities-topology",
@@ -210,7 +281,8 @@
       "status": "partial",
       "acquired_source_ids": [
         "cms-hospital-general-information",
-        "local-rwjuh-services"
+        "local-rwjuh-services",
+        "w2-ops-nj-licensed-facilities"
       ],
       "operational_need": "Locate care capabilities and resource dependencies across the regional network.",
       "required_grain": "Organization/campus/building/unit/room/bed with separate identifiers",
@@ -238,7 +310,9 @@
         "source_scope_and_rights",
         "domain_owner_applicability"
       ],
-      "simulation_readiness": "not_calibrated"
+      "simulation_readiness": "not_calibrated",
+      "discovery_candidate_path": "data/runs/avenues-20261010T151704Z/facilities-topology/candidate.json",
+      "wave2_note": "Additional bounded evidence acquired; original next-task text remains a broad planning request. Consult source manifests and simulation-input-contract.json for remaining field/temporal gaps; not calibrated."
     },
     {
       "domain_id": "practitioner-identity",
@@ -273,7 +347,8 @@
         "source_scope_and_rights",
         "domain_owner_applicability"
       ],
-      "simulation_readiness": "not_calibrated"
+      "simulation_readiness": "not_calibrated",
+      "discovery_candidate_path": "data/runs/avenues-20261010T151704Z/practitioner-identity/candidate.json"
     },
     {
       "domain_id": "staffing-availability",
@@ -281,7 +356,9 @@
       "priority": "P0",
       "status": "partial",
       "acquired_source_ids": [
-        "local-nj-staffing-discovery"
+        "local-nj-staffing-discovery",
+        "w2-ops-nj-staffing",
+        "w2-ops-cms-cost-report-2023"
       ],
       "operational_need": "Constrain unit capacity and care-task availability.",
       "required_grain": "Facility/unit/role/shift or quarterly reported staffing stratum",
@@ -309,7 +386,9 @@
         "source_scope_and_rights",
         "domain_owner_applicability"
       ],
-      "simulation_readiness": "not_calibrated"
+      "simulation_readiness": "not_calibrated",
+      "discovery_candidate_path": "data/runs/avenues-20261010T151704Z/staffing-availability/candidate.json",
+      "wave2_note": "Additional bounded evidence acquired; original next-task text remains a broad planning request. Consult source manifests and simulation-input-contract.json for remaining field/temporal gaps; not calibrated."
     },
     {
       "domain_id": "authority-credentials",
@@ -340,7 +419,8 @@
         "source_scope_and_rights",
         "domain_owner_applicability"
       ],
-      "simulation_readiness": "not_calibrated"
+      "simulation_readiness": "not_calibrated",
+      "discovery_candidate_path": "data/runs/avenues-20261010T151704Z/authority-credentials/candidate.json"
     },
     {
       "domain_id": "demand-case-mix",
@@ -376,14 +456,17 @@
         "source_scope_and_rights",
         "domain_owner_applicability"
       ],
-      "simulation_readiness": "not_calibrated"
+      "simulation_readiness": "not_calibrated",
+      "discovery_candidate_path": "data/runs/avenues-20261010T151704Z/demand-case-mix/candidate.json"
     },
     {
       "domain_id": "pathways-procedures",
       "title": "Clinical pathways and procedure definitions",
       "priority": "P0",
-      "status": "missing",
-      "acquired_source_ids": [],
+      "status": "partial",
+      "acquired_source_ids": [
+        "w2-clinical-icd10pcs-proc-2027"
+      ],
       "operational_need": "Connect decisions and actions to prerequisites, recovery and resources.",
       "required_grain": "Procedure/pathway version \u00d7 indication \u00d7 stage \u00d7 role/resource requirement",
       "units": [
@@ -408,7 +491,9 @@
         "source_scope_and_rights",
         "domain_owner_applicability"
       ],
-      "simulation_readiness": "not_calibrated"
+      "simulation_readiness": "not_calibrated",
+      "discovery_candidate_path": "data/runs/avenues-20261010T151704Z/pathways-procedures/candidate.json",
+      "wave2_note": "Additional bounded evidence acquired; original next-task text remains a broad planning request. Consult source manifests and simulation-input-contract.json for remaining field/temporal gaps; not calibrated."
     },
     {
       "domain_id": "terminology-identifiers",
@@ -416,7 +501,9 @@
       "priority": "P0",
       "status": "partial",
       "acquired_source_ids": [
-        "nlm-rxnorm-seed-terms"
+        "nlm-rxnorm-seed-terms",
+        "w2-clinical-icd10cm-dx-2027",
+        "w2-clinical-icd10pcs-proc-2027"
       ],
       "operational_need": "Give concepts stable versioned identities without conflating code systems.",
       "required_grain": "Code system \u00d7 code \u00d7 release \u00d7 mapping assertion",
@@ -444,7 +531,9 @@
         "source_scope_and_rights",
         "domain_owner_applicability"
       ],
-      "simulation_readiness": "not_calibrated"
+      "simulation_readiness": "not_calibrated",
+      "discovery_candidate_path": "data/runs/avenues-20261010T151704Z/terminology-identifiers/candidate.json",
+      "wave2_note": "Additional bounded evidence acquired; original next-task text remains a broad planning request. Consult source manifests and simulation-input-contract.json for remaining field/temporal gaps; not calibrated."
     },
     {
       "domain_id": "diagnostics-consults",
@@ -477,7 +566,8 @@
         "source_scope_and_rights",
         "domain_owner_applicability"
       ],
-      "simulation_readiness": "not_calibrated"
+      "simulation_readiness": "not_calibrated",
+      "discovery_candidate_path": "data/runs/avenues-20261010T151704Z/diagnostics-consults/candidate.json"
     },
     {
       "domain_id": "flow-capacity",
@@ -485,7 +575,9 @@
       "priority": "P0",
       "status": "partial",
       "acquired_source_ids": [
-        "cms-timely-effective-care"
+        "cms-timely-effective-care",
+        "w2-ops-cms-cost-report-2023",
+        "w2-ops-nj-staffing"
       ],
       "operational_need": "Couple arrivals, queues, admission, transfer and bed readiness.",
       "required_grain": "Unit/resource/event with intervals conditional on acuity and disposition",
@@ -513,7 +605,9 @@
         "source_scope_and_rights",
         "domain_owner_applicability"
       ],
-      "simulation_readiness": "not_calibrated"
+      "simulation_readiness": "not_calibrated",
+      "discovery_candidate_path": "data/runs/avenues-20261010T151704Z/flow-capacity/candidate.json",
+      "wave2_note": "Additional bounded evidence acquired; original next-task text remains a broad planning request. Consult source manifests and simulation-input-contract.json for remaining field/temporal gaps; not calibrated."
     },
     {
       "domain_id": "nursing-allied-health",
@@ -545,7 +639,8 @@
         "source_scope_and_rights",
         "domain_owner_applicability"
       ],
-      "simulation_readiness": "not_calibrated"
+      "simulation_readiness": "not_calibrated",
+      "discovery_candidate_path": "data/runs/avenues-20261010T151704Z/nursing-allied-health/candidate.json"
     },
     {
       "domain_id": "pharmacy-medication",
@@ -553,7 +648,8 @@
       "priority": "P1",
       "status": "partial",
       "acquired_source_ids": [
-        "nlm-rxnorm-seed-terms"
+        "nlm-rxnorm-seed-terms",
+        "w2-clinical-rxnorm-forms"
       ],
       "operational_need": "Connect medication identity, ordering, verification, dispensing and inventory.",
       "required_grain": "Medication concept/formulation \u00d7 formulary rule \u00d7 dispensing stage",
@@ -579,7 +675,9 @@
         "source_scope_and_rights",
         "domain_owner_applicability"
       ],
-      "simulation_readiness": "not_calibrated"
+      "simulation_readiness": "not_calibrated",
+      "discovery_candidate_path": "data/runs/avenues-20261010T151704Z/pharmacy-medication/candidate.json",
+      "wave2_note": "Additional bounded evidence acquired; original next-task text remains a broad planning request. Consult source manifests and simulation-input-contract.json for remaining field/temporal gaps; not calibrated."
     },
     {
       "domain_id": "blood-supplies-equipment",
@@ -612,7 +710,8 @@
         "source_scope_and_rights",
         "domain_owner_applicability"
       ],
-      "simulation_readiness": "not_calibrated"
+      "simulation_readiness": "not_calibrated",
+      "discovery_candidate_path": "data/runs/avenues-20261010T151704Z/blood-supplies-equipment/candidate.json"
     },
     {
       "domain_id": "insurance-coverage",
@@ -620,7 +719,8 @@
       "priority": "P0",
       "status": "partial",
       "acquired_source_ids": [
-        "local-rwjbh-insurance-directory"
+        "local-rwjbh-insurance-directory",
+        "w2-context-cms-medicare-enrollment-middlesex"
       ],
       "operational_need": "Model coverage checks, network eligibility and patient access constraints.",
       "required_grain": "Plan \u00d7 facility/professional provider \u00d7 service \u00d7 effective date",
@@ -648,7 +748,9 @@
         "source_scope_and_rights",
         "domain_owner_applicability"
       ],
-      "simulation_readiness": "not_calibrated"
+      "simulation_readiness": "not_calibrated",
+      "discovery_candidate_path": "data/runs/avenues-20261010T151704Z/insurance-coverage/candidate.json",
+      "wave2_note": "Additional bounded evidence acquired; original next-task text remains a broad planning request. Consult source manifests and simulation-input-contract.json for remaining field/temporal gaps; not calibrated."
     },
     {
       "domain_id": "authorization-claims",
@@ -682,7 +784,8 @@
         "source_scope_and_rights",
         "domain_owner_applicability"
       ],
-      "simulation_readiness": "not_calibrated"
+      "simulation_readiness": "not_calibrated",
+      "discovery_candidate_path": "data/runs/avenues-20261010T151704Z/authorization-claims/candidate.json"
     },
     {
       "domain_id": "prices-payments",
@@ -716,14 +819,17 @@
         "source_scope_and_rights",
         "domain_owner_applicability"
       ],
-      "simulation_readiness": "not_calibrated"
+      "simulation_readiness": "not_calibrated",
+      "discovery_candidate_path": "data/runs/avenues-20261010T151704Z/prices-payments/candidate.json"
     },
     {
       "domain_id": "costs-finance",
       "title": "Hospital costs, accounting and assistance",
       "priority": "P1",
-      "status": "missing",
-      "acquired_source_ids": [],
+      "status": "partial",
+      "acquired_source_ids": [
+        "w2-ops-cms-cost-report-2023"
+      ],
       "operational_need": "Estimate resource costs and financial consequences under explicit scope.",
       "required_grain": "Provider fiscal report \u00d7 cost center \u00d7 worksheet/line; assistance policy version",
       "units": [
@@ -749,7 +855,9 @@
         "source_scope_and_rights",
         "domain_owner_applicability"
       ],
-      "simulation_readiness": "not_calibrated"
+      "simulation_readiness": "not_calibrated",
+      "discovery_candidate_path": "data/runs/avenues-20261010T151704Z/costs-finance/candidate.json",
+      "wave2_note": "Additional bounded evidence acquired; original next-task text remains a broad planning request. Consult source manifests and simulation-input-contract.json for remaining field/temporal gaps; not calibrated."
     },
     {
       "domain_id": "discharge-community",
@@ -786,7 +894,8 @@
         "source_scope_and_rights",
         "domain_owner_applicability"
       ],
-      "simulation_readiness": "not_calibrated"
+      "simulation_readiness": "not_calibrated",
+      "discovery_candidate_path": "data/runs/avenues-20261010T151704Z/discharge-community/candidate.json"
     },
     {
       "domain_id": "patient-experience",
@@ -822,7 +931,8 @@
         "source_scope_and_rights",
         "domain_owner_applicability"
       ],
-      "simulation_readiness": "not_calibrated"
+      "simulation_readiness": "not_calibrated",
+      "discovery_candidate_path": "data/runs/avenues-20261010T151704Z/patient-experience/candidate.json"
     },
     {
       "domain_id": "safety-quality",
@@ -860,14 +970,18 @@
         "source_scope_and_rights",
         "domain_owner_applicability"
       ],
-      "simulation_readiness": "not_calibrated"
+      "simulation_readiness": "not_calibrated",
+      "discovery_candidate_path": "data/runs/avenues-20261010T151704Z/safety-quality/candidate.json"
     },
     {
       "domain_id": "workflow-culture",
       "title": "Workflow narratives, handoffs and staff culture",
       "priority": "P0",
-      "status": "missing",
-      "acquired_source_ids": [],
+      "status": "partial",
+      "acquired_source_ids": [
+        "w2-behavior-safety-culture",
+        "w2-behavior-team-observation"
+      ],
       "operational_need": "Explain decisions, authority, workarounds and exceptions that change flow.",
       "required_grain": "Role \u00d7 workflow stage \u00d7 rule/exception/theme \u00d7 context",
       "units": [
@@ -892,7 +1006,9 @@
         "source_scope_and_rights",
         "domain_owner_applicability"
       ],
-      "simulation_readiness": "not_calibrated"
+      "simulation_readiness": "not_calibrated",
+      "discovery_candidate_path": "data/runs/avenues-20261010T151704Z/workflow-culture/candidate.json",
+      "wave2_note": "Additional bounded evidence acquired; original next-task text remains a broad planning request. Consult source manifests and simulation-input-contract.json for remaining field/temporal gaps; not calibrated."
     },
     {
       "domain_id": "teaching-scenarios",
@@ -900,7 +1016,8 @@
       "priority": "P0",
       "status": "partial",
       "acquired_source_ids": [
-        "twinverse-patient-profiles"
+        "twinverse-patient-profiles",
+        "w2-behavior-team-observation"
       ],
       "operational_need": "Ground authored scenarios and assess learning without silently generating clinical facts.",
       "required_grain": "Case version \u00d7 assertion/disclosure \u00d7 objective \u00d7 rubric/evidence",
@@ -927,7 +1044,9 @@
         "source_scope_and_rights",
         "domain_owner_applicability"
       ],
-      "simulation_readiness": "not_calibrated"
+      "simulation_readiness": "not_calibrated",
+      "discovery_candidate_path": "data/runs/avenues-20261010T151704Z/teaching-scenarios/candidate.json",
+      "wave2_note": "Additional bounded evidence acquired; original next-task text remains a broad planning request. Consult source manifests and simulation-input-contract.json for remaining field/temporal gaps; not calibrated."
     },
     {
       "domain_id": "resilience-facilities",
@@ -960,7 +1079,8 @@
         "source_scope_and_rights",
         "domain_owner_applicability"
       ],
-      "simulation_readiness": "not_calibrated"
+      "simulation_readiness": "not_calibrated",
+      "discovery_candidate_path": "data/runs/avenues-20261010T151704Z/resilience-facilities/candidate.json"
     },
     {
       "domain_id": "fairness-access",
@@ -971,7 +1091,8 @@
         "local-cdc-acs-new-brunswick-2017-2021",
         "local-cdc-acs-middlesex-2017-2021",
         "local-cdc-places-new-brunswick-2025",
-        "local-rwjuh-chna-2025"
+        "local-rwjuh-chna-2025",
+        "w2-context-svi2022-middlesex-tract"
       ],
       "operational_need": "Evaluate whether scenarios and delays systematically misrepresent groups or access needs.",
       "required_grain": "Population subgroup \u00d7 need/barrier \u00d7 measure/outcome \u00d7 source population",
@@ -999,7 +1120,9 @@
         "source_scope_and_rights",
         "domain_owner_applicability"
       ],
-      "simulation_readiness": "not_calibrated"
+      "simulation_readiness": "not_calibrated",
+      "discovery_candidate_path": "data/runs/avenues-20261010T151704Z/fairness-access/candidate.json",
+      "wave2_note": "Additional bounded evidence acquired; original next-task text remains a broad planning request. Consult source manifests and simulation-input-contract.json for remaining field/temporal gaps; not calibrated."
     },
     {
       "domain_id": "calibration-causality",
@@ -1034,7 +1157,8 @@
         "source_scope_and_rights",
         "domain_owner_applicability"
       ],
-      "simulation_readiness": "not_calibrated"
+      "simulation_readiness": "not_calibrated",
+      "discovery_candidate_path": "data/runs/avenues-20261010T151704Z/calibration-causality/candidate.json"
     },
     {
       "domain_id": "provenance-governance",
@@ -1087,7 +1211,9 @@
         "source_scope_and_rights",
         "domain_owner_applicability"
       ],
-      "simulation_readiness": "not_calibrated"
+      "simulation_readiness": "not_calibrated",
+      "discovery_candidate_path": "data/runs/avenues-20261010T151704Z/provenance-governance/candidate.json"
     }
-  ]
+  ],
+  "updated_at": "2026-10-10"
 }

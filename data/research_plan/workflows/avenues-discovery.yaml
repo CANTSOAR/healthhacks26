@@ -1,0 +1,9 @@
+id: avenues-discovery
+description: Finite live-web GPT-6 Luna source discovery across27 hospital domains.
+  Model results remain unreviewed source candidates; data acquisition separate.
+schedule: ''
+steps:
+- id: discover
+  kind: command
+  run: ./scripts/python scripts/run_avenues_campaign.py --workers 3 --timeout 180
+    --limit 27

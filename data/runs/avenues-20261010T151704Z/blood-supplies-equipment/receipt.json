@@ -1,0 +1,14 @@
+{
+  "domain_id": "blood-supplies-equipment",
+  "model": "gpt-6-luna",
+  "started_at": "2026-10-10T15:18:58.032293+00:00",
+  "status": "completed",
+  "candidate_review_status": "unreviewed",
+  "prompt_sha256": "4fbca92d773679f7383121bd4fb989334393677a8ee0fa9b7e4454d119d2718b",
+  "timeout_seconds": 180,
+  "exit_code": 0,
+  "source_candidates": 3,
+  "validation": "schema only; not source entailment or acquired data",
+  "finished_at": "2026-10-10T15:19:23.012624+00:00",
+  "duration_seconds": 24.98
+}

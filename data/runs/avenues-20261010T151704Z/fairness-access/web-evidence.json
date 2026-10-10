@@ -1,0 +1,129 @@
+{
+  "meaning": "Observed native web-tool activity. Search result or page URL is not proof of successful data acquisition, rights or factual entailment. Source text and private diagnostics excluded.",
+  "events": [
+    {
+      "action": {
+        "type": "search",
+        "queries": [
+          "site:healthdata.gov New Jersey language disability access county data hospital official",
+          "site:medicaid.gov New Jersey T-MSIS access language disability county dataset CMS official"
+        ]
+      },
+      "results": [
+        {
+          "url": "https://www.medicaid.gov/medicaid/data-systems/medicaid-and-chip-business-information-solution/transformed-medicaid-statistical-information-system-t-msis",
+          "title": "Transformed Medicaid Statistical Information System (T-MSIS) | Medicaid",
+          "reference_id": "turn0search0"
+        },
+        {
+          "url": "https://www.medicaid.gov/tmsis/dataguide/v4/technical-instructions/cms-macbis-t-msis-reporting-reminder-beneficiary-demographics/",
+          "title": "CMS Technical Instructions: Beneficiary Demographics",
+          "reference_id": "turn0search1"
+        },
+        {
+          "url": "https://www.medicaid.gov/tmsis/dataguide/v4/technical-instructions/",
+          "title": "Technical Instructions",
+          "reference_id": "turn0search2"
+        },
+        {
+          "url": "https://www.medicaid.gov/tmsis/dataguide/v4/data-elements/mcr004058/",
+          "title": "MCR.004.058",
+          "reference_id": "turn0search3"
+        },
+        {
+          "url": "https://www.medicaid.gov/medicaid/data-systems/medicaid-and-chip-business-information-solution/transformed-medicaid-statistical-information-system-t-msis/t-msis-data-guide",
+          "title": "T-MSIS Data Guide | Medicaid",
+          "reference_id": "turn0search4"
+        },
+        {
+          "url": "https://www.medicaid.gov/tmsis/dataguide",
+          "title": "Data Guide",
+          "reference_id": "turn0search5"
+        },
+        {
+          "url": "https://www.medicaid.gov/medicaid/data-systems/macbis/medicaid-chip-research-files/transformed-medicaid-statistical-information-system-t-msis-analytic-files-taf",
+          "title": "Transformed Medicaid Statistical Information System (T-MSIS) Analytic Files (TAF) | Medicaid",
+          "reference_id": "turn0search6"
+        },
+        {
+          "url": "https://data.medicaid.gov/dataset/8062e2f4-4c0a-41c9-8217-979468a80986",
+          "title": "Medicaid and CHIP enrollees who received mental health or SUD services",
+          "reference_id": "turn0search7"
+        },
+        {
+          "url": "https://www.medicaid.gov/tmsis/dataguide/v4/",
+          "title": "Data Guide",
+          "reference_id": "turn0search8"
+        },
+        {
+          "url": "https://www.medicaid.gov/tmsis/dataguide/t-msis-coding-blog/",
+          "title": "Technical Instructions",
+          "reference_id": "turn0search9"
+        },
+        {
+          "url": "https://www.medicaid.gov/tmsis/dataguide/v3/data-elements/elg017221/",
+          "title": "ELG.017.221",
+          "reference_id": "turn0search10"
+        },
+        {
+          "url": "https://data.medicaid.gov/dataset/89baf100-259b-4763-b9e2-337972f988c4",
+          "title": "Managed Care Information for Medicaid and CHIP Beneficiaries by Month",
+          "reference_id": "turn0search11"
+        },
+        {
+          "url": "https://www.medicaid.gov/federal-policy-guidance/downloads/smd-13-004.pdf",
+          "title": "DEPARTMENT OF HEALTH & HUMAN SERVICES",
+          "reference_id": "turn0search12"
+        },
+        {
+          "url": "https://www.medicaid.gov/federal-policy-guidance/downloads/cib031819.pdf",
+          "title": "T-MSIS State Compliance",
+          "reference_id": "turn0search13"
+        },
+        {
+          "url": "https://www.medicaid.gov/sites/default/files/2019-12/cms-372-report-2014.pdf",
+          "title": "Medicaid 1915(c) Waiver Data Based on the CMS 372 report, 2013 - 2014",
+          "reference_id": "turn0search14"
+        },
+        {
+          "url": "https://www.medicaid.gov/medicaid/data-systems/downloads/2019-sud-data-book.pdf",
+          "title": "Report to Congress: T-MSIS Substance Use Disorder (SUD) Data Book Treatment of SUD in Medicaid, 2019",
+          "reference_id": "turn0search15"
+        },
+        {
+          "url": "https://www.medicaid.gov/medicaid/data-systems/downloads/2018-sud-data-book.pdf",
+          "title": "Report to Congress: T-MSIS Substance Use Disorder (SUD) Data Book, Treatment of SUD in Medicaid, 2018",
+          "reference_id": "turn0search16"
+        },
+        {
+          "url": "https://www.medicaid.gov/medicaid/data-systems/downloads/2021-sud-data-book.pdf",
+          "title": "T-MSIS Substance Use Disorder (SUD) Data Book: Treatment of SUD in Medicaid, 2021",
+          "reference_id": "turn0search17"
+        }
+      ]
+    },
+    {
+      "action": {
+        "type": "open_page",
+        "url": "https://data.medicaid.gov/dataset/8062e2f4-4c0a-41c9-8217-979468a80986"
+      },
+      "results": [
+        {
+          "url": "https://data.medicaid.gov/dataset/8062e2f4-4c0a-41c9-8217-979468a80986",
+          "title": "CMS Medicaid Data",
+          "reference_id": "turn1view0"
+        },
+        {
+          "url": "https://www.medicaid.gov/medicaid/data-systems/macbis/medicaid-chip-research-files/transformed-medicaid-statistical-information-system-t-msis-analytic-files-taf",
+          "title": "Transformed Medicaid Statistical Information System (T-MSIS) Analytic Files (TAF) | Medicaid",
+          "reference_id": "turn1view1"
+        },
+        {
+          "url": "https://www.census.gov/data/developers/data-sets/acs-5year.html",
+          "title": "American Community Survey 5-Year Data (2009-2024)",
+          "reference_id": "turn1view2"
+        }
+      ]
+    }
+  ]
+}

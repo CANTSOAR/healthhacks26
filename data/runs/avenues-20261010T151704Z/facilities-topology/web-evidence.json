@@ -1,0 +1,133 @@
+{
+  "meaning": "Observed native web-tool activity. Search result or page URL is not proof of successful data acquisition, rights or factual entailment. Source text and private diagnostics excluded.",
+  "events": [
+    {
+      "action": {
+        "type": "search",
+        "queries": [
+          "site:nj.gov/health/healthfacilities/findhospital.shtml New Brunswick hospital licensed beds RWJUH Saint Peter's",
+          "site:rwjbh.org New Brunswick hospital map RWJUH floor unit Saint Peter's campus map facilities"
+        ]
+      },
+      "results": [
+        {
+          "url": "https://www.nj.gov/health/healthfacilities/findhospital.shtml",
+          "title": "New Jersey Acute Care Facilities Search",
+          "reference_id": "turn0search0"
+        },
+        {
+          "url": "https://www.nj.gov/health/healthfacilities/search.shtml",
+          "title": "Department of Health | Health Facilities | Facility Types",
+          "reference_id": "turn0search1"
+        },
+        {
+          "url": "https://www.rwjbh.org/documents/rwj-new-brunswick/for-physicians/physician-relations/Hospital-Map-NB.pdf",
+          "title": "Layout 1",
+          "reference_id": "turn0search12"
+        },
+        {
+          "url": "https://www.nj.gov/health/healthfacilities/documents/CN/2024/ercn-st-peters-university-hospital-2022-12313-1201.pdf",
+          "title": "docx",
+          "reference_id": "turn0search13"
+        },
+        {
+          "url": "https://www.nj.gov/health/healthfacilities/index.shtml",
+          "title": "Department of Health | Health Facilities",
+          "reference_id": "turn0search2"
+        },
+        {
+          "url": "https://www.nj.gov/health/healthfacilities/certificate-need/transfer_agreement.shtml",
+          "title": "Department of Health | Health Facilities | Trauma Transfer Agreements",
+          "reference_id": "turn0search3"
+        },
+        {
+          "url": "https://web.doh.nj.gov/apps2/Hpr/characteristics.aspx?num=11205",
+          "title": "Hospital Performance Report",
+          "reference_id": "turn0search4"
+        },
+        {
+          "url": "https://www.nj.gov/health/facilities/",
+          "title": "Facilities and Licensing",
+          "reference_id": "turn0search5"
+        },
+        {
+          "url": "https://nj.gov/health/healthfacilities/certificate-need/",
+          "title": "Department of Health | Health Facilities | Certificate of Need and Facility Licensing",
+          "reference_id": "turn0search6"
+        },
+        {
+          "url": "https://www.rwjbh.org/documents/rwj-new-brunswick/for-physicians/physician-relations/labor-book_Layout-1.pdf",
+          "title": "Layout 1",
+          "reference_id": "turn0search14"
+        },
+        {
+          "url": "https://www.nj.gov/health/charitycare/documents/cc_report2015_revised.pdf",
+          "title": "New Jersey Department of Health  |  |  |",
+          "reference_id": "turn0search15"
+        },
+        {
+          "url": "https://www.nj.gov/health/healthcarequality/documents/PSIs_Technical_-_2022_Data_for_the_2023_HPR_03192024.Final.pdf",
+          "title": "docx",
+          "reference_id": "turn0search16"
+        },
+        {
+          "url": "https://www.rwjbh.org/documents/patient-guides/RWJ-Somerset-Patient-Guide.pdf",
+          "title": "Map of Robert Wood Johnson University Hospital Somerset",
+          "reference_id": "turn0search17"
+        },
+        {
+          "url": "https://www.nj.gov/health/healthfacilities/about-us/",
+          "title": "Department of Health | Health Facilities | About Us",
+          "reference_id": "turn0search7"
+        },
+        {
+          "url": "https://www.nj.gov/health/guide/find-select-provider/",
+          "title": "Department of Health | Your Guide to Health in New Jersey",
+          "reference_id": "turn0search8"
+        },
+        {
+          "url": "https://www.nj.gov/health/healthfacilities/enforcement_actions.shtml",
+          "title": "Department of Health | Health Facilities | Health Care Facility Enforcement Actions",
+          "reference_id": "turn0search9"
+        },
+        {
+          "url": "https://healthapps.nj.gov/facilities/acSetSearch.aspx?by=county",
+          "title": "New Jersey Hospitals, Ambulatory Care, and other Acute Care Facilities",
+          "reference_id": "turn0search10"
+        },
+        {
+          "url": "https://www.nj.gov/health/healthfacilities/reportcards.shtml",
+          "title": "Department of Health | Health Facilities | Consumer Reports and Guides",
+          "reference_id": "turn0search11"
+        }
+      ]
+    },
+    {
+      "action": {
+        "type": "other"
+      },
+      "results": [
+        {
+          "url": "https://www.nj.gov/health/healthfacilities/findhospital.shtml",
+          "title": "NJ Department of Health",
+          "reference_id": "turn1view0"
+        },
+        {
+          "url": "https://healthapps.nj.gov/facilities/acSetSearch.aspx?by=county",
+          "title": "New Jersey Hospitals, Ambulatory Care, and other Acute Care Facilities",
+          "reference_id": "turn1view1"
+        },
+        {
+          "url": "https://web.doh.nj.gov/apps2/Hpr/characteristics.aspx?num=11205",
+          "title": "\n\tHospital Performance Report\n",
+          "reference_id": "turn1view2"
+        },
+        {
+          "url": "https://www.rwjbh.org/documents/rwj-new-brunswick/for-physicians/physician-relations/Hospital-Map-NB.pdf",
+          "title": "Layout 1",
+          "reference_id": "turn1view3"
+        }
+      ]
+    }
+  ]
+}

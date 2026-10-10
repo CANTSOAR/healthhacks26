@@ -1,0 +1,14 @@
+{
+  "domain_id": "geography-demographics",
+  "model": "gpt-6-luna",
+  "started_at": "2026-10-10T15:17:04.969596+00:00",
+  "status": "completed",
+  "candidate_review_status": "unreviewed",
+  "prompt_sha256": "8bdea2925575db15117f09770bd9e41c21f60d2890964a3269495f25bf40757b",
+  "timeout_seconds": 180,
+  "exit_code": 0,
+  "source_candidates": 1,
+  "validation": "schema only; not source entailment or acquired data",
+  "finished_at": "2026-10-10T15:17:27.183219+00:00",
+  "duration_seconds": 22.21
+}

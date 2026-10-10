@@ -1,0 +1,14 @@
+{
+  "domain_id": "flow-capacity",
+  "model": "gpt-6-luna",
+  "started_at": "2026-10-10T15:18:25.905018+00:00",
+  "status": "completed",
+  "candidate_review_status": "unreviewed",
+  "prompt_sha256": "196291a4f24d5a435a9de1b7c08c9fe75675ac9261ec339a6b4b838c1be339ef",
+  "timeout_seconds": 180,
+  "exit_code": 0,
+  "source_candidates": 3,
+  "validation": "schema only; not source entailment or acquired data",
+  "finished_at": "2026-10-10T15:18:54.010424+00:00",
+  "duration_seconds": 28.1
+}

@@ -1,0 +1,14 @@
+{
+  "domain_id": "teaching-scenarios",
+  "model": "gpt-6-luna",
+  "started_at": "2026-10-10T15:20:17.850537+00:00",
+  "status": "completed",
+  "candidate_review_status": "unreviewed",
+  "prompt_sha256": "d88c2ff72bfef77229ea5202f4007ce87542432f732f90ae40f7f2e86f502f6d",
+  "timeout_seconds": 180,
+  "exit_code": 0,
+  "source_candidates": 3,
+  "validation": "schema only; not source entailment or acquired data",
+  "finished_at": "2026-10-10T15:20:40.086249+00:00",
+  "duration_seconds": 22.24
+}

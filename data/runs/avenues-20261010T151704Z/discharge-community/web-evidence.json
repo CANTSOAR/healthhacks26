@@ -1,0 +1,129 @@
+{
+  "meaning": "Observed native web-tool activity. Search result or page URL is not proof of successful data acquisition, rights or factual entailment. Source text and private diagnostics excluded.",
+  "events": [
+    {
+      "action": {
+        "type": "search",
+        "queries": [
+          "site:medicare.gov Care Compare nursing home data download CMS nursing home provider data API",
+          "site:data.cms.gov post acute care IRF LTCH SNF utilization public data discharge destination official",
+          "site:nj.gov New Jersey Medicaid transportation broker provider directory NJ FamilyCare official"
+        ]
+      },
+      "results": [
+        {
+          "url": "https://www.nj.gov/humanservices/dmahs/individuals-families/transportation/",
+          "title": "Transportation | Division of Medical Assistance and Health Services",
+          "reference_id": "turn0search0"
+        },
+        {
+          "url": "https://www.medicare.gov/care-compare/details/chains/863/",
+          "title": "Find Healthcare Providers: Compare Care Near You | Medicare",
+          "reference_id": "turn0search1"
+        },
+        {
+          "url": "https://www.medicare.gov/care-compare/details/nursing-home/365669",
+          "title": "Find Healthcare Providers: Compare Care Near You | Medicare",
+          "reference_id": "turn0search2"
+        },
+        {
+          "url": "https://data.cms.gov/provider-summary-by-type-of-service/medicare-post-acute-care-hospice",
+          "title": "Medicare Post-Acute Care & Hospice | CMS Data",
+          "reference_id": "turn0search3"
+        },
+        {
+          "url": "https://www.nj.gov/humanservices/dmahs/individuals-families/familycare/health-plans/",
+          "title": "NJ FamilyCare Health Plans | Division of Medical Assistance and Health Services",
+          "reference_id": "turn0search4"
+        },
+        {
+          "url": "https://www.nj.gov/humanservices/dmahs/providers-stakeholders/provider-resources/",
+          "title": "Provider Resources | Division of Medical Assistance and Health Services",
+          "reference_id": "turn0search5"
+        },
+        {
+          "url": "https://www.medicare.gov/care-compare/results/?page=1&searchType=NursingHome&sort=alpha&state=NV&tealiumEventAction=Landing+Page+-+Search&tealiumSearchLocation=search+bar",
+          "title": "Find Healthcare Providers: Compare Care Near You | Medicare",
+          "reference_id": "turn0search6"
+        },
+        {
+          "url": "https://www.nj.gov/disabilities/resources-by-disability/intellectual-and-developmental/index.shtml",
+          "title": "Intellectual and Developmental Disabilities Services",
+          "reference_id": "turn0search7"
+        },
+        {
+          "url": "https://www.nj.gov/humanservices/dmahs/providers-stakeholders/provider-resources/customer-centers/",
+          "title": "Medical Assistance Customer Centers | Division of Medical Assistance and Health Services",
+          "reference_id": "turn0search8"
+        },
+        {
+          "url": "https://www.nj.gov/getcoverednj/help/local/index.shtml",
+          "title": "GetCoveredNJ | Find Local Assistance",
+          "reference_id": "turn0search9"
+        },
+        {
+          "url": "https://www.medicare.gov/care-compare/details/nursing-home/315355/view-all/?state=NJ",
+          "title": "Find Healthcare Providers: Compare Care Near You | Medicare",
+          "reference_id": "turn0search10"
+        },
+        {
+          "url": "https://data.cms.gov/sites/default/files/2025-08/a78f12eb-3deb-466a-b74a-b341fae6db35/Medicare%20Post-Acute%20Care%20Utilization%20-%20IRF%202014-2019.pdf",
+          "title": "Medicare Post-Acute Care Utilization - IRF 2020-2023",
+          "reference_id": "turn0search12"
+        },
+        {
+          "url": "https://www.nj.gov/dcf/divisions-offices/csoc/",
+          "title": "Division of Children's System of Care",
+          "reference_id": "turn0search11"
+        },
+        {
+          "url": "https://data.cms.gov/sites/default/files/2022-11/3df854f3-a3b5-4a47-b15e-de7f883aea38/Medicare_Post_Acute_Care_and_Hospice_Methodology_2022_508_compliant.pdf",
+          "title": "Medicare Fee-For-Service Post-Acute Care and Hospice Provider Utilization and Payment Public Use Files: Methodological Overview",
+          "reference_id": "turn0search13"
+        },
+        {
+          "url": "https://data.cms.gov/sites/default/files/2021-09/b581344f-56e6-4767-9082-535713b7df1c/PACPUF_R19_20210916_Methodology_Final.pdf",
+          "title": "Medicare Fee-For-Service Post-Acute Care and Hospice Provider Utilization and Payment Public Use Files: Methodological Overview",
+          "reference_id": "turn0search14"
+        },
+        {
+          "url": "https://www.nj.gov/humanservices/providers/rulefees/ruleadop/ruleadoptfiles/R.2022%20d.045%20%2854%20N.J.R.%20620%28b%29%29.pdf",
+          "title": "HUMAN SERVICES                                                                 ADOPTIONS",
+          "reference_id": "turn0search15"
+        },
+        {
+          "url": "https://www.nj.gov/humanservices/dds/documents/RD/2023/Resource_Directory_23-24_Second_Edition_Final.pdf",
+          "title": "New Jersey Resources",
+          "reference_id": "turn0search16"
+        }
+      ]
+    },
+    {
+      "action": {
+        "type": "other"
+      },
+      "results": [
+        {
+          "url": "https://data.cms.gov/provider-summary-by-type-of-service/medicare-post-acute-care-hospice",
+          "title": "Centers for Medicare & Medicaid Services Data",
+          "reference_id": "turn1view0"
+        },
+        {
+          "url": "https://www.nj.gov/humanservices/dmahs/individuals-families/transportation/",
+          "title": "Transportation | Division of Medical Assistance and Health Services",
+          "reference_id": "turn1view1"
+        },
+        {
+          "url": "https://www.nj.gov/humanservices/dmahs/individuals-families/familycare/health-plans/",
+          "title": "NJ FamilyCare Health Plans | Division of Medical Assistance and Health Services",
+          "reference_id": "turn1view2"
+        },
+        {
+          "url": "https://data.cms.gov/sites/default/files/2022-11/3df854f3-a3b5-4a47-b15e-de7f883aea38/Medicare_Post_Acute_Care_and_Hospice_Methodology_2022_508_compliant.pdf",
+          "title": "Medicare Fee-For-Service Post-Acute Care and Hospice Provider Utilization and Payment Public Use Files: Methodological Overview",
+          "reference_id": "turn1view3"
+        }
+      ]
+    }
+  ]
+}

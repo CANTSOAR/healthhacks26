@@ -1,0 +1,143 @@
+{
+  "meaning": "Observed native web-tool activity. Search result or page URL is not proof of successful data acquisition, rights or factual entailment. Source text and private diagnostics excluded.",
+  "events": [
+    {
+      "action": {
+        "type": "search",
+        "queries": [
+          "site:healthdata.gov data provenance metadata dataset audit log lineage public data governance",
+          "official W3C PROV provenance data model license government datasets Data.gov metadata API"
+        ]
+      },
+      "results": [
+        {
+          "url": "https://www.w3.org/TR/prov-primer/",
+          "title": "PROV Model Primer",
+          "reference_id": "turn0search0"
+        },
+        {
+          "url": "https://www.w3.org/ns/prov/",
+          "title": "The PROV Namespace",
+          "reference_id": "turn0search1"
+        },
+        {
+          "url": "https://www.w3.org/TR/prov-xml/",
+          "title": "PROV-XML: The PROV XML Schema",
+          "reference_id": "turn0search2"
+        },
+        {
+          "url": "https://www.w3.org/TR/prov-aq/",
+          "title": "PROV-AQ: Provenance Access and Query",
+          "reference_id": "turn0search3"
+        },
+        {
+          "url": "https://www.w3.org/TR/prov-overview/",
+          "title": "PROV-Overview",
+          "reference_id": "turn0search4"
+        },
+        {
+          "url": "https://www.w3.org/TR/prov-sem/prov-sem.pdf",
+          "title": "Semantics of the PROV Data Model",
+          "reference_id": "turn0search12"
+        },
+        {
+          "url": "https://www.w3.org/TR/2012/WD-prov-dm-20120724/",
+          "title": "PROV-DM: The PROV Data Model",
+          "reference_id": "turn0search5"
+        },
+        {
+          "url": "https://github.com/w3c/prov/blob/main/overview/prov-overview.html",
+          "title": "prov/overview/prov-overview.html at main \u00b7 w3c/prov \u00b7 GitHub",
+          "reference_id": "turn0search6"
+        },
+        {
+          "url": "https://resources.data.gov/resources/dcat-us3/",
+          "title": "DCAT-US Schema v3.0 | resources.data.gov",
+          "reference_id": "turn0search7"
+        },
+        {
+          "url": "https://data.gov/user-guide/",
+          "title": "User Guide - Data.gov",
+          "reference_id": "turn0search8"
+        },
+        {
+          "url": "https://dvcs.w3.org/hg/prov/raw-file/default/overview/overview.html",
+          "title": "PROV-Overview",
+          "reference_id": "turn0search9"
+        },
+        {
+          "url": "https://www.w3.org/TR/prov-overview/?source=post_page-----3b6a6b5b3f4c----------------------",
+          "title": "PROV-Overview",
+          "reference_id": "turn0search10"
+        },
+        {
+          "url": "https://dvcs.w3.org/hg/prov/raw-file/default/model/diff.html",
+          "title": "PROV-DM: The PROV Data Model",
+          "reference_id": "turn0search11"
+        },
+        {
+          "url": "https://interoperable-europe.ec.europa.eu/sites/default/files/distribution/access_url/2023-07/57012237-82d6-47ce-841c-088391b4e020/CAMSS_Assessment%20Summary_PROV_EIF%20Scenario_v1.0.0.pdf",
+          "title": "The specification fully supports the principles setting context for EU actions on interoperability:",
+          "reference_id": "turn0search13"
+        },
+        {
+          "url": "https://www.govinfo.gov/content/pkg/GOVPUB-C13-22c3eb781e313193d7ad7969f1be273e/pdf/GOVPUB-C13-22c3eb781e313193d7ad7969f1be273e.pdf",
+          "title": "NIST Big Data Interoperability Framework: Volume 7, Standards Roadmap",
+          "reference_id": "turn0search14"
+        },
+        {
+          "url": "https://openproceedings.org/2013/conf/edbt/MissierBC13.pdf",
+          "title": "The W3C PROV family of specifications for modelling provenance metadata",
+          "reference_id": "turn0search15"
+        },
+        {
+          "url": "https://interoperable-europe.ec.europa.eu/sites/default/files/document/2020-12/SC380_D04.01_Framework%20for%20Base%20Registry%20Access%20and%20Interconnection_v3.00.pdf",
+          "title": "SC380_D04.01. Framework for Base Registry Access and Interconnection",
+          "reference_id": "turn0search16"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/W3C_Prov",
+          "title": "W3C Prov",
+          "reference_id": "turn0search17"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Data.gov.uk",
+          "title": "Data.gov.uk",
+          "reference_id": "turn0search18"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Data_lineage",
+          "title": "Data lineage",
+          "reference_id": "turn0search19"
+        },
+        {
+          "url": "https://arxiv.org/abs/1406.1998",
+          "title": "ProvAbs: model, policy, and tooling for abstracting PROV graphs",
+          "reference_id": "turn0academia20"
+        }
+      ]
+    },
+    {
+      "action": {
+        "type": "other"
+      },
+      "results": [
+        {
+          "url": "https://resources.data.gov/resources/dcat-us3/",
+          "title": "DCAT-US Schema v3.0 | resources.data.gov",
+          "reference_id": "turn1view0"
+        },
+        {
+          "url": "https://data.gov/user-guide/",
+          "title": "User Guide - Data.gov",
+          "reference_id": "turn1view1"
+        },
+        {
+          "url": "https://www.w3.org/TR/prov-primer/",
+          "title": "PROV Model Primer",
+          "reference_id": "turn1view2"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,113 @@
+{
+  "meaning": "Observed native web-tool activity. Search result or page URL is not proof of successful data acquisition, rights or factual entailment. Source text and private diagnostics excluded.",
+  "events": [
+    {
+      "action": {
+        "type": "search",
+        "queries": [
+          "site:census.gov ACS API 2024 5-year data API variables official",
+          "site:census.gov New Brunswick New Jersey ACS 2024 5-year data profile API official"
+        ]
+      },
+      "results": [
+        {
+          "url": "https://www.census.gov/data/developers/data-sets/acs-5year/2024.html",
+          "title": "American Community Survey 5-Year Data 2024",
+          "reference_id": "turn0search0"
+        },
+        {
+          "url": "https://api.census.gov/data/2024/acs/acs5/profile/variables.html",
+          "title": "Census Data API: /data/2024/acs/acs5/profile/variables",
+          "reference_id": "turn0search1"
+        },
+        {
+          "url": "https://api.census.gov/data/2024/acs/acs5/profile.html",
+          "title": "Census Data API: /data/2024/acs/acs5/profile",
+          "reference_id": "turn0search2"
+        },
+        {
+          "url": "https://api.census.gov/data/2024/acs/acs5/pumspr/variables.html",
+          "title": "Census Data API: /data/2024/acs/acs5/pumspr/variables",
+          "reference_id": "turn0search3"
+        },
+        {
+          "url": "https://api.census.gov/data/2024/acs/acsse/variables/.html",
+          "title": "Census Data API: /data/2024/acs/acsse/variables",
+          "reference_id": "turn0search4"
+        },
+        {
+          "url": "https://api.census.gov/data/2024/acs/acs5/cprofile.html",
+          "title": "Census Data API: /data/2024/acs/acs5/cprofile",
+          "reference_id": "turn0search5"
+        },
+        {
+          "url": "https://www.census.gov/data/developers/data-sets/acs-5year.html",
+          "title": "American Community Survey 5-Year Data (2009-2024)",
+          "reference_id": "turn0search6"
+        },
+        {
+          "url": "https://api.census.gov/data/2024/acs/acs5/profile/examples.html",
+          "title": "Census Data API: /data/2024/acs/acs5/profile/examples",
+          "reference_id": "turn0search7"
+        },
+        {
+          "url": "https://api.census.gov/data/2024/acs/acsse.html",
+          "title": "Census Data API: /data/2024/acs/acsse",
+          "reference_id": "turn0search8"
+        },
+        {
+          "url": "https://api.census.gov/data/2024/acs/acs5.html",
+          "title": "Census Data API: /data/2024/acs/acs5",
+          "reference_id": "turn0search9"
+        },
+        {
+          "url": "https://api.census.gov/data/2024/acs/acs5/cprofile/examples.html",
+          "title": "Census Data API: /data/2024/acs/acs5/cprofile/examples",
+          "reference_id": "turn0search10"
+        },
+        {
+          "url": "https://api.census.gov/data/2024/acs/acs5/pums.html",
+          "title": "Census Data API: /data/2024/acs/acs5/pums",
+          "reference_id": "turn0search11"
+        },
+        {
+          "url": "https://www.census.gov/content/dam/Census/library/publications/2020/acs/acs_api_handbook_2020.pdf",
+          "title": "Using the Census Data API With the American Community Survey",
+          "reference_id": "turn0search12"
+        },
+        {
+          "url": "https://www.census.gov/content/dam/Census/newsroom/press-kits/2024/20241205-2019-2023-acs-5-year-prerelease-webinar.pdf",
+          "title": "2019-2023 American Community Survey 5-Year Estimates Prerelease Webinar (12/05/24)",
+          "reference_id": "turn0search13"
+        },
+        {
+          "url": "https://lehd.ces.census.gov/doc/workshop/2025/Census_Bureau_Updates.pdf",
+          "title": "Census Bureau Updates (2025 LED Annual Workshop)",
+          "reference_id": "turn0search14"
+        },
+        {
+          "url": "https://www.census.gov/content/dam/Census/programs-surveys/acs/guidance/training-presentations/20180614_API.pdf",
+          "title": "Using the Census Application Programming Interface (API) with the ACS Webinar Slides",
+          "reference_id": "turn0search15"
+        }
+      ]
+    },
+    {
+      "action": {
+        "type": "other"
+      },
+      "results": [
+        {
+          "url": "https://www.census.gov/data/developers/data-sets/acs-5year/2024.html",
+          "title": "American Community Survey 5-Year Data 2024",
+          "reference_id": "turn1view0"
+        },
+        {
+          "url": "https://api.census.gov/data/2024/acs/acs5/profile.html",
+          "title": "Census Data API: /data/2024/acs/acs5/profile",
+          "reference_id": "turn1view1"
+        }
+      ]
+    }
+  ]
+}

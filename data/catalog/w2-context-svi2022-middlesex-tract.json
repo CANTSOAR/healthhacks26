@@ -1,0 +1,46 @@
+{
+  "dataset_id": "w2-context-svi2022-middlesex-tract",
+  "source_id": "w2-context-svi2022-middlesex-tract",
+  "title": "SVI2022 US tract",
+  "source_url": "https://onemap.cdc.gov/onemapservices/rest/services/SVI/CDC_ATSDR_Social_Vulnerability_Index_2022_USA/FeatureServer/2/query?where=STCNTY%3D%2734023%27&outFields=%2A&returnGeometry=false&f=json",
+  "landing_url": "https://atsdr.cdc.gov/place-health/php/svi/svi-data-documentation-download.html",
+  "acquisition_status": "acquired_bounded_geographic_slice",
+  "record_count": 192,
+  "raw_paths": [
+    "data/raw/w2-context-svi2022-middlesex-tract/records.json",
+    "data/raw/w2-context-svi2022-middlesex-tract/metadata.json",
+    "data/raw/w2-context-svi2022-middlesex-tract/receipt.json"
+  ],
+  "normalized_path": "data/normalized/w2-context-svi2022-middlesex-tract.jsonl",
+  "scope": {
+    "geography_level": "tract",
+    "state": "NJ",
+    "county_fips": "34023",
+    "county": "Middlesex County",
+    "period": "2022 SVI; ACS 2018-2022"
+  },
+  "access": "public_unauthenticated",
+  "rights_status": "U.S. federal government-produced data; CDC states most agency information is public domain unless otherwise noted. No third-party restriction is identified for this numeric SVI layer; attribution retained.",
+  "rights": {
+    "basis": "CDC agency-materials policy states most CDC/ATSDR website information is public domain unless otherwise noted; this layer metadata identifies CDC/ATSDR GRASP and no third-party source.",
+    "policy_url": "https://www.cdc.gov/other/agencymaterials.html",
+    "attribution": "CDC/ATSDR GRASP",
+    "service_copyright_text": "CDC\\ATSDR\\Office of Innovation and Analytics\\Geospatial Research, Analysis, and Services Program (GRASP)",
+    "redistribution": "Public domain government data; geometry omitted; retain source attribution"
+  },
+  "limits": [
+    "Composite rankings are area-level context and are not patient-level risk.",
+    "2022 SVI relies on ACS 2018-2022 estimates and is not a current-year observation.",
+    "The US database ranks areas nationally; state database rankings may differ.",
+    "No hospital arrivals, insurance eligibility, or service-use outcomes are represented."
+  ],
+  "provenance": {
+    "source_url": "https://onemap.cdc.gov/onemapservices/rest/services/SVI/CDC_ATSDR_Social_Vulnerability_Index_2022_USA/FeatureServer/2/query?where=STCNTY%3D%2734023%27&outFields=%2A&returnGeometry=false&f=json",
+    "metadata_url": "https://onemap.cdc.gov/onemapservices/rest/services/SVI/CDC_ATSDR_Social_Vulnerability_Index_2022_USA/FeatureServer/2?f=pjson",
+    "retrieved_at": "2026-10-10T15:28:54.698623+00:00",
+    "sha256": "655dfd239753405a1602c9dd83a3285d5f1f4042c807e40629b2ff11164da372",
+    "raw_artifact_kind": "original_downloaded_response_bytes",
+    "metadata_sha256": "fdc8959056c03f8b929cda6700ad7cb3c51e859cf0bbd46ce594d3866255f65f",
+    "row_count": 192
+  }
+}

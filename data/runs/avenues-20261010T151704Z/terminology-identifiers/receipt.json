@@ -1,0 +1,14 @@
+{
+  "domain_id": "terminology-identifiers",
+  "model": "gpt-6-luna",
+  "started_at": "2026-10-10T15:18:13.626575+00:00",
+  "status": "completed",
+  "candidate_review_status": "unreviewed",
+  "prompt_sha256": "9a7834a53aae6074999ec447f3dcd4dd0c5d4bc69e7903a08e8d89bffd543aaa",
+  "timeout_seconds": 180,
+  "exit_code": 0,
+  "source_candidates": 3,
+  "validation": "schema only; not source entailment or acquired data",
+  "finished_at": "2026-10-10T15:18:34.850545+00:00",
+  "duration_seconds": 21.22
+}

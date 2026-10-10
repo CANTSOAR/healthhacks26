@@ -1,0 +1,128 @@
+{
+  "meaning": "Observed native web-tool activity. Search result or page URL is not proof of successful data acquisition, rights or factual entailment. Source text and private diagnostics excluded.",
+  "events": [
+    {
+      "action": {
+        "type": "search",
+        "queries": [
+          "site:rwjbh.org RWJUH New Brunswick laboratory imaging services radiology official",
+          "site:saintpetershcs.com Saint Peter's University Hospital New Brunswick laboratory imaging services official"
+        ]
+      },
+      "results": [
+        {
+          "url": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/radiology-and-diagnostic-imaging/",
+          "title": "Radiology & Diagnostic Imaging | Radiology Services in New Brunswick",
+          "reference_id": "turn0search0"
+        },
+        {
+          "url": "https://www.rwjbh.org/our-locations/outpatient-rehab-center/rwjuh-imaging-center-at-plum-street/",
+          "title": "RWJUH Imaging Center at Plum Street | Hospitals in New Jersey",
+          "reference_id": "turn0search1"
+        },
+        {
+          "url": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/laboratory-services/",
+          "title": "Lab Services | RWJ University Hospital New Brunswick",
+          "reference_id": "turn0search2"
+        },
+        {
+          "url": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/vascular-services/diagnostic-vascular-services/",
+          "title": "Diagnostic Vascular Services | RWJ University Hospital",
+          "reference_id": "turn0search3"
+        },
+        {
+          "url": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/radiation-oncology/tomotherapy/",
+          "title": "Robert Wood Johnson University Hospital | TomoTherapy Treatment at Robert Wood Johnson University Hospital",
+          "reference_id": "turn0search4"
+        },
+        {
+          "url": "https://www.rwjbh.org/our-locations/",
+          "title": "Our New Jersey Locations | RWJBarnabas Health",
+          "reference_id": "turn0search5"
+        },
+        {
+          "url": "https://www.rwjbh.org/documents/rwj%20new%20brunswick/rwjuh_patient_guide.pdf",
+          "title": "Telephone Directory",
+          "reference_id": "turn0search12"
+        },
+        {
+          "url": "https://www.saintpetershcs.com/SaintPeters/media/SaintPeters/Services/Quick-reference-Guide-Lunch-Box-8.pdf",
+          "title": "Saint Peter\u2019s Healthcare System",
+          "reference_id": "turn0search13"
+        },
+        {
+          "url": "https://www.saintpetershcs.com/SaintPeters/media/SaintPeters/Services/Intake-form-English-October-2022.pdf",
+          "title": "PLEASE COMPLETE THIS FORM AND ATTACH IT TO THE SAINT PETER\u2019S PORTAL",
+          "reference_id": "turn0search14"
+        },
+        {
+          "url": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-room-services/",
+          "title": "Emergency Room in New Brunswick | RWJ University Hospital",
+          "reference_id": "turn0search6"
+        },
+        {
+          "url": "https://www.rwjbh.org/documents/rwj-new-brunswick/New-Brunswick-Nursing-Annual-Report-2023.pdf",
+          "title": "RWJUH New Brunswick Nursing Annual Report 2023",
+          "reference_id": "turn0search15"
+        },
+        {
+          "url": "https://www.saintpetershcs.com/services",
+          "title": "Services",
+          "reference_id": "turn0search7"
+        },
+        {
+          "url": "https://www.saintpetershcs.com/services/antenatal-testing",
+          "title": "Services",
+          "reference_id": "turn0search8"
+        },
+        {
+          "url": "https://www.saintpetershcs.com/SaintPeters/media/SaintPeters/Patients/SP-Admission-Guide-160419.pdf",
+          "title": "Saint Peter\u2019s Health & Management Services Corporation",
+          "reference_id": "turn0search16"
+        },
+        {
+          "url": "https://www.rwjbh.org/documents/publications/healthy-together-fall-2021/rwjuhnb_fall2021.pdf",
+          "title": "RWJUH New Brunswick Healthy Together Fall 2021",
+          "reference_id": "turn0search17"
+        },
+        {
+          "url": "https://www.rwjbh.org/treatment-care/breast-care/schedule-your-mammogram/",
+          "title": "Schedule Your Mammogram | RWJBarnabas Health",
+          "reference_id": "turn0search9"
+        },
+        {
+          "url": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/patients-visitors/phone-directory/",
+          "title": "RWJ University Hospital New Brunswick Phone Directory",
+          "reference_id": "turn0search10"
+        },
+        {
+          "url": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/heart-and-vascular-care/programs-and-specialties/",
+          "title": "Heart, Vascular and Thoracic Programs and Specialties | Robert Wood Johnson University Hospital",
+          "reference_id": "turn0search11"
+        }
+      ]
+    },
+    {
+      "action": {
+        "type": "other"
+      },
+      "results": [
+        {
+          "url": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/laboratory-services/",
+          "title": "Lab Services | RWJ University Hospital New Brunswick",
+          "reference_id": "turn1view0"
+        },
+        {
+          "url": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/radiology-and-diagnostic-imaging/",
+          "title": "Radiology & Diagnostic Imaging | Radiology Services in New Brunswick",
+          "reference_id": "turn1view1"
+        },
+        {
+          "url": "https://www.saintpetershcs.com/services/antenatal-testing",
+          "title": "Services",
+          "reference_id": "turn1view2"
+        }
+      ]
+    }
+  ]
+}

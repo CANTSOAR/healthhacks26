@@ -1,0 +1,14 @@
+{
+  "domain_id": "insurance-coverage",
+  "model": "gpt-6-luna",
+  "started_at": "2026-10-10T15:18:58.348176+00:00",
+  "status": "completed",
+  "candidate_review_status": "unreviewed",
+  "prompt_sha256": "7cc36fc096ba33fb47047f1c52e0c1aa48ef201b55db545c622650ba3ca7c141",
+  "timeout_seconds": 180,
+  "exit_code": 0,
+  "source_candidates": 3,
+  "validation": "schema only; not source entailment or acquired data",
+  "finished_at": "2026-10-10T15:19:31.356553+00:00",
+  "duration_seconds": 33.01
+}

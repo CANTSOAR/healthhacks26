@@ -1,0 +1,113 @@
+{
+  "meaning": "Observed native web-tool activity. Search result or page URL is not proof of successful data acquisition, rights or factual entailment. Source text and private diagnostics excluded.",
+  "events": [
+    {
+      "action": {
+        "type": "search",
+        "queries": [
+          "site:ahrq.gov emergency department throughput data HCUP State Emergency Department Databases New Jersey public data",
+          "site:cms.gov hospital data emergency department wait times dataset New Jersey data download"
+        ]
+      },
+      "results": [
+        {
+          "url": "https://hcup-us.ahrq.gov/db/state/sedddist/sedddist_visits.jsp",
+          "title": "SEDD: File Composition - Number of Visits by Year",
+          "reference_id": "turn0search0"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/seddoverview.jsp",
+          "title": "HCUP-US SEDD Overview",
+          "reference_id": "turn0search1"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/db/state/sedddbdocumentation.jsp",
+          "title": "SEDD Database Documentation",
+          "reference_id": "turn0search2"
+        },
+        {
+          "url": "https://www.hcup-us-test.ahrq.gov/db/availability_public.jsp",
+          "title": "HCUP-US Central Distributor Availability of Databases",
+          "reference_id": "turn0search3"
+        },
+        {
+          "url": "https://hcup-us-test.ahrq.gov/db/state/sedddist/sedddist_filecompnj.jsp",
+          "title": "SEDD File Composition - New Jersey",
+          "reference_id": "turn0search4"
+        },
+        {
+          "url": "https://www.ahrq.gov/data/hcup/index.html",
+          "title": "Healthcare Cost and Utilization Project (HCUP) | Agency for Healthcare Research and Quality",
+          "reference_id": "turn0search5"
+        },
+        {
+          "url": "https://hcup-ts.ahrq.gov/databases.jsp",
+          "title": "HCUP-US Databases",
+          "reference_id": "turn0search6"
+        },
+        {
+          "url": "https://hcup-ts.ahrq.gov/db/availability_public.jsp",
+          "title": "HCUP-US Central Distributor Availability of Databases",
+          "reference_id": "turn0search7"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/db/state/seddrelatedreports.jsp",
+          "title": "SEDD Related Reports",
+          "reference_id": "turn0search8"
+        },
+        {
+          "url": "https://www.hcup-us-test.ahrq.gov/reports/trendtables/summarytrendtables.jsp",
+          "title": "HCUP Summary Trend Tables",
+          "reference_id": "turn0search9"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/tech_assist/faq.jsp",
+          "title": "HCUP Frequently Asked Questions",
+          "reference_id": "turn0search10"
+        },
+        {
+          "url": "https://datatools.ahrq.gov/hcupnet/?dash=34&tab=inpatient-setting",
+          "title": "HCUPnet Data Tools \u2013 Healthcare Cost and Utilization Project (HCUPnet)",
+          "reference_id": "turn0search11"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/db/state/sedd/2015IntramuralSEDDDischargeandHospitalCountsReport.pdf",
+          "title": "Comparison of Hospitals and Records in the 2015 HCUP State Emergency Department Databases (SEDD) to the 2015 American Hospital Association (AHA) Survey of Hospitals",
+          "reference_id": "turn0search12"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/db/state/siddist/2015NJSIDSASDSEDDDNR081608.pdf",
+          "title": "The 2015 HCUP Central Distributor State Inpatient Databases (SID), State Ambulatory Surgery",
+          "reference_id": "turn0search13"
+        },
+        {
+          "url": "https://hcup-ts.ahrq.gov/db/nation/neds/NEDSIntroduction2022.pdf",
+          "title": "HEALTHCARE COST AND UTILIZATION PROJECT \u2014 HCUP",
+          "reference_id": "turn0search14"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/tech_assist/centdist/HCUP-State-Data-Application-Kit-2021-09-15.pdf",
+          "title": "Section C. Select State Emergency Department Databases (SEDD)",
+          "reference_id": "turn0search15"
+        }
+      ]
+    },
+    {
+      "action": {
+        "type": "other"
+      },
+      "results": [
+        {
+          "url": "https://datatools.ahrq.gov/hcupnet/?dash=34&tab=inpatient-setting",
+          "title": "HCUPnet Data Tools \u2013 Healthcare Cost and Utilization Project (HCUPnet)",
+          "reference_id": "turn1view2"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/db/state/sedddist/sedddist_visits.jsp",
+          "title": "SEDD: File Composition - Number of Visits by Year",
+          "reference_id": "turn1view3"
+        }
+      ]
+    }
+  ]
+}

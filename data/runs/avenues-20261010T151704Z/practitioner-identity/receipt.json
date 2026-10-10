@@ -1,0 +1,14 @@
+{
+  "domain_id": "practitioner-identity",
+  "model": "gpt-6-luna",
+  "started_at": "2026-10-10T15:17:27.184032+00:00",
+  "status": "completed",
+  "candidate_review_status": "unreviewed",
+  "prompt_sha256": "03136b18b25de520685658f39080dcbf30a01cc37155b944128cde5ef1b98bdc",
+  "timeout_seconds": 180,
+  "exit_code": 0,
+  "source_candidates": 3,
+  "validation": "schema only; not source entailment or acquired data",
+  "finished_at": "2026-10-10T15:17:48.097098+00:00",
+  "duration_seconds": 20.92
+}

@@ -1,0 +1,14 @@
+{
+  "domain_id": "authority-credentials",
+  "model": "gpt-6-luna",
+  "started_at": "2026-10-10T15:17:37.899079+00:00",
+  "status": "completed",
+  "candidate_review_status": "unreviewed",
+  "prompt_sha256": "fcbb50db6bc27a71d94a9f3c9fa316ddfbde0191f8f1095b56b24c2b945df0aa",
+  "timeout_seconds": 180,
+  "exit_code": 0,
+  "source_candidates": 3,
+  "validation": "schema only; not source entailment or acquired data",
+  "finished_at": "2026-10-10T15:18:13.625466+00:00",
+  "duration_seconds": 35.73
+}

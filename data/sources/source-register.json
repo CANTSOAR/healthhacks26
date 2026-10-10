@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0.0",
   "generation": "Deterministic offline derivation; no source refetch and no inferred publication date or author",
-  "source_count": 19,
-  "record_count": 3136,
+  "source_count": 30,
+  "record_count": 4780,
   "sources": [
     {
       "source_id": "cms-complications-deaths",
@@ -1312,6 +1312,703 @@
           "sha256": "4c57ed1bd335124099c34fb06daec78a32d7b2b858bd741d04dea044d4cbda43",
           "bytes": 7310,
           "storage_kind": "original_downloaded_response_bytes"
+        }
+      ],
+      "raw_availability": "available"
+    },
+    {
+      "source_id": "w2-behavior-safety-culture",
+      "bibtex_key": "w2-behavior-safety-culture",
+      "title": "AHRQ Hospital Survey 2.0 composite topic inventory",
+      "source_url": "https://www.ahrq.gov/sites/default/files/wysiwyg/sops/surveys/hospital/hospitalsurvey2-items.pdf",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "basis": "Original limited factual paraphrases only; source instrument not redistributed",
+        "attribution": "Agency for Healthcare Research and Quality (AHRQ); no endorsement implied",
+        "terms_url": "https://www.ahrq.gov/faqs/index.html?page=3",
+        "limitations": "AHRQ describes geographic/reuse conditions; consult official materials before reproducing instruments, using trademarks or adapting scores."
+      },
+      "scope_as_recorded": "Limited original descriptions of published instrument topics; no individual items or hospital survey responses copied",
+      "limits_as_recorded": [
+        "No local staff or patient response data.",
+        "These paraphrases are not an official survey, validated scoring system or clinical behavior probabilities.",
+        "Use original source and permissions/guidance for actual survey administration."
+      ],
+      "acquisition_status": "acquired_selected_paraphrased_facts",
+      "provenance_as_recorded": {
+        "retrieved_at": "2026-10-10T15:29:17+00:00",
+        "method": "Manually verified limited topic paraphrases; rerunning script does not refresh source",
+        "raw_artifact_kind": "no_raw_source_available"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T15:29:17+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/w2-behavior-safety-culture.json",
+      "catalog_sha256": "c05084b887102eb2b9878749e43dab9b6063f3a897458a8d5c588d3e94fa38a3",
+      "normalized_path": "data/normalized/w2-behavior-safety-culture.jsonl",
+      "normalized_sha256": "abbbc7e385bf61a2ae7abae2f0c8db2214c3cb5cb60606edbccf7dd9169b624a",
+      "record_count": 10,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "w2-behavior-team-observation",
+      "bibtex_key": "w2-behavior-team-observation",
+      "title": "AHRQ TeamSTEPPS observation topic inventory",
+      "source_url": "https://www.ahrq.gov/sites/default/files/wysiwyg/teamstepps-program/tools/ts-team-performance-tool.pdf",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "basis": "Original limited factual paraphrases only; source instrument not redistributed",
+        "attribution": "Agency for Healthcare Research and Quality (AHRQ); no endorsement implied",
+        "terms_url": "https://www.ahrq.gov/faqs/index.html?page=3",
+        "limitations": "AHRQ describes geographic/reuse conditions; consult official materials before reproducing instruments, using trademarks or adapting scores."
+      },
+      "scope_as_recorded": "Limited original descriptions of published instrument topics; no individual items or hospital survey responses copied",
+      "limits_as_recorded": [
+        "No local staff or patient response data.",
+        "These paraphrases are not an official survey, validated scoring system or clinical behavior probabilities.",
+        "Use original source and permissions/guidance for actual survey administration."
+      ],
+      "acquisition_status": "acquired_selected_paraphrased_facts",
+      "provenance_as_recorded": {
+        "retrieved_at": "2026-10-10T15:29:17+00:00",
+        "method": "Manually verified limited topic paraphrases; rerunning script does not refresh source",
+        "raw_artifact_kind": "no_raw_source_available"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T15:29:17+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/w2-behavior-team-observation.json",
+      "catalog_sha256": "f6abd2ce4d6465bb56cab32f39234c9aad33a0aeb1d079fc6dbe34d6c7152ce3",
+      "normalized_path": "data/normalized/w2-behavior-team-observation.jsonl",
+      "normalized_sha256": "63949432046c720eab3cd0027e1701929046ab56860ef3184f0fa555ef2dc73f",
+      "record_count": 5,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "w2-clinical-icd10cm-dx-2027",
+      "bibtex_key": "w2-clinical-icd10cm-dx-2027",
+      "title": "FY2027 ICD-10-CM selected acute-care diagnosis code descriptions",
+      "source_url": "https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Publications/ICD10CM/2027/icd10cm-code-descriptions-2027.zip",
+      "source_urls": [
+        "https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Publications/ICD10CM/2027/icd10cm-code-descriptions-2027.zip"
+      ],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "license": "U.S. federal government work; NCHS-published ICD-10-CM code file",
+        "terms_url": "https://www.cdc.gov/other/agencymaterials.html",
+        "scope": "Official public code-and-title reference; preserve CDC/NCHS attribution; not a clinical guideline."
+      },
+      "scope_as_recorded": "Selected FY2027 U.S. ICD-10-CM billable codes with titles containing common acute-care terms (MI, chest pain, heart failure, arrhythmia, sepsis, pneumonia, respiratory failure, AKI, syncope, stroke, GI hemorrhage, shock, hypoxemia); up to 500 records; full source release ZIP preserved.",
+      "limits_as_recorded": [
+        "Terminology/coding reference only; not a diagnosis, procedure recommendation, care pathway, outcome rate, or patient-level dataset.",
+        "Confirm the applicable release and official coding guidelines before any operational coding use.",
+        "No locally calibrated prevalence, resource use, or care timing is supplied."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "method": "HTTPS source download; deterministic normalization",
+        "script": "scripts/acquire_clinical_wave2.py",
+        "raw_artifact_kind": "original_downloaded_response_bytes"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/retrieved_at",
+          "value": "2026-10-10T15:31:13.073889+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/w2-clinical-icd10cm-dx-2027.json",
+      "catalog_sha256": "620e5a76cf92623d18da1176b810622642ab4eddc260d92a9e6c94f042803a25",
+      "normalized_path": "data/normalized/w2-clinical-icd10cm-dx-2027.jsonl",
+      "normalized_sha256": "a2399772980482e4c1e4edba990136b11e86a3df86b0570103abc84ea5dfdc6d",
+      "record_count": 415,
+      "stored_artifacts": [
+        {
+          "path": "data/raw/w2-clinical-icd10cm-dx-2027/source.zip",
+          "sha256": "93e3ad6004badf470c55bfe679b748ae88fd9b2b421851e409eec382c7713b9a",
+          "bytes": 2192779,
+          "storage_kind": "original_downloaded_response_bytes"
+        }
+      ],
+      "raw_availability": "available"
+    },
+    {
+      "source_id": "w2-clinical-icd10pcs-proc-2027",
+      "bibtex_key": "w2-clinical-icd10pcs-proc-2027",
+      "title": "FY2027 ICD-10-PCS selected procedure code descriptions",
+      "source_url": "https://www.cms.gov/files/zip/2027-icd-10-pcs-codes-file.zip",
+      "source_urls": [
+        "https://www.cms.gov/files/zip/2027-icd-10-pcs-codes-file.zip"
+      ],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "license": "U.S. federal government work; CMS-published ICD-10-PCS code file",
+        "terms_url": "https://www.cms.gov/about-cms/agency-information/aboutwebsite/website-policies/copyright-permissions",
+        "scope": "Official public code-and-title reference; preserve CMS attribution; not a clinical guideline."
+      },
+      "scope_as_recorded": "Selected FY2027 inpatient ICD-10-PCS titles in up to eight illustrative categories: coronary, transfusion, ventilation, endotracheal, dialysis, extirpation, thrombolytic, and pacemaker; full source release ZIP preserved. Extirpation is a PCS operation title, not proof a code means thrombectomy.",
+      "limits_as_recorded": [
+        "Terminology/coding reference only; not a diagnosis, procedure recommendation, care pathway, outcome rate, or patient-level dataset.",
+        "Confirm the applicable release and official coding guidelines before any operational coding use.",
+        "No locally calibrated prevalence, resource use, or care timing is supplied."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "method": "HTTPS source download; deterministic normalization",
+        "script": "scripts/acquire_clinical_wave2.py",
+        "raw_artifact_kind": "original_downloaded_response_bytes"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/retrieved_at",
+          "value": "2026-10-10T15:31:30.745337+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/w2-clinical-icd10pcs-proc-2027.json",
+      "catalog_sha256": "78a69898d513ddf35aa60ce0e597608fde7af450f092451d7e7f5d27ce4e4369",
+      "normalized_path": "data/normalized/w2-clinical-icd10pcs-proc-2027.jsonl",
+      "normalized_sha256": "a23ba99950e26ad4c968d9fdd1eacae97cc23a65b581deea4dd17600d8e5ecf4",
+      "record_count": 444,
+      "stored_artifacts": [
+        {
+          "path": "data/raw/w2-clinical-icd10pcs-proc-2027/source.zip",
+          "sha256": "8db2465fe7a65f53bf21d840fce825d7d107dbd603b7fcb66358c8321919809d",
+          "bytes": 664342,
+          "storage_kind": "original_downloaded_response_bytes"
+        }
+      ],
+      "raw_availability": "available"
+    },
+    {
+      "source_id": "w2-clinical-rxnorm-forms",
+      "bibtex_key": "w2-clinical-rxnorm-forms",
+      "title": "NLM RxNorm selected drug form and strength concepts",
+      "source_url": "https://rxnav.nlm.nih.gov/REST/drugs.json?name=aspirin",
+      "source_urls": [
+        "https://rxnav.nlm.nih.gov/REST/drugs.json?name=aspirin",
+        "https://rxnav.nlm.nih.gov/REST/drugs.json?name=nitroglycerin",
+        "https://rxnav.nlm.nih.gov/REST/drugs.json?name=heparin",
+        "https://rxnav.nlm.nih.gov/REST/drugs.json?name=metoprolol",
+        "https://rxnav.nlm.nih.gov/REST/drugs.json?name=furosemide"
+      ],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "license": "NLM RxNav/RxNorm API public access",
+        "terms_url": "https://lhncbc.nlm.nih.gov/RxNav/TermsofService.html",
+        "scope": "Selected ingredient name queries returning RxNorm drug concept names, forms and strengths; NLM service terms apply; third-party marks/names remain with owners."
+      },
+      "scope_as_recorded": "Five teaching-relevant ingredient name queries; concept records preserve source term type (TTY) and RxCUI.",
+      "limits_as_recorded": [
+        "Identity/form lookups only; results are not a hospital formulary, medication order, dose, treatment, interaction check, or recommendation.",
+        "Name query may return many concepts, obsolete or branded presentations; a qualified reviewer must select concepts for a use case.",
+        "No administration routes, dose selection, or clinical indications are inferred."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "method": "HTTPS source download; deterministic normalization",
+        "script": "scripts/acquire_clinical_wave2.py",
+        "raw_artifact_kind": "original_api_response_bytes"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/retrieved_at",
+          "value": "2026-10-10T15:31:31.458321+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/w2-clinical-rxnorm-forms.json",
+      "catalog_sha256": "997f392611d2bf6dda39a6e2214cd7110d0d6da90b9a1393213379b429a4520e",
+      "normalized_path": "data/normalized/w2-clinical-rxnorm-forms.jsonl",
+      "normalized_sha256": "82dc8350c6a807d19f97974b35de1b5d28df0bde74c21d712a41612bc1dc50ef",
+      "record_count": 312,
+      "stored_artifacts": [
+        {
+          "path": "data/raw/w2-clinical-rxnorm-forms/aspirin.json",
+          "sha256": "e7180d1268d3626a8e7a78e895726000126727e84c796e47c5e9eb44d4137583",
+          "bytes": 36804,
+          "storage_kind": "original_api_response_bytes"
+        },
+        {
+          "path": "data/raw/w2-clinical-rxnorm-forms/nitroglycerin.json",
+          "sha256": "06bb9713eff9a8071f483bab1ace7b08bea66e8360d1985a87221853b48a5589",
+          "bytes": 8571,
+          "storage_kind": "original_api_response_bytes"
+        },
+        {
+          "path": "data/raw/w2-clinical-rxnorm-forms/heparin.json",
+          "sha256": "c4a461e97cb7c112862fdb57cec7240f8bbb223e9e83658ae210b11e01b5c6a8",
+          "bytes": 5743,
+          "storage_kind": "original_api_response_bytes"
+        },
+        {
+          "path": "data/raw/w2-clinical-rxnorm-forms/metoprolol.json",
+          "sha256": "8426d4491ee3e85623e1af151cf38ac202000195f5701d676cf02d3db050e330",
+          "bytes": 7414,
+          "storage_kind": "original_api_response_bytes"
+        },
+        {
+          "path": "data/raw/w2-clinical-rxnorm-forms/furosemide.json",
+          "sha256": "401392ca356b7e4179bde94c8a1f6c29f09c503a770a171cf886ecb64020e918",
+          "bytes": 6095,
+          "storage_kind": "original_api_response_bytes"
+        }
+      ],
+      "raw_availability": "available"
+    },
+    {
+      "source_id": "w2-context-cms-medicare-enrollment-middlesex",
+      "bibtex_key": "w2-context-cms-medicare-enrollment-middlesex",
+      "title": "Medicare Monthly Enrollment",
+      "source_url": "https://data.cms.gov/data-api/v1/dataset/d7fabe1e-d19b-4333-9eff-e80e0643f2fd/data?filter%5BBENE_FIPS_CD%5D=34023&size=5000",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": "https://data.cms.gov/summary-statistics-on-beneficiary-enrollment/medicare-and-medicaid-reports/medicare-monthly-enrollment",
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_copyright": "CMS data API response; no license field in API response",
+        "attribution": "Centers for Medicare & Medicaid Services",
+        "basis": "Federal agency administrative aggregate dataset; no third-party source identified. Consult CMS terms for uses beyond public research."
+      },
+      "scope_as_recorded": {
+        "geography_level": "county",
+        "state": "NJ",
+        "county_fips": "34023",
+        "county": "Middlesex County",
+        "periods": [
+          "2013",
+          "2014",
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020",
+          "2021",
+          "2022",
+          "2023",
+          "2024",
+          "2025",
+          "2026"
+        ],
+        "latest_month": "June"
+      },
+      "limits_as_recorded": [
+        "Beneficiary enrollment counts are population aggregates, not hospital utilization.",
+        "Not individual eligibility, negotiated price, provider participation, or hospital payer mix.",
+        "Suppressed/small counts and variable definitions follow CMS documentation."
+      ],
+      "acquisition_status": "acquired_bounded_geographic_slice",
+      "provenance_as_recorded": {
+        "source_url": "https://data.cms.gov/data-api/v1/dataset/d7fabe1e-d19b-4333-9eff-e80e0643f2fd/data?filter%5BBENE_FIPS_CD%5D=34023&size=5000",
+        "metadata_url": "https://data.cms.gov/data-api/v1/dataset/d7fabe1e-d19b-4333-9eff-e80e0643f2fd/data-viewer?size=1",
+        "retrieved_at": "2026-10-10T15:28:54.698623+00:00",
+        "sha256": "166dbaeb00f826b8212a9ed3fe31c4b7adfa4645232b97ac1429b2093cb1641a",
+        "raw_artifact_kind": "original_downloaded_response_bytes",
+        "metadata_sha256": "1a5972e25d0f515a18aa3db3e43971f46a52a5ca0db3757dbd0a393b4bc20571",
+        "row_count": 175
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T15:28:54.698623+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/w2-context-cms-medicare-enrollment-middlesex.json",
+      "catalog_sha256": "d97f9e0169cea1d005ce997003b7996ba0b7f4ea610668467f7438f7709f1f09",
+      "normalized_path": "data/normalized/w2-context-cms-medicare-enrollment-middlesex.jsonl",
+      "normalized_sha256": "464919d8d9a818471fd156c140974ffd22c02c12a1f4a92d935b14cc77116526",
+      "record_count": 175,
+      "stored_artifacts": [
+        {
+          "path": "data/raw/w2-context-cms-medicare-enrollment-middlesex/records.json",
+          "sha256": "166dbaeb00f826b8212a9ed3fe31c4b7adfa4645232b97ac1429b2093cb1641a",
+          "bytes": 295460,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/w2-context-cms-medicare-enrollment-middlesex/metadata.json",
+          "sha256": "1a5972e25d0f515a18aa3db3e43971f46a52a5ca0db3757dbd0a393b4bc20571",
+          "bytes": 28920,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/w2-context-cms-medicare-enrollment-middlesex/receipt.json",
+          "sha256": "a357843f561d9b24f2896a4a8836e4b1231d24aa5352851554b9b24e354e6338",
+          "bytes": 568,
+          "storage_kind": "generated_retrieval_receipt"
+        }
+      ],
+      "raw_availability": "available"
+    },
+    {
+      "source_id": "w2-context-svi2022-middlesex-county",
+      "bibtex_key": "w2-context-svi2022-middlesex-county",
+      "title": "SVI2022 US county",
+      "source_url": "https://onemap.cdc.gov/onemapservices/rest/services/SVI/CDC_ATSDR_Social_Vulnerability_Index_2022_USA/FeatureServer/1/query?where=STCNTY%3D%2734023%27&outFields=%2A&returnGeometry=false&f=json",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": "https://atsdr.cdc.gov/place-health/php/svi/svi-data-documentation-download.html",
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "basis": "CDC agency-materials policy states most CDC/ATSDR website information is public domain unless otherwise noted; this layer metadata identifies CDC/ATSDR GRASP and no third-party source.",
+        "policy_url": "https://www.cdc.gov/other/agencymaterials.html",
+        "attribution": "CDC/ATSDR GRASP",
+        "service_copyright_text": "CDC\\ATSDR\\Office of Innovation and Analytics\\Geospatial Research, Analysis, and Services Program (GRASP)",
+        "redistribution": "Public domain government data; geometry omitted; retain source attribution"
+      },
+      "scope_as_recorded": {
+        "geography_level": "county",
+        "state": "NJ",
+        "county_fips": "34023",
+        "county": "Middlesex County",
+        "period": "2022 SVI; ACS 2018-2022"
+      },
+      "limits_as_recorded": [
+        "Composite rankings are area-level context and are not patient-level risk.",
+        "2022 SVI relies on ACS 2018-2022 estimates and is not a current-year observation.",
+        "The US database ranks areas nationally; state database rankings may differ.",
+        "No hospital arrivals, insurance eligibility, or service-use outcomes are represented."
+      ],
+      "acquisition_status": "acquired_bounded_geographic_slice",
+      "provenance_as_recorded": {
+        "source_url": "https://onemap.cdc.gov/onemapservices/rest/services/SVI/CDC_ATSDR_Social_Vulnerability_Index_2022_USA/FeatureServer/1/query?where=STCNTY%3D%2734023%27&outFields=%2A&returnGeometry=false&f=json",
+        "metadata_url": "https://onemap.cdc.gov/onemapservices/rest/services/SVI/CDC_ATSDR_Social_Vulnerability_Index_2022_USA/FeatureServer/1?f=pjson",
+        "retrieved_at": "2026-10-10T15:28:54.698623+00:00",
+        "sha256": "979c4a435b20097560ec20407a355feac7577258981c784faec12702b68f54e4",
+        "raw_artifact_kind": "original_downloaded_response_bytes",
+        "metadata_sha256": "193930b9169ae93687a2f89ea9778d6e340f49f47f2921b5b1fd0c5e6c6b023f",
+        "row_count": 1
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/scope/period",
+          "value": "2022 SVI; ACS 2018-2022"
+        },
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T15:28:54.698623+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/w2-context-svi2022-middlesex-county.json",
+      "catalog_sha256": "08bff26a7ca28e6a0bfc0f2e10c0565709069c59aebf0e81492a35f6419cc9d6",
+      "normalized_path": "data/normalized/w2-context-svi2022-middlesex-county.jsonl",
+      "normalized_sha256": "8db7597ef330692e9ba1e4f329da560cdeb1f541d1108a89a0acc598e19584fd",
+      "record_count": 1,
+      "stored_artifacts": [
+        {
+          "path": "data/raw/w2-context-svi2022-middlesex-county/records.json",
+          "sha256": "979c4a435b20097560ec20407a355feac7577258981c784faec12702b68f54e4",
+          "bytes": 25501,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/w2-context-svi2022-middlesex-county/metadata.json",
+          "sha256": "193930b9169ae93687a2f89ea9778d6e340f49f47f2921b5b1fd0c5e6c6b023f",
+          "bytes": 55269,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/w2-context-svi2022-middlesex-county/receipt.json",
+          "sha256": "729a9c24660218b0077c382479a429ad5af8e3427c929b522a564a36b9382d27",
+          "bytes": 664,
+          "storage_kind": "generated_retrieval_receipt"
+        }
+      ],
+      "raw_availability": "available"
+    },
+    {
+      "source_id": "w2-context-svi2022-middlesex-tract",
+      "bibtex_key": "w2-context-svi2022-middlesex-tract",
+      "title": "SVI2022 US tract",
+      "source_url": "https://onemap.cdc.gov/onemapservices/rest/services/SVI/CDC_ATSDR_Social_Vulnerability_Index_2022_USA/FeatureServer/2/query?where=STCNTY%3D%2734023%27&outFields=%2A&returnGeometry=false&f=json",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": "https://atsdr.cdc.gov/place-health/php/svi/svi-data-documentation-download.html",
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "basis": "CDC agency-materials policy states most CDC/ATSDR website information is public domain unless otherwise noted; this layer metadata identifies CDC/ATSDR GRASP and no third-party source.",
+        "policy_url": "https://www.cdc.gov/other/agencymaterials.html",
+        "attribution": "CDC/ATSDR GRASP",
+        "service_copyright_text": "CDC\\ATSDR\\Office of Innovation and Analytics\\Geospatial Research, Analysis, and Services Program (GRASP)",
+        "redistribution": "Public domain government data; geometry omitted; retain source attribution"
+      },
+      "scope_as_recorded": {
+        "geography_level": "tract",
+        "state": "NJ",
+        "county_fips": "34023",
+        "county": "Middlesex County",
+        "period": "2022 SVI; ACS 2018-2022"
+      },
+      "limits_as_recorded": [
+        "Composite rankings are area-level context and are not patient-level risk.",
+        "2022 SVI relies on ACS 2018-2022 estimates and is not a current-year observation.",
+        "The US database ranks areas nationally; state database rankings may differ.",
+        "No hospital arrivals, insurance eligibility, or service-use outcomes are represented."
+      ],
+      "acquisition_status": "acquired_bounded_geographic_slice",
+      "provenance_as_recorded": {
+        "source_url": "https://onemap.cdc.gov/onemapservices/rest/services/SVI/CDC_ATSDR_Social_Vulnerability_Index_2022_USA/FeatureServer/2/query?where=STCNTY%3D%2734023%27&outFields=%2A&returnGeometry=false&f=json",
+        "metadata_url": "https://onemap.cdc.gov/onemapservices/rest/services/SVI/CDC_ATSDR_Social_Vulnerability_Index_2022_USA/FeatureServer/2?f=pjson",
+        "retrieved_at": "2026-10-10T15:28:54.698623+00:00",
+        "sha256": "655dfd239753405a1602c9dd83a3285d5f1f4042c807e40629b2ff11164da372",
+        "raw_artifact_kind": "original_downloaded_response_bytes",
+        "metadata_sha256": "fdc8959056c03f8b929cda6700ad7cb3c51e859cf0bbd46ce594d3866255f65f",
+        "row_count": 192
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/scope/period",
+          "value": "2022 SVI; ACS 2018-2022"
+        },
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T15:28:54.698623+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/w2-context-svi2022-middlesex-tract.json",
+      "catalog_sha256": "447d0d541ed2e52b5b8ec31b6d22fae1c073de41f08f6750a5f32ad78122ce4e",
+      "normalized_path": "data/normalized/w2-context-svi2022-middlesex-tract.jsonl",
+      "normalized_sha256": "306163cc1703db258f54afea743ad57414c26debe1dfb32042b97dd3580569c8",
+      "record_count": 192,
+      "stored_artifacts": [
+        {
+          "path": "data/raw/w2-context-svi2022-middlesex-tract/records.json",
+          "sha256": "655dfd239753405a1602c9dd83a3285d5f1f4042c807e40629b2ff11164da372",
+          "bytes": 522370,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/w2-context-svi2022-middlesex-tract/metadata.json",
+          "sha256": "fdc8959056c03f8b929cda6700ad7cb3c51e859cf0bbd46ce594d3866255f65f",
+          "bytes": 55267,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/w2-context-svi2022-middlesex-tract/receipt.json",
+          "sha256": "c25a1821c3a90923c2d029640c338ebbd3164189204483f91c3ca8d43ff04b88",
+          "bytes": 666,
+          "storage_kind": "generated_retrieval_receipt"
+        }
+      ],
+      "raw_availability": "available"
+    },
+    {
+      "source_id": "w2-ops-cms-cost-report-2023",
+      "bibtex_key": "w2-ops-cms-cost-report-2023",
+      "title": "CMS Hospital Provider Cost Report (2023 release; CCNs 310038 and 310070)",
+      "source_url": "https://data.cms.gov/provider-compliance/cost-reports/hospital-provider-cost-report",
+      "source_urls": [],
+      "query_requests": [
+        {
+          "url": "https://data.cms.gov/data-api/v1/dataset/f08d4c46-c0e4-4bcb-a54a-c62c87d59251/data?filter%5Bfilter-1%5D%5Bcondition%5D%5Bpath%5D=Provider+CCN&filter%5Bfilter-1%5D%5Bcondition%5D%5Boperator%5D=%3D&filter%5Bfilter-1%5D%5Bcondition%5D%5Bvalue%5D=310038&size=5000&offset=0",
+          "returned_count": 1,
+          "ccn": "310038"
+        },
+        {
+          "url": "https://data.cms.gov/data-api/v1/dataset/f08d4c46-c0e4-4bcb-a54a-c62c87d59251/data?filter%5Bfilter-1%5D%5Bcondition%5D%5Bpath%5D=Provider+CCN&filter%5Bfilter-1%5D%5Bcondition%5D%5Boperator%5D=%3D&filter%5Bfilter-1%5D%5Bcondition%5D%5Bvalue%5D=310070&size=5000&offset=0",
+          "returned_count": 1,
+          "ccn": "310070"
+        }
+      ],
+      "landing_url": null,
+      "upstream_dataset_id": "f08d4c46-c0e4-4bcb-a54a-c62c87d59251",
+      "rights_as_recorded": {
+        "basis": "CMS public factual dataset",
+        "source_license": "U.S. government data; CMS dataset API public access",
+        "redistribution": "factual public rows retained with CMS attribution"
+      },
+      "scope_as_recorded": "All returned 2023-release report rows filtered by CMS Provider CCN for RWJUH New Brunswick (310038) and Saint Peter’s University Hospital (310070).",
+      "limits_as_recorded": [
+        "Annual Medicare cost-report filings are retrospective and may have differing fiscal-year begin/end dates.",
+        "The same CCN may have multiple report records/statuses; inspect report IDs and status before selecting one.",
+        "Beds/FTE/utilization are reported fields, not current staffed capacity, available beds or hourly throughput.",
+        "Reported charges, expenses, costs and payment fields have distinct accounting meanings and do not establish patient liability.",
+        "CMS notes data are contractor-extracted from provider submissions; users must interpret fields with the CMS methodology and dictionary."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "retrieved_at": "2026-10-10T15:29:19.153549+00:00",
+        "raw_artifact_kind": "reformatted_api_response"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T15:29:19.153549+00:00"
+        },
+        {
+          "pointer": "/upstream_modified",
+          "value": "2026-10-05"
+        },
+        {
+          "pointer": "/data_period",
+          "value": {
+            "start": "2023-01-01",
+            "end": "2023-12-31"
+          }
+        }
+      ],
+      "catalog_path": "data/catalog/w2-ops-cms-cost-report-2023.json",
+      "catalog_sha256": "3052a07c8d07395b42dadd5e266afd54f209c11e9a598e4d3f2cdccd2f3f0d10",
+      "normalized_path": "data/normalized/w2-ops-cms-cost-report-2023.jsonl",
+      "normalized_sha256": "58f76c9f2f6e23cf99ca521679c3a3d2af0a16fc46a4bdb61f27ff28ee04efc0",
+      "record_count": 2,
+      "stored_artifacts": [
+        {
+          "path": "data/raw/w2-ops-nj/cms-cost-report-2023-310038.json",
+          "sha256": "18b31322e6bf68233f092be32957752ff26642665056b5e140cc0bf84a330349",
+          "bytes": 5192,
+          "storage_kind": "reformatted_api_response"
+        },
+        {
+          "path": "data/raw/w2-ops-nj/cms-cost-report-2023-310070.json",
+          "sha256": "838e60ac4daf78a4914f54060b9f5ff8e39a4238dd22e7d2b6183b14827339e7",
+          "bytes": 5184,
+          "storage_kind": "reformatted_api_response"
+        }
+      ],
+      "raw_availability": "available"
+    },
+    {
+      "source_id": "w2-ops-nj-licensed-facilities",
+      "bibtex_key": "w2-ops-nj-licensed-facilities",
+      "title": "NJ general acute-care licensed facility inventory and reported hospital bed total",
+      "source_url": "https://data.nj.gov/Health/Search-for-Hospitals-Ambulatory-Care-and-other-Acu/9aig-5kq7",
+      "source_urls": [],
+      "query_requests": [
+        {
+          "url": "https://data.nj.gov/resource/mrzk-zrvp.json?%24where=facility_type%3D%27GENERAL+ACUTE+CARE+HOSPITAL%27&%24select=facid%2Cfacility_type%2Clic%2Clicensed_name%2Cfac_city%2Cfac_st%2Czip%2Ccounty%2Clic_expires%2Chospbedtotal&%24order=facid&%24limit=200",
+          "returned_count": 69
+        }
+      ],
+      "landing_url": null,
+      "upstream_dataset_id": "mrzk-zrvp",
+      "rights_as_recorded": {
+        "basis": "New Jersey public open-data factual records",
+        "source_license": "unspecified in catalog",
+        "redistribution": "selected factual fields; attribution and source link retained"
+      },
+      "scope_as_recorded": "69 rows with facility_type='GENERAL ACUTE CARE HOSPITAL' from NJ's licensed/certified health-facility inventory; snapshot queried 2026-10-10T15:29:14.476955+00:00.",
+      "limits_as_recorded": [
+        "Snapshot only; license expiry is not a validation of current status.",
+        "Hospital bed total is not a measure of staffed, open, occupied or immediately available capacity.",
+        "Facility license identifiers are retained; CMS CCN crosswalk is not asserted."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "retrieved_at": "2026-10-10T15:29:14.476955+00:00",
+        "raw_artifact_kind": "projected_response"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T15:29:14.476955+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/w2-ops-nj-licensed-facilities.json",
+      "catalog_sha256": "aed0b0bc39cf98469567a15a98f5ae266b22e0344d0ad675ca202fb7eabf734e",
+      "normalized_path": "data/normalized/w2-ops-nj-licensed-facilities.jsonl",
+      "normalized_sha256": "cf3855678fa08301cd233d418a74bb126a656f3c48cf1cc3f1ad02b14494d0d7",
+      "record_count": 69,
+      "stored_artifacts": [
+        {
+          "path": "data/raw/w2-ops-nj/nj-licensed-facilities.json",
+          "sha256": "7fde586beb3bf1712e4ed486d8733cc971118d4f72f6273bfbb345a1b3e84cbf",
+          "bytes": 25429,
+          "storage_kind": "projected_response"
+        }
+      ],
+      "raw_availability": "available"
+    },
+    {
+      "source_id": "w2-ops-nj-staffing",
+      "bibtex_key": "w2-ops-nj-staffing",
+      "title": "NJ Hospital Patient Care Staffing Quarterly Reports: RWJUH New Brunswick and Saint Peter’s, 2026 Q2",
+      "source_url": "https://healthapps.nj.gov/nursestaffing/quarterly.aspx",
+      "source_urls": [],
+      "query_requests": [
+        {
+          "hospital_id": "11202",
+          "quarter": "2026-Q2",
+          "source_url": "https://healthapps.nj.gov/nursestaffing/quarterly.aspx"
+        },
+        {
+          "hospital_id": "11205",
+          "quarter": "2026-Q2",
+          "source_url": "https://healthapps.nj.gov/nursestaffing/quarterly.aspx"
+        }
+      ],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "basis": "New Jersey Department of Health public factual reports",
+        "source_license": "not established",
+        "redistribution": "limited selected factual values; original report URLs retained"
+      },
+      "scope_as_recorded": "Publicly reported Q2 2026 inpatient unit average daily patient-to-staff ratios plus ED/PACU daily staff and patient summaries for two New Brunswick general hospitals; quarter ending June 30, 2026.",
+      "limits_as_recorded": [
+        "Report quarter is 2026 Q2 (ended June 30, 2026); not live staffing.",
+        "NJDOH explicitly cautions that reports should not be used to compare hospitals or state averages because patient needs, policy and layout differ.",
+        "Reports exclude many caregivers and are based on reported monthly averages from facility daily posting forms.",
+        "Selected inpatient ratios and ED/PACU daily summaries were retained; other report history and sections were not acquired.",
+        "Do not divide reported daily patient averages by daily RN/staff averages to infer a concurrent patient-to-staff ratio; these data do not provide time-aligned census and staffing observations."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "retrieved_at": "2026-10-10T15:29:15.025163+00:00",
+        "raw_artifact_kind": "projected_response",
+        "data_period": {
+          "start": "2026-04-01",
+          "end": "2026-06-30"
+        }
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T15:29:15.025163+00:00"
+        },
+        {
+          "pointer": "/provenance/data_period",
+          "value": {
+            "start": "2026-04-01",
+            "end": "2026-06-30"
+          }
+        }
+      ],
+      "catalog_path": "data/catalog/w2-ops-nj-staffing.json",
+      "catalog_sha256": "db03f2940b1e464311568024988c4f1b78f981af82f2fcedd94fe5aff75ad5f9",
+      "normalized_path": "data/normalized/w2-ops-nj-staffing.jsonl",
+      "normalized_sha256": "d8999bcaa44579488e86a318b56d6f6a7ce471520d7cb45e7344642df4de87b5",
+      "record_count": 19,
+      "stored_artifacts": [
+        {
+          "path": "data/raw/w2-ops-nj/nj-staffing-11202-2026q2.json",
+          "sha256": "8241780d73c77f2cb61082d232d24bcdb396e341e684fcfd7d4bb4493946eabf",
+          "bytes": 5895,
+          "storage_kind": "projected_response"
+        },
+        {
+          "path": "data/raw/w2-ops-nj/nj-staffing-11205-2026q2.json",
+          "sha256": "20594c2f5564fd747dd20a3d73940d0ac868b34948df93ba9d6f29484543f09f",
+          "bytes": 5294,
+          "storage_kind": "projected_response"
         }
       ],
       "raw_availability": "available"

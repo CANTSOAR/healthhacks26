@@ -1,0 +1,118 @@
+{
+  "meaning": "Observed native web-tool activity. Search result or page URL is not proof of successful data acquisition, rights or factual entailment. Source text and private diagnostics excluded.",
+  "events": [
+    {
+      "action": {
+        "type": "search",
+        "queries": [
+          "site:ahrq.gov TeamSTEPPS teamwork attitudes questionnaire official tool download",
+          "site:mededportal.org rubric clinical reasoning assessment rubric official"
+        ]
+      },
+      "results": [
+        {
+          "url": "https://www.ahrq.gov/teamstepps-program/resources/tools/index.html",
+          "title": "TeamSTEPPS Measurement Tools | Agency for Healthcare Research and Quality",
+          "reference_id": "turn0search0"
+        },
+        {
+          "url": "https://www.ahrq.gov/sites/default/files/wysiwyg/teamstepps-program/tools/ts-t-taq-questionnaire.pdf",
+          "title": "TeamSTEPPS Teamwork Attitudes Questionnaire",
+          "reference_id": "turn0search12"
+        },
+        {
+          "url": "https://www.ahrq.gov/teamstepps-program/curriculum/implement/pre/measure.html",
+          "title": "Measurement | Agency for Healthcare Research and Quality",
+          "reference_id": "turn0search1"
+        },
+        {
+          "url": "https://www.ahrq.gov/sites/default/files/wysiwyg/teamstepps-program/tools/ts-tpq-questionnaire.pdf",
+          "title": "TeamSTEPPS Teamwork Perceptions Questionnaire",
+          "reference_id": "turn0search13"
+        },
+        {
+          "url": "https://psnet.ahrq.gov/issue/assessing-teamwork-attitudes-healthcare-development-teamstepps-teamwork-attitudes",
+          "title": "Assessing teamwork attitudes in healthcare: development of the TeamSTEPPS teamwork attitudes questionnaire. | PSNet",
+          "reference_id": "turn0search2"
+        },
+        {
+          "url": "https://www.ahrq.gov/teamstepps-program/resources/modules/index.html",
+          "title": "TeamSTEPPS Tools | Agency for Healthcare Research and Quality",
+          "reference_id": "turn0search3"
+        },
+        {
+          "url": "https://www.ahrq.gov/teamstepps/longtermcare/contents.html",
+          "title": "TeamSTEPPS 3.0 | Agency for Healthcare Research and Quality",
+          "reference_id": "turn0search4"
+        },
+        {
+          "url": "https://psnet.ahrq.gov/node/39903/psn-pdf",
+          "title": "PSNet  \nPATIENT SAFETY NETWORK\n\nAssessing teamwork",
+          "reference_id": "turn0search14"
+        },
+        {
+          "url": "https://www.ahrq.gov/teamstepps-program/diagnosis-improvement/index.html",
+          "title": "TeamSTEPPS Diagnosis Improvement Course | Agency for Healthcare Research and Quality",
+          "reference_id": "turn0search5"
+        },
+        {
+          "url": "https://www.mededportal.org/doi/full/10.15766/mep_2374-8265.10603",
+          "title": "Self-Directed Rater Training for Pediatric History and Physical Exam Evaluation (P-HAPEE) Rubric, a Validated Written H&P Assessment Tool | MedEdPORTAL",
+          "reference_id": "turn0search6"
+        },
+        {
+          "url": "https://www.ahrq.gov/teamstepps-program/curriculum/implement/pre/ready.html",
+          "title": "Readiness Assessment | Agency for Healthcare Research and Quality",
+          "reference_id": "turn0search7"
+        },
+        {
+          "url": "https://www.ahrq.gov/teamstepps-program/resources/videos/module-2-seg-3.html",
+          "title": "TeamSTEPPS Module 2 Segment 3 Video and Materials | Agency for Healthcare Research and Quality",
+          "reference_id": "turn0search8"
+        },
+        {
+          "url": "https://www.ahrq.gov/teamstepps-program/curriculum/team/overview/index.html",
+          "title": "Section 1: Overview of Key Communication Concepts and Tools | Agency for Healthcare Research and Quality",
+          "reference_id": "turn0search9"
+        },
+        {
+          "url": "https://www.ahrq.gov/research/findings/evidence-based-reports/makinghcsafer.html",
+          "title": "Patient Safety Tools | Agency for Healthcare Research and Quality",
+          "reference_id": "turn0search10"
+        },
+        {
+          "url": "https://www.ahrq.gov/teamstepps-program/curriculum/intro/teach/two-day.html",
+          "title": "Two-Day Training Content | Agency for Healthcare Research and Quality",
+          "reference_id": "turn0search11"
+        }
+      ]
+    },
+    {
+      "action": {
+        "type": "other"
+      },
+      "results": [
+        {
+          "url": "https://www.ahrq.gov/teamstepps-program/resources/tools/index.html",
+          "title": "TeamSTEPPS Measurement Tools | Agency for Healthcare Research and Quality",
+          "reference_id": "turn1view0"
+        },
+        {
+          "url": "https://www.ahrq.gov/teamstepps-program/curriculum/implement/pre/measure.html",
+          "title": "Measurement | Agency for Healthcare Research and Quality",
+          "reference_id": "turn1view1"
+        },
+        {
+          "url": "https://www.ahrq.gov/teamstepps-program/diagnosis-improvement/index.html",
+          "title": "TeamSTEPPS Diagnosis Improvement Course | Agency for Healthcare Research and Quality",
+          "reference_id": "turn1view2"
+        },
+        {
+          "url": "https://www.mededportal.org/doi/full/10.15766/mep_2374-8265.10603",
+          "title": "Self-Directed Rater Training for Pediatric History and Physical Exam Evaluation (P-HAPEE) Rubric, a Validated Written H&P Assessment Tool | MedEdPORTAL",
+          "reference_id": "turn1view3"
+        }
+      ]
+    }
+  ]
+}

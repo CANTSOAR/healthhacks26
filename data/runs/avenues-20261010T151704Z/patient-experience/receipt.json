@@ -1,0 +1,14 @@
+{
+  "domain_id": "patient-experience",
+  "model": "gpt-6-luna",
+  "started_at": "2026-10-10T15:19:52.824919+00:00",
+  "status": "completed",
+  "candidate_review_status": "unreviewed",
+  "prompt_sha256": "cf93c3f5a493e9ae398ea65649ef528b6e68f49cace058fe15e74af2516354c6",
+  "timeout_seconds": 180,
+  "exit_code": 0,
+  "source_candidates": 3,
+  "validation": "schema only; not source entailment or acquired data",
+  "finished_at": "2026-10-10T15:20:17.849239+00:00",
+  "duration_seconds": 25.02
+}

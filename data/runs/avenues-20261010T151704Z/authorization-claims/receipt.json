@@ -1,0 +1,14 @@
+{
+  "domain_id": "authorization-claims",
+  "model": "gpt-6-luna",
+  "started_at": "2026-10-10T15:19:15.850312+00:00",
+  "status": "completed",
+  "candidate_review_status": "unreviewed",
+  "prompt_sha256": "987267401deaa9a5e6ef358d3cfd3cdf34ca85e9c8e18fb1c3dceef1c6fcafce",
+  "timeout_seconds": 180,
+  "exit_code": 0,
+  "source_candidates": 3,
+  "validation": "schema only; not source entailment or acquired data",
+  "finished_at": "2026-10-10T15:19:43.494003+00:00",
+  "duration_seconds": 27.64
+}

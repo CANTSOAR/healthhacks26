@@ -1,0 +1,296 @@
+{
+  "version": "0.1",
+  "status": "proposed_project_data_request_not_external_request",
+  "minimum_target": "One selected ED/clinical pathway before whole-hospital numerical calibration",
+  "initial_window_proposal": "8-12 weeks for common-pathway pilot; extend for seasonality/rare events and evaluate adequacy",
+  "cross_cutting": [
+    "source_url_or_authorized_owner",
+    "retrieval_time",
+    "reporting_period",
+    "geography",
+    "population",
+    "grain",
+    "units",
+    "missing_and_suppression_codes",
+    "rights",
+    "uncertainty",
+    "review_status",
+    "transformation_lineage"
+  ],
+  "contracts": [
+    {
+      "id": "arrivals",
+      "priority": "P0-operations",
+      "grain": "arrival/hour/day/acuity/complaint group",
+      "fields": [
+        "facility_id",
+        "unit_id",
+        "period_start",
+        "period_end",
+        "day_of_week",
+        "hour",
+        "arrival_route",
+        "acuity_definition",
+        "complaint_group",
+        "count",
+        "suppression"
+      ],
+      "source_routes": [
+        "ED registration or aggregate demand report"
+      ],
+      "acceptance_rule": "Count arrivals once; retain time zone and arrival definition; report transfers separately.",
+      "simulation_use": "arrival intensity and case-mix sampling"
+    },
+    {
+      "id": "capacity",
+      "priority": "P0-operations",
+      "grain": "unit/resource/shift/time interval",
+      "fields": [
+        "facility_id",
+        "unit_id",
+        "resource_type",
+        "capacity_basis",
+        "count",
+        "available_count",
+        "interval_start",
+        "interval_end",
+        "closure_reason"
+      ],
+      "source_routes": [
+        "Staffed bed and operational resource reports"
+      ],
+      "acceptance_rule": "Licensed, physical, staffed, open and occupied are separate counts; observed availability varies by time.",
+      "simulation_use": "resource pools and constraints"
+    },
+    {
+      "id": "staffing",
+      "priority": "P0-operations",
+      "grain": "role/skill/unit/shift",
+      "fields": [
+        "unit_id",
+        "role",
+        "skill_group",
+        "interval_start",
+        "interval_end",
+        "scheduled_fte",
+        "present_fte",
+        "break_coverage",
+        "supervision_rule"
+      ],
+      "source_routes": [
+        "Roster aggregates",
+        "NJ unit-level staffing reports"
+      ],
+      "acceptance_rule": "No named individuals required initially; quarterly ratios cannot reconstruct a shift roster.",
+      "simulation_use": "resource supply and authority"
+    },
+    {
+      "id": "event-durations",
+      "priority": "P0-operations",
+      "grain": "pseudonymous encounter/stage/event or conditional aggregate",
+      "fields": [
+        "encounter_link_key_or_group",
+        "stage",
+        "event_type",
+        "timestamp_or_duration_quantiles",
+        "acuity",
+        "setting",
+        "clock_basis",
+        "censoring",
+        "missingness"
+      ],
+      "source_routes": [
+        "Legitimately supplied pseudonymous operational extract",
+        "Aggregated conditional duration summaries"
+      ],
+      "acceptance_rule": "Separate waiting, active service, boarding, transfer and turnover; retain censoring and joint dependence.",
+      "simulation_use": "duration distributions and bottlenecks"
+    },
+    {
+      "id": "routing",
+      "priority": "P0-operations",
+      "grain": "from-stage/to-stage/cohort/period",
+      "fields": [
+        "from_unit",
+        "to_unit",
+        "entry_criteria",
+        "cohort",
+        "period",
+        "count",
+        "denominator",
+        "outcome",
+        "decision_rule_version"
+      ],
+      "source_routes": [
+        "Transfer/admission/discharge aggregates",
+        "Reviewed clinical workflow diagrams"
+      ],
+      "acceptance_rule": "The transition population/denominator must match; do not treat diagnosis codes as care pathways.",
+      "simulation_use": "state transitions and routing"
+    },
+    {
+      "id": "clinical-cases",
+      "priority": "P0-education",
+      "grain": "reviewed case/version/fact/event",
+      "fields": [
+        "case_id",
+        "version",
+        "chief_complaint",
+        "history",
+        "exam",
+        "observation_timeline",
+        "medications",
+        "orders_results",
+        "unknowns",
+        "permitted_actions",
+        "disclosure_rules",
+        "branch_constraints",
+        "review_decision"
+      ],
+      "source_routes": [
+        "Faculty-authored approved cases",
+        "Licensed teaching materials"
+      ],
+      "acceptance_rule": "No invented clinical truth in a published teaching case; review facts, branches and contradictions as a version.",
+      "simulation_use": "clinically coherent encounters"
+    },
+    {
+      "id": "qualitative-interactions",
+      "priority": "P0-education",
+      "grain": "reviewed scenario/perspective/interaction",
+      "fields": [
+        "scenario_id",
+        "perspective",
+        "patient_goal",
+        "concern",
+        "communication_preference",
+        "language_support",
+        "interaction_trigger",
+        "approved_response",
+        "escalation_path",
+        "source_locator"
+      ],
+      "source_routes": [
+        "Consented and appropriately deidentified observations",
+        "CHNA themes",
+        "Domain-reviewed authored narratives"
+      ],
+      "acceptance_rule": "Themes and authored examples are not prevalence probabilities; preserve speaker and setting scope.",
+      "simulation_use": "patient behavior and team communication"
+    },
+    {
+      "id": "learning-evaluation",
+      "priority": "P0-education",
+      "grain": "objective/rubric/version/criterion",
+      "fields": [
+        "learning_objective",
+        "learner_level",
+        "rubric_version",
+        "criterion",
+        "observable_evidence",
+        "not_assessable_rule",
+        "safety_flag",
+        "review_decision"
+      ],
+      "source_routes": [
+        "Faculty-reviewed learning objectives and rubrics"
+      ],
+      "acceptance_rule": "Distinguish not observed from incorrect; score observable evidence, retain exact case/rubric version.",
+      "simulation_use": "learner feedback and assessment"
+    },
+    {
+      "id": "payer-rules",
+      "priority": "P1",
+      "grain": "plan/product/network/service/date",
+      "fields": [
+        "payer",
+        "plan",
+        "product",
+        "network",
+        "service_code_system",
+        "service_code",
+        "setting",
+        "effective_interval",
+        "coverage_rule",
+        "authorization_rule",
+        "cost_sharing",
+        "professional_facility_component"
+      ],
+      "source_routes": [
+        "Official benefit documents",
+        "CMS public plan files",
+        "Hospital participation directory"
+      ],
+      "acceptance_rule": "Participation is not coverage; retain plan/date and actual rule conditions.",
+      "simulation_use": "insurance constraints and access"
+    },
+    {
+      "id": "costs",
+      "priority": "P1",
+      "grain": "resource/service/cost-center/fiscal-period",
+      "fields": [
+        "amount_kind",
+        "amount",
+        "currency",
+        "unit",
+        "setting",
+        "fiscal_period",
+        "accounting_basis",
+        "payer_scope",
+        "facility_component"
+      ],
+      "source_routes": [
+        "CMS cost reports",
+        "Permitted price-transparency data",
+        "Institutional cost aggregates"
+      ],
+      "acceptance_rule": "Cost, submitted charge, negotiated allowed amount, reimbursement and patient share are not interchangeable.",
+      "simulation_use": "economic outcomes"
+    },
+    {
+      "id": "external-discharge",
+      "priority": "P1",
+      "grain": "partner/capability/availability/eligibility",
+      "fields": [
+        "partner_id",
+        "service_type",
+        "geography",
+        "eligibility",
+        "capacity_basis",
+        "availability_period",
+        "referral_rule",
+        "transport_dependency"
+      ],
+      "source_routes": [
+        "CMS post-acute provider files",
+        "HRSA and public community resources",
+        "Reviewed referral workflow"
+      ],
+      "acceptance_rule": "A listed provider is not a currently available bed or accepted referral.",
+      "simulation_use": "discharge and downstream constraints"
+    },
+    {
+      "id": "validation",
+      "priority": "P0-before-prediction",
+      "grain": "independent period/cohort/metric",
+      "fields": [
+        "metric_definition",
+        "period",
+        "cohort",
+        "sample_size",
+        "estimate",
+        "quantiles",
+        "uncertainty",
+        "missingness",
+        "held_out_from_fit",
+        "acceptance_rule"
+      ],
+      "source_routes": [
+        "Independent operational period",
+        "Aligned official measures"
+      ],
+      "acceptance_rule": "Do not fit and validate on the same outcome or equate aggregate agreement with mechanism validity.",
+      "simulation_use": "model acceptance and sensitivity"
+    }
+  ]
+}

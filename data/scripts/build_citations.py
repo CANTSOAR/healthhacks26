@@ -47,7 +47,7 @@ DATE_KEYS={'period','year','start_date','end_date','data_period','upstream_modif
 LOCATOR_KEYS={'locator','measure_id','measureid','hcahps_measure_id','facility_id','rndrng_prvdr_ccn','drg_cd','npi','fips','queried_name','rxnorm_ids','datavaluetypeid','year'}
 
 
-def storage_kind(sid,path):
+def storage_kind(sid,path,cat):
     # Verified acquisition-script contracts; unknown future sources are explicitly unclassified.
     if sid=='nppes-new-brunswick-practitioners':
         return 'projected_response_not_original_bytes'
@@ -55,7 +55,8 @@ def storage_kind(sid,path):
         return 'generated_retrieval_receipt'
     if sid.startswith('cms-') or sid.startswith('local-cdc-') or sid in {'nlm-rxnorm-seed-terms','twinverse-patient-profiles'}:
         return 'original_downloaded_response_bytes'
-    return 'stored_artifact_originality_not_declared'
+    declared=cat.get('provenance',{}).get('raw_artifact_kind')
+    return declared if isinstance(declared,str) else 'stored_artifact_originality_not_declared'
 
 
 def bib_escape(value):
@@ -71,6 +72,7 @@ def main():
         if sid!=cat['dataset_id']:
             raise ValueError('Dataset/source mismatch: '+sid)
         normalized=resolve(cat['normalized_path'])
+        normalized_digest=digest(normalized)
         rows=[json.loads(line) for line in normalized.read_text().splitlines() if line.strip()]
         if len(rows)!=cat['record_count']:
             raise ValueError('Record count mismatch: '+sid)
@@ -80,7 +82,7 @@ def main():
             expected=cat.get('raw_sha256',{}).get(name) if isinstance(cat.get('raw_sha256'),dict) else None
             if expected and expected!=sha:
                 raise ValueError('Catalog artifact hash mismatch: '+name)
-            assets.append({'path':rel(path),'sha256':sha,'bytes':path.stat().st_size,'storage_kind':storage_kind(sid,path)})
+            assets.append({'path':rel(path),'sha256':sha,'bytes':path.stat().st_size,'storage_kind':storage_kind(sid,path,cat)})
         for line_number,row in enumerate(rows,1):
             if row['record_id'] in seen or row['source_id']!=sid:
                 raise ValueError('Duplicate record ID or wrong source')
@@ -90,10 +92,10 @@ def main():
                 raise ValueError('Record hash does not match stored artifact: '+row['record_id'])
             if prov.get('raw_path') and rel(resolve(prov['raw_path'])) not in matches:
                 raise ValueError('Record raw path/hash mismatch')
-            citation={'record_id':row['record_id'],'source_id':sid,'bibtex_key':sid,'source_record_id':row.get('source_record_id'),'source_url':prov.get('source_url',cat.get('source_url')),'retrieved_at':prov.get('retrieved_at',cat.get('retrieved_at',cat.get('provenance',{}).get('retrieved_at'))),'source_locators':fields(row.get('data',{}),LOCATOR_KEYS,'/data'),'reported_temporal_fields':fields(row.get('data',{}),DATE_KEYS,'/data'),'source_version_and_dates':fields(cat,DATE_KEYS),'normalized_locator':{'path':rel(normalized),'line':line_number,'file_sha256':digest(normalized)},'raw_sha256':sha,'matching_raw_paths':matches,'raw_evidence_status':'projected_response_not_original_bytes' if sid=='nppes-new-brunswick-practitioners' else ('stored_hash_verified' if matches else 'no_raw_source_available'),'evidence_kind':row.get('evidence_kind'),'review_status':row.get('review_status'),'provenance_as_recorded':prov}
+            citation={'record_id':row['record_id'],'source_id':sid,'bibtex_key':sid,'source_record_id':row.get('source_record_id'),'source_url':prov.get('source_url',cat.get('source_url')),'retrieved_at':prov.get('retrieved_at',cat.get('retrieved_at',cat.get('provenance',{}).get('retrieved_at'))),'source_locators':fields(row.get('data',{}),LOCATOR_KEYS,'/data'),'reported_temporal_fields':fields(row.get('data',{}),DATE_KEYS,'/data'),'source_version_and_dates':fields(cat,DATE_KEYS),'normalized_locator':{'path':rel(normalized),'line':line_number,'file_sha256':normalized_digest},'raw_sha256':sha,'matching_raw_paths':matches,'raw_evidence_status':'projected_response_not_original_bytes' if sid=='nppes-new-brunswick-practitioners' else ('stored_hash_verified' if matches else 'no_raw_source_available'),'evidence_kind':row.get('evidence_kind'),'review_status':row.get('review_status'),'provenance_as_recorded':prov}
             citations.append(citation)
         provenance=cat.get('provenance',{})
-        source={'source_id':sid,'bibtex_key':sid,'title':cat['title'],'source_url':cat.get('source_url'),'source_urls':cat.get('source_urls',[]),'query_requests':cat.get('queries',[]),'landing_url':cat.get('landing_url'),'upstream_dataset_id':cat.get('upstream_dataset_id'),'rights_as_recorded':cat.get('rights'),'scope_as_recorded':cat.get('scope'),'limits_as_recorded':cat.get('limits',[]),'acquisition_status':cat.get('acquisition_status'),'provenance_as_recorded':provenance,'reported_temporal_fields':fields(cat,DATE_KEYS),'catalog_path':rel(catalog_path),'catalog_sha256':digest(catalog_path),'normalized_path':rel(normalized),'normalized_sha256':digest(normalized),'record_count':len(rows),'stored_artifacts':assets,'raw_availability':'available' if assets else 'no_raw_source_available'}
+        source={'source_id':sid,'bibtex_key':sid,'title':cat['title'],'source_url':cat.get('source_url'),'source_urls':cat.get('source_urls',[]),'query_requests':cat.get('queries',[]),'landing_url':cat.get('landing_url'),'upstream_dataset_id':cat.get('upstream_dataset_id'),'rights_as_recorded':cat.get('rights'),'scope_as_recorded':cat.get('scope'),'limits_as_recorded':cat.get('limits',[]),'acquisition_status':cat.get('acquisition_status'),'provenance_as_recorded':provenance,'reported_temporal_fields':fields(cat,DATE_KEYS),'catalog_path':rel(catalog_path),'catalog_sha256':digest(catalog_path),'normalized_path':rel(normalized),'normalized_sha256':normalized_digest,'record_count':len(rows),'stored_artifacts':assets,'raw_availability':'available' if assets else 'no_raw_source_available'}
         sources.append(source)
         retrieved=cat.get('retrieved_at',provenance.get('retrieved_at'))
         parts=[f'@misc{{{sid},', '  title = {'+bib_escape(cat['title'])+'},', '  url = {'+cat.get('landing_url',cat.get('source_url',''))+'},']

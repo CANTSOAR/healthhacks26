@@ -1,0 +1,123 @@
+{
+  "meaning": "Observed native web-tool activity. Search result or page URL is not proof of successful data acquisition, rights or factual entailment. Source text and private diagnostics excluded.",
+  "events": [
+    {
+      "action": {
+        "type": "search",
+        "queries": [
+          "site:cms.gov HCRIS hospital cost report data download worksheets public use file",
+          "site:rwjbh.org RWJUH New Brunswick financial assistance policy billing charges PDF"
+        ]
+      },
+      "results": [
+        {
+          "url": "https://www.cms.gov/research-statistics-data-and-systems/downloadable-public-use-files/cost-reports/docs/hcris-faq.pdf",
+          "title": "FREQUENTLY ASKED QUESTIONS",
+          "reference_id": "turn0search12"
+        },
+        {
+          "url": "https://www.cms.gov/data-research/statistics-trends-and-reports/cost-reports",
+          "title": "Cost Reports | CMS",
+          "reference_id": "turn0search0"
+        },
+        {
+          "url": "https://edit.cms.gov/Research-Statistics-Data-and-Systems/Downloadable-Public-Use-Files/Cost-Reports/DOCS/HCRIS-FAQ.pdf",
+          "title": "FREQUENTLY ASKED QUESTIONS",
+          "reference_id": "turn0search13"
+        },
+        {
+          "url": "https://www.cms.gov/data-research/statistics-trends-and-reports/cost-reports/renal-facility-265-1994-form",
+          "title": "Renal Facility 265-1994 form | CMS",
+          "reference_id": "turn0search1"
+        },
+        {
+          "url": "https://www.cms.gov/medicare/payment/prospective-payment-systems/acute-inpatient-pps/direct-graduate-medical-education-dgme",
+          "title": "Direct Graduate Medical Education (DGME) | CMS",
+          "reference_id": "turn0search2"
+        },
+        {
+          "url": "https://www.cms.gov/medicare/medicare-fee-for-service-payment/acuteinpatientpps/wage-index-files-items/cms060034",
+          "title": "FY 2006 Wage Index-Preliminary Worksheet S-3 Wage Data File | CMS",
+          "reference_id": "turn0search3"
+        },
+        {
+          "url": "https://www.cms.gov/medicare/fraud-and-abuse/physicianselfreferral/downloads/accessing_data_and_sample_computations.pdf",
+          "title": "Accessing Data and Sample Computations",
+          "reference_id": "turn0search14"
+        },
+        {
+          "url": "https://data.cms.gov/sites/default/files/2024-10/aba118b3-4f1f-45a4-8c61-b392d96b1b12/Hospital%20Provider%20Cost%20Report%20Methodology_2024_508%20Approved.pdf",
+          "title": "Hospital Provider Cost Report Methodology",
+          "reference_id": "turn0search15"
+        },
+        {
+          "url": "https://www.rwjbh.org/documents/billing/2025-RWJBarnabas-Health-System-Wide-FAP-Withum.pdf",
+          "title": "Financial Assistance Policy & Billing/Collection Policy",
+          "reference_id": "turn0search16"
+        },
+        {
+          "url": "https://www.cms.gov/medicaremedicare-fee-service-paymentacuteinpatientppsacute-inpatient-files-download/files-fy-2019-proposed-rule-and-correction-notice",
+          "title": "Files for FY 2019 Proposed Rule and Correction Notice | CMS",
+          "reference_id": "turn0search4"
+        },
+        {
+          "url": "https://security.cms.gov/pia/health-care-cost-report-information-system",
+          "title": "Health Care Cost Report Information System | CMS Information Security and Privacy Program",
+          "reference_id": "turn0search5"
+        },
+        {
+          "url": "https://www.rwjbh.org/billing/financial-resources/",
+          "title": "Financial Resources | RWJBarnabas Health",
+          "reference_id": "turn0search6"
+        },
+        {
+          "url": "https://www.cms.gov/data-research",
+          "title": "Research, Statistics, Data & Systems | CMS",
+          "reference_id": "turn0search7"
+        },
+        {
+          "url": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/billing/charges/",
+          "title": "Charges | RWJ University Hospital New Brunswick",
+          "reference_id": "turn0search8"
+        },
+        {
+          "url": "https://www.rwjbh.org/billing/pricing-estimate-for-services/",
+          "title": "Pricing Estimate for Services | RWJBarnabas Health",
+          "reference_id": "turn0search9"
+        },
+        {
+          "url": "https://www.cms.gov/medicare/audits-compliance/part-cost-report-audit/worksheet-s-12",
+          "title": "Worksheet S-12 | CMS",
+          "reference_id": "turn0search10"
+        },
+        {
+          "url": "https://data.cms.gov/provider-compliance/cost-reports",
+          "title": "Cost Reports | CMS Data",
+          "reference_id": "turn0search11"
+        }
+      ]
+    },
+    {
+      "action": {
+        "type": "other"
+      },
+      "results": [
+        {
+          "url": "https://www.cms.gov/data-research/statistics-trends-and-reports/cost-reports",
+          "title": "Cost Reports | CMS",
+          "reference_id": "turn1view0"
+        },
+        {
+          "url": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/billing/charges/",
+          "title": "Charges | RWJ University Hospital New Brunswick",
+          "reference_id": "turn1view2"
+        },
+        {
+          "url": "https://data.cms.gov/provider-compliance/cost-reports",
+          "title": "Centers for Medicare & Medicaid Services Data",
+          "reference_id": "turn1view3"
+        }
+      ]
+    }
+  ]
+}

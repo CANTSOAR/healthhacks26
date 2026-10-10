@@ -1,0 +1,103 @@
+{
+  "meaning": "Observed native web-tool activity. Search result or page URL is not proof of successful data acquisition, rights or factual entailment. Source text and private diagnostics excluded.",
+  "events": [
+    {
+      "action": {
+        "type": "search",
+        "queries": [
+          "site:njconsumeraffairs.gov physician assistant scope practice supervising physician New Jersey statute",
+          "site:njconsumeraffairs.gov New Jersey nurse practitioner scope practice hospital prescribing regulations"
+        ]
+      },
+      "results": [
+        {
+          "url": "https://www.njconsumeraffairs.gov/pa/Pages/FAQ.aspx",
+          "title": "Pages - Frequently Asked Questions",
+          "reference_id": "turn0search0"
+        },
+        {
+          "url": "https://www.njconsumeraffairs.gov/Statutes/PA-Modernization-Act.pdf",
+          "title": "CHAPTER 224",
+          "reference_id": "turn0search12"
+        },
+        {
+          "url": "https://www.njconsumeraffairs.gov/Adoptions/paado_06042018.pdf",
+          "title": "50 N.J.R. 1368(a)",
+          "reference_id": "turn0search13"
+        },
+        {
+          "url": "https://www.njconsumeraffairs.gov/nur/Pages/determinescope.aspx",
+          "title": "Pages - Determining Scope of Nursing Practice Model",
+          "reference_id": "turn0search1"
+        },
+        {
+          "url": "https://www.njconsumeraffairs.gov/Proposals/Pages/08212017-Physician-Assistant-proposal.aspx",
+          "title": "Pages - Rule Proposal",
+          "reference_id": "turn0search2"
+        },
+        {
+          "url": "https://www.njconsumeraffairs.gov/nur?preview=true&site_id=1864",
+          "title": "Pages - New Jersey Board of Nursing",
+          "reference_id": "turn0search3"
+        },
+        {
+          "url": "https://www.njconsumeraffairs.gov/nur/Pages/APN-Certification.aspx",
+          "title": "Pages - Advanced Practice Nurse Certification",
+          "reference_id": "turn0search4"
+        },
+        {
+          "url": "https://www.njconsumeraffairs.gov/regulations/chapter-37-new-jersey-board-of-nursing.pdf",
+          "title": "NEW JERSEY BOARD OF NURSING",
+          "reference_id": "turn0search14"
+        },
+        {
+          "url": "https://www.njconsumeraffairs.gov/Proposals/Pages/03202017-nursing-proposal.aspx",
+          "title": "Pages - Rule Proposal",
+          "reference_id": "turn0search5"
+        },
+        {
+          "url": "https://www.njconsumeraffairs.gov/nur/Pages/algorithms.aspx",
+          "title": "Pages - Decision-Making Model Algorithms",
+          "reference_id": "turn0search6"
+        },
+        {
+          "url": "https://www.njconsumeraffairs.gov/pa/Pages/regulations.aspx",
+          "title": "Pages - Statutes and Regulations",
+          "reference_id": "turn0search7"
+        },
+        {
+          "url": "https://www.njconsumeraffairs.gov/search/pages/results.aspx?k=supervising+physician",
+          "title": "Pages - Search",
+          "reference_id": "turn0search8"
+        },
+        {
+          "url": "https://www.njconsumeraffairs.gov/nur/Pages/decisionmaking.aspx",
+          "title": "Pages - Decision- Making Model",
+          "reference_id": "turn0search9"
+        },
+        {
+          "url": "https://www.njconsumeraffairs.gov/Proposals/Pages/09052017-Nursing-proposl.aspx",
+          "title": "Pages - Rule Proposal",
+          "reference_id": "turn0search10"
+        },
+        {
+          "url": "https://www.njconsumeraffairs.gov/pa/",
+          "title": "Pages - Physician Assistant Advisory Committee",
+          "reference_id": "turn0search11"
+        }
+      ]
+    },
+    {
+      "action": {
+        "type": "other"
+      },
+      "results": [
+        {
+          "url": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/",
+          "title": "Robert Wood Johnson University Hospital | New Brunswick NJ Hospital",
+          "reference_id": "turn1view3"
+        }
+      ]
+    }
+  ]
+}

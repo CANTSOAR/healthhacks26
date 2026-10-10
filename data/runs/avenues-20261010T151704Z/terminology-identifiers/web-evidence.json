@@ -1,0 +1,123 @@
+{
+  "meaning": "Observed native web-tool activity. Search result or page URL is not proof of successful data acquisition, rights or factual entailment. Source text and private diagnostics excluded.",
+  "events": [
+    {
+      "action": {
+        "type": "search",
+        "queries": [
+          "site:loinc.org download LOINC license official release download",
+          "site:cms.gov CCN NPI crosswalk download official CMS data"
+        ]
+      },
+      "results": [
+        {
+          "url": "https://loinc.org/downloads",
+          "title": "LOINC - Download LOINC",
+          "reference_id": "turn0search0"
+        },
+        {
+          "url": "https://loinc.org/kb/license",
+          "title": "LOINC License (KB) - LOINC",
+          "reference_id": "turn0search1"
+        },
+        {
+          "url": "https://download.cms.gov/nppes/NPI_Files.html",
+          "title": "NPI Files",
+          "reference_id": "turn0search2"
+        },
+        {
+          "url": "https://download.cms.gov/encounter_data/medicare%20advantage%20encounter%20data%20analytical%20methods%20June%202026%20Final.pdf",
+          "title": "Medicare Advantage Encounter Data Analytical Methods",
+          "reference_id": "turn0search12"
+        },
+        {
+          "url": "https://www.cms.gov/medicare/enrollment-renewal/providers-suppliers/health-care-taxonomy",
+          "title": "Find Your Taxonomy Code | CMS",
+          "reference_id": "turn0search3"
+        },
+        {
+          "url": "https://download.cms.gov/encounter_data/medicare%20advantage%20encounter%20data%20analytical%20methods_508.pdf",
+          "title": "Medicare Advantage Encounter Data Analytical Methods",
+          "reference_id": "turn0search13"
+        },
+        {
+          "url": "https://loinc.org/get",
+          "title": "LOINC - How to access LOINC",
+          "reference_id": "turn0search4"
+        },
+        {
+          "url": "https://loinc.org/kb/ontology/faq",
+          "title": "LOINC Ontology FAQ (KB) - LOINC",
+          "reference_id": "turn0search5"
+        },
+        {
+          "url": "https://cdn.loinc.org/archive",
+          "title": "LOINC - Archive of previous LOINC versions",
+          "reference_id": "turn0search6"
+        },
+        {
+          "url": "https://loinc.org/news",
+          "title": "LOINC - LOINC announcements",
+          "reference_id": "turn0search7"
+        },
+        {
+          "url": "https://loinc.org/news/loinc-version-2-83-release-highlights",
+          "title": "LOINC - LOINC Version 2.83 Release Highlights",
+          "reference_id": "turn0search8"
+        },
+        {
+          "url": "https://loinc.org/join/",
+          "title": "Create a LOINC User Account \u2013 LOINC",
+          "reference_id": "turn0search9"
+        },
+        {
+          "url": "https://loinc.org/kb/release-notes-archive",
+          "title": "LOINC Release Notes Archive (KB) - LOINC",
+          "reference_id": "turn0search10"
+        },
+        {
+          "url": "https://loinc.org/kb/api/download",
+          "title": "Download API (KB) - LOINC",
+          "reference_id": "turn0search11"
+        },
+        {
+          "url": "https://loinc.org/files/meetings/fall-2020/20201013_LOINC_license_review.pdf",
+          "title": "LOINC License 5.0",
+          "reference_id": "turn0search14"
+        },
+        {
+          "url": "https://loinc.org/app/uploads/dlm_uploads/2026/06/2020-LOINC-Annual-Report.pdf",
+          "title": "2020 LOINC Annual Report \u2013 LOINC",
+          "reference_id": "turn0search15"
+        }
+      ]
+    },
+    {
+      "action": {
+        "type": "other"
+      },
+      "results": [
+        {
+          "url": "https://loinc.org/downloads",
+          "title": "LOINC - Download LOINC",
+          "reference_id": "turn1view0"
+        },
+        {
+          "url": "https://loinc.org/kb/license",
+          "title": "LOINC License (KB) - LOINC",
+          "reference_id": "turn1view1"
+        },
+        {
+          "url": "https://www.cms.gov/medicare/enrollment-renewal/providers-suppliers/health-care-taxonomy",
+          "title": "Find Your Taxonomy Code | CMS",
+          "reference_id": "turn1view2"
+        },
+        {
+          "url": "https://loinc.org/kb/api/download",
+          "title": "Download API (KB) - LOINC",
+          "reference_id": "turn1view3"
+        }
+      ]
+    }
+  ]
+}

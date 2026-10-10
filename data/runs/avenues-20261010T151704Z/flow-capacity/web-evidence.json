@@ -1,0 +1,128 @@
+{
+  "meaning": "Observed native web-tool activity. Search result or page URL is not proof of successful data acquisition, rights or factual entailment. Source text and private diagnostics excluded.",
+  "events": [
+    {
+      "action": {
+        "type": "search",
+        "queries": [
+          "site:data.cms.gov hospital beds staffed beds dataset hospital cost report HCRIS download",
+          "site:ahrq.gov emergency department boarding data hospital patient flow dataset"
+        ]
+      },
+      "results": [
+        {
+          "url": "https://data.cms.gov/provider-compliance/cost-reports/skilled-nursing-facility-cost-report",
+          "title": "Skilled Nursing Facility Cost Report Data | CMS Data",
+          "reference_id": "turn0search0"
+        },
+        {
+          "url": "https://data.cms.gov/sites/default/files/2024-03/055f7f89-5092-42f8-a5d2-e1f7fb549db5/Hospital%20Cost%20Report_Methodology_2023_update_release.pdf",
+          "title": "Data Source",
+          "reference_id": "turn0search12"
+        },
+        {
+          "url": "https://data.cms.gov/provider-compliance/cost-reports",
+          "title": "Cost Reports | CMS Data",
+          "reference_id": "turn0search1"
+        },
+        {
+          "url": "https://data.cms.gov/provider-characteristics/hospitals-and-other-facilities",
+          "title": "Hospitals and Other Facilities | CMS Data",
+          "reference_id": "turn0search2"
+        },
+        {
+          "url": "https://data.cms.gov/provider-compliance",
+          "title": "Provider Compliance | CMS Data",
+          "reference_id": "turn0search3"
+        },
+        {
+          "url": "https://data.cms.gov/sites/default/files/2024-03/9756088d-5280-4090-80b9-449d31ef25a3/Cost%20Report%20Data%20Dictionary%20Update.pdf",
+          "title": "Hospital Provider Cost Report Data Dictionary",
+          "reference_id": "turn0search13"
+        },
+        {
+          "url": "https://data.cms.gov/provider-compliance/cost-reports/hospital-provider-cost-report/api-docs",
+          "title": "Hospital Provider Cost Report Data | CMS Data",
+          "reference_id": "turn0search4"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/db/nation/neds/nedsfilespecs.jsp",
+          "title": "NEDS File Specifications",
+          "reference_id": "turn0search5"
+        },
+        {
+          "url": "https://data.cms.gov/provider-data/topics/hospitals",
+          "title": "Hospitals | Provider Data Catalog",
+          "reference_id": "turn0search6"
+        },
+        {
+          "url": "https://data.cms.gov/provider-data/archived-data/hospitals",
+          "title": "Provider Data Catalog",
+          "reference_id": "turn0search7"
+        },
+        {
+          "url": "https://data.cms.gov/provider-data/topics/hospitals/",
+          "title": "Hospitals | Provider Data Catalog",
+          "reference_id": "turn0search8"
+        },
+        {
+          "url": "https://datatools.ahrq.gov/hcupnet/?dash=34&tab=inpatient-setting",
+          "title": "HCUPnet Data Tools \u2013 Healthcare Cost and Utilization Project (HCUPnet)",
+          "reference_id": "turn0search9"
+        },
+        {
+          "url": "https://hcup-us-test.ahrq.gov/seddoverview.jsp",
+          "title": "HCUP-US SEDD Overview",
+          "reference_id": "turn0search10"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/db/state/sedddbdocumentation.jsp",
+          "title": "SEDD Database Documentation",
+          "reference_id": "turn0search11"
+        },
+        {
+          "url": "https://www.ahrq.gov/research/findings/final-reports/ptflow/ptflowguide.pdf",
+          "title": "Improving Patient Flow",
+          "reference_id": "turn0search14"
+        },
+        {
+          "url": "https://www.ahrq.gov/sites/default/files/publications/files/ptflowguide.pdf",
+          "title": "Improving Patient Flow and Reducing Emergency Department Crowding: A Guide for Hospitals",
+          "reference_id": "turn0search15"
+        },
+        {
+          "url": "https://www.ahrq.gov/sites/default/files/wysiwyg/topics/ed-boarding-summit-report.pdf",
+          "title": "AHRQ Summit to Address Emergency Department Boarding",
+          "reference_id": "turn0search16"
+        }
+      ]
+    },
+    {
+      "action": {
+        "type": "other"
+      },
+      "results": [
+        {
+          "url": "https://data.cms.gov/provider-compliance/cost-reports/hospital-provider-cost-report/api-docs",
+          "title": "Centers for Medicare & Medicaid Services Data",
+          "reference_id": "turn1view0"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/db/nation/neds/nedsfilespecs.jsp",
+          "title": "NEDS File Specifications",
+          "reference_id": "turn1view1"
+        },
+        {
+          "url": "https://datatools.ahrq.gov/hcupnet/?dash=34&tab=inpatient-setting",
+          "title": "HCUPnet Data Tools \u2013 Healthcare Cost and Utilization Project (HCUPnet)",
+          "reference_id": "turn1view2"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/db/state/sedddbdocumentation.jsp",
+          "title": "SEDD Database Documentation",
+          "reference_id": "turn1view3"
+        }
+      ]
+    }
+  ]
+}

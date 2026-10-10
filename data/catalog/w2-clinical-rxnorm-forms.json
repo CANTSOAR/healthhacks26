@@ -1,0 +1,48 @@
+{
+  "dataset_id": "w2-clinical-rxnorm-forms",
+  "source_id": "w2-clinical-rxnorm-forms",
+  "title": "NLM RxNorm selected drug form and strength concepts",
+  "source_url": "https://rxnav.nlm.nih.gov/REST/drugs.json?name=aspirin",
+  "source_urls": [
+    "https://rxnav.nlm.nih.gov/REST/drugs.json?name=aspirin",
+    "https://rxnav.nlm.nih.gov/REST/drugs.json?name=nitroglycerin",
+    "https://rxnav.nlm.nih.gov/REST/drugs.json?name=heparin",
+    "https://rxnav.nlm.nih.gov/REST/drugs.json?name=metoprolol",
+    "https://rxnav.nlm.nih.gov/REST/drugs.json?name=furosemide"
+  ],
+  "record_count": 312,
+  "raw_paths": [
+    "raw/w2-clinical-rxnorm-forms/aspirin.json",
+    "raw/w2-clinical-rxnorm-forms/nitroglycerin.json",
+    "raw/w2-clinical-rxnorm-forms/heparin.json",
+    "raw/w2-clinical-rxnorm-forms/metoprolol.json",
+    "raw/w2-clinical-rxnorm-forms/furosemide.json"
+  ],
+  "raw_sha256": {
+    "raw/w2-clinical-rxnorm-forms/aspirin.json": "e7180d1268d3626a8e7a78e895726000126727e84c796e47c5e9eb44d4137583",
+    "raw/w2-clinical-rxnorm-forms/nitroglycerin.json": "06bb9713eff9a8071f483bab1ace7b08bea66e8360d1985a87221853b48a5589",
+    "raw/w2-clinical-rxnorm-forms/heparin.json": "c4a461e97cb7c112862fdb57cec7240f8bbb223e9e83658ae210b11e01b5c6a8",
+    "raw/w2-clinical-rxnorm-forms/metoprolol.json": "8426d4491ee3e85623e1af151cf38ac202000195f5701d676cf02d3db050e330",
+    "raw/w2-clinical-rxnorm-forms/furosemide.json": "401392ca356b7e4179bde94c8a1f6c29f09c503a770a171cf886ecb64020e918"
+  },
+  "normalized_path": "normalized/w2-clinical-rxnorm-forms.jsonl",
+  "scope": "Five teaching-relevant ingredient name queries; concept records preserve source term type (TTY) and RxCUI.",
+  "access": "public",
+  "rights": {
+    "license": "NLM RxNav/RxNorm API public access",
+    "terms_url": "https://lhncbc.nlm.nih.gov/RxNav/TermsofService.html",
+    "scope": "Selected ingredient name queries returning RxNorm drug concept names, forms and strengths; NLM service terms apply; third-party marks/names remain with owners."
+  },
+  "acquisition_status": "acquired",
+  "retrieved_at": "2026-10-10T15:31:31.458321+00:00",
+  "limits": [
+    "Identity/form lookups only; results are not a hospital formulary, medication order, dose, treatment, interaction check, or recommendation.",
+    "Name query may return many concepts, obsolete or branded presentations; a qualified reviewer must select concepts for a use case.",
+    "No administration routes, dose selection, or clinical indications are inferred."
+  ],
+  "provenance": {
+    "method": "HTTPS source download; deterministic normalization",
+    "script": "scripts/acquire_clinical_wave2.py",
+    "raw_artifact_kind": "original_api_response_bytes"
+  }
+}

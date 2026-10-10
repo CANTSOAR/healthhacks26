@@ -1,0 +1,14 @@
+{
+  "domain_id": "costs-finance",
+  "model": "gpt-6-luna",
+  "started_at": "2026-10-10T15:19:31.357326+00:00",
+  "status": "completed",
+  "candidate_review_status": "unreviewed",
+  "prompt_sha256": "eb35013b8b16e90fb8066a21366b5cee93f0d111a51ebb7d0e6e6effd4c5b669",
+  "timeout_seconds": 180,
+  "exit_code": 0,
+  "source_candidates": 3,
+  "validation": "schema only; not source entailment or acquired data",
+  "finished_at": "2026-10-10T15:19:58.832811+00:00",
+  "duration_seconds": 27.47
+}

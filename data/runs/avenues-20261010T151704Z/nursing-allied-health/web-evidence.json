@@ -1,0 +1,123 @@
+{
+  "meaning": "Observed native web-tool activity. Search result or page URL is not proof of successful data acquisition, rights or factual entailment. Source text and private diagnostics excluded.",
+  "events": [
+    {
+      "action": {
+        "type": "search",
+        "queries": [
+          "site:nj.gov nurse staffing ratios hospital data New Jersey staffing report hours nursing care",
+          "official healthcare dataset interpreter utilization hospital emergency department nursing tasks duration allied health dataset"
+        ]
+      },
+      "results": [
+        {
+          "url": "https://healthapps.nj.gov/nursestaffing/quarterly.aspx",
+          "title": "Nurse Staffing",
+          "reference_id": "turn0search0"
+        },
+        {
+          "url": "https://www.nj.gov/health/healthcarequality/health-care-professionals/submit-reporting/staffing-levels/",
+          "title": "Department of Health | Health Care Quality Assessment | Reporting Staffing Levels",
+          "reference_id": "turn0search1"
+        },
+        {
+          "url": "https://nj.gov/health/healthcarequality/health-care-professionals/nurse-to-patient-staffing/",
+          "title": "Department of Health | Health Care Quality Assessment",
+          "reference_id": "turn0search2"
+        },
+        {
+          "url": "https://www.nj.gov/health/healthcarequality/health-care-professionals/nurse-to-patient-staffing/background/ratio.shtml",
+          "title": "Department of Health | Health Care Quality Assessment | How the staffing ratios are calculated using Registered Nurse (RN) staffing as an example",
+          "reference_id": "turn0search3"
+        },
+        {
+          "url": "https://healthapps.nj.gov/nhstaffing/public/selectreport.aspx",
+          "title": "NJ Department of Health - Nursing Homes Staffing Reports",
+          "reference_id": "turn0search4"
+        },
+        {
+          "url": "https://www.nj.gov/health/healthcarequality/health-care-professionals/nurse-to-patient-staffing/background/nhstaffing.shtml",
+          "title": "Department of Health | Health Care Quality Assessment | Nursing Homes Nurse Staffing Data",
+          "reference_id": "turn0search5"
+        },
+        {
+          "url": "https://www.nj.gov/health/healthcarequality/patients-families/",
+          "title": "Department of Health | Health Care Quality Assessment",
+          "reference_id": "turn0search6"
+        },
+        {
+          "url": "https://www.nj.gov/health/forms/hcq-3.pdf",
+          "title": "Microsoft Word - HCQ-3 _NJDOH_.dot",
+          "reference_id": "turn0search12"
+        },
+        {
+          "url": "https://www.nj.gov/comptroller/reports/2025/approved/20251210.shtml",
+          "title": "NJ Office of the State Comptroller - An Investigation of Fraud, Waste, and Abuse in Two New Jersey Nursing Homes",
+          "reference_id": "turn0search7"
+        },
+        {
+          "url": "https://www.nj.gov/humanservices/news/pressreleases/2024/approved/20240430.shtml",
+          "title": "Department of Human Services | Governor\u2019s Fiscal Year 2025 Proposed Budget Rewards Quality Nursing Staffing Through Medicaid Bonus Payments to Nursing Facilities",
+          "reference_id": "turn0search8"
+        },
+        {
+          "url": "https://www.nj.gov/health/healthcarequality/",
+          "title": "Department of Health | Health Care Quality Assessment | Office of Health Care Quality Assessment",
+          "reference_id": "turn0search9"
+        },
+        {
+          "url": "https://www.nj.gov/comptroller/reports/2025/approved/20250325barn.shtml",
+          "title": "NJ Office of the State Comptroller - Review Findings \u2013 Barnegat Rehabilitation and Nursing Center",
+          "reference_id": "turn0search10"
+        },
+        {
+          "url": "https://www.nj.gov/humanservices/doas/resources/nursing/",
+          "title": "Division of Aging Services | Nursing Home Quality",
+          "reference_id": "turn0search11"
+        },
+        {
+          "url": "https://www.nj.gov/health/ltc/documents/nj-task-force-ltc-quality-and-safety-report.pdf",
+          "title": "Issued April 2024",
+          "reference_id": "turn0search13"
+        },
+        {
+          "url": "https://www.nj.gov/health/mgmt/documents/A%20Manatt%20Report.pdf",
+          "title": "COVID-19 Cases and Deaths by Nursing Home Staffing Hours",
+          "reference_id": "turn0search14"
+        },
+        {
+          "url": "https://www.nj.gov/ooie/pdf/StaffingWebinar6.20.23.pdf",
+          "title": "Staffing Acuities vs. Staffing Ratios",
+          "reference_id": "turn0search15"
+        },
+        {
+          "url": "https://www.nj.gov/njsetc/commission/parity/documents/Industry%20report%202004-%20Healthcare.pdf",
+          "title": "Healthy Balance - Final Report.doc",
+          "reference_id": "turn0search16"
+        },
+        {
+          "url": "https://www.oecd.org/content/dam/oecd/en/publications/reports/2021/04/survey-results-national-health-data-infrastructure-and-governance_1c63ac8e/55d24b5d-en.pdf",
+          "title": "Survey results: National health data infrastructure and governance (EN)",
+          "reference_id": "turn0search17"
+        }
+      ]
+    },
+    {
+      "action": {
+        "type": "other"
+      },
+      "results": [
+        {
+          "url": "https://healthapps.nj.gov/nursestaffing/quarterly.aspx",
+          "title": "Nurse Staffing",
+          "reference_id": "turn1view0"
+        },
+        {
+          "url": "https://www.ahrq.gov/data/hcup/index.html",
+          "title": "Healthcare Cost and Utilization Project (HCUP) | Agency for Healthcare Research and Quality",
+          "reference_id": "turn1view2"
+        }
+      ]
+    }
+  ]
+}

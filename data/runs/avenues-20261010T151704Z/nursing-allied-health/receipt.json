@@ -1,0 +1,14 @@
+{
+  "domain_id": "nursing-allied-health",
+  "model": "gpt-6-luna",
+  "started_at": "2026-10-10T15:18:34.851259+00:00",
+  "status": "completed",
+  "candidate_review_status": "unreviewed",
+  "prompt_sha256": "e1f344c72f9578d0b399c67e9f169cb5726ff84d5eef57a0875ac889297485e0",
+  "timeout_seconds": 180,
+  "exit_code": 0,
+  "source_candidates": 3,
+  "validation": "schema only; not source entailment or acquired data",
+  "finished_at": "2026-10-10T15:18:58.031425+00:00",
+  "duration_seconds": 23.18
+}

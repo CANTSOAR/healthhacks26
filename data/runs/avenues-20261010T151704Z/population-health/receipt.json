@@ -1,0 +1,14 @@
+{
+  "domain_id": "population-health",
+  "model": "gpt-6-luna",
+  "started_at": "2026-10-10T15:17:04.969652+00:00",
+  "status": "completed",
+  "candidate_review_status": "unreviewed",
+  "prompt_sha256": "00bd9e1836f83249916b7f916093b6487c60519af4b7036b5dc0c43decf46b13",
+  "timeout_seconds": 180,
+  "exit_code": 0,
+  "source_candidates": 2,
+  "validation": "schema only; not source entailment or acquired data",
+  "finished_at": "2026-10-10T15:17:37.898185+00:00",
+  "duration_seconds": 32.93
+}

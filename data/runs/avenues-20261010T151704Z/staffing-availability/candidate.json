@@ -1,0 +1,113 @@
+{
+  "domain_id": "staffing-availability",
+  "summary": "New Jersey’s quarterly hospital staffing reports are the strongest local public input found: they cover average staffing for a three-month period by licensed inpatient unit and report daily Emergency Department and respiratory-care staffing. The Department cautions against comparing hospitals because patient needs and facility practices differ, and the reports omit many care roles. This supports a bounded collection for RWJUH and Saint Peter’s, but does not provide current rosters or shift-level availability. A New Jersey occupational employment and wage series is a broader external benchmark, not a hospital staffing measure.",
+  "sources": [
+    {
+      "title": "Hospital Patient Care Staffing Quarterly Reports",
+      "publisher": "New Jersey Department of Health",
+      "url": "https://healthapps.nj.gov/nursestaffing/quarterly.aspx",
+      "data_url": null,
+      "access": "public_query",
+      "rights_evidence_url": "https://www.nj.gov/health/healthcarequality/health-care-professionals/nurse-to-patient-staffing/",
+      "geography": "New Jersey general hospitals; query the hospital selector for Robert Wood Johnson University Hospital (CCN 310038) and Saint Peter’s University Hospital (CCN 310070), serving Middlesex County.",
+      "period": "Quarterly reports summarize average staffing over a three-month period; the available page does not specify which report quarters are currently selectable.",
+      "grain": "Hospital, licensed inpatient unit, and quarter; reports also include daily Emergency Department staff and patient counts and daily Respiratory Care Practitioner counts.",
+      "useful_fields": [
+        "hospital",
+        "reporting quarter",
+        "licensed inpatient unit type",
+        "patient-to-staff ratios",
+        "daily Emergency Department staff and patient counts",
+        "daily Respiratory Care Practitioner counts"
+      ],
+      "observed_facts": [
+        "The state describes these reports as based on hospital-submitted monthly average staffing, which in turn is based on daily staffing forms.",
+        "The state warns that the data should not be used to compare hospitals or compare them with state averages because patient needs, policies, and physical layouts differ.",
+        "The reports do not represent all care roles, including examples such as pharmacists, social workers, nutritionists, and case managers."
+      ],
+      "retrieval_next_step": "Use the public hospital selector to retrieve one named quarter for each target hospital. Record the report quarter, unit labels, displayed ratios, and any absent or suppressed categories as missing rather than zero. Preserve the report page or export and its retrieval date. If the selector does not expose a needed unit or denominator, request clarification from NJDOH before interpreting it.",
+      "limitations": [
+        "The inspected page confirms public quarterly reporting and scope, but does not expose a verified direct download/API URL or specific selectable quarter in the page text.",
+        "Quarterly aggregates cannot establish a current roster, shift-level coverage, or staff availability.",
+        "Do not infer missing roles, convert patient-to-staff ratios into FTE, or use these reports as hospital rankings."
+      ]
+    },
+    {
+      "title": "Hospital Patient Care Staff Reporting and Posting Instructions Manual",
+      "publisher": "New Jersey Department of Health and Senior Services",
+      "url": "https://www.nj.gov/health/healthcarequality/documents/hpcsr_instruction_manual.pdf",
+      "data_url": null,
+      "access": "public_document",
+      "rights_evidence_url": "https://www.nj.gov/health/healthcarequality/documents/hpcsr_instruction_manual.pdf",
+      "geography": "New Jersey general hospitals",
+      "period": "Manual dated June 2008; describes daily forms and monthly reporting aggregated into quarterly public reports.",
+      "grain": "Definitions and calculation instructions for daily unit/shift staffing forms and monthly hospital submissions; this is documentation, not observed staffing data.",
+      "useful_fields": [
+        "hospital name",
+        "unit name and type",
+        "date and shift start time",
+        "patient count or registered ED patients",
+        "staff type",
+        "actual hours worked",
+        "number of staff",
+        "staff-to-patient ratio",
+        "hospital-wide respiratory care practitioner and physical therapist staffing"
+      ],
+      "observed_facts": [
+        "The manual describes daily forms for inpatient units, Emergency Departments, post-anesthesia care, and hospital-wide other licensed professionals.",
+        "For inpatient units, it describes counting patients and direct-care staff hours by category around the end of each shift.",
+        "It says hospitals retain daily forms and provide copies to the public on request at no charge; the current quarterly page separately says forms are kept for three years and available upon request to hospitals."
+      ],
+      "retrieval_next_step": "Use the manual to make a field-definition crosswalk for the selected quarterly report. For any operationally useful daily slice, contact the hospital through its public records or patient-information channel to request a clearly bounded date range and unit’s daily staffing forms; keep this as a separate, not-yet-acquired institutional request.",
+      "limitations": [
+        "The manual is historical documentation and should not be assumed to capture current forms or current reporting-system behavior without confirmation.",
+        "The report is not a direct dataset and contains no observed staffing values.",
+        "Daily forms may contain details beyond the public aggregate; collect only the bounded staffing fields needed for simulation."
+      ]
+    },
+    {
+      "title": "May 2023 State Occupational Employment and Wage Estimates: New Jersey",
+      "publisher": "U.S. Bureau of Labor Statistics",
+      "url": "https://www.bls.gov/oes/2023/may/oes_nj.htm",
+      "data_url": null,
+      "access": "public_document",
+      "rights_evidence_url": null,
+      "geography": "New Jersey statewide; all industry sectors, not Middlesex County hospitals specifically.",
+      "period": "May 2023 estimates",
+      "grain": "State and occupation; employment, employment relative standard error, employment per 1,000 jobs, location quotient, median and mean hourly wage, annual mean wage, and mean-wage relative standard error.",
+      "useful_fields": [
+        "occupation code and title",
+        "employment",
+        "employment relative standard error",
+        "employment per 1,000 jobs",
+        "location quotient",
+        "median hourly wage",
+        "mean hourly wage",
+        "annual mean wage",
+        "mean-wage relative standard error"
+      ],
+      "observed_facts": [
+        "BLS states that the New Jersey estimates are calculated from employers across all industry sectors in the state.",
+        "The page identifies a downloadable XLS file with additional percentile wage estimates and employment uncertainty."
+      ],
+      "retrieval_next_step": "If a statewide labor-market context is useful, retrieve the linked May 2023 XLS from the BLS page and filter occupation codes relevant to the simulation. Preserve the release period and uncertainty fields; use only as external context for workforce scale or wage assumptions, not unit coverage.",
+      "limitations": [
+        "This is a statewide, all-industry benchmark rather than hospital-specific staffing or availability data.",
+        "The inspected page did not establish a verified direct XLS URL or rights statement for redistribution.",
+        "Employment and wages do not specify facility, unit, shift, skill mix, worked hours, or vacancies."
+      ]
+    }
+  ],
+  "missing_inputs": [
+    "Verified current quarter availability and exported values for each target hospital.",
+    "A verified direct download or API endpoint for the NJDOH quarterly reports.",
+    "Current daily shift-level staffing forms or schedules, which require a separately authorized institutional data request.",
+    "Unit-level availability for non-nursing professions and skill coverage."
+  ],
+  "simulation_use": "Treat NJDOH quarterly unit ratios and ED/respiratory-care measures as reported historical aggregate constraints only, with hospital, unit, and quarter retained. Keep absent categories explicitly missing. Use the manual to interpret fields, not as evidence of actual staffing. If used, BLS estimates can inform a separately labeled statewide labor-market context; they cannot calibrate facility or shift availability.",
+  "limitations": [
+    "This is candidate-source discovery, not dataset acquisition or independent validation.",
+    "No local staffing values, current rosters, or shift availability were retrieved.",
+    "Source-page statements and field descriptions require independent verification before normalization or simulation calibration."
+  ]
+}

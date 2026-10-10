@@ -1,0 +1,19 @@
+{
+  "attempt_id": "w2-context-acs2023-language-insurance-middlesex",
+  "title": "ACS 2023 5-year language and health insurance characteristics, Middlesex County census tracts",
+  "source_url": "https://api.census.gov/data/2023/acs/acs5?get=NAME%2CB16001_001E%2CB16001_002E%2CB27001_001E&for=tract%3A%2A&in=state%3A34%20county%3A023",
+  "landing_url": "https://www.census.gov/data/developers/data-sets/acs-5year/2023.html",
+  "attempt_status": "blocked_missing_api_key",
+  "records_acquired": 0,
+  "raw_response_retained": false,
+  "scope": {
+    "geography_level": "tract",
+    "state": "NJ",
+    "county_fips": "34023",
+    "period": "2019-2023 ACS 5-year estimate"
+  },
+  "access": "public API attempt; no API key supplied or registered",
+  "reason": "Census API returned Missing Key HTML; no ACS observations acquired",
+  "next_step": "Retry with an authorized Census API key or official key-free bulk slice.",
+  "retrieved_at": "2026-10-10T15:28:54.698623+00:00"
+}

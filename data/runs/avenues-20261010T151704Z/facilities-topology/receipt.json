@@ -1,0 +1,14 @@
+{
+  "domain_id": "facilities-topology",
+  "model": "gpt-6-luna",
+  "started_at": "2026-10-10T15:17:04.969696+00:00",
+  "status": "completed",
+  "candidate_review_status": "unreviewed",
+  "prompt_sha256": "3f42dbb37612083e2f51b0c5f4f5b62e688b45608559d2f01ff23932120a832c",
+  "timeout_seconds": 180,
+  "exit_code": 0,
+  "source_candidates": 3,
+  "validation": "schema only; not source entailment or acquired data",
+  "finished_at": "2026-10-10T15:17:31.435924+00:00",
+  "duration_seconds": 26.47
+}

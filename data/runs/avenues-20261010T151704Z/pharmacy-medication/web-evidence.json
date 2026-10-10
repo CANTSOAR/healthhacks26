@@ -1,0 +1,135 @@
+{
+  "meaning": "Observed native web-tool activity. Search result or page URL is not proof of successful data acquisition, rights or factual entailment. Source text and private diagnostics excluded.",
+  "events": [
+    {
+      "action": {
+        "type": "search",
+        "queries": [
+          "site:healthdata.gov pharmacy dispensing medication dataset hospital official data",
+          "site:cms.gov Medicare Part D drug spending data download NDC official",
+          "site:fda.gov NDC directory download API official product listing",
+          "site:ahrq.gov hospital pharmacy medication administration dataset official"
+        ]
+      },
+      "results": [
+        {
+          "url": "https://www.cms.gov/medicare/coverage/prescription-drug-coverage/part-d-claims-data",
+          "title": "Part D Claims Data | CMS",
+          "reference_id": "turn0search0"
+        },
+        {
+          "url": "https://www.cms.gov/data-research/statistics-trends-and-reports/cms-drug-spending",
+          "title": "CMS Drug Spending Main | CMS",
+          "reference_id": "turn0search1"
+        },
+        {
+          "url": "https://www.cms.gov/medicare/coverage/prescription-drug-coverage",
+          "title": "Prescription Drug Coverage - General Information | CMS",
+          "reference_id": "turn0search2"
+        },
+        {
+          "url": "https://www.cms.gov/medicare/health-drug-plans/plan-payment-data",
+          "title": "Plan Payment Data | CMS",
+          "reference_id": "turn0search3"
+        },
+        {
+          "url": "https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-advantagepart-d-contract-and-enrollment-data",
+          "title": "Medicare Advantage/Part D Contract and Enrollment Data | CMS",
+          "reference_id": "turn0search4"
+        },
+        {
+          "url": "https://data.cms.gov/sites/default/files/2025-05/Medicare%20Part%20D%20Spending%20by%20Drug%20Data%20Dictionary%2020250425_508.pdf",
+          "title": "Medicare Part D Spending by Drug Data Dictionary",
+          "reference_id": "turn0search12"
+        },
+        {
+          "url": "https://open.fda.gov/data/downloads/?HIDzzuZRNTZ62=LFRojSijNr1Vb",
+          "title": "openFDA",
+          "reference_id": "turn0search5"
+        },
+        {
+          "url": "https://open.fda.gov/data/ndc/",
+          "title": "openFDA",
+          "reference_id": "turn0search6"
+        },
+        {
+          "url": "https://www.cms.gov/medicare/payment/part-b-drugs/asp-reporting",
+          "title": "ASP Reporting | CMS",
+          "reference_id": "turn0search7"
+        },
+        {
+          "url": "https://www.cms.gov/research-statistics-data-and-systems/files-for-order/nonidentifiabledatafiles/prescriptiondrugplanformularypharmacynetworkandpricinginformationfiles",
+          "title": "Prescription Drug Plan Formulary, Pharmacy Network, and Pricing Information Files for Order | CMS",
+          "reference_id": "turn0search8"
+        },
+        {
+          "url": "https://open.fda.gov/apis/drug/ndc/how-to-use-the-endpoint/",
+          "title": "openFDA",
+          "reference_id": "turn0search9"
+        },
+        {
+          "url": "https://data.cms.gov/sites/default/files/2025-05/DSD_PTD_RY25_20250425_Methodology_WDDSE_508.pdf",
+          "title": "Medicare Part D Spending by Drug Methodology",
+          "reference_id": "turn0search13"
+        },
+        {
+          "url": "https://open.fda.gov/apis/drug/ndc/searchable-fields/",
+          "title": "openFDA",
+          "reference_id": "turn0search10"
+        },
+        {
+          "url": "https://www.cms.gov/initiatives/medicare-prescription-drug-affordability/overview/medicare-inflation-rebate-program",
+          "title": "Medicare Inflation Rebate Program | CMS",
+          "reference_id": "turn0search11"
+        },
+        {
+          "url": "https://edit.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Information-on-Prescription-Drugs/Downloads/Medicare_PartD_Methods.pdf",
+          "title": "Part D Drug Spending Dashboard",
+          "reference_id": "turn0search14"
+        },
+        {
+          "url": "https://www.fda.gov/media/162171/download",
+          "title": "503B Product Reporting Compounded Products Update NDC Directory",
+          "reference_id": "turn0search15"
+        },
+        {
+          "url": "https://www.fda.gov/media/154494/download",
+          "title": "FDA Website: Resources Available to You",
+          "reference_id": "turn0search16"
+        },
+        {
+          "url": "https://direct.fda.gov/apex/f?p=100%3A103%3A108924473685675%3A%3ANO%3A%3AP103_GUIDE%3A6%3A",
+          "title": "Human Drug Product Listing",
+          "reference_id": "turn0search17"
+        }
+      ]
+    },
+    {
+      "action": {
+        "type": "other"
+      },
+      "results": [
+        {
+          "url": "https://open.fda.gov/data/ndc/",
+          "title": "open.fda.gov",
+          "reference_id": "turn1view0"
+        },
+        {
+          "url": "https://www.cms.gov/research-statistics-data-and-systems/files-for-order/nonidentifiabledatafiles/prescriptiondrugplanformularypharmacynetworkandpricinginformationfiles",
+          "title": "Prescription Drug Plan Formulary, Pharmacy Network, and Pricing Information Files for Order | CMS",
+          "reference_id": "turn1view1"
+        },
+        {
+          "url": "https://www.cms.gov/data-research/statistics-trends-and-reports/cms-drug-spending",
+          "title": "CMS Drug Spending Main | CMS",
+          "reference_id": "turn1view2"
+        },
+        {
+          "url": "https://open.fda.gov/data/downloads/?HIDzzuZRNTZ62=LFRojSijNr1Vb",
+          "title": "open.fda.gov",
+          "reference_id": "turn1view3"
+        }
+      ]
+    }
+  ]
+}

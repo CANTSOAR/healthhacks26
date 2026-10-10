@@ -1,0 +1,36 @@
+{
+  "dataset_id": "w2-clinical-icd10cm-dx-2027",
+  "source_id": "w2-clinical-icd10cm-dx-2027",
+  "title": "FY2027 ICD-10-CM selected acute-care diagnosis code descriptions",
+  "source_url": "https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Publications/ICD10CM/2027/icd10cm-code-descriptions-2027.zip",
+  "source_urls": [
+    "https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Publications/ICD10CM/2027/icd10cm-code-descriptions-2027.zip"
+  ],
+  "record_count": 415,
+  "raw_paths": [
+    "raw/w2-clinical-icd10cm-dx-2027/source.zip"
+  ],
+  "raw_sha256": {
+    "raw/w2-clinical-icd10cm-dx-2027/source.zip": "93e3ad6004badf470c55bfe679b748ae88fd9b2b421851e409eec382c7713b9a"
+  },
+  "normalized_path": "normalized/w2-clinical-icd10cm-dx-2027.jsonl",
+  "scope": "Selected FY2027 U.S. ICD-10-CM billable codes with titles containing common acute-care terms (MI, chest pain, heart failure, arrhythmia, sepsis, pneumonia, respiratory failure, AKI, syncope, stroke, GI hemorrhage, shock, hypoxemia); up to 500 records; full source release ZIP preserved.",
+  "access": "public",
+  "rights": {
+    "license": "U.S. federal government work; NCHS-published ICD-10-CM code file",
+    "terms_url": "https://www.cdc.gov/other/agencymaterials.html",
+    "scope": "Official public code-and-title reference; preserve CDC/NCHS attribution; not a clinical guideline."
+  },
+  "acquisition_status": "acquired",
+  "retrieved_at": "2026-10-10T15:31:13.073889+00:00",
+  "limits": [
+    "Terminology/coding reference only; not a diagnosis, procedure recommendation, care pathway, outcome rate, or patient-level dataset.",
+    "Confirm the applicable release and official coding guidelines before any operational coding use.",
+    "No locally calibrated prevalence, resource use, or care timing is supplied."
+  ],
+  "provenance": {
+    "method": "HTTPS source download; deterministic normalization",
+    "script": "scripts/acquire_clinical_wave2.py",
+    "raw_artifact_kind": "original_downloaded_response_bytes"
+  }
+}

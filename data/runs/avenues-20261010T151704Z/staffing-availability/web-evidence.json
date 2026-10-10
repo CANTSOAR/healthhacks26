@@ -1,0 +1,133 @@
+{
+  "meaning": "Observed native web-tool activity. Search result or page URL is not proof of successful data acquisition, rights or factual entailment. Source text and private diagnostics excluded.",
+  "events": [
+    {
+      "action": {
+        "type": "search",
+        "queries": [
+          "site:nj.gov healthapps.nj.gov nursestaffing quarterly hospital staffing data New Jersey",
+          "site:bls.gov hospital staffing occupational employment wages New Jersey hospital official data"
+        ]
+      },
+      "results": [
+        {
+          "url": "https://healthapps.nj.gov/nursestaffing/quarterly.aspx",
+          "title": "Nurse Staffing",
+          "reference_id": "turn0search0"
+        },
+        {
+          "url": "https://healthapps.nj.gov/nhstaffing/public/selectreport.aspx",
+          "title": "NJ Department of Health - Nursing Homes Staffing Reports",
+          "reference_id": "turn0search1"
+        },
+        {
+          "url": "https://www.nj.gov/health/healthcarequality/health-care-professionals/nurse-to-patient-staffing/",
+          "title": "Department of Health | Health Care Quality Assessment",
+          "reference_id": "turn0search2"
+        },
+        {
+          "url": "https://www.nj.gov/health/healthcarequality/health-care-professionals/submit-reporting/staffing-levels/",
+          "title": "Department of Health | Health Care Quality Assessment | Reporting Staffing Levels",
+          "reference_id": "turn0search3"
+        },
+        {
+          "url": "https://www.nj.gov/health/healthcarequality/health-care-professionals/nurse-to-patient-staffing/background/nhstaffing.shtml",
+          "title": "Department of Health | Health Care Quality Assessment | Nursing Homes Nurse Staffing Data",
+          "reference_id": "turn0search4"
+        },
+        {
+          "url": "https://healthapps.nj.gov/nhstaffing/logout.aspx",
+          "title": "Nursing Home Staffing Reporting System",
+          "reference_id": "turn0search5"
+        },
+        {
+          "url": "https://healthapps.nj.gov/facilities/fssurvey.aspx?facid=NJ60607&survey-id=N5QL11.pdf",
+          "title": "PRINTED:  11/29/2024",
+          "reference_id": "turn0search12"
+        },
+        {
+          "url": "https://www.nj.gov/health/healthcarequality/health-care-professionals/nurse-to-patient-staffing/background/ratio.shtml",
+          "title": "Department of Health | Health Care Quality Assessment | How the staffing ratios are calculated using Registered Nurse (RN) staffing as an example",
+          "reference_id": "turn0search6"
+        },
+        {
+          "url": "https://www.bls.gov/oes/2023/may/oes_nj.htm",
+          "title": "New Jersey - May 2023 OEWS State Occupational Employment and Wage Estimates",
+          "reference_id": "turn0search7"
+        },
+        {
+          "url": "https://www.nj.gov/health/healthcarequality/documents/hpcsr_instruction_manual.pdf",
+          "title": "Microsoft Word - Hospital Patient Care Staff Reporting and Posting Instruction Manual 6-24-08 Final.doc",
+          "reference_id": "turn0search13"
+        },
+        {
+          "url": "https://www.nj.gov/health/hcf/financial-reports/",
+          "title": "Hospital Financial Reports Overview",
+          "reference_id": "turn0search8"
+        },
+        {
+          "url": "https://healthapps.nj.gov/NHStaffing/help/manual.pdf",
+          "title": "Table of Contents:",
+          "reference_id": "turn0search14"
+        },
+        {
+          "url": "https://www.nj.gov/health/healthcarequality/",
+          "title": "Department of Health | Health Care Quality Assessment | Office of Health Care Quality Assessment",
+          "reference_id": "turn0search9"
+        },
+        {
+          "url": "https://healthapps.nj.gov/facilities/fssurvey.aspx?facid=NJPSIFQU&survey-id=TFID11.pdf",
+          "title": "PRINTED:  12/03/2024",
+          "reference_id": "turn0search15"
+        },
+        {
+          "url": "https://www.nj.gov/health/integratedhealth/hospitals/",
+          "title": "Department of Health | Integrated Health | Division of Behavioral Health Services",
+          "reference_id": "turn0search10"
+        },
+        {
+          "url": "https://www.nj.gov/health/ltc/nursing-homes/",
+          "title": "Nursing Home Facility Data",
+          "reference_id": "turn0search11"
+        },
+        {
+          "url": "https://www.nj.gov/health/forms/hcq-3.pdf",
+          "title": "Microsoft Word - HCQ-3 _NJDOH_.dot",
+          "reference_id": "turn0search16"
+        },
+        {
+          "url": "https://nj.gov/njhcffa/pdf/2021_Annual_Report.pdf",
+          "title": "Layout 1",
+          "reference_id": "turn0search17"
+        }
+      ]
+    },
+    {
+      "action": {
+        "type": "other"
+      },
+      "results": [
+        {
+          "url": "https://healthapps.nj.gov/nursestaffing/quarterly.aspx",
+          "title": "Nurse Staffing",
+          "reference_id": "turn1view0"
+        },
+        {
+          "url": "https://www.nj.gov/health/healthcarequality/health-care-professionals/nurse-to-patient-staffing/",
+          "title": "Department of Health | Health Care Quality Assessment",
+          "reference_id": "turn1view1"
+        },
+        {
+          "url": "https://www.bls.gov/oes/2023/may/oes_nj.htm",
+          "title": "New Jersey - May 2023 OEWS State Occupational Employment and Wage Estimates",
+          "reference_id": "turn1view2"
+        },
+        {
+          "url": "https://www.nj.gov/health/healthcarequality/documents/hpcsr_instruction_manual.pdf",
+          "title": "Microsoft Word - Hospital Patient Care Staff Reporting and Posting Instruction Manual 6-24-08 Final.doc",
+          "reference_id": "turn1view3"
+        }
+      ]
+    }
+  ]
+}

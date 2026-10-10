@@ -27,3 +27,11 @@ Refresh downloads the current bounded public subsets; it does not acquire every 
 The model receives public evidence, not arbitrary research permissions. Output must cite supplied record IDs. Saved packet, candidate and receipt are review artifacts under `runs/`; diagnostic traces are ignored under `runs/private/`. The workflow does not promote claims, mutate clinical state, publish changes or schedule recurring work. A completed run proves provider execution and structural output validation, not factual entailment.
 
 Use the acquisition backlog to choose the next bounded domain. Add its official source, rights/access status, scope and retrieval method first; acquire a small verifiable subset; normalize without erasing missingness; then rebuild citations. Expansion to restricted datasets requires the appropriate agreement through its legitimate process. Keep unavailable sources explicitly pending.
+
+## Explore all hospital data avenues
+
+`./scripts/python scripts/run_avenues_campaign.py --workers 3 --timeout 180 --limit 27` runs one finite GPT-6 Luna live-web discovery job per backlog domain. Use `--only DOMAIN_ID` to narrow it. Maximum supported concurrency is 4; each job has a process-group timeout. The completed first campaign has 27 jobs and 76 source candidates (72 distinct URLs). These are discovery outputs, not automatically acquired datasets.
+
+Then run `./scripts/python scripts/summarize_avenues_campaign.py runs/avenues-RUN_TIMESTAMP` and `./scripts/python scripts/validate_campaign.py`. Candidate reports, prompts, receipts and observed web-result URLs are public artifacts; full tool traces stay ignored. One candidate URL was not present verbatim in its web results and remains flagged for independent checking. A page or search result in the trace does not establish a downloaded dataset or permission to redistribute it.
+
+New bounded collectors: `acquire_ops_wave2.py` (NJ facilities/staffing and CMS cost reports), `acquire_context_wave2.py` (SVI and Medicare enrollment plus explicit failed ACS attempts), `acquire_clinical_wave2.py` (versioned terminology and RxNorm). `seed_behavioral_dimensions.py` reconstructs dated, manually checked topic paraphrases; it does not refresh sources or administer a survey. Run `build_citations.py` and verification after any collection changes.

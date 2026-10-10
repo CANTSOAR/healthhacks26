@@ -1,0 +1,199 @@
+{
+  "meaning": "Observed native web-tool activity. Search result or page URL is not proof of successful data acquisition, rights or factual entailment. Source text and private diagnostics excluded.",
+  "events": [
+    {
+      "action": {
+        "type": "search",
+        "queries": [
+          "site:ahrq.gov clinical pathways data surgery procedure registry public data download official",
+          "site:cms.gov hospital outpatient data procedure APC public use file 2024 download"
+        ]
+      },
+      "results": [
+        {
+          "url": "https://www.cms.gov/data-research/files-for-order/limited-data-set-lds-files/hospital-outpatient-prospective-payment-system-opps",
+          "title": "Hospital Outpatient Prospective Payment System (OPPS) | CMS",
+          "reference_id": "turn0search0"
+        },
+        {
+          "url": "https://data.cms.gov/provider-summary-by-type-of-service/medicare-outpatient-hospitals/medicare-outpatient-hospitals-by-provider-and-service",
+          "title": "Medicare Outpatient Hospitals by Provider & Service Data | CMS Data",
+          "reference_id": "turn0search1"
+        },
+        {
+          "url": "https://www.cms.gov/medicare/payment/prospective-payment-systems/acute-inpatient-pps/acute-inpatient-files-download/files-fy-2024-final-rule-correction-notice",
+          "title": "Files for FY 2024 Final Rule and Correction Notice | CMS",
+          "reference_id": "turn0search2"
+        },
+        {
+          "url": "https://www.cms.gov/medicare/medicare-fee-service-payment/hospitaloutpatientpps/annual-policy-files/2024",
+          "title": "2024 | CMS",
+          "reference_id": "turn0search3"
+        },
+        {
+          "url": "https://www.cms.gov/medicare/payment/prospective-payment-systems/historical-provider-specific-data-public-use-file-csv-format",
+          "title": "Historical Provider Specific Data for Public Use File in CSV Format | CMS",
+          "reference_id": "turn0search4"
+        },
+        {
+          "url": "https://www.cms.gov/medicare/payment/prospective-payment-systems/hospital-outpatient/regulations-notices/cms-1786-fc",
+          "title": "CMS-1786-FC | CMS",
+          "reference_id": "turn0search5"
+        },
+        {
+          "url": "https://www.cms.gov/medicare/payment/prospective-payment-systems/provider-specific-data-public-use-text-format",
+          "title": "Provider Specific Data for Public Use in Text Format | CMS",
+          "reference_id": "turn0search6"
+        },
+        {
+          "url": "https://www.cms.gov/medicare/payment/prospective-payment-systems/hospital-outpatient",
+          "title": "Hospital Outpatient PPS | CMS",
+          "reference_id": "turn0search7"
+        },
+        {
+          "url": "https://www.cms.gov/medicare/regulations-guidance/advisory-committees/hospital-outpatient-payment/apc-panel-archives/cy-2024-opps-preliminary-ratesetting-data-two-times-file-january-september-2022-data",
+          "title": "CY 2024 OPPS Preliminary Ratesetting Data Two Times File [January-September 2022 Data] | CMS",
+          "reference_id": "turn0search8"
+        },
+        {
+          "url": "https://www.cms.gov/priorities/key-initiatives/hospital-price-transparency/resources",
+          "title": "Resources | CMS",
+          "reference_id": "turn0search9"
+        },
+        {
+          "url": "https://data.cms.gov/provider-data/topics/hospitals",
+          "title": "Hospitals | Provider Data Catalog",
+          "reference_id": "turn0search10"
+        },
+        {
+          "url": "https://www.cms.gov/medicare/coding-billing/outpatient-code-editor-oce/quarterly-release-files",
+          "title": "I/OCE Quarterly Release Files | CMS",
+          "reference_id": "turn0search11"
+        },
+        {
+          "url": "https://data.cms.gov/sites/default/files/2024-06/54319dec-5705-40ce-b9a6-fd88043ef8ac/MUP_OUT_RY24_20240531_Methodology-508.pdf",
+          "title": "Medicare Outpatient Hospitals Dataset: A Methodological Overview",
+          "reference_id": "turn0search12"
+        },
+        {
+          "url": "https://www.cms.gov/files/document/mm13488-hospital-outpatient-prospective-payment-system-january-2024-update.pdf",
+          "title": "MM13488 - Hospital Outpatient Prospective Payment System: January 2024 Update",
+          "reference_id": "turn0search13"
+        }
+      ]
+    },
+    {
+      "action": {
+        "type": "search",
+        "queries": [
+          "site:ahrq.gov \"Clinical Classifications Software Refined\" procedures download official",
+          "site:ahrq.gov HCUP NIS data use agreement public discharge-level data available official"
+        ]
+      },
+      "results": [
+        {
+          "url": "https://hcup-us.ahrq.gov/toolssoftware/ccsr/prccsr.jsp",
+          "title": "Clinical Classifications Software Refined (CCSR) for ICD-10-PCS Procedures",
+          "reference_id": "turn1search0"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/toolssoftware/ccsr/dxccsr.jsp",
+          "title": "Clinical Classifications Software Refined (CCSR) for ICD-10-CM Diagnoses",
+          "reference_id": "turn1search1"
+        },
+        {
+          "url": "https://hcup-us-test.ahrq.gov/toolssoftware/ccsr/dxccsr.jsp",
+          "title": "Clinical Classifications Software Refined (CCSR) for ICD-10-CM Diagnoses",
+          "reference_id": "turn1search2"
+        },
+        {
+          "url": "https://hcup-ts.ahrq.gov/toolssoftware/ccsr/ccsr_archive.jsp",
+          "title": "Tools Archive for Clinical Classifications Software Refined",
+          "reference_id": "turn1search3"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/toolssoftware/ccsr/ccsr_archive.jsp",
+          "title": "Tools Archive for Clinical Classifications Software Refined",
+          "reference_id": "turn1search4"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/toolssoftware/ccsr/PRCCSR-User-Guide-v2025-1.pdf",
+          "title": "User Guide (v2025.1) for Clinical Classifications Software Refined (CCSR) for ICD-10-PCS",
+          "reference_id": "turn1search12"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/tech_assist/index_def.jsp",
+          "title": "HCUP-US Index Page",
+          "reference_id": "turn1search5"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/toolssoftware/ccsr/ccs_refined.jsp?external_link=true",
+          "title": "Clinical Classifications Software Refined (CCSR)",
+          "reference_id": "turn1search6"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/tech_assist/index_pqr.jsp",
+          "title": "HCUP-US Index Page",
+          "reference_id": "turn1search7"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/news/announcements/toolsDec2020.jsp",
+          "title": "Release of the Clinical Classifications Software Refined (CCSR) for ICD-10-PCS procedures (December 2020)",
+          "reference_id": "turn1search8"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/db/nation/nis/nisdbdocumentation.jsp",
+          "title": "NIS Database Documentation",
+          "reference_id": "turn1search9"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/toolssoftware/ccsr/DXCCSR-User-Guide-v2019-1.pdf",
+          "title": "User Guide: Clinical Classifications Software Refined (CCSR)",
+          "reference_id": "turn1search13"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/tech_assist/index_stu.jsp",
+          "title": "HCUP-US Index Page",
+          "reference_id": "turn1search10"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/tech_assist/index_mno.jsp",
+          "title": "HCUP-US Index Page",
+          "reference_id": "turn1search11"
+        },
+        {
+          "url": "https://hcup-ts.ahrq.gov/toolssoftware/ccsr/PRCCSR-User-Guide-v2026-1.pdf",
+          "title": "User Guide (v2026.1) for Clinical Classifications Software Refined (CCSR) for ICD-10-PCS",
+          "reference_id": "turn1search14"
+        }
+      ]
+    },
+    {
+      "action": {
+        "type": "other"
+      },
+      "results": [
+        {
+          "url": "https://hcup-us.ahrq.gov/toolssoftware/ccsr/prccsr.jsp",
+          "title": "Clinical Classifications Software Refined (CCSR) for ICD-10-PCS Procedures",
+          "reference_id": "turn2view0"
+        },
+        {
+          "url": "https://data.cms.gov/provider-summary-by-type-of-service/medicare-outpatient-hospitals/medicare-outpatient-hospitals-by-provider-and-service",
+          "title": "Centers for Medicare & Medicaid Services Data",
+          "reference_id": "turn2view1"
+        },
+        {
+          "url": "https://www.cms.gov/medicare/coding-billing/outpatient-code-editor-oce/quarterly-release-files",
+          "title": "I/OCE Quarterly Release Files | CMS",
+          "reference_id": "turn2view2"
+        },
+        {
+          "url": "https://data.cms.gov/sites/default/files/2024-06/54319dec-5705-40ce-b9a6-fd88043ef8ac/MUP_OUT_RY24_20240531_Methodology-508.pdf",
+          "title": "Medicare Outpatient Hospitals Dataset: A Methodological Overview",
+          "reference_id": "turn2view3"
+        }
+      ]
+    }
+  ]
+}

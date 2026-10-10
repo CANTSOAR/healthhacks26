@@ -1,0 +1,9 @@
+{
+  "source_url": "https://onemap.cdc.gov/onemapservices/rest/services/SVI/CDC_ATSDR_Social_Vulnerability_Index_2022_USA/FeatureServer/2/query?where=STCNTY%3D%2734023%27&outFields=%2A&returnGeometry=false&f=json",
+  "metadata_url": "https://onemap.cdc.gov/onemapservices/rest/services/SVI/CDC_ATSDR_Social_Vulnerability_Index_2022_USA/FeatureServer/2?f=pjson",
+  "retrieved_at": "2026-10-10T15:28:54.698623+00:00",
+  "sha256": "655dfd239753405a1602c9dd83a3285d5f1f4042c807e40629b2ff11164da372",
+  "raw_artifact_kind": "original_downloaded_response_bytes",
+  "metadata_sha256": "fdc8959056c03f8b929cda6700ad7cb3c51e859cf0bbd46ce594d3866255f65f",
+  "row_count": 192
+}

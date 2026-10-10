@@ -1,0 +1,14 @@
+{
+  "domain_id": "calibration-causality",
+  "model": "gpt-6-luna",
+  "started_at": "2026-10-10T15:20:40.087265+00:00",
+  "status": "completed",
+  "candidate_review_status": "unreviewed",
+  "prompt_sha256": "2d8eddd1f35d41f8dd567841c7377606e091e6e93bac84f2587ae95879664520",
+  "timeout_seconds": 180,
+  "exit_code": 0,
+  "source_candidates": 3,
+  "validation": "schema only; not source entailment or acquired data",
+  "finished_at": "2026-10-10T15:21:45.223161+00:00",
+  "duration_seconds": 65.14
+}

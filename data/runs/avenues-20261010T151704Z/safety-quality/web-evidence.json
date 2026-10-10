@@ -1,0 +1,133 @@
+{
+  "meaning": "Observed native web-tool activity. Search result or page URL is not proof of successful data acquisition, rights or factual entailment. Source text and private diagnostics excluded.",
+  "events": [
+    {
+      "action": {
+        "type": "search",
+        "queries": [
+          "site:qualitynet.cms.gov Hospital Inpatient Quality Reporting HAC reduction program data download hospital",
+          "site:ahrq.gov HCUP NIS data use agreement hospital complications benchmark official"
+        ]
+      },
+      "results": [
+        {
+          "url": "https://qualitynet.cms.gov/publicgateway/public/inpatient/data-management/data-validation/resources",
+          "title": null,
+          "reference_id": "turn0search0"
+        },
+        {
+          "url": "https://qualitynet.cms.gov/publicgateway/public/inpatient/measures/psi/resources",
+          "title": null,
+          "reference_id": "turn0search1"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/db/nation/nis/nischecklist.jsp",
+          "title": "Checklist for Working with the NIS",
+          "reference_id": "turn0search2"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/db/nation/nis/NIS_Introduction_2018.jsp",
+          "title": "INTRODUCTION TO THE HCUP NATIONAL INPATIENT SAMPLE (NIS), 2018",
+          "reference_id": "turn0search3"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/db/nation/nis/NISIntroduction2022.pdf",
+          "title": "Introduction to the NIS",
+          "reference_id": "turn0search12"
+        },
+        {
+          "url": "https://hcup-ts.ahrq.gov/db/nation/nis/nisdbdocumentation.jsp",
+          "title": "NIS Database Documentation",
+          "reference_id": "turn0search4"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/db/nation/nis/NIS_Introduction_2016.pdf",
+          "title": "HEALTHCARE COST AND UTILIZATION PROJECT \u2014 HCUP",
+          "reference_id": "turn0search13"
+        },
+        {
+          "url": "https://qualitynet.cms.gov/inpatient/iqr/measures%23tab2",
+          "title": "Hospital Inpatient Quality Reporting (IQR) Program Measures",
+          "reference_id": "turn0search5"
+        },
+        {
+          "url": "https://hcup-ts.ahrq.gov/db/nation/nis/NIS_Introduction_2017.jsp",
+          "title": "INTRODUCTION TO THE HCUP NATIONAL INPATIENT SAMPLE (NIS), 2017",
+          "reference_id": "turn0search6"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/db/nation/nis/NISIntroduction2014.pdf",
+          "title": "HEALTHCARE COST AND UTILIZATION PROJECT \u2014 HCUP",
+          "reference_id": "turn0search14"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/db/nation/nis/NIS_Introduction_2021.jsp",
+          "title": "INTRODUCTION TO THE HCUP NATIONAL INPATIENT SAMPLE (NIS), 2021",
+          "reference_id": "turn0search7"
+        },
+        {
+          "url": "https://hcup-ts.ahrq.gov/db/nation/nis/NIS_Introduction_2021.jsp",
+          "title": "INTRODUCTION TO THE HCUP NATIONAL INPATIENT SAMPLE (NIS), 2021",
+          "reference_id": "turn0search8"
+        },
+        {
+          "url": "https://qualitynet.cms.gov/publicgateway/public/news/6aa1665434b8c2ea665e1340",
+          "title": null,
+          "reference_id": "turn0search9"
+        },
+        {
+          "url": "https://hcup-ts.ahrq.gov/team/NationwideDUA.jsp",
+          "title": "Nationwide Data Use Agreement",
+          "reference_id": "turn0search10"
+        },
+        {
+          "url": "https://hcup-us-test.ahrq.gov/db/nation/nis/NIS_Introduction_2015.jsp",
+          "title": "INTRODUCTION TO THE HCUP NATIONAL INPATIENT SAMPLE (NIS), 2015",
+          "reference_id": "turn0search11"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/db/nation/nis/NIS_Introduction_2004.pdf",
+          "title": "HEALTHCARE COST AND UTILIZATION PROJECT \u2014 HCUP",
+          "reference_id": "turn0search15"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/db/nation/nis/NIS95_%20Overview_122104.pdf",
+          "title": "HEALTHCARE COST AND UTILIZATION PROJECT \u2014 HCUP",
+          "reference_id": "turn0search16"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/db/nation/nis/NISIntroduction2023.pdf",
+          "title": "Introduction to the NIS",
+          "reference_id": "turn0search17"
+        }
+      ]
+    },
+    {
+      "action": {
+        "type": "other"
+      },
+      "results": [
+        {
+          "url": "https://qualitynet.cms.gov/publicgateway/public/inpatient/measures/psi/resources",
+          "title": "qualitynet.cms.gov",
+          "reference_id": "turn1view0"
+        },
+        {
+          "url": "https://qualitynet.cms.gov/publicgateway/public/inpatient/data-management/data-validation/resources",
+          "title": "qualitynet.cms.gov",
+          "reference_id": "turn1view1"
+        },
+        {
+          "url": "https://hcup-us.ahrq.gov/db/nation/nis/nischecklist.jsp",
+          "title": "Checklist for Working with the NIS",
+          "reference_id": "turn1view2"
+        },
+        {
+          "url": "https://qualitynet.cms.gov/inpatient/iqr/measures%23tab2",
+          "title": "QualityNet Platform",
+          "reference_id": "turn1view3"
+        }
+      ]
+    }
+  ]
+}

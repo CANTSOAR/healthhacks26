@@ -1,0 +1,240 @@
+{
+  "meaning": "Observed native web-tool activity. Search result or page URL is not proof of successful data acquisition, rights or factual entailment. Source text and private diagnostics excluded.",
+  "events": [
+    {
+      "action": {
+        "type": "search",
+        "queries": [
+          "site:ready.nj.gov Middlesex County hazard mitigation plan power outage hospital PDF",
+          "site:healthdata.gov hospital emergency preparedness dataset CMS HHS ASPR resilience",
+          "site:eia.gov New Brunswick NJ electric utility reliability outage data JCP&L PSE&G"
+        ]
+      },
+      "results": [
+        {
+          "url": "https://healthdata.gov/HHS/FY-2026-HHS-Lapse-and-Contingency-Plan/s4q2-58m5",
+          "title": "FY 2026 HHS Lapse and Contingency Plan | HealthData.gov",
+          "reference_id": "turn0search0"
+        },
+        {
+          "url": "https://healthdata.gov/d/nf5q-5bbw",
+          "title": "HHS Data Inventory | HealthData.gov",
+          "reference_id": "turn0search1"
+        },
+        {
+          "url": "https://healthdata.gov/stories/s/data_inventory/nf5q-5bbw",
+          "title": "HHS Data Inventory | HealthData.gov",
+          "reference_id": "turn0search2"
+        },
+        {
+          "url": "https://healthdata.gov/Hospital/HHS-IDs/vz64-k9wr",
+          "title": "HHS IDs | HealthData.gov",
+          "reference_id": "turn0search3"
+        },
+        {
+          "url": "https://healthdata.gov/dataset/CMS-Medicare-PSI-90-and-component-measures-six-dig/5rsc-z23e/explore",
+          "title": "CMS Medicare PSI-90 and component measures - six-digit estimate dataset - hq5m-bzb4 - Archive Repository | HealthData.gov",
+          "reference_id": "turn0search4"
+        },
+        {
+          "url": "https://healthdata.gov/dataset/Seismic-compliance-data-by-county-for-general-acut/eh3c-crdk",
+          "title": "Seismic compliance data by county for general acute care hospitals - rvm3-3ppe - Archive Repository | HealthData.gov",
+          "reference_id": "turn0search5"
+        },
+        {
+          "url": "https://healthdata.gov/dataset/CMS-Statistics/6xwe-dket",
+          "title": "CMS Statistics | HealthData.gov",
+          "reference_id": "turn0search6"
+        },
+        {
+          "url": "https://healthdata.gov/Hospital/Total-Confirmed-COVID-19-Hospitalizations-by-State/7mec-ngu5",
+          "title": "Total Confirmed COVID-19 Hospitalizations by State for a Given Time Period | HealthData.gov",
+          "reference_id": "turn0search7"
+        },
+        {
+          "url": "https://healthdata.gov/Hospital/COVID-20220110-FAQ-Template-V10/p6c2-876z",
+          "title": "COVID 20220110 FAQ Template V10 | HealthData.gov",
+          "reference_id": "turn0search8"
+        },
+        {
+          "url": "https://healthdata.gov/stories/s/Blog-COVID-19-is-Complex-as-is-COVID-19-Open-Data/gbvj-tk92/",
+          "title": "Blog | COVID-19 is Complex, as is COVID-19 Open Data | HealthData.gov",
+          "reference_id": "turn0search9"
+        },
+        {
+          "url": "https://healthdata.gov/d/3ba3-d5m4/visualization",
+          "title": "| HealthData.gov",
+          "reference_id": "turn0search10"
+        },
+        {
+          "url": "https://www.eia.gov/electricity/annual/table.php?t=epa_11_02.html",
+          "title": "Electric Power Annual - U.S. Energy Information Administration (EIA)",
+          "reference_id": "turn0search11"
+        },
+        {
+          "url": "https://healthdata.gov/api/views/gqxm-d9w9/files/bf1cbbed-7f79-49d2-ac49-5bb20d6dc80d?download=true&filename=Community+Profile+Report+20221201.pdf",
+          "title": "Community Profile Report",
+          "reference_id": "turn0search12"
+        },
+        {
+          "url": "https://healthdata.gov/api/views/i74j-4kez/files/20fe9849-2f21-4721-aafe-bee30a870e16?download=true&filename=2020_07_10_FAQ.pdf",
+          "title": "COVID-19 Guidance for Hospital Reporting  and FAQs",
+          "reference_id": "turn0search13"
+        },
+        {
+          "url": "https://healthdata.gov/api/views/tkdp-r3p8/files/4562d5bd-7207-4568-b9fc-16b2190f9e71?download=true&filename=Pennsylvania_State_Profile_Report_20210214_Public.pdf",
+          "title": "STATE PROFILE REPORT",
+          "reference_id": "turn0search14"
+        },
+        {
+          "url": "https://www.ready.nj.gov/programs/pdf/mitigation2014/2014-Section-5-19.pdf",
+          "title": "State of New Jersey 2014 Hazard Mitigation Plan",
+          "reference_id": "turn0search15"
+        },
+        {
+          "url": "https://www.eia.gov/electricity/sales_revenue_price/pdf/table_10.pdf",
+          "title": "2024 Utility Bundled Retail Sales- Total",
+          "reference_id": "turn0search16"
+        }
+      ]
+    },
+    {
+      "action": {
+        "type": "search",
+        "queries": [
+          "New Jersey hospital emergency preparedness continuity utility outage dataset official NJDOH hazard plan Middlesex",
+          "site:ready.nj.gov 2023 State Hazard Mitigation Plan Middlesex County power outages hospitals"
+        ]
+      },
+      "results": [
+        {
+          "url": "https://data.nj.gov/Health/Search-for-Hospitals-Ambulatory-Care-and-other-Acu/9aig-5kq7",
+          "title": "Search for Hospitals, Ambulatory Care, and other Acute Care Facilities | NJOIT Open Data Center",
+          "reference_id": "turn1search0"
+        },
+        {
+          "url": "https://www.nj.gov/njoem/",
+          "title": "New Jersey Office of Emergency Management | ReadyNJ",
+          "reference_id": "turn1search1"
+        },
+        {
+          "url": "https://www.nj.gov/health/philep/",
+          "title": "Department of Health | Public Health Infrastructure, Laboratories & Emergency Preparedness",
+          "reference_id": "turn1search2"
+        },
+        {
+          "url": "https://www.nj.gov/njoem/mitigation/hazard-mitigation-plans.shtml",
+          "title": "Hazard Mitigation Plans | NJOEM",
+          "reference_id": "turn1search3"
+        },
+        {
+          "url": "https://nj.gov/health/philep/",
+          "title": "Department of Health | Public Health Infrastructure, Laboratories & Emergency Preparedness",
+          "reference_id": "turn1search4"
+        },
+        {
+          "url": "https://nj.gov/dca/ddrm/pdf_docs/Ida%20Consolidated%20Action%20Plan%20April%202024_508.pdf",
+          "title": "Action Plan for the State of New Jersey",
+          "reference_id": "turn1search12"
+        },
+        {
+          "url": "https://www.middlesexcountynj.gov/government/departments/department-of-public-safety-and-health/office-of-emergency-management-and-preparedness/hazard-mitigation-plan/-folder-127",
+          "title": "Hazard Mitigation Plan | Middlesex County NJ",
+          "reference_id": "turn1search5"
+        },
+        {
+          "url": "https://www.nj.gov/njoem/mitigation/2024-mitigation-plan.shtml",
+          "title": "2024 New Jersey State Hazard Mitigation Plan | NJOEM",
+          "reference_id": "turn1search6"
+        },
+        {
+          "url": "https://www.middlesexcountynj.gov/government/departments/department-of-public-safety-and-health/office-of-emergency-management-and-preparedness",
+          "title": "Office of Emergency Management and Preparedness | Middlesex County NJ",
+          "reference_id": "turn1search7"
+        },
+        {
+          "url": "https://www.law.cornell.edu/regulations/new-jersey/N-J-A-C-8-43G-5-16",
+          "title": "N.J. Admin. Code \u00a7 8:43G-5.16 - Disaster planning | State Regulations | US Law | LII / Legal Information Institute",
+          "reference_id": "turn1search8"
+        },
+        {
+          "url": "https://www.dejavu.org/cgi-bin/get.cgi?url=https%3A%2F%2Fwww.nj.gov%2Fhealth%2Fhealthfacilities%2Fcertificate-need%2Fguidance%2F&ver=93",
+          "title": "Department of Health | Health Facilities | Guidance Memorandums",
+          "reference_id": "turn1search9"
+        },
+        {
+          "url": "https://njha.com/quality-patient-safety/emergency-preparedness/",
+          "title": "The New Jersey Hospital Association",
+          "reference_id": "turn1search10"
+        },
+        {
+          "url": "https://www.nj.gov/njoem/plan-prepare/power-outages.shtml",
+          "title": "Power Outages | NJOEM",
+          "reference_id": "turn1search11"
+        },
+        {
+          "url": "https://www.nj.gov/njoem/programs/pdf/mitigation2012/mit2012_section2.pdf",
+          "title": "1\u00a0\nSTATE OF NEW JERSEY  \n      HAZARD MITIGATION P",
+          "reference_id": "turn1search13"
+        },
+        {
+          "url": "https://nj.gov/njoem/mitigation/pdf/2024/Appendix_D_2024_SHMP_Mitigation_Action_Plan.pdf",
+          "title": "STATE OF NEW JERSEY 2024 ALL-HAZARD MITIGATION PLAN",
+          "reference_id": "turn1search14"
+        },
+        {
+          "url": "https://nj.gov/njoem/mitigation/pdf/2024-mit/SHMP_FEMA_V2_PDF/Appendix_C_Capability_Assessment_Supplement.pdf",
+          "title": "STATE OF NEW JERSEY 2024 ALL-HAZARD MITIGATION PLAN",
+          "reference_id": "turn1search15"
+        },
+        {
+          "url": "https://www.nj.gov/njoem/pdf/mitigation/mitplan_sec1-9.pdf",
+          "title": "Microsoft Word - NJ HMP2_Final Full Document_061208_FD!",
+          "reference_id": "turn1search16"
+        },
+        {
+          "url": "https://healthdata.gov/dataset/Seismic-compliance-data-by-county-for-general-acut/eh3c-crdk",
+          "title": "Seismic compliance data by county for general acute care hospitals - rvm3-3ppe - Archive Repository | HealthData.gov",
+          "reference_id": "turn1view0"
+        },
+        {
+          "url": "https://www.eia.gov/electricity/annual/table.php?t=epa_11_02.html",
+          "title": "Electric Power Annual - U.S. Energy Information Administration (EIA)",
+          "reference_id": "turn1view1"
+        },
+        {
+          "url": "https://www.ready.nj.gov/programs/pdf/mitigation2014/2014-Section-5-19.pdf",
+          "title": null,
+          "reference_id": "turn1view2"
+        },
+        {
+          "url": "https://www.nj.gov/health/healthcarequality/",
+          "title": "Department of Health | Health Care Quality Assessment | Office of Health Care Quality Assessment",
+          "reference_id": "turn1view3"
+        }
+      ]
+    },
+    {
+      "action": {
+        "type": "other"
+      },
+      "results": [
+        {
+          "url": "https://www.nj.gov/njoem/mitigation/hazard-mitigation-plans.shtml",
+          "title": "Hazard Mitigation Plans | NJOEM",
+          "reference_id": "turn2view1"
+        },
+        {
+          "url": "https://www.nj.gov/njoem/mitigation/2024-mitigation-plan.shtml",
+          "title": "2024 New Jersey State Hazard Mitigation Plan | NJOEM",
+          "reference_id": "turn2view2"
+        },
+        {
+          "url": "https://data.nj.gov/Health/Search-for-Hospitals-Ambulatory-Care-and-other-Acu/9aig-5kq7",
+          "title": "Search for Hospitals, Ambulatory Care, and other Acute Care Facilities | NJOIT Open Data Center",
+          "reference_id": "turn2view3"
+        }
+      ]
+    }
+  ]
+}

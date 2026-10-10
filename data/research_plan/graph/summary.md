@@ -1,14 +1,14 @@
 # Markdown Graph Summary
 
-- Documents: 18
-- Nodes: 42
-- Edges: 57
+- Documents: 22
+- Nodes: 58
+- Edges: 77
 
 ## Node Types
 
-- document: 18
-- source: 20
-- topic: 4
+- document: 22
+- source: 31
+- topic: 5
 
 ## Entity Types
 
@@ -19,6 +19,10 @@
 - Bounded Luna evidence review (research) - 0 entities, 0 relations, 0 sources - knowledge/luna-review.md
 - Hospital Provider Quality (research) - 0 entities, 0 relations, 0 sources - research/hospital-provider-quality.md
 - Local Community Insurance (research) - 0 entities, 0 relations, 0 sources - research/local-community-insurance.md
+- Wave2 Behavior (research) - 0 entities, 0 relations, 0 sources - research/wave2-behavior.md
+- Wave2 Clinical (research) - 0 entities, 0 relations, 0 sources - research/wave2-clinical.md
+- Wave 2 community context acquisition (research) - 0 entities, 0 relations, 0 sources - research/wave2-context.md
+- Wave2 Operations (research) - 0 entities, 0 relations, 0 sources - research/wave2-operations.md
 - Assumptions (research) - 0 entities, 0 relations, 0 sources - research_plan/assumptions.md
 - Claim Evidence (research) - 0 entities, 0 relations, 0 sources - research_plan/claim_evidence.md
 - Current Plan (research) - 0 entities, 0 relations, 0 sources - research_plan/current_plan.md

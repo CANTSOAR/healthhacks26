@@ -12,6 +12,15 @@ steps:
 - id: teaching
   kind: command
   run: ./scripts/python scripts/acquire_teaching_terms.py
+- id: operations-wave2
+  kind: command
+  run: ./scripts/python scripts/acquire_ops_wave2.py
+- id: context-wave2
+  kind: command
+  run: ./scripts/python scripts/acquire_context_wave2.py
+- id: clinical-wave2
+  kind: command
+  run: ./scripts/python scripts/acquire_clinical_wave2.py
 - id: citations
   kind: command
   run: ./scripts/python scripts/build_citations.py

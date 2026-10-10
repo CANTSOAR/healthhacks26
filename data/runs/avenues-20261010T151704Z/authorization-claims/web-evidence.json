@@ -1,0 +1,134 @@
+{
+  "meaning": "Observed native web-tool activity. Search result or page URL is not proof of successful data acquisition, rights or factual entailment. Source text and private diagnostics excluded.",
+  "events": [
+    {
+      "action": {
+        "type": "search",
+        "queries": [
+          "site:nj.gov/getcoverednj authorization appeals claims data health plan public New Jersey",
+          "site:cms.gov prior authorization data collection metrics Medicare Advantage public dataset",
+          "site:cms.gov health plan price transparency public data files API claims"
+        ]
+      },
+      "results": [
+        {
+          "url": "https://www.cms.gov/initiatives/healthplan-price-transparency/overview/public-data",
+          "title": "Use of Pricing Information Published under the Transparency in Coverage Final Rule | CMS",
+          "reference_id": "turn0search0"
+        },
+        {
+          "url": "https://www.nj.gov/getcoverednj/findanswers/after/appealform.pdf",
+          "title": "appealform_updated logo.pdf",
+          "reference_id": "turn0search12"
+        },
+        {
+          "url": "https://www.cms.gov/marketplace/resources/data/public-use-files",
+          "title": "Health Insurance Exchange Public Use Files (Exchange PUFs) | CMS",
+          "reference_id": "turn0search1"
+        },
+        {
+          "url": "https://www.cms.gov/prior-authorization-metrics-reporting-overview-template",
+          "title": "Prior Authorization Metrics Reporting - Overview and Template",
+          "reference_id": "turn0search13"
+        },
+        {
+          "url": "https://www.cms.gov/priorities/healthplan-price-transparency/overview/plans-and-issuers",
+          "title": "Plans and Issuers | CMS",
+          "reference_id": "turn0search2"
+        },
+        {
+          "url": "https://www.nj.gov/getcoverednj/findanswers/faqs/",
+          "title": "GetCoveredNJ | Frequently Asked Questions",
+          "reference_id": "turn0search3"
+        },
+        {
+          "url": "https://www.cms.gov/healthplan-price-transparency/resources/technical-clarification",
+          "title": "Technical Clarification | CMS",
+          "reference_id": "turn0search4"
+        },
+        {
+          "url": "https://www.nj.gov/getcoverednj/home/privacy.shtml",
+          "title": "GetCoveredNJ | Get Covered New Jersey (GetCoveredNJ) Privacy Policy",
+          "reference_id": "turn0search5"
+        },
+        {
+          "url": "https://www.cms.gov/medicare/audits-compliance/part-c-part-d-compliance-audits/part-c-utilization-management-um-annual-data-submission",
+          "title": "Part C Utilization Management (UM) Annual Data Submission | CMS",
+          "reference_id": "turn0search6"
+        },
+        {
+          "url": "https://www.cms.gov/initiatives/healthplan-price-transparency/overview/resources",
+          "title": "Resources | CMS",
+          "reference_id": "turn0search7"
+        },
+        {
+          "url": "https://www.cms.gov/initiatives/healthplan-price-transparency/overview/resources/technical-clarification",
+          "title": "Technical Clarification | CMS",
+          "reference_id": "turn0search8"
+        },
+        {
+          "url": "https://www.cms.gov/data-research/statistics-trends-reports/marketplace-products/2026-marketplace-open-enrollment-period-public-use-files",
+          "title": "2026 Marketplace Open Enrollment Period Public Use Files | CMS",
+          "reference_id": "turn0search9"
+        },
+        {
+          "url": "https://www.cms.gov/newsroom/fact-sheets/transparency-coverage-final-rules-cms-9882-f",
+          "title": "Transparency in Coverage Final Rules (CMS 9882-F) | CMS",
+          "reference_id": "turn0search10"
+        },
+        {
+          "url": "https://ab2d.cms.gov/access-production-claims-data",
+          "title": "Access Production Claims Data | AB2D API",
+          "reference_id": "turn0search11"
+        },
+        {
+          "url": "https://www.cms.gov/files/document/transparency-coverage-puf-datadictionary-py26.pdf",
+          "title": "CMS Center for Consumer Information & Insurance Oversight (CCIIO), Health Insurance Exchange Public Use Files (Exchange PUF) Data Dictionary for Transparency in QHP Coverage PUF",
+          "reference_id": "turn0search14"
+        },
+        {
+          "url": "https://www.cms.gov/files/document/proposed-metrics-updates-rule-4-two-pager-10apr26-final-508-compliant.pdf",
+          "title": "Proposed Metrics in the 2026 CMS Interoperability Standards and Prior Authorization for Drugs Proposed Rule (CMS-0062-P)",
+          "reference_id": "turn0search15"
+        },
+        {
+          "url": "https://www.cms.gov/files/document/transparency-coverage-datadisclaimer-py24.pdf",
+          "title": "CMS Disclaimer\u2013User Agreement Transparency Public Use Files",
+          "reference_id": "turn0search16"
+        },
+        {
+          "url": "https://www.cms.gov/cciio/resources/regulations-and-guidance/downloads/cms-transparency-in-coverage-9915f.pdf",
+          "title": "CMS 9915-F",
+          "reference_id": "turn0search17"
+        }
+      ]
+    },
+    {
+      "action": {
+        "type": "other"
+      },
+      "results": [
+        {
+          "url": "https://www.cms.gov/marketplace/resources/data/public-use-files",
+          "title": "Health Insurance Exchange Public Use Files (Exchange PUFs) | CMS",
+          "reference_id": "turn1view0"
+        },
+        {
+          "url": "https://www.cms.gov/prior-authorization-metrics-reporting-overview-template",
+          "title": "Prior Authorization Metrics Reporting - Overview and Template",
+          "reference_id": "turn1view1"
+        },
+        {
+          "url": "https://www.cms.gov/files/document/transparency-coverage-puf-datadictionary-py26.pdf",
+          "title": "CMS Center for Consumer Information & Insurance Oversight (CCIIO), Health Insurance Exchange Public Use Files (Exchange PUF) Data Dictionary for Transparency in QHP Coverage PUF",
+          "reference_id": "turn1view2"
+        },
+        {
+          "url": "https://www.cms.gov/files/document/transparency-coverage-datadisclaimer-py24.pdf",
+          "title": "CMS Disclaimer\u2013User Agreement Transparency Public Use Files",
+          "reference_id": "turn1view3"
+        }
+      ]
+    }
+  ]
+}

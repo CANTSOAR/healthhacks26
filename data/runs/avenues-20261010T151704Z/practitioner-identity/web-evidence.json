@@ -1,0 +1,128 @@
+{
+  "meaning": "Observed native web-tool activity. Search result or page URL is not proof of successful data acquisition, rights or factual entailment. Source text and private diagnostics excluded.",
+  "events": [
+    {
+      "action": {
+        "type": "search",
+        "queries": [
+          "site:data.cms.gov hospital affiliation NPI CCN dataset practitioner affiliation CMS",
+          "site:npiregistry.cms.hhs.gov API NPI taxonomy official NPPES"
+        ]
+      },
+      "results": [
+        {
+          "url": "https://data.cms.gov/provider-data/sites/default/files/data_dictionaries/physician/DOC_Data_Dictionary.pdf",
+          "title": "Provider Data Catalog: Doctors & Clinicians Data Dictionary",
+          "reference_id": "turn0search12"
+        },
+        {
+          "url": "https://data.cms.gov/provider-data/dataset/27ea-46a8",
+          "title": "Facility Affiliation Data | Provider Data Catalog",
+          "reference_id": "turn0search0"
+        },
+        {
+          "url": "https://data.cms.gov/provider-data/topics/doctors-clinicians",
+          "title": "Doctors and clinicians | Provider Data Catalog",
+          "reference_id": "turn0search1"
+        },
+        {
+          "url": "https://data.cms.gov/provider-data/sites/default/files/data_dictionaries/DOC_Data_Dictionary.pdf",
+          "title": "Provider Data Catalog: Doctors & Clinicians Data Dictionary- Performance Year 2018",
+          "reference_id": "turn0search13"
+        },
+        {
+          "url": "https://data.cms.gov/resources/medicare-physician-other-practitioners-by-provider-and-service-data-dictionary",
+          "title": "Medicare Physician & Other Practitioners - by Provider and Service Data Dictionary | CMS Data",
+          "reference_id": "turn0search2"
+        },
+        {
+          "url": "https://data.cms.gov/provider-data/datasets",
+          "title": "Search | Provider Data Catalog",
+          "reference_id": "turn0search3"
+        },
+        {
+          "url": "https://data.cms.gov/sites/default/files/2026-02/Hospital_Data_Guidance.pdf",
+          "title": "APPENDIX A \u2013 HOSPITAL ENROLLMENTS FILE LAYOUT",
+          "reference_id": "turn0search14"
+        },
+        {
+          "url": "https://data.cms.gov/sites/default/files/2024-10/Hospital_Data_Guidance.pdf",
+          "title": "APPENDIX A \u2013 HOSPITAL ENROLLMENTS FILE LAYOUT",
+          "reference_id": "turn0search15"
+        },
+        {
+          "url": "https://data.cms.gov/search",
+          "title": "Search Data.CMS.gov | CMS Data",
+          "reference_id": "turn0search4"
+        },
+        {
+          "url": "https://data.cms.gov/provider-characteristics",
+          "title": "Provider Characteristics | CMS Data",
+          "reference_id": "turn0search5"
+        },
+        {
+          "url": "https://data.cms.gov/provider-data/dataset/mj5m-pzi6",
+          "title": "National Downloadable File | Provider Data Catalog",
+          "reference_id": "turn0search6"
+        },
+        {
+          "url": "https://data.cms.gov/sites/default/files/2023-07/Hospital_Enrollments_Data_Dictionary.pdf",
+          "title": "Hospital Enrollments Data Dictionary",
+          "reference_id": "turn0search16"
+        },
+        {
+          "url": "https://data.cms.gov/provider-characteristics/hospitals-and-other-facilities/provider-of-services-file-quality-improvement-and-evaluation-system",
+          "title": "Provider of Services File: QIES: Hospital & Non-Hospital Data | CMS Data",
+          "reference_id": "turn0search7"
+        },
+        {
+          "url": "https://data.cms.gov/tools/medicare-inpatient-hospital-look-up-tool",
+          "title": "Medicare Inpatient Hospital Look-up Tool | CMS Data",
+          "reference_id": "turn0search8"
+        },
+        {
+          "url": "https://data.cms.gov/",
+          "title": "Home Page | CMS Data",
+          "reference_id": "turn0search9"
+        },
+        {
+          "url": "https://data.cms.gov/provider-characteristics/medicare-provider-supplier-enrollment",
+          "title": "Medicare Provider-Supplier Enrollment | CMS Data",
+          "reference_id": "turn0search10"
+        },
+        {
+          "url": "https://npiregistry.cms.hhs.gov/",
+          "title": "NPPES NPI Registry",
+          "reference_id": "turn0search11"
+        }
+      ]
+    },
+    {
+      "action": {
+        "type": "other"
+      },
+      "results": [
+        {
+          "url": "https://data.cms.gov/provider-data/dataset/27ea-46a8",
+          "title": "PQDC",
+          "reference_id": "turn1view0"
+        },
+        {
+          "url": "https://data.cms.gov/provider-data/dataset/mj5m-pzi6",
+          "title": "PQDC",
+          "reference_id": "turn1view1"
+        },
+        {
+          "url": "https://npiregistry.cms.hhs.gov/",
+          "title": "NPPES NPI Registry",
+          "reference_id": "turn1view2"
+        },
+        {
+          "url": "https://npiregistry.cms.hhs.gov/api-page",
+          "title": "NPPES NPI Registry",
+          "reference_id": "turn1view3"
+        }
+      ]
+    }
+  ]
+}

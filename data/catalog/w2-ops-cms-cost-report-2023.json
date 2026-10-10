@@ -1,0 +1,50 @@
+{
+  "dataset_id": "w2-ops-cms-cost-report-2023",
+  "source_id": "w2-ops-cms-cost-report-2023",
+  "title": "CMS Hospital Provider Cost Report (2023 release; CCNs 310038 and 310070)",
+  "source_url": "https://data.cms.gov/provider-compliance/cost-reports/hospital-provider-cost-report",
+  "scope": "All returned 2023-release report rows filtered by CMS Provider CCN for RWJUH New Brunswick (310038) and Saint Peter’s University Hospital (310070).",
+  "access": "public_no_authentication",
+  "rights": {
+    "basis": "CMS public factual dataset",
+    "source_license": "U.S. government data; CMS dataset API public access",
+    "redistribution": "factual public rows retained with CMS attribution"
+  },
+  "acquisition_status": "acquired",
+  "raw_paths": [
+    "data/raw/w2-ops-nj/cms-cost-report-2023-310038.json",
+    "data/raw/w2-ops-nj/cms-cost-report-2023-310070.json"
+  ],
+  "normalized_path": "data/normalized/w2-ops-cms-cost-report-2023.jsonl",
+  "record_count": 2,
+  "limits": [
+    "Annual Medicare cost-report filings are retrospective and may have differing fiscal-year begin/end dates.",
+    "The same CCN may have multiple report records/statuses; inspect report IDs and status before selecting one.",
+    "Beds/FTE/utilization are reported fields, not current staffed capacity, available beds or hourly throughput.",
+    "Reported charges, expenses, costs and payment fields have distinct accounting meanings and do not establish patient liability.",
+    "CMS notes data are contractor-extracted from provider submissions; users must interpret fields with the CMS methodology and dictionary."
+  ],
+  "provenance": {
+    "retrieved_at": "2026-10-10T15:29:19.153549+00:00",
+    "raw_artifact_kind": "reformatted_api_response"
+  },
+  "upstream_dataset_id": "f08d4c46-c0e4-4bcb-a54a-c62c87d59251",
+  "upstream_modified": "2026-10-05",
+  "raw_artifact_kind": "reformatted_api_response",
+  "data_period": {
+    "start": "2023-01-01",
+    "end": "2023-12-31"
+  },
+  "queries": [
+    {
+      "url": "https://data.cms.gov/data-api/v1/dataset/f08d4c46-c0e4-4bcb-a54a-c62c87d59251/data?filter%5Bfilter-1%5D%5Bcondition%5D%5Bpath%5D=Provider+CCN&filter%5Bfilter-1%5D%5Bcondition%5D%5Boperator%5D=%3D&filter%5Bfilter-1%5D%5Bcondition%5D%5Bvalue%5D=310038&size=5000&offset=0",
+      "returned_count": 1,
+      "ccn": "310038"
+    },
+    {
+      "url": "https://data.cms.gov/data-api/v1/dataset/f08d4c46-c0e4-4bcb-a54a-c62c87d59251/data?filter%5Bfilter-1%5D%5Bcondition%5D%5Bpath%5D=Provider+CCN&filter%5Bfilter-1%5D%5Bcondition%5D%5Boperator%5D=%3D&filter%5Bfilter-1%5D%5Bcondition%5D%5Bvalue%5D=310070&size=5000&offset=0",
+      "returned_count": 1,
+      "ccn": "310070"
+    }
+  ]
+}

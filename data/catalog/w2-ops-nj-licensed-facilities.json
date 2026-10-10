@@ -1,0 +1,36 @@
+{
+  "dataset_id": "w2-ops-nj-licensed-facilities",
+  "source_id": "w2-ops-nj-licensed-facilities",
+  "title": "NJ general acute-care licensed facility inventory and reported hospital bed total",
+  "source_url": "https://data.nj.gov/Health/Search-for-Hospitals-Ambulatory-Care-and-other-Acu/9aig-5kq7",
+  "scope": "69 rows with facility_type='GENERAL ACUTE CARE HOSPITAL' from NJ's licensed/certified health-facility inventory; snapshot queried 2026-10-10T15:29:14.476955+00:00.",
+  "access": "public_no_authentication",
+  "rights": {
+    "basis": "New Jersey public open-data factual records",
+    "source_license": "unspecified in catalog",
+    "redistribution": "selected factual fields; attribution and source link retained"
+  },
+  "acquisition_status": "acquired",
+  "raw_paths": [
+    "data/raw/w2-ops-nj/nj-licensed-facilities.json"
+  ],
+  "normalized_path": "data/normalized/w2-ops-nj-licensed-facilities.jsonl",
+  "record_count": 69,
+  "limits": [
+    "Snapshot only; license expiry is not a validation of current status.",
+    "Hospital bed total is not a measure of staffed, open, occupied or immediately available capacity.",
+    "Facility license identifiers are retained; CMS CCN crosswalk is not asserted."
+  ],
+  "provenance": {
+    "retrieved_at": "2026-10-10T15:29:14.476955+00:00",
+    "raw_artifact_kind": "projected_response"
+  },
+  "upstream_dataset_id": "mrzk-zrvp",
+  "raw_artifact_kind": "projected_response",
+  "queries": [
+    {
+      "url": "https://data.nj.gov/resource/mrzk-zrvp.json?%24where=facility_type%3D%27GENERAL+ACUTE+CARE+HOSPITAL%27&%24select=facid%2Cfacility_type%2Clic%2Clicensed_name%2Cfac_city%2Cfac_st%2Czip%2Ccounty%2Clic_expires%2Chospbedtotal&%24order=facid&%24limit=200",
+      "returned_count": 69
+    }
+  ]
+}

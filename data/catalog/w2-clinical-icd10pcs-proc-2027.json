@@ -1,0 +1,36 @@
+{
+  "dataset_id": "w2-clinical-icd10pcs-proc-2027",
+  "source_id": "w2-clinical-icd10pcs-proc-2027",
+  "title": "FY2027 ICD-10-PCS selected procedure code descriptions",
+  "source_url": "https://www.cms.gov/files/zip/2027-icd-10-pcs-codes-file.zip",
+  "source_urls": [
+    "https://www.cms.gov/files/zip/2027-icd-10-pcs-codes-file.zip"
+  ],
+  "record_count": 444,
+  "raw_paths": [
+    "raw/w2-clinical-icd10pcs-proc-2027/source.zip"
+  ],
+  "raw_sha256": {
+    "raw/w2-clinical-icd10pcs-proc-2027/source.zip": "8db2465fe7a65f53bf21d840fce825d7d107dbd603b7fcb66358c8321919809d"
+  },
+  "normalized_path": "normalized/w2-clinical-icd10pcs-proc-2027.jsonl",
+  "scope": "Selected FY2027 inpatient ICD-10-PCS titles in up to eight illustrative categories: coronary, transfusion, ventilation, endotracheal, dialysis, extirpation, thrombolytic, and pacemaker; full source release ZIP preserved. Extirpation is a PCS operation title, not proof a code means thrombectomy.",
+  "access": "public",
+  "rights": {
+    "license": "U.S. federal government work; CMS-published ICD-10-PCS code file",
+    "terms_url": "https://www.cms.gov/about-cms/agency-information/aboutwebsite/website-policies/copyright-permissions",
+    "scope": "Official public code-and-title reference; preserve CMS attribution; not a clinical guideline."
+  },
+  "acquisition_status": "acquired",
+  "retrieved_at": "2026-10-10T15:31:30.745337+00:00",
+  "limits": [
+    "Terminology/coding reference only; not a diagnosis, procedure recommendation, care pathway, outcome rate, or patient-level dataset.",
+    "Confirm the applicable release and official coding guidelines before any operational coding use.",
+    "No locally calibrated prevalence, resource use, or care timing is supplied."
+  ],
+  "provenance": {
+    "method": "HTTPS source download; deterministic normalization",
+    "script": "scripts/acquire_clinical_wave2.py",
+    "raw_artifact_kind": "original_downloaded_response_bytes"
+  }
+}
