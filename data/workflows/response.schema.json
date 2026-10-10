@@ -1,0 +1,11 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "type":"object","additionalProperties":false,
+  "required":["summary","findings","gaps","next_acquisitions"],
+  "properties":{
+    "summary":{"type":"string"},
+    "findings":{"type":"array","items":{"type":"object","additionalProperties":false,"required":["claim","source_record_ids","limitations"],"properties":{"claim":{"type":"string"},"source_record_ids":{"type":"array","minItems":1,"items":{"type":"string"}},"limitations":{"type":"array","items":{"type":"string"}}}}},
+    "gaps":{"type":"array","items":{"type":"string"}},
+    "next_acquisitions":{"type":"array","items":{"type":"object","additionalProperties":false,"required":["domain","requested_data","reason"],"properties":{"domain":{"type":"string"},"requested_data":{"type":"string"},"reason":{"type":"string"}}}}
+  }
+}

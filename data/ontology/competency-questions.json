@@ -1,0 +1,417 @@
+[
+  {
+    "id": "CQ-01",
+    "domain": "place",
+    "question": "Which physical rooms support a service and when?",
+    "entity_types": [
+      "PhysicalLocation",
+      "ServiceUnit"
+    ],
+    "required_evidence": [
+      "current location inventory",
+      "dated service-location mappings"
+    ],
+    "limitation": "Directory listings cannot establish full interior topology.",
+    "status": "designed_not_answered"
+  },
+  {
+    "id": "CQ-02",
+    "domain": "capacity",
+    "question": "How many beds are staffed, occupied, blocked and available at a time?",
+    "entity_types": [
+      "CapacitySnapshot",
+      "Resource",
+      "ResourceAllocation"
+    ],
+    "required_evidence": [
+      "local timestamped census",
+      "staffing basis",
+      "bed states"
+    ],
+    "limitation": "Licensed capacity and historical aggregate counts are not live capacity.",
+    "status": "designed_not_answered"
+  },
+  {
+    "id": "CQ-03",
+    "domain": "workforce",
+    "question": "Who is available and authorized to perform an activity?",
+    "entity_types": [
+      "Person",
+      "RoleAssignment",
+      "Qualification",
+      "Privilege",
+      "Shift"
+    ],
+    "required_evidence": [
+      "verified qualifications",
+      "privileges",
+      "shift rosters"
+    ],
+    "limitation": "NPI and affiliation records do not establish availability or authority.",
+    "status": "designed_not_answered"
+  },
+  {
+    "id": "CQ-04",
+    "domain": "demand",
+    "question": "What case mix is treated at the facility by time and arrival route?",
+    "entity_types": [
+      "PopulationDefinition",
+      "MeasureResult",
+      "Encounter"
+    ],
+    "required_evidence": [
+      "facility-specific encounter aggregates",
+      "denominators",
+      "periods"
+    ],
+    "limitation": "Resident prevalence cannot replace facility demand or presenting complaints.",
+    "status": "designed_not_answered"
+  },
+  {
+    "id": "CQ-05",
+    "domain": "patient",
+    "question": "Which case facts are reported, observed, authored, unknown or pending?",
+    "entity_types": [
+      "Assertion",
+      "Patient",
+      "Observation"
+    ],
+    "required_evidence": [
+      "source-located assertions",
+      "reviewed case versions"
+    ],
+    "limitation": "Missing data is not explicit absence.",
+    "status": "designed_not_answered"
+  },
+  {
+    "id": "CQ-06",
+    "domain": "diagnostics",
+    "question": "What elapsed time belongs to ordering, waiting, execution and result release?",
+    "entity_types": [
+      "Order",
+      "ActivityPerformance",
+      "Event",
+      "QueueEntry"
+    ],
+    "required_evidence": [
+      "linked stage events",
+      "censoring",
+      "cancelled orders"
+    ],
+    "limitation": "Total length of stay cannot recover stage distributions.",
+    "status": "designed_not_answered"
+  },
+  {
+    "id": "CQ-07",
+    "domain": "consent",
+    "question": "Who may consent or decline, and what communication support is required?",
+    "entity_types": [
+      "ConsentDecision",
+      "Perspective",
+      "PolicyRule"
+    ],
+    "required_evidence": [
+      "scoped policies",
+      "decision-maker context",
+      "reviewed communication rules"
+    ],
+    "limitation": "No demographic attribute automatically determines capacity or preferences.",
+    "status": "designed_not_answered"
+  },
+  {
+    "id": "CQ-08",
+    "domain": "flow",
+    "question": "Which dependency blocks admission, transfer or discharge?",
+    "entity_types": [
+      "DischargePlan",
+      "Referral",
+      "PolicyRule",
+      "Event"
+    ],
+    "required_evidence": [
+      "local process maps",
+      "readiness/blocker timestamps"
+    ],
+    "limitation": "A scheduled departure does not prove readiness or actual departure.",
+    "status": "designed_not_answered"
+  },
+  {
+    "id": "CQ-09",
+    "domain": "queues",
+    "question": "How would changed staffing affect waits, workload and throughput?",
+    "entity_types": [
+      "Parameter",
+      "SimulationRun",
+      "ResourceAllocation"
+    ],
+    "required_evidence": [
+      "joint demand/service distributions",
+      "availability",
+      "independent validation"
+    ],
+    "limitation": "Observational correlation does not establish causal effects of staffing changes.",
+    "status": "designed_not_answered"
+  },
+  {
+    "id": "CQ-10",
+    "domain": "inventory",
+    "question": "Can the required medicine, blood product or supply be delivered in time?",
+    "entity_types": [
+      "InventoryLot",
+      "InventoryMovement",
+      "Order"
+    ],
+    "required_evidence": [
+      "stock ledger",
+      "expiry",
+      "compatibility rules",
+      "delivery times"
+    ],
+    "limitation": "Catalog inclusion is not current stock availability.",
+    "status": "designed_not_answered"
+  },
+  {
+    "id": "CQ-11",
+    "domain": "coverage",
+    "question": "Is this facility/professional/service in network for this plan and date?",
+    "entity_types": [
+      "NetworkParticipation",
+      "InsurancePlan",
+      "Coverage"
+    ],
+    "required_evidence": [
+      "dated plan-product network data",
+      "provider identifiers"
+    ],
+    "limitation": "Facility participation does not prove professional participation.",
+    "status": "designed_not_answered"
+  },
+  {
+    "id": "CQ-12",
+    "domain": "authorization",
+    "question": "Is authorization required, pending, approved, denied or expired?",
+    "entity_types": [
+      "Authorization",
+      "PolicyRule",
+      "Appeal"
+    ],
+    "required_evidence": [
+      "plan policies",
+      "request history",
+      "decision scope"
+    ],
+    "limitation": "Approval is not a guarantee of reimbursement.",
+    "status": "designed_not_answered"
+  },
+  {
+    "id": "CQ-13",
+    "domain": "economics",
+    "question": "How do charge, negotiated price, resource cost and patient liability differ?",
+    "entity_types": [
+      "FinancialAmount",
+      "Claim",
+      "Settlement"
+    ],
+    "required_evidence": [
+      "rate context",
+      "accounting method",
+      "adjudication",
+      "benefit accumulators"
+    ],
+    "limitation": "Price files do not establish actual bills or resource cost.",
+    "status": "designed_not_answered"
+  },
+  {
+    "id": "CQ-14",
+    "domain": "community",
+    "question": "Which geographic cohort does a local health estimate describe?",
+    "entity_types": [
+      "GeographicArea",
+      "PopulationDefinition",
+      "MeasureResult"
+    ],
+    "required_evidence": [
+      "vintage",
+      "inclusion/exclusion",
+      "denominator",
+      "margin of error"
+    ],
+    "limitation": "Place, county, ZCTA and hospital catchment are distinct.",
+    "status": "designed_not_answered"
+  },
+  {
+    "id": "CQ-15",
+    "domain": "partners",
+    "question": "Which post-acute or community services can accept a referral?",
+    "entity_types": [
+      "CommunityService",
+      "Referral",
+      "DischargePlan"
+    ],
+    "required_evidence": [
+      "eligibility",
+      "current capacity",
+      "acceptance process"
+    ],
+    "limitation": "Public directory existence is not slot availability.",
+    "status": "designed_not_answered"
+  },
+  {
+    "id": "CQ-16",
+    "domain": "qualitative",
+    "question": "What do patients and staff report, and where do their perspectives disagree?",
+    "entity_types": [
+      "QualitativeFinding",
+      "Perspective",
+      "Assertion"
+    ],
+    "required_evidence": [
+      "method",
+      "population",
+      "source locator",
+      "conflicting reports"
+    ],
+    "limitation": "Published themes are not universal personalities or probabilities.",
+    "status": "designed_not_answered"
+  },
+  {
+    "id": "CQ-17",
+    "domain": "quality",
+    "question": "How should safety and experience measures be compared across hospitals?",
+    "entity_types": [
+      "MeasureDefinition",
+      "MeasureResult",
+      "PopulationDefinition"
+    ],
+    "required_evidence": [
+      "adjustment method",
+      "measurement period",
+      "suppression",
+      "denominator"
+    ],
+    "limitation": "Standardized ratios and survey scores are not raw event likelihoods.",
+    "status": "designed_not_answered"
+  },
+  {
+    "id": "CQ-18",
+    "domain": "resilience",
+    "question": "Which services fail when equipment, staffing or systems are unavailable?",
+    "entity_types": [
+      "Disruption",
+      "PolicyRule",
+      "Resource",
+      "PathwayDefinition"
+    ],
+    "required_evidence": [
+      "dependency maps",
+      "contingencies",
+      "outage durations"
+    ],
+    "limitation": "Unverified contingency rules remain assumptions.",
+    "status": "designed_not_answered"
+  },
+  {
+    "id": "CQ-19",
+    "domain": "teaching",
+    "question": "What may the learner discover, when, and from which evidence?",
+    "entity_types": [
+      "CaseVersion",
+      "DisclosureRule",
+      "EvidenceArtifact"
+    ],
+    "required_evidence": [
+      "approved case version",
+      "disclosure triggers",
+      "release events"
+    ],
+    "limitation": "A conversation must not invent new case facts.",
+    "status": "designed_not_answered"
+  },
+  {
+    "id": "CQ-20",
+    "domain": "assessment",
+    "question": "Why was a learner criterion scored this way?",
+    "entity_types": [
+      "Assessment",
+      "RubricVersion",
+      "EvidenceArtifact"
+    ],
+    "required_evidence": [
+      "criterion applicability",
+      "exact transcript/action evidence",
+      "reviewer decisions"
+    ],
+    "limitation": "No evidence and poor performance must be distinct.",
+    "status": "designed_not_answered"
+  },
+  {
+    "id": "CQ-21",
+    "domain": "generation",
+    "question": "Which variations can an AI propose without breaking case constraints?",
+    "entity_types": [
+      "ScenarioTemplate",
+      "CaseVersion",
+      "PolicyRule",
+      "ReviewDecision"
+    ],
+    "required_evidence": [
+      "variation envelope",
+      "consistency rules",
+      "exact-version review"
+    ],
+    "limitation": "Generation always produces a candidate until the applicable review gate is satisfied.",
+    "status": "designed_not_answered"
+  },
+  {
+    "id": "CQ-22",
+    "domain": "provenance",
+    "question": "What source, transformation and review supports each claim?",
+    "entity_types": [
+      "SourceRecord",
+      "Assertion",
+      "ReviewDecision"
+    ],
+    "required_evidence": [
+      "raw hash or limited-extraction method",
+      "source locator",
+      "version lineage"
+    ],
+    "limitation": "Retrieval, structural validation and domain approval are distinct.",
+    "status": "designed_not_answered"
+  },
+  {
+    "id": "CQ-23",
+    "domain": "identity",
+    "question": "Do these records refer to the same hospital, campus, provider or concept?",
+    "entity_types": [
+      "IdentityMapping",
+      "Facility",
+      "Person",
+      "ClinicalConcept"
+    ],
+    "required_evidence": [
+      "external identifiers",
+      "date bounds",
+      "match rationale"
+    ],
+    "limitation": "Name-only joins and directory affiliation are insufficient.",
+    "status": "designed_not_answered"
+  },
+  {
+    "id": "CQ-24",
+    "domain": "validation",
+    "question": "Which outputs are validated for which population and use?",
+    "entity_types": [
+      "ValidationStudy",
+      "SimulationRun",
+      "Parameter"
+    ],
+    "required_evidence": [
+      "held-out observations",
+      "acceptance criteria",
+      "scope limitations"
+    ],
+    "limitation": "One valid count or rendered map does not validate flow, clinical response or educational benefit.",
+    "status": "designed_not_answered"
+  }
+]

@@ -1,0 +1,47 @@
+{
+  "dataset_id": "cms-complications-deaths",
+  "source_id": "cms-complications-deaths",
+  "upstream_dataset_id": "ynj2-r877",
+  "title": "Complications and Deaths - Hospital",
+  "source_url": "https://data.cms.gov/provider-data/dataset/ynj2-r877",
+  "raw_paths": [
+    "data/raw/cms-complications-deaths-metadata.json",
+    "data/raw/cms-complications-deaths-query0-page0.json",
+    "data/raw/cms-complications-deaths-query1-page0.json"
+  ],
+  "scope": "All API rows for CCNs 310038 and 310070; general inventory uses city New Brunswick, NJ (includes additional hospitals).",
+  "access": "public_no_authentication",
+  "rights": {
+    "basis": "Public US federal CMS factual data",
+    "redistribution": "public factual government records with attribution",
+    "source_url": "https://data.cms.gov/provider-data/dataset/ynj2-r877"
+  },
+  "acquisition_status": "acquired",
+  "limits": [
+    "Historical publication, not live capacity, privileges, staffing or patient-level records.",
+    "Preserve source strings, suppression markers, footnotes and measure periods; not all scores share units.",
+    "Quality aggregates are not direct per-patient simulation probabilities."
+  ],
+  "provenance": {
+    "retrieved_at": "2026-10-10T15:02:09.617267+00:00",
+    "upstream_modified": "2026-09-10",
+    "upstream_released": "2026-09-30",
+    "metadata_url": "https://data.cms.gov/provider-data/api/1/metastore/schemas/dataset/items/ynj2-r877"
+  },
+  "queries": [
+    {
+      "url": "https://data.cms.gov/provider-data/api/1/datastore/query/ynj2-r877/0?limit=500&offset=0&conditions%5B0%5D%5Bproperty%5D=facility_id&conditions%5B0%5D%5Bvalue%5D=310038&conditions%5B0%5D%5Boperator%5D=%3D",
+      "reported_count": 20,
+      "returned_count": 20,
+      "offset": 0
+    },
+    {
+      "url": "https://data.cms.gov/provider-data/api/1/datastore/query/ynj2-r877/0?limit=500&offset=0&conditions%5B0%5D%5Bproperty%5D=facility_id&conditions%5B0%5D%5Bvalue%5D=310070&conditions%5B0%5D%5Boperator%5D=%3D",
+      "reported_count": 20,
+      "returned_count": 20,
+      "offset": 0
+    }
+  ],
+  "record_count": 40,
+  "normalized_path": "data/normalized/cms-complications-deaths.jsonl"
+}

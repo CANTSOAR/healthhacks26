@@ -2,6 +2,10 @@
 
 Prepared October 10, 2026 from the current project discussion, prior Codex threads and repository research. The user requests the sequence **project KRAIL → ontology → knowledge base → database design → AI scenario generation**. This document defines the preparation work; it does not implement these layers or approve clinical content.
 
+## Expanded research scope
+
+The current user direction broadens acquisition to the qualitative and quantitative hospital system: facilities/wings, real clinicians, procedures, insurance, local case mix and supporting services. The [whole-hospital data blueprint](whole-hospital-data-blueprint.md) owns that expanded scope. The encounter milestones below remain a first implementation slice, not the limit of the research ontology.
+
 ## Purpose and boundaries
 
 Build a small, reviewed teaching knowledge base that supports coherent, reusable patient encounters. Begin with supplied TwinVerse cases and the faculty-authoring → approval → encounter/chart → evidence-linked debrief workflow. Keep the broader hospital vision through shared identifiers and separate later operations entities.

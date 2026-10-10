@@ -1,0 +1,53 @@
+# Hospital ontology and evidence workspace
+
+A first version of the whole-hospital knowledge system, grounded in New Brunswick, New Jersey. This repository contains the acquired data, provenance, ontology and reproducible research workflows. The database and live scenario engine are later work.
+
+**Snapshot: 2026-10-10. 19 datasets, 3,136 normalized records, 49 source files.** These are selected public sources and partial samples, not a complete hospital digital twin. Twenty records are limited, located factual paraphrases with no redistributed source document. Eight teaching profiles are explicitly synthetic.
+
+## Start here
+
+- [Ontology design](docs/ontology.md), [domain context](CONTEXT.md), [machine vocabulary](ontology/vocabulary.json) and [schemas](ontology/schemas/).
+- [Source citations and bibliography](sources/README.md): every acquired record has a citation ID and lineage.
+- [Hospital/provider/quality findings](research/hospital-provider-quality.md) and [community/insurance findings](research/local-community-insurance.md).
+- [Acquisition roadmap](docs/acquisition-roadmap.md) and [machine backlog](workflows/acquisition-backlog.json).
+- [Knowledge-base entry point](knowledge/README.md) and [workflow instructions](workflows/README.md).
+- [Prior project research](../research/README.md) and [whole-hospital rationale](../research/whole-hospital-data-blueprint.md).
+
+## What is actually collected
+
+| Collection | Records | Scope |
+|---|---:|---|
+| CMS hospital identities | 3 | New Brunswick city inventory |
+| CMS hospital quality and patient experience | 336 | RWJUH and Saint Peter's, multiple reporting periods |
+| CMS clinician–facility affiliations | 2,142 | Published affiliation rows, not shifts or privileges |
+| NPPES practitioner sample | 200 | First bounded public sample; minimized professional fields |
+| CMS 2024 Medicare DRG utilization/payment | 241 | Published FFS Part A provider-service rows; small cells suppressed |
+| CDC PLACES | 160 | City/county, crude and age-adjusted estimates; release 2025 |
+| CDC-hosted historical ACS factors | 18 | 2017–2021 city/county estimates, not current ACS |
+| CHNA, services, insurance and staffing documentation | 20 | Limited sourced facts; no actual staffing values |
+| NLM RxNorm identity lookups | 8 | Identifier matches, not medication instructions |
+| Rutgers VHS teaching profiles | 8 | CC-BY-4.0 synthetic profiles at pinned source revision |
+
+`raw/` retains permitted source bytes or explicitly marked minimized projections. `normalized/` contains source-shaped JSONL records. `catalog/` records scope, acquisition state, rights and limitations. `ontology/examples/` contains invented structural fixtures and is excluded from acquired-record totals. Source paths may be repository-relative (`data/...`) or workspace-relative; the resolver accepts both only within this workspace.
+
+## Reproduce and validate
+
+Python 3.10+ is required. Install `requirements.txt` in a virtual environment. KRAIL's wrapper requires `uv` and pins KRAIL 1.1.13. The optional model workflow requires an authenticated Codex CLI with GPT-6 Luna access.
+
+```sh
+cd data
+python3 scripts/build_citations.py
+bash scripts/run-verification.sh
+./scripts/krail --local --path . workflow validate coverage-audit
+./scripts/krail --local --path . workflow execute coverage-audit
+python3 scripts/run_luna.py baseline-evidence-review            # prepare only
+python3 scripts/run_luna.py baseline-evidence-review --execute  # one bounded model call
+```
+
+One actual GPT-6 Luna review completed in [the saved run](runs/20261010T150413Z-baseline-evidence-review/). It reviewed a 32-record packet and returned eight candidate findings with source-record references. This verifies the local CLI workflow, not clinical validity. [Review notes](knowledge/luna-review.md) record interpretation limits.
+
+## Boundaries and remaining evidence
+
+The ontology models the broad system but public evidence does not yet calibrate it. Unit-level staff, actual staffed capacity, arrival/transfer timestamps, service durations, operational pathways and dependencies, patient-level trajectories, and plan-specific coverage rules remain missing. Medicare rows do not establish all-payer case mix; community prevalence does not establish hospital patient prevalence. Published affiliation does not establish employment, privileges, schedules or availability. Insurance participation does not establish individual benefits. No real patient records or private clinical notes are included.
+
+Preserve missing/suppressed source values. Promote a source record into a typed entity or simulation parameter only through an explicit mapping and review. Faculty approval applies to a specific case version; model output cannot grant it. See [AGENTS.md](AGENTS.md) for research and contribution rules.

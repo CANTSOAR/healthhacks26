@@ -1,0 +1,8 @@
+{
+  "source_url": "https://data.cdc.gov/resource/edkk-ze78.json?locationid=3451210&%24limit=500&%24order=year%2Cmeasureid%2Cdatavaluetypeid",
+  "metadata_url": "https://data.cdc.gov/api/views/edkk-ze78.json",
+  "retrieved_at": "2026-10-10T15:02:08.978863+00:00",
+  "sha256": "97b84dbf79aff02d228cd7b62fb782a13908c3eb98585277250988d25a997b22",
+  "metadata_sha256": "48880085e98001f62b9ddd49fc2f047487c3938c0dd499b48bdab20e6ae42994",
+  "row_count": 9
+}

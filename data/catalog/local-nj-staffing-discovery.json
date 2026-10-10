@@ -1,0 +1,25 @@
+{
+  "dataset_id": "local-nj-staffing-discovery",
+  "source_id": "local-nj-staffing-discovery",
+  "title": "NJ hospital staffing quarterly report documentation",
+  "source_url": "https://healthapps.nj.gov/nursestaffing/quarterly.aspx",
+  "record_count": 2,
+  "raw_paths": [],
+  "normalized_path": "data/normalized/local-nj-staffing-discovery.jsonl",
+  "scope": "Limited selected factual paraphrases; not comprehensive extraction",
+  "access": "public webpage or PDF",
+  "rights": {
+    "redistribution": "Only limited original factual paraphrases; full copyrighted source omitted",
+    "source_license": "not established"
+  },
+  "acquisition_status": "acquired_selected_paraphrased_facts",
+  "limits": [
+    "No claim of full document review.",
+    "No direct patient data, current operational state or eligibility established."
+  ],
+  "provenance": {
+    "source_url": "https://healthapps.nj.gov/nursestaffing/quarterly.aspx",
+    "retrieved_at": "2026-10-10T15:02:48.335328+00:00",
+    "raw_sha256": null
+  }
+}

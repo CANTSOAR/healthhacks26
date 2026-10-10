@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Contextual relationship",
+  "type": "object",
+  "required": [
+    "id",
+    "relation_type",
+    "subject_ref",
+    "object_ref",
+    "source_refs",
+    "evidence_kind",
+    "review_status"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "relation_type": {
+      "enum": [
+        "operated_by",
+        "located_in",
+        "serves_at",
+        "affiliated_with",
+        "acts_as",
+        "qualified_by",
+        "authorized_by",
+        "scheduled_for",
+        "has_patient",
+        "at_facility",
+        "asserts_about",
+        "supported_by",
+        "requests",
+        "fulfills",
+        "executes",
+        "performed_by",
+        "produces",
+        "allocates",
+        "follows",
+        "governed_by",
+        "has_perspective",
+        "enrolled_in",
+        "issued_by",
+        "participates_in",
+        "bills_for",
+        "adjudicates",
+        "covers_subject",
+        "summarizes",
+        "defined_by",
+        "serves_population",
+        "plans_disposition",
+        "refers_to_service",
+        "targets_objective",
+        "instantiates",
+        "contains_fact",
+        "controls_disclosure",
+        "evaluates_with",
+        "evidenced_by",
+        "reviews",
+        "depends_on",
+        "uses_parameter",
+        "validates",
+        "reconciles"
+      ]
+    },
+    "subject_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "object_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "evidence_kind": {
+      "enum": [
+        "observed_local",
+        "published_local_aggregate",
+        "published_external_aggregate",
+        "published_external_benchmark",
+        "published_reference",
+        "published_directory",
+        "published_policy",
+        "reviewed_policy",
+        "qualitative_research",
+        "synthetic_example",
+        "assumption",
+        "model_estimate",
+        "generated_draft"
+      ]
+    },
+    "review_status": {
+      "enum": [
+        "draft",
+        "unreviewed",
+        "structurally_validated",
+        "reviewed",
+        "approved",
+        "disputed",
+        "rejected",
+        "superseded"
+      ]
+    },
+    "valid_time": {
+      "type": "object",
+      "properties": {
+        "start": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "end": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "precision": {
+          "enum": [
+            "instant",
+            "day",
+            "month",
+            "year",
+            "interval",
+            "unknown"
+          ]
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "qualifiers": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": false
+}

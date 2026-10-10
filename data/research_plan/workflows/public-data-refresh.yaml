@@ -1,0 +1,20 @@
+id: public-data-refresh
+description: Refresh bounded public samples. Review changed source snapshots before
+  committing.
+schedule: ''
+steps:
+- id: hospital
+  kind: command
+  run: ./scripts/python scripts/acquire_hospital_data.py
+- id: community
+  kind: command
+  run: ./scripts/python scripts/acquire_local_data.py
+- id: teaching
+  kind: command
+  run: ./scripts/python scripts/acquire_teaching_terms.py
+- id: citations
+  kind: command
+  run: ./scripts/python scripts/build_citations.py
+- id: validate
+  kind: command
+  run: bash scripts/run-verification.sh

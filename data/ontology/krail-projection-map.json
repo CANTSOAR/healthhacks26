@@ -1,0 +1,524 @@
+[
+  {
+    "native_name": "operated_by__Facility__Organization",
+    "relation_type": "operated_by",
+    "domain": "Facility",
+    "range": "Organization"
+  },
+  {
+    "native_name": "located_in__PhysicalLocation__PhysicalLocation",
+    "relation_type": "located_in",
+    "domain": "PhysicalLocation",
+    "range": "PhysicalLocation"
+  },
+  {
+    "native_name": "located_in__Resource__PhysicalLocation",
+    "relation_type": "located_in",
+    "domain": "Resource",
+    "range": "PhysicalLocation"
+  },
+  {
+    "native_name": "serves_at__ServiceUnit__PhysicalLocation",
+    "relation_type": "serves_at",
+    "domain": "ServiceUnit",
+    "range": "PhysicalLocation"
+  },
+  {
+    "native_name": "affiliated_with__Person__Organization",
+    "relation_type": "affiliated_with",
+    "domain": "Person",
+    "range": "Organization"
+  },
+  {
+    "native_name": "affiliated_with__Person__Facility",
+    "relation_type": "affiliated_with",
+    "domain": "Person",
+    "range": "Facility"
+  },
+  {
+    "native_name": "acts_as__Person__RoleAssignment",
+    "relation_type": "acts_as",
+    "domain": "Person",
+    "range": "RoleAssignment"
+  },
+  {
+    "native_name": "qualified_by__Person__Qualification",
+    "relation_type": "qualified_by",
+    "domain": "Person",
+    "range": "Qualification"
+  },
+  {
+    "native_name": "authorized_by__RoleAssignment__Privilege",
+    "relation_type": "authorized_by",
+    "domain": "RoleAssignment",
+    "range": "Privilege"
+  },
+  {
+    "native_name": "authorized_by__Person__Privilege",
+    "relation_type": "authorized_by",
+    "domain": "Person",
+    "range": "Privilege"
+  },
+  {
+    "native_name": "scheduled_for__RoleAssignment__Shift",
+    "relation_type": "scheduled_for",
+    "domain": "RoleAssignment",
+    "range": "Shift"
+  },
+  {
+    "native_name": "has_patient__Encounter__Patient",
+    "relation_type": "has_patient",
+    "domain": "Encounter",
+    "range": "Patient"
+  },
+  {
+    "native_name": "at_facility__Encounter__Facility",
+    "relation_type": "at_facility",
+    "domain": "Encounter",
+    "range": "Facility"
+  },
+  {
+    "native_name": "asserts_about__Assertion__Patient",
+    "relation_type": "asserts_about",
+    "domain": "Assertion",
+    "range": "Patient"
+  },
+  {
+    "native_name": "asserts_about__Assertion__Encounter",
+    "relation_type": "asserts_about",
+    "domain": "Assertion",
+    "range": "Encounter"
+  },
+  {
+    "native_name": "asserts_about__Assertion__Person",
+    "relation_type": "asserts_about",
+    "domain": "Assertion",
+    "range": "Person"
+  },
+  {
+    "native_name": "asserts_about__Assertion__Facility",
+    "relation_type": "asserts_about",
+    "domain": "Assertion",
+    "range": "Facility"
+  },
+  {
+    "native_name": "asserts_about__Assertion__ServiceUnit",
+    "relation_type": "asserts_about",
+    "domain": "Assertion",
+    "range": "ServiceUnit"
+  },
+  {
+    "native_name": "asserts_about__Assertion__ClinicalConcept",
+    "relation_type": "asserts_about",
+    "domain": "Assertion",
+    "range": "ClinicalConcept"
+  },
+  {
+    "native_name": "asserts_about__Assertion__Organization",
+    "relation_type": "asserts_about",
+    "domain": "Assertion",
+    "range": "Organization"
+  },
+  {
+    "native_name": "asserts_about__Assertion__PhysicalLocation",
+    "relation_type": "asserts_about",
+    "domain": "Assertion",
+    "range": "PhysicalLocation"
+  },
+  {
+    "native_name": "asserts_about__Assertion__InsurancePlan",
+    "relation_type": "asserts_about",
+    "domain": "Assertion",
+    "range": "InsurancePlan"
+  },
+  {
+    "native_name": "supported_by__Assertion__SourceRecord",
+    "relation_type": "supported_by",
+    "domain": "Assertion",
+    "range": "SourceRecord"
+  },
+  {
+    "native_name": "supported_by__Assertion__EvidenceArtifact",
+    "relation_type": "supported_by",
+    "domain": "Assertion",
+    "range": "EvidenceArtifact"
+  },
+  {
+    "native_name": "supported_by__Parameter__SourceRecord",
+    "relation_type": "supported_by",
+    "domain": "Parameter",
+    "range": "SourceRecord"
+  },
+  {
+    "native_name": "supported_by__Parameter__EvidenceArtifact",
+    "relation_type": "supported_by",
+    "domain": "Parameter",
+    "range": "EvidenceArtifact"
+  },
+  {
+    "native_name": "supported_by__PolicyRule__SourceRecord",
+    "relation_type": "supported_by",
+    "domain": "PolicyRule",
+    "range": "SourceRecord"
+  },
+  {
+    "native_name": "supported_by__PolicyRule__EvidenceArtifact",
+    "relation_type": "supported_by",
+    "domain": "PolicyRule",
+    "range": "EvidenceArtifact"
+  },
+  {
+    "native_name": "supported_by__QualitativeFinding__SourceRecord",
+    "relation_type": "supported_by",
+    "domain": "QualitativeFinding",
+    "range": "SourceRecord"
+  },
+  {
+    "native_name": "supported_by__QualitativeFinding__EvidenceArtifact",
+    "relation_type": "supported_by",
+    "domain": "QualitativeFinding",
+    "range": "EvidenceArtifact"
+  },
+  {
+    "native_name": "supported_by__MeasureResult__SourceRecord",
+    "relation_type": "supported_by",
+    "domain": "MeasureResult",
+    "range": "SourceRecord"
+  },
+  {
+    "native_name": "supported_by__MeasureResult__EvidenceArtifact",
+    "relation_type": "supported_by",
+    "domain": "MeasureResult",
+    "range": "EvidenceArtifact"
+  },
+  {
+    "native_name": "requests__Order__ActivityDefinition",
+    "relation_type": "requests",
+    "domain": "Order",
+    "range": "ActivityDefinition"
+  },
+  {
+    "native_name": "fulfills__ActivityPerformance__Order",
+    "relation_type": "fulfills",
+    "domain": "ActivityPerformance",
+    "range": "Order"
+  },
+  {
+    "native_name": "executes__ActivityPerformance__ActivityDefinition",
+    "relation_type": "executes",
+    "domain": "ActivityPerformance",
+    "range": "ActivityDefinition"
+  },
+  {
+    "native_name": "performed_by__ActivityPerformance__RoleAssignment",
+    "relation_type": "performed_by",
+    "domain": "ActivityPerformance",
+    "range": "RoleAssignment"
+  },
+  {
+    "native_name": "produces__ActivityPerformance__Observation",
+    "relation_type": "produces",
+    "domain": "ActivityPerformance",
+    "range": "Observation"
+  },
+  {
+    "native_name": "produces__ActivityPerformance__ClinicalArtifact",
+    "relation_type": "produces",
+    "domain": "ActivityPerformance",
+    "range": "ClinicalArtifact"
+  },
+  {
+    "native_name": "allocates__ResourceAllocation__Resource",
+    "relation_type": "allocates",
+    "domain": "ResourceAllocation",
+    "range": "Resource"
+  },
+  {
+    "native_name": "allocates__ResourceAllocation__RoleAssignment",
+    "relation_type": "allocates",
+    "domain": "ResourceAllocation",
+    "range": "RoleAssignment"
+  },
+  {
+    "native_name": "allocates__ResourceAllocation__InventoryLot",
+    "relation_type": "allocates",
+    "domain": "ResourceAllocation",
+    "range": "InventoryLot"
+  },
+  {
+    "native_name": "follows__Event__Event",
+    "relation_type": "follows",
+    "domain": "Event",
+    "range": "Event"
+  },
+  {
+    "native_name": "governed_by__PathwayDefinition__PolicyRule",
+    "relation_type": "governed_by",
+    "domain": "PathwayDefinition",
+    "range": "PolicyRule"
+  },
+  {
+    "native_name": "governed_by__Decision__PolicyRule",
+    "relation_type": "governed_by",
+    "domain": "Decision",
+    "range": "PolicyRule"
+  },
+  {
+    "native_name": "governed_by__ActivityDefinition__PolicyRule",
+    "relation_type": "governed_by",
+    "domain": "ActivityDefinition",
+    "range": "PolicyRule"
+  },
+  {
+    "native_name": "has_perspective__Patient__Perspective",
+    "relation_type": "has_perspective",
+    "domain": "Patient",
+    "range": "Perspective"
+  },
+  {
+    "native_name": "has_perspective__Person__Perspective",
+    "relation_type": "has_perspective",
+    "domain": "Person",
+    "range": "Perspective"
+  },
+  {
+    "native_name": "enrolled_in__Coverage__InsurancePlan",
+    "relation_type": "enrolled_in",
+    "domain": "Coverage",
+    "range": "InsurancePlan"
+  },
+  {
+    "native_name": "issued_by__InsurancePlan__Organization",
+    "relation_type": "issued_by",
+    "domain": "InsurancePlan",
+    "range": "Organization"
+  },
+  {
+    "native_name": "participates_in__NetworkParticipation__InsurancePlan",
+    "relation_type": "participates_in",
+    "domain": "NetworkParticipation",
+    "range": "InsurancePlan"
+  },
+  {
+    "native_name": "bills_for__Claim__Encounter",
+    "relation_type": "bills_for",
+    "domain": "Claim",
+    "range": "Encounter"
+  },
+  {
+    "native_name": "adjudicates__Settlement__Claim",
+    "relation_type": "adjudicates",
+    "domain": "Settlement",
+    "range": "Claim"
+  },
+  {
+    "native_name": "covers_subject__Coverage__Patient",
+    "relation_type": "covers_subject",
+    "domain": "Coverage",
+    "range": "Patient"
+  },
+  {
+    "native_name": "summarizes__MeasureResult__PopulationDefinition",
+    "relation_type": "summarizes",
+    "domain": "MeasureResult",
+    "range": "PopulationDefinition"
+  },
+  {
+    "native_name": "defined_by__MeasureResult__MeasureDefinition",
+    "relation_type": "defined_by",
+    "domain": "MeasureResult",
+    "range": "MeasureDefinition"
+  },
+  {
+    "native_name": "serves_population__CommunityService__PopulationDefinition",
+    "relation_type": "serves_population",
+    "domain": "CommunityService",
+    "range": "PopulationDefinition"
+  },
+  {
+    "native_name": "plans_disposition__DischargePlan__Encounter",
+    "relation_type": "plans_disposition",
+    "domain": "DischargePlan",
+    "range": "Encounter"
+  },
+  {
+    "native_name": "refers_to_service__Referral__CommunityService",
+    "relation_type": "refers_to_service",
+    "domain": "Referral",
+    "range": "CommunityService"
+  },
+  {
+    "native_name": "refers_to_service__Referral__ServiceUnit",
+    "relation_type": "refers_to_service",
+    "domain": "Referral",
+    "range": "ServiceUnit"
+  },
+  {
+    "native_name": "targets_objective__ScenarioTemplate__LearningObjective",
+    "relation_type": "targets_objective",
+    "domain": "ScenarioTemplate",
+    "range": "LearningObjective"
+  },
+  {
+    "native_name": "targets_objective__RubricVersion__LearningObjective",
+    "relation_type": "targets_objective",
+    "domain": "RubricVersion",
+    "range": "LearningObjective"
+  },
+  {
+    "native_name": "instantiates__CaseVersion__ScenarioTemplate",
+    "relation_type": "instantiates",
+    "domain": "CaseVersion",
+    "range": "ScenarioTemplate"
+  },
+  {
+    "native_name": "contains_fact__CaseVersion__Assertion",
+    "relation_type": "contains_fact",
+    "domain": "CaseVersion",
+    "range": "Assertion"
+  },
+  {
+    "native_name": "controls_disclosure__DisclosureRule__Assertion",
+    "relation_type": "controls_disclosure",
+    "domain": "DisclosureRule",
+    "range": "Assertion"
+  },
+  {
+    "native_name": "evaluates_with__Assessment__RubricVersion",
+    "relation_type": "evaluates_with",
+    "domain": "Assessment",
+    "range": "RubricVersion"
+  },
+  {
+    "native_name": "evidenced_by__Assessment__EvidenceArtifact",
+    "relation_type": "evidenced_by",
+    "domain": "Assessment",
+    "range": "EvidenceArtifact"
+  },
+  {
+    "native_name": "reviews__ReviewDecision__CaseVersion",
+    "relation_type": "reviews",
+    "domain": "ReviewDecision",
+    "range": "CaseVersion"
+  },
+  {
+    "native_name": "reviews__ReviewDecision__Assertion",
+    "relation_type": "reviews",
+    "domain": "ReviewDecision",
+    "range": "Assertion"
+  },
+  {
+    "native_name": "reviews__ReviewDecision__Parameter",
+    "relation_type": "reviews",
+    "domain": "ReviewDecision",
+    "range": "Parameter"
+  },
+  {
+    "native_name": "reviews__ReviewDecision__SourceRecord",
+    "relation_type": "reviews",
+    "domain": "ReviewDecision",
+    "range": "SourceRecord"
+  },
+  {
+    "native_name": "reviews__ReviewDecision__PolicyRule",
+    "relation_type": "reviews",
+    "domain": "ReviewDecision",
+    "range": "PolicyRule"
+  },
+  {
+    "native_name": "reviews__ReviewDecision__ScenarioTemplate",
+    "relation_type": "reviews",
+    "domain": "ReviewDecision",
+    "range": "ScenarioTemplate"
+  },
+  {
+    "native_name": "reviews__ReviewDecision__RubricVersion",
+    "relation_type": "reviews",
+    "domain": "ReviewDecision",
+    "range": "RubricVersion"
+  },
+  {
+    "native_name": "reviews__ReviewDecision__EvaluationCase",
+    "relation_type": "reviews",
+    "domain": "ReviewDecision",
+    "range": "EvaluationCase"
+  },
+  {
+    "native_name": "reviews__ReviewDecision__IdentityMapping",
+    "relation_type": "reviews",
+    "domain": "ReviewDecision",
+    "range": "IdentityMapping"
+  },
+  {
+    "native_name": "depends_on__Parameter__Parameter",
+    "relation_type": "depends_on",
+    "domain": "Parameter",
+    "range": "Parameter"
+  },
+  {
+    "native_name": "uses_parameter__SimulationRun__Parameter",
+    "relation_type": "uses_parameter",
+    "domain": "SimulationRun",
+    "range": "Parameter"
+  },
+  {
+    "native_name": "validates__ValidationStudy__SimulationRun",
+    "relation_type": "validates",
+    "domain": "ValidationStudy",
+    "range": "SimulationRun"
+  },
+  {
+    "native_name": "validates__ValidationStudy__ScenarioTemplate",
+    "relation_type": "validates",
+    "domain": "ValidationStudy",
+    "range": "ScenarioTemplate"
+  },
+  {
+    "native_name": "validates__ValidationStudy__Assessment",
+    "relation_type": "validates",
+    "domain": "ValidationStudy",
+    "range": "Assessment"
+  },
+  {
+    "native_name": "validates__ValidationStudy__Parameter",
+    "relation_type": "validates",
+    "domain": "ValidationStudy",
+    "range": "Parameter"
+  },
+  {
+    "native_name": "reconciles__IdentityMapping__Person",
+    "relation_type": "reconciles",
+    "domain": "IdentityMapping",
+    "range": "Person"
+  },
+  {
+    "native_name": "reconciles__IdentityMapping__Facility",
+    "relation_type": "reconciles",
+    "domain": "IdentityMapping",
+    "range": "Facility"
+  },
+  {
+    "native_name": "reconciles__IdentityMapping__Organization",
+    "relation_type": "reconciles",
+    "domain": "IdentityMapping",
+    "range": "Organization"
+  },
+  {
+    "native_name": "reconciles__IdentityMapping__PhysicalLocation",
+    "relation_type": "reconciles",
+    "domain": "IdentityMapping",
+    "range": "PhysicalLocation"
+  },
+  {
+    "native_name": "reconciles__IdentityMapping__ClinicalConcept",
+    "relation_type": "reconciles",
+    "domain": "IdentityMapping",
+    "range": "ClinicalConcept"
+  },
+  {
+    "native_name": "reconciles__IdentityMapping__GeographicArea",
+    "relation_type": "reconciles",
+    "domain": "IdentityMapping",
+    "range": "GeographicArea"
+  }
+]

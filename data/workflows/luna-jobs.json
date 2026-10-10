@@ -1,0 +1,13 @@
+{
+  "version":"1.0",
+  "model":"gpt-6-luna",
+  "runner":"codex_cli",
+  "default_timeout_seconds":240,
+  "default_max_records":32,
+  "jobs":[
+    {"id":"baseline-evidence-review","description":"Review a balanced bounded packet across acquired source domains","source_prefixes":[],"max_records":32,"status":"ready"},
+    {"id":"hospital-workforce-review","description":"Identify supported hospital/provider statements and roster/privilege gaps","source_prefixes":["cms-","nppes-"],"max_records":40,"status":"ready"},
+    {"id":"community-access-review","description":"Separate local community estimates, geography, dates and access barriers","source_prefixes":["local-"],"max_records":40,"status":"ready"},
+    {"id":"teaching-consistency-review","description":"Flag synthetic case source inconsistencies for clinical review","source_prefixes":["twinverse-","nlm-"],"max_records":16,"status":"ready"}
+  ]
+}

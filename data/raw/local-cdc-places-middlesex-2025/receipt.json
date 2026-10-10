@@ -1,0 +1,8 @@
+{
+  "source_url": "https://data.cdc.gov/resource/swc5-untb.json?locationid=34023&%24limit=500&%24order=year%2Cmeasureid%2Cdatavaluetypeid",
+  "metadata_url": "https://data.cdc.gov/api/views/swc5-untb.json",
+  "retrieved_at": "2026-10-10T15:02:08.410950+00:00",
+  "sha256": "c6654e42c7a7a55e08b76b560b1e6704c6fccb6125ad881961803843add39e5d",
+  "metadata_sha256": "83332ca85fc8920da6756078cefb772ebcef6fa3c05478755b64cf04fe44eb6a",
+  "row_count": 80
+}

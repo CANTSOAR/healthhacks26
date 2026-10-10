@@ -1,0 +1,14 @@
+id: coverage-audit
+description: Validate acquired sources, citations and hospital ontology without network
+  access.
+schedule: ''
+steps:
+- id: citations
+  kind: command
+  run: ./scripts/python scripts/build_citations.py
+- id: validate
+  kind: command
+  run: bash scripts/run-verification.sh
+- id: graph
+  kind: command
+  run: ./scripts/krail --local --path . graph build

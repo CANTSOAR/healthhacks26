@@ -1,0 +1,25 @@
+{
+  "dataset_id": "local-rwjuh-chna-2025",
+  "source_id": "local-rwjuh-chna-2025",
+  "title": "RWJUH / Healthier Middlesex 2025 community needs assessment",
+  "source_url": "https://www.rwjbh.org/documents/community-health-needs-assessment/RWJUH-CHNA-2025.pdf",
+  "record_count": 5,
+  "raw_paths": [],
+  "normalized_path": "data/normalized/local-rwjuh-chna-2025.jsonl",
+  "scope": "Limited selected factual paraphrases; not comprehensive extraction",
+  "access": "public webpage or PDF",
+  "rights": {
+    "redistribution": "Only limited original factual paraphrases; full copyrighted source omitted",
+    "source_license": "not established"
+  },
+  "acquisition_status": "acquired_selected_paraphrased_facts",
+  "limits": [
+    "No claim of full document review.",
+    "No direct patient data, current operational state or eligibility established."
+  ],
+  "provenance": {
+    "source_url": "https://www.rwjbh.org/documents/community-health-needs-assessment/RWJUH-CHNA-2025.pdf",
+    "retrieved_at": "2026-10-10T15:02:48.335328+00:00",
+    "raw_sha256": null
+  }
+}

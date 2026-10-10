@@ -1,0 +1,10 @@
+id: luna-evidence-review
+description: Run one bounded GPT-6 Luna review. Outputs remain unapproved candidates.
+schedule: ''
+steps:
+- id: review
+  kind: command
+  run: ./scripts/python scripts/run_luna.py baseline-evidence-review --execute --timeout 240
+- id: validate
+  kind: command
+  run: bash scripts/run-verification.sh

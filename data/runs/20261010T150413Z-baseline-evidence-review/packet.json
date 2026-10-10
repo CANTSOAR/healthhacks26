@@ -1,0 +1,1676 @@
+{
+  "job": {
+    "id": "baseline-evidence-review",
+    "description": "Review a balanced bounded packet across acquired source domains",
+    "source_prefixes": [],
+    "max_records": 32,
+    "status": "ready"
+  },
+  "records": [
+    {
+      "record_id": "cms-complications-deaths:310038|||COMP_HIP_KNEE||04/01/2023|03/31/2025",
+      "source_id": "cms-complications-deaths",
+      "source_record_id": "310038|||COMP_HIP_KNEE||04/01/2023|03/31/2025",
+      "record_type": "QualityMeasureObservation",
+      "data": {
+        "facility_id": "310038",
+        "facility_name": "ROBERT WOOD JOHNSON UNIVERSITY HOSPITAL",
+        "address": "ONE ROBERT WOOD JOHNSON PLACE",
+        "citytown": "NEW BRUNSWICK",
+        "state": "NJ",
+        "zip_code": "08901",
+        "countyparish": "MIDDLESEX",
+        "telephone_number": "(732) 828-3000",
+        "measure_id": "COMP_HIP_KNEE",
+        "measure_name": "Rate of complications for hip/knee replacement patients",
+        "compared_to_national": "Not Available",
+        "denominator": "Not Available",
+        "score": "Not Available",
+        "lower_estimate": "Not Available",
+        "higher_estimate": "Not Available",
+        "footnote": "1",
+        "start_date": "04/01/2023",
+        "end_date": "03/31/2025"
+      },
+      "provenance": {
+        "source_url": "https://data.cms.gov/provider-data/api/1/datastore/query/ynj2-r877/0?limit=500&offset=0&conditions%5B0%5D%5Bproperty%5D=facility_id&conditions%5B0%5D%5Bvalue%5D=310038&conditions%5B0%5D%5Boperator%5D=%3D",
+        "retrieved_at": "2026-10-10T15:02:09.617267+00:00",
+        "raw_path": "data/raw/cms-complications-deaths-query0-page0.json",
+        "raw_sha256": "db66f774f47c6fac8e723fa71c9bc0ba0e6dba2da37f5dbd8a290d031b096657"
+      },
+      "evidence_kind": "published_observation",
+      "review_status": "unreviewed"
+    },
+    {
+      "record_id": "cms-facility-affiliations:|1003152323|310038||||",
+      "source_id": "cms-facility-affiliations",
+      "source_record_id": "|1003152323|310038||||",
+      "record_type": "PractitionerAffiliation",
+      "data": {
+        "npi": "1003152323",
+        "ind_pac_id": "6002214715",
+        "provider_last_name": "DANIEL",
+        "provider_first_name": "ANNIE",
+        "provider_middle_name": "",
+        "suff": "",
+        "facility_type": "Hospital",
+        "facility_affiliations_certification_number": "310038",
+        "facility_type_certification_number": ""
+      },
+      "provenance": {
+        "source_url": "https://data.cms.gov/provider-data/api/1/datastore/query/27ea-46a8/0?limit=500&offset=0&conditions%5B0%5D%5Bproperty%5D=facility_affiliations_certification_number&conditions%5B0%5D%5Bvalue%5D=310038&conditions%5B0%5D%5Boperator%5D=%3D",
+        "retrieved_at": "2026-10-10T15:02:20.768184+00:00",
+        "raw_path": "data/raw/cms-facility-affiliations-query0-page0.json",
+        "raw_sha256": "43ce819c525a257f9394aa6abe50ebb7eadbf7993600b8d7f5af58aa8ed95400"
+      },
+      "evidence_kind": "published_observation",
+      "review_status": "unreviewed"
+    },
+    {
+      "record_id": "cms-hcahps:310038||||H_COMP_1_A_P|10/01/2024|09/30/2025",
+      "source_id": "cms-hcahps",
+      "source_record_id": "310038||||H_COMP_1_A_P|10/01/2024|09/30/2025",
+      "record_type": "QualityMeasureObservation",
+      "data": {
+        "facility_id": "310038",
+        "facility_name": "ROBERT WOOD JOHNSON UNIVERSITY HOSPITAL",
+        "address": "ONE ROBERT WOOD JOHNSON PLACE",
+        "citytown": "NEW BRUNSWICK",
+        "state": "NJ",
+        "zip_code": "08901",
+        "countyparish": "MIDDLESEX",
+        "telephone_number": "(732) 828-3000",
+        "hcahps_measure_id": "H_COMP_1_A_P",
+        "hcahps_question": "Patients who reported that their nurses \"Always\" communicated well",
+        "hcahps_answer_description": "Nurses \"always\" communicated well",
+        "patient_survey_star_rating": "Not Applicable",
+        "patient_survey_star_rating_footnote": "",
+        "hcahps_answer_percent": "78",
+        "hcahps_answer_percent_footnote": "",
+        "hcahps_linear_mean_value": "Not Applicable",
+        "number_of_completed_surveys": "2393",
+        "number_of_completed_surveys_footnote": "",
+        "survey_response_rate_percent": "17",
+        "survey_response_rate_percent_footnote": "",
+        "start_date": "10/01/2024",
+        "end_date": "09/30/2025"
+      },
+      "provenance": {
+        "source_url": "https://data.cms.gov/provider-data/api/1/datastore/query/dgck-syfz/0?limit=500&offset=0&conditions%5B0%5D%5Bproperty%5D=facility_id&conditions%5B0%5D%5Bvalue%5D=310038&conditions%5B0%5D%5Boperator%5D=%3D",
+        "retrieved_at": "2026-10-10T15:02:01.036902+00:00",
+        "raw_path": "data/raw/cms-hcahps-query0-page0.json",
+        "raw_sha256": "14f386c60c5d9e74f271a83e94fcf4f088064e32027356ce83d5e768e1e66395"
+      },
+      "evidence_kind": "published_observation",
+      "review_status": "unreviewed"
+    },
+    {
+      "record_id": "cms-hospital-general-information:310038||||||",
+      "source_id": "cms-hospital-general-information",
+      "source_record_id": "310038||||||",
+      "record_type": "Facility",
+      "data": {
+        "facility_id": "310038",
+        "facility_name": "ROBERT WOOD JOHNSON UNIVERSITY HOSPITAL",
+        "address": "ONE ROBERT WOOD JOHNSON PLACE",
+        "citytown": "NEW BRUNSWICK",
+        "state": "NJ",
+        "zip_code": "08901",
+        "countyparish": "MIDDLESEX",
+        "telephone_number": "(732) 828-3000",
+        "hospital_type": "Acute Care Hospitals",
+        "hospital_ownership": "Voluntary non-profit - Private",
+        "emergency_services": "Yes",
+        "meets_criteria_for_birthing_friendly_designation": "Y",
+        "hospital_overall_rating": "2",
+        "hospital_overall_rating_footnote": "",
+        "mort_group_measure_count": "8",
+        "count_of_facility_mort_measures": "8",
+        "count_of_mort_measures_better": "0",
+        "count_of_mort_measures_no_different": "7",
+        "count_of_mort_measures_worse": "1",
+        "mort_group_footnote": "",
+        "safety_group_measure_count": "8",
+        "count_of_facility_safety_measures": "8",
+        "count_of_safety_measures_better": "3",
+        "count_of_safety_measures_no_different": "4",
+        "count_of_safety_measures_worse": "1",
+        "safety_group_footnote": "",
+        "readm_group_measure_count": "11",
+        "count_of_facility_readm_measures": "11",
+        "count_of_readm_measures_better": "1",
+        "count_of_readm_measures_no_different": "6",
+        "count_of_readm_measures_worse": "4",
+        "readm_group_footnote": "",
+        "pt_exp_group_measure_count": "15",
+        "count_of_facility_pt_exp_measures": "15",
+        "pt_exp_group_footnote": "",
+        "te_group_measure_count": "10",
+        "count_of_facility_te_measures": "8",
+        "te_group_footnote": ""
+      },
+      "provenance": {
+        "source_url": "https://data.cms.gov/provider-data/api/1/datastore/query/xubh-q36u/0?limit=500&offset=0&conditions%5B0%5D%5Bproperty%5D=citytown&conditions%5B0%5D%5Bvalue%5D=NEW+BRUNSWICK&conditions%5B0%5D%5Boperator%5D=%3D&conditions%5B1%5D%5Bproperty%5D=state&conditions%5B1%5D%5Bvalue%5D=NJ&conditions%5B1%5D%5Boperator%5D=%3D",
+        "retrieved_at": "2026-10-10T15:01:59.351799+00:00",
+        "raw_path": "data/raw/cms-hospital-general-information-query0-page0.json",
+        "raw_sha256": "1a1c84070de921cf6413e52a32abed26c60c2e35d36be4e044881823dcd8fe32"
+      },
+      "evidence_kind": "published_observation",
+      "review_status": "unreviewed"
+    },
+    {
+      "record_id": "cms-infections:310038|||HAI_1_CILOWER||10/01/2024|09/30/2025",
+      "source_id": "cms-infections",
+      "source_record_id": "310038|||HAI_1_CILOWER||10/01/2024|09/30/2025",
+      "record_type": "QualityMeasureObservation",
+      "data": {
+        "facility_id": "310038",
+        "facility_name": "ROBERT WOOD JOHNSON UNIVERSITY HOSPITAL",
+        "address": "ONE ROBERT WOOD JOHNSON PLACE",
+        "citytown": "NEW BRUNSWICK",
+        "state": "NJ",
+        "zip_code": "08901",
+        "countyparish": "MIDDLESEX",
+        "telephone_number": "(732) 828-3000",
+        "measure_id": "HAI_1_CILOWER",
+        "measure_name": "Central Line Associated Bloodstream Infection (ICU + select Wards): Lower Confidence Limit",
+        "compared_to_national": "Better than the National Benchmark",
+        "score": "0.245",
+        "footnote": "",
+        "start_date": "10/01/2024",
+        "end_date": "09/30/2025"
+      },
+      "provenance": {
+        "source_url": "https://data.cms.gov/provider-data/api/1/datastore/query/77hc-ibv8/0?limit=500&offset=0&conditions%5B0%5D%5Bproperty%5D=facility_id&conditions%5B0%5D%5Bvalue%5D=310038&conditions%5B0%5D%5Boperator%5D=%3D",
+        "retrieved_at": "2026-10-10T15:02:13.420755+00:00",
+        "raw_path": "data/raw/cms-infections-query0-page0.json",
+        "raw_sha256": "dc43541180d33ea736c69021075714dfdb78df3a8afce9e0ea72312fb2e85347"
+      },
+      "evidence_kind": "published_observation",
+      "review_status": "unreviewed"
+    },
+    {
+      "record_id": "cms-inpatient-provider-service-2024:310038|2024|003",
+      "source_id": "cms-inpatient-provider-service-2024",
+      "source_record_id": "310038|2024|003",
+      "record_type": "UtilizationObservation",
+      "data": {
+        "Rndrng_Prvdr_CCN": "310038",
+        "Rndrng_Prvdr_Org_Name": "Robert Wood Johnson University Hospital",
+        "Rndrng_Prvdr_City": "New Brunswick",
+        "Rndrng_Prvdr_St": "One Robert Wood Johnson Place",
+        "Rndrng_Prvdr_State_FIPS": "34",
+        "Rndrng_Prvdr_Zip5": "08901",
+        "Rndrng_Prvdr_State_Abrvtn": "NJ",
+        "Rndrng_Prvdr_RUCA": "1",
+        "Rndrng_Prvdr_RUCA_Desc": "Metropolitan area core: primary flow within an urbanized area of 50,000 and greater",
+        "DRG_Cd": "003",
+        "DRG_Desc": "ECMO OR TRACHEOSTOMY WITH MV >96 HOURS OR PRINCIPAL DIAGNOSIS EXCEPT FACE, MOUTH AND NEC",
+        "Tot_Dschrgs": "28",
+        "Avg_Submtd_Cvrd_Chrg": "1076013.8929",
+        "Avg_Tot_Pymt_Amt": "253492.03571",
+        "Avg_Mdcr_Pymt_Amt": "176362.64286"
+      },
+      "provenance": {
+        "source_url": "https://data.cms.gov/data-api/v1/dataset/ca9b5ef0-1386-4759-b2b6-5f9b35116786/data?filter%5BRndrng_Prvdr_CCN%5D=310038&size=500&offset=0",
+        "retrieved_at": "2026-10-10T15:03:25.158160+00:00",
+        "raw_path": "data/raw/cms-inpatient-provider-service-2024-310038-page0.json",
+        "raw_sha256": "74d3b68ccaffa57153ca54fd047a8f1dd180d211c7e32fe4a3d9de0cf45164e2"
+      },
+      "evidence_kind": "published_observation",
+      "review_status": "unreviewed"
+    },
+    {
+      "record_id": "cms-timely-effective-care:310038|||EDV||01/01/2024|12/31/2024",
+      "source_id": "cms-timely-effective-care",
+      "source_record_id": "310038|||EDV||01/01/2024|12/31/2024",
+      "record_type": "QualityMeasureObservation",
+      "data": {
+        "facility_id": "310038",
+        "facility_name": "ROBERT WOOD JOHNSON UNIVERSITY HOSPITAL",
+        "address": "ONE ROBERT WOOD JOHNSON PLACE",
+        "citytown": "NEW BRUNSWICK",
+        "state": "NJ",
+        "zip_code": "08901",
+        "countyparish": "MIDDLESEX",
+        "telephone_number": "(732) 828-3000",
+        "_condition": "Emergency Department",
+        "measure_id": "EDV",
+        "measure_name": "Emergency department volume",
+        "score": "very high",
+        "sample": "",
+        "footnote": "",
+        "start_date": "01/01/2024",
+        "end_date": "12/31/2024"
+      },
+      "provenance": {
+        "source_url": "https://data.cms.gov/provider-data/api/1/datastore/query/yv7e-xc69/0?limit=500&offset=0&conditions%5B0%5D%5Bproperty%5D=facility_id&conditions%5B0%5D%5Bvalue%5D=310038&conditions%5B0%5D%5Boperator%5D=%3D",
+        "retrieved_at": "2026-10-10T15:02:06.330174+00:00",
+        "raw_path": "data/raw/cms-timely-effective-care-query0-page0.json",
+        "raw_sha256": "b103206d9d1ae2ac4859bd75556f4b6136b803a1bb0b12d9736bd4ac8f4a4436"
+      },
+      "evidence_kind": "published_observation",
+      "review_status": "unreviewed"
+    },
+    {
+      "record_id": "cms-unplanned-visits:310038|||EDAC_30_AMI||07/01/2022|06/30/2025",
+      "source_id": "cms-unplanned-visits",
+      "source_record_id": "310038|||EDAC_30_AMI||07/01/2022|06/30/2025",
+      "record_type": "QualityMeasureObservation",
+      "data": {
+        "facility_id": "310038",
+        "facility_name": "ROBERT WOOD JOHNSON UNIVERSITY HOSPITAL",
+        "address": "ONE ROBERT WOOD JOHNSON PLACE",
+        "citytown": "NEW BRUNSWICK",
+        "state": "NJ",
+        "zip_code": "08901",
+        "countyparish": "MIDDLESEX",
+        "telephone_number": "(732) 828-3000",
+        "measure_id": "EDAC_30_AMI",
+        "measure_name": "Hospital return days for heart attack patients",
+        "compared_to_national": "Not Available",
+        "denominator": "476",
+        "score": "46.3",
+        "lower_estimate": "Not Available",
+        "higher_estimate": "Not Available",
+        "number_of_patients": "466",
+        "number_of_patients_returned": "Not Available",
+        "footnote": "",
+        "start_date": "07/01/2022",
+        "end_date": "06/30/2025"
+      },
+      "provenance": {
+        "source_url": "https://data.cms.gov/provider-data/api/1/datastore/query/632h-zaca/0?limit=500&offset=0&conditions%5B0%5D%5Bproperty%5D=facility_id&conditions%5B0%5D%5Bvalue%5D=310038&conditions%5B0%5D%5Boperator%5D=%3D",
+        "retrieved_at": "2026-10-10T15:02:17.320516+00:00",
+        "raw_path": "data/raw/cms-unplanned-visits-query0-page0.json",
+        "raw_sha256": "dc39d475ff38dd67f204837f169717c893e00da719e2f093462846b0f2a82490"
+      },
+      "evidence_kind": "published_observation",
+      "review_status": "unreviewed"
+    },
+    {
+      "record_id": "local-cdc-acs-middlesex-2017-2021:34023:2017-2021:AGE65:Percent",
+      "source_id": "local-cdc-acs-middlesex-2017-2021",
+      "source_record_id": "34023:2017-2021:AGE65:Percent",
+      "record_type": "PopulationEstimate",
+      "data": {
+        "geography": {
+          "fips": "34023",
+          "level": "county",
+          "name": "Middlesex County",
+          "state": "NJ"
+        },
+        "measure_id": "AGE65",
+        "measure": "Persons aged 65 years or older",
+        "category": "SDOH",
+        "period": "2017-2021",
+        "estimate": 15.1,
+        "unit": "%",
+        "estimate_type": "Percentage",
+        "population_scope": "See full measure text; measures have different age/universe restrictions",
+        "uncertainty": {
+          "method": "ACS margin of error (source field; confidence level not supplied in this dataset metadata)",
+          "lower": null,
+          "upper": null,
+          "margin_of_error": 0.1
+        },
+        "geographic_population_context": {
+          "total": 858770.0,
+          "adults": null,
+          "total_reference": "ACS 5-year Total Population Estimate",
+          "adult_reference": null,
+          "warning": "Geographic context counts are not necessarily the measure denominator."
+        },
+        "source_fields": {
+          "year": "2017-2021",
+          "stateabbr": "NJ",
+          "statedesc": "New Jersey",
+          "locationname": "Middlesex County",
+          "datasource": "5-year ACS",
+          "category": "SDOH",
+          "measure": "Persons aged 65 years or older",
+          "data_value_unit": "%",
+          "data_value_type": "Percentage",
+          "data_value": "15.1",
+          "moe": "0.1",
+          "totalpopulation": "858770",
+          "locationid": "34023",
+          "categoryid": "SDOH",
+          "measureid": "AGE65",
+          "datavaluetypeid": "Percent",
+          "short_question_text": "Aged 65 years or older",
+          "geolocation": {
+            "type": "Point",
+            "coordinates": [
+              -74.4074303,
+              40.4396214
+            ]
+          }
+        },
+        "allowed_use": [
+          "community_context",
+          "hypothesis_generation"
+        ],
+        "not_validated_for": [
+          "hospital_case_mix",
+          "individual_patient_sampling",
+          "causal_policy_evaluation",
+          "local_queue_calibration"
+        ]
+      },
+      "provenance": {
+        "source_url": "https://data.cdc.gov/resource/i6u4-y3g4.json?locationid=34023&%24limit=500&%24order=year%2Cmeasureid%2Cdatavaluetypeid",
+        "retrieved_at": "2026-10-10T15:02:10.806997+00:00",
+        "raw_sha256": "2b9d861f339a1044a87d8400dbadfbb19d1bc81b62da273596731b44268973cf"
+      },
+      "evidence_kind": "published_local_survey_estimate",
+      "review_status": "source_extracted_not_domain_reviewed"
+    },
+    {
+      "record_id": "local-cdc-acs-new-brunswick-2017-2021:3451210:2017-2021:AGE65:Percent",
+      "source_id": "local-cdc-acs-new-brunswick-2017-2021",
+      "source_record_id": "3451210:2017-2021:AGE65:Percent",
+      "record_type": "PopulationEstimate",
+      "data": {
+        "geography": {
+          "fips": "3451210",
+          "level": "place",
+          "name": "New Brunswick",
+          "state": "NJ"
+        },
+        "measure_id": "AGE65",
+        "measure": "Persons aged 65 years or older",
+        "category": "SDOH",
+        "period": "2017-2021",
+        "estimate": 6.4,
+        "unit": "%",
+        "estimate_type": "Percentage",
+        "population_scope": "See full measure text; measures have different age/universe restrictions",
+        "uncertainty": {
+          "method": "ACS margin of error (source field; confidence level not supplied in this dataset metadata)",
+          "lower": null,
+          "upper": null,
+          "margin_of_error": 0.9
+        },
+        "geographic_population_context": {
+          "total": 55671.0,
+          "adults": null,
+          "total_reference": "ACS 5-year Total Population Estimate",
+          "adult_reference": null,
+          "warning": "Geographic context counts are not necessarily the measure denominator."
+        },
+        "source_fields": {
+          "year": "2017-2021",
+          "stateabbr": "NJ",
+          "statedesc": "New Jersey",
+          "locationname": "New Brunswick",
+          "datasource": "5-year ACS",
+          "category": "SDOH",
+          "measure": "Persons aged 65 years or older",
+          "data_value_unit": "%",
+          "data_value_type": "Percentage",
+          "data_value": "6.4",
+          "moe": "0.9",
+          "totalpopulation": "55671",
+          "locationid": "3451210",
+          "categoryid": "SDOH",
+          "measureid": "AGE65",
+          "datavaluetypeid": "Percent",
+          "short_question_text": "Aged 65 years or older",
+          "geolocation": {
+            "type": "Point",
+            "coordinates": [
+              -74.4444144,
+              40.4866775
+            ]
+          }
+        },
+        "allowed_use": [
+          "community_context",
+          "hypothesis_generation"
+        ],
+        "not_validated_for": [
+          "hospital_case_mix",
+          "individual_patient_sampling",
+          "causal_policy_evaluation",
+          "local_queue_calibration"
+        ]
+      },
+      "provenance": {
+        "source_url": "https://data.cdc.gov/resource/edkk-ze78.json?locationid=3451210&%24limit=500&%24order=year%2Cmeasureid%2Cdatavaluetypeid",
+        "retrieved_at": "2026-10-10T15:02:08.978863+00:00",
+        "raw_sha256": "97b84dbf79aff02d228cd7b62fb782a13908c3eb98585277250988d25a997b22"
+      },
+      "evidence_kind": "published_local_survey_estimate",
+      "review_status": "source_extracted_not_domain_reviewed"
+    },
+    {
+      "record_id": "local-cdc-places-middlesex-2025:34023:2022:COLON_SCREEN:AgeAdjPrv",
+      "source_id": "local-cdc-places-middlesex-2025",
+      "source_record_id": "34023:2022:COLON_SCREEN:AgeAdjPrv",
+      "record_type": "PopulationEstimate",
+      "data": {
+        "geography": {
+          "fips": "34023",
+          "level": "county",
+          "name": "Middlesex",
+          "state": "NJ"
+        },
+        "measure_id": "COLON_SCREEN",
+        "measure": "Colorectal cancer screening among adults aged 45–75 years",
+        "category": "Prevention",
+        "period": "2022",
+        "estimate": 59.6,
+        "unit": "%",
+        "estimate_type": "Age-adjusted prevalence",
+        "population_scope": "See full measure text; measures have different age/universe restrictions",
+        "uncertainty": {
+          "method": "95% model-based confidence interval",
+          "lower": 55.7,
+          "upper": 63.5,
+          "margin_of_error": null
+        },
+        "geographic_population_context": {
+          "total": 863623.0,
+          "adults": 680119.0,
+          "total_reference": "Total population of census 2023 estimates",
+          "adult_reference": "Total population 18 and plus of census 2023 estimates",
+          "warning": "Geographic context counts are not necessarily the measure denominator."
+        },
+        "source_fields": {
+          "year": "2022",
+          "stateabbr": "NJ",
+          "statedesc": "New Jersey",
+          "locationname": "Middlesex",
+          "datasource": "BRFSS",
+          "category": "Prevention",
+          "measure": "Colorectal cancer screening among adults aged 45–75 years",
+          "data_value_unit": "%",
+          "data_value_type": "Age-adjusted prevalence",
+          "data_value": "59.6",
+          "low_confidence_limit": "55.7",
+          "high_confidence_limit": "63.5",
+          "totalpopulation": "863623",
+          "totalpop18plus": "680119",
+          "locationid": "34023",
+          "categoryid": "PREVENT",
+          "measureid": "COLON_SCREEN",
+          "datavaluetypeid": "AgeAdjPrv",
+          "short_question_text": "Colorectal Cancer Screening",
+          "geolocation": {
+            "type": "Point",
+            "coordinates": [
+              -74.410830751515,
+              40.4395642172698
+            ]
+          }
+        },
+        "allowed_use": [
+          "community_context",
+          "hypothesis_generation"
+        ],
+        "not_validated_for": [
+          "hospital_case_mix",
+          "individual_patient_sampling",
+          "causal_policy_evaluation",
+          "local_queue_calibration"
+        ]
+      },
+      "provenance": {
+        "source_url": "https://data.cdc.gov/resource/swc5-untb.json?locationid=34023&%24limit=500&%24order=year%2Cmeasureid%2Cdatavaluetypeid",
+        "retrieved_at": "2026-10-10T15:02:08.410950+00:00",
+        "raw_sha256": "c6654e42c7a7a55e08b76b560b1e6704c6fccb6125ad881961803843add39e5d"
+      },
+      "evidence_kind": "published_local_modeled_estimate",
+      "review_status": "source_extracted_not_domain_reviewed"
+    },
+    {
+      "record_id": "local-cdc-places-new-brunswick-2025:3451210:2022:COLON_SCREEN:AgeAdjPrv",
+      "source_id": "local-cdc-places-new-brunswick-2025",
+      "source_record_id": "3451210:2022:COLON_SCREEN:AgeAdjPrv",
+      "record_type": "PopulationEstimate",
+      "data": {
+        "geography": {
+          "fips": "3451210",
+          "level": "place",
+          "name": "New Brunswick",
+          "state": "NJ"
+        },
+        "measure_id": "COLON_SCREEN",
+        "measure": "Colorectal cancer screening among adults aged 45–75 years",
+        "category": "Prevention",
+        "period": "2022",
+        "estimate": 49.0,
+        "unit": "%",
+        "estimate_type": "Age-adjusted prevalence",
+        "population_scope": "See full measure text; measures have different age/universe restrictions",
+        "uncertainty": {
+          "method": "95% model-based confidence interval",
+          "lower": 44.7,
+          "upper": 53.2,
+          "margin_of_error": null
+        },
+        "geographic_population_context": {
+          "total": 55266.0,
+          "adults": 43015.0,
+          "total_reference": "Total population of Census 2020 ",
+          "adult_reference": "Total population 18 and plus of Census 2020 ",
+          "warning": "Geographic context counts are not necessarily the measure denominator."
+        },
+        "source_fields": {
+          "year": "2022",
+          "stateabbr": "NJ",
+          "statedesc": "New Jersey",
+          "locationname": "New Brunswick",
+          "datasource": "BRFSS",
+          "category": "Prevention",
+          "measure": "Colorectal cancer screening among adults aged 45–75 years",
+          "data_value_unit": "%",
+          "data_value_type": "Age-adjusted prevalence",
+          "data_value": "49.0",
+          "low_confidence_limit": "44.7",
+          "high_confidence_limit": "53.2",
+          "totalpop18plus": "43015",
+          "totalpopulation": "55266",
+          "geolocation": {
+            "type": "Point",
+            "coordinates": [
+              -74.4444144,
+              40.4866775
+            ]
+          },
+          "locationid": "3451210",
+          "categoryid": "PREVENT",
+          "measureid": "COLON_SCREEN",
+          "datavaluetypeid": "AgeAdjPrv",
+          "short_question_text": "Colorectal Cancer Screening"
+        },
+        "allowed_use": [
+          "community_context",
+          "hypothesis_generation"
+        ],
+        "not_validated_for": [
+          "hospital_case_mix",
+          "individual_patient_sampling",
+          "causal_policy_evaluation",
+          "local_queue_calibration"
+        ]
+      },
+      "provenance": {
+        "source_url": "https://data.cdc.gov/resource/eav7-hnsx.json?locationid=3451210&%24limit=500&%24order=year%2Cmeasureid%2Cdatavaluetypeid",
+        "retrieved_at": "2026-10-10T15:02:06.991916+00:00",
+        "raw_sha256": "ea7d7e42ffc498000d6a9e4c6305cb39b45e92f73e79ca881a335e0d573161fc"
+      },
+      "evidence_kind": "published_local_modeled_estimate",
+      "review_status": "source_extracted_not_domain_reviewed"
+    },
+    {
+      "record_id": "local-nj-staffing-discovery:scope",
+      "source_id": "local-nj-staffing-discovery",
+      "source_record_id": "scope",
+      "record_type": "DatasetScopeAssertion",
+      "data": {
+        "finding": "Quarterly reports summarize licensed inpatient unit staffing ratios, ED daily staffing/patient counts and respiratory practitioner counts.",
+        "scope": "NJ general hospitals",
+        "locator": "Report description bullets"
+      },
+      "provenance": {
+        "source_url": "https://healthapps.nj.gov/nursestaffing/quarterly.aspx",
+        "retrieved_at": "2026-10-10T15:02:48.335328+00:00",
+        "raw_sha256": null,
+        "acquisition_method": "manual limited factual paraphrase from primary web source; full source not redistributed"
+      },
+      "evidence_kind": "published_source_assertion",
+      "review_status": "source_extracted_not_domain_reviewed"
+    },
+    {
+      "record_id": "local-rwjbh-insurance-directory:facility-professional",
+      "source_id": "local-rwjbh-insurance-directory",
+      "source_record_id": "facility-professional",
+      "record_type": "PolicyAssertion",
+      "data": {
+        "finding": "Facility participation does not establish physician participation; professional fees are separately billed.",
+        "scope": "RWJBarnabas Health system directory",
+        "locator": "Introduction before participation table"
+      },
+      "provenance": {
+        "source_url": "https://www.rwjbh.org/patients-visitors/accepted-insurances/",
+        "retrieved_at": "2026-10-10T15:02:48.335328+00:00",
+        "raw_sha256": null,
+        "acquisition_method": "manual limited factual paraphrase from primary web source; full source not redistributed"
+      },
+      "evidence_kind": "published_source_assertion",
+      "review_status": "source_extracted_not_domain_reviewed"
+    },
+    {
+      "record_id": "local-rwjuh-chna-2025:survey-method",
+      "source_id": "local-rwjuh-chna-2025",
+      "source_record_id": "survey-method",
+      "record_type": "ResearchMethod",
+      "data": {
+        "finding": "Assessment combines a multilingual survey, cross-sector interviews and focus groups.",
+        "survey_n": 2514,
+        "population": "Middlesex County community assessment participants",
+        "locator": "PDF page 16 (index 15), printed x; selected conclusions only"
+      },
+      "provenance": {
+        "source_url": "https://www.rwjbh.org/documents/community-health-needs-assessment/RWJUH-CHNA-2025.pdf",
+        "retrieved_at": "2026-10-10T15:02:48.335328+00:00",
+        "raw_sha256": null,
+        "acquisition_method": "manual limited factual paraphrase from primary web source; full source not redistributed"
+      },
+      "evidence_kind": "published_qualitative_finding",
+      "review_status": "source_extracted_not_domain_reviewed"
+    },
+    {
+      "record_id": "local-rwjuh-services:identity",
+      "source_id": "local-rwjuh-services",
+      "source_record_id": "identity",
+      "record_type": "FacilityAssertion",
+      "data": {
+        "name": "Robert Wood Johnson University Hospital",
+        "parent_system": "RWJBarnabas Health",
+        "city": "New Brunswick",
+        "state": "NJ",
+        "locator": "About introduction and contact block"
+      },
+      "provenance": {
+        "source_url": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/",
+        "retrieved_at": "2026-10-10T15:02:48.335328+00:00",
+        "raw_sha256": null,
+        "acquisition_method": "manual limited factual paraphrase from primary web source; full source not redistributed"
+      },
+      "evidence_kind": "published_source_assertion",
+      "review_status": "source_extracted_not_domain_reviewed"
+    },
+    {
+      "record_id": "nlm-rxnorm-seed-terms:0001",
+      "source_id": "nlm-rxnorm-seed-terms",
+      "source_record_id": "1",
+      "record_type": "TerminologyLookup",
+      "data": {
+        "queried_name": "metformin",
+        "rxnorm_ids": [
+          "6809"
+        ],
+        "match_method": "RxNorm search=2 (exact then normalized); inspect concepts before clinical use"
+      },
+      "provenance": {
+        "source_url": "https://rxnav.nlm.nih.gov/REST/rxcui.json?name=metformin&search=2",
+        "retrieved_at": "2026-10-10T15:03:12.328619+00:00",
+        "raw_sha256": "ad160c1b563717e9c52cab033911e4f175cbd0ffbc892f485ac488d346ee86ce"
+      },
+      "evidence_kind": "published_reference",
+      "review_status": "unreviewed"
+    },
+    {
+      "record_id": "nppes-new-brunswick-practitioners:1912812900",
+      "source_id": "nppes-new-brunswick-practitioners",
+      "source_record_id": "1912812900",
+      "record_type": "Practitioner",
+      "data": {
+        "npi": "1912812900",
+        "enumeration_type": "NPI-1",
+        "name": {
+          "first_name": "JAWAD",
+          "last_name": "ABABNEH"
+        },
+        "status": "A",
+        "last_updated": "2026-08-15",
+        "taxonomies": [
+          {
+            "code": "390200000X",
+            "desc": "Student in an Organized Health Care Education/Training Program",
+            "primary": true
+          }
+        ],
+        "practice_locations": [
+          {
+            "city": "NEW BRUNSWICK",
+            "state": "NJ",
+            "country_code": "US"
+          }
+        ]
+      },
+      "provenance": {
+        "source_url": "https://npiregistry.cms.hhs.gov/api/?version=2.1&city=New+Brunswick&state=NJ&enumeration_type=NPI-1&limit=200&skip=0",
+        "retrieved_at": "2026-10-10T15:02:48.756604+00:00",
+        "raw_path": "data/raw/nppes-new-brunswick-practitioners-projected-response.json",
+        "raw_sha256": "d1fd8bd9b7f6a3867e505b19cd9300bb9516f1df9f5fb2c5840d0722d3c46e8e"
+      },
+      "evidence_kind": "published_observation",
+      "review_status": "unreviewed"
+    },
+    {
+      "record_id": "twinverse-patient-profiles:0001",
+      "source_id": "twinverse-patient-profiles",
+      "source_record_id": "1",
+      "record_type": "SyntheticPatientProfile",
+      "data": {
+        "patient_overview": {
+          "name": "Dominic Rivera",
+          "age": 22,
+          "sex": "Male",
+          "description": "A 22-year-old Puerto Rican male college student recovering from a gunshot wound trauma. He is a community volunteer and feels protective over his younger siblings. He has a history of Type 2 Diabetes (prediabetic history) but is now poorly controlled. He is skeptical of healthcare systems and authority figures, showing resistance to standard medical advice. He has limited health literacy and low motivation to adhere to strict dietary or medication regimens. He values his role in the community and is protective of his family, which can be a lever for motivation but also a source of stress.",
+          "keywords": [
+            "young adult male",
+            "poorly controlled type 2 diabetes",
+            "healthcare mistrust",
+            "cultural humility",
+            "nutrition education",
+            "resilient",
+            "community volunteer",
+            "low adherence",
+            "health literacy",
+            "trauma recovery"
+          ]
+        },
+        "demographics": {
+          "occupation": "Part-time community volunteer and student",
+          "residence": "Urban Latino neighborhood in Puerto Rico",
+          "ethnicity": "Puerto Rican",
+          "language": "Spanish (primary) and English (functional, but prefers Spanish)",
+          "marital_status": "Single",
+          "education_level": "In-college (associate degree seeking)",
+          "insurance": "Public health insurance",
+          "cultural_context": "Strong family ties, collectivist values, cultural foods include pork, rice, beans, plantains, coconut milk. Values 'cuidado' and respect for elders but struggles with 'authority' figures in healthcare. Trust issues stem from negative experiences during his trauma recovery."
+        },
+        "clinical_profile": {
+          "primary_diagnosis": "Poorly controlled Type 2 Diabetes Mellitus",
+          "secondary_diagnoses": [
+            "History of prediabetes (2 years)",
+            "Recent gunshot wound (recovering, 2 months ago)",
+            "Mild trauma-related stress"
+          ],
+          "medical_history": [
+            "Family history of Type 2 Diabetes (mother)",
+            "Recent emergency surgery for gunshot wound",
+            "History of weight fluctuation"
+          ],
+          "current_symptoms": [
+            "Frequent thirst and urination",
+            "Fatigue and low energy",
+            "Occasional cravings for sweet foods",
+            "Mild headache and blurred vision occasionally"
+          ],
+          "allergies": [
+            "No known allergies"
+          ],
+          "clinical_findings": [
+            "Recent HbA1c of 9.8% (target < 7.0%)",
+            "Elevated fasting blood glucose (180 mg/dL)",
+            "Slightly elevated lipid panel"
+          ],
+          "laboratory_data": [
+            "HbA1c: 9.8%",
+            "Fasting Glucose: 180 mg/dL",
+            "Total Cholesterol: 220 mg/dL"
+          ],
+          "vital_signs": [
+            "BP: 128/82 mmHg",
+            "HR: 78 bpm",
+            "Temp: 98.6°F",
+            "Respiratory Rate: 16 bpm"
+          ],
+          "anthropometrics": [
+            "Height: 5'9\"",
+            "Weight: 178 lbs",
+            "BMI: 27.8 (Overweight)",
+            "Recent weight gain: 5 lbs over 3 months"
+          ]
+        },
+        "medication_profile": {
+          "medications": [
+            {
+              "name": "Metformin",
+              "dose": "500 mg",
+              "frequency": "1 dose daily",
+              "purpose": "Improve insulin sensitivity and lower blood glucose",
+              "adherence": "Poor (takes it intermittently, sometimes forgets)",
+              "patient_concerns": "Experiences mild GI side effects; skeptical it will help; thinks diet alone can fix his sugar"
+            },
+            {
+              "name": "Lisinopril",
+              "dose": "10 mg",
+              "frequency": "1 dose daily",
+              "purpose": "Manage blood pressure",
+              "adherence": "Fair (takes it consistently if reminded)",
+              "patient_concerns": "None significant"
+            }
+          ],
+          "supplements_and_otc": [
+            "Vitamin C (occasional)",
+            "Coiflory root tea (as requested by his mother)"
+          ]
+        },
+        "nutrition_profile": {
+          "dietary_pattern": "Mediterranean-Latino, but high in refined carbs and processed meats",
+          "food_preferences": [
+            "Rice and beans",
+            "Plantains",
+            "Pork",
+            "Coconut milk dishes",
+            "Sweet treats like 'quesillos'"
+          ],
+          "foods_or_behaviors_to_explore": [
+            "Snacking habits late at night",
+            "Preference for sugary drinks (Jus de Piña)",
+            "Cooking frequency (often relies on pre-made foods due to trauma recovery)"
+          ],
+          "meal_pattern": "Irregular meals; often skips breakfast, eats lunch at work, dinners with family",
+          "hydration": "High intake of sugary fruit juices and sodas; low water intake",
+          "physical_activity": "Low to moderate (walking for community work, no structured exercise)",
+          "substance_use": "Non-smoker; no alcohol",
+          "sleep": "Poor sleep quality due to stress and PTSD symptoms"
+        },
+        "psychosocial_profile": {
+          "personality": "Resilient and pragmatic, but skeptical of authority. He values independence and self-reliance, but feels frustrated by limitations imposed by his diagnosis and recovery. He is protective of his younger siblings and sees them as his motivation to be healthy, though he masks this vulnerability.",
+          "communication_style": "Direct and occasionally blunt. He uses slang and may interrupt if he feels unheard. He prefers Spanish and may switch to English if the topic becomes clinical. He shows defensiveness when criticized but opens up when he feels respected.",
+          "goals": [
+            "To regain independence and return to work",
+            "To lower his sugar levels so he can play with his siblings",
+            "To avoid hospital readmission"
+          ],
+          "concerns": [
+            "Fear of losing his job as a volunteer",
+            "Concern about side effects of medication",
+            "Fear of becoming a burden to his family"
+          ],
+          "beliefs": [
+            "Sugar is not the only cause of diabetes",
+            "Healthcare professionals don't understand his culture",
+            "Diet is just about eating 'good' foods"
+          ],
+          "motivations": [
+            "Protecting his siblings",
+            "Resuming his volunteer work",
+            "Financial stability (wants to work and earn money)"
+          ],
+          "fears": [
+            "Dependency on family",
+            "Further health complications",
+            "Returning to hospital"
+          ],
+          "barriers": [
+            "Limited health literacy",
+            "Inconsistent work hours",
+            "Food deserts in his neighborhood",
+            "Mistrust of medical advice",
+            "Stress and trauma symptoms"
+          ],
+          "strengths": [
+            "Community support network",
+            "Resilience and adaptability",
+            "Strong family bond",
+            "Willingness to try if it feels practical"
+          ],
+          "support_system": "Younger siblings and parents; neighbors who support him in community service",
+          "readiness_to_change": "Ambivalent; willing to try small changes but needs to see immediate benefits and feel trusted by his care team."
+        },
+        "information_disclosure": {
+          "initial_information": [
+            "He mentions feeling tired and thirsty often",
+            "He mentions skipping medication sometimes",
+            "He mentions eating rice and beans most of the time",
+            "He mentions his recent injury",
+            "He mentions his sister is sick"
+          ],
+          "discoverable_information": [
+            "He reveals he only takes his meds when he has a good day",
+            "He admits he likes juice over water",
+            "He mentions he works irregular hours",
+            "He shares he trusts his mother's advice more than doctors'",
+            "He mentions he skips breakfast to save money on lunch"
+          ],
+          "reluctant_information": [
+            "He initially hides that he skips breakfast to avoid cost",
+            "He hesitates to mention his trauma-related stress affects his eating",
+            "He hides his desire to be more active but feels too weak",
+            "He initially downplays the fear of being a burden to his family"
+          ],
+          "hidden_information": [
+            "He has a history of eating disorders related to body image and family dynamics",
+            "He is struggling with PTSD symptoms that affect his sleep and eating",
+            "He has been using supplements to lower blood sugar but knows they are not proven",
+            "He has a strong cultural belief that he should be the provider for his family",
+            "He is financially strained and cannot afford healthy food consistently"
+          ]
+        },
+        "learning_opportunities": {
+          "opportunities": [
+            {
+              "learning_objective": "Apply the Nutrition Care Process",
+              "expected_discoveries": [
+                "Patient's dietary history",
+                "Lifestyle factors affecting glucose levels",
+                "Social barriers to nutrition care",
+                "Motivation and readiness to change"
+              ],
+              "possible_patient_reactions": [
+                "Defensiveness if the student starts diagnosing without listening",
+                "Reluctance to discuss food without being asked respectfully",
+                "Engagement when discussing family or community support"
+              ]
+            },
+            {
+              "learning_objective": "Develop an appropriate PES statement",
+              "expected_discoveries": [
+                "Problem: High HbA1c",
+                "Evaluation: Patient's beliefs and barriers",
+                "Strategy: Culturally sensitive meal planning"
+              ],
+              "possible_patient_reactions": [
+                "Skepticism if the PES is generic",
+                "Engagement if the PES addresses his specific barriers (e.g., food cost)",
+                "Disinterest if the strategy feels impractical"
+              ]
+            },
+            {
+              "learning_objective": "Develop evidence-based nutrition interventions",
+              "expected_discoveries": [
+                "Patient's specific needs (e.g., hydration, fiber)",
+                "Patient's preferences (e.g., Puerto Rican foods)",
+                "Patient's readiness to change"
+              ],
+              "possible_patient_reactions": [
+                "Openness to try new recipes if they are familiar",
+                "Resistance to 'Western' diet advice",
+                "Engagement when discussing family meals"
+              ]
+            },
+            {
+              "learning_objective": "Integrate medication management with nutrition care",
+              "expected_discoveries": [
+                "Patient's adherence issues",
+                "Side effects related to food",
+                "Timing of meds with meals"
+              ],
+              "possible_patient_reactions": [
+                "Defensiveness if reprimanded for non-adherence",
+                "Reluctance to discuss meds without permission",
+                "Engagement if the student addresses side effects empathetically"
+              ]
+            },
+            {
+              "learning_objective": "Use motivational interviewing",
+              "expected_discoveries": [
+                "Patient's ambivalence",
+                "His goals and values",
+                "His fears and barriers"
+              ],
+              "possible_patient_reactions": [
+                "Resistance if the student is too directive",
+                "Engagement if the student uses open-ended questions",
+                "Skepticism if the student doesn't validate his experiences"
+              ]
+            },
+            {
+              "learning_objective": "Address lifestyle and behavioral barriers",
+              "expected_discoveries": [
+                "Patient's work schedule",
+                "Food access issues",
+                "Cultural influences on food choices"
+              ],
+              "possible_patient_reactions": [
+                "Defensiveness if barriers are blamed on the patient",
+                "Engagement if the student offers practical solutions",
+                "Reluctance to discuss sensitive barriers (e.g., financial) without trust"
+              ]
+            },
+            {
+              "learning_objective": "Consider interprofessional and community resources",
+              "expected_discoveries": [
+                "Patient's community connections",
+                "Patient's trust in local resources",
+                "Patient's need for mental health support"
+              ],
+              "possible_patient_reactions": [
+                "Skepticism of institutional resources",
+                "Engagement if the student involves family or community leaders",
+                "Openness to discuss mental health if framed as strength"
+              ]
+            }
+          ]
+        },
+        "metadata": {
+          "assumptions": [
+            "Patient has limited English proficiency but uses functional English",
+            "Patient's trauma history affects his mental health and sleep",
+            "Patient's family dynamics are supportive but not actively involved in his care",
+            "Patient's financial status is strained but stable enough to access care"
+          ],
+          "optional_details": [
+            "He has a pet dog that he cares for and walks",
+            "He attends a community meeting weekly to discuss local issues",
+            "He has a history of eating disorders related to body image",
+            "He has been using supplements to lower his blood sugar",
+            "He has a strong belief that he should be the provider for his family"
+          ]
+        }
+      },
+      "provenance": {
+        "source_url": "https://huggingface.co/datasets/joeljames270/virtual-patient-profiles-sample/resolve/ee5c260a6e24cd9d6baf5c0ab7ec636788c64c70/patients.jsonl",
+        "retrieved_at": "2026-10-10T15:03:10.188718+00:00",
+        "raw_sha256": "62791934a610d681b50f1846d6891e5eb3c1969ff47b03ccbbc6982a076651ad"
+      },
+      "evidence_kind": "synthetic",
+      "review_status": "unreviewed"
+    },
+    {
+      "record_id": "cms-complications-deaths:310038|||Hybrid_HWM||07/01/2024|06/30/2025",
+      "source_id": "cms-complications-deaths",
+      "source_record_id": "310038|||Hybrid_HWM||07/01/2024|06/30/2025",
+      "record_type": "QualityMeasureObservation",
+      "data": {
+        "facility_id": "310038",
+        "facility_name": "ROBERT WOOD JOHNSON UNIVERSITY HOSPITAL",
+        "address": "ONE ROBERT WOOD JOHNSON PLACE",
+        "citytown": "NEW BRUNSWICK",
+        "state": "NJ",
+        "zip_code": "08901",
+        "countyparish": "MIDDLESEX",
+        "telephone_number": "(732) 828-3000",
+        "measure_id": "Hybrid_HWM",
+        "measure_name": "Hybrid Hospital-Wide All-Cause Risk Standardized Mortality Rate",
+        "compared_to_national": "Not Available",
+        "denominator": "5803",
+        "score": "2.9",
+        "lower_estimate": "Not Available",
+        "higher_estimate": "Not Available",
+        "footnote": "",
+        "start_date": "07/01/2024",
+        "end_date": "06/30/2025"
+      },
+      "provenance": {
+        "source_url": "https://data.cms.gov/provider-data/api/1/datastore/query/ynj2-r877/0?limit=500&offset=0&conditions%5B0%5D%5Bproperty%5D=facility_id&conditions%5B0%5D%5Bvalue%5D=310038&conditions%5B0%5D%5Boperator%5D=%3D",
+        "retrieved_at": "2026-10-10T15:02:09.617267+00:00",
+        "raw_path": "data/raw/cms-complications-deaths-query0-page0.json",
+        "raw_sha256": "db66f774f47c6fac8e723fa71c9bc0ba0e6dba2da37f5dbd8a290d031b096657"
+      },
+      "evidence_kind": "published_observation",
+      "review_status": "unreviewed"
+    },
+    {
+      "record_id": "cms-facility-affiliations:|1003203910|310038||||",
+      "source_id": "cms-facility-affiliations",
+      "source_record_id": "|1003203910|310038||||",
+      "record_type": "PractitionerAffiliation",
+      "data": {
+        "npi": "1003203910",
+        "ind_pac_id": "7214305655",
+        "provider_last_name": "GOTTESMAN",
+        "provider_first_name": "MICHAEL",
+        "provider_middle_name": "",
+        "suff": "",
+        "facility_type": "Hospital",
+        "facility_affiliations_certification_number": "310038",
+        "facility_type_certification_number": ""
+      },
+      "provenance": {
+        "source_url": "https://data.cms.gov/provider-data/api/1/datastore/query/27ea-46a8/0?limit=500&offset=0&conditions%5B0%5D%5Bproperty%5D=facility_affiliations_certification_number&conditions%5B0%5D%5Bvalue%5D=310038&conditions%5B0%5D%5Boperator%5D=%3D",
+        "retrieved_at": "2026-10-10T15:02:20.768184+00:00",
+        "raw_path": "data/raw/cms-facility-affiliations-query0-page0.json",
+        "raw_sha256": "43ce819c525a257f9394aa6abe50ebb7eadbf7993600b8d7f5af58aa8ed95400"
+      },
+      "evidence_kind": "published_observation",
+      "review_status": "unreviewed"
+    },
+    {
+      "record_id": "cms-hcahps:310038||||H_COMP_1_SN_P|10/01/2024|09/30/2025",
+      "source_id": "cms-hcahps",
+      "source_record_id": "310038||||H_COMP_1_SN_P|10/01/2024|09/30/2025",
+      "record_type": "QualityMeasureObservation",
+      "data": {
+        "facility_id": "310038",
+        "facility_name": "ROBERT WOOD JOHNSON UNIVERSITY HOSPITAL",
+        "address": "ONE ROBERT WOOD JOHNSON PLACE",
+        "citytown": "NEW BRUNSWICK",
+        "state": "NJ",
+        "zip_code": "08901",
+        "countyparish": "MIDDLESEX",
+        "telephone_number": "(732) 828-3000",
+        "hcahps_measure_id": "H_COMP_1_SN_P",
+        "hcahps_question": "Patients who reported that their nurses \"Sometimes\" or \"Never\" communicated well",
+        "hcahps_answer_description": "Nurses \"sometimes\" or \"never\" communicated well",
+        "patient_survey_star_rating": "Not Applicable",
+        "patient_survey_star_rating_footnote": "",
+        "hcahps_answer_percent": "5",
+        "hcahps_answer_percent_footnote": "",
+        "hcahps_linear_mean_value": "Not Applicable",
+        "number_of_completed_surveys": "2393",
+        "number_of_completed_surveys_footnote": "",
+        "survey_response_rate_percent": "17",
+        "survey_response_rate_percent_footnote": "",
+        "start_date": "10/01/2024",
+        "end_date": "09/30/2025"
+      },
+      "provenance": {
+        "source_url": "https://data.cms.gov/provider-data/api/1/datastore/query/dgck-syfz/0?limit=500&offset=0&conditions%5B0%5D%5Bproperty%5D=facility_id&conditions%5B0%5D%5Bvalue%5D=310038&conditions%5B0%5D%5Boperator%5D=%3D",
+        "retrieved_at": "2026-10-10T15:02:01.036902+00:00",
+        "raw_path": "data/raw/cms-hcahps-query0-page0.json",
+        "raw_sha256": "14f386c60c5d9e74f271a83e94fcf4f088064e32027356ce83d5e768e1e66395"
+      },
+      "evidence_kind": "published_observation",
+      "review_status": "unreviewed"
+    },
+    {
+      "record_id": "cms-hospital-general-information:310070||||||",
+      "source_id": "cms-hospital-general-information",
+      "source_record_id": "310070||||||",
+      "record_type": "Facility",
+      "data": {
+        "facility_id": "310070",
+        "facility_name": "SAINT PETER'S UNIVERSITY HOSPITAL",
+        "address": "254 EASTON AVE",
+        "citytown": "NEW BRUNSWICK",
+        "state": "NJ",
+        "zip_code": "08901",
+        "countyparish": "MIDDLESEX",
+        "telephone_number": "(732) 745-8600",
+        "hospital_type": "Acute Care Hospitals",
+        "hospital_ownership": "Voluntary non-profit - Private",
+        "emergency_services": "Yes",
+        "meets_criteria_for_birthing_friendly_designation": "Y",
+        "hospital_overall_rating": "3",
+        "hospital_overall_rating_footnote": "",
+        "mort_group_measure_count": "8",
+        "count_of_facility_mort_measures": "7",
+        "count_of_mort_measures_better": "0",
+        "count_of_mort_measures_no_different": "7",
+        "count_of_mort_measures_worse": "0",
+        "mort_group_footnote": "",
+        "safety_group_measure_count": "8",
+        "count_of_facility_safety_measures": "8",
+        "count_of_safety_measures_better": "3",
+        "count_of_safety_measures_no_different": "5",
+        "count_of_safety_measures_worse": "0",
+        "safety_group_footnote": "",
+        "readm_group_measure_count": "11",
+        "count_of_facility_readm_measures": "10",
+        "count_of_readm_measures_better": "0",
+        "count_of_readm_measures_no_different": "7",
+        "count_of_readm_measures_worse": "3",
+        "readm_group_footnote": "",
+        "pt_exp_group_measure_count": "15",
+        "count_of_facility_pt_exp_measures": "10",
+        "pt_exp_group_footnote": "",
+        "te_group_measure_count": "10",
+        "count_of_facility_te_measures": "6",
+        "te_group_footnote": ""
+      },
+      "provenance": {
+        "source_url": "https://data.cms.gov/provider-data/api/1/datastore/query/xubh-q36u/0?limit=500&offset=0&conditions%5B0%5D%5Bproperty%5D=citytown&conditions%5B0%5D%5Bvalue%5D=NEW+BRUNSWICK&conditions%5B0%5D%5Boperator%5D=%3D&conditions%5B1%5D%5Bproperty%5D=state&conditions%5B1%5D%5Bvalue%5D=NJ&conditions%5B1%5D%5Boperator%5D=%3D",
+        "retrieved_at": "2026-10-10T15:01:59.351799+00:00",
+        "raw_path": "data/raw/cms-hospital-general-information-query0-page0.json",
+        "raw_sha256": "1a1c84070de921cf6413e52a32abed26c60c2e35d36be4e044881823dcd8fe32"
+      },
+      "evidence_kind": "published_observation",
+      "review_status": "unreviewed"
+    },
+    {
+      "record_id": "cms-infections:310038|||HAI_1_CIUPPER||10/01/2024|09/30/2025",
+      "source_id": "cms-infections",
+      "source_record_id": "310038|||HAI_1_CIUPPER||10/01/2024|09/30/2025",
+      "record_type": "QualityMeasureObservation",
+      "data": {
+        "facility_id": "310038",
+        "facility_name": "ROBERT WOOD JOHNSON UNIVERSITY HOSPITAL",
+        "address": "ONE ROBERT WOOD JOHNSON PLACE",
+        "citytown": "NEW BRUNSWICK",
+        "state": "NJ",
+        "zip_code": "08901",
+        "countyparish": "MIDDLESEX",
+        "telephone_number": "(732) 828-3000",
+        "measure_id": "HAI_1_CIUPPER",
+        "measure_name": "Central Line Associated Bloodstream Infection (ICU + select Wards): Upper Confidence Limit",
+        "compared_to_national": "Better than the National Benchmark",
+        "score": "0.920",
+        "footnote": "",
+        "start_date": "10/01/2024",
+        "end_date": "09/30/2025"
+      },
+      "provenance": {
+        "source_url": "https://data.cms.gov/provider-data/api/1/datastore/query/77hc-ibv8/0?limit=500&offset=0&conditions%5B0%5D%5Bproperty%5D=facility_id&conditions%5B0%5D%5Bvalue%5D=310038&conditions%5B0%5D%5Boperator%5D=%3D",
+        "retrieved_at": "2026-10-10T15:02:13.420755+00:00",
+        "raw_path": "data/raw/cms-infections-query0-page0.json",
+        "raw_sha256": "dc43541180d33ea736c69021075714dfdb78df3a8afce9e0ea72312fb2e85347"
+      },
+      "evidence_kind": "published_observation",
+      "review_status": "unreviewed"
+    },
+    {
+      "record_id": "cms-inpatient-provider-service-2024:310038|2024|023",
+      "source_id": "cms-inpatient-provider-service-2024",
+      "source_record_id": "310038|2024|023",
+      "record_type": "UtilizationObservation",
+      "data": {
+        "Rndrng_Prvdr_CCN": "310038",
+        "Rndrng_Prvdr_Org_Name": "Robert Wood Johnson University Hospital",
+        "Rndrng_Prvdr_City": "New Brunswick",
+        "Rndrng_Prvdr_St": "One Robert Wood Johnson Place",
+        "Rndrng_Prvdr_State_FIPS": "34",
+        "Rndrng_Prvdr_Zip5": "08901",
+        "Rndrng_Prvdr_State_Abrvtn": "NJ",
+        "Rndrng_Prvdr_RUCA": "1",
+        "Rndrng_Prvdr_RUCA_Desc": "Metropolitan area core: primary flow within an urbanized area of 50,000 and greater",
+        "DRG_Cd": "023",
+        "DRG_Desc": "CRANIOTOMY WITH MAJOR DEVICE IMPLANT OR ACUTE COMPLEX CNS PRINCIPAL DIAGNOSIS WITH MCC O",
+        "Tot_Dschrgs": "61",
+        "Avg_Submtd_Cvrd_Chrg": "389492.55738",
+        "Avg_Tot_Pymt_Amt": "61693.95082",
+        "Avg_Mdcr_Pymt_Amt": "58059.47541"
+      },
+      "provenance": {
+        "source_url": "https://data.cms.gov/data-api/v1/dataset/ca9b5ef0-1386-4759-b2b6-5f9b35116786/data?filter%5BRndrng_Prvdr_CCN%5D=310038&size=500&offset=0",
+        "retrieved_at": "2026-10-10T15:03:25.158160+00:00",
+        "raw_path": "data/raw/cms-inpatient-provider-service-2024-310038-page0.json",
+        "raw_sha256": "74d3b68ccaffa57153ca54fd047a8f1dd180d211c7e32fe4a3d9de0cf45164e2"
+      },
+      "evidence_kind": "published_observation",
+      "review_status": "unreviewed"
+    },
+    {
+      "record_id": "cms-timely-effective-care:310038|||GMCS||01/01/2024|12/31/2024",
+      "source_id": "cms-timely-effective-care",
+      "source_record_id": "310038|||GMCS||01/01/2024|12/31/2024",
+      "record_type": "QualityMeasureObservation",
+      "data": {
+        "facility_id": "310038",
+        "facility_name": "ROBERT WOOD JOHNSON UNIVERSITY HOSPITAL",
+        "address": "ONE ROBERT WOOD JOHNSON PLACE",
+        "citytown": "NEW BRUNSWICK",
+        "state": "NJ",
+        "zip_code": "08901",
+        "countyparish": "MIDDLESEX",
+        "telephone_number": "(732) 828-3000",
+        "_condition": "Electronic Clinical Quality Measure",
+        "measure_id": "GMCS",
+        "measure_name": "Global Malnutrition Composite Score",
+        "score": "Not Available",
+        "sample": "Not Available",
+        "footnote": "5",
+        "start_date": "01/01/2024",
+        "end_date": "12/31/2024"
+      },
+      "provenance": {
+        "source_url": "https://data.cms.gov/provider-data/api/1/datastore/query/yv7e-xc69/0?limit=500&offset=0&conditions%5B0%5D%5Bproperty%5D=facility_id&conditions%5B0%5D%5Bvalue%5D=310038&conditions%5B0%5D%5Boperator%5D=%3D",
+        "retrieved_at": "2026-10-10T15:02:06.330174+00:00",
+        "raw_path": "data/raw/cms-timely-effective-care-query0-page0.json",
+        "raw_sha256": "b103206d9d1ae2ac4859bd75556f4b6136b803a1bb0b12d9736bd4ac8f4a4436"
+      },
+      "evidence_kind": "published_observation",
+      "review_status": "unreviewed"
+    },
+    {
+      "record_id": "cms-unplanned-visits:310038|||EDAC_30_HF||07/01/2022|06/30/2025",
+      "source_id": "cms-unplanned-visits",
+      "source_record_id": "310038|||EDAC_30_HF||07/01/2022|06/30/2025",
+      "record_type": "QualityMeasureObservation",
+      "data": {
+        "facility_id": "310038",
+        "facility_name": "ROBERT WOOD JOHNSON UNIVERSITY HOSPITAL",
+        "address": "ONE ROBERT WOOD JOHNSON PLACE",
+        "citytown": "NEW BRUNSWICK",
+        "state": "NJ",
+        "zip_code": "08901",
+        "countyparish": "MIDDLESEX",
+        "telephone_number": "(732) 828-3000",
+        "measure_id": "EDAC_30_HF",
+        "measure_name": "Hospital return days for heart failure patients",
+        "compared_to_national": "Not Available",
+        "denominator": "1015",
+        "score": "17",
+        "lower_estimate": "Not Available",
+        "higher_estimate": "Not Available",
+        "number_of_patients": "820",
+        "number_of_patients_returned": "Not Available",
+        "footnote": "",
+        "start_date": "07/01/2022",
+        "end_date": "06/30/2025"
+      },
+      "provenance": {
+        "source_url": "https://data.cms.gov/provider-data/api/1/datastore/query/632h-zaca/0?limit=500&offset=0&conditions%5B0%5D%5Bproperty%5D=facility_id&conditions%5B0%5D%5Bvalue%5D=310038&conditions%5B0%5D%5Boperator%5D=%3D",
+        "retrieved_at": "2026-10-10T15:02:17.320516+00:00",
+        "raw_path": "data/raw/cms-unplanned-visits-query0-page0.json",
+        "raw_sha256": "dc39d475ff38dd67f204837f169717c893e00da719e2f093462846b0f2a82490"
+      },
+      "evidence_kind": "published_observation",
+      "review_status": "unreviewed"
+    },
+    {
+      "record_id": "local-cdc-acs-middlesex-2017-2021:34023:2017-2021:BROAD:Percent",
+      "source_id": "local-cdc-acs-middlesex-2017-2021",
+      "source_record_id": "34023:2017-2021:BROAD:Percent",
+      "record_type": "PopulationEstimate",
+      "data": {
+        "geography": {
+          "fips": "34023",
+          "level": "county",
+          "name": "Middlesex County",
+          "state": "NJ"
+        },
+        "measure_id": "BROAD",
+        "measure": "No broadband internet subscription among households",
+        "category": "SDOH",
+        "period": "2017-2021",
+        "estimate": 9.4,
+        "unit": "%",
+        "estimate_type": "Percentage",
+        "population_scope": "See full measure text; measures have different age/universe restrictions",
+        "uncertainty": {
+          "method": "ACS margin of error (source field; confidence level not supplied in this dataset metadata)",
+          "lower": null,
+          "upper": null,
+          "margin_of_error": 0.6
+        },
+        "geographic_population_context": {
+          "total": 858770.0,
+          "adults": null,
+          "total_reference": "ACS 5-year Total Population Estimate",
+          "adult_reference": null,
+          "warning": "Geographic context counts are not necessarily the measure denominator."
+        },
+        "source_fields": {
+          "year": "2017-2021",
+          "stateabbr": "NJ",
+          "statedesc": "New Jersey",
+          "locationname": "Middlesex County",
+          "datasource": "5-year ACS",
+          "category": "SDOH",
+          "measure": "No broadband internet subscription among households",
+          "data_value_unit": "%",
+          "data_value_type": "Percentage",
+          "data_value": "9.4",
+          "moe": "0.6",
+          "totalpopulation": "858770",
+          "locationid": "34023",
+          "categoryid": "SDOH",
+          "measureid": "BROAD",
+          "datavaluetypeid": "Percent",
+          "short_question_text": "No broadband",
+          "geolocation": {
+            "type": "Point",
+            "coordinates": [
+              -74.4074303,
+              40.4396214
+            ]
+          }
+        },
+        "allowed_use": [
+          "community_context",
+          "hypothesis_generation"
+        ],
+        "not_validated_for": [
+          "hospital_case_mix",
+          "individual_patient_sampling",
+          "causal_policy_evaluation",
+          "local_queue_calibration"
+        ]
+      },
+      "provenance": {
+        "source_url": "https://data.cdc.gov/resource/i6u4-y3g4.json?locationid=34023&%24limit=500&%24order=year%2Cmeasureid%2Cdatavaluetypeid",
+        "retrieved_at": "2026-10-10T15:02:10.806997+00:00",
+        "raw_sha256": "2b9d861f339a1044a87d8400dbadfbb19d1bc81b62da273596731b44268973cf"
+      },
+      "evidence_kind": "published_local_survey_estimate",
+      "review_status": "source_extracted_not_domain_reviewed"
+    },
+    {
+      "record_id": "local-cdc-acs-new-brunswick-2017-2021:3451210:2017-2021:BROAD:Percent",
+      "source_id": "local-cdc-acs-new-brunswick-2017-2021",
+      "source_record_id": "3451210:2017-2021:BROAD:Percent",
+      "record_type": "PopulationEstimate",
+      "data": {
+        "geography": {
+          "fips": "3451210",
+          "level": "place",
+          "name": "New Brunswick",
+          "state": "NJ"
+        },
+        "measure_id": "BROAD",
+        "measure": "No broadband internet subscription among households",
+        "category": "SDOH",
+        "period": "2017-2021",
+        "estimate": 23.3,
+        "unit": "%",
+        "estimate_type": "Percentage",
+        "population_scope": "See full measure text; measures have different age/universe restrictions",
+        "uncertainty": {
+          "method": "ACS margin of error (source field; confidence level not supplied in this dataset metadata)",
+          "lower": null,
+          "upper": null,
+          "margin_of_error": 4.4
+        },
+        "geographic_population_context": {
+          "total": 55671.0,
+          "adults": null,
+          "total_reference": "ACS 5-year Total Population Estimate",
+          "adult_reference": null,
+          "warning": "Geographic context counts are not necessarily the measure denominator."
+        },
+        "source_fields": {
+          "year": "2017-2021",
+          "stateabbr": "NJ",
+          "statedesc": "New Jersey",
+          "locationname": "New Brunswick",
+          "datasource": "5-year ACS",
+          "category": "SDOH",
+          "measure": "No broadband internet subscription among households",
+          "data_value_unit": "%",
+          "data_value_type": "Percentage",
+          "data_value": "23.3",
+          "moe": "4.4",
+          "totalpopulation": "55671",
+          "locationid": "3451210",
+          "categoryid": "SDOH",
+          "measureid": "BROAD",
+          "datavaluetypeid": "Percent",
+          "short_question_text": "No broadband",
+          "geolocation": {
+            "type": "Point",
+            "coordinates": [
+              -74.4444144,
+              40.4866775
+            ]
+          }
+        },
+        "allowed_use": [
+          "community_context",
+          "hypothesis_generation"
+        ],
+        "not_validated_for": [
+          "hospital_case_mix",
+          "individual_patient_sampling",
+          "causal_policy_evaluation",
+          "local_queue_calibration"
+        ]
+      },
+      "provenance": {
+        "source_url": "https://data.cdc.gov/resource/edkk-ze78.json?locationid=3451210&%24limit=500&%24order=year%2Cmeasureid%2Cdatavaluetypeid",
+        "retrieved_at": "2026-10-10T15:02:08.978863+00:00",
+        "raw_sha256": "97b84dbf79aff02d228cd7b62fb782a13908c3eb98585277250988d25a997b22"
+      },
+      "evidence_kind": "published_local_survey_estimate",
+      "review_status": "source_extracted_not_domain_reviewed"
+    },
+    {
+      "record_id": "local-cdc-places-middlesex-2025:34023:2022:COLON_SCREEN:CrdPrv",
+      "source_id": "local-cdc-places-middlesex-2025",
+      "source_record_id": "34023:2022:COLON_SCREEN:CrdPrv",
+      "record_type": "PopulationEstimate",
+      "data": {
+        "geography": {
+          "fips": "34023",
+          "level": "county",
+          "name": "Middlesex",
+          "state": "NJ"
+        },
+        "measure_id": "COLON_SCREEN",
+        "measure": "Colorectal cancer screening among adults aged 45–75 years",
+        "category": "Prevention",
+        "period": "2022",
+        "estimate": 63.5,
+        "unit": "%",
+        "estimate_type": "Crude prevalence",
+        "population_scope": "See full measure text; measures have different age/universe restrictions",
+        "uncertainty": {
+          "method": "95% model-based confidence interval",
+          "lower": 59.6,
+          "upper": 67.3,
+          "margin_of_error": null
+        },
+        "geographic_population_context": {
+          "total": 863623.0,
+          "adults": 680119.0,
+          "total_reference": "Total population of census 2023 estimates",
+          "adult_reference": "Total population 18 and plus of census 2023 estimates",
+          "warning": "Geographic context counts are not necessarily the measure denominator."
+        },
+        "source_fields": {
+          "year": "2022",
+          "stateabbr": "NJ",
+          "statedesc": "New Jersey",
+          "locationname": "Middlesex",
+          "datasource": "BRFSS",
+          "category": "Prevention",
+          "measure": "Colorectal cancer screening among adults aged 45–75 years",
+          "data_value_unit": "%",
+          "data_value_type": "Crude prevalence",
+          "data_value": "63.5",
+          "low_confidence_limit": "59.6",
+          "high_confidence_limit": "67.3",
+          "totalpopulation": "863623",
+          "totalpop18plus": "680119",
+          "locationid": "34023",
+          "categoryid": "PREVENT",
+          "measureid": "COLON_SCREEN",
+          "datavaluetypeid": "CrdPrv",
+          "short_question_text": "Colorectal Cancer Screening",
+          "geolocation": {
+            "type": "Point",
+            "coordinates": [
+              -74.410830751515,
+              40.4395642172698
+            ]
+          }
+        },
+        "allowed_use": [
+          "community_context",
+          "hypothesis_generation"
+        ],
+        "not_validated_for": [
+          "hospital_case_mix",
+          "individual_patient_sampling",
+          "causal_policy_evaluation",
+          "local_queue_calibration"
+        ]
+      },
+      "provenance": {
+        "source_url": "https://data.cdc.gov/resource/swc5-untb.json?locationid=34023&%24limit=500&%24order=year%2Cmeasureid%2Cdatavaluetypeid",
+        "retrieved_at": "2026-10-10T15:02:08.410950+00:00",
+        "raw_sha256": "c6654e42c7a7a55e08b76b560b1e6704c6fccb6125ad881961803843add39e5d"
+      },
+      "evidence_kind": "published_local_modeled_estimate",
+      "review_status": "source_extracted_not_domain_reviewed"
+    },
+    {
+      "record_id": "local-cdc-places-new-brunswick-2025:3451210:2022:COLON_SCREEN:CrdPrv",
+      "source_id": "local-cdc-places-new-brunswick-2025",
+      "source_record_id": "3451210:2022:COLON_SCREEN:CrdPrv",
+      "record_type": "PopulationEstimate",
+      "data": {
+        "geography": {
+          "fips": "3451210",
+          "level": "place",
+          "name": "New Brunswick",
+          "state": "NJ"
+        },
+        "measure_id": "COLON_SCREEN",
+        "measure": "Colorectal cancer screening among adults aged 45–75 years",
+        "category": "Prevention",
+        "period": "2022",
+        "estimate": 49.6,
+        "unit": "%",
+        "estimate_type": "Crude prevalence",
+        "population_scope": "See full measure text; measures have different age/universe restrictions",
+        "uncertainty": {
+          "method": "95% model-based confidence interval",
+          "lower": 45.3,
+          "upper": 53.8,
+          "margin_of_error": null
+        },
+        "geographic_population_context": {
+          "total": 55266.0,
+          "adults": 43015.0,
+          "total_reference": "Total population of Census 2020 ",
+          "adult_reference": "Total population 18 and plus of Census 2020 ",
+          "warning": "Geographic context counts are not necessarily the measure denominator."
+        },
+        "source_fields": {
+          "year": "2022",
+          "stateabbr": "NJ",
+          "statedesc": "New Jersey",
+          "locationname": "New Brunswick",
+          "datasource": "BRFSS",
+          "category": "Prevention",
+          "measure": "Colorectal cancer screening among adults aged 45–75 years",
+          "data_value_unit": "%",
+          "data_value_type": "Crude prevalence",
+          "data_value": "49.6",
+          "low_confidence_limit": "45.3",
+          "high_confidence_limit": "53.8",
+          "totalpop18plus": "43015",
+          "totalpopulation": "55266",
+          "geolocation": {
+            "type": "Point",
+            "coordinates": [
+              -74.4444144,
+              40.4866775
+            ]
+          },
+          "locationid": "3451210",
+          "categoryid": "PREVENT",
+          "measureid": "COLON_SCREEN",
+          "datavaluetypeid": "CrdPrv",
+          "short_question_text": "Colorectal Cancer Screening"
+        },
+        "allowed_use": [
+          "community_context",
+          "hypothesis_generation"
+        ],
+        "not_validated_for": [
+          "hospital_case_mix",
+          "individual_patient_sampling",
+          "causal_policy_evaluation",
+          "local_queue_calibration"
+        ]
+      },
+      "provenance": {
+        "source_url": "https://data.cdc.gov/resource/eav7-hnsx.json?locationid=3451210&%24limit=500&%24order=year%2Cmeasureid%2Cdatavaluetypeid",
+        "retrieved_at": "2026-10-10T15:02:06.991916+00:00",
+        "raw_sha256": "ea7d7e42ffc498000d6a9e4c6305cb39b45e92f73e79ca881a335e0d573161fc"
+      },
+      "evidence_kind": "published_local_modeled_estimate",
+      "review_status": "source_extracted_not_domain_reviewed"
+    },
+    {
+      "record_id": "local-nj-staffing-discovery:limitations",
+      "source_id": "local-nj-staffing-discovery",
+      "source_record_id": "limitations",
+      "record_type": "DatasetScopeAssertion",
+      "data": {
+        "finding": "Reports aggregate monthly submissions; patient acuity and layout differ, and many professions are omitted.",
+        "scope": "Historical staffing aggregates; no RWJUH values collected",
+        "locator": "Interpretation guidance"
+      },
+      "provenance": {
+        "source_url": "https://healthapps.nj.gov/nursestaffing/quarterly.aspx",
+        "retrieved_at": "2026-10-10T15:02:48.335328+00:00",
+        "raw_sha256": null,
+        "acquisition_method": "manual limited factual paraphrase from primary web source; full source not redistributed"
+      },
+      "evidence_kind": "published_source_assertion",
+      "review_status": "source_extracted_not_domain_reviewed"
+    }
+  ]
+}

@@ -1,0 +1,2451 @@
+{
+  "uri": "https://github.com/CANTSOAR/healthhacks26/ontology/hospital/0.1",
+  "classes": [
+    {
+      "name": "SourceRecord",
+      "description": "A versioned source artifact or endpoint snapshot with its retrieval and reuse context."
+    },
+    {
+      "name": "Assertion",
+      "description": "A contextual, attributed statement; its truth, author, review, and visibility are separate."
+    },
+    {
+      "name": "ReviewDecision",
+      "description": "A decision by a qualified reviewer about an exact target version and use scope."
+    },
+    {
+      "name": "IdentityMapping",
+      "description": "A versioned proposed or reviewed crosswalk between independently identified entities."
+    },
+    {
+      "name": "Organization",
+      "description": "A legal or administrative organization, including health system, hospital operator, payer, or partner."
+    },
+    {
+      "name": "Facility",
+      "description": "A licensed or otherwise identified care delivery establishment with a defined reporting scope."
+    },
+    {
+      "name": "PhysicalLocation",
+      "description": "A physical campus, building, wing, floor, room, or bed space; it is not a service team."
+    },
+    {
+      "name": "ServiceUnit",
+      "description": "An organizational service/team with capabilities that may span several physical locations."
+    },
+    {
+      "name": "Resource",
+      "description": "An individually tracked reusable resource, such as bed, ventilator, scanner, vehicle, or station."
+    },
+    {
+      "name": "CapacitySnapshot",
+      "description": "Capacity at a defined instant/interval, with basis and counted scope preserved."
+    },
+    {
+      "name": "Person",
+      "description": "An identified real person or explicitly fictional persona; demographic identity does not imply behavior."
+    },
+    {
+      "name": "RoleAssignment",
+      "description": "A person acting in a role for an organization/service during a stated period."
+    },
+    {
+      "name": "Qualification",
+      "description": "A documented skill, specialty, training, registration, or credential with verification status."
+    },
+    {
+      "name": "Privilege",
+      "description": "A scoped grant of authority for a role/person to perform specified activities at a facility."
+    },
+    {
+      "name": "Shift",
+      "description": "Planned or actual availability of a role assignment; neither public identity nor affiliation implies a shift."
+    },
+    {
+      "name": "Patient",
+      "description": "A real de-identified subject or synthetic persona whose facts are carried by attributed assertions."
+    },
+    {
+      "name": "Encounter",
+      "description": "A bounded care interaction in a setting; linked encounters form a journey."
+    },
+    {
+      "name": "ClinicalConcept",
+      "description": "A clinical meaning with optional versioned terminology mappings; code and concept are distinct."
+    },
+    {
+      "name": "Observation",
+      "description": "A time-specific observation or measurement with method and interpretation context, not a diagnosis."
+    },
+    {
+      "name": "Order",
+      "description": "A request for a clinical or support action, distinct from its eventual performance."
+    },
+    {
+      "name": "ActivityDefinition",
+      "description": "A versioned procedure, test, consultation, medication administration, or support activity definition."
+    },
+    {
+      "name": "ActivityPerformance",
+      "description": "An actual or simulated execution of an activity, including incomplete and cancelled attempts."
+    },
+    {
+      "name": "ClinicalArtifact",
+      "description": "A chart note, report, image, waveform, or document with authored and released times and access rights."
+    },
+    {
+      "name": "ConsentDecision",
+      "description": "A scoped, time-bound consent/refusal decision with decision-maker and communication context."
+    },
+    {
+      "name": "Perspective",
+      "description": "A person-expressed or explicitly authored belief, goal, concern, preference, or barrier."
+    },
+    {
+      "name": "PathwayDefinition",
+      "description": "A versioned workflow graph with stages, permissible transitions, authority, and exceptions."
+    },
+    {
+      "name": "PolicyRule",
+      "description": "A contextual prerequisite, authority, routing, eligibility, or contingency rule with explicit effects."
+    },
+    {
+      "name": "Decision",
+      "description": "A choice made by an identified actor, preserving available alternatives and rationale."
+    },
+    {
+      "name": "Event",
+      "description": "An immutable occurrence with occurrence and recording time, references, and causal predecessors."
+    },
+    {
+      "name": "QueueEntry",
+      "description": "A wait for a specified service/resource; entry, exit, and censoring are distinguished."
+    },
+    {
+      "name": "ResourceAllocation",
+      "description": "A reservation or active allocation of capacity, a resource, or role to an activity over time."
+    },
+    {
+      "name": "Disruption",
+      "description": "A bounded outage, shortage, surge, or absence affecting dependencies and available service."
+    },
+    {
+      "name": "InventoryLot",
+      "description": "A stock lot of medication, blood product, supply, or consumable with unit and expiry."
+    },
+    {
+      "name": "InventoryMovement",
+      "description": "An auditable receipt, consumption, transfer, disposal, or adjustment of stock."
+    },
+    {
+      "name": "Specimen",
+      "description": "A collected or requested biological specimen with patient linkage and chain-of-custody events."
+    },
+    {
+      "name": "InsurancePlan",
+      "description": "A versioned insurance product; benefits and network depend on dates and service context."
+    },
+    {
+      "name": "Coverage",
+      "description": "A subject-specific enrollment/eligibility assertion with period and verification state."
+    },
+    {
+      "name": "NetworkParticipation",
+      "description": "Date- and product-specific participation of a facility or professional in a network."
+    },
+    {
+      "name": "Authorization",
+      "description": "A request and decision for payer authorization with scope and expiration, not guaranteed payment."
+    },
+    {
+      "name": "FinancialAmount",
+      "description": "A contextual amount with explicit economic meaning, currency, scope, and methodology."
+    },
+    {
+      "name": "Claim",
+      "description": "A versioned submission for payment, with coded line items and adjudication state."
+    },
+    {
+      "name": "Settlement",
+      "description": "A payment, adjustment, denial, refund, or patient obligation associated with claim lines."
+    },
+    {
+      "name": "Appeal",
+      "description": "A review request for a coverage, authorization, or claim decision with time and outcome."
+    },
+    {
+      "name": "GeographicArea",
+      "description": "A versioned administrative or statistical area; place, tract, county, ZIP and ZCTA remain distinct."
+    },
+    {
+      "name": "PopulationDefinition",
+      "description": "An explicit inclusion/exclusion, geography, time, and denominator definition for a cohort."
+    },
+    {
+      "name": "CommunityService",
+      "description": "A community or post-acute service with location, eligibility, accessibility, and referral process."
+    },
+    {
+      "name": "DischargePlan",
+      "description": "A patient-specific disposition plan, goals, readiness, blockers, and follow-up requirements."
+    },
+    {
+      "name": "Referral",
+      "description": "A request for another service, placement, transport, or follow-up with acceptance status."
+    },
+    {
+      "name": "MeasureDefinition",
+      "description": "A versioned definition of a count, ratio, outcome, experience, safety, or operational metric."
+    },
+    {
+      "name": "MeasureResult",
+      "description": "A measured or modeled statistic with population, reporting period, suppression, and uncertainty."
+    },
+    {
+      "name": "QualitativeFinding",
+      "description": "An attributed theme, reported experience, exception, or practice from a described method and context."
+    },
+    {
+      "name": "SafetyEvent",
+      "description": "A reported incident or near miss whose attribution and causal analysis have explicit review state."
+    },
+    {
+      "name": "LearningObjective",
+      "description": "An observable learner capability tied to expected context and evidence."
+    },
+    {
+      "name": "ScenarioTemplate",
+      "description": "A versioned reusable teaching situation with permitted variation and completion rules."
+    },
+    {
+      "name": "CaseVersion",
+      "description": "An immutable authored patient scenario version, separate from real-world records and encounter state."
+    },
+    {
+      "name": "DisclosureRule",
+      "description": "A versioned rule for revealing a case fact to an audience in an encounter context."
+    },
+    {
+      "name": "RubricVersion",
+      "description": "An immutable assessment rubric with applicability, observable criteria, scale and N/A rules."
+    },
+    {
+      "name": "Assessment",
+      "description": "A versioned judgment of learner behavior linked to specific encounter evidence and rubric."
+    },
+    {
+      "name": "EvidenceArtifact",
+      "description": "A permitted transcript span, action record, answer, or observation used in assessment or review."
+    },
+    {
+      "name": "EvaluationCase",
+      "description": "A reference test with inputs, expected behavior, prohibited behavior, and reviewer provenance."
+    },
+    {
+      "name": "Parameter",
+      "description": "An applicable numeric value or distribution with unit, dependence, uncertainty, and calibration basis."
+    },
+    {
+      "name": "SimulationRun",
+      "description": "A reproducible experiment binding exact input versions, assumptions, seeds, model, and outputs."
+    },
+    {
+      "name": "ValidationStudy",
+      "description": "An evaluation with purpose, held-out evidence, acceptance criteria and limitations."
+    }
+  ],
+  "data_properties": [
+    {
+      "name": "SourceRecord__source_url",
+      "domain": "SourceRecord",
+      "range": "string"
+    },
+    {
+      "name": "SourceRecord__source_kind",
+      "domain": "SourceRecord",
+      "range": "string"
+    },
+    {
+      "name": "SourceRecord__publisher",
+      "domain": "SourceRecord",
+      "range": "string"
+    },
+    {
+      "name": "SourceRecord__publication_date",
+      "domain": "SourceRecord",
+      "range": "string"
+    },
+    {
+      "name": "SourceRecord__retrieved_at",
+      "domain": "SourceRecord",
+      "range": "datetime"
+    },
+    {
+      "name": "SourceRecord__raw_sha256",
+      "domain": "SourceRecord",
+      "range": "string"
+    },
+    {
+      "name": "SourceRecord__rights_status",
+      "domain": "SourceRecord",
+      "range": "string"
+    },
+    {
+      "name": "SourceRecord__rights_url",
+      "domain": "SourceRecord",
+      "range": "string"
+    },
+    {
+      "name": "SourceRecord__access_status",
+      "domain": "SourceRecord",
+      "range": "string"
+    },
+    {
+      "name": "SourceRecord__limitations",
+      "domain": "SourceRecord",
+      "range": "string"
+    },
+    {
+      "name": "Assertion__subject_ref",
+      "domain": "Assertion",
+      "range": "string"
+    },
+    {
+      "name": "Assertion__predicate",
+      "domain": "Assertion",
+      "range": "string"
+    },
+    {
+      "name": "Assertion__object",
+      "domain": "Assertion",
+      "range": "string"
+    },
+    {
+      "name": "Assertion__assertion_origin",
+      "domain": "Assertion",
+      "range": "string"
+    },
+    {
+      "name": "Assertion__finding_state",
+      "domain": "Assertion",
+      "range": "string"
+    },
+    {
+      "name": "Assertion__visibility",
+      "domain": "Assertion",
+      "range": "string"
+    },
+    {
+      "name": "Assertion__source_refs",
+      "domain": "Assertion",
+      "range": "string"
+    },
+    {
+      "name": "Assertion__locator",
+      "domain": "Assertion",
+      "range": "string"
+    },
+    {
+      "name": "Assertion__population_ref",
+      "domain": "Assertion",
+      "range": "string"
+    },
+    {
+      "name": "Assertion__conflict_set_ref",
+      "domain": "Assertion",
+      "range": "string"
+    },
+    {
+      "name": "ReviewDecision__target_ref",
+      "domain": "ReviewDecision",
+      "range": "string"
+    },
+    {
+      "name": "ReviewDecision__target_version",
+      "domain": "ReviewDecision",
+      "range": "string"
+    },
+    {
+      "name": "ReviewDecision__reviewer_ref",
+      "domain": "ReviewDecision",
+      "range": "string"
+    },
+    {
+      "name": "ReviewDecision__decision",
+      "domain": "ReviewDecision",
+      "range": "string"
+    },
+    {
+      "name": "ReviewDecision__scope",
+      "domain": "ReviewDecision",
+      "range": "string"
+    },
+    {
+      "name": "ReviewDecision__rationale",
+      "domain": "ReviewDecision",
+      "range": "string"
+    },
+    {
+      "name": "ReviewDecision__decided_at",
+      "domain": "ReviewDecision",
+      "range": "datetime"
+    },
+    {
+      "name": "IdentityMapping__left_ref",
+      "domain": "IdentityMapping",
+      "range": "string"
+    },
+    {
+      "name": "IdentityMapping__right_ref",
+      "domain": "IdentityMapping",
+      "range": "string"
+    },
+    {
+      "name": "IdentityMapping__match_method",
+      "domain": "IdentityMapping",
+      "range": "string"
+    },
+    {
+      "name": "IdentityMapping__match_status",
+      "domain": "IdentityMapping",
+      "range": "string"
+    },
+    {
+      "name": "IdentityMapping__confidence",
+      "domain": "IdentityMapping",
+      "range": "decimal"
+    },
+    {
+      "name": "IdentityMapping__source_refs",
+      "domain": "IdentityMapping",
+      "range": "string"
+    },
+    {
+      "name": "Organization__organization_kind",
+      "domain": "Organization",
+      "range": "string"
+    },
+    {
+      "name": "Organization__legal_name",
+      "domain": "Organization",
+      "range": "string"
+    },
+    {
+      "name": "Organization__parent_ref",
+      "domain": "Organization",
+      "range": "string"
+    },
+    {
+      "name": "Organization__jurisdiction",
+      "domain": "Organization",
+      "range": "string"
+    },
+    {
+      "name": "Facility__operator_ref",
+      "domain": "Facility",
+      "range": "string"
+    },
+    {
+      "name": "Facility__facility_kind",
+      "domain": "Facility",
+      "range": "string"
+    },
+    {
+      "name": "Facility__license_identifiers",
+      "domain": "Facility",
+      "range": "string"
+    },
+    {
+      "name": "Facility__reporting_scope",
+      "domain": "Facility",
+      "range": "string"
+    },
+    {
+      "name": "Facility__geography_ref",
+      "domain": "Facility",
+      "range": "string"
+    },
+    {
+      "name": "PhysicalLocation__location_kind",
+      "domain": "PhysicalLocation",
+      "range": "string"
+    },
+    {
+      "name": "PhysicalLocation__facility_ref",
+      "domain": "PhysicalLocation",
+      "range": "string"
+    },
+    {
+      "name": "PhysicalLocation__parent_ref",
+      "domain": "PhysicalLocation",
+      "range": "string"
+    },
+    {
+      "name": "PhysicalLocation__accessibility",
+      "domain": "PhysicalLocation",
+      "range": "string"
+    },
+    {
+      "name": "PhysicalLocation__adjacency",
+      "domain": "PhysicalLocation",
+      "range": "string"
+    },
+    {
+      "name": "ServiceUnit__facility_ref",
+      "domain": "ServiceUnit",
+      "range": "string"
+    },
+    {
+      "name": "ServiceUnit__service_kind",
+      "domain": "ServiceUnit",
+      "range": "string"
+    },
+    {
+      "name": "ServiceUnit__location_refs",
+      "domain": "ServiceUnit",
+      "range": "string"
+    },
+    {
+      "name": "ServiceUnit__capabilities",
+      "domain": "ServiceUnit",
+      "range": "string"
+    },
+    {
+      "name": "ServiceUnit__admission_constraints",
+      "domain": "ServiceUnit",
+      "range": "string"
+    },
+    {
+      "name": "Resource__resource_kind",
+      "domain": "Resource",
+      "range": "string"
+    },
+    {
+      "name": "Resource__location_ref",
+      "domain": "Resource",
+      "range": "string"
+    },
+    {
+      "name": "Resource__owning_unit_ref",
+      "domain": "Resource",
+      "range": "string"
+    },
+    {
+      "name": "Resource__capabilities",
+      "domain": "Resource",
+      "range": "string"
+    },
+    {
+      "name": "Resource__availability_state",
+      "domain": "Resource",
+      "range": "string"
+    },
+    {
+      "name": "CapacitySnapshot__scope_ref",
+      "domain": "CapacitySnapshot",
+      "range": "string"
+    },
+    {
+      "name": "CapacitySnapshot__basis",
+      "domain": "CapacitySnapshot",
+      "range": "string"
+    },
+    {
+      "name": "CapacitySnapshot__count",
+      "domain": "CapacitySnapshot",
+      "range": "integer"
+    },
+    {
+      "name": "CapacitySnapshot__unit",
+      "domain": "CapacitySnapshot",
+      "range": "string"
+    },
+    {
+      "name": "CapacitySnapshot__as_of",
+      "domain": "CapacitySnapshot",
+      "range": "datetime"
+    },
+    {
+      "name": "CapacitySnapshot__eligibility_context",
+      "domain": "CapacitySnapshot",
+      "range": "string"
+    },
+    {
+      "name": "Person__identity_kind",
+      "domain": "Person",
+      "range": "string"
+    },
+    {
+      "name": "Person__display_name",
+      "domain": "Person",
+      "range": "string"
+    },
+    {
+      "name": "Person__public_identifier",
+      "domain": "Person",
+      "range": "string"
+    },
+    {
+      "name": "RoleAssignment__person_ref",
+      "domain": "RoleAssignment",
+      "range": "string"
+    },
+    {
+      "name": "RoleAssignment__organization_ref",
+      "domain": "RoleAssignment",
+      "range": "string"
+    },
+    {
+      "name": "RoleAssignment__service_unit_ref",
+      "domain": "RoleAssignment",
+      "range": "string"
+    },
+    {
+      "name": "RoleAssignment__role_code",
+      "domain": "RoleAssignment",
+      "range": "string"
+    },
+    {
+      "name": "RoleAssignment__supervision_ref",
+      "domain": "RoleAssignment",
+      "range": "string"
+    },
+    {
+      "name": "Qualification__person_ref",
+      "domain": "Qualification",
+      "range": "string"
+    },
+    {
+      "name": "Qualification__qualification_kind",
+      "domain": "Qualification",
+      "range": "string"
+    },
+    {
+      "name": "Qualification__concept_ref",
+      "domain": "Qualification",
+      "range": "string"
+    },
+    {
+      "name": "Qualification__issuer_ref",
+      "domain": "Qualification",
+      "range": "string"
+    },
+    {
+      "name": "Qualification__verification_status",
+      "domain": "Qualification",
+      "range": "string"
+    },
+    {
+      "name": "Privilege__grantee_ref",
+      "domain": "Privilege",
+      "range": "string"
+    },
+    {
+      "name": "Privilege__facility_ref",
+      "domain": "Privilege",
+      "range": "string"
+    },
+    {
+      "name": "Privilege__activity_refs",
+      "domain": "Privilege",
+      "range": "string"
+    },
+    {
+      "name": "Privilege__restrictions",
+      "domain": "Privilege",
+      "range": "string"
+    },
+    {
+      "name": "Privilege__granting_authority_ref",
+      "domain": "Privilege",
+      "range": "string"
+    },
+    {
+      "name": "Shift__role_assignment_ref",
+      "domain": "Shift",
+      "range": "string"
+    },
+    {
+      "name": "Shift__start_at",
+      "domain": "Shift",
+      "range": "datetime"
+    },
+    {
+      "name": "Shift__end_at",
+      "domain": "Shift",
+      "range": "datetime"
+    },
+    {
+      "name": "Shift__shift_kind",
+      "domain": "Shift",
+      "range": "string"
+    },
+    {
+      "name": "Shift__availability_fraction",
+      "domain": "Shift",
+      "range": "decimal"
+    },
+    {
+      "name": "Patient__identity_kind",
+      "domain": "Patient",
+      "range": "string"
+    },
+    {
+      "name": "Patient__person_ref",
+      "domain": "Patient",
+      "range": "string"
+    },
+    {
+      "name": "Patient__persona_label",
+      "domain": "Patient",
+      "range": "string"
+    },
+    {
+      "name": "Patient__demographic_assertion_refs",
+      "domain": "Patient",
+      "range": "string"
+    },
+    {
+      "name": "Encounter__patient_ref",
+      "domain": "Encounter",
+      "range": "string"
+    },
+    {
+      "name": "Encounter__facility_ref",
+      "domain": "Encounter",
+      "range": "string"
+    },
+    {
+      "name": "Encounter__setting",
+      "domain": "Encounter",
+      "range": "string"
+    },
+    {
+      "name": "Encounter__status",
+      "domain": "Encounter",
+      "range": "string"
+    },
+    {
+      "name": "Encounter__parent_encounter_ref",
+      "domain": "Encounter",
+      "range": "string"
+    },
+    {
+      "name": "Encounter__arrival_route",
+      "domain": "Encounter",
+      "range": "string"
+    },
+    {
+      "name": "ClinicalConcept__concept_kind",
+      "domain": "ClinicalConcept",
+      "range": "string"
+    },
+    {
+      "name": "ClinicalConcept__preferred_term",
+      "domain": "ClinicalConcept",
+      "range": "string"
+    },
+    {
+      "name": "ClinicalConcept__coding",
+      "domain": "ClinicalConcept",
+      "range": "string"
+    },
+    {
+      "name": "ClinicalConcept__definition",
+      "domain": "ClinicalConcept",
+      "range": "string"
+    },
+    {
+      "name": "Observation__subject_ref",
+      "domain": "Observation",
+      "range": "string"
+    },
+    {
+      "name": "Observation__concept_ref",
+      "domain": "Observation",
+      "range": "string"
+    },
+    {
+      "name": "Observation__value",
+      "domain": "Observation",
+      "range": "string"
+    },
+    {
+      "name": "Observation__finding_state",
+      "domain": "Observation",
+      "range": "string"
+    },
+    {
+      "name": "Observation__effective_at",
+      "domain": "Observation",
+      "range": "datetime"
+    },
+    {
+      "name": "Observation__specimen_ref",
+      "domain": "Observation",
+      "range": "string"
+    },
+    {
+      "name": "Observation__reference_range",
+      "domain": "Observation",
+      "range": "string"
+    },
+    {
+      "name": "Order__encounter_ref",
+      "domain": "Order",
+      "range": "string"
+    },
+    {
+      "name": "Order__requested_activity_ref",
+      "domain": "Order",
+      "range": "string"
+    },
+    {
+      "name": "Order__requested_by_ref",
+      "domain": "Order",
+      "range": "string"
+    },
+    {
+      "name": "Order__priority",
+      "domain": "Order",
+      "range": "string"
+    },
+    {
+      "name": "Order__status",
+      "domain": "Order",
+      "range": "string"
+    },
+    {
+      "name": "ActivityDefinition__activity_kind",
+      "domain": "ActivityDefinition",
+      "range": "string"
+    },
+    {
+      "name": "ActivityDefinition__concept_ref",
+      "domain": "ActivityDefinition",
+      "range": "string"
+    },
+    {
+      "name": "ActivityDefinition__prerequisites",
+      "domain": "ActivityDefinition",
+      "range": "string"
+    },
+    {
+      "name": "ActivityDefinition__resource_requirements",
+      "domain": "ActivityDefinition",
+      "range": "string"
+    },
+    {
+      "name": "ActivityDefinition__completion_criteria",
+      "domain": "ActivityDefinition",
+      "range": "string"
+    },
+    {
+      "name": "ActivityPerformance__activity_definition_ref",
+      "domain": "ActivityPerformance",
+      "range": "string"
+    },
+    {
+      "name": "ActivityPerformance__encounter_ref",
+      "domain": "ActivityPerformance",
+      "range": "string"
+    },
+    {
+      "name": "ActivityPerformance__order_ref",
+      "domain": "ActivityPerformance",
+      "range": "string"
+    },
+    {
+      "name": "ActivityPerformance__performer_refs",
+      "domain": "ActivityPerformance",
+      "range": "string"
+    },
+    {
+      "name": "ActivityPerformance__status",
+      "domain": "ActivityPerformance",
+      "range": "string"
+    },
+    {
+      "name": "ActivityPerformance__result_refs",
+      "domain": "ActivityPerformance",
+      "range": "string"
+    },
+    {
+      "name": "ClinicalArtifact__encounter_ref",
+      "domain": "ClinicalArtifact",
+      "range": "string"
+    },
+    {
+      "name": "ClinicalArtifact__artifact_kind",
+      "domain": "ClinicalArtifact",
+      "range": "string"
+    },
+    {
+      "name": "ClinicalArtifact__source_ref",
+      "domain": "ClinicalArtifact",
+      "range": "string"
+    },
+    {
+      "name": "ClinicalArtifact__related_assertion_refs",
+      "domain": "ClinicalArtifact",
+      "range": "string"
+    },
+    {
+      "name": "ClinicalArtifact__visibility",
+      "domain": "ClinicalArtifact",
+      "range": "string"
+    },
+    {
+      "name": "ConsentDecision__subject_ref",
+      "domain": "ConsentDecision",
+      "range": "string"
+    },
+    {
+      "name": "ConsentDecision__decision_maker_ref",
+      "domain": "ConsentDecision",
+      "range": "string"
+    },
+    {
+      "name": "ConsentDecision__activity_refs",
+      "domain": "ConsentDecision",
+      "range": "string"
+    },
+    {
+      "name": "ConsentDecision__decision",
+      "domain": "ConsentDecision",
+      "range": "string"
+    },
+    {
+      "name": "ConsentDecision__communication_context",
+      "domain": "ConsentDecision",
+      "range": "string"
+    },
+    {
+      "name": "Perspective__subject_ref",
+      "domain": "Perspective",
+      "range": "string"
+    },
+    {
+      "name": "Perspective__perspective_kind",
+      "domain": "Perspective",
+      "range": "string"
+    },
+    {
+      "name": "Perspective__statement",
+      "domain": "Perspective",
+      "range": "string"
+    },
+    {
+      "name": "Perspective__attribution",
+      "domain": "Perspective",
+      "range": "string"
+    },
+    {
+      "name": "Perspective__context",
+      "domain": "Perspective",
+      "range": "string"
+    },
+    {
+      "name": "PathwayDefinition__setting",
+      "domain": "PathwayDefinition",
+      "range": "string"
+    },
+    {
+      "name": "PathwayDefinition__stages",
+      "domain": "PathwayDefinition",
+      "range": "string"
+    },
+    {
+      "name": "PathwayDefinition__transitions",
+      "domain": "PathwayDefinition",
+      "range": "string"
+    },
+    {
+      "name": "PathwayDefinition__policy_refs",
+      "domain": "PathwayDefinition",
+      "range": "string"
+    },
+    {
+      "name": "PolicyRule__rule_kind",
+      "domain": "PolicyRule",
+      "range": "string"
+    },
+    {
+      "name": "PolicyRule__applicability",
+      "domain": "PolicyRule",
+      "range": "string"
+    },
+    {
+      "name": "PolicyRule__condition",
+      "domain": "PolicyRule",
+      "range": "string"
+    },
+    {
+      "name": "PolicyRule__effect",
+      "domain": "PolicyRule",
+      "range": "string"
+    },
+    {
+      "name": "PolicyRule__authority_ref",
+      "domain": "PolicyRule",
+      "range": "string"
+    },
+    {
+      "name": "PolicyRule__exceptions",
+      "domain": "PolicyRule",
+      "range": "string"
+    },
+    {
+      "name": "Decision__actor_ref",
+      "domain": "Decision",
+      "range": "string"
+    },
+    {
+      "name": "Decision__subject_ref",
+      "domain": "Decision",
+      "range": "string"
+    },
+    {
+      "name": "Decision__alternatives",
+      "domain": "Decision",
+      "range": "string"
+    },
+    {
+      "name": "Decision__selected_action",
+      "domain": "Decision",
+      "range": "string"
+    },
+    {
+      "name": "Decision__rationale",
+      "domain": "Decision",
+      "range": "string"
+    },
+    {
+      "name": "Decision__policy_refs",
+      "domain": "Decision",
+      "range": "string"
+    },
+    {
+      "name": "Event__event_type",
+      "domain": "Event",
+      "range": "string"
+    },
+    {
+      "name": "Event__occurred_at",
+      "domain": "Event",
+      "range": "datetime"
+    },
+    {
+      "name": "Event__recorded_at",
+      "domain": "Event",
+      "range": "datetime"
+    },
+    {
+      "name": "Event__subject_ref",
+      "domain": "Event",
+      "range": "string"
+    },
+    {
+      "name": "Event__actor_ref",
+      "domain": "Event",
+      "range": "string"
+    },
+    {
+      "name": "Event__encounter_ref",
+      "domain": "Event",
+      "range": "string"
+    },
+    {
+      "name": "Event__caused_by",
+      "domain": "Event",
+      "range": "string"
+    },
+    {
+      "name": "Event__state_before",
+      "domain": "Event",
+      "range": "string"
+    },
+    {
+      "name": "Event__state_after",
+      "domain": "Event",
+      "range": "string"
+    },
+    {
+      "name": "Event__time_basis",
+      "domain": "Event",
+      "range": "string"
+    },
+    {
+      "name": "QueueEntry__encounter_ref",
+      "domain": "QueueEntry",
+      "range": "string"
+    },
+    {
+      "name": "QueueEntry__service_unit_ref",
+      "domain": "QueueEntry",
+      "range": "string"
+    },
+    {
+      "name": "QueueEntry__entered_at",
+      "domain": "QueueEntry",
+      "range": "datetime"
+    },
+    {
+      "name": "QueueEntry__exited_at",
+      "domain": "QueueEntry",
+      "range": "datetime"
+    },
+    {
+      "name": "QueueEntry__exit_reason",
+      "domain": "QueueEntry",
+      "range": "string"
+    },
+    {
+      "name": "QueueEntry__priority",
+      "domain": "QueueEntry",
+      "range": "string"
+    },
+    {
+      "name": "QueueEntry__censoring",
+      "domain": "QueueEntry",
+      "range": "string"
+    },
+    {
+      "name": "ResourceAllocation__resource_ref",
+      "domain": "ResourceAllocation",
+      "range": "string"
+    },
+    {
+      "name": "ResourceAllocation__activity_performance_ref",
+      "domain": "ResourceAllocation",
+      "range": "string"
+    },
+    {
+      "name": "ResourceAllocation__quantity",
+      "domain": "ResourceAllocation",
+      "range": "decimal"
+    },
+    {
+      "name": "ResourceAllocation__allocation_kind",
+      "domain": "ResourceAllocation",
+      "range": "string"
+    },
+    {
+      "name": "ResourceAllocation__start_at",
+      "domain": "ResourceAllocation",
+      "range": "datetime"
+    },
+    {
+      "name": "ResourceAllocation__end_at",
+      "domain": "ResourceAllocation",
+      "range": "datetime"
+    },
+    {
+      "name": "Disruption__disruption_kind",
+      "domain": "Disruption",
+      "range": "string"
+    },
+    {
+      "name": "Disruption__affected_refs",
+      "domain": "Disruption",
+      "range": "string"
+    },
+    {
+      "name": "Disruption__severity",
+      "domain": "Disruption",
+      "range": "string"
+    },
+    {
+      "name": "Disruption__response_policy_refs",
+      "domain": "Disruption",
+      "range": "string"
+    },
+    {
+      "name": "Disruption__status",
+      "domain": "Disruption",
+      "range": "string"
+    },
+    {
+      "name": "InventoryLot__item_concept_ref",
+      "domain": "InventoryLot",
+      "range": "string"
+    },
+    {
+      "name": "InventoryLot__location_ref",
+      "domain": "InventoryLot",
+      "range": "string"
+    },
+    {
+      "name": "InventoryLot__quantity",
+      "domain": "InventoryLot",
+      "range": "decimal"
+    },
+    {
+      "name": "InventoryLot__unit",
+      "domain": "InventoryLot",
+      "range": "string"
+    },
+    {
+      "name": "InventoryLot__expires_at",
+      "domain": "InventoryLot",
+      "range": "datetime"
+    },
+    {
+      "name": "InventoryLot__storage_constraints",
+      "domain": "InventoryLot",
+      "range": "string"
+    },
+    {
+      "name": "InventoryMovement__lot_ref",
+      "domain": "InventoryMovement",
+      "range": "string"
+    },
+    {
+      "name": "InventoryMovement__movement_kind",
+      "domain": "InventoryMovement",
+      "range": "string"
+    },
+    {
+      "name": "InventoryMovement__quantity",
+      "domain": "InventoryMovement",
+      "range": "decimal"
+    },
+    {
+      "name": "InventoryMovement__unit",
+      "domain": "InventoryMovement",
+      "range": "string"
+    },
+    {
+      "name": "InventoryMovement__origin_ref",
+      "domain": "InventoryMovement",
+      "range": "string"
+    },
+    {
+      "name": "InventoryMovement__destination_ref",
+      "domain": "InventoryMovement",
+      "range": "string"
+    },
+    {
+      "name": "InventoryMovement__event_ref",
+      "domain": "InventoryMovement",
+      "range": "string"
+    },
+    {
+      "name": "Specimen__patient_ref",
+      "domain": "Specimen",
+      "range": "string"
+    },
+    {
+      "name": "Specimen__specimen_concept_ref",
+      "domain": "Specimen",
+      "range": "string"
+    },
+    {
+      "name": "Specimen__order_ref",
+      "domain": "Specimen",
+      "range": "string"
+    },
+    {
+      "name": "Specimen__status",
+      "domain": "Specimen",
+      "range": "string"
+    },
+    {
+      "name": "Specimen__custody_event_refs",
+      "domain": "Specimen",
+      "range": "string"
+    },
+    {
+      "name": "InsurancePlan__payer_ref",
+      "domain": "InsurancePlan",
+      "range": "string"
+    },
+    {
+      "name": "InsurancePlan__plan_identifier",
+      "domain": "InsurancePlan",
+      "range": "string"
+    },
+    {
+      "name": "InsurancePlan__market",
+      "domain": "InsurancePlan",
+      "range": "string"
+    },
+    {
+      "name": "InsurancePlan__benefit_rules",
+      "domain": "InsurancePlan",
+      "range": "string"
+    },
+    {
+      "name": "InsurancePlan__formulary_refs",
+      "domain": "InsurancePlan",
+      "range": "string"
+    },
+    {
+      "name": "Coverage__patient_ref",
+      "domain": "Coverage",
+      "range": "string"
+    },
+    {
+      "name": "Coverage__plan_ref",
+      "domain": "Coverage",
+      "range": "string"
+    },
+    {
+      "name": "Coverage__coverage_order",
+      "domain": "Coverage",
+      "range": "integer"
+    },
+    {
+      "name": "Coverage__eligibility_status",
+      "domain": "Coverage",
+      "range": "string"
+    },
+    {
+      "name": "Coverage__verification_at",
+      "domain": "Coverage",
+      "range": "datetime"
+    },
+    {
+      "name": "Coverage__benefit_accumulators",
+      "domain": "Coverage",
+      "range": "string"
+    },
+    {
+      "name": "NetworkParticipation__provider_ref",
+      "domain": "NetworkParticipation",
+      "range": "string"
+    },
+    {
+      "name": "NetworkParticipation__plan_ref",
+      "domain": "NetworkParticipation",
+      "range": "string"
+    },
+    {
+      "name": "NetworkParticipation__service_scope",
+      "domain": "NetworkParticipation",
+      "range": "string"
+    },
+    {
+      "name": "NetworkParticipation__participation_status",
+      "domain": "NetworkParticipation",
+      "range": "string"
+    },
+    {
+      "name": "Authorization__coverage_ref",
+      "domain": "Authorization",
+      "range": "string"
+    },
+    {
+      "name": "Authorization__order_refs",
+      "domain": "Authorization",
+      "range": "string"
+    },
+    {
+      "name": "Authorization__status",
+      "domain": "Authorization",
+      "range": "string"
+    },
+    {
+      "name": "Authorization__requested_at",
+      "domain": "Authorization",
+      "range": "datetime"
+    },
+    {
+      "name": "Authorization__decision_at",
+      "domain": "Authorization",
+      "range": "datetime"
+    },
+    {
+      "name": "Authorization__decision_reason",
+      "domain": "Authorization",
+      "range": "string"
+    },
+    {
+      "name": "FinancialAmount__amount_kind",
+      "domain": "FinancialAmount",
+      "range": "string"
+    },
+    {
+      "name": "FinancialAmount__value",
+      "domain": "FinancialAmount",
+      "range": "decimal"
+    },
+    {
+      "name": "FinancialAmount__currency",
+      "domain": "FinancialAmount",
+      "range": "string"
+    },
+    {
+      "name": "FinancialAmount__service_ref",
+      "domain": "FinancialAmount",
+      "range": "string"
+    },
+    {
+      "name": "FinancialAmount__plan_ref",
+      "domain": "FinancialAmount",
+      "range": "string"
+    },
+    {
+      "name": "FinancialAmount__setting",
+      "domain": "FinancialAmount",
+      "range": "string"
+    },
+    {
+      "name": "FinancialAmount__component",
+      "domain": "FinancialAmount",
+      "range": "string"
+    },
+    {
+      "name": "FinancialAmount__methodology",
+      "domain": "FinancialAmount",
+      "range": "string"
+    },
+    {
+      "name": "Claim__encounter_ref",
+      "domain": "Claim",
+      "range": "string"
+    },
+    {
+      "name": "Claim__coverage_ref",
+      "domain": "Claim",
+      "range": "string"
+    },
+    {
+      "name": "Claim__billing_organization_ref",
+      "domain": "Claim",
+      "range": "string"
+    },
+    {
+      "name": "Claim__line_items",
+      "domain": "Claim",
+      "range": "string"
+    },
+    {
+      "name": "Claim__status",
+      "domain": "Claim",
+      "range": "string"
+    },
+    {
+      "name": "Claim__original_claim_ref",
+      "domain": "Claim",
+      "range": "string"
+    },
+    {
+      "name": "Settlement__claim_ref",
+      "domain": "Settlement",
+      "range": "string"
+    },
+    {
+      "name": "Settlement__settlement_kind",
+      "domain": "Settlement",
+      "range": "string"
+    },
+    {
+      "name": "Settlement__amount_refs",
+      "domain": "Settlement",
+      "range": "string"
+    },
+    {
+      "name": "Settlement__reason",
+      "domain": "Settlement",
+      "range": "string"
+    },
+    {
+      "name": "Appeal__target_ref",
+      "domain": "Appeal",
+      "range": "string"
+    },
+    {
+      "name": "Appeal__reason",
+      "domain": "Appeal",
+      "range": "string"
+    },
+    {
+      "name": "Appeal__status",
+      "domain": "Appeal",
+      "range": "string"
+    },
+    {
+      "name": "Appeal__submitted_at",
+      "domain": "Appeal",
+      "range": "datetime"
+    },
+    {
+      "name": "Appeal__outcome",
+      "domain": "Appeal",
+      "range": "string"
+    },
+    {
+      "name": "GeographicArea__geography_kind",
+      "domain": "GeographicArea",
+      "range": "string"
+    },
+    {
+      "name": "GeographicArea__geocode",
+      "domain": "GeographicArea",
+      "range": "string"
+    },
+    {
+      "name": "GeographicArea__geocode_system",
+      "domain": "GeographicArea",
+      "range": "string"
+    },
+    {
+      "name": "GeographicArea__boundary_vintage",
+      "domain": "GeographicArea",
+      "range": "string"
+    },
+    {
+      "name": "GeographicArea__parent_ref",
+      "domain": "GeographicArea",
+      "range": "string"
+    },
+    {
+      "name": "PopulationDefinition__basis",
+      "domain": "PopulationDefinition",
+      "range": "string"
+    },
+    {
+      "name": "PopulationDefinition__inclusion",
+      "domain": "PopulationDefinition",
+      "range": "string"
+    },
+    {
+      "name": "PopulationDefinition__exclusion",
+      "domain": "PopulationDefinition",
+      "range": "string"
+    },
+    {
+      "name": "PopulationDefinition__geography_refs",
+      "domain": "PopulationDefinition",
+      "range": "string"
+    },
+    {
+      "name": "PopulationDefinition__denominator_definition",
+      "domain": "PopulationDefinition",
+      "range": "string"
+    },
+    {
+      "name": "CommunityService__provider_ref",
+      "domain": "CommunityService",
+      "range": "string"
+    },
+    {
+      "name": "CommunityService__service_kind",
+      "domain": "CommunityService",
+      "range": "string"
+    },
+    {
+      "name": "CommunityService__geography_refs",
+      "domain": "CommunityService",
+      "range": "string"
+    },
+    {
+      "name": "CommunityService__eligibility_rules",
+      "domain": "CommunityService",
+      "range": "string"
+    },
+    {
+      "name": "CommunityService__referral_requirements",
+      "domain": "CommunityService",
+      "range": "string"
+    },
+    {
+      "name": "DischargePlan__encounter_ref",
+      "domain": "DischargePlan",
+      "range": "string"
+    },
+    {
+      "name": "DischargePlan__destination_ref",
+      "domain": "DischargePlan",
+      "range": "string"
+    },
+    {
+      "name": "DischargePlan__readiness_status",
+      "domain": "DischargePlan",
+      "range": "string"
+    },
+    {
+      "name": "DischargePlan__blocker_refs",
+      "domain": "DischargePlan",
+      "range": "string"
+    },
+    {
+      "name": "DischargePlan__patient_goal_refs",
+      "domain": "DischargePlan",
+      "range": "string"
+    },
+    {
+      "name": "DischargePlan__followup_refs",
+      "domain": "DischargePlan",
+      "range": "string"
+    },
+    {
+      "name": "Referral__encounter_ref",
+      "domain": "Referral",
+      "range": "string"
+    },
+    {
+      "name": "Referral__target_service_ref",
+      "domain": "Referral",
+      "range": "string"
+    },
+    {
+      "name": "Referral__status",
+      "domain": "Referral",
+      "range": "string"
+    },
+    {
+      "name": "Referral__prerequisites",
+      "domain": "Referral",
+      "range": "string"
+    },
+    {
+      "name": "MeasureDefinition__measure_kind",
+      "domain": "MeasureDefinition",
+      "range": "string"
+    },
+    {
+      "name": "MeasureDefinition__numerator_definition",
+      "domain": "MeasureDefinition",
+      "range": "string"
+    },
+    {
+      "name": "MeasureDefinition__denominator_definition",
+      "domain": "MeasureDefinition",
+      "range": "string"
+    },
+    {
+      "name": "MeasureDefinition__unit",
+      "domain": "MeasureDefinition",
+      "range": "string"
+    },
+    {
+      "name": "MeasureDefinition__adjustment_method",
+      "domain": "MeasureDefinition",
+      "range": "string"
+    },
+    {
+      "name": "MeasureDefinition__exclusions",
+      "domain": "MeasureDefinition",
+      "range": "string"
+    },
+    {
+      "name": "MeasureResult__measure_ref",
+      "domain": "MeasureResult",
+      "range": "string"
+    },
+    {
+      "name": "MeasureResult__population_ref",
+      "domain": "MeasureResult",
+      "range": "string"
+    },
+    {
+      "name": "MeasureResult__value",
+      "domain": "MeasureResult",
+      "range": "string"
+    },
+    {
+      "name": "MeasureResult__measurement_method",
+      "domain": "MeasureResult",
+      "range": "string"
+    },
+    {
+      "name": "MeasureResult__suppression_status",
+      "domain": "MeasureResult",
+      "range": "string"
+    },
+    {
+      "name": "MeasureResult__uncertainty",
+      "domain": "MeasureResult",
+      "range": "string"
+    },
+    {
+      "name": "QualitativeFinding__finding_kind",
+      "domain": "QualitativeFinding",
+      "range": "string"
+    },
+    {
+      "name": "QualitativeFinding__statement",
+      "domain": "QualitativeFinding",
+      "range": "string"
+    },
+    {
+      "name": "QualitativeFinding__population_ref",
+      "domain": "QualitativeFinding",
+      "range": "string"
+    },
+    {
+      "name": "QualitativeFinding__method",
+      "domain": "QualitativeFinding",
+      "range": "string"
+    },
+    {
+      "name": "QualitativeFinding__context",
+      "domain": "QualitativeFinding",
+      "range": "string"
+    },
+    {
+      "name": "QualitativeFinding__locator",
+      "domain": "QualitativeFinding",
+      "range": "string"
+    },
+    {
+      "name": "QualitativeFinding__disagreements",
+      "domain": "QualitativeFinding",
+      "range": "string"
+    },
+    {
+      "name": "SafetyEvent__event_ref",
+      "domain": "SafetyEvent",
+      "range": "string"
+    },
+    {
+      "name": "SafetyEvent__incident_kind",
+      "domain": "SafetyEvent",
+      "range": "string"
+    },
+    {
+      "name": "SafetyEvent__harm_status",
+      "domain": "SafetyEvent",
+      "range": "string"
+    },
+    {
+      "name": "SafetyEvent__contributing_assertion_refs",
+      "domain": "SafetyEvent",
+      "range": "string"
+    },
+    {
+      "name": "SafetyEvent__response_refs",
+      "domain": "SafetyEvent",
+      "range": "string"
+    },
+    {
+      "name": "LearningObjective__learner_level",
+      "domain": "LearningObjective",
+      "range": "string"
+    },
+    {
+      "name": "LearningObjective__capability",
+      "domain": "LearningObjective",
+      "range": "string"
+    },
+    {
+      "name": "LearningObjective__context",
+      "domain": "LearningObjective",
+      "range": "string"
+    },
+    {
+      "name": "LearningObjective__evidence_requirements",
+      "domain": "LearningObjective",
+      "range": "string"
+    },
+    {
+      "name": "ScenarioTemplate__objective_refs",
+      "domain": "ScenarioTemplate",
+      "range": "string"
+    },
+    {
+      "name": "ScenarioTemplate__pathway_refs",
+      "domain": "ScenarioTemplate",
+      "range": "string"
+    },
+    {
+      "name": "ScenarioTemplate__variation_constraints",
+      "domain": "ScenarioTemplate",
+      "range": "string"
+    },
+    {
+      "name": "ScenarioTemplate__initial_state_requirements",
+      "domain": "ScenarioTemplate",
+      "range": "string"
+    },
+    {
+      "name": "ScenarioTemplate__completion_criteria",
+      "domain": "ScenarioTemplate",
+      "range": "string"
+    },
+    {
+      "name": "CaseVersion__template_ref",
+      "domain": "CaseVersion",
+      "range": "string"
+    },
+    {
+      "name": "CaseVersion__patient_ref",
+      "domain": "CaseVersion",
+      "range": "string"
+    },
+    {
+      "name": "CaseVersion__assertion_refs",
+      "domain": "CaseVersion",
+      "range": "string"
+    },
+    {
+      "name": "CaseVersion__artifact_refs",
+      "domain": "CaseVersion",
+      "range": "string"
+    },
+    {
+      "name": "CaseVersion__disclosure_rule_refs",
+      "domain": "CaseVersion",
+      "range": "string"
+    },
+    {
+      "name": "CaseVersion__scripted_event_refs",
+      "domain": "CaseVersion",
+      "range": "string"
+    },
+    {
+      "name": "DisclosureRule__assertion_refs",
+      "domain": "DisclosureRule",
+      "range": "string"
+    },
+    {
+      "name": "DisclosureRule__audience",
+      "domain": "DisclosureRule",
+      "range": "string"
+    },
+    {
+      "name": "DisclosureRule__trigger",
+      "domain": "DisclosureRule",
+      "range": "string"
+    },
+    {
+      "name": "DisclosureRule__released_content",
+      "domain": "DisclosureRule",
+      "range": "string"
+    },
+    {
+      "name": "RubricVersion__objective_refs",
+      "domain": "RubricVersion",
+      "range": "string"
+    },
+    {
+      "name": "RubricVersion__criteria",
+      "domain": "RubricVersion",
+      "range": "string"
+    },
+    {
+      "name": "RubricVersion__scoring_scale",
+      "domain": "RubricVersion",
+      "range": "string"
+    },
+    {
+      "name": "RubricVersion__na_rules",
+      "domain": "RubricVersion",
+      "range": "string"
+    },
+    {
+      "name": "Assessment__encounter_ref",
+      "domain": "Assessment",
+      "range": "string"
+    },
+    {
+      "name": "Assessment__rubric_ref",
+      "domain": "Assessment",
+      "range": "string"
+    },
+    {
+      "name": "Assessment__evaluator_ref",
+      "domain": "Assessment",
+      "range": "string"
+    },
+    {
+      "name": "Assessment__criterion_results",
+      "domain": "Assessment",
+      "range": "string"
+    },
+    {
+      "name": "Assessment__evidence_refs",
+      "domain": "Assessment",
+      "range": "string"
+    },
+    {
+      "name": "EvidenceArtifact__artifact_kind",
+      "domain": "EvidenceArtifact",
+      "range": "string"
+    },
+    {
+      "name": "EvidenceArtifact__encounter_ref",
+      "domain": "EvidenceArtifact",
+      "range": "string"
+    },
+    {
+      "name": "EvidenceArtifact__source_ref",
+      "domain": "EvidenceArtifact",
+      "range": "string"
+    },
+    {
+      "name": "EvidenceArtifact__locator",
+      "domain": "EvidenceArtifact",
+      "range": "string"
+    },
+    {
+      "name": "EvaluationCase__target_refs",
+      "domain": "EvaluationCase",
+      "range": "string"
+    },
+    {
+      "name": "EvaluationCase__inputs",
+      "domain": "EvaluationCase",
+      "range": "string"
+    },
+    {
+      "name": "EvaluationCase__expected",
+      "domain": "EvaluationCase",
+      "range": "string"
+    },
+    {
+      "name": "EvaluationCase__prohibited",
+      "domain": "EvaluationCase",
+      "range": "string"
+    },
+    {
+      "name": "Parameter__parameter_kind",
+      "domain": "Parameter",
+      "range": "string"
+    },
+    {
+      "name": "Parameter__unit",
+      "domain": "Parameter",
+      "range": "string"
+    },
+    {
+      "name": "Parameter__value_model",
+      "domain": "Parameter",
+      "range": "string"
+    },
+    {
+      "name": "Parameter__applicability",
+      "domain": "Parameter",
+      "range": "string"
+    },
+    {
+      "name": "Parameter__uncertainty",
+      "domain": "Parameter",
+      "range": "string"
+    },
+    {
+      "name": "Parameter__dependence_refs",
+      "domain": "Parameter",
+      "range": "string"
+    },
+    {
+      "name": "Parameter__usable_for",
+      "domain": "Parameter",
+      "range": "string"
+    },
+    {
+      "name": "SimulationRun__model_version",
+      "domain": "SimulationRun",
+      "range": "string"
+    },
+    {
+      "name": "SimulationRun__input_versions",
+      "domain": "SimulationRun",
+      "range": "string"
+    },
+    {
+      "name": "SimulationRun__random_seed",
+      "domain": "SimulationRun",
+      "range": "integer"
+    },
+    {
+      "name": "SimulationRun__assumption_refs",
+      "domain": "SimulationRun",
+      "range": "string"
+    },
+    {
+      "name": "SimulationRun__parameter_refs",
+      "domain": "SimulationRun",
+      "range": "string"
+    },
+    {
+      "name": "SimulationRun__event_refs",
+      "domain": "SimulationRun",
+      "range": "string"
+    },
+    {
+      "name": "SimulationRun__output_refs",
+      "domain": "SimulationRun",
+      "range": "string"
+    },
+    {
+      "name": "ValidationStudy__target_ref",
+      "domain": "ValidationStudy",
+      "range": "string"
+    },
+    {
+      "name": "ValidationStudy__validation_kind",
+      "domain": "ValidationStudy",
+      "range": "string"
+    },
+    {
+      "name": "ValidationStudy__reference_refs",
+      "domain": "ValidationStudy",
+      "range": "string"
+    },
+    {
+      "name": "ValidationStudy__fit_data_refs",
+      "domain": "ValidationStudy",
+      "range": "string"
+    },
+    {
+      "name": "ValidationStudy__holdout_data_refs",
+      "domain": "ValidationStudy",
+      "range": "string"
+    },
+    {
+      "name": "ValidationStudy__acceptance_criteria",
+      "domain": "ValidationStudy",
+      "range": "string"
+    },
+    {
+      "name": "ValidationStudy__results",
+      "domain": "ValidationStudy",
+      "range": "string"
+    },
+    {
+      "name": "ValidationStudy__limitations",
+      "domain": "ValidationStudy",
+      "range": "string"
+    }
+  ],
+  "object_properties": [
+    {
+      "name": "operated_by__Facility__Organization",
+      "domain": "Facility",
+      "range": "Organization"
+    },
+    {
+      "name": "located_in__PhysicalLocation__PhysicalLocation",
+      "domain": "PhysicalLocation",
+      "range": "PhysicalLocation"
+    },
+    {
+      "name": "located_in__Resource__PhysicalLocation",
+      "domain": "Resource",
+      "range": "PhysicalLocation"
+    },
+    {
+      "name": "serves_at__ServiceUnit__PhysicalLocation",
+      "domain": "ServiceUnit",
+      "range": "PhysicalLocation"
+    },
+    {
+      "name": "affiliated_with__Person__Organization",
+      "domain": "Person",
+      "range": "Organization"
+    },
+    {
+      "name": "affiliated_with__Person__Facility",
+      "domain": "Person",
+      "range": "Facility"
+    },
+    {
+      "name": "acts_as__Person__RoleAssignment",
+      "domain": "Person",
+      "range": "RoleAssignment"
+    },
+    {
+      "name": "qualified_by__Person__Qualification",
+      "domain": "Person",
+      "range": "Qualification"
+    },
+    {
+      "name": "authorized_by__RoleAssignment__Privilege",
+      "domain": "RoleAssignment",
+      "range": "Privilege"
+    },
+    {
+      "name": "authorized_by__Person__Privilege",
+      "domain": "Person",
+      "range": "Privilege"
+    },
+    {
+      "name": "scheduled_for__RoleAssignment__Shift",
+      "domain": "RoleAssignment",
+      "range": "Shift"
+    },
+    {
+      "name": "has_patient__Encounter__Patient",
+      "domain": "Encounter",
+      "range": "Patient"
+    },
+    {
+      "name": "at_facility__Encounter__Facility",
+      "domain": "Encounter",
+      "range": "Facility"
+    },
+    {
+      "name": "asserts_about__Assertion__Patient",
+      "domain": "Assertion",
+      "range": "Patient"
+    },
+    {
+      "name": "asserts_about__Assertion__Encounter",
+      "domain": "Assertion",
+      "range": "Encounter"
+    },
+    {
+      "name": "asserts_about__Assertion__Person",
+      "domain": "Assertion",
+      "range": "Person"
+    },
+    {
+      "name": "asserts_about__Assertion__Facility",
+      "domain": "Assertion",
+      "range": "Facility"
+    },
+    {
+      "name": "asserts_about__Assertion__ServiceUnit",
+      "domain": "Assertion",
+      "range": "ServiceUnit"
+    },
+    {
+      "name": "asserts_about__Assertion__ClinicalConcept",
+      "domain": "Assertion",
+      "range": "ClinicalConcept"
+    },
+    {
+      "name": "asserts_about__Assertion__Organization",
+      "domain": "Assertion",
+      "range": "Organization"
+    },
+    {
+      "name": "asserts_about__Assertion__PhysicalLocation",
+      "domain": "Assertion",
+      "range": "PhysicalLocation"
+    },
+    {
+      "name": "asserts_about__Assertion__InsurancePlan",
+      "domain": "Assertion",
+      "range": "InsurancePlan"
+    },
+    {
+      "name": "supported_by__Assertion__SourceRecord",
+      "domain": "Assertion",
+      "range": "SourceRecord"
+    },
+    {
+      "name": "supported_by__Assertion__EvidenceArtifact",
+      "domain": "Assertion",
+      "range": "EvidenceArtifact"
+    },
+    {
+      "name": "supported_by__Parameter__SourceRecord",
+      "domain": "Parameter",
+      "range": "SourceRecord"
+    },
+    {
+      "name": "supported_by__Parameter__EvidenceArtifact",
+      "domain": "Parameter",
+      "range": "EvidenceArtifact"
+    },
+    {
+      "name": "supported_by__PolicyRule__SourceRecord",
+      "domain": "PolicyRule",
+      "range": "SourceRecord"
+    },
+    {
+      "name": "supported_by__PolicyRule__EvidenceArtifact",
+      "domain": "PolicyRule",
+      "range": "EvidenceArtifact"
+    },
+    {
+      "name": "supported_by__QualitativeFinding__SourceRecord",
+      "domain": "QualitativeFinding",
+      "range": "SourceRecord"
+    },
+    {
+      "name": "supported_by__QualitativeFinding__EvidenceArtifact",
+      "domain": "QualitativeFinding",
+      "range": "EvidenceArtifact"
+    },
+    {
+      "name": "supported_by__MeasureResult__SourceRecord",
+      "domain": "MeasureResult",
+      "range": "SourceRecord"
+    },
+    {
+      "name": "supported_by__MeasureResult__EvidenceArtifact",
+      "domain": "MeasureResult",
+      "range": "EvidenceArtifact"
+    },
+    {
+      "name": "requests__Order__ActivityDefinition",
+      "domain": "Order",
+      "range": "ActivityDefinition"
+    },
+    {
+      "name": "fulfills__ActivityPerformance__Order",
+      "domain": "ActivityPerformance",
+      "range": "Order"
+    },
+    {
+      "name": "executes__ActivityPerformance__ActivityDefinition",
+      "domain": "ActivityPerformance",
+      "range": "ActivityDefinition"
+    },
+    {
+      "name": "performed_by__ActivityPerformance__RoleAssignment",
+      "domain": "ActivityPerformance",
+      "range": "RoleAssignment"
+    },
+    {
+      "name": "produces__ActivityPerformance__Observation",
+      "domain": "ActivityPerformance",
+      "range": "Observation"
+    },
+    {
+      "name": "produces__ActivityPerformance__ClinicalArtifact",
+      "domain": "ActivityPerformance",
+      "range": "ClinicalArtifact"
+    },
+    {
+      "name": "allocates__ResourceAllocation__Resource",
+      "domain": "ResourceAllocation",
+      "range": "Resource"
+    },
+    {
+      "name": "allocates__ResourceAllocation__RoleAssignment",
+      "domain": "ResourceAllocation",
+      "range": "RoleAssignment"
+    },
+    {
+      "name": "allocates__ResourceAllocation__InventoryLot",
+      "domain": "ResourceAllocation",
+      "range": "InventoryLot"
+    },
+    {
+      "name": "follows__Event__Event",
+      "domain": "Event",
+      "range": "Event"
+    },
+    {
+      "name": "governed_by__PathwayDefinition__PolicyRule",
+      "domain": "PathwayDefinition",
+      "range": "PolicyRule"
+    },
+    {
+      "name": "governed_by__Decision__PolicyRule",
+      "domain": "Decision",
+      "range": "PolicyRule"
+    },
+    {
+      "name": "governed_by__ActivityDefinition__PolicyRule",
+      "domain": "ActivityDefinition",
+      "range": "PolicyRule"
+    },
+    {
+      "name": "has_perspective__Patient__Perspective",
+      "domain": "Patient",
+      "range": "Perspective"
+    },
+    {
+      "name": "has_perspective__Person__Perspective",
+      "domain": "Person",
+      "range": "Perspective"
+    },
+    {
+      "name": "enrolled_in__Coverage__InsurancePlan",
+      "domain": "Coverage",
+      "range": "InsurancePlan"
+    },
+    {
+      "name": "issued_by__InsurancePlan__Organization",
+      "domain": "InsurancePlan",
+      "range": "Organization"
+    },
+    {
+      "name": "participates_in__NetworkParticipation__InsurancePlan",
+      "domain": "NetworkParticipation",
+      "range": "InsurancePlan"
+    },
+    {
+      "name": "bills_for__Claim__Encounter",
+      "domain": "Claim",
+      "range": "Encounter"
+    },
+    {
+      "name": "adjudicates__Settlement__Claim",
+      "domain": "Settlement",
+      "range": "Claim"
+    },
+    {
+      "name": "covers_subject__Coverage__Patient",
+      "domain": "Coverage",
+      "range": "Patient"
+    },
+    {
+      "name": "summarizes__MeasureResult__PopulationDefinition",
+      "domain": "MeasureResult",
+      "range": "PopulationDefinition"
+    },
+    {
+      "name": "defined_by__MeasureResult__MeasureDefinition",
+      "domain": "MeasureResult",
+      "range": "MeasureDefinition"
+    },
+    {
+      "name": "serves_population__CommunityService__PopulationDefinition",
+      "domain": "CommunityService",
+      "range": "PopulationDefinition"
+    },
+    {
+      "name": "plans_disposition__DischargePlan__Encounter",
+      "domain": "DischargePlan",
+      "range": "Encounter"
+    },
+    {
+      "name": "refers_to_service__Referral__CommunityService",
+      "domain": "Referral",
+      "range": "CommunityService"
+    },
+    {
+      "name": "refers_to_service__Referral__ServiceUnit",
+      "domain": "Referral",
+      "range": "ServiceUnit"
+    },
+    {
+      "name": "targets_objective__ScenarioTemplate__LearningObjective",
+      "domain": "ScenarioTemplate",
+      "range": "LearningObjective"
+    },
+    {
+      "name": "targets_objective__RubricVersion__LearningObjective",
+      "domain": "RubricVersion",
+      "range": "LearningObjective"
+    },
+    {
+      "name": "instantiates__CaseVersion__ScenarioTemplate",
+      "domain": "CaseVersion",
+      "range": "ScenarioTemplate"
+    },
+    {
+      "name": "contains_fact__CaseVersion__Assertion",
+      "domain": "CaseVersion",
+      "range": "Assertion"
+    },
+    {
+      "name": "controls_disclosure__DisclosureRule__Assertion",
+      "domain": "DisclosureRule",
+      "range": "Assertion"
+    },
+    {
+      "name": "evaluates_with__Assessment__RubricVersion",
+      "domain": "Assessment",
+      "range": "RubricVersion"
+    },
+    {
+      "name": "evidenced_by__Assessment__EvidenceArtifact",
+      "domain": "Assessment",
+      "range": "EvidenceArtifact"
+    },
+    {
+      "name": "reviews__ReviewDecision__CaseVersion",
+      "domain": "ReviewDecision",
+      "range": "CaseVersion"
+    },
+    {
+      "name": "reviews__ReviewDecision__Assertion",
+      "domain": "ReviewDecision",
+      "range": "Assertion"
+    },
+    {
+      "name": "reviews__ReviewDecision__Parameter",
+      "domain": "ReviewDecision",
+      "range": "Parameter"
+    },
+    {
+      "name": "reviews__ReviewDecision__SourceRecord",
+      "domain": "ReviewDecision",
+      "range": "SourceRecord"
+    },
+    {
+      "name": "reviews__ReviewDecision__PolicyRule",
+      "domain": "ReviewDecision",
+      "range": "PolicyRule"
+    },
+    {
+      "name": "reviews__ReviewDecision__ScenarioTemplate",
+      "domain": "ReviewDecision",
+      "range": "ScenarioTemplate"
+    },
+    {
+      "name": "reviews__ReviewDecision__RubricVersion",
+      "domain": "ReviewDecision",
+      "range": "RubricVersion"
+    },
+    {
+      "name": "reviews__ReviewDecision__EvaluationCase",
+      "domain": "ReviewDecision",
+      "range": "EvaluationCase"
+    },
+    {
+      "name": "reviews__ReviewDecision__IdentityMapping",
+      "domain": "ReviewDecision",
+      "range": "IdentityMapping"
+    },
+    {
+      "name": "depends_on__Parameter__Parameter",
+      "domain": "Parameter",
+      "range": "Parameter"
+    },
+    {
+      "name": "uses_parameter__SimulationRun__Parameter",
+      "domain": "SimulationRun",
+      "range": "Parameter"
+    },
+    {
+      "name": "validates__ValidationStudy__SimulationRun",
+      "domain": "ValidationStudy",
+      "range": "SimulationRun"
+    },
+    {
+      "name": "validates__ValidationStudy__ScenarioTemplate",
+      "domain": "ValidationStudy",
+      "range": "ScenarioTemplate"
+    },
+    {
+      "name": "validates__ValidationStudy__Assessment",
+      "domain": "ValidationStudy",
+      "range": "Assessment"
+    },
+    {
+      "name": "validates__ValidationStudy__Parameter",
+      "domain": "ValidationStudy",
+      "range": "Parameter"
+    },
+    {
+      "name": "reconciles__IdentityMapping__Person",
+      "domain": "IdentityMapping",
+      "range": "Person"
+    },
+    {
+      "name": "reconciles__IdentityMapping__Facility",
+      "domain": "IdentityMapping",
+      "range": "Facility"
+    },
+    {
+      "name": "reconciles__IdentityMapping__Organization",
+      "domain": "IdentityMapping",
+      "range": "Organization"
+    },
+    {
+      "name": "reconciles__IdentityMapping__PhysicalLocation",
+      "domain": "IdentityMapping",
+      "range": "PhysicalLocation"
+    },
+    {
+      "name": "reconciles__IdentityMapping__ClinicalConcept",
+      "domain": "IdentityMapping",
+      "range": "ClinicalConcept"
+    },
+    {
+      "name": "reconciles__IdentityMapping__GeographicArea",
+      "domain": "IdentityMapping",
+      "range": "GeographicArea"
+    }
+  ]
+}

@@ -1,0 +1,105 @@
+documents:
+- path: knowledge/README.md
+  depends_on:
+  - id: catalog:cms-complications-deaths
+    type: local_file
+    path: catalog/cms-complications-deaths.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:cms-facility-affiliations
+    type: local_file
+    path: catalog/cms-facility-affiliations.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:cms-hcahps
+    type: local_file
+    path: catalog/cms-hcahps.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:cms-hospital-general-information
+    type: local_file
+    path: catalog/cms-hospital-general-information.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:cms-infections
+    type: local_file
+    path: catalog/cms-infections.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:cms-inpatient-provider-service-2024
+    type: local_file
+    path: catalog/cms-inpatient-provider-service-2024.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:cms-timely-effective-care
+    type: local_file
+    path: catalog/cms-timely-effective-care.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:cms-unplanned-visits
+    type: local_file
+    path: catalog/cms-unplanned-visits.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:local-cdc-acs-middlesex-2017-2021
+    type: local_file
+    path: catalog/local-cdc-acs-middlesex-2017-2021.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:local-cdc-acs-new-brunswick-2017-2021
+    type: local_file
+    path: catalog/local-cdc-acs-new-brunswick-2017-2021.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:local-cdc-places-middlesex-2025
+    type: local_file
+    path: catalog/local-cdc-places-middlesex-2025.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:local-cdc-places-new-brunswick-2025
+    type: local_file
+    path: catalog/local-cdc-places-new-brunswick-2025.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:local-nj-staffing-discovery
+    type: local_file
+    path: catalog/local-nj-staffing-discovery.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:local-rwjbh-insurance-directory
+    type: local_file
+    path: catalog/local-rwjbh-insurance-directory.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:local-rwjuh-chna-2025
+    type: local_file
+    path: catalog/local-rwjuh-chna-2025.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:local-rwjuh-services
+    type: local_file
+    path: catalog/local-rwjuh-services.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:nlm-rxnorm-seed-terms
+    type: local_file
+    path: catalog/nlm-rxnorm-seed-terms.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:nppes-new-brunswick-practitioners
+    type: local_file
+    path: catalog/nppes-new-brunswick-practitioners.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:twinverse-patient-profiles
+    type: local_file
+    path: catalog/twinverse-patient-profiles.json
+    role: acquired_source_manifest
+    refresh: manual
+- path: topics/brief.md
+  depends_on:
+  - id: local:research-question
+    type: local_file
+    path: specs/research_question.yaml
+    role: project_spec
+    refresh: manual

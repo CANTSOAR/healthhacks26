@@ -1,0 +1,122 @@
+[
+  {
+    "id": "INV-01",
+    "rule": "Every referenced entity must exist in the pinned snapshot.",
+    "enforcement_status": "implemented",
+    "verification": "Reference closure and unique entity IDs."
+  },
+  {
+    "id": "INV-02",
+    "rule": "Physical containment is acyclic and within facility boundaries.",
+    "enforcement_status": "implemented",
+    "verification": "PhysicalLocation parent checks."
+  },
+  {
+    "id": "INV-03",
+    "rule": "A cause cannot occur after its effect; causal event graph is acyclic.",
+    "enforcement_status": "implemented",
+    "verification": "Event occurred_at and caused_by checks."
+  },
+  {
+    "id": "INV-04",
+    "rule": "Time intervals have start no later than end.",
+    "enforcement_status": "implemented",
+    "verification": "valid_time, shifts, allocations, queues, authorizations."
+  },
+  {
+    "id": "INV-05",
+    "rule": "Unknown, pending or absent findings must not become numeric observations.",
+    "enforcement_status": "partially_implemented",
+    "verification": "Assertion object and Observation value checks; complex clinical semantics still require review."
+  },
+  {
+    "id": "INV-06",
+    "rule": "A reviewed version must match the target version; approved entities require an approval record.",
+    "enforcement_status": "partially_implemented",
+    "verification": "Exact version checked; reviewer credentials, authority and human authenticity are not established."
+  },
+  {
+    "id": "INV-07",
+    "rule": "Each active individually tracked bed is exclusive over overlapping intervals.",
+    "enforcement_status": "implemented",
+    "verification": "Bed allocation overlap checks in example snapshot."
+  },
+  {
+    "id": "INV-08",
+    "rule": "Capacity/stock counts are nonnegative; availability/confidence fractions are bounded.",
+    "enforcement_status": "implemented",
+    "verification": "Selected numeric bounds."
+  },
+  {
+    "id": "INV-09",
+    "rule": "Sources and relationship endpoints have compatible entity types.",
+    "enforcement_status": "partially_implemented",
+    "verification": "Source type, relation domain/range and selected structural references checked; all attribute target types not yet encoded."
+  },
+  {
+    "id": "INV-10",
+    "rule": "Declared outgoing cardinality holds across reference fields and relationship records together.",
+    "enforcement_status": "planned",
+    "verification": "Requires canonical edge expansion and complete snapshot scope before enforcement."
+  },
+  {
+    "id": "INV-11",
+    "rule": "Activities execute only when prerequisites, role authority and resources hold.",
+    "enforcement_status": "planned",
+    "verification": "Requires an executable policy DSL and engine time-state checks."
+  },
+  {
+    "id": "INV-12",
+    "rule": "Patients, capacity, stock and financial components are conserved across transitions.",
+    "enforcement_status": "planned",
+    "verification": "Requires event reducer, inventory ledger and accounting semantics."
+  },
+  {
+    "id": "INV-13",
+    "rule": "Queue intervals retain censoring and unfinished waits.",
+    "enforcement_status": "partially_implemented",
+    "verification": "Uncensored intervals require exit; statistical handling remains downstream."
+  },
+  {
+    "id": "INV-14",
+    "rule": "Financial values preserve meaning, currency, service setting and billing component.",
+    "enforcement_status": "partially_implemented",
+    "verification": "Required fields and currency shape checked; economic reconciliation remains downstream."
+  },
+  {
+    "id": "INV-15",
+    "rule": "Aggregate findings retain population, period, denominator, suppression and uncertainty.",
+    "enforcement_status": "partially_implemented",
+    "verification": "Entity attributes capture structure; suitability and source period reconciliation require reviewer."
+  },
+  {
+    "id": "INV-16",
+    "rule": "Approved cases remain immutable and encounters retain pinned facts.",
+    "enforcement_status": "planned",
+    "verification": "Storage/version enforcement and runtime fact retrieval not implemented."
+  },
+  {
+    "id": "INV-17",
+    "rule": "Source licensing and processing rights allow the intended use.",
+    "enforcement_status": "planned",
+    "verification": "Rights state represented; no automated approval inferred from public accessibility."
+  },
+  {
+    "id": "INV-18",
+    "rule": "Fitted parameters preserve dependencies and use independent validation data.",
+    "enforcement_status": "planned",
+    "verification": "Metadata represented; statistical checks and holdout leakage detection require acquisition-specific implementation."
+  },
+  {
+    "id": "INV-19",
+    "rule": "Qualitative findings retain attribution and context without stereotype-derived behavior.",
+    "enforcement_status": "partially_implemented",
+    "verification": "Required fields preserve method/context; interpretation needs human review."
+  },
+  {
+    "id": "INV-20",
+    "rule": "A normalized record has raw provenance or a documented limited extraction method.",
+    "enforcement_status": "implemented",
+    "verification": "raw_sha256 required; null only with acquisition_method; actual hash verification belongs to acquisition checks."
+  }
+]

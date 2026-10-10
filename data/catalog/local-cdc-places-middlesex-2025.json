@@ -1,0 +1,44 @@
+{
+  "dataset_id": "local-cdc-places-middlesex-2025",
+  "source_id": "local-cdc-places-middlesex-2025",
+  "title": "PLACES: Local Data for Better Health, County Data, 2025 release",
+  "source_url": "https://data.cdc.gov/resource/swc5-untb.json?locationid=34023&%24limit=500&%24order=year%2Cmeasureid%2Cdatavaluetypeid",
+  "landing_url": "https://data.cdc.gov/d/swc5-untb",
+  "record_count": 80,
+  "raw_paths": [
+    "data/raw/local-cdc-places-middlesex-2025/records.json",
+    "data/raw/local-cdc-places-middlesex-2025/metadata.json",
+    "data/raw/local-cdc-places-middlesex-2025/receipt.json"
+  ],
+  "normalized_path": "data/normalized/local-cdc-places-middlesex-2025.jsonl",
+  "scope": {
+    "geography_level": "county",
+    "fips": "34023",
+    "periods": [
+      "2022",
+      "2023"
+    ],
+    "measure_count": 40
+  },
+  "access": "public_unauthenticated",
+  "rights": {
+    "license_id": "PUBLIC_DOMAIN",
+    "evidence_url": "https://data.cdc.gov/api/views/swc5-untb.json",
+    "redistribution": "source metadata PUBLIC_DOMAIN; attribution retained"
+  },
+  "acquisition_status": "acquired_bounded_geographic_slice",
+  "limits": [
+    "Not hospital utilization or arrivals.",
+    "Age-adjusted prevalence must not be multiplied by local population to construct case counts.",
+    "Measures are marginals; joint dependence is unobserved.",
+    "Release year differs from row reference year; small-area models cannot establish policy effects."
+  ],
+  "provenance": {
+    "source_url": "https://data.cdc.gov/resource/swc5-untb.json?locationid=34023&%24limit=500&%24order=year%2Cmeasureid%2Cdatavaluetypeid",
+    "metadata_url": "https://data.cdc.gov/api/views/swc5-untb.json",
+    "retrieved_at": "2026-10-10T15:02:08.410950+00:00",
+    "sha256": "c6654e42c7a7a55e08b76b560b1e6704c6fccb6125ad881961803843add39e5d",
+    "metadata_sha256": "83332ca85fc8920da6756078cefb772ebcef6fa3c05478755b64cf04fe44eb6a",
+    "row_count": 80
+  }
+}

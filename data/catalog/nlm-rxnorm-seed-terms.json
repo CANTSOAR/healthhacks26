@@ -1,0 +1,54 @@
+{
+  "dataset_id": "nlm-rxnorm-seed-terms",
+  "source_id": "nlm-rxnorm-seed-terms",
+  "title": "NLM RxNorm preliminary drug identity lookup",
+  "source_url": "https://rxnav.nlm.nih.gov/REST/rxcui.json?name=metformin&search=2",
+  "source_urls": [
+    "https://rxnav.nlm.nih.gov/REST/rxcui.json?name=metformin&search=2",
+    "https://rxnav.nlm.nih.gov/REST/rxcui.json?name=lisinopril&search=2",
+    "https://rxnav.nlm.nih.gov/REST/rxcui.json?name=atorvastatin&search=2",
+    "https://rxnav.nlm.nih.gov/REST/rxcui.json?name=furosemide&search=2",
+    "https://rxnav.nlm.nih.gov/REST/rxcui.json?name=insulin+glargine&search=2",
+    "https://rxnav.nlm.nih.gov/REST/rxcui.json?name=albuterol&search=2",
+    "https://rxnav.nlm.nih.gov/REST/rxcui.json?name=aspirin&search=2",
+    "https://rxnav.nlm.nih.gov/REST/rxcui.json?name=acetaminophen&search=2"
+  ],
+  "record_count": 8,
+  "raw_paths": [
+    "raw/nlm-rxnorm-seed-terms/metformin.json",
+    "raw/nlm-rxnorm-seed-terms/lisinopril.json",
+    "raw/nlm-rxnorm-seed-terms/atorvastatin.json",
+    "raw/nlm-rxnorm-seed-terms/furosemide.json",
+    "raw/nlm-rxnorm-seed-terms/insulin-glargine.json",
+    "raw/nlm-rxnorm-seed-terms/albuterol.json",
+    "raw/nlm-rxnorm-seed-terms/aspirin.json",
+    "raw/nlm-rxnorm-seed-terms/acetaminophen.json"
+  ],
+  "raw_sha256": {
+    "raw/nlm-rxnorm-seed-terms/metformin.json": "ad160c1b563717e9c52cab033911e4f175cbd0ffbc892f485ac488d346ee86ce",
+    "raw/nlm-rxnorm-seed-terms/lisinopril.json": "f50a0dc0c802ceb6da21a3953872fbe9510f6dce8885f7079bcf2ef98a12c499",
+    "raw/nlm-rxnorm-seed-terms/atorvastatin.json": "6d9213215e3ca53478b07c015710b94ccf5f0deda5ec586418bd379185ae10a0",
+    "raw/nlm-rxnorm-seed-terms/furosemide.json": "84b57b00dadbe65b5db2b6f4911bf4eba3cda916a7506e7ac885359863fe8006",
+    "raw/nlm-rxnorm-seed-terms/insulin-glargine.json": "5ecf6895bcb76c98325bae701949f6a3de97e48d97473bb0b7a1d14cafa8da38",
+    "raw/nlm-rxnorm-seed-terms/albuterol.json": "48147f17a6572ab4184089196e5d8adedf8adb82386a1f15c6540060651b19e8",
+    "raw/nlm-rxnorm-seed-terms/aspirin.json": "8ffe7bc27be0850f21718354f7a8d94aa26f4331ba9f9f7e27b9314e3434a329",
+    "raw/nlm-rxnorm-seed-terms/acetaminophen.json": "4fcb2dfd57a601fca2fbd0b332384016341fe7f3f273144cff106e0db17baf11"
+  },
+  "normalized_path": "normalized/nlm-rxnorm-seed-terms.jsonl",
+  "scope": "Eight teaching-relevant name queries; not a formulary, medication order or interaction dataset.",
+  "access": "public",
+  "rights": {
+    "license": "NLM RxNorm API public access",
+    "terms_url": "https://lhncbc.nlm.nih.gov/RxNav/TermsofService.html",
+    "scope": "Bounded NLM identifier lookup responses; no proprietary third-party drug vocabulary content requested."
+  },
+  "acquisition_status": "acquired",
+  "retrieved_at": "2026-10-10T15:03:12.328619+00:00",
+  "limits": [
+    "Identity or synthetic teaching data only; not clinical approval, prescribing guidance or hospital calibration."
+  ],
+  "provenance": {
+    "method": "HTTP source download; deterministic normalization",
+    "script": "scripts/acquire_teaching_terms.py"
+  }
+}

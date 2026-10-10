@@ -1,0 +1,2 @@
+{"id": "example:edge-1", "relation_type": "serves_at", "subject_ref": "example:ed", "object_ref": "example:room", "source_refs": ["example:source"], "evidence_kind": "synthetic_example", "review_status": "draft"}
+{"id": "example:edge-2", "relation_type": "instantiates", "subject_ref": "example:case", "object_ref": "example:template", "source_refs": ["example:source"], "evidence_kind": "synthetic_example", "review_status": "draft"}

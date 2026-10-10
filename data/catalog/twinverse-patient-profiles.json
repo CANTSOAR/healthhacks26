@@ -1,0 +1,37 @@
+{
+  "dataset_id": "twinverse-patient-profiles",
+  "source_id": "twinverse-patient-profiles",
+  "title": "Rutgers VHS synthetic nutrition patient profiles",
+  "source_url": "https://huggingface.co/datasets/joeljames270/virtual-patient-profiles-sample/resolve/ee5c260a6e24cd9d6baf5c0ab7ec636788c64c70/patients.jsonl",
+  "source_urls": [
+    "https://huggingface.co/datasets/joeljames270/virtual-patient-profiles-sample/resolve/ee5c260a6e24cd9d6baf5c0ab7ec636788c64c70/patients.jsonl",
+    "https://huggingface.co/datasets/joeljames270/virtual-patient-profiles-sample/resolve/ee5c260a6e24cd9d6baf5c0ab7ec636788c64c70/README.md"
+  ],
+  "record_count": 8,
+  "raw_paths": [
+    "raw/twinverse-patient-profiles/patients.source.jsonl",
+    "raw/twinverse-patient-profiles/README.source.md"
+  ],
+  "raw_sha256": {
+    "raw/twinverse-patient-profiles/patients.source.jsonl": "62791934a610d681b50f1846d6891e5eb3c1969ff47b03ccbbc6982a076651ad",
+    "raw/twinverse-patient-profiles/README.source.md": "4c57ed1bd335124099c34fb06daec78a32d7b2b858bd741d04dea044d4cbda43"
+  },
+  "normalized_path": "normalized/twinverse-patient-profiles.jsonl",
+  "scope": "Eight synthetic teaching profiles; generated inconsistencies and faculty review pending.",
+  "access": "public",
+  "rights": {
+    "license": "CC-BY-4.0",
+    "attribution": "VHS (Virtual Human Simulation) project at Rutgers University, joeljames270/virtual-patient-profiles-sample",
+    "revision": "ee5c260a6e24cd9d6baf5c0ab7ec636788c64c70",
+    "changes": "Concatenated pretty-printed JSON decoded into one-record-per-line envelopes; clinical content unmodified."
+  },
+  "acquisition_status": "acquired",
+  "retrieved_at": "2026-10-10T15:03:10.188718+00:00",
+  "limits": [
+    "Identity or synthetic teaching data only; not clinical approval, prescribing guidance or hospital calibration."
+  ],
+  "provenance": {
+    "method": "HTTP source download; deterministic normalization",
+    "script": "scripts/acquire_teaching_terms.py"
+  }
+}

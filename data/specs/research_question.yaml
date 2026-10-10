@@ -1,0 +1,3 @@
+question: What entities and sourced evidence are needed to simulate qualitative and quantitative hospital operations and educational encounters?
+required_sources: [CMS, NPPES, CDC, RWJBarnabas, NLM, Rutgers_VHS]
+output: README.md

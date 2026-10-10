@@ -1,0 +1,47 @@
+{
+  "dataset_id": "cms-unplanned-visits",
+  "source_id": "cms-unplanned-visits",
+  "upstream_dataset_id": "632h-zaca",
+  "title": "Unplanned Hospital Visits - Hospital",
+  "source_url": "https://data.cms.gov/provider-data/dataset/632h-zaca",
+  "raw_paths": [
+    "data/raw/cms-unplanned-visits-metadata.json",
+    "data/raw/cms-unplanned-visits-query0-page0.json",
+    "data/raw/cms-unplanned-visits-query1-page0.json"
+  ],
+  "scope": "All API rows for CCNs 310038 and 310070; general inventory uses city New Brunswick, NJ (includes additional hospitals).",
+  "access": "public_no_authentication",
+  "rights": {
+    "basis": "Public US federal CMS factual data",
+    "redistribution": "public factual government records with attribution",
+    "source_url": "https://data.cms.gov/provider-data/dataset/632h-zaca"
+  },
+  "acquisition_status": "acquired",
+  "limits": [
+    "Historical publication, not live capacity, privileges, staffing or patient-level records.",
+    "Preserve source strings, suppression markers, footnotes and measure periods; not all scores share units.",
+    "Quality aggregates are not direct per-patient simulation probabilities."
+  ],
+  "provenance": {
+    "retrieved_at": "2026-10-10T15:02:17.320516+00:00",
+    "upstream_modified": "2026-09-10",
+    "upstream_released": "2026-09-30",
+    "metadata_url": "https://data.cms.gov/provider-data/api/1/metastore/schemas/dataset/items/632h-zaca"
+  },
+  "queries": [
+    {
+      "url": "https://data.cms.gov/provider-data/api/1/datastore/query/632h-zaca/0?limit=500&offset=0&conditions%5B0%5D%5Bproperty%5D=facility_id&conditions%5B0%5D%5Bvalue%5D=310038&conditions%5B0%5D%5Boperator%5D=%3D",
+      "reported_count": 14,
+      "returned_count": 14,
+      "offset": 0
+    },
+    {
+      "url": "https://data.cms.gov/provider-data/api/1/datastore/query/632h-zaca/0?limit=500&offset=0&conditions%5B0%5D%5Bproperty%5D=facility_id&conditions%5B0%5D%5Bvalue%5D=310070&conditions%5B0%5D%5Boperator%5D=%3D",
+      "reported_count": 14,
+      "returned_count": 14,
+      "offset": 0
+    }
+  ],
+  "record_count": 28,
+  "normalized_path": "data/normalized/cms-unplanned-visits.jsonl"
+}

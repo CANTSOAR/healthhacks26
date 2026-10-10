@@ -1,0 +1,43 @@
+{
+  "dataset_id": "local-cdc-acs-new-brunswick-2017-2021",
+  "source_id": "local-cdc-acs-new-brunswick-2017-2021",
+  "title": "Non-Medical Factor Measures for Place, ACS 2017-2021",
+  "source_url": "https://data.cdc.gov/resource/edkk-ze78.json?locationid=3451210&%24limit=500&%24order=year%2Cmeasureid%2Cdatavaluetypeid",
+  "landing_url": "https://data.cdc.gov/d/edkk-ze78",
+  "record_count": 9,
+  "raw_paths": [
+    "data/raw/local-cdc-acs-new-brunswick-2017-2021/records.json",
+    "data/raw/local-cdc-acs-new-brunswick-2017-2021/metadata.json",
+    "data/raw/local-cdc-acs-new-brunswick-2017-2021/receipt.json"
+  ],
+  "normalized_path": "data/normalized/local-cdc-acs-new-brunswick-2017-2021.jsonl",
+  "scope": {
+    "geography_level": "place",
+    "fips": "3451210",
+    "periods": [
+      "2017-2021"
+    ],
+    "measure_count": 9
+  },
+  "access": "public_unauthenticated",
+  "rights": {
+    "license_id": "PUBLIC_DOMAIN",
+    "evidence_url": "https://data.cdc.gov/api/views/edkk-ze78.json",
+    "redistribution": "source metadata PUBLIC_DOMAIN; attribution retained"
+  },
+  "acquisition_status": "acquired_bounded_geographic_slice",
+  "limits": [
+    "Not hospital utilization or arrivals.",
+    "Age-adjusted prevalence must not be multiplied by local population to construct case counts.",
+    "Measures are marginals; joint dependence is unobserved.",
+    "Historical ACS 2017-2021 factors are not current ACS 2024 estimates."
+  ],
+  "provenance": {
+    "source_url": "https://data.cdc.gov/resource/edkk-ze78.json?locationid=3451210&%24limit=500&%24order=year%2Cmeasureid%2Cdatavaluetypeid",
+    "metadata_url": "https://data.cdc.gov/api/views/edkk-ze78.json",
+    "retrieved_at": "2026-10-10T15:02:08.978863+00:00",
+    "sha256": "97b84dbf79aff02d228cd7b62fb782a13908c3eb98585277250988d25a997b22",
+    "metadata_sha256": "48880085e98001f62b9ddd49fc2f047487c3938c0dd499b48bdab20e6ae42994",
+    "row_count": 9
+  }
+}

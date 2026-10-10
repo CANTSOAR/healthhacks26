@@ -1,0 +1,47 @@
+{
+  "dataset_id": "cms-timely-effective-care",
+  "source_id": "cms-timely-effective-care",
+  "upstream_dataset_id": "yv7e-xc69",
+  "title": "Timely and Effective Care - Hospital",
+  "source_url": "https://data.cms.gov/provider-data/dataset/yv7e-xc69",
+  "raw_paths": [
+    "data/raw/cms-timely-effective-care-metadata.json",
+    "data/raw/cms-timely-effective-care-query0-page0.json",
+    "data/raw/cms-timely-effective-care-query1-page0.json"
+  ],
+  "scope": "All API rows for CCNs 310038 and 310070; general inventory uses city New Brunswick, NJ (includes additional hospitals).",
+  "access": "public_no_authentication",
+  "rights": {
+    "basis": "Public US federal CMS factual data",
+    "redistribution": "public factual government records with attribution",
+    "source_url": "https://data.cms.gov/provider-data/dataset/yv7e-xc69"
+  },
+  "acquisition_status": "acquired",
+  "limits": [
+    "Historical publication, not live capacity, privileges, staffing or patient-level records.",
+    "Preserve source strings, suppression markers, footnotes and measure periods; not all scores share units.",
+    "Quality aggregates are not direct per-patient simulation probabilities."
+  ],
+  "provenance": {
+    "retrieved_at": "2026-10-10T15:02:06.330174+00:00",
+    "upstream_modified": "2026-07-22",
+    "upstream_released": "2026-08-13",
+    "metadata_url": "https://data.cms.gov/provider-data/api/1/metastore/schemas/dataset/items/yv7e-xc69"
+  },
+  "queries": [
+    {
+      "url": "https://data.cms.gov/provider-data/api/1/datastore/query/yv7e-xc69/0?limit=500&offset=0&conditions%5B0%5D%5Bproperty%5D=facility_id&conditions%5B0%5D%5Bvalue%5D=310038&conditions%5B0%5D%5Boperator%5D=%3D",
+      "reported_count": 30,
+      "returned_count": 30,
+      "offset": 0
+    },
+    {
+      "url": "https://data.cms.gov/provider-data/api/1/datastore/query/yv7e-xc69/0?limit=500&offset=0&conditions%5B0%5D%5Bproperty%5D=facility_id&conditions%5B0%5D%5Bvalue%5D=310070&conditions%5B0%5D%5Boperator%5D=%3D",
+      "reported_count": 30,
+      "returned_count": 30,
+      "offset": 0
+    }
+  ],
+  "record_count": 60,
+  "normalized_path": "data/normalized/cms-timely-effective-care.jsonl"
+}

@@ -1,0 +1,25 @@
+{
+  "dataset_id": "local-rwjuh-services",
+  "source_id": "local-rwjuh-services",
+  "title": "RWJUH New Brunswick public campus and services facts",
+  "source_url": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/",
+  "record_count": 7,
+  "raw_paths": [],
+  "normalized_path": "data/normalized/local-rwjuh-services.jsonl",
+  "scope": "Limited selected factual paraphrases; not comprehensive extraction",
+  "access": "public webpage or PDF",
+  "rights": {
+    "redistribution": "Only limited original factual paraphrases; full copyrighted source omitted",
+    "source_license": "not established"
+  },
+  "acquisition_status": "acquired_selected_paraphrased_facts",
+  "limits": [
+    "No claim of full document review.",
+    "No direct patient data, current operational state or eligibility established."
+  ],
+  "provenance": {
+    "source_url": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/",
+    "retrieved_at": "2026-10-10T15:02:48.335328+00:00",
+    "raw_sha256": null
+  }
+}

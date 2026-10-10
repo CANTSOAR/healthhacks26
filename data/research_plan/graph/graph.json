@@ -1,0 +1,1061 @@
+{
+  "mode": "markdown_frontmatter",
+  "generatedAt": null,
+  "config": {
+    "include": [
+      "topics/**/*.md",
+      "research_plan/**/*.md",
+      "research/**/*.md",
+      "knowledge/**/*.md"
+    ],
+    "exclude": [
+      ".git/**",
+      ".krail/**",
+      ".rail/**",
+      ".ontology/**",
+      ".venv/**",
+      "node_modules/**",
+      "research_plan/graph/*.md",
+      "docs/data/*.md"
+    ],
+    "jsonPath": "research_plan/graph/graph.json",
+    "mermaidPath": "research_plan/graph/graph.mmd",
+    "summaryPath": "research_plan/graph/summary.md"
+  },
+  "counts": {
+    "documents": 18,
+    "nodes": 42,
+    "edges": 57
+  },
+  "nodeTypeCounts": {
+    "document": 18,
+    "source": 20,
+    "topic": 4
+  },
+  "entityTypeCounts": {},
+  "documents": [
+    {
+      "id": "doc:knowledge/README.md",
+      "path": "knowledge/README.md",
+      "title": "Hospital evidence knowledge base",
+      "kind": "research",
+      "topics": [
+        "hospital",
+        "evidence"
+      ],
+      "entities": [],
+      "sources": [],
+      "relations": 0,
+      "updated": null
+    },
+    {
+      "id": "doc:knowledge/luna-review.md",
+      "path": "knowledge/luna-review.md",
+      "title": "Bounded Luna evidence review",
+      "kind": "research",
+      "topics": [
+        "evidence",
+        "simulation"
+      ],
+      "entities": [],
+      "sources": [],
+      "relations": 0,
+      "updated": null
+    },
+    {
+      "id": "doc:research/hospital-provider-quality.md",
+      "path": "research/hospital-provider-quality.md",
+      "title": "Hospital Provider Quality",
+      "kind": "research",
+      "topics": [
+        "hospital",
+        "evidence"
+      ],
+      "entities": [],
+      "sources": [],
+      "relations": 0,
+      "updated": null
+    },
+    {
+      "id": "doc:research/local-community-insurance.md",
+      "path": "research/local-community-insurance.md",
+      "title": "Local Community Insurance",
+      "kind": "research",
+      "topics": [
+        "hospital",
+        "evidence"
+      ],
+      "entities": [],
+      "sources": [],
+      "relations": 0,
+      "updated": null
+    },
+    {
+      "id": "doc:research_plan/assumptions.md",
+      "path": "research_plan/assumptions.md",
+      "title": "Assumptions",
+      "kind": "research",
+      "topics": [
+        "hospital",
+        "evidence"
+      ],
+      "entities": [],
+      "sources": [],
+      "relations": 0,
+      "updated": null
+    },
+    {
+      "id": "doc:research_plan/claim_evidence.md",
+      "path": "research_plan/claim_evidence.md",
+      "title": "Claim Evidence",
+      "kind": "research",
+      "topics": [
+        "hospital",
+        "evidence"
+      ],
+      "entities": [],
+      "sources": [],
+      "relations": 0,
+      "updated": null
+    },
+    {
+      "id": "doc:research_plan/current_plan.md",
+      "path": "research_plan/current_plan.md",
+      "title": "Current Plan",
+      "kind": "research",
+      "topics": [
+        "hospital",
+        "evidence"
+      ],
+      "entities": [],
+      "sources": [],
+      "relations": 0,
+      "updated": null
+    },
+    {
+      "id": "doc:research_plan/data_gaps.md",
+      "path": "research_plan/data_gaps.md",
+      "title": "Data Gaps",
+      "kind": "research",
+      "topics": [
+        "hospital",
+        "evidence"
+      ],
+      "entities": [],
+      "sources": [],
+      "relations": 0,
+      "updated": null
+    },
+    {
+      "id": "doc:research_plan/decisions.md",
+      "path": "research_plan/decisions.md",
+      "title": "Decisions",
+      "kind": "research",
+      "topics": [
+        "hospital",
+        "evidence"
+      ],
+      "entities": [],
+      "sources": [],
+      "relations": 0,
+      "updated": null
+    },
+    {
+      "id": "doc:research_plan/methodology.md",
+      "path": "research_plan/methodology.md",
+      "title": "Methodology",
+      "kind": "research",
+      "topics": [
+        "hospital",
+        "evidence"
+      ],
+      "entities": [],
+      "sources": [],
+      "relations": 0,
+      "updated": null
+    },
+    {
+      "id": "doc:research_plan/open_questions.md",
+      "path": "research_plan/open_questions.md",
+      "title": "Open Questions",
+      "kind": "research",
+      "topics": [
+        "hospital",
+        "evidence"
+      ],
+      "entities": [],
+      "sources": [],
+      "relations": 0,
+      "updated": null
+    },
+    {
+      "id": "doc:research_plan/provenance.md",
+      "path": "research_plan/provenance.md",
+      "title": "Provenance",
+      "kind": "research",
+      "topics": [
+        "hospital",
+        "evidence"
+      ],
+      "entities": [],
+      "sources": [],
+      "relations": 0,
+      "updated": null
+    },
+    {
+      "id": "doc:research_plan/rerun_options.md",
+      "path": "research_plan/rerun_options.md",
+      "title": "Rerun Options",
+      "kind": "research",
+      "topics": [
+        "hospital",
+        "evidence"
+      ],
+      "entities": [],
+      "sources": [],
+      "relations": 0,
+      "updated": null
+    },
+    {
+      "id": "doc:research_plan/source_registry.md",
+      "path": "research_plan/source_registry.md",
+      "title": "Source Registry",
+      "kind": "research",
+      "topics": [
+        "hospital",
+        "evidence"
+      ],
+      "entities": [],
+      "sources": [],
+      "relations": 0,
+      "updated": null
+    },
+    {
+      "id": "doc:research_plan/target_state.md",
+      "path": "research_plan/target_state.md",
+      "title": "Target State",
+      "kind": "research",
+      "topics": [
+        "hospital",
+        "evidence"
+      ],
+      "entities": [],
+      "sources": [],
+      "relations": 0,
+      "updated": null
+    },
+    {
+      "id": "doc:research_plan/task_board.md",
+      "path": "research_plan/task_board.md",
+      "title": "Task Board",
+      "kind": "research",
+      "topics": [
+        "hospital",
+        "evidence"
+      ],
+      "entities": [],
+      "sources": [],
+      "relations": 0,
+      "updated": null
+    },
+    {
+      "id": "doc:research_plan/verification_summary.md",
+      "path": "research_plan/verification_summary.md",
+      "title": "Verification Summary",
+      "kind": "research",
+      "topics": [
+        "hospital",
+        "evidence"
+      ],
+      "entities": [],
+      "sources": [],
+      "relations": 0,
+      "updated": null
+    },
+    {
+      "id": "doc:topics/brief.md",
+      "path": "topics/brief.md",
+      "title": "Hospital knowledge brief",
+      "kind": "brief",
+      "topics": [
+        "hospital",
+        "ontology",
+        "evidence"
+      ],
+      "entities": [],
+      "sources": [],
+      "relations": 0,
+      "updated": null
+    }
+  ],
+  "nodes": [
+    {
+      "label": "README",
+      "nodeType": "document",
+      "kind": "research",
+      "path": "knowledge/README.md",
+      "id": "doc:knowledge/README.md"
+    },
+    {
+      "label": "Bounded Luna evidence review",
+      "nodeType": "document",
+      "kind": "research",
+      "path": "knowledge/luna-review.md",
+      "id": "doc:knowledge/luna-review.md"
+    },
+    {
+      "label": "Hospital Provider Quality",
+      "nodeType": "document",
+      "kind": "research",
+      "path": "research/hospital-provider-quality.md",
+      "id": "doc:research/hospital-provider-quality.md"
+    },
+    {
+      "label": "Local Community Insurance",
+      "nodeType": "document",
+      "kind": "research",
+      "path": "research/local-community-insurance.md",
+      "id": "doc:research/local-community-insurance.md"
+    },
+    {
+      "label": "Assumptions",
+      "nodeType": "document",
+      "kind": "research",
+      "path": "research_plan/assumptions.md",
+      "id": "doc:research_plan/assumptions.md"
+    },
+    {
+      "label": "Claim Evidence",
+      "nodeType": "document",
+      "kind": "research",
+      "path": "research_plan/claim_evidence.md",
+      "id": "doc:research_plan/claim_evidence.md"
+    },
+    {
+      "label": "Current Plan",
+      "nodeType": "document",
+      "kind": "research",
+      "path": "research_plan/current_plan.md",
+      "id": "doc:research_plan/current_plan.md"
+    },
+    {
+      "label": "Data Gaps",
+      "nodeType": "document",
+      "kind": "research",
+      "path": "research_plan/data_gaps.md",
+      "id": "doc:research_plan/data_gaps.md"
+    },
+    {
+      "label": "Decisions",
+      "nodeType": "document",
+      "kind": "research",
+      "path": "research_plan/decisions.md",
+      "id": "doc:research_plan/decisions.md"
+    },
+    {
+      "label": "Methodology",
+      "nodeType": "document",
+      "kind": "research",
+      "path": "research_plan/methodology.md",
+      "id": "doc:research_plan/methodology.md"
+    },
+    {
+      "label": "Open Questions",
+      "nodeType": "document",
+      "kind": "research",
+      "path": "research_plan/open_questions.md",
+      "id": "doc:research_plan/open_questions.md"
+    },
+    {
+      "label": "Provenance",
+      "nodeType": "document",
+      "kind": "research",
+      "path": "research_plan/provenance.md",
+      "id": "doc:research_plan/provenance.md"
+    },
+    {
+      "label": "Rerun Options",
+      "nodeType": "document",
+      "kind": "research",
+      "path": "research_plan/rerun_options.md",
+      "id": "doc:research_plan/rerun_options.md"
+    },
+    {
+      "label": "Source Registry",
+      "nodeType": "document",
+      "kind": "research",
+      "path": "research_plan/source_registry.md",
+      "id": "doc:research_plan/source_registry.md"
+    },
+    {
+      "label": "Target State",
+      "nodeType": "document",
+      "kind": "research",
+      "path": "research_plan/target_state.md",
+      "id": "doc:research_plan/target_state.md"
+    },
+    {
+      "label": "Task Board",
+      "nodeType": "document",
+      "kind": "research",
+      "path": "research_plan/task_board.md",
+      "id": "doc:research_plan/task_board.md"
+    },
+    {
+      "label": "Verification Summary",
+      "nodeType": "document",
+      "kind": "research",
+      "path": "research_plan/verification_summary.md",
+      "id": "doc:research_plan/verification_summary.md"
+    },
+    {
+      "label": "brief",
+      "nodeType": "document",
+      "kind": "brief",
+      "path": "topics/brief.md",
+      "id": "doc:topics/brief.md"
+    },
+    {
+      "label": "catalog:cms-complications-deaths",
+      "nodeType": "source",
+      "sourceType": "local_file",
+      "path": "catalog/cms-complications-deaths.json",
+      "refresh": "manual",
+      "id": "source:catalog-cms-complications-deaths"
+    },
+    {
+      "label": "catalog:cms-facility-affiliations",
+      "nodeType": "source",
+      "sourceType": "local_file",
+      "path": "catalog/cms-facility-affiliations.json",
+      "refresh": "manual",
+      "id": "source:catalog-cms-facility-affiliations"
+    },
+    {
+      "label": "catalog:cms-hcahps",
+      "nodeType": "source",
+      "sourceType": "local_file",
+      "path": "catalog/cms-hcahps.json",
+      "refresh": "manual",
+      "id": "source:catalog-cms-hcahps"
+    },
+    {
+      "label": "catalog:cms-hospital-general-information",
+      "nodeType": "source",
+      "sourceType": "local_file",
+      "path": "catalog/cms-hospital-general-information.json",
+      "refresh": "manual",
+      "id": "source:catalog-cms-hospital-general-information"
+    },
+    {
+      "label": "catalog:cms-infections",
+      "nodeType": "source",
+      "sourceType": "local_file",
+      "path": "catalog/cms-infections.json",
+      "refresh": "manual",
+      "id": "source:catalog-cms-infections"
+    },
+    {
+      "label": "catalog:cms-inpatient-provider-service-2024",
+      "nodeType": "source",
+      "sourceType": "local_file",
+      "path": "catalog/cms-inpatient-provider-service-2024.json",
+      "refresh": "manual",
+      "id": "source:catalog-cms-inpatient-provider-service-2024"
+    },
+    {
+      "label": "catalog:cms-timely-effective-care",
+      "nodeType": "source",
+      "sourceType": "local_file",
+      "path": "catalog/cms-timely-effective-care.json",
+      "refresh": "manual",
+      "id": "source:catalog-cms-timely-effective-care"
+    },
+    {
+      "label": "catalog:cms-unplanned-visits",
+      "nodeType": "source",
+      "sourceType": "local_file",
+      "path": "catalog/cms-unplanned-visits.json",
+      "refresh": "manual",
+      "id": "source:catalog-cms-unplanned-visits"
+    },
+    {
+      "label": "catalog:local-cdc-acs-middlesex-2017-2021",
+      "nodeType": "source",
+      "sourceType": "local_file",
+      "path": "catalog/local-cdc-acs-middlesex-2017-2021.json",
+      "refresh": "manual",
+      "id": "source:catalog-local-cdc-acs-middlesex-2017-2021"
+    },
+    {
+      "label": "catalog:local-cdc-acs-new-brunswick-2017-2021",
+      "nodeType": "source",
+      "sourceType": "local_file",
+      "path": "catalog/local-cdc-acs-new-brunswick-2017-2021.json",
+      "refresh": "manual",
+      "id": "source:catalog-local-cdc-acs-new-brunswick-2017-2021"
+    },
+    {
+      "label": "catalog:local-cdc-places-middlesex-2025",
+      "nodeType": "source",
+      "sourceType": "local_file",
+      "path": "catalog/local-cdc-places-middlesex-2025.json",
+      "refresh": "manual",
+      "id": "source:catalog-local-cdc-places-middlesex-2025"
+    },
+    {
+      "label": "catalog:local-cdc-places-new-brunswick-2025",
+      "nodeType": "source",
+      "sourceType": "local_file",
+      "path": "catalog/local-cdc-places-new-brunswick-2025.json",
+      "refresh": "manual",
+      "id": "source:catalog-local-cdc-places-new-brunswick-2025"
+    },
+    {
+      "label": "catalog:local-nj-staffing-discovery",
+      "nodeType": "source",
+      "sourceType": "local_file",
+      "path": "catalog/local-nj-staffing-discovery.json",
+      "refresh": "manual",
+      "id": "source:catalog-local-nj-staffing-discovery"
+    },
+    {
+      "label": "catalog:local-rwjbh-insurance-directory",
+      "nodeType": "source",
+      "sourceType": "local_file",
+      "path": "catalog/local-rwjbh-insurance-directory.json",
+      "refresh": "manual",
+      "id": "source:catalog-local-rwjbh-insurance-directory"
+    },
+    {
+      "label": "catalog:local-rwjuh-chna-2025",
+      "nodeType": "source",
+      "sourceType": "local_file",
+      "path": "catalog/local-rwjuh-chna-2025.json",
+      "refresh": "manual",
+      "id": "source:catalog-local-rwjuh-chna-2025"
+    },
+    {
+      "label": "catalog:local-rwjuh-services",
+      "nodeType": "source",
+      "sourceType": "local_file",
+      "path": "catalog/local-rwjuh-services.json",
+      "refresh": "manual",
+      "id": "source:catalog-local-rwjuh-services"
+    },
+    {
+      "label": "catalog:nlm-rxnorm-seed-terms",
+      "nodeType": "source",
+      "sourceType": "local_file",
+      "path": "catalog/nlm-rxnorm-seed-terms.json",
+      "refresh": "manual",
+      "id": "source:catalog-nlm-rxnorm-seed-terms"
+    },
+    {
+      "label": "catalog:nppes-new-brunswick-practitioners",
+      "nodeType": "source",
+      "sourceType": "local_file",
+      "path": "catalog/nppes-new-brunswick-practitioners.json",
+      "refresh": "manual",
+      "id": "source:catalog-nppes-new-brunswick-practitioners"
+    },
+    {
+      "label": "catalog:twinverse-patient-profiles",
+      "nodeType": "source",
+      "sourceType": "local_file",
+      "path": "catalog/twinverse-patient-profiles.json",
+      "refresh": "manual",
+      "id": "source:catalog-twinverse-patient-profiles"
+    },
+    {
+      "label": "local:research-question",
+      "nodeType": "source",
+      "sourceType": "local_file",
+      "path": "specs/research_question.yaml",
+      "refresh": "manual",
+      "id": "source:local-research-question"
+    },
+    {
+      "label": "evidence",
+      "nodeType": "topic",
+      "id": "topic:evidence"
+    },
+    {
+      "label": "hospital",
+      "nodeType": "topic",
+      "id": "topic:hospital"
+    },
+    {
+      "label": "ontology",
+      "nodeType": "topic",
+      "id": "topic:ontology"
+    },
+    {
+      "label": "simulation",
+      "nodeType": "topic",
+      "id": "topic:simulation"
+    }
+  ],
+  "edges": [
+    {
+      "id": "doc:knowledge/README.md::depends_on::source:catalog-cms-complications-deaths::sources/dependencies.yaml",
+      "from": "doc:knowledge/README.md",
+      "type": "depends_on",
+      "to": "source:catalog-cms-complications-deaths",
+      "source": "sources/dependencies.yaml",
+      "document": "doc:knowledge/README.md",
+      "role": "acquired_source_manifest",
+      "refresh": "manual"
+    },
+    {
+      "id": "doc:knowledge/README.md::depends_on::source:catalog-cms-facility-affiliations::sources/dependencies.yaml",
+      "from": "doc:knowledge/README.md",
+      "type": "depends_on",
+      "to": "source:catalog-cms-facility-affiliations",
+      "source": "sources/dependencies.yaml",
+      "document": "doc:knowledge/README.md",
+      "role": "acquired_source_manifest",
+      "refresh": "manual"
+    },
+    {
+      "id": "doc:knowledge/README.md::depends_on::source:catalog-cms-hcahps::sources/dependencies.yaml",
+      "from": "doc:knowledge/README.md",
+      "type": "depends_on",
+      "to": "source:catalog-cms-hcahps",
+      "source": "sources/dependencies.yaml",
+      "document": "doc:knowledge/README.md",
+      "role": "acquired_source_manifest",
+      "refresh": "manual"
+    },
+    {
+      "id": "doc:knowledge/README.md::depends_on::source:catalog-cms-hospital-general-information::sources/dependencies.yaml",
+      "from": "doc:knowledge/README.md",
+      "type": "depends_on",
+      "to": "source:catalog-cms-hospital-general-information",
+      "source": "sources/dependencies.yaml",
+      "document": "doc:knowledge/README.md",
+      "role": "acquired_source_manifest",
+      "refresh": "manual"
+    },
+    {
+      "id": "doc:knowledge/README.md::depends_on::source:catalog-cms-infections::sources/dependencies.yaml",
+      "from": "doc:knowledge/README.md",
+      "type": "depends_on",
+      "to": "source:catalog-cms-infections",
+      "source": "sources/dependencies.yaml",
+      "document": "doc:knowledge/README.md",
+      "role": "acquired_source_manifest",
+      "refresh": "manual"
+    },
+    {
+      "id": "doc:knowledge/README.md::depends_on::source:catalog-cms-inpatient-provider-service-2024::sources/dependencies.yaml",
+      "from": "doc:knowledge/README.md",
+      "type": "depends_on",
+      "to": "source:catalog-cms-inpatient-provider-service-2024",
+      "source": "sources/dependencies.yaml",
+      "document": "doc:knowledge/README.md",
+      "role": "acquired_source_manifest",
+      "refresh": "manual"
+    },
+    {
+      "id": "doc:knowledge/README.md::depends_on::source:catalog-cms-timely-effective-care::sources/dependencies.yaml",
+      "from": "doc:knowledge/README.md",
+      "type": "depends_on",
+      "to": "source:catalog-cms-timely-effective-care",
+      "source": "sources/dependencies.yaml",
+      "document": "doc:knowledge/README.md",
+      "role": "acquired_source_manifest",
+      "refresh": "manual"
+    },
+    {
+      "id": "doc:knowledge/README.md::depends_on::source:catalog-cms-unplanned-visits::sources/dependencies.yaml",
+      "from": "doc:knowledge/README.md",
+      "type": "depends_on",
+      "to": "source:catalog-cms-unplanned-visits",
+      "source": "sources/dependencies.yaml",
+      "document": "doc:knowledge/README.md",
+      "role": "acquired_source_manifest",
+      "refresh": "manual"
+    },
+    {
+      "id": "doc:knowledge/README.md::depends_on::source:catalog-local-cdc-acs-middlesex-2017-2021::sources/dependencies.yaml",
+      "from": "doc:knowledge/README.md",
+      "type": "depends_on",
+      "to": "source:catalog-local-cdc-acs-middlesex-2017-2021",
+      "source": "sources/dependencies.yaml",
+      "document": "doc:knowledge/README.md",
+      "role": "acquired_source_manifest",
+      "refresh": "manual"
+    },
+    {
+      "id": "doc:knowledge/README.md::depends_on::source:catalog-local-cdc-acs-new-brunswick-2017-2021::sources/dependencies.yaml",
+      "from": "doc:knowledge/README.md",
+      "type": "depends_on",
+      "to": "source:catalog-local-cdc-acs-new-brunswick-2017-2021",
+      "source": "sources/dependencies.yaml",
+      "document": "doc:knowledge/README.md",
+      "role": "acquired_source_manifest",
+      "refresh": "manual"
+    },
+    {
+      "id": "doc:knowledge/README.md::depends_on::source:catalog-local-cdc-places-middlesex-2025::sources/dependencies.yaml",
+      "from": "doc:knowledge/README.md",
+      "type": "depends_on",
+      "to": "source:catalog-local-cdc-places-middlesex-2025",
+      "source": "sources/dependencies.yaml",
+      "document": "doc:knowledge/README.md",
+      "role": "acquired_source_manifest",
+      "refresh": "manual"
+    },
+    {
+      "id": "doc:knowledge/README.md::depends_on::source:catalog-local-cdc-places-new-brunswick-2025::sources/dependencies.yaml",
+      "from": "doc:knowledge/README.md",
+      "type": "depends_on",
+      "to": "source:catalog-local-cdc-places-new-brunswick-2025",
+      "source": "sources/dependencies.yaml",
+      "document": "doc:knowledge/README.md",
+      "role": "acquired_source_manifest",
+      "refresh": "manual"
+    },
+    {
+      "id": "doc:knowledge/README.md::depends_on::source:catalog-local-nj-staffing-discovery::sources/dependencies.yaml",
+      "from": "doc:knowledge/README.md",
+      "type": "depends_on",
+      "to": "source:catalog-local-nj-staffing-discovery",
+      "source": "sources/dependencies.yaml",
+      "document": "doc:knowledge/README.md",
+      "role": "acquired_source_manifest",
+      "refresh": "manual"
+    },
+    {
+      "id": "doc:knowledge/README.md::depends_on::source:catalog-local-rwjbh-insurance-directory::sources/dependencies.yaml",
+      "from": "doc:knowledge/README.md",
+      "type": "depends_on",
+      "to": "source:catalog-local-rwjbh-insurance-directory",
+      "source": "sources/dependencies.yaml",
+      "document": "doc:knowledge/README.md",
+      "role": "acquired_source_manifest",
+      "refresh": "manual"
+    },
+    {
+      "id": "doc:knowledge/README.md::depends_on::source:catalog-local-rwjuh-chna-2025::sources/dependencies.yaml",
+      "from": "doc:knowledge/README.md",
+      "type": "depends_on",
+      "to": "source:catalog-local-rwjuh-chna-2025",
+      "source": "sources/dependencies.yaml",
+      "document": "doc:knowledge/README.md",
+      "role": "acquired_source_manifest",
+      "refresh": "manual"
+    },
+    {
+      "id": "doc:knowledge/README.md::depends_on::source:catalog-local-rwjuh-services::sources/dependencies.yaml",
+      "from": "doc:knowledge/README.md",
+      "type": "depends_on",
+      "to": "source:catalog-local-rwjuh-services",
+      "source": "sources/dependencies.yaml",
+      "document": "doc:knowledge/README.md",
+      "role": "acquired_source_manifest",
+      "refresh": "manual"
+    },
+    {
+      "id": "doc:knowledge/README.md::depends_on::source:catalog-nlm-rxnorm-seed-terms::sources/dependencies.yaml",
+      "from": "doc:knowledge/README.md",
+      "type": "depends_on",
+      "to": "source:catalog-nlm-rxnorm-seed-terms",
+      "source": "sources/dependencies.yaml",
+      "document": "doc:knowledge/README.md",
+      "role": "acquired_source_manifest",
+      "refresh": "manual"
+    },
+    {
+      "id": "doc:knowledge/README.md::depends_on::source:catalog-nppes-new-brunswick-practitioners::sources/dependencies.yaml",
+      "from": "doc:knowledge/README.md",
+      "type": "depends_on",
+      "to": "source:catalog-nppes-new-brunswick-practitioners",
+      "source": "sources/dependencies.yaml",
+      "document": "doc:knowledge/README.md",
+      "role": "acquired_source_manifest",
+      "refresh": "manual"
+    },
+    {
+      "id": "doc:knowledge/README.md::depends_on::source:catalog-twinverse-patient-profiles::sources/dependencies.yaml",
+      "from": "doc:knowledge/README.md",
+      "type": "depends_on",
+      "to": "source:catalog-twinverse-patient-profiles",
+      "source": "sources/dependencies.yaml",
+      "document": "doc:knowledge/README.md",
+      "role": "acquired_source_manifest",
+      "refresh": "manual"
+    },
+    {
+      "id": "doc:knowledge/README.md::has_topic::topic:evidence::knowledge/README.md",
+      "from": "doc:knowledge/README.md",
+      "type": "has_topic",
+      "to": "topic:evidence",
+      "source": "knowledge/README.md"
+    },
+    {
+      "id": "doc:knowledge/README.md::has_topic::topic:hospital::knowledge/README.md",
+      "from": "doc:knowledge/README.md",
+      "type": "has_topic",
+      "to": "topic:hospital",
+      "source": "knowledge/README.md"
+    },
+    {
+      "id": "doc:knowledge/luna-review.md::has_topic::topic:evidence::knowledge/luna-review.md",
+      "from": "doc:knowledge/luna-review.md",
+      "type": "has_topic",
+      "to": "topic:evidence",
+      "source": "knowledge/luna-review.md"
+    },
+    {
+      "id": "doc:knowledge/luna-review.md::has_topic::topic:simulation::knowledge/luna-review.md",
+      "from": "doc:knowledge/luna-review.md",
+      "type": "has_topic",
+      "to": "topic:simulation",
+      "source": "knowledge/luna-review.md"
+    },
+    {
+      "id": "doc:research/hospital-provider-quality.md::has_topic::topic:evidence::research/hospital-provider-quality.md",
+      "from": "doc:research/hospital-provider-quality.md",
+      "type": "has_topic",
+      "to": "topic:evidence",
+      "source": "research/hospital-provider-quality.md"
+    },
+    {
+      "id": "doc:research/hospital-provider-quality.md::has_topic::topic:hospital::research/hospital-provider-quality.md",
+      "from": "doc:research/hospital-provider-quality.md",
+      "type": "has_topic",
+      "to": "topic:hospital",
+      "source": "research/hospital-provider-quality.md"
+    },
+    {
+      "id": "doc:research/local-community-insurance.md::has_topic::topic:evidence::research/local-community-insurance.md",
+      "from": "doc:research/local-community-insurance.md",
+      "type": "has_topic",
+      "to": "topic:evidence",
+      "source": "research/local-community-insurance.md"
+    },
+    {
+      "id": "doc:research/local-community-insurance.md::has_topic::topic:hospital::research/local-community-insurance.md",
+      "from": "doc:research/local-community-insurance.md",
+      "type": "has_topic",
+      "to": "topic:hospital",
+      "source": "research/local-community-insurance.md"
+    },
+    {
+      "id": "doc:research_plan/assumptions.md::has_topic::topic:evidence::research_plan/assumptions.md",
+      "from": "doc:research_plan/assumptions.md",
+      "type": "has_topic",
+      "to": "topic:evidence",
+      "source": "research_plan/assumptions.md"
+    },
+    {
+      "id": "doc:research_plan/assumptions.md::has_topic::topic:hospital::research_plan/assumptions.md",
+      "from": "doc:research_plan/assumptions.md",
+      "type": "has_topic",
+      "to": "topic:hospital",
+      "source": "research_plan/assumptions.md"
+    },
+    {
+      "id": "doc:research_plan/claim_evidence.md::has_topic::topic:evidence::research_plan/claim_evidence.md",
+      "from": "doc:research_plan/claim_evidence.md",
+      "type": "has_topic",
+      "to": "topic:evidence",
+      "source": "research_plan/claim_evidence.md"
+    },
+    {
+      "id": "doc:research_plan/claim_evidence.md::has_topic::topic:hospital::research_plan/claim_evidence.md",
+      "from": "doc:research_plan/claim_evidence.md",
+      "type": "has_topic",
+      "to": "topic:hospital",
+      "source": "research_plan/claim_evidence.md"
+    },
+    {
+      "id": "doc:research_plan/current_plan.md::has_topic::topic:evidence::research_plan/current_plan.md",
+      "from": "doc:research_plan/current_plan.md",
+      "type": "has_topic",
+      "to": "topic:evidence",
+      "source": "research_plan/current_plan.md"
+    },
+    {
+      "id": "doc:research_plan/current_plan.md::has_topic::topic:hospital::research_plan/current_plan.md",
+      "from": "doc:research_plan/current_plan.md",
+      "type": "has_topic",
+      "to": "topic:hospital",
+      "source": "research_plan/current_plan.md"
+    },
+    {
+      "id": "doc:research_plan/data_gaps.md::has_topic::topic:evidence::research_plan/data_gaps.md",
+      "from": "doc:research_plan/data_gaps.md",
+      "type": "has_topic",
+      "to": "topic:evidence",
+      "source": "research_plan/data_gaps.md"
+    },
+    {
+      "id": "doc:research_plan/data_gaps.md::has_topic::topic:hospital::research_plan/data_gaps.md",
+      "from": "doc:research_plan/data_gaps.md",
+      "type": "has_topic",
+      "to": "topic:hospital",
+      "source": "research_plan/data_gaps.md"
+    },
+    {
+      "id": "doc:research_plan/decisions.md::has_topic::topic:evidence::research_plan/decisions.md",
+      "from": "doc:research_plan/decisions.md",
+      "type": "has_topic",
+      "to": "topic:evidence",
+      "source": "research_plan/decisions.md"
+    },
+    {
+      "id": "doc:research_plan/decisions.md::has_topic::topic:hospital::research_plan/decisions.md",
+      "from": "doc:research_plan/decisions.md",
+      "type": "has_topic",
+      "to": "topic:hospital",
+      "source": "research_plan/decisions.md"
+    },
+    {
+      "id": "doc:research_plan/methodology.md::has_topic::topic:evidence::research_plan/methodology.md",
+      "from": "doc:research_plan/methodology.md",
+      "type": "has_topic",
+      "to": "topic:evidence",
+      "source": "research_plan/methodology.md"
+    },
+    {
+      "id": "doc:research_plan/methodology.md::has_topic::topic:hospital::research_plan/methodology.md",
+      "from": "doc:research_plan/methodology.md",
+      "type": "has_topic",
+      "to": "topic:hospital",
+      "source": "research_plan/methodology.md"
+    },
+    {
+      "id": "doc:research_plan/open_questions.md::has_topic::topic:evidence::research_plan/open_questions.md",
+      "from": "doc:research_plan/open_questions.md",
+      "type": "has_topic",
+      "to": "topic:evidence",
+      "source": "research_plan/open_questions.md"
+    },
+    {
+      "id": "doc:research_plan/open_questions.md::has_topic::topic:hospital::research_plan/open_questions.md",
+      "from": "doc:research_plan/open_questions.md",
+      "type": "has_topic",
+      "to": "topic:hospital",
+      "source": "research_plan/open_questions.md"
+    },
+    {
+      "id": "doc:research_plan/provenance.md::has_topic::topic:evidence::research_plan/provenance.md",
+      "from": "doc:research_plan/provenance.md",
+      "type": "has_topic",
+      "to": "topic:evidence",
+      "source": "research_plan/provenance.md"
+    },
+    {
+      "id": "doc:research_plan/provenance.md::has_topic::topic:hospital::research_plan/provenance.md",
+      "from": "doc:research_plan/provenance.md",
+      "type": "has_topic",
+      "to": "topic:hospital",
+      "source": "research_plan/provenance.md"
+    },
+    {
+      "id": "doc:research_plan/rerun_options.md::has_topic::topic:evidence::research_plan/rerun_options.md",
+      "from": "doc:research_plan/rerun_options.md",
+      "type": "has_topic",
+      "to": "topic:evidence",
+      "source": "research_plan/rerun_options.md"
+    },
+    {
+      "id": "doc:research_plan/rerun_options.md::has_topic::topic:hospital::research_plan/rerun_options.md",
+      "from": "doc:research_plan/rerun_options.md",
+      "type": "has_topic",
+      "to": "topic:hospital",
+      "source": "research_plan/rerun_options.md"
+    },
+    {
+      "id": "doc:research_plan/source_registry.md::has_topic::topic:evidence::research_plan/source_registry.md",
+      "from": "doc:research_plan/source_registry.md",
+      "type": "has_topic",
+      "to": "topic:evidence",
+      "source": "research_plan/source_registry.md"
+    },
+    {
+      "id": "doc:research_plan/source_registry.md::has_topic::topic:hospital::research_plan/source_registry.md",
+      "from": "doc:research_plan/source_registry.md",
+      "type": "has_topic",
+      "to": "topic:hospital",
+      "source": "research_plan/source_registry.md"
+    },
+    {
+      "id": "doc:research_plan/target_state.md::has_topic::topic:evidence::research_plan/target_state.md",
+      "from": "doc:research_plan/target_state.md",
+      "type": "has_topic",
+      "to": "topic:evidence",
+      "source": "research_plan/target_state.md"
+    },
+    {
+      "id": "doc:research_plan/target_state.md::has_topic::topic:hospital::research_plan/target_state.md",
+      "from": "doc:research_plan/target_state.md",
+      "type": "has_topic",
+      "to": "topic:hospital",
+      "source": "research_plan/target_state.md"
+    },
+    {
+      "id": "doc:research_plan/task_board.md::has_topic::topic:evidence::research_plan/task_board.md",
+      "from": "doc:research_plan/task_board.md",
+      "type": "has_topic",
+      "to": "topic:evidence",
+      "source": "research_plan/task_board.md"
+    },
+    {
+      "id": "doc:research_plan/task_board.md::has_topic::topic:hospital::research_plan/task_board.md",
+      "from": "doc:research_plan/task_board.md",
+      "type": "has_topic",
+      "to": "topic:hospital",
+      "source": "research_plan/task_board.md"
+    },
+    {
+      "id": "doc:research_plan/verification_summary.md::has_topic::topic:evidence::research_plan/verification_summary.md",
+      "from": "doc:research_plan/verification_summary.md",
+      "type": "has_topic",
+      "to": "topic:evidence",
+      "source": "research_plan/verification_summary.md"
+    },
+    {
+      "id": "doc:research_plan/verification_summary.md::has_topic::topic:hospital::research_plan/verification_summary.md",
+      "from": "doc:research_plan/verification_summary.md",
+      "type": "has_topic",
+      "to": "topic:hospital",
+      "source": "research_plan/verification_summary.md"
+    },
+    {
+      "id": "doc:topics/brief.md::depends_on::source:local-research-question::sources/dependencies.yaml",
+      "from": "doc:topics/brief.md",
+      "type": "depends_on",
+      "to": "source:local-research-question",
+      "source": "sources/dependencies.yaml",
+      "document": "doc:topics/brief.md",
+      "role": "project_spec",
+      "refresh": "manual"
+    },
+    {
+      "id": "doc:topics/brief.md::has_topic::topic:evidence::topics/brief.md",
+      "from": "doc:topics/brief.md",
+      "type": "has_topic",
+      "to": "topic:evidence",
+      "source": "topics/brief.md"
+    },
+    {
+      "id": "doc:topics/brief.md::has_topic::topic:hospital::topics/brief.md",
+      "from": "doc:topics/brief.md",
+      "type": "has_topic",
+      "to": "topic:hospital",
+      "source": "topics/brief.md"
+    },
+    {
+      "id": "doc:topics/brief.md::has_topic::topic:ontology::topics/brief.md",
+      "from": "doc:topics/brief.md",
+      "type": "has_topic",
+      "to": "topic:ontology",
+      "source": "topics/brief.md"
+    }
+  ],
+  "warnings": []
+}

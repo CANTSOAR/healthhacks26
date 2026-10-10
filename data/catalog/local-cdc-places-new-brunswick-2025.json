@@ -1,0 +1,44 @@
+{
+  "dataset_id": "local-cdc-places-new-brunswick-2025",
+  "source_id": "local-cdc-places-new-brunswick-2025",
+  "title": "PLACES: Local Data for Better Health, Place Data, 2025 release",
+  "source_url": "https://data.cdc.gov/resource/eav7-hnsx.json?locationid=3451210&%24limit=500&%24order=year%2Cmeasureid%2Cdatavaluetypeid",
+  "landing_url": "https://data.cdc.gov/d/eav7-hnsx",
+  "record_count": 80,
+  "raw_paths": [
+    "data/raw/local-cdc-places-new-brunswick-2025/records.json",
+    "data/raw/local-cdc-places-new-brunswick-2025/metadata.json",
+    "data/raw/local-cdc-places-new-brunswick-2025/receipt.json"
+  ],
+  "normalized_path": "data/normalized/local-cdc-places-new-brunswick-2025.jsonl",
+  "scope": {
+    "geography_level": "place",
+    "fips": "3451210",
+    "periods": [
+      "2022",
+      "2023"
+    ],
+    "measure_count": 40
+  },
+  "access": "public_unauthenticated",
+  "rights": {
+    "license_id": "PUBLIC_DOMAIN",
+    "evidence_url": "https://data.cdc.gov/api/views/eav7-hnsx.json",
+    "redistribution": "source metadata PUBLIC_DOMAIN; attribution retained"
+  },
+  "acquisition_status": "acquired_bounded_geographic_slice",
+  "limits": [
+    "Not hospital utilization or arrivals.",
+    "Age-adjusted prevalence must not be multiplied by local population to construct case counts.",
+    "Measures are marginals; joint dependence is unobserved.",
+    "Release year differs from row reference year; small-area models cannot establish policy effects."
+  ],
+  "provenance": {
+    "source_url": "https://data.cdc.gov/resource/eav7-hnsx.json?locationid=3451210&%24limit=500&%24order=year%2Cmeasureid%2Cdatavaluetypeid",
+    "metadata_url": "https://data.cdc.gov/api/views/eav7-hnsx.json",
+    "retrieved_at": "2026-10-10T15:02:06.991916+00:00",
+    "sha256": "ea7d7e42ffc498000d6a9e4c6305cb39b45e92f73e79ca881a335e0d573161fc",
+    "metadata_sha256": "42c4f8c214798639807460354ce23198047a5601731e970bf449ae57ad0b8b47",
+    "row_count": 80
+  }
+}

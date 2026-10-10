@@ -1,0 +1,33 @@
+{
+  "dataset_id": "nppes-new-brunswick-practitioners",
+  "source_id": "nppes-new-brunswick-practitioners",
+  "title": "NPPES New Brunswick individual practitioner sample",
+  "source_url": "https://npiregistry.cms.hhs.gov/api/?version=2.1&city=New+Brunswick&state=NJ&enumeration_type=NPI-1&limit=200&skip=0",
+  "scope": "First 200 NPI-1 city-search results only; not exhaustive and not hospital affiliation evidence.",
+  "access": "public_no_authentication",
+  "rights": {
+    "basis": "CMS public NPI Registry factual records",
+    "redistribution": "minimized professional fields only",
+    "source_url": "https://npiregistry.cms.hhs.gov/api-page"
+  },
+  "acquisition_status": "partial",
+  "raw_paths": [
+    "data/raw/nppes-new-brunswick-practitioners-projected-response.json"
+  ],
+  "limits": [
+    "API sample capped at 200, not total population.",
+    "NPI registration is not verification of licensing, credentials, privileges, employment or availability.",
+    "Raw file is a documented projection: mailing/street addresses, telephone, fax, personal demographics, license numbers and alternate identifiers removed before persistence."
+  ],
+  "provenance": {
+    "retrieved_at": "2026-10-10T15:02:48.756604+00:00"
+  },
+  "queries": [
+    {
+      "url": "https://npiregistry.cms.hhs.gov/api/?version=2.1&city=New+Brunswick&state=NJ&enumeration_type=NPI-1&limit=200&skip=0"
+    }
+  ],
+  "returned_count": 200,
+  "record_count": 200,
+  "normalized_path": "data/normalized/nppes-new-brunswick-practitioners.jsonl"
+}

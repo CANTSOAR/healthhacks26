@@ -1,0 +1,48 @@
+{
+  "dataset_id": "cms-inpatient-provider-service-2024",
+  "source_id": "cms-inpatient-provider-service-2024",
+  "upstream_dataset_id": "ca9b5ef0-1386-4759-b2b6-5f9b35116786",
+  "title": "Medicare Inpatient Hospitals - by Provider and Service (2024)",
+  "source_url": "https://data.cms.gov/provider-summary-by-type-of-service/medicare-inpatient-hospitals/medicare-inpatient-hospitals-by-provider-and-service",
+  "scope": "2024 Original Medicare fee-for-service Part A IPPS discharges; CCNs 310038 and 310070; all publicly released DRGs within this scope.",
+  "access": "public_no_authentication",
+  "rights": {
+    "basis": "CMS catalog distribution license",
+    "source_url": "https://www.usa.gov/government-works",
+    "redistribution": "public US government factual data"
+  },
+  "acquisition_status": "acquired",
+  "raw_paths": [
+    "data/raw/cms-inpatient-provider-service-2024-dictionary.json",
+    "data/raw/cms-inpatient-provider-service-2024-310038-page0.json",
+    "data/raw/cms-inpatient-provider-service-2024-310070-page0.json"
+  ],
+  "queries": [
+    {
+      "url": "https://data.cms.gov/data-api/v1/dataset/ca9b5ef0-1386-4759-b2b6-5f9b35116786/data?filter%5BRndrng_Prvdr_CCN%5D=310038&size=500&offset=0",
+      "returned_count": 186,
+      "offset": 0
+    },
+    {
+      "url": "https://data.cms.gov/data-api/v1/dataset/ca9b5ef0-1386-4759-b2b6-5f9b35116786/data?filter%5BRndrng_Prvdr_CCN%5D=310070&size=500&offset=0",
+      "returned_count": 55,
+      "offset": 0
+    }
+  ],
+  "provenance": {
+    "retrieved_at": "2026-10-10T15:03:25.158160+00:00",
+    "data_period": {
+      "start": "2024-01-01",
+      "end": "2024-12-31"
+    },
+    "upstream_modified": "2026-04-23"
+  },
+  "limits": [
+    "Fee-for-service Medicare Part A IPPS population only; not all-payer case mix or New Brunswick resident prevalence.",
+    "Provider-DRG rows with 10 or fewer discharges are suppressed; retained rows do not sum to total all-hospital demand.",
+    "Charges, total payments and Medicare payments are different quantities, not hospital costs or patient liability.",
+    "DRGs are payment/case groupings, not complete procedure pathways or clinical indications."
+  ],
+  "record_count": 241,
+  "normalized_path": "data/normalized/cms-inpatient-provider-service-2024.jsonl"
+}

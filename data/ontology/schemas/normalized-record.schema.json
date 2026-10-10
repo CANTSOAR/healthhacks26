@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Source normalized acquisition record",
+  "description": "Source-shaped acquisition envelope. A validated record is not automatically a typed knowledge-base entity.",
+  "type": "object",
+  "required": [
+    "record_id",
+    "source_id",
+    "source_record_id",
+    "record_type",
+    "data",
+    "provenance",
+    "evidence_kind",
+    "review_status"
+  ],
+  "properties": {
+    "record_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_record_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "record_type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "data": {
+      "type": "object"
+    },
+    "provenance": {
+      "type": "object",
+      "required": [
+        "source_url",
+        "retrieved_at",
+        "raw_sha256"
+      ],
+      "properties": {
+        "source_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "retrieved_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "raw_sha256": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Null permitted only for documented limited factual extraction without a retained raw artifact."
+        },
+        "locator": {
+          "type": "string"
+        },
+        "transformation": {
+          "type": "string"
+        },
+        "raw_path": {
+          "type": "string"
+        },
+        "acquisition_method": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": true,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "raw_sha256": {
+                "type": "null"
+              }
+            },
+            "required": [
+              "raw_sha256"
+            ]
+          },
+          "then": {
+            "required": [
+              "acquisition_method"
+            ]
+          }
+        }
+      ]
+    },
+    "evidence_kind": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Retain source collector label. Map explicitly to value-types.json before promoting to typed entities."
+    },
+    "review_status": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Collector state; native or automated reviewed labels are not clinical approval."
+    },
+    "entity_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "mapping_status": {
+      "enum": [
+        "unmapped",
+        "candidate",
+        "reviewed"
+      ]
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": true
+}

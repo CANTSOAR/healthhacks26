@@ -1,0 +1,8 @@
+{
+  "source_url": "https://data.cdc.gov/resource/i6u4-y3g4.json?locationid=34023&%24limit=500&%24order=year%2Cmeasureid%2Cdatavaluetypeid",
+  "metadata_url": "https://data.cdc.gov/api/views/i6u4-y3g4.json",
+  "retrieved_at": "2026-10-10T15:02:10.806997+00:00",
+  "sha256": "2b9d861f339a1044a87d8400dbadfbb19d1bc81b62da273596731b44268973cf",
+  "metadata_sha256": "f5b9d5100c6c562db0f50cb9df54b8ea0034e1315403cf5c1ae5faeeda451207",
+  "row_count": 9
+}

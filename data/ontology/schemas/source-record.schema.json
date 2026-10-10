@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "allOf": [
+    {
+      "$ref": "entity.schema.json"
+    },
+    {
+      "properties": {
+        "entity_type": {
+          "const": "SourceRecord"
+        }
+      },
+      "required": [
+        "entity_type"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Dataset manifest minimal exchange contract",
+  "description": "Minimal compatibility profile; source-specific inventories may add keys. Status must distinguish documents from extracted data.",
+  "type": "object",
+  "required": [
+    "source_id"
+  ],
+  "properties": {
+    "source_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "title": {
+      "type": "string"
+    },
+    "source_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "acquisition_status": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Collector-specific factual status. Suggested states: candidate, metadata_only, raw_acquired, sample_acquired, normalized, partial, acquired, blocked, failed. Preserve slice/rights limits in manifest."
+    },
+    "rights_status": {
+      "type": "string"
+    },
+    "retrieved_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "intended_uses": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "raw_files": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "normalized_files": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "record_count": {
+      "type": "integer",
+      "minimum": 0
+    }
+  },
+  "additionalProperties": true
+}

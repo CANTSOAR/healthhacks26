@@ -1,0 +1,3603 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Hospital entity",
+  "type": "object",
+  "required": [
+    "id",
+    "entity_type",
+    "version",
+    "evidence_kind",
+    "review_status",
+    "source_refs",
+    "attributes"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "entity_type": {
+      "enum": [
+        "SourceRecord",
+        "Assertion",
+        "ReviewDecision",
+        "IdentityMapping",
+        "Organization",
+        "Facility",
+        "PhysicalLocation",
+        "ServiceUnit",
+        "Resource",
+        "CapacitySnapshot",
+        "Person",
+        "RoleAssignment",
+        "Qualification",
+        "Privilege",
+        "Shift",
+        "Patient",
+        "Encounter",
+        "ClinicalConcept",
+        "Observation",
+        "Order",
+        "ActivityDefinition",
+        "ActivityPerformance",
+        "ClinicalArtifact",
+        "ConsentDecision",
+        "Perspective",
+        "PathwayDefinition",
+        "PolicyRule",
+        "Decision",
+        "Event",
+        "QueueEntry",
+        "ResourceAllocation",
+        "Disruption",
+        "InventoryLot",
+        "InventoryMovement",
+        "Specimen",
+        "InsurancePlan",
+        "Coverage",
+        "NetworkParticipation",
+        "Authorization",
+        "FinancialAmount",
+        "Claim",
+        "Settlement",
+        "Appeal",
+        "GeographicArea",
+        "PopulationDefinition",
+        "CommunityService",
+        "DischargePlan",
+        "Referral",
+        "MeasureDefinition",
+        "MeasureResult",
+        "QualitativeFinding",
+        "SafetyEvent",
+        "LearningObjective",
+        "ScenarioTemplate",
+        "CaseVersion",
+        "DisclosureRule",
+        "RubricVersion",
+        "Assessment",
+        "EvidenceArtifact",
+        "EvaluationCase",
+        "Parameter",
+        "SimulationRun",
+        "ValidationStudy"
+      ]
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "label": {
+      "type": "string"
+    },
+    "evidence_kind": {
+      "enum": [
+        "observed_local",
+        "published_local_aggregate",
+        "published_external_aggregate",
+        "published_external_benchmark",
+        "published_reference",
+        "published_directory",
+        "published_policy",
+        "reviewed_policy",
+        "qualitative_research",
+        "synthetic_example",
+        "assumption",
+        "model_estimate",
+        "generated_draft"
+      ]
+    },
+    "review_status": {
+      "enum": [
+        "draft",
+        "unreviewed",
+        "structurally_validated",
+        "reviewed",
+        "approved",
+        "disputed",
+        "rejected",
+        "superseded"
+      ]
+    },
+    "source_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "valid_time": {
+      "type": "object",
+      "properties": {
+        "start": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "end": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "precision": {
+          "enum": [
+            "instant",
+            "day",
+            "month",
+            "year",
+            "interval",
+            "unknown"
+          ]
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "recorded_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "identifiers": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "attributes": {
+      "type": "object"
+    },
+    "extensions": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "SourceRecord"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "source_url",
+              "source_kind",
+              "retrieved_at",
+              "rights_status",
+              "access_status",
+              "limitations"
+            ],
+            "properties": {
+              "source_url": {
+                "type": "string",
+                "format": "uri"
+              },
+              "source_kind": {
+                "type": "string"
+              },
+              "publisher": {
+                "type": "string"
+              },
+              "publication_date": {
+                "type": "string"
+              },
+              "retrieved_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "raw_sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "rights_status": {
+                "enum": [
+                  "unknown",
+                  "restricted",
+                  "permission_required",
+                  "public_domain",
+                  "open_license",
+                  "authorized_internal"
+                ]
+              },
+              "rights_url": {
+                "type": "string",
+                "format": "uri"
+              },
+              "access_status": {
+                "enum": [
+                  "public",
+                  "registration",
+                  "credentialed",
+                  "agreement_required",
+                  "unavailable"
+                ]
+              },
+              "limitations": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "Assertion"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "subject_ref",
+              "predicate",
+              "object",
+              "assertion_origin",
+              "finding_state",
+              "visibility",
+              "source_refs"
+            ],
+            "properties": {
+              "subject_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "predicate": {
+                "type": "string"
+              },
+              "object": {
+                "type": "object"
+              },
+              "assertion_origin": {
+                "enum": [
+                  "patient_reported",
+                  "chart_recorded",
+                  "observed",
+                  "author_established",
+                  "source_reported",
+                  "inferred"
+                ]
+              },
+              "finding_state": {
+                "enum": [
+                  "present",
+                  "explicitly_absent",
+                  "unknown",
+                  "pending",
+                  "not_applicable"
+                ]
+              },
+              "visibility": {
+                "enum": [
+                  "educator_only",
+                  "patient_known",
+                  "initially_visible",
+                  "discoverable",
+                  "restricted"
+                ]
+              },
+              "source_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "locator": {
+                "type": "string"
+              },
+              "population_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "conflict_set_ref": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "ReviewDecision"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "target_ref",
+              "target_version",
+              "reviewer_ref",
+              "decision",
+              "scope",
+              "rationale",
+              "decided_at"
+            ],
+            "properties": {
+              "target_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "target_version": {
+                "type": "string"
+              },
+              "reviewer_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "decision": {
+                "enum": [
+                  "approve",
+                  "reject",
+                  "request_changes",
+                  "resolve_conflict"
+                ]
+              },
+              "scope": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "rationale": {
+                "type": "string"
+              },
+              "decided_at": {
+                "type": "string",
+                "format": "date-time"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "IdentityMapping"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "left_ref",
+              "right_ref",
+              "match_method",
+              "match_status",
+              "source_refs"
+            ],
+            "properties": {
+              "left_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "right_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "match_method": {
+                "type": "string"
+              },
+              "match_status": {
+                "enum": [
+                  "candidate",
+                  "verified",
+                  "rejected",
+                  "ambiguous"
+                ]
+              },
+              "confidence": {
+                "type": "number"
+              },
+              "source_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "Organization"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "organization_kind",
+              "legal_name"
+            ],
+            "properties": {
+              "organization_kind": {
+                "type": "string"
+              },
+              "legal_name": {
+                "type": "string"
+              },
+              "parent_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "jurisdiction": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "Facility"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "operator_ref",
+              "facility_kind",
+              "reporting_scope"
+            ],
+            "properties": {
+              "operator_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "facility_kind": {
+                "type": "string"
+              },
+              "license_identifiers": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "reporting_scope": {
+                "type": "string"
+              },
+              "geography_ref": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "PhysicalLocation"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "location_kind",
+              "facility_ref"
+            ],
+            "properties": {
+              "location_kind": {
+                "enum": [
+                  "campus",
+                  "building",
+                  "wing",
+                  "floor",
+                  "room",
+                  "bed_space",
+                  "zone"
+                ]
+              },
+              "facility_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "parent_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "accessibility": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "adjacency": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "ServiceUnit"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "facility_ref",
+              "service_kind",
+              "location_refs",
+              "capabilities"
+            ],
+            "properties": {
+              "facility_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "service_kind": {
+                "type": "string"
+              },
+              "location_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "capabilities": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "admission_constraints": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "Resource"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "resource_kind",
+              "capabilities",
+              "availability_state"
+            ],
+            "properties": {
+              "resource_kind": {
+                "type": "string"
+              },
+              "location_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "owning_unit_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "capabilities": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "availability_state": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "CapacitySnapshot"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "scope_ref",
+              "basis",
+              "count",
+              "unit",
+              "as_of"
+            ],
+            "properties": {
+              "scope_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "basis": {
+                "enum": [
+                  "licensed",
+                  "physical",
+                  "staffed",
+                  "available",
+                  "occupied",
+                  "blocked",
+                  "surge"
+                ]
+              },
+              "count": {
+                "type": "integer"
+              },
+              "unit": {
+                "type": "string"
+              },
+              "as_of": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "eligibility_context": {
+                "type": "object"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "Person"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "identity_kind",
+              "display_name"
+            ],
+            "properties": {
+              "identity_kind": {
+                "enum": [
+                  "real_public",
+                  "real_restricted",
+                  "synthetic"
+                ]
+              },
+              "display_name": {
+                "type": "string"
+              },
+              "public_identifier": {
+                "type": "object"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "RoleAssignment"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "person_ref",
+              "organization_ref",
+              "role_code"
+            ],
+            "properties": {
+              "person_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "organization_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "service_unit_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "role_code": {
+                "type": "string"
+              },
+              "supervision_ref": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "Qualification"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "person_ref",
+              "qualification_kind",
+              "verification_status"
+            ],
+            "properties": {
+              "person_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "qualification_kind": {
+                "type": "string"
+              },
+              "concept_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "issuer_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "verification_status": {
+                "enum": [
+                  "unverified",
+                  "verified",
+                  "expired",
+                  "revoked",
+                  "unknown"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "Privilege"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "grantee_ref",
+              "facility_ref",
+              "activity_refs",
+              "restrictions",
+              "granting_authority_ref"
+            ],
+            "properties": {
+              "grantee_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "facility_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "activity_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "restrictions": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "granting_authority_ref": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "Shift"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "role_assignment_ref",
+              "start_at",
+              "end_at",
+              "shift_kind",
+              "availability_fraction"
+            ],
+            "properties": {
+              "role_assignment_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "start_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "end_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "shift_kind": {
+                "enum": [
+                  "planned",
+                  "actual",
+                  "synthetic"
+                ]
+              },
+              "availability_fraction": {
+                "type": "number"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "Patient"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "identity_kind",
+              "demographic_assertion_refs"
+            ],
+            "properties": {
+              "identity_kind": {
+                "enum": [
+                  "real_deidentified",
+                  "synthetic"
+                ]
+              },
+              "person_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "persona_label": {
+                "type": "string"
+              },
+              "demographic_assertion_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "Encounter"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "patient_ref",
+              "facility_ref",
+              "setting",
+              "status"
+            ],
+            "properties": {
+              "patient_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "facility_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "setting": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string"
+              },
+              "parent_encounter_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "arrival_route": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "ClinicalConcept"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "concept_kind",
+              "preferred_term",
+              "coding"
+            ],
+            "properties": {
+              "concept_kind": {
+                "type": "string"
+              },
+              "preferred_term": {
+                "type": "string"
+              },
+              "coding": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "definition": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "Observation"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "subject_ref",
+              "concept_ref",
+              "value",
+              "finding_state"
+            ],
+            "properties": {
+              "subject_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "concept_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "value": {
+                "type": "object"
+              },
+              "finding_state": {
+                "type": "string"
+              },
+              "effective_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "specimen_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "reference_range": {
+                "type": "object"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "Order"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "encounter_ref",
+              "requested_activity_ref",
+              "requested_by_ref",
+              "priority",
+              "status"
+            ],
+            "properties": {
+              "encounter_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "requested_activity_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "requested_by_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "priority": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "ActivityDefinition"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "activity_kind",
+              "prerequisites",
+              "resource_requirements",
+              "completion_criteria"
+            ],
+            "properties": {
+              "activity_kind": {
+                "type": "string"
+              },
+              "concept_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "prerequisites": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "resource_requirements": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "completion_criteria": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "ActivityPerformance"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "activity_definition_ref",
+              "encounter_ref",
+              "performer_refs",
+              "status",
+              "result_refs"
+            ],
+            "properties": {
+              "activity_definition_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "encounter_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "order_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "performer_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "status": {
+                "type": "string"
+              },
+              "result_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "ClinicalArtifact"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "encounter_ref",
+              "artifact_kind",
+              "source_ref",
+              "related_assertion_refs",
+              "visibility"
+            ],
+            "properties": {
+              "encounter_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "artifact_kind": {
+                "type": "string"
+              },
+              "source_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "related_assertion_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "visibility": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "ConsentDecision"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "subject_ref",
+              "decision_maker_ref",
+              "activity_refs",
+              "decision",
+              "communication_context"
+            ],
+            "properties": {
+              "subject_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "decision_maker_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "activity_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "decision": {
+                "type": "string"
+              },
+              "communication_context": {
+                "type": "object"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "Perspective"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "subject_ref",
+              "perspective_kind",
+              "statement",
+              "attribution",
+              "context"
+            ],
+            "properties": {
+              "subject_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "perspective_kind": {
+                "type": "string"
+              },
+              "statement": {
+                "type": "string"
+              },
+              "attribution": {
+                "enum": [
+                  "self_reported",
+                  "proxy_reported",
+                  "author_created",
+                  "source_reported"
+                ]
+              },
+              "context": {
+                "type": "object"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "PathwayDefinition"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "setting",
+              "stages",
+              "transitions",
+              "policy_refs"
+            ],
+            "properties": {
+              "setting": {
+                "type": "string"
+              },
+              "stages": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "transitions": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "policy_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "PolicyRule"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "rule_kind",
+              "applicability",
+              "condition",
+              "effect",
+              "exceptions"
+            ],
+            "properties": {
+              "rule_kind": {
+                "type": "string"
+              },
+              "applicability": {
+                "type": "object"
+              },
+              "condition": {
+                "type": "object"
+              },
+              "effect": {
+                "type": "object"
+              },
+              "authority_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "exceptions": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "Decision"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "actor_ref",
+              "subject_ref",
+              "alternatives",
+              "selected_action",
+              "rationale",
+              "policy_refs"
+            ],
+            "properties": {
+              "actor_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "subject_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "alternatives": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "selected_action": {
+                "type": "object"
+              },
+              "rationale": {
+                "type": "string"
+              },
+              "policy_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "Event"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "event_type",
+              "occurred_at",
+              "recorded_at",
+              "subject_ref",
+              "caused_by",
+              "time_basis"
+            ],
+            "properties": {
+              "event_type": {
+                "type": "string"
+              },
+              "occurred_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "recorded_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "subject_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "actor_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "encounter_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "caused_by": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "state_before": {
+                "type": "object"
+              },
+              "state_after": {
+                "type": "object"
+              },
+              "time_basis": {
+                "enum": [
+                  "observed",
+                  "reported",
+                  "estimated",
+                  "simulation"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "QueueEntry"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "encounter_ref",
+              "service_unit_ref",
+              "entered_at",
+              "priority",
+              "censoring"
+            ],
+            "properties": {
+              "encounter_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "service_unit_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "entered_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "exited_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "exit_reason": {
+                "type": "string"
+              },
+              "priority": {
+                "type": "string"
+              },
+              "censoring": {
+                "enum": [
+                  "none",
+                  "left",
+                  "right",
+                  "interval",
+                  "unknown"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "ResourceAllocation"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "resource_ref",
+              "activity_performance_ref",
+              "quantity",
+              "allocation_kind",
+              "start_at"
+            ],
+            "properties": {
+              "resource_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "activity_performance_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "quantity": {
+                "type": "number"
+              },
+              "allocation_kind": {
+                "type": "string"
+              },
+              "start_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "end_at": {
+                "type": "string",
+                "format": "date-time"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "Disruption"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "disruption_kind",
+              "affected_refs",
+              "severity",
+              "response_policy_refs",
+              "status"
+            ],
+            "properties": {
+              "disruption_kind": {
+                "type": "string"
+              },
+              "affected_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "severity": {
+                "type": "string"
+              },
+              "response_policy_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "status": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "InventoryLot"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "item_concept_ref",
+              "location_ref",
+              "quantity",
+              "unit",
+              "storage_constraints"
+            ],
+            "properties": {
+              "item_concept_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "location_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "quantity": {
+                "type": "number"
+              },
+              "unit": {
+                "type": "string"
+              },
+              "expires_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "storage_constraints": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "InventoryMovement"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "lot_ref",
+              "movement_kind",
+              "quantity",
+              "unit",
+              "event_ref"
+            ],
+            "properties": {
+              "lot_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "movement_kind": {
+                "type": "string"
+              },
+              "quantity": {
+                "type": "number"
+              },
+              "unit": {
+                "type": "string"
+              },
+              "origin_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "destination_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "event_ref": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "Specimen"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "patient_ref",
+              "specimen_concept_ref",
+              "order_ref",
+              "status",
+              "custody_event_refs"
+            ],
+            "properties": {
+              "patient_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "specimen_concept_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "order_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "status": {
+                "type": "string"
+              },
+              "custody_event_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "InsurancePlan"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "payer_ref",
+              "plan_identifier",
+              "market",
+              "benefit_rules",
+              "formulary_refs"
+            ],
+            "properties": {
+              "payer_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "plan_identifier": {
+                "type": "string"
+              },
+              "market": {
+                "type": "string"
+              },
+              "benefit_rules": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "formulary_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "Coverage"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "patient_ref",
+              "plan_ref",
+              "coverage_order",
+              "eligibility_status"
+            ],
+            "properties": {
+              "patient_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "plan_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "coverage_order": {
+                "type": "integer"
+              },
+              "eligibility_status": {
+                "type": "string"
+              },
+              "verification_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "benefit_accumulators": {
+                "type": "object"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "NetworkParticipation"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "provider_ref",
+              "plan_ref",
+              "service_scope",
+              "participation_status"
+            ],
+            "properties": {
+              "provider_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "plan_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "service_scope": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "participation_status": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "Authorization"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "coverage_ref",
+              "order_refs",
+              "status",
+              "requested_at"
+            ],
+            "properties": {
+              "coverage_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "order_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "status": {
+                "type": "string"
+              },
+              "requested_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "decision_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "decision_reason": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "FinancialAmount"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "amount_kind",
+              "value",
+              "currency",
+              "setting",
+              "component",
+              "methodology"
+            ],
+            "properties": {
+              "amount_kind": {
+                "enum": [
+                  "gross_charge",
+                  "discounted_cash_price",
+                  "negotiated_rate",
+                  "allowed_amount",
+                  "resource_cost",
+                  "reimbursement",
+                  "patient_liability",
+                  "adjustment"
+                ]
+              },
+              "value": {
+                "type": "number"
+              },
+              "currency": {
+                "type": "string"
+              },
+              "service_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "plan_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "setting": {
+                "type": "string"
+              },
+              "component": {
+                "enum": [
+                  "facility",
+                  "professional",
+                  "combined",
+                  "other",
+                  "unknown"
+                ]
+              },
+              "methodology": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "Claim"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "encounter_ref",
+              "coverage_ref",
+              "billing_organization_ref",
+              "line_items",
+              "status"
+            ],
+            "properties": {
+              "encounter_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "coverage_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "billing_organization_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "line_items": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "status": {
+                "type": "string"
+              },
+              "original_claim_ref": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "Settlement"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "claim_ref",
+              "settlement_kind",
+              "amount_refs",
+              "reason"
+            ],
+            "properties": {
+              "claim_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "settlement_kind": {
+                "type": "string"
+              },
+              "amount_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "reason": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "Appeal"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "target_ref",
+              "reason",
+              "status",
+              "submitted_at"
+            ],
+            "properties": {
+              "target_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "reason": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string"
+              },
+              "submitted_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "outcome": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "GeographicArea"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "geography_kind",
+              "geocode",
+              "geocode_system",
+              "boundary_vintage"
+            ],
+            "properties": {
+              "geography_kind": {
+                "type": "string"
+              },
+              "geocode": {
+                "type": "string"
+              },
+              "geocode_system": {
+                "type": "string"
+              },
+              "boundary_vintage": {
+                "type": "string"
+              },
+              "parent_ref": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "PopulationDefinition"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "basis",
+              "inclusion",
+              "exclusion",
+              "geography_refs",
+              "denominator_definition"
+            ],
+            "properties": {
+              "basis": {
+                "enum": [
+                  "resident",
+                  "treated_at_facility",
+                  "enrolled",
+                  "survey_respondent",
+                  "synthetic",
+                  "other"
+                ]
+              },
+              "inclusion": {
+                "type": "object"
+              },
+              "exclusion": {
+                "type": "object"
+              },
+              "geography_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "denominator_definition": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "CommunityService"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "provider_ref",
+              "service_kind",
+              "geography_refs",
+              "eligibility_rules",
+              "referral_requirements"
+            ],
+            "properties": {
+              "provider_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "service_kind": {
+                "type": "string"
+              },
+              "geography_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "eligibility_rules": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "referral_requirements": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "DischargePlan"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "encounter_ref",
+              "readiness_status",
+              "blocker_refs",
+              "patient_goal_refs",
+              "followup_refs"
+            ],
+            "properties": {
+              "encounter_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "destination_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "readiness_status": {
+                "type": "string"
+              },
+              "blocker_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "patient_goal_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "followup_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "Referral"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "encounter_ref",
+              "target_service_ref",
+              "status",
+              "prerequisites"
+            ],
+            "properties": {
+              "encounter_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "target_service_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "status": {
+                "type": "string"
+              },
+              "prerequisites": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "MeasureDefinition"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "measure_kind",
+              "numerator_definition",
+              "denominator_definition",
+              "unit",
+              "adjustment_method",
+              "exclusions"
+            ],
+            "properties": {
+              "measure_kind": {
+                "type": "string"
+              },
+              "numerator_definition": {
+                "type": "string"
+              },
+              "denominator_definition": {
+                "type": "string"
+              },
+              "unit": {
+                "type": "string"
+              },
+              "adjustment_method": {
+                "type": "string"
+              },
+              "exclusions": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "MeasureResult"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "measure_ref",
+              "population_ref",
+              "value",
+              "measurement_method",
+              "suppression_status",
+              "uncertainty"
+            ],
+            "properties": {
+              "measure_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "population_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "value": {
+                "type": "object"
+              },
+              "measurement_method": {
+                "type": "string"
+              },
+              "suppression_status": {
+                "enum": [
+                  "not_suppressed",
+                  "suppressed",
+                  "unavailable",
+                  "not_applicable"
+                ]
+              },
+              "uncertainty": {
+                "type": "object"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "QualitativeFinding"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "finding_kind",
+              "statement",
+              "method",
+              "context",
+              "locator",
+              "disagreements"
+            ],
+            "properties": {
+              "finding_kind": {
+                "type": "string"
+              },
+              "statement": {
+                "type": "string"
+              },
+              "population_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "method": {
+                "type": "string"
+              },
+              "context": {
+                "type": "object"
+              },
+              "locator": {
+                "type": "string"
+              },
+              "disagreements": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "SafetyEvent"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "event_ref",
+              "incident_kind",
+              "harm_status",
+              "contributing_assertion_refs",
+              "response_refs"
+            ],
+            "properties": {
+              "event_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "incident_kind": {
+                "type": "string"
+              },
+              "harm_status": {
+                "type": "string"
+              },
+              "contributing_assertion_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "response_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "LearningObjective"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "learner_level",
+              "capability",
+              "context",
+              "evidence_requirements"
+            ],
+            "properties": {
+              "learner_level": {
+                "type": "string"
+              },
+              "capability": {
+                "type": "string"
+              },
+              "context": {
+                "type": "object"
+              },
+              "evidence_requirements": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "ScenarioTemplate"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "objective_refs",
+              "pathway_refs",
+              "variation_constraints",
+              "initial_state_requirements",
+              "completion_criteria"
+            ],
+            "properties": {
+              "objective_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "pathway_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "variation_constraints": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "initial_state_requirements": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "completion_criteria": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "CaseVersion"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "template_ref",
+              "patient_ref",
+              "assertion_refs",
+              "artifact_refs",
+              "disclosure_rule_refs",
+              "scripted_event_refs"
+            ],
+            "properties": {
+              "template_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "patient_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "assertion_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "artifact_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "disclosure_rule_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "scripted_event_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "DisclosureRule"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "assertion_refs",
+              "audience",
+              "trigger",
+              "released_content"
+            ],
+            "properties": {
+              "assertion_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "audience": {
+                "type": "string"
+              },
+              "trigger": {
+                "type": "object"
+              },
+              "released_content": {
+                "type": "object"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "RubricVersion"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "objective_refs",
+              "criteria",
+              "scoring_scale",
+              "na_rules"
+            ],
+            "properties": {
+              "objective_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "criteria": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "scoring_scale": {
+                "type": "object"
+              },
+              "na_rules": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "Assessment"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "encounter_ref",
+              "rubric_ref",
+              "evaluator_ref",
+              "criterion_results",
+              "evidence_refs"
+            ],
+            "properties": {
+              "encounter_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "rubric_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "evaluator_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "criterion_results": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "evidence_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "EvidenceArtifact"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "artifact_kind",
+              "source_ref",
+              "locator"
+            ],
+            "properties": {
+              "artifact_kind": {
+                "type": "string"
+              },
+              "encounter_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "source_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "locator": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "EvaluationCase"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "target_refs",
+              "inputs",
+              "expected",
+              "prohibited"
+            ],
+            "properties": {
+              "target_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "inputs": {
+                "type": "object"
+              },
+              "expected": {
+                "type": "object"
+              },
+              "prohibited": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "Parameter"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "parameter_kind",
+              "unit",
+              "value_model",
+              "applicability",
+              "uncertainty",
+              "dependence_refs",
+              "usable_for"
+            ],
+            "properties": {
+              "parameter_kind": {
+                "type": "string"
+              },
+              "unit": {
+                "type": "string"
+              },
+              "value_model": {
+                "type": "object"
+              },
+              "applicability": {
+                "type": "object"
+              },
+              "uncertainty": {
+                "type": "object"
+              },
+              "dependence_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "usable_for": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "SimulationRun"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "model_version",
+              "input_versions",
+              "random_seed",
+              "assumption_refs",
+              "parameter_refs",
+              "event_refs",
+              "output_refs"
+            ],
+            "properties": {
+              "model_version": {
+                "type": "string"
+              },
+              "input_versions": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "random_seed": {
+                "type": "integer"
+              },
+              "assumption_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "parameter_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "event_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "output_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "ValidationStudy"
+          }
+        },
+        "required": [
+          "entity_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "required": [
+              "target_ref",
+              "validation_kind",
+              "reference_refs",
+              "fit_data_refs",
+              "holdout_data_refs",
+              "acceptance_criteria",
+              "results",
+              "limitations"
+            ],
+            "properties": {
+              "target_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "validation_kind": {
+                "type": "string"
+              },
+              "reference_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "fit_data_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "holdout_data_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "acceptance_criteria": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "results": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "limitations": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    }
+  ]
+}

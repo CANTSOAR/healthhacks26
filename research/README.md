@@ -4,6 +4,7 @@ Research snapshot prepared October 9 and expanded October 10, 2026 for the Octob
 
 | Document | Contents |
 |---|---|
+| [Whole-hospital data blueprint](whole-hospital-data-blueprint.md) | Expanded qualitative/quantitative domains, New Brunswick source routes, ontology, coupled simulation and calibration needs |
 | [Codex project synthesis](codex-project-synthesis.md) | Consolidated project threads, challenge fit, current decisions, corrections and evidence limits |
 | [Ontology and knowledge-base plan](ontology-and-knowledge-base-plan.md) | KRAIL-first sequencing, acquisition priorities, entities/relationships, review gates and later AI generation |
 | [Discord dataset review — October 10](discord-dataset-review-2026-10-10.md) | Acquired TwinVerse drafts/rubric, Sevaro synthetic kits, all identified dataset resources and reuse gaps |
@@ -28,3 +29,5 @@ The plan recommends **TwinVerse Challenge 1: Virtual Patient Encounter**. Track 
 These are research findings and implementation proposals. Suggested acceptance targets are not measured results. The October 10 live assessment establishes workshop console access and listed models/quota, but no successful inference or app deployment. Provider offers are attributed to source guides/current official pages; redeemed account entitlements and availability remain unverified.
 
 The public package includes derived findings and citations. Original recordings, full transcripts, private email correspondence, source attachments, workshop join links, OTPs, promo codes and credentials remain outside the repository. Do not infer permission to redistribute original source materials from their inclusion in the research.
+
+The acquired data, ontology and executable research workspace now live in [`data/`](../data/README.md). Earlier acquisition manifests are planning snapshots; use `data/catalog/` for actual acquisition status and `data/sources/` for citations.

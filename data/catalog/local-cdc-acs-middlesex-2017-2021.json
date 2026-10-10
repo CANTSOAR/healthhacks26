@@ -1,0 +1,43 @@
+{
+  "dataset_id": "local-cdc-acs-middlesex-2017-2021",
+  "source_id": "local-cdc-acs-middlesex-2017-2021",
+  "title": "Non-Medical Factor Measures for County, ACS 2017-2021",
+  "source_url": "https://data.cdc.gov/resource/i6u4-y3g4.json?locationid=34023&%24limit=500&%24order=year%2Cmeasureid%2Cdatavaluetypeid",
+  "landing_url": "https://data.cdc.gov/d/i6u4-y3g4",
+  "record_count": 9,
+  "raw_paths": [
+    "data/raw/local-cdc-acs-middlesex-2017-2021/records.json",
+    "data/raw/local-cdc-acs-middlesex-2017-2021/metadata.json",
+    "data/raw/local-cdc-acs-middlesex-2017-2021/receipt.json"
+  ],
+  "normalized_path": "data/normalized/local-cdc-acs-middlesex-2017-2021.jsonl",
+  "scope": {
+    "geography_level": "county",
+    "fips": "34023",
+    "periods": [
+      "2017-2021"
+    ],
+    "measure_count": 9
+  },
+  "access": "public_unauthenticated",
+  "rights": {
+    "license_id": "PUBLIC_DOMAIN",
+    "evidence_url": "https://data.cdc.gov/api/views/i6u4-y3g4.json",
+    "redistribution": "source metadata PUBLIC_DOMAIN; attribution retained"
+  },
+  "acquisition_status": "acquired_bounded_geographic_slice",
+  "limits": [
+    "Not hospital utilization or arrivals.",
+    "Age-adjusted prevalence must not be multiplied by local population to construct case counts.",
+    "Measures are marginals; joint dependence is unobserved.",
+    "Historical ACS 2017-2021 factors are not current ACS 2024 estimates."
+  ],
+  "provenance": {
+    "source_url": "https://data.cdc.gov/resource/i6u4-y3g4.json?locationid=34023&%24limit=500&%24order=year%2Cmeasureid%2Cdatavaluetypeid",
+    "metadata_url": "https://data.cdc.gov/api/views/i6u4-y3g4.json",
+    "retrieved_at": "2026-10-10T15:02:10.806997+00:00",
+    "sha256": "2b9d861f339a1044a87d8400dbadfbb19d1bc81b62da273596731b44268973cf",
+    "metadata_sha256": "f5b9d5100c6c562db0f50cb9df54b8ea0034e1315403cf5c1ae5faeeda451207",
+    "row_count": 9
+  }
+}

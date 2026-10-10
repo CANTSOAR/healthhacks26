@@ -1,0 +1,1320 @@
+{
+  "schema_version": "1.0.0",
+  "generation": "Deterministic offline derivation; no source refetch and no inferred publication date or author",
+  "source_count": 19,
+  "record_count": 3136,
+  "sources": [
+    {
+      "source_id": "cms-complications-deaths",
+      "bibtex_key": "cms-complications-deaths",
+      "title": "Complications and Deaths - Hospital",
+      "source_url": "https://data.cms.gov/provider-data/dataset/ynj2-r877",
+      "source_urls": [],
+      "query_requests": [
+        {
+          "url": "https://data.cms.gov/provider-data/api/1/datastore/query/ynj2-r877/0?limit=500&offset=0&conditions%5B0%5D%5Bproperty%5D=facility_id&conditions%5B0%5D%5Bvalue%5D=310038&conditions%5B0%5D%5Boperator%5D=%3D",
+          "reported_count": 20,
+          "returned_count": 20,
+          "offset": 0
+        },
+        {
+          "url": "https://data.cms.gov/provider-data/api/1/datastore/query/ynj2-r877/0?limit=500&offset=0&conditions%5B0%5D%5Bproperty%5D=facility_id&conditions%5B0%5D%5Bvalue%5D=310070&conditions%5B0%5D%5Boperator%5D=%3D",
+          "reported_count": 20,
+          "returned_count": 20,
+          "offset": 0
+        }
+      ],
+      "landing_url": null,
+      "upstream_dataset_id": "ynj2-r877",
+      "rights_as_recorded": {
+        "basis": "Public US federal CMS factual data",
+        "redistribution": "public factual government records with attribution",
+        "source_url": "https://data.cms.gov/provider-data/dataset/ynj2-r877"
+      },
+      "scope_as_recorded": "All API rows for CCNs 310038 and 310070; general inventory uses city New Brunswick, NJ (includes additional hospitals).",
+      "limits_as_recorded": [
+        "Historical publication, not live capacity, privileges, staffing or patient-level records.",
+        "Preserve source strings, suppression markers, footnotes and measure periods; not all scores share units.",
+        "Quality aggregates are not direct per-patient simulation probabilities."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "retrieved_at": "2026-10-10T15:02:09.617267+00:00",
+        "upstream_modified": "2026-09-10",
+        "upstream_released": "2026-09-30",
+        "metadata_url": "https://data.cms.gov/provider-data/api/1/metastore/schemas/dataset/items/ynj2-r877"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T15:02:09.617267+00:00"
+        },
+        {
+          "pointer": "/provenance/upstream_modified",
+          "value": "2026-09-10"
+        },
+        {
+          "pointer": "/provenance/upstream_released",
+          "value": "2026-09-30"
+        }
+      ],
+      "catalog_path": "data/catalog/cms-complications-deaths.json",
+      "catalog_sha256": "c25cc1839f17b33b9af7971bfd266a5b1950e17f14667e93e4ba54e475a67743",
+      "normalized_path": "data/normalized/cms-complications-deaths.jsonl",
+      "normalized_sha256": "0c882981483f7a334515f5cb890158be145ad18f0782f21c0cce34f457e706fa",
+      "record_count": 40,
+      "stored_artifacts": [
+        {
+          "path": "data/raw/cms-complications-deaths-metadata.json",
+          "sha256": "2dbce2857acbcdc7c03722d6aedd6f7a57928b70a091fa568d7571747570f4c8",
+          "bytes": 1253,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/cms-complications-deaths-query0-page0.json",
+          "sha256": "db66f774f47c6fac8e723fa71c9bc0ba0e6dba2da37f5dbd8a290d031b096657",
+          "bytes": 12921,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/cms-complications-deaths-query1-page0.json",
+          "sha256": "7d09d15f3da76fe2f4f518651c576360d776501a42db3d6b03ee5f5d5d76007b",
+          "bytes": 12603,
+          "storage_kind": "original_downloaded_response_bytes"
+        }
+      ],
+      "raw_availability": "available"
+    },
+    {
+      "source_id": "cms-facility-affiliations",
+      "bibtex_key": "cms-facility-affiliations",
+      "title": "Facility Affiliation Data",
+      "source_url": "https://data.cms.gov/provider-data/dataset/27ea-46a8",
+      "source_urls": [],
+      "query_requests": [
+        {
+          "url": "https://data.cms.gov/provider-data/api/1/datastore/query/27ea-46a8/0?limit=500&offset=0&conditions%5B0%5D%5Bproperty%5D=facility_affiliations_certification_number&conditions%5B0%5D%5Bvalue%5D=310038&conditions%5B0%5D%5Boperator%5D=%3D",
+          "reported_count": 1485,
+          "returned_count": 500,
+          "offset": 0
+        },
+        {
+          "url": "https://data.cms.gov/provider-data/api/1/datastore/query/27ea-46a8/0?limit=500&offset=500&conditions%5B0%5D%5Bproperty%5D=facility_affiliations_certification_number&conditions%5B0%5D%5Bvalue%5D=310038&conditions%5B0%5D%5Boperator%5D=%3D",
+          "reported_count": 1485,
+          "returned_count": 500,
+          "offset": 500
+        },
+        {
+          "url": "https://data.cms.gov/provider-data/api/1/datastore/query/27ea-46a8/0?limit=500&offset=1000&conditions%5B0%5D%5Bproperty%5D=facility_affiliations_certification_number&conditions%5B0%5D%5Bvalue%5D=310038&conditions%5B0%5D%5Boperator%5D=%3D",
+          "reported_count": 1485,
+          "returned_count": 485,
+          "offset": 1000
+        },
+        {
+          "url": "https://data.cms.gov/provider-data/api/1/datastore/query/27ea-46a8/0?limit=500&offset=0&conditions%5B0%5D%5Bproperty%5D=facility_affiliations_certification_number&conditions%5B0%5D%5Bvalue%5D=310070&conditions%5B0%5D%5Boperator%5D=%3D",
+          "reported_count": 657,
+          "returned_count": 500,
+          "offset": 0
+        },
+        {
+          "url": "https://data.cms.gov/provider-data/api/1/datastore/query/27ea-46a8/0?limit=500&offset=500&conditions%5B0%5D%5Bproperty%5D=facility_affiliations_certification_number&conditions%5B0%5D%5Bvalue%5D=310070&conditions%5B0%5D%5Boperator%5D=%3D",
+          "reported_count": 657,
+          "returned_count": 157,
+          "offset": 500
+        }
+      ],
+      "landing_url": null,
+      "upstream_dataset_id": "27ea-46a8",
+      "rights_as_recorded": {
+        "basis": "Public US federal CMS factual data",
+        "redistribution": "public factual government records with attribution",
+        "source_url": "https://data.cms.gov/provider-data/dataset/27ea-46a8"
+      },
+      "scope_as_recorded": "All API rows for CCNs 310038 and 310070; general inventory uses city New Brunswick, NJ (includes additional hospitals).",
+      "limits_as_recorded": [
+        "Historical publication, not live capacity, privileges, staffing or patient-level records.",
+        "Preserve source strings, suppression markers, footnotes and measure periods; not all scores share units.",
+        "Quality aggregates are not direct per-patient simulation probabilities."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "retrieved_at": "2026-10-10T15:02:20.768184+00:00",
+        "upstream_modified": "2026-08-18",
+        "upstream_released": "2026-09-10",
+        "metadata_url": "https://data.cms.gov/provider-data/api/1/metastore/schemas/dataset/items/27ea-46a8"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T15:02:20.768184+00:00"
+        },
+        {
+          "pointer": "/provenance/upstream_modified",
+          "value": "2026-08-18"
+        },
+        {
+          "pointer": "/provenance/upstream_released",
+          "value": "2026-09-10"
+        }
+      ],
+      "catalog_path": "data/catalog/cms-facility-affiliations.json",
+      "catalog_sha256": "011288e392bce609856bacdfa31558678bfdb37b277b3696ad360ea4b95ef976",
+      "normalized_path": "data/normalized/cms-facility-affiliations.jsonl",
+      "normalized_sha256": "b6fa88ec9ad972a1289f696fa95fa757b33b9618985eb2d6c692d2953cba6b70",
+      "record_count": 2142,
+      "stored_artifacts": [
+        {
+          "path": "data/raw/cms-facility-affiliations-metadata.json",
+          "sha256": "b543486c25d5d1c617fdd71529e8d5a9397d91b0f57c85d2284508f629fc0665",
+          "bytes": 1107,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/cms-facility-affiliations-query0-page0.json",
+          "sha256": "43ce819c525a257f9394aa6abe50ebb7eadbf7993600b8d7f5af58aa8ed95400",
+          "bytes": 134718,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/cms-facility-affiliations-query0-page1.json",
+          "sha256": "80bd240ce81f3c56d8bb4bdb76661a7caab72803395d3454b58a29d682a237cc",
+          "bytes": 134645,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/cms-facility-affiliations-query0-page2.json",
+          "sha256": "54c42c58247ab1cdd31feee442a727d3adf5c02421186f56211ee41afd541b80",
+          "bytes": 130558,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/cms-facility-affiliations-query1-page0.json",
+          "sha256": "e18e8b8bd50ad63c33fc28ce8d7c8073f51a63b6534d26c8d7799b69bc555d2b",
+          "bytes": 134585,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/cms-facility-affiliations-query1-page1.json",
+          "sha256": "d47d22bebb9f292b7eafe25a3a5e67fff13e7304b19b16be1b94d00b12931d9d",
+          "bytes": 43166,
+          "storage_kind": "original_downloaded_response_bytes"
+        }
+      ],
+      "raw_availability": "available"
+    },
+    {
+      "source_id": "cms-hcahps",
+      "bibtex_key": "cms-hcahps",
+      "title": "Patient survey (HCAHPS) - Hospital",
+      "source_url": "https://data.cms.gov/provider-data/dataset/dgck-syfz",
+      "source_urls": [],
+      "query_requests": [
+        {
+          "url": "https://data.cms.gov/provider-data/api/1/datastore/query/dgck-syfz/0?limit=500&offset=0&conditions%5B0%5D%5Bproperty%5D=facility_id&conditions%5B0%5D%5Bvalue%5D=310038&conditions%5B0%5D%5Boperator%5D=%3D",
+          "reported_count": 68,
+          "returned_count": 68,
+          "offset": 0
+        },
+        {
+          "url": "https://data.cms.gov/provider-data/api/1/datastore/query/dgck-syfz/0?limit=500&offset=0&conditions%5B0%5D%5Bproperty%5D=facility_id&conditions%5B0%5D%5Bvalue%5D=310070&conditions%5B0%5D%5Boperator%5D=%3D",
+          "reported_count": 68,
+          "returned_count": 68,
+          "offset": 0
+        }
+      ],
+      "landing_url": null,
+      "upstream_dataset_id": "dgck-syfz",
+      "rights_as_recorded": {
+        "basis": "Public US federal CMS factual data",
+        "redistribution": "public factual government records with attribution",
+        "source_url": "https://data.cms.gov/provider-data/dataset/dgck-syfz"
+      },
+      "scope_as_recorded": "All API rows for CCNs 310038 and 310070; general inventory uses city New Brunswick, NJ (includes additional hospitals).",
+      "limits_as_recorded": [
+        "Historical publication, not live capacity, privileges, staffing or patient-level records.",
+        "Preserve source strings, suppression markers, footnotes and measure periods; not all scores share units.",
+        "Quality aggregates are not direct per-patient simulation probabilities."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "retrieved_at": "2026-10-10T15:02:01.036902+00:00",
+        "upstream_modified": "2026-07-22",
+        "upstream_released": "2026-08-13",
+        "metadata_url": "https://data.cms.gov/provider-data/api/1/metastore/schemas/dataset/items/dgck-syfz"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T15:02:01.036902+00:00"
+        },
+        {
+          "pointer": "/provenance/upstream_modified",
+          "value": "2026-07-22"
+        },
+        {
+          "pointer": "/provenance/upstream_released",
+          "value": "2026-08-13"
+        }
+      ],
+      "catalog_path": "data/catalog/cms-hcahps.json",
+      "catalog_sha256": "78a8cfb8d63c4f47904b322b6c6609a68ccba6a689c1900617dce02a0c24f5bc",
+      "normalized_path": "data/normalized/cms-hcahps.jsonl",
+      "normalized_sha256": "ac8b2bf731e649cdd8e4768f6f72c010082c5a2553d09ad20482ecec0b5ee4f8",
+      "record_count": 136,
+      "stored_artifacts": [
+        {
+          "path": "data/raw/cms-hcahps-metadata.json",
+          "sha256": "070a02b7e2fcff0cef07a3ffd5d099f6f27fd3b0050139723cdbc9ecd220b042",
+          "bytes": 1298,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/cms-hcahps-query0-page0.json",
+          "sha256": "14f386c60c5d9e74f271a83e94fcf4f088064e32027356ce83d5e768e1e66395",
+          "bytes": 63281,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/cms-hcahps-query1-page0.json",
+          "sha256": "11071fdacc78ca12348cd62742c073e23b9fd4b61f67cbd751e3c4376ce13f86",
+          "bytes": 62122,
+          "storage_kind": "original_downloaded_response_bytes"
+        }
+      ],
+      "raw_availability": "available"
+    },
+    {
+      "source_id": "cms-hospital-general-information",
+      "bibtex_key": "cms-hospital-general-information",
+      "title": "Hospital General Information",
+      "source_url": "https://data.cms.gov/provider-data/dataset/xubh-q36u",
+      "source_urls": [],
+      "query_requests": [
+        {
+          "url": "https://data.cms.gov/provider-data/api/1/datastore/query/xubh-q36u/0?limit=500&offset=0&conditions%5B0%5D%5Bproperty%5D=citytown&conditions%5B0%5D%5Bvalue%5D=NEW+BRUNSWICK&conditions%5B0%5D%5Boperator%5D=%3D&conditions%5B1%5D%5Bproperty%5D=state&conditions%5B1%5D%5Bvalue%5D=NJ&conditions%5B1%5D%5Boperator%5D=%3D",
+          "reported_count": 3,
+          "returned_count": 3,
+          "offset": 0
+        }
+      ],
+      "landing_url": null,
+      "upstream_dataset_id": "xubh-q36u",
+      "rights_as_recorded": {
+        "basis": "Public US federal CMS factual data",
+        "redistribution": "public factual government records with attribution",
+        "source_url": "https://data.cms.gov/provider-data/dataset/xubh-q36u"
+      },
+      "scope_as_recorded": "All API rows for CCNs 310038 and 310070; general inventory uses city New Brunswick, NJ (includes additional hospitals).",
+      "limits_as_recorded": [
+        "Historical publication, not live capacity, privileges, staffing or patient-level records.",
+        "Preserve source strings, suppression markers, footnotes and measure periods; not all scores share units.",
+        "Quality aggregates are not direct per-patient simulation probabilities."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "retrieved_at": "2026-10-10T15:01:59.351799+00:00",
+        "upstream_modified": "2026-07-22",
+        "upstream_released": "2026-08-13",
+        "metadata_url": "https://data.cms.gov/provider-data/api/1/metastore/schemas/dataset/items/xubh-q36u"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T15:01:59.351799+00:00"
+        },
+        {
+          "pointer": "/provenance/upstream_modified",
+          "value": "2026-07-22"
+        },
+        {
+          "pointer": "/provenance/upstream_released",
+          "value": "2026-08-13"
+        }
+      ],
+      "catalog_path": "data/catalog/cms-hospital-general-information.json",
+      "catalog_sha256": "6b61d7cf16c15956b7d71b29f282f38b0753ac6d96b3507cf940887c3e6571dd",
+      "normalized_path": "data/normalized/cms-hospital-general-information.jsonl",
+      "normalized_sha256": "3f98243422c9df438a80e65475335ed2bac5bc97f8cb7ebdcc6a55ce4e288428",
+      "record_count": 3,
+      "stored_artifacts": [
+        {
+          "path": "data/raw/cms-hospital-general-information-metadata.json",
+          "sha256": "31eea397b8bfe8207168cefda23256eb9cb3d5e49158d221eda8465a2d8e5f8c",
+          "bytes": 1215,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/cms-hospital-general-information-query0-page0.json",
+          "sha256": "1a1c84070de921cf6413e52a32abed26c60c2e35d36be4e044881823dcd8fe32",
+          "bytes": 9519,
+          "storage_kind": "original_downloaded_response_bytes"
+        }
+      ],
+      "raw_availability": "available"
+    },
+    {
+      "source_id": "cms-infections",
+      "bibtex_key": "cms-infections",
+      "title": "Healthcare Associated Infections - Hospital",
+      "source_url": "https://data.cms.gov/provider-data/dataset/77hc-ibv8",
+      "source_urls": [],
+      "query_requests": [
+        {
+          "url": "https://data.cms.gov/provider-data/api/1/datastore/query/77hc-ibv8/0?limit=500&offset=0&conditions%5B0%5D%5Bproperty%5D=facility_id&conditions%5B0%5D%5Bvalue%5D=310038&conditions%5B0%5D%5Boperator%5D=%3D",
+          "reported_count": 36,
+          "returned_count": 36,
+          "offset": 0
+        },
+        {
+          "url": "https://data.cms.gov/provider-data/api/1/datastore/query/77hc-ibv8/0?limit=500&offset=0&conditions%5B0%5D%5Bproperty%5D=facility_id&conditions%5B0%5D%5Bvalue%5D=310070&conditions%5B0%5D%5Boperator%5D=%3D",
+          "reported_count": 36,
+          "returned_count": 36,
+          "offset": 0
+        }
+      ],
+      "landing_url": null,
+      "upstream_dataset_id": "77hc-ibv8",
+      "rights_as_recorded": {
+        "basis": "Public US federal CMS factual data",
+        "redistribution": "public factual government records with attribution",
+        "source_url": "https://data.cms.gov/provider-data/dataset/77hc-ibv8"
+      },
+      "scope_as_recorded": "All API rows for CCNs 310038 and 310070; general inventory uses city New Brunswick, NJ (includes additional hospitals).",
+      "limits_as_recorded": [
+        "Historical publication, not live capacity, privileges, staffing or patient-level records.",
+        "Preserve source strings, suppression markers, footnotes and measure periods; not all scores share units.",
+        "Quality aggregates are not direct per-patient simulation probabilities."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "retrieved_at": "2026-10-10T15:02:13.420755+00:00",
+        "upstream_modified": "2026-07-22",
+        "upstream_released": "2026-08-13",
+        "metadata_url": "https://data.cms.gov/provider-data/api/1/metastore/schemas/dataset/items/77hc-ibv8"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T15:02:13.420755+00:00"
+        },
+        {
+          "pointer": "/provenance/upstream_modified",
+          "value": "2026-07-22"
+        },
+        {
+          "pointer": "/provenance/upstream_released",
+          "value": "2026-08-13"
+        }
+      ],
+      "catalog_path": "data/catalog/cms-infections.json",
+      "catalog_sha256": "a7f57f8269ada05e536b32976c7ece2f2b33f0dd2974dfcb265ff42440ecbbc9",
+      "normalized_path": "data/normalized/cms-infections.jsonl",
+      "normalized_sha256": "f020ff415706470e750f65565d56dbf592eec43669bdb81270edd1f845e3bd99",
+      "record_count": 72,
+      "stored_artifacts": [
+        {
+          "path": "data/raw/cms-infections-metadata.json",
+          "sha256": "33446aa543593b0bfb045ecdb742d9ec836c576b1bbfabf327f5cc8f7a8d85fa",
+          "bytes": 1810,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/cms-infections-query0-page0.json",
+          "sha256": "dc43541180d33ea736c69021075714dfdb78df3a8afce9e0ea72312fb2e85347",
+          "bytes": 19395,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/cms-infections-query1-page0.json",
+          "sha256": "da18f2781e11aba813d094eaadd1e420da39e6ba65d505ec2e6b052cb1351389",
+          "bytes": 18856,
+          "storage_kind": "original_downloaded_response_bytes"
+        }
+      ],
+      "raw_availability": "available"
+    },
+    {
+      "source_id": "cms-inpatient-provider-service-2024",
+      "bibtex_key": "cms-inpatient-provider-service-2024",
+      "title": "Medicare Inpatient Hospitals - by Provider and Service (2024)",
+      "source_url": "https://data.cms.gov/provider-summary-by-type-of-service/medicare-inpatient-hospitals/medicare-inpatient-hospitals-by-provider-and-service",
+      "source_urls": [],
+      "query_requests": [
+        {
+          "url": "https://data.cms.gov/data-api/v1/dataset/ca9b5ef0-1386-4759-b2b6-5f9b35116786/data?filter%5BRndrng_Prvdr_CCN%5D=310038&size=500&offset=0",
+          "returned_count": 186,
+          "offset": 0
+        },
+        {
+          "url": "https://data.cms.gov/data-api/v1/dataset/ca9b5ef0-1386-4759-b2b6-5f9b35116786/data?filter%5BRndrng_Prvdr_CCN%5D=310070&size=500&offset=0",
+          "returned_count": 55,
+          "offset": 0
+        }
+      ],
+      "landing_url": null,
+      "upstream_dataset_id": "ca9b5ef0-1386-4759-b2b6-5f9b35116786",
+      "rights_as_recorded": {
+        "basis": "CMS catalog distribution license",
+        "source_url": "https://www.usa.gov/government-works",
+        "redistribution": "public US government factual data"
+      },
+      "scope_as_recorded": "2024 Original Medicare fee-for-service Part A IPPS discharges; CCNs 310038 and 310070; all publicly released DRGs within this scope.",
+      "limits_as_recorded": [
+        "Fee-for-service Medicare Part A IPPS population only; not all-payer case mix or New Brunswick resident prevalence.",
+        "Provider-DRG rows with 10 or fewer discharges are suppressed; retained rows do not sum to total all-hospital demand.",
+        "Charges, total payments and Medicare payments are different quantities, not hospital costs or patient liability.",
+        "DRGs are payment/case groupings, not complete procedure pathways or clinical indications."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "retrieved_at": "2026-10-10T15:03:25.158160+00:00",
+        "data_period": {
+          "start": "2024-01-01",
+          "end": "2024-12-31"
+        },
+        "upstream_modified": "2026-04-23"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T15:03:25.158160+00:00"
+        },
+        {
+          "pointer": "/provenance/data_period",
+          "value": {
+            "start": "2024-01-01",
+            "end": "2024-12-31"
+          }
+        },
+        {
+          "pointer": "/provenance/upstream_modified",
+          "value": "2026-04-23"
+        }
+      ],
+      "catalog_path": "data/catalog/cms-inpatient-provider-service-2024.json",
+      "catalog_sha256": "c0e3e00e41c85c3409fae047d2696ed7309cad1a95893ca0194159f2ee3cfce0",
+      "normalized_path": "data/normalized/cms-inpatient-provider-service-2024.jsonl",
+      "normalized_sha256": "fb7dd16da3becad54e386f168b34bfbb34e81baa7b4b232e69d02349972bbe50",
+      "record_count": 241,
+      "stored_artifacts": [
+        {
+          "path": "data/raw/cms-inpatient-provider-service-2024-dictionary.json",
+          "sha256": "c98fc4b8327bb1c0c7b2dafb4f2c5dfe7b2958afc98f83ca74bd5578590c13bd",
+          "bytes": 3841,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/cms-inpatient-provider-service-2024-310038-page0.json",
+          "sha256": "74d3b68ccaffa57153ca54fd047a8f1dd180d211c7e32fe4a3d9de0cf45164e2",
+          "bytes": 113791,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/cms-inpatient-provider-service-2024-310070-page0.json",
+          "sha256": "678d92f06ea4462ff5a19e9d4a4ef54ad8ab0627352934b966d789077e1694db",
+          "bytes": 32523,
+          "storage_kind": "original_downloaded_response_bytes"
+        }
+      ],
+      "raw_availability": "available"
+    },
+    {
+      "source_id": "cms-timely-effective-care",
+      "bibtex_key": "cms-timely-effective-care",
+      "title": "Timely and Effective Care - Hospital",
+      "source_url": "https://data.cms.gov/provider-data/dataset/yv7e-xc69",
+      "source_urls": [],
+      "query_requests": [
+        {
+          "url": "https://data.cms.gov/provider-data/api/1/datastore/query/yv7e-xc69/0?limit=500&offset=0&conditions%5B0%5D%5Bproperty%5D=facility_id&conditions%5B0%5D%5Bvalue%5D=310038&conditions%5B0%5D%5Boperator%5D=%3D",
+          "reported_count": 30,
+          "returned_count": 30,
+          "offset": 0
+        },
+        {
+          "url": "https://data.cms.gov/provider-data/api/1/datastore/query/yv7e-xc69/0?limit=500&offset=0&conditions%5B0%5D%5Bproperty%5D=facility_id&conditions%5B0%5D%5Bvalue%5D=310070&conditions%5B0%5D%5Boperator%5D=%3D",
+          "reported_count": 30,
+          "returned_count": 30,
+          "offset": 0
+        }
+      ],
+      "landing_url": null,
+      "upstream_dataset_id": "yv7e-xc69",
+      "rights_as_recorded": {
+        "basis": "Public US federal CMS factual data",
+        "redistribution": "public factual government records with attribution",
+        "source_url": "https://data.cms.gov/provider-data/dataset/yv7e-xc69"
+      },
+      "scope_as_recorded": "All API rows for CCNs 310038 and 310070; general inventory uses city New Brunswick, NJ (includes additional hospitals).",
+      "limits_as_recorded": [
+        "Historical publication, not live capacity, privileges, staffing or patient-level records.",
+        "Preserve source strings, suppression markers, footnotes and measure periods; not all scores share units.",
+        "Quality aggregates are not direct per-patient simulation probabilities."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "retrieved_at": "2026-10-10T15:02:06.330174+00:00",
+        "upstream_modified": "2026-07-22",
+        "upstream_released": "2026-08-13",
+        "metadata_url": "https://data.cms.gov/provider-data/api/1/metastore/schemas/dataset/items/yv7e-xc69"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T15:02:06.330174+00:00"
+        },
+        {
+          "pointer": "/provenance/upstream_modified",
+          "value": "2026-07-22"
+        },
+        {
+          "pointer": "/provenance/upstream_released",
+          "value": "2026-08-13"
+        }
+      ],
+      "catalog_path": "data/catalog/cms-timely-effective-care.json",
+      "catalog_sha256": "9a2f1354f733081f32dfb969e413691342da69eb48dc07b09426f5a8e1bd2ebd",
+      "normalized_path": "data/normalized/cms-timely-effective-care.jsonl",
+      "normalized_sha256": "8c544c805a0c1d2cfc45b92c7af22f456e32bd90a544cfe519c2d96c774c7c0a",
+      "record_count": 60,
+      "stored_artifacts": [
+        {
+          "path": "data/raw/cms-timely-effective-care-metadata.json",
+          "sha256": "a0bdeeae7ddc463d3acb6e4eb92ab7bcada1b062649c392ca3c0bc29c5b23b8a",
+          "bytes": 1306,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/cms-timely-effective-care-query0-page0.json",
+          "sha256": "b103206d9d1ae2ac4859bd75556f4b6136b803a1bb0b12d9736bd4ac8f4a4436",
+          "bytes": 16885,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/cms-timely-effective-care-query1-page0.json",
+          "sha256": "47a543f9e91db233bf51917ef5af185ca2185dfea1a2ec459483c6e0e76d9c3d",
+          "bytes": 16532,
+          "storage_kind": "original_downloaded_response_bytes"
+        }
+      ],
+      "raw_availability": "available"
+    },
+    {
+      "source_id": "cms-unplanned-visits",
+      "bibtex_key": "cms-unplanned-visits",
+      "title": "Unplanned Hospital Visits - Hospital",
+      "source_url": "https://data.cms.gov/provider-data/dataset/632h-zaca",
+      "source_urls": [],
+      "query_requests": [
+        {
+          "url": "https://data.cms.gov/provider-data/api/1/datastore/query/632h-zaca/0?limit=500&offset=0&conditions%5B0%5D%5Bproperty%5D=facility_id&conditions%5B0%5D%5Bvalue%5D=310038&conditions%5B0%5D%5Boperator%5D=%3D",
+          "reported_count": 14,
+          "returned_count": 14,
+          "offset": 0
+        },
+        {
+          "url": "https://data.cms.gov/provider-data/api/1/datastore/query/632h-zaca/0?limit=500&offset=0&conditions%5B0%5D%5Bproperty%5D=facility_id&conditions%5B0%5D%5Bvalue%5D=310070&conditions%5B0%5D%5Boperator%5D=%3D",
+          "reported_count": 14,
+          "returned_count": 14,
+          "offset": 0
+        }
+      ],
+      "landing_url": null,
+      "upstream_dataset_id": "632h-zaca",
+      "rights_as_recorded": {
+        "basis": "Public US federal CMS factual data",
+        "redistribution": "public factual government records with attribution",
+        "source_url": "https://data.cms.gov/provider-data/dataset/632h-zaca"
+      },
+      "scope_as_recorded": "All API rows for CCNs 310038 and 310070; general inventory uses city New Brunswick, NJ (includes additional hospitals).",
+      "limits_as_recorded": [
+        "Historical publication, not live capacity, privileges, staffing or patient-level records.",
+        "Preserve source strings, suppression markers, footnotes and measure periods; not all scores share units.",
+        "Quality aggregates are not direct per-patient simulation probabilities."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "retrieved_at": "2026-10-10T15:02:17.320516+00:00",
+        "upstream_modified": "2026-09-10",
+        "upstream_released": "2026-09-30",
+        "metadata_url": "https://data.cms.gov/provider-data/api/1/metastore/schemas/dataset/items/632h-zaca"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T15:02:17.320516+00:00"
+        },
+        {
+          "pointer": "/provenance/upstream_modified",
+          "value": "2026-09-10"
+        },
+        {
+          "pointer": "/provenance/upstream_released",
+          "value": "2026-09-30"
+        }
+      ],
+      "catalog_path": "data/catalog/cms-unplanned-visits.json",
+      "catalog_sha256": "1a6178f84b39de1f2c492a6c559033ac4e49d68749896f37b0242d86bccd5b32",
+      "normalized_path": "data/normalized/cms-unplanned-visits.jsonl",
+      "normalized_sha256": "c85d459c027e388df8ed9401521ea65b61ea41e2f9f6c0ddda2f59a7ff61c880",
+      "record_count": 28,
+      "stored_artifacts": [
+        {
+          "path": "data/raw/cms-unplanned-visits-metadata.json",
+          "sha256": "db705c0f067b2f8679abb9fdc19088fa71cb477bc50c9dc0e56eedf6b4241ea8",
+          "bytes": 1574,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/cms-unplanned-visits-query0-page0.json",
+          "sha256": "dc39d475ff38dd67f204837f169717c893e00da719e2f093462846b0f2a82490",
+          "bytes": 11242,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/cms-unplanned-visits-query1-page0.json",
+          "sha256": "16f8cfe0e52bc0bfab2c0d67f2de93592f87e2264c12e4ea2e3487d323357051",
+          "bytes": 11015,
+          "storage_kind": "original_downloaded_response_bytes"
+        }
+      ],
+      "raw_availability": "available"
+    },
+    {
+      "source_id": "local-cdc-acs-middlesex-2017-2021",
+      "bibtex_key": "local-cdc-acs-middlesex-2017-2021",
+      "title": "Non-Medical Factor Measures for County, ACS 2017-2021",
+      "source_url": "https://data.cdc.gov/resource/i6u4-y3g4.json?locationid=34023&%24limit=500&%24order=year%2Cmeasureid%2Cdatavaluetypeid",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": "https://data.cdc.gov/d/i6u4-y3g4",
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "license_id": "PUBLIC_DOMAIN",
+        "evidence_url": "https://data.cdc.gov/api/views/i6u4-y3g4.json",
+        "redistribution": "source metadata PUBLIC_DOMAIN; attribution retained"
+      },
+      "scope_as_recorded": {
+        "geography_level": "county",
+        "fips": "34023",
+        "periods": [
+          "2017-2021"
+        ],
+        "measure_count": 9
+      },
+      "limits_as_recorded": [
+        "Not hospital utilization or arrivals.",
+        "Age-adjusted prevalence must not be multiplied by local population to construct case counts.",
+        "Measures are marginals; joint dependence is unobserved.",
+        "Historical ACS 2017-2021 factors are not current ACS 2024 estimates."
+      ],
+      "acquisition_status": "acquired_bounded_geographic_slice",
+      "provenance_as_recorded": {
+        "source_url": "https://data.cdc.gov/resource/i6u4-y3g4.json?locationid=34023&%24limit=500&%24order=year%2Cmeasureid%2Cdatavaluetypeid",
+        "metadata_url": "https://data.cdc.gov/api/views/i6u4-y3g4.json",
+        "retrieved_at": "2026-10-10T15:02:10.806997+00:00",
+        "sha256": "2b9d861f339a1044a87d8400dbadfbb19d1bc81b62da273596731b44268973cf",
+        "metadata_sha256": "f5b9d5100c6c562db0f50cb9df54b8ea0034e1315403cf5c1ae5faeeda451207",
+        "row_count": 9
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T15:02:10.806997+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/local-cdc-acs-middlesex-2017-2021.json",
+      "catalog_sha256": "f3372538b677526dc4a36ee0c3317d573f776b9890626655f0a3e78dd454dff9",
+      "normalized_path": "data/normalized/local-cdc-acs-middlesex-2017-2021.jsonl",
+      "normalized_sha256": "72c476bb7578f14e2cdeadaa1bcafb6c5203a433e1e5679669c48fed500981ac",
+      "record_count": 9,
+      "stored_artifacts": [
+        {
+          "path": "data/raw/local-cdc-acs-middlesex-2017-2021/records.json",
+          "sha256": "2b9d861f339a1044a87d8400dbadfbb19d1bc81b62da273596731b44268973cf",
+          "bytes": 4598,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/local-cdc-acs-middlesex-2017-2021/metadata.json",
+          "sha256": "f5b9d5100c6c562db0f50cb9df54b8ea0034e1315403cf5c1ae5faeeda451207",
+          "bytes": 29635,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/local-cdc-acs-middlesex-2017-2021/receipt.json",
+          "sha256": "27da72cfc9536fd3479200945d5aa209e456ba6b4628e38758bc70d52e4d126b",
+          "bytes": 449,
+          "storage_kind": "generated_retrieval_receipt"
+        }
+      ],
+      "raw_availability": "available"
+    },
+    {
+      "source_id": "local-cdc-acs-new-brunswick-2017-2021",
+      "bibtex_key": "local-cdc-acs-new-brunswick-2017-2021",
+      "title": "Non-Medical Factor Measures for Place, ACS 2017-2021",
+      "source_url": "https://data.cdc.gov/resource/edkk-ze78.json?locationid=3451210&%24limit=500&%24order=year%2Cmeasureid%2Cdatavaluetypeid",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": "https://data.cdc.gov/d/edkk-ze78",
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "license_id": "PUBLIC_DOMAIN",
+        "evidence_url": "https://data.cdc.gov/api/views/edkk-ze78.json",
+        "redistribution": "source metadata PUBLIC_DOMAIN; attribution retained"
+      },
+      "scope_as_recorded": {
+        "geography_level": "place",
+        "fips": "3451210",
+        "periods": [
+          "2017-2021"
+        ],
+        "measure_count": 9
+      },
+      "limits_as_recorded": [
+        "Not hospital utilization or arrivals.",
+        "Age-adjusted prevalence must not be multiplied by local population to construct case counts.",
+        "Measures are marginals; joint dependence is unobserved.",
+        "Historical ACS 2017-2021 factors are not current ACS 2024 estimates."
+      ],
+      "acquisition_status": "acquired_bounded_geographic_slice",
+      "provenance_as_recorded": {
+        "source_url": "https://data.cdc.gov/resource/edkk-ze78.json?locationid=3451210&%24limit=500&%24order=year%2Cmeasureid%2Cdatavaluetypeid",
+        "metadata_url": "https://data.cdc.gov/api/views/edkk-ze78.json",
+        "retrieved_at": "2026-10-10T15:02:08.978863+00:00",
+        "sha256": "97b84dbf79aff02d228cd7b62fb782a13908c3eb98585277250988d25a997b22",
+        "metadata_sha256": "48880085e98001f62b9ddd49fc2f047487c3938c0dd499b48bdab20e6ae42994",
+        "row_count": 9
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T15:02:08.978863+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/local-cdc-acs-new-brunswick-2017-2021.json",
+      "catalog_sha256": "9e6e42ac07eb40d2da86d5016e8d83fdaea139c788cddcf23cafd66c2e7288aa",
+      "normalized_path": "data/normalized/local-cdc-acs-new-brunswick-2017-2021.jsonl",
+      "normalized_sha256": "4df242fa463f656a965dcadd7c2174688746ffdeed7b7593615222c4c57a4844",
+      "record_count": 9,
+      "stored_artifacts": [
+        {
+          "path": "data/raw/local-cdc-acs-new-brunswick-2017-2021/records.json",
+          "sha256": "97b84dbf79aff02d228cd7b62fb782a13908c3eb98585277250988d25a997b22",
+          "bytes": 4575,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/local-cdc-acs-new-brunswick-2017-2021/metadata.json",
+          "sha256": "48880085e98001f62b9ddd49fc2f047487c3938c0dd499b48bdab20e6ae42994",
+          "bytes": 29674,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/local-cdc-acs-new-brunswick-2017-2021/receipt.json",
+          "sha256": "ab1f0d0ba2ed5812cfa880c06955f348dd77fb68da0cd18f400a51e1698e12bc",
+          "bytes": 451,
+          "storage_kind": "generated_retrieval_receipt"
+        }
+      ],
+      "raw_availability": "available"
+    },
+    {
+      "source_id": "local-cdc-places-middlesex-2025",
+      "bibtex_key": "local-cdc-places-middlesex-2025",
+      "title": "PLACES: Local Data for Better Health, County Data, 2025 release",
+      "source_url": "https://data.cdc.gov/resource/swc5-untb.json?locationid=34023&%24limit=500&%24order=year%2Cmeasureid%2Cdatavaluetypeid",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": "https://data.cdc.gov/d/swc5-untb",
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "license_id": "PUBLIC_DOMAIN",
+        "evidence_url": "https://data.cdc.gov/api/views/swc5-untb.json",
+        "redistribution": "source metadata PUBLIC_DOMAIN; attribution retained"
+      },
+      "scope_as_recorded": {
+        "geography_level": "county",
+        "fips": "34023",
+        "periods": [
+          "2022",
+          "2023"
+        ],
+        "measure_count": 40
+      },
+      "limits_as_recorded": [
+        "Not hospital utilization or arrivals.",
+        "Age-adjusted prevalence must not be multiplied by local population to construct case counts.",
+        "Measures are marginals; joint dependence is unobserved.",
+        "Release year differs from row reference year; small-area models cannot establish policy effects."
+      ],
+      "acquisition_status": "acquired_bounded_geographic_slice",
+      "provenance_as_recorded": {
+        "source_url": "https://data.cdc.gov/resource/swc5-untb.json?locationid=34023&%24limit=500&%24order=year%2Cmeasureid%2Cdatavaluetypeid",
+        "metadata_url": "https://data.cdc.gov/api/views/swc5-untb.json",
+        "retrieved_at": "2026-10-10T15:02:08.410950+00:00",
+        "sha256": "c6654e42c7a7a55e08b76b560b1e6704c6fccb6125ad881961803843add39e5d",
+        "metadata_sha256": "83332ca85fc8920da6756078cefb772ebcef6fa3c05478755b64cf04fe44eb6a",
+        "row_count": 80
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T15:02:08.410950+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/local-cdc-places-middlesex-2025.json",
+      "catalog_sha256": "ab02fc78ae4bd0274cccfb764f17963715c86648334637a169acbb21ea6f74c9",
+      "normalized_path": "data/normalized/local-cdc-places-middlesex-2025.jsonl",
+      "normalized_sha256": "a1b566dfb2c5f2adf10c73ee2f2be5bc01d81374662645a535f0fc07251899aa",
+      "record_count": 80,
+      "stored_artifacts": [
+        {
+          "path": "data/raw/local-cdc-places-middlesex-2025/records.json",
+          "sha256": "c6654e42c7a7a55e08b76b560b1e6704c6fccb6125ad881961803843add39e5d",
+          "bytes": 48466,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/local-cdc-places-middlesex-2025/metadata.json",
+          "sha256": "83332ca85fc8920da6756078cefb772ebcef6fa3c05478755b64cf04fe44eb6a",
+          "bytes": 38893,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/local-cdc-places-middlesex-2025/receipt.json",
+          "sha256": "7752626be803459d2ae9c64eb9ea0eeb9aa9c4192c360fc9003f72ca81bd15fc",
+          "bytes": 450,
+          "storage_kind": "generated_retrieval_receipt"
+        }
+      ],
+      "raw_availability": "available"
+    },
+    {
+      "source_id": "local-cdc-places-new-brunswick-2025",
+      "bibtex_key": "local-cdc-places-new-brunswick-2025",
+      "title": "PLACES: Local Data for Better Health, Place Data, 2025 release",
+      "source_url": "https://data.cdc.gov/resource/eav7-hnsx.json?locationid=3451210&%24limit=500&%24order=year%2Cmeasureid%2Cdatavaluetypeid",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": "https://data.cdc.gov/d/eav7-hnsx",
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "license_id": "PUBLIC_DOMAIN",
+        "evidence_url": "https://data.cdc.gov/api/views/eav7-hnsx.json",
+        "redistribution": "source metadata PUBLIC_DOMAIN; attribution retained"
+      },
+      "scope_as_recorded": {
+        "geography_level": "place",
+        "fips": "3451210",
+        "periods": [
+          "2022",
+          "2023"
+        ],
+        "measure_count": 40
+      },
+      "limits_as_recorded": [
+        "Not hospital utilization or arrivals.",
+        "Age-adjusted prevalence must not be multiplied by local population to construct case counts.",
+        "Measures are marginals; joint dependence is unobserved.",
+        "Release year differs from row reference year; small-area models cannot establish policy effects."
+      ],
+      "acquisition_status": "acquired_bounded_geographic_slice",
+      "provenance_as_recorded": {
+        "source_url": "https://data.cdc.gov/resource/eav7-hnsx.json?locationid=3451210&%24limit=500&%24order=year%2Cmeasureid%2Cdatavaluetypeid",
+        "metadata_url": "https://data.cdc.gov/api/views/eav7-hnsx.json",
+        "retrieved_at": "2026-10-10T15:02:06.991916+00:00",
+        "sha256": "ea7d7e42ffc498000d6a9e4c6305cb39b45e92f73e79ca881a335e0d573161fc",
+        "metadata_sha256": "42c4f8c214798639807460354ce23198047a5601731e970bf449ae57ad0b8b47",
+        "row_count": 80
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T15:02:06.991916+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/local-cdc-places-new-brunswick-2025.json",
+      "catalog_sha256": "1c5fa3723d3344e19649b84c70aa8f14212e242cee21ef8643c05ae1606c187a",
+      "normalized_path": "data/normalized/local-cdc-places-new-brunswick-2025.jsonl",
+      "normalized_sha256": "53b99879f54ca4c0373b823452e4ce5bcf5dbb92a31967345696ea62d2cb4d93",
+      "record_count": 80,
+      "stored_artifacts": [
+        {
+          "path": "data/raw/local-cdc-places-new-brunswick-2025/records.json",
+          "sha256": "ea7d7e42ffc498000d6a9e4c6305cb39b45e92f73e79ca881a335e0d573161fc",
+          "bytes": 47951,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/local-cdc-places-new-brunswick-2025/metadata.json",
+          "sha256": "42c4f8c214798639807460354ce23198047a5601731e970bf449ae57ad0b8b47",
+          "bytes": 39596,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/local-cdc-places-new-brunswick-2025/receipt.json",
+          "sha256": "bdf058af3f8bb2847f00e0bba053b2dfc1db22629615c2509d9db2ed6d5c09ba",
+          "bytes": 452,
+          "storage_kind": "generated_retrieval_receipt"
+        }
+      ],
+      "raw_availability": "available"
+    },
+    {
+      "source_id": "local-nj-staffing-discovery",
+      "bibtex_key": "local-nj-staffing-discovery",
+      "title": "NJ hospital staffing quarterly report documentation",
+      "source_url": "https://healthapps.nj.gov/nursestaffing/quarterly.aspx",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "redistribution": "Only limited original factual paraphrases; full copyrighted source omitted",
+        "source_license": "not established"
+      },
+      "scope_as_recorded": "Limited selected factual paraphrases; not comprehensive extraction",
+      "limits_as_recorded": [
+        "No claim of full document review.",
+        "No direct patient data, current operational state or eligibility established."
+      ],
+      "acquisition_status": "acquired_selected_paraphrased_facts",
+      "provenance_as_recorded": {
+        "source_url": "https://healthapps.nj.gov/nursestaffing/quarterly.aspx",
+        "retrieved_at": "2026-10-10T15:02:48.335328+00:00",
+        "raw_sha256": null
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T15:02:48.335328+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/local-nj-staffing-discovery.json",
+      "catalog_sha256": "7f0996711f209c7a7e45139ec0ac5caf65a77450ea001cb59e92513043f431ad",
+      "normalized_path": "data/normalized/local-nj-staffing-discovery.jsonl",
+      "normalized_sha256": "d0690ce526f682bb4ab82f8a86badf42d8158d73f33cf15cc203e4632d7adaa0",
+      "record_count": 2,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "local-rwjbh-insurance-directory",
+      "bibtex_key": "local-rwjbh-insurance-directory",
+      "title": "RWJBarnabas Health published insurance participation directory",
+      "source_url": "https://www.rwjbh.org/patients-visitors/accepted-insurances/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "redistribution": "Only limited original factual paraphrases; full copyrighted source omitted",
+        "source_license": "not established"
+      },
+      "scope_as_recorded": "Limited selected factual paraphrases; not comprehensive extraction",
+      "limits_as_recorded": [
+        "No claim of full document review.",
+        "No direct patient data, current operational state or eligibility established."
+      ],
+      "acquisition_status": "acquired_selected_paraphrased_facts",
+      "provenance_as_recorded": {
+        "source_url": "https://www.rwjbh.org/patients-visitors/accepted-insurances/",
+        "retrieved_at": "2026-10-10T15:02:48.335328+00:00",
+        "raw_sha256": null
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T15:02:48.335328+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/local-rwjbh-insurance-directory.json",
+      "catalog_sha256": "bd2e47b695a04d596bc8a50e288c1d09cc76c783162e6d575736e81d4aacd1d6",
+      "normalized_path": "data/normalized/local-rwjbh-insurance-directory.jsonl",
+      "normalized_sha256": "67a7d034afcc52a5ebb9129a2375748471d8976603a7338e37eda10b59f950f5",
+      "record_count": 6,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "local-rwjuh-chna-2025",
+      "bibtex_key": "local-rwjuh-chna-2025",
+      "title": "RWJUH / Healthier Middlesex 2025 community needs assessment",
+      "source_url": "https://www.rwjbh.org/documents/community-health-needs-assessment/RWJUH-CHNA-2025.pdf",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "redistribution": "Only limited original factual paraphrases; full copyrighted source omitted",
+        "source_license": "not established"
+      },
+      "scope_as_recorded": "Limited selected factual paraphrases; not comprehensive extraction",
+      "limits_as_recorded": [
+        "No claim of full document review.",
+        "No direct patient data, current operational state or eligibility established."
+      ],
+      "acquisition_status": "acquired_selected_paraphrased_facts",
+      "provenance_as_recorded": {
+        "source_url": "https://www.rwjbh.org/documents/community-health-needs-assessment/RWJUH-CHNA-2025.pdf",
+        "retrieved_at": "2026-10-10T15:02:48.335328+00:00",
+        "raw_sha256": null
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T15:02:48.335328+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/local-rwjuh-chna-2025.json",
+      "catalog_sha256": "9715de0a5afced37ad82e06f03f89557dd2a38e8e75d4be8cedbfba2b4536d7f",
+      "normalized_path": "data/normalized/local-rwjuh-chna-2025.jsonl",
+      "normalized_sha256": "e6b2c1629c326b8b9da05d158923f98241add5ce8201ff5ba1ee2dc8ad0279ee",
+      "record_count": 5,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "local-rwjuh-services",
+      "bibtex_key": "local-rwjuh-services",
+      "title": "RWJUH New Brunswick public campus and services facts",
+      "source_url": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "redistribution": "Only limited original factual paraphrases; full copyrighted source omitted",
+        "source_license": "not established"
+      },
+      "scope_as_recorded": "Limited selected factual paraphrases; not comprehensive extraction",
+      "limits_as_recorded": [
+        "No claim of full document review.",
+        "No direct patient data, current operational state or eligibility established."
+      ],
+      "acquisition_status": "acquired_selected_paraphrased_facts",
+      "provenance_as_recorded": {
+        "source_url": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/",
+        "retrieved_at": "2026-10-10T15:02:48.335328+00:00",
+        "raw_sha256": null
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T15:02:48.335328+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/local-rwjuh-services.json",
+      "catalog_sha256": "199da9142998d813554885c92db6d97bf3337aac9c495b54d1b7b00e943b90ca",
+      "normalized_path": "data/normalized/local-rwjuh-services.jsonl",
+      "normalized_sha256": "b0ea43860c21c65544155e0812f72a8ea86f28307e1b213d1b4eb4559b4fd2a5",
+      "record_count": 7,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "nlm-rxnorm-seed-terms",
+      "bibtex_key": "nlm-rxnorm-seed-terms",
+      "title": "NLM RxNorm preliminary drug identity lookup",
+      "source_url": "https://rxnav.nlm.nih.gov/REST/rxcui.json?name=metformin&search=2",
+      "source_urls": [
+        "https://rxnav.nlm.nih.gov/REST/rxcui.json?name=metformin&search=2",
+        "https://rxnav.nlm.nih.gov/REST/rxcui.json?name=lisinopril&search=2",
+        "https://rxnav.nlm.nih.gov/REST/rxcui.json?name=atorvastatin&search=2",
+        "https://rxnav.nlm.nih.gov/REST/rxcui.json?name=furosemide&search=2",
+        "https://rxnav.nlm.nih.gov/REST/rxcui.json?name=insulin+glargine&search=2",
+        "https://rxnav.nlm.nih.gov/REST/rxcui.json?name=albuterol&search=2",
+        "https://rxnav.nlm.nih.gov/REST/rxcui.json?name=aspirin&search=2",
+        "https://rxnav.nlm.nih.gov/REST/rxcui.json?name=acetaminophen&search=2"
+      ],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "license": "NLM RxNorm API public access",
+        "terms_url": "https://lhncbc.nlm.nih.gov/RxNav/TermsofService.html",
+        "scope": "Bounded NLM identifier lookup responses; no proprietary third-party drug vocabulary content requested."
+      },
+      "scope_as_recorded": "Eight teaching-relevant name queries; not a formulary, medication order or interaction dataset.",
+      "limits_as_recorded": [
+        "Identity or synthetic teaching data only; not clinical approval, prescribing guidance or hospital calibration."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "method": "HTTP source download; deterministic normalization",
+        "script": "scripts/acquire_teaching_terms.py"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/retrieved_at",
+          "value": "2026-10-10T15:03:12.328619+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/nlm-rxnorm-seed-terms.json",
+      "catalog_sha256": "45cd14c5621dbd2885daaf135f8d2b90dd83357f3141704a8e8001d6eb4abb47",
+      "normalized_path": "data/normalized/nlm-rxnorm-seed-terms.jsonl",
+      "normalized_sha256": "0fa13fdaa94d171af4b17eb06153b0e4a2af36c8b450d5bb1f244cc0a5904f75",
+      "record_count": 8,
+      "stored_artifacts": [
+        {
+          "path": "data/raw/nlm-rxnorm-seed-terms/metformin.json",
+          "sha256": "ad160c1b563717e9c52cab033911e4f175cbd0ffbc892f485ac488d346ee86ce",
+          "bytes": 33,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/nlm-rxnorm-seed-terms/lisinopril.json",
+          "sha256": "f50a0dc0c802ceb6da21a3953872fbe9510f6dce8885f7079bcf2ef98a12c499",
+          "bytes": 34,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/nlm-rxnorm-seed-terms/atorvastatin.json",
+          "sha256": "6d9213215e3ca53478b07c015710b94ccf5f0deda5ec586418bd379185ae10a0",
+          "bytes": 34,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/nlm-rxnorm-seed-terms/furosemide.json",
+          "sha256": "84b57b00dadbe65b5db2b6f4911bf4eba3cda916a7506e7ac885359863fe8006",
+          "bytes": 33,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/nlm-rxnorm-seed-terms/insulin-glargine.json",
+          "sha256": "5ecf6895bcb76c98325bae701949f6a3de97e48d97473bb0b7a1d14cafa8da38",
+          "bytes": 35,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/nlm-rxnorm-seed-terms/albuterol.json",
+          "sha256": "48147f17a6572ab4184089196e5d8adedf8adb82386a1f15c6540060651b19e8",
+          "bytes": 32,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/nlm-rxnorm-seed-terms/aspirin.json",
+          "sha256": "8ffe7bc27be0850f21718354f7a8d94aa26f4331ba9f9f7e27b9314e3434a329",
+          "bytes": 33,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/nlm-rxnorm-seed-terms/acetaminophen.json",
+          "sha256": "4fcb2dfd57a601fca2fbd0b332384016341fe7f3f273144cff106e0db17baf11",
+          "bytes": 32,
+          "storage_kind": "original_downloaded_response_bytes"
+        }
+      ],
+      "raw_availability": "available"
+    },
+    {
+      "source_id": "nppes-new-brunswick-practitioners",
+      "bibtex_key": "nppes-new-brunswick-practitioners",
+      "title": "NPPES New Brunswick individual practitioner sample",
+      "source_url": "https://npiregistry.cms.hhs.gov/api/?version=2.1&city=New+Brunswick&state=NJ&enumeration_type=NPI-1&limit=200&skip=0",
+      "source_urls": [],
+      "query_requests": [
+        {
+          "url": "https://npiregistry.cms.hhs.gov/api/?version=2.1&city=New+Brunswick&state=NJ&enumeration_type=NPI-1&limit=200&skip=0"
+        }
+      ],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "basis": "CMS public NPI Registry factual records",
+        "redistribution": "minimized professional fields only",
+        "source_url": "https://npiregistry.cms.hhs.gov/api-page"
+      },
+      "scope_as_recorded": "First 200 NPI-1 city-search results only; not exhaustive and not hospital affiliation evidence.",
+      "limits_as_recorded": [
+        "API sample capped at 200, not total population.",
+        "NPI registration is not verification of licensing, credentials, privileges, employment or availability.",
+        "Raw file is a documented projection: mailing/street addresses, telephone, fax, personal demographics, license numbers and alternate identifiers removed before persistence."
+      ],
+      "acquisition_status": "partial",
+      "provenance_as_recorded": {
+        "retrieved_at": "2026-10-10T15:02:48.756604+00:00"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T15:02:48.756604+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/nppes-new-brunswick-practitioners.json",
+      "catalog_sha256": "c3dfb61ae3095d0d1b080768a3883ef06ddf1f37391076b8ab3e151be47d60d6",
+      "normalized_path": "data/normalized/nppes-new-brunswick-practitioners.jsonl",
+      "normalized_sha256": "c0c906a0c5e4ecf9be4f228fba3ff98a38d38b91ea16c7b76c918f8868c04cc9",
+      "record_count": 200,
+      "stored_artifacts": [
+        {
+          "path": "data/raw/nppes-new-brunswick-practitioners-projected-response.json",
+          "sha256": "d1fd8bd9b7f6a3867e505b19cd9300bb9516f1df9f5fb2c5840d0722d3c46e8e",
+          "bytes": 131117,
+          "storage_kind": "projected_response_not_original_bytes"
+        }
+      ],
+      "raw_availability": "available"
+    },
+    {
+      "source_id": "twinverse-patient-profiles",
+      "bibtex_key": "twinverse-patient-profiles",
+      "title": "Rutgers VHS synthetic nutrition patient profiles",
+      "source_url": "https://huggingface.co/datasets/joeljames270/virtual-patient-profiles-sample/resolve/ee5c260a6e24cd9d6baf5c0ab7ec636788c64c70/patients.jsonl",
+      "source_urls": [
+        "https://huggingface.co/datasets/joeljames270/virtual-patient-profiles-sample/resolve/ee5c260a6e24cd9d6baf5c0ab7ec636788c64c70/patients.jsonl",
+        "https://huggingface.co/datasets/joeljames270/virtual-patient-profiles-sample/resolve/ee5c260a6e24cd9d6baf5c0ab7ec636788c64c70/README.md"
+      ],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "license": "CC-BY-4.0",
+        "attribution": "VHS (Virtual Human Simulation) project at Rutgers University, joeljames270/virtual-patient-profiles-sample",
+        "revision": "ee5c260a6e24cd9d6baf5c0ab7ec636788c64c70",
+        "changes": "Concatenated pretty-printed JSON decoded into one-record-per-line envelopes; clinical content unmodified."
+      },
+      "scope_as_recorded": "Eight synthetic teaching profiles; generated inconsistencies and faculty review pending.",
+      "limits_as_recorded": [
+        "Identity or synthetic teaching data only; not clinical approval, prescribing guidance or hospital calibration."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "method": "HTTP source download; deterministic normalization",
+        "script": "scripts/acquire_teaching_terms.py"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/rights/revision",
+          "value": "ee5c260a6e24cd9d6baf5c0ab7ec636788c64c70"
+        },
+        {
+          "pointer": "/retrieved_at",
+          "value": "2026-10-10T15:03:10.188718+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/twinverse-patient-profiles.json",
+      "catalog_sha256": "73434f0b2954005c3842f6cf8cae5b3b1b29722c832bd9e5255166e26193a7f9",
+      "normalized_path": "data/normalized/twinverse-patient-profiles.jsonl",
+      "normalized_sha256": "b826800f2abc6ecec4c42bfdf20e412e910d8c2e8ed602085056504e933dc49b",
+      "record_count": 8,
+      "stored_artifacts": [
+        {
+          "path": "data/raw/twinverse-patient-profiles/patients.source.jsonl",
+          "sha256": "62791934a610d681b50f1846d6891e5eb3c1969ff47b03ccbbc6982a076651ad",
+          "bytes": 108054,
+          "storage_kind": "original_downloaded_response_bytes"
+        },
+        {
+          "path": "data/raw/twinverse-patient-profiles/README.source.md",
+          "sha256": "4c57ed1bd335124099c34fb06daec78a32d7b2b858bd741d04dea044d4cbda43",
+          "bytes": 7310,
+          "storage_kind": "original_downloaded_response_bytes"
+        }
+      ],
+      "raw_availability": "available"
+    }
+  ]
+}

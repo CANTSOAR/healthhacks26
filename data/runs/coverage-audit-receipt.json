@@ -1,0 +1,52 @@
+{
+  "status": "done",
+  "run_id": "workflow_coverage-audit_20261010151054",
+  "workflow": "coverage-audit",
+  "parent_run_id": null,
+  "parent_step_path": null,
+  "call_depth": 0,
+  "input_digest": "sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+  "workflow_digest": "sha256:bc0a58083c3d3e4beb92d8729fe4e769f25e9cd96296cbd6ff7cb6085479d692",
+  "path": "research_plan/sessions/workflow_coverage-audit_20261010151054",
+  "started_at": "2026-10-10T15:10:54.303946+00:00",
+  "ended_at": "2026-10-10T15:10:57.431553+00:00",
+  "duration_seconds": 3.128,
+  "failed_step": null,
+  "pending_approval_id": null,
+  "output": {},
+  "schema_errors": [],
+  "steps": [
+    {
+      "id": "citations",
+      "kind": "command",
+      "status": "done",
+      "exit_code": 0,
+      "attempts": 1,
+      "command": "./scripts/python scripts/build_citations.py"
+    },
+    {
+      "id": "validate",
+      "kind": "command",
+      "status": "done",
+      "exit_code": 0,
+      "attempts": 1,
+      "command": "bash scripts/run-verification.sh"
+    },
+    {
+      "id": "graph",
+      "kind": "command",
+      "status": "done",
+      "exit_code": 0,
+      "attempts": 1,
+      "command": "./scripts/krail --local --path . graph build"
+    }
+  ],
+  "validation": {
+    "ok": true,
+    "id": "coverage-audit",
+    "path": "research_plan/workflows/coverage-audit.yaml",
+    "errors": [],
+    "warnings": [],
+    "steps": 3
+  }
+}

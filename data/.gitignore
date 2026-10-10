@@ -1,0 +1,12 @@
+# Runtime state, raw agent traces, and temporary downloads are not research data.
+.krail/
+.rail/
+__pycache__/
+*.pyc
+.env
+.env.*
+raw/restricted/
+raw/unreviewed/
+runs/private/
+
+research_plan/sessions/

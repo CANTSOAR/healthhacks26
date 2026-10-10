@@ -1,0 +1,118 @@
+{
+  "version": "0.1.0",
+  "evidence_kinds": [
+    "observed_local",
+    "published_local_aggregate",
+    "published_external_aggregate",
+    "published_external_benchmark",
+    "published_reference",
+    "published_directory",
+    "published_policy",
+    "reviewed_policy",
+    "qualitative_research",
+    "synthetic_example",
+    "assumption",
+    "model_estimate",
+    "generated_draft"
+  ],
+  "review_statuses": [
+    "draft",
+    "unreviewed",
+    "structurally_validated",
+    "reviewed",
+    "approved",
+    "disputed",
+    "rejected",
+    "superseded"
+  ],
+  "quantity": {
+    "required": [
+      "value",
+      "unit"
+    ],
+    "optional": [
+      "unit_system",
+      "method",
+      "precision"
+    ],
+    "rule": "Zero is numeric zero; unknown is a state, never an invented zero."
+  },
+  "coding": {
+    "required": [
+      "system",
+      "code",
+      "version"
+    ],
+    "optional": [
+      "display",
+      "mapping_equivalence",
+      "rights_source_ref"
+    ],
+    "rule": "A billing code or DRG group is not an ActivityPerformance or diagnosis assertion."
+  },
+  "money": {
+    "required": [
+      "value",
+      "currency",
+      "amount_kind",
+      "component"
+    ],
+    "rule": "Preserve price basis, time, setting and payer scope; no sum of unlike financial meanings."
+  },
+  "uncertainty": {
+    "required": [
+      "kind"
+    ],
+    "optional": [
+      "lower",
+      "upper",
+      "confidence_level",
+      "standard_error",
+      "sample_size",
+      "method",
+      "limitations"
+    ],
+    "kind": [
+      "confidence_interval",
+      "margin_of_error",
+      "credible_interval",
+      "range",
+      "not_reported",
+      "not_applicable",
+      "assumed"
+    ]
+  },
+  "value_model": {
+    "required": [
+      "kind"
+    ],
+    "kind": [
+      "scalar",
+      "empirical",
+      "parametric",
+      "conditional",
+      "unavailable"
+    ],
+    "optional": [
+      "value",
+      "distribution",
+      "parameters",
+      "observations_ref",
+      "conditioning_variables",
+      "support",
+      "censoring",
+      "correlation_group"
+    ],
+    "rule": "Empty dependence_refs means unspecified dependence, not independence."
+  },
+  "assertion_object": {
+    "exactly_one_of": [
+      "entity_ref",
+      "literal",
+      "quantity",
+      "coding",
+      "unknown_reason"
+    ],
+    "rule": "Finding-state pending/unknown/explicitly_absent forbids an affirmative measured quantity unless the predicate itself describes the absence/status."
+  }
+}

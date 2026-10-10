@@ -1,0 +1,25 @@
+{
+  "dataset_id": "local-rwjbh-insurance-directory",
+  "source_id": "local-rwjbh-insurance-directory",
+  "title": "RWJBarnabas Health published insurance participation directory",
+  "source_url": "https://www.rwjbh.org/patients-visitors/accepted-insurances/",
+  "record_count": 6,
+  "raw_paths": [],
+  "normalized_path": "data/normalized/local-rwjbh-insurance-directory.jsonl",
+  "scope": "Limited selected factual paraphrases; not comprehensive extraction",
+  "access": "public webpage or PDF",
+  "rights": {
+    "redistribution": "Only limited original factual paraphrases; full copyrighted source omitted",
+    "source_license": "not established"
+  },
+  "acquisition_status": "acquired_selected_paraphrased_facts",
+  "limits": [
+    "No claim of full document review.",
+    "No direct patient data, current operational state or eligibility established."
+  ],
+  "provenance": {
+    "source_url": "https://www.rwjbh.org/patients-visitors/accepted-insurances/",
+    "retrieved_at": "2026-10-10T15:02:48.335328+00:00",
+    "raw_sha256": null
+  }
+}

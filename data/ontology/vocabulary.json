@@ -1,0 +1,2775 @@
+{
+  "ontology_id": "healthhacks-hospital",
+  "version": "0.1.0",
+  "status": "proposal_not_clinically_approved",
+  "contexts": {
+    "evidence": "Sources, assertions, rights, identity reconciliation, and version-scoped review.",
+    "organization": "Legal organizations, physical places, service organization, and resource capacity.",
+    "workforce": "People, role authority, qualifications, privileges, availability, and assignment.",
+    "clinical": "Patient identities/personas, encounters, observations, orders, care delivery, and disclosure.",
+    "workflow": "Versioned pathways, decisions, prerequisites, events, queues, and resource allocation.",
+    "logistics": "Inventory, medication and supplies, diagnostics specimens, transport, and equipment availability.",
+    "coverage_finance": "Payers, plans, coverage, participation, authorization, rates, costs, claims, and settlement.",
+    "community": "Geographies, populations, access needs, community services, discharge, and follow-up.",
+    "quality": "Metric definitions, safety events, qualitative evidence, feedback, and measured results.",
+    "education": "Learning objectives, scenario templates, immutable cases, disclosure, assessment, and evaluation.",
+    "simulation": "Parameter applicability, stochastic dependence, experiment assumptions, and validation."
+  },
+  "entities": [
+    {
+      "id": "SourceRecord",
+      "context": "evidence",
+      "definition": "A versioned source artifact or endpoint snapshot with its retrieval and reuse context.",
+      "attributes": [
+        {
+          "name": "source_url",
+          "type": "uri",
+          "required": true
+        },
+        {
+          "name": "source_kind",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "publisher",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "publication_date",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "retrieved_at",
+          "type": "datetime",
+          "required": true
+        },
+        {
+          "name": "raw_sha256",
+          "type": "sha256",
+          "required": false
+        },
+        {
+          "name": "rights_status",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "rights_url",
+          "type": "uri",
+          "required": false
+        },
+        {
+          "name": "access_status",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "limitations",
+          "type": "strings",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "Assertion",
+      "context": "evidence",
+      "definition": "A contextual, attributed statement; its truth, author, review, and visibility are separate.",
+      "attributes": [
+        {
+          "name": "subject_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "predicate",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "object",
+          "type": "object",
+          "required": true
+        },
+        {
+          "name": "assertion_origin",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "finding_state",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "visibility",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "source_refs",
+          "type": "refs",
+          "required": true
+        },
+        {
+          "name": "locator",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "population_ref",
+          "type": "ref",
+          "required": false
+        },
+        {
+          "name": "conflict_set_ref",
+          "type": "ref",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "ReviewDecision",
+      "context": "evidence",
+      "definition": "A decision by a qualified reviewer about an exact target version and use scope.",
+      "attributes": [
+        {
+          "name": "target_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "target_version",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "reviewer_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "decision",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "scope",
+          "type": "strings",
+          "required": true
+        },
+        {
+          "name": "rationale",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "decided_at",
+          "type": "datetime",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "IdentityMapping",
+      "context": "evidence",
+      "definition": "A versioned proposed or reviewed crosswalk between independently identified entities.",
+      "attributes": [
+        {
+          "name": "left_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "right_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "match_method",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "match_status",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "confidence",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "source_refs",
+          "type": "refs",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "Organization",
+      "context": "organization",
+      "definition": "A legal or administrative organization, including health system, hospital operator, payer, or partner.",
+      "attributes": [
+        {
+          "name": "organization_kind",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "legal_name",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "parent_ref",
+          "type": "ref",
+          "required": false
+        },
+        {
+          "name": "jurisdiction",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "Facility",
+      "context": "organization",
+      "definition": "A licensed or otherwise identified care delivery establishment with a defined reporting scope.",
+      "attributes": [
+        {
+          "name": "operator_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "facility_kind",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "license_identifiers",
+          "type": "objects",
+          "required": false
+        },
+        {
+          "name": "reporting_scope",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "geography_ref",
+          "type": "ref",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "PhysicalLocation",
+      "context": "organization",
+      "definition": "A physical campus, building, wing, floor, room, or bed space; it is not a service team.",
+      "attributes": [
+        {
+          "name": "location_kind",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "facility_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "parent_ref",
+          "type": "ref",
+          "required": false
+        },
+        {
+          "name": "accessibility",
+          "type": "strings",
+          "required": false
+        },
+        {
+          "name": "adjacency",
+          "type": "objects",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "ServiceUnit",
+      "context": "organization",
+      "definition": "An organizational service/team with capabilities that may span several physical locations.",
+      "attributes": [
+        {
+          "name": "facility_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "service_kind",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "location_refs",
+          "type": "refs",
+          "required": true
+        },
+        {
+          "name": "capabilities",
+          "type": "strings",
+          "required": true
+        },
+        {
+          "name": "admission_constraints",
+          "type": "objects",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "Resource",
+      "context": "organization",
+      "definition": "An individually tracked reusable resource, such as bed, ventilator, scanner, vehicle, or station.",
+      "attributes": [
+        {
+          "name": "resource_kind",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "location_ref",
+          "type": "ref",
+          "required": false
+        },
+        {
+          "name": "owning_unit_ref",
+          "type": "ref",
+          "required": false
+        },
+        {
+          "name": "capabilities",
+          "type": "strings",
+          "required": true
+        },
+        {
+          "name": "availability_state",
+          "type": "string",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "CapacitySnapshot",
+      "context": "organization",
+      "definition": "Capacity at a defined instant/interval, with basis and counted scope preserved.",
+      "attributes": [
+        {
+          "name": "scope_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "basis",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "count",
+          "type": "integer",
+          "required": true
+        },
+        {
+          "name": "unit",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "as_of",
+          "type": "datetime",
+          "required": true
+        },
+        {
+          "name": "eligibility_context",
+          "type": "object",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "Person",
+      "context": "workforce",
+      "definition": "An identified real person or explicitly fictional persona; demographic identity does not imply behavior.",
+      "attributes": [
+        {
+          "name": "identity_kind",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "display_name",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "public_identifier",
+          "type": "object",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "RoleAssignment",
+      "context": "workforce",
+      "definition": "A person acting in a role for an organization/service during a stated period.",
+      "attributes": [
+        {
+          "name": "person_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "organization_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "service_unit_ref",
+          "type": "ref",
+          "required": false
+        },
+        {
+          "name": "role_code",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "supervision_ref",
+          "type": "ref",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "Qualification",
+      "context": "workforce",
+      "definition": "A documented skill, specialty, training, registration, or credential with verification status.",
+      "attributes": [
+        {
+          "name": "person_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "qualification_kind",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "concept_ref",
+          "type": "ref",
+          "required": false
+        },
+        {
+          "name": "issuer_ref",
+          "type": "ref",
+          "required": false
+        },
+        {
+          "name": "verification_status",
+          "type": "string",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "Privilege",
+      "context": "workforce",
+      "definition": "A scoped grant of authority for a role/person to perform specified activities at a facility.",
+      "attributes": [
+        {
+          "name": "grantee_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "facility_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "activity_refs",
+          "type": "refs",
+          "required": true
+        },
+        {
+          "name": "restrictions",
+          "type": "objects",
+          "required": true
+        },
+        {
+          "name": "granting_authority_ref",
+          "type": "ref",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "Shift",
+      "context": "workforce",
+      "definition": "Planned or actual availability of a role assignment; neither public identity nor affiliation implies a shift.",
+      "attributes": [
+        {
+          "name": "role_assignment_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "start_at",
+          "type": "datetime",
+          "required": true
+        },
+        {
+          "name": "end_at",
+          "type": "datetime",
+          "required": true
+        },
+        {
+          "name": "shift_kind",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "availability_fraction",
+          "type": "number",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "Patient",
+      "context": "clinical",
+      "definition": "A real de-identified subject or synthetic persona whose facts are carried by attributed assertions.",
+      "attributes": [
+        {
+          "name": "identity_kind",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "person_ref",
+          "type": "ref",
+          "required": false
+        },
+        {
+          "name": "persona_label",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "demographic_assertion_refs",
+          "type": "refs",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "Encounter",
+      "context": "clinical",
+      "definition": "A bounded care interaction in a setting; linked encounters form a journey.",
+      "attributes": [
+        {
+          "name": "patient_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "facility_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "setting",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "parent_encounter_ref",
+          "type": "ref",
+          "required": false
+        },
+        {
+          "name": "arrival_route",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "ClinicalConcept",
+      "context": "clinical",
+      "definition": "A clinical meaning with optional versioned terminology mappings; code and concept are distinct.",
+      "attributes": [
+        {
+          "name": "concept_kind",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "preferred_term",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "coding",
+          "type": "objects",
+          "required": true
+        },
+        {
+          "name": "definition",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "Observation",
+      "context": "clinical",
+      "definition": "A time-specific observation or measurement with method and interpretation context, not a diagnosis.",
+      "attributes": [
+        {
+          "name": "subject_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "concept_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "value",
+          "type": "object",
+          "required": true
+        },
+        {
+          "name": "finding_state",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "effective_at",
+          "type": "datetime",
+          "required": false
+        },
+        {
+          "name": "specimen_ref",
+          "type": "ref",
+          "required": false
+        },
+        {
+          "name": "reference_range",
+          "type": "object",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "Order",
+      "context": "clinical",
+      "definition": "A request for a clinical or support action, distinct from its eventual performance.",
+      "attributes": [
+        {
+          "name": "encounter_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "requested_activity_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "requested_by_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "priority",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "ActivityDefinition",
+      "context": "clinical",
+      "definition": "A versioned procedure, test, consultation, medication administration, or support activity definition.",
+      "attributes": [
+        {
+          "name": "activity_kind",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "concept_ref",
+          "type": "ref",
+          "required": false
+        },
+        {
+          "name": "prerequisites",
+          "type": "objects",
+          "required": true
+        },
+        {
+          "name": "resource_requirements",
+          "type": "objects",
+          "required": true
+        },
+        {
+          "name": "completion_criteria",
+          "type": "objects",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "ActivityPerformance",
+      "context": "clinical",
+      "definition": "An actual or simulated execution of an activity, including incomplete and cancelled attempts.",
+      "attributes": [
+        {
+          "name": "activity_definition_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "encounter_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "order_ref",
+          "type": "ref",
+          "required": false
+        },
+        {
+          "name": "performer_refs",
+          "type": "refs",
+          "required": true
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "result_refs",
+          "type": "refs",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "ClinicalArtifact",
+      "context": "clinical",
+      "definition": "A chart note, report, image, waveform, or document with authored and released times and access rights.",
+      "attributes": [
+        {
+          "name": "encounter_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "artifact_kind",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "source_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "related_assertion_refs",
+          "type": "refs",
+          "required": true
+        },
+        {
+          "name": "visibility",
+          "type": "string",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "ConsentDecision",
+      "context": "clinical",
+      "definition": "A scoped, time-bound consent/refusal decision with decision-maker and communication context.",
+      "attributes": [
+        {
+          "name": "subject_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "decision_maker_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "activity_refs",
+          "type": "refs",
+          "required": true
+        },
+        {
+          "name": "decision",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "communication_context",
+          "type": "object",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "Perspective",
+      "context": "clinical",
+      "definition": "A person-expressed or explicitly authored belief, goal, concern, preference, or barrier.",
+      "attributes": [
+        {
+          "name": "subject_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "perspective_kind",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "statement",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "attribution",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "context",
+          "type": "object",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "PathwayDefinition",
+      "context": "workflow",
+      "definition": "A versioned workflow graph with stages, permissible transitions, authority, and exceptions.",
+      "attributes": [
+        {
+          "name": "setting",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "stages",
+          "type": "objects",
+          "required": true
+        },
+        {
+          "name": "transitions",
+          "type": "objects",
+          "required": true
+        },
+        {
+          "name": "policy_refs",
+          "type": "refs",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "PolicyRule",
+      "context": "workflow",
+      "definition": "A contextual prerequisite, authority, routing, eligibility, or contingency rule with explicit effects.",
+      "attributes": [
+        {
+          "name": "rule_kind",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "applicability",
+          "type": "object",
+          "required": true
+        },
+        {
+          "name": "condition",
+          "type": "object",
+          "required": true
+        },
+        {
+          "name": "effect",
+          "type": "object",
+          "required": true
+        },
+        {
+          "name": "authority_ref",
+          "type": "ref",
+          "required": false
+        },
+        {
+          "name": "exceptions",
+          "type": "objects",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "Decision",
+      "context": "workflow",
+      "definition": "A choice made by an identified actor, preserving available alternatives and rationale.",
+      "attributes": [
+        {
+          "name": "actor_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "subject_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "alternatives",
+          "type": "objects",
+          "required": true
+        },
+        {
+          "name": "selected_action",
+          "type": "object",
+          "required": true
+        },
+        {
+          "name": "rationale",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "policy_refs",
+          "type": "refs",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "Event",
+      "context": "workflow",
+      "definition": "An immutable occurrence with occurrence and recording time, references, and causal predecessors.",
+      "attributes": [
+        {
+          "name": "event_type",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "occurred_at",
+          "type": "datetime",
+          "required": true
+        },
+        {
+          "name": "recorded_at",
+          "type": "datetime",
+          "required": true
+        },
+        {
+          "name": "subject_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "actor_ref",
+          "type": "ref",
+          "required": false
+        },
+        {
+          "name": "encounter_ref",
+          "type": "ref",
+          "required": false
+        },
+        {
+          "name": "caused_by",
+          "type": "refs",
+          "required": true
+        },
+        {
+          "name": "state_before",
+          "type": "object",
+          "required": false
+        },
+        {
+          "name": "state_after",
+          "type": "object",
+          "required": false
+        },
+        {
+          "name": "time_basis",
+          "type": "string",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "QueueEntry",
+      "context": "workflow",
+      "definition": "A wait for a specified service/resource; entry, exit, and censoring are distinguished.",
+      "attributes": [
+        {
+          "name": "encounter_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "service_unit_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "entered_at",
+          "type": "datetime",
+          "required": true
+        },
+        {
+          "name": "exited_at",
+          "type": "datetime",
+          "required": false
+        },
+        {
+          "name": "exit_reason",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "priority",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "censoring",
+          "type": "string",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "ResourceAllocation",
+      "context": "workflow",
+      "definition": "A reservation or active allocation of capacity, a resource, or role to an activity over time.",
+      "attributes": [
+        {
+          "name": "resource_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "activity_performance_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "quantity",
+          "type": "number",
+          "required": true
+        },
+        {
+          "name": "allocation_kind",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "start_at",
+          "type": "datetime",
+          "required": true
+        },
+        {
+          "name": "end_at",
+          "type": "datetime",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "Disruption",
+      "context": "workflow",
+      "definition": "A bounded outage, shortage, surge, or absence affecting dependencies and available service.",
+      "attributes": [
+        {
+          "name": "disruption_kind",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "affected_refs",
+          "type": "refs",
+          "required": true
+        },
+        {
+          "name": "severity",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "response_policy_refs",
+          "type": "refs",
+          "required": true
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "InventoryLot",
+      "context": "logistics",
+      "definition": "A stock lot of medication, blood product, supply, or consumable with unit and expiry.",
+      "attributes": [
+        {
+          "name": "item_concept_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "location_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "quantity",
+          "type": "number",
+          "required": true
+        },
+        {
+          "name": "unit",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "expires_at",
+          "type": "datetime",
+          "required": false
+        },
+        {
+          "name": "storage_constraints",
+          "type": "objects",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "InventoryMovement",
+      "context": "logistics",
+      "definition": "An auditable receipt, consumption, transfer, disposal, or adjustment of stock.",
+      "attributes": [
+        {
+          "name": "lot_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "movement_kind",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "quantity",
+          "type": "number",
+          "required": true
+        },
+        {
+          "name": "unit",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "origin_ref",
+          "type": "ref",
+          "required": false
+        },
+        {
+          "name": "destination_ref",
+          "type": "ref",
+          "required": false
+        },
+        {
+          "name": "event_ref",
+          "type": "ref",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "Specimen",
+      "context": "logistics",
+      "definition": "A collected or requested biological specimen with patient linkage and chain-of-custody events.",
+      "attributes": [
+        {
+          "name": "patient_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "specimen_concept_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "order_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "custody_event_refs",
+          "type": "refs",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "InsurancePlan",
+      "context": "coverage_finance",
+      "definition": "A versioned insurance product; benefits and network depend on dates and service context.",
+      "attributes": [
+        {
+          "name": "payer_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "plan_identifier",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "market",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "benefit_rules",
+          "type": "objects",
+          "required": true
+        },
+        {
+          "name": "formulary_refs",
+          "type": "refs",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "Coverage",
+      "context": "coverage_finance",
+      "definition": "A subject-specific enrollment/eligibility assertion with period and verification state.",
+      "attributes": [
+        {
+          "name": "patient_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "plan_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "coverage_order",
+          "type": "integer",
+          "required": true
+        },
+        {
+          "name": "eligibility_status",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "verification_at",
+          "type": "datetime",
+          "required": false
+        },
+        {
+          "name": "benefit_accumulators",
+          "type": "object",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "NetworkParticipation",
+      "context": "coverage_finance",
+      "definition": "Date- and product-specific participation of a facility or professional in a network.",
+      "attributes": [
+        {
+          "name": "provider_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "plan_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "service_scope",
+          "type": "strings",
+          "required": true
+        },
+        {
+          "name": "participation_status",
+          "type": "string",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "Authorization",
+      "context": "coverage_finance",
+      "definition": "A request and decision for payer authorization with scope and expiration, not guaranteed payment.",
+      "attributes": [
+        {
+          "name": "coverage_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "order_refs",
+          "type": "refs",
+          "required": true
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "requested_at",
+          "type": "datetime",
+          "required": true
+        },
+        {
+          "name": "decision_at",
+          "type": "datetime",
+          "required": false
+        },
+        {
+          "name": "decision_reason",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "FinancialAmount",
+      "context": "coverage_finance",
+      "definition": "A contextual amount with explicit economic meaning, currency, scope, and methodology.",
+      "attributes": [
+        {
+          "name": "amount_kind",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "value",
+          "type": "number",
+          "required": true
+        },
+        {
+          "name": "currency",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "service_ref",
+          "type": "ref",
+          "required": false
+        },
+        {
+          "name": "plan_ref",
+          "type": "ref",
+          "required": false
+        },
+        {
+          "name": "setting",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "component",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "methodology",
+          "type": "string",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "Claim",
+      "context": "coverage_finance",
+      "definition": "A versioned submission for payment, with coded line items and adjudication state.",
+      "attributes": [
+        {
+          "name": "encounter_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "coverage_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "billing_organization_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "line_items",
+          "type": "objects",
+          "required": true
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "original_claim_ref",
+          "type": "ref",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "Settlement",
+      "context": "coverage_finance",
+      "definition": "A payment, adjustment, denial, refund, or patient obligation associated with claim lines.",
+      "attributes": [
+        {
+          "name": "claim_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "settlement_kind",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "amount_refs",
+          "type": "refs",
+          "required": true
+        },
+        {
+          "name": "reason",
+          "type": "string",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "Appeal",
+      "context": "coverage_finance",
+      "definition": "A review request for a coverage, authorization, or claim decision with time and outcome.",
+      "attributes": [
+        {
+          "name": "target_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "reason",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "submitted_at",
+          "type": "datetime",
+          "required": true
+        },
+        {
+          "name": "outcome",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "GeographicArea",
+      "context": "community",
+      "definition": "A versioned administrative or statistical area; place, tract, county, ZIP and ZCTA remain distinct.",
+      "attributes": [
+        {
+          "name": "geography_kind",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "geocode",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "geocode_system",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "boundary_vintage",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "parent_ref",
+          "type": "ref",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "PopulationDefinition",
+      "context": "community",
+      "definition": "An explicit inclusion/exclusion, geography, time, and denominator definition for a cohort.",
+      "attributes": [
+        {
+          "name": "basis",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "inclusion",
+          "type": "object",
+          "required": true
+        },
+        {
+          "name": "exclusion",
+          "type": "object",
+          "required": true
+        },
+        {
+          "name": "geography_refs",
+          "type": "refs",
+          "required": true
+        },
+        {
+          "name": "denominator_definition",
+          "type": "string",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "CommunityService",
+      "context": "community",
+      "definition": "A community or post-acute service with location, eligibility, accessibility, and referral process.",
+      "attributes": [
+        {
+          "name": "provider_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "service_kind",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "geography_refs",
+          "type": "refs",
+          "required": true
+        },
+        {
+          "name": "eligibility_rules",
+          "type": "objects",
+          "required": true
+        },
+        {
+          "name": "referral_requirements",
+          "type": "objects",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "DischargePlan",
+      "context": "community",
+      "definition": "A patient-specific disposition plan, goals, readiness, blockers, and follow-up requirements.",
+      "attributes": [
+        {
+          "name": "encounter_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "destination_ref",
+          "type": "ref",
+          "required": false
+        },
+        {
+          "name": "readiness_status",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "blocker_refs",
+          "type": "refs",
+          "required": true
+        },
+        {
+          "name": "patient_goal_refs",
+          "type": "refs",
+          "required": true
+        },
+        {
+          "name": "followup_refs",
+          "type": "refs",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "Referral",
+      "context": "community",
+      "definition": "A request for another service, placement, transport, or follow-up with acceptance status.",
+      "attributes": [
+        {
+          "name": "encounter_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "target_service_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "prerequisites",
+          "type": "objects",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "MeasureDefinition",
+      "context": "quality",
+      "definition": "A versioned definition of a count, ratio, outcome, experience, safety, or operational metric.",
+      "attributes": [
+        {
+          "name": "measure_kind",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "numerator_definition",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "denominator_definition",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "unit",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "adjustment_method",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "exclusions",
+          "type": "objects",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "MeasureResult",
+      "context": "quality",
+      "definition": "A measured or modeled statistic with population, reporting period, suppression, and uncertainty.",
+      "attributes": [
+        {
+          "name": "measure_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "population_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "value",
+          "type": "object",
+          "required": true
+        },
+        {
+          "name": "measurement_method",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "suppression_status",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "uncertainty",
+          "type": "object",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "QualitativeFinding",
+      "context": "quality",
+      "definition": "An attributed theme, reported experience, exception, or practice from a described method and context.",
+      "attributes": [
+        {
+          "name": "finding_kind",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "statement",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "population_ref",
+          "type": "ref",
+          "required": false
+        },
+        {
+          "name": "method",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "context",
+          "type": "object",
+          "required": true
+        },
+        {
+          "name": "locator",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "disagreements",
+          "type": "strings",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "SafetyEvent",
+      "context": "quality",
+      "definition": "A reported incident or near miss whose attribution and causal analysis have explicit review state.",
+      "attributes": [
+        {
+          "name": "event_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "incident_kind",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "harm_status",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "contributing_assertion_refs",
+          "type": "refs",
+          "required": true
+        },
+        {
+          "name": "response_refs",
+          "type": "refs",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "LearningObjective",
+      "context": "education",
+      "definition": "An observable learner capability tied to expected context and evidence.",
+      "attributes": [
+        {
+          "name": "learner_level",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "capability",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "context",
+          "type": "object",
+          "required": true
+        },
+        {
+          "name": "evidence_requirements",
+          "type": "objects",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "ScenarioTemplate",
+      "context": "education",
+      "definition": "A versioned reusable teaching situation with permitted variation and completion rules.",
+      "attributes": [
+        {
+          "name": "objective_refs",
+          "type": "refs",
+          "required": true
+        },
+        {
+          "name": "pathway_refs",
+          "type": "refs",
+          "required": true
+        },
+        {
+          "name": "variation_constraints",
+          "type": "objects",
+          "required": true
+        },
+        {
+          "name": "initial_state_requirements",
+          "type": "objects",
+          "required": true
+        },
+        {
+          "name": "completion_criteria",
+          "type": "objects",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "CaseVersion",
+      "context": "education",
+      "definition": "An immutable authored patient scenario version, separate from real-world records and encounter state.",
+      "attributes": [
+        {
+          "name": "template_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "patient_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "assertion_refs",
+          "type": "refs",
+          "required": true
+        },
+        {
+          "name": "artifact_refs",
+          "type": "refs",
+          "required": true
+        },
+        {
+          "name": "disclosure_rule_refs",
+          "type": "refs",
+          "required": true
+        },
+        {
+          "name": "scripted_event_refs",
+          "type": "refs",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "DisclosureRule",
+      "context": "education",
+      "definition": "A versioned rule for revealing a case fact to an audience in an encounter context.",
+      "attributes": [
+        {
+          "name": "assertion_refs",
+          "type": "refs",
+          "required": true
+        },
+        {
+          "name": "audience",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "trigger",
+          "type": "object",
+          "required": true
+        },
+        {
+          "name": "released_content",
+          "type": "object",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "RubricVersion",
+      "context": "education",
+      "definition": "An immutable assessment rubric with applicability, observable criteria, scale and N/A rules.",
+      "attributes": [
+        {
+          "name": "objective_refs",
+          "type": "refs",
+          "required": true
+        },
+        {
+          "name": "criteria",
+          "type": "objects",
+          "required": true
+        },
+        {
+          "name": "scoring_scale",
+          "type": "object",
+          "required": true
+        },
+        {
+          "name": "na_rules",
+          "type": "objects",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "Assessment",
+      "context": "education",
+      "definition": "A versioned judgment of learner behavior linked to specific encounter evidence and rubric.",
+      "attributes": [
+        {
+          "name": "encounter_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "rubric_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "evaluator_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "criterion_results",
+          "type": "objects",
+          "required": true
+        },
+        {
+          "name": "evidence_refs",
+          "type": "refs",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "EvidenceArtifact",
+      "context": "education",
+      "definition": "A permitted transcript span, action record, answer, or observation used in assessment or review.",
+      "attributes": [
+        {
+          "name": "artifact_kind",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "encounter_ref",
+          "type": "ref",
+          "required": false
+        },
+        {
+          "name": "source_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "locator",
+          "type": "string",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "EvaluationCase",
+      "context": "education",
+      "definition": "A reference test with inputs, expected behavior, prohibited behavior, and reviewer provenance.",
+      "attributes": [
+        {
+          "name": "target_refs",
+          "type": "refs",
+          "required": true
+        },
+        {
+          "name": "inputs",
+          "type": "object",
+          "required": true
+        },
+        {
+          "name": "expected",
+          "type": "object",
+          "required": true
+        },
+        {
+          "name": "prohibited",
+          "type": "objects",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "Parameter",
+      "context": "simulation",
+      "definition": "An applicable numeric value or distribution with unit, dependence, uncertainty, and calibration basis.",
+      "attributes": [
+        {
+          "name": "parameter_kind",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "unit",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "value_model",
+          "type": "object",
+          "required": true
+        },
+        {
+          "name": "applicability",
+          "type": "object",
+          "required": true
+        },
+        {
+          "name": "uncertainty",
+          "type": "object",
+          "required": true
+        },
+        {
+          "name": "dependence_refs",
+          "type": "refs",
+          "required": true
+        },
+        {
+          "name": "usable_for",
+          "type": "strings",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "SimulationRun",
+      "context": "simulation",
+      "definition": "A reproducible experiment binding exact input versions, assumptions, seeds, model, and outputs.",
+      "attributes": [
+        {
+          "name": "model_version",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "input_versions",
+          "type": "objects",
+          "required": true
+        },
+        {
+          "name": "random_seed",
+          "type": "integer",
+          "required": true
+        },
+        {
+          "name": "assumption_refs",
+          "type": "refs",
+          "required": true
+        },
+        {
+          "name": "parameter_refs",
+          "type": "refs",
+          "required": true
+        },
+        {
+          "name": "event_refs",
+          "type": "refs",
+          "required": true
+        },
+        {
+          "name": "output_refs",
+          "type": "refs",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "ValidationStudy",
+      "context": "simulation",
+      "definition": "An evaluation with purpose, held-out evidence, acceptance criteria and limitations.",
+      "attributes": [
+        {
+          "name": "target_ref",
+          "type": "ref",
+          "required": true
+        },
+        {
+          "name": "validation_kind",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "reference_refs",
+          "type": "refs",
+          "required": true
+        },
+        {
+          "name": "fit_data_refs",
+          "type": "refs",
+          "required": true
+        },
+        {
+          "name": "holdout_data_refs",
+          "type": "refs",
+          "required": true
+        },
+        {
+          "name": "acceptance_criteria",
+          "type": "objects",
+          "required": true
+        },
+        {
+          "name": "results",
+          "type": "objects",
+          "required": true
+        },
+        {
+          "name": "limitations",
+          "type": "strings",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "id": "operated_by",
+      "domain": [
+        "Facility"
+      ],
+      "range": [
+        "Organization"
+      ],
+      "outgoing_cardinality": "1",
+      "definition": "The organization legally/administratively operating the facility during the valid interval.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "located_in",
+      "domain": [
+        "PhysicalLocation",
+        "Resource"
+      ],
+      "range": [
+        "PhysicalLocation"
+      ],
+      "outgoing_cardinality": "0..1",
+      "definition": "Immediate physical containment; containment must be acyclic.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "serves_at",
+      "domain": [
+        "ServiceUnit"
+      ],
+      "range": [
+        "PhysicalLocation"
+      ],
+      "outgoing_cardinality": "0..*",
+      "definition": "Organizational unit provides service at a place without being that place.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "affiliated_with",
+      "domain": [
+        "Person"
+      ],
+      "range": [
+        "Organization",
+        "Facility"
+      ],
+      "outgoing_cardinality": "0..*",
+      "definition": "Published affiliation assertion; no implication of current privilege or availability.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "acts_as",
+      "domain": [
+        "Person"
+      ],
+      "range": [
+        "RoleAssignment"
+      ],
+      "outgoing_cardinality": "0..*",
+      "definition": "Person holds an organization-scoped role.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "qualified_by",
+      "domain": [
+        "Person"
+      ],
+      "range": [
+        "Qualification"
+      ],
+      "outgoing_cardinality": "0..*",
+      "definition": "Skill/credential evidence with verification status.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "authorized_by",
+      "domain": [
+        "RoleAssignment",
+        "Person"
+      ],
+      "range": [
+        "Privilege"
+      ],
+      "outgoing_cardinality": "0..*",
+      "definition": "Explicit scoped activity authority.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "scheduled_for",
+      "domain": [
+        "RoleAssignment"
+      ],
+      "range": [
+        "Shift"
+      ],
+      "outgoing_cardinality": "0..*",
+      "definition": "Planned or actual availability interval.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "has_patient",
+      "domain": [
+        "Encounter"
+      ],
+      "range": [
+        "Patient"
+      ],
+      "outgoing_cardinality": "1",
+      "definition": "Subject of the encounter.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "at_facility",
+      "domain": [
+        "Encounter"
+      ],
+      "range": [
+        "Facility"
+      ],
+      "outgoing_cardinality": "1",
+      "definition": "Facility responsible for this encounter.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "asserts_about",
+      "domain": [
+        "Assertion"
+      ],
+      "range": [
+        "Patient",
+        "Encounter",
+        "Person",
+        "Facility",
+        "ServiceUnit",
+        "ClinicalConcept",
+        "Organization",
+        "PhysicalLocation",
+        "InsurancePlan"
+      ],
+      "outgoing_cardinality": "1",
+      "definition": "Subject of contextual assertion; object may be a concept, entity, literal, or quantity.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "supported_by",
+      "domain": [
+        "Assertion",
+        "Parameter",
+        "PolicyRule",
+        "QualitativeFinding",
+        "MeasureResult"
+      ],
+      "range": [
+        "SourceRecord",
+        "EvidenceArtifact"
+      ],
+      "outgoing_cardinality": "1..*",
+      "definition": "Exact locators and evidence strength remain required; a citation is not validation.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "requests",
+      "domain": [
+        "Order"
+      ],
+      "range": [
+        "ActivityDefinition"
+      ],
+      "outgoing_cardinality": "1",
+      "definition": "Requested activity definition, not an execution.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "fulfills",
+      "domain": [
+        "ActivityPerformance"
+      ],
+      "range": [
+        "Order"
+      ],
+      "outgoing_cardinality": "0..1",
+      "definition": "Execution fulfilling an order; multiple performances may fulfill one order.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "executes",
+      "domain": [
+        "ActivityPerformance"
+      ],
+      "range": [
+        "ActivityDefinition"
+      ],
+      "outgoing_cardinality": "1",
+      "definition": "Exact activity definition version being performed.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "performed_by",
+      "domain": [
+        "ActivityPerformance"
+      ],
+      "range": [
+        "RoleAssignment"
+      ],
+      "outgoing_cardinality": "0..*",
+      "definition": "Performers with authority checked at execution time.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "produces",
+      "domain": [
+        "ActivityPerformance"
+      ],
+      "range": [
+        "Observation",
+        "ClinicalArtifact"
+      ],
+      "outgoing_cardinality": "0..*",
+      "definition": "Result resources; not all activities produce diagnostic observations.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "allocates",
+      "domain": [
+        "ResourceAllocation"
+      ],
+      "range": [
+        "Resource",
+        "RoleAssignment",
+        "InventoryLot"
+      ],
+      "outgoing_cardinality": "1",
+      "definition": "Allocation of reusable, staff, or consumable resource; consumption requires movement.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "follows",
+      "domain": [
+        "Event"
+      ],
+      "range": [
+        "Event"
+      ],
+      "outgoing_cardinality": "0..*",
+      "definition": "Causal predecessor; must be acyclic and time-consistent.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "governed_by",
+      "domain": [
+        "PathwayDefinition",
+        "Decision",
+        "ActivityDefinition"
+      ],
+      "range": [
+        "PolicyRule"
+      ],
+      "outgoing_cardinality": "0..*",
+      "definition": "Applicable versioned policy, retaining exceptions.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "has_perspective",
+      "domain": [
+        "Patient",
+        "Person"
+      ],
+      "range": [
+        "Perspective"
+      ],
+      "outgoing_cardinality": "0..*",
+      "definition": "Attributed perspective, not independently established clinical truth.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "enrolled_in",
+      "domain": [
+        "Coverage"
+      ],
+      "range": [
+        "InsurancePlan"
+      ],
+      "outgoing_cardinality": "1",
+      "definition": "Plan for this enrollment record.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "issued_by",
+      "domain": [
+        "InsurancePlan"
+      ],
+      "range": [
+        "Organization"
+      ],
+      "outgoing_cardinality": "1",
+      "definition": "Payer organization for the plan.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "participates_in",
+      "domain": [
+        "NetworkParticipation"
+      ],
+      "range": [
+        "InsurancePlan"
+      ],
+      "outgoing_cardinality": "1",
+      "definition": "Plan-specific network contract assertion.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "bills_for",
+      "domain": [
+        "Claim"
+      ],
+      "range": [
+        "Encounter"
+      ],
+      "outgoing_cardinality": "1",
+      "definition": "Encounter anchor; line items carry activities and codes.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "adjudicates",
+      "domain": [
+        "Settlement"
+      ],
+      "range": [
+        "Claim"
+      ],
+      "outgoing_cardinality": "1",
+      "definition": "Claim adjustment/payment decision, preserving line references.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "covers_subject",
+      "domain": [
+        "Coverage"
+      ],
+      "range": [
+        "Patient"
+      ],
+      "outgoing_cardinality": "1",
+      "definition": "Coverage subject; status is separately verified.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "summarizes",
+      "domain": [
+        "MeasureResult"
+      ],
+      "range": [
+        "PopulationDefinition"
+      ],
+      "outgoing_cardinality": "1",
+      "definition": "Exact population and denominator scope.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "defined_by",
+      "domain": [
+        "MeasureResult"
+      ],
+      "range": [
+        "MeasureDefinition"
+      ],
+      "outgoing_cardinality": "1",
+      "definition": "Versioned metric semantics.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "serves_population",
+      "domain": [
+        "CommunityService"
+      ],
+      "range": [
+        "PopulationDefinition"
+      ],
+      "outgoing_cardinality": "0..*",
+      "definition": "Eligibility/catchment claim; not an assertion of actual use.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "plans_disposition",
+      "domain": [
+        "DischargePlan"
+      ],
+      "range": [
+        "Encounter"
+      ],
+      "outgoing_cardinality": "1",
+      "definition": "Discharge readiness and actual departure remain separate events.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "refers_to_service",
+      "domain": [
+        "Referral"
+      ],
+      "range": [
+        "CommunityService",
+        "ServiceUnit"
+      ],
+      "outgoing_cardinality": "1",
+      "definition": "Destination service with acceptance status.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "targets_objective",
+      "domain": [
+        "ScenarioTemplate",
+        "RubricVersion"
+      ],
+      "range": [
+        "LearningObjective"
+      ],
+      "outgoing_cardinality": "1..*",
+      "definition": "Educational capability being taught or assessed.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "instantiates",
+      "domain": [
+        "CaseVersion"
+      ],
+      "range": [
+        "ScenarioTemplate"
+      ],
+      "outgoing_cardinality": "1",
+      "definition": "Immutable case version instantiates an exact template version.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "contains_fact",
+      "domain": [
+        "CaseVersion"
+      ],
+      "range": [
+        "Assertion"
+      ],
+      "outgoing_cardinality": "0..*",
+      "definition": "Authoritative case fact set is explicitly enumerated.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "controls_disclosure",
+      "domain": [
+        "DisclosureRule"
+      ],
+      "range": [
+        "Assertion"
+      ],
+      "outgoing_cardinality": "1..*",
+      "definition": "Release rule controls audience visibility, not underlying truth.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "evaluates_with",
+      "domain": [
+        "Assessment"
+      ],
+      "range": [
+        "RubricVersion"
+      ],
+      "outgoing_cardinality": "1",
+      "definition": "Exact rubric version.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "evidenced_by",
+      "domain": [
+        "Assessment"
+      ],
+      "range": [
+        "EvidenceArtifact"
+      ],
+      "outgoing_cardinality": "1..*",
+      "definition": "Assessment requires observable evidence; missing evidence is distinct from poor performance.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "reviews",
+      "domain": [
+        "ReviewDecision"
+      ],
+      "range": [
+        "CaseVersion",
+        "Assertion",
+        "Parameter",
+        "SourceRecord",
+        "PolicyRule",
+        "ScenarioTemplate",
+        "RubricVersion",
+        "EvaluationCase",
+        "IdentityMapping"
+      ],
+      "outgoing_cardinality": "1",
+      "definition": "Review targets an exact immutable version and use scope.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "depends_on",
+      "domain": [
+        "Parameter"
+      ],
+      "range": [
+        "Parameter"
+      ],
+      "outgoing_cardinality": "0..*",
+      "definition": "Dependence or conditional relationship; does not assert independence when empty.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "uses_parameter",
+      "domain": [
+        "SimulationRun"
+      ],
+      "range": [
+        "Parameter"
+      ],
+      "outgoing_cardinality": "0..*",
+      "definition": "Pinned parameter versions; source observations remain separate.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "validates",
+      "domain": [
+        "ValidationStudy"
+      ],
+      "range": [
+        "SimulationRun",
+        "ScenarioTemplate",
+        "Assessment",
+        "Parameter"
+      ],
+      "outgoing_cardinality": "1",
+      "definition": "Validation scope must identify technical, operational, clinical, educational, or human realism claims.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    },
+    {
+      "id": "reconciles",
+      "domain": [
+        "IdentityMapping"
+      ],
+      "range": [
+        "Person",
+        "Facility",
+        "Organization",
+        "PhysicalLocation",
+        "ClinicalConcept",
+        "GeographicArea"
+      ],
+      "outgoing_cardinality": "2",
+      "definition": "Exactly two endpoints; match confidence is not approval.",
+      "representation": "Relationship record or the named reference attribute; never silently inferred from a display name."
+    }
+  ],
+  "extension_policy": "Add attributes/classes with definitions, ownership and competency questions. Maintain source data untouched; map via provenance. No inference rules are enabled merely by declaring vocabulary."
+}
