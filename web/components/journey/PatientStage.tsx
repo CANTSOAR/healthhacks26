@@ -66,7 +66,7 @@ function FinishDialog({ stage, busy, error, onCancel, onSubmit }: { stage: Stage
           </Field>
         )}
         {keys.includes("note") && (
-          <Field label={`${stage.interaction_type === "triage" ? "Triage note" : "Assessment note"}${tag("note")}`} hint="A statement with a figure or finding that nobody recorded is flagged as unsupported.">
+          <Field label={`${stage.interaction_type === "triage" ? "Triage note" : "Assessment note"}${tag("note")}`} hint="A figure, medicine, allergy, test or imaging result, or piece of past history that nobody recorded is flagged as unsupported. Free-text reasoning is not checked.">
             <textarea className={`${inputCls} min-h-[72px]`} value={note} onChange={(e) => setNote(e.target.value)} data-testid="finish-note" />
           </Field>
         )}

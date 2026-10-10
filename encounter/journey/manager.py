@@ -10,19 +10,21 @@ from __future__ import annotations
 
 import copy
 import json
+import os
 import random
 import threading
 import uuid
 from pathlib import Path
 from typing import Any, Callable
 
-from ..clinicians import list_clinicians
+from ..clinicians import BUILTIN, list_clinicians
 from ..disclosure import Engine, student_event
 from ..grader import build_transcript
 from ..paths import data_dir
 from ..providers import Provider, get_provider
 from ..session import EncounterError, EncounterManager, learner_case_view, patient_view
 from ..store import now_iso
+from . import claims
 from . import handoff as ho
 from . import record as rec
 from . import stages as st
@@ -37,10 +39,31 @@ class JourneyError(Exception):
         self.detail = detail or {}
 
 
+ORGANIZER_FLAG = "JOURNEY_USE_ORGANIZER_PROFILES"
+FICTIONAL, ORGANIZER = "fictional", "organizer sample profile"
+
+
+def colleague_pool() -> list[dict]:
+    """Who a journey may cast as a colleague. By default ONLY the built-in invented stand-ins (authored for this project),
+    on every template, whether or not the organizers' pack is on disk. The organizers' sample clinician profiles are
+    used only when JOURNEY_USE_ORGANIZER_PROFILES=1 is set, and are then labelled as what they are, never "fictional"."""
+    if os.environ.get(ORGANIZER_FLAG) == "1":
+        loaded = list_clinicians()
+        if loaded.get("source") == "organizer_private":
+            return [dict(c, source="organizer_private", fictional=False, source_label=ORGANIZER) for c in loaded["clinicians"]]
+    return [dict(c, source="builtin", fictional=True, source_label=FICTIONAL) for c in BUILTIN]
+
+
+def colleague_label(col: dict) -> dict:
+    """The honest label for a stored colleague (journeys saved before the default changed may hold an organizer profile)."""
+    organizer = col.get("source") == "organizer_private"
+    return dict(col, fictional=not organizer, source_label=ORGANIZER if organizer else FICTIONAL)
+
+
 def pick_clinician(staff_role: str | None, clinician_id: str | None = None, avoid: str | None = None) -> dict:
-    """A fictional colleague for a role: the named profile when it is loaded, otherwise the first with that staff role."""
-    pool = list_clinicians()["clinicians"]
-    keep = ("id", "name", "credentials", "role", "staff_role", "specialty", "communication_style", "source")
+    """A colleague for a role: the named stand-in when it is in the pool, otherwise the first with that staff role."""
+    pool = colleague_pool()
+    keep = ("id", "name", "credentials", "role", "staff_role", "specialty", "communication_style", "source", "fictional", "source_label")
     c = next((x for x in pool if x["id"] == clinician_id), None)
     if c is None:
         same = [x for x in pool if x.get("staff_role") == staff_role] or \
@@ -84,9 +107,35 @@ class JourneyManager:
         path = self.dir / f"{jid}.json"
         if not jid.replace("-", "").isalnum() or not path.is_file():
             raise JourneyError(f"journey '{jid}' not found", 404)
-        j = json.loads(path.read_text())
+        j = self._scrub(json.loads(path.read_text()))
         self._cache[jid] = j
         return j
+
+    @staticmethod
+    def _scrub(j: dict) -> dict:
+        """A journey saved while organizer profiles were cast by default: unless the opt-in flag is set, recast those
+        colleagues with the built-in stand-ins everywhere their names were written (record entries, messages, results)."""
+        if os.environ.get(ORGANIZER_FLAG) == "1":
+            return j
+        swaps: dict[str, str] = {}
+        for i, sst in enumerate(j.get("stages") or []):
+            sdef = j["definition"]["stages"][i]
+            for holder, key, role in ((sst, "auto_clinician", sdef["learner_role"]["staff_role"]), (sst.get("handoff") or {}, "colleague", None)):
+                col = holder.get(key)
+                if not isinstance(col, dict) or col.get("source") != "organizer_private" or not col.get("name"):
+                    continue
+                cp = next((c for c in sdef["counterparts"] if c["kind"] == "colleague"), {}) if key == "colleague" else (sdef.get("auto") or {})
+                new = pick_clinician(role or cp.get("staff_role"), cp.get("clinician_id"))
+                swaps[str(col["name"])] = new["name"]
+                if col.get("id"):
+                    swaps[str(col["id"])] = new["id"]
+                holder[key] = dict(new, **({"label": col["label"]} if col.get("label") else {}))
+        if not swaps:
+            return j
+        text = json.dumps(j, ensure_ascii=False)
+        for old, new in sorted(swaps.items(), key=lambda kv: -len(kv[0])):
+            text = text.replace(json.dumps(old, ensure_ascii=False)[1:-1], json.dumps(new, ensure_ascii=False)[1:-1])
+        return json.loads(text)
 
     @staticmethod
     def _log(j: dict, kind: str, stage_id: str | None = None, **detail) -> None:
@@ -349,16 +398,19 @@ class JourneyManager:
             rtext = ho._record_text(j["record"], j["case"], "")
             items = ho.expected_items(j["record"], {"stage_id": "", "sbar": {}})
             ids, bad = [], []
+            by_item = {it["item_id"]: it for it in items}
             for s in ho.sentences(text):
                 hits = ho.match_sentence(s, items, j["record"], j["case"])
                 ids += [i[2:] for i in hits if i.startswith("i-e")]
-                by_item = {it["item_id"]: it for it in items}
-                hit_entries = [e for e in (rec.find(j["record"], x) for i in hits for x in by_item[i]["entry_ids"]) if e]
-                why = ho.unsupported_reason(s, element, rtext, j["record"], j["case"], hit_entries)
-                if not why and element == "B" and ho.unknown_medicine(s, rtext):
-                    why = f"no entry in the shared record mentions {ho.unknown_medicine(s, rtext)}"
-                if why:
-                    bad.append({"quote": s, "reason": why})
+                parts = ho.clauses(s)
+                for cl in parts:                         # each half of "has a pacemaker and had a stroke" is checked on its own
+                    ch = hits if len(parts) == 1 else ho.match_sentence(cl, items, j["record"], j["case"])
+                    hit_entries = [e for e in (rec.find(j["record"], x) for i in ch for x in by_item[i]["entry_ids"]) if e]
+                    why = ho.unsupported_reason(cl, element, rtext, j["record"], j["case"], hit_entries, s)
+                    if not why and element == "B" and ho.unknown_medicine(cl, rtext):
+                        why = f"no entry in the shared record mentions {ho.unknown_medicine(cl, rtext)}"
+                    if why:
+                        bad.append({"quote": cl, "reason": why})
             return {"entry_ids": sorted(set(ids)), "unsupported": bad}
         return fn
 
@@ -438,7 +490,7 @@ class JourneyManager:
             for qn in h["questions"]:
                 texts = [o["text"] for el in g["elements"].values() for o in el["omitted"] if o["item_id"] in qn["item_ids"]]
                 ans = " ".join(t.rstrip(".") + "." for t in texts) if texts and rng.random() < q else "I do not have that to hand."
-                qn.update(answered=True, answer=ans)
+                qn.update(answered=True, answer=ans, attempts=1, unresolved=not (texts and ans != "I do not have that to hand."))
                 h["answers"].append({"question_id": qn["question_id"], "element": qn["element"], "text": ans})
             sst["sampled_quality"] = q
             self._finish_handoff(j, idx, sdef, sst)
@@ -491,19 +543,27 @@ class JourneyManager:
             self._save(j)
             return self.stage_view(jid, sid)
 
-    def _colleague_says(self, j: dict, sdef: dict, h: dict, grading: dict, first: bool = False) -> None:
+    def _colleague_says(self, j: dict, sdef: dict, h: dict, grading: dict, first: bool = False, outcome: str | None = None) -> None:
+        """`outcome` of the learner's last reply: 'reask' (it did not answer the question: ask once more), 'unresolved'
+        (the second reply did not either: say so and move on), or None."""
         nxt = next((q for q in h["questions"] if not q["answered"]), None)
-        if nxt:
-            lines = (["Thanks, I have that."] if first else ["Okay."]) + [nxt["text"]]
+        gave_up = ["I still do not have an answer to that, so I am recording it as unresolved."] if outcome == "unresolved" else []
+        if nxt and outcome == "reask":
+            lines = ["That does not answer what I asked.", nxt["text"]]
+            h["phase"] = "questions"
+            self._log(j, "colleague_question", sdef["stage_id"], question_id=nxt["question_id"], about=nxt["about"], reasked=True)
+        elif nxt:
+            lines = (["Thanks, I have that."] if first else gave_up or ["Okay."]) + [nxt["text"]]
             h["phase"] = "questions"
             nxt["asked"] = True
             self._log(j, "colleague_question", sdef["stage_id"], question_id=nxt["question_id"], about=nxt["about"])
         else:
-            lines = (["Thanks."] if first else ["Okay, thank you."]) + ho.readback_lines(grading)
+            lines = (["Thanks."] if first else gave_up or ["Okay, thank you."]) + ho.readback_lines(grading)
             h["phase"] = "readback"
         out = ho.colleague_reply(lines, h["colleague"], j["record"], j["case"], self._provider_fn())
         h["messages"].append({"who": "colleague", "text": out["reply"], "time": now_iso(), "question_id": nxt["question_id"] if nxt else None,
-                              "kind": "question" if nxt else "readback", "provider": out["provider"], "wording": out["wording"],
+                              "kind": "question" if nxt else "readback", "reask": bool(nxt and outcome == "reask"),
+                              "provider": out["provider"], "wording": out["wording"],
                               "fallback": out["fallback"]})
         h["replies"].append(out)
 
@@ -522,15 +582,25 @@ class JourneyManager:
             cur = next((q for q in h["questions"] if not q["answered"]), None)
             h["messages"].append({"who": "learner", "text": text, "time": now_iso(), "question_id": cur["question_id"] if cur else None})
             h["answers"].append({"question_id": cur["question_id"] if cur else None, "element": cur["element"] if cur else "R", "text": text})
-            if cur:
-                cur.update(answered=True, answer=text)
             g = ho.grade_sbar(h["sbar"], h["answers"], j["record"], j["case"], sdef)
             got = {c["item_id"] for el in g["elements"].values() for c in el["conveyed"]}
+            outcome = None
+            if cur:                                      # a reply that does not supply what was asked is not an answer
+                cur["attempts"] = int(cur.get("attempts") or 0) + 1
+                cur.setdefault("replies", []).append(text)
+                if ho.answer_resolves(cur, text, g, j["record"], j["case"], ho._record_text(j["record"], j["case"], sdef["stage_id"])):
+                    cur.update(answered=True, answer=text, unresolved=False)
+                elif cur["attempts"] < 2:
+                    outcome = "reask"
+                else:
+                    cur.update(answered=True, answer=text, unresolved=True)
+                    outcome = "unresolved"
+                    self._log(j, "colleague_question_unresolved", sid, question_id=cur["question_id"], about=cur["about"])
             for q in h["questions"]:                     # do not ask for something the learner has just supplied
-                if not q["answered"] and q["item_ids"] and set(q["item_ids"]) <= got:
+                if not q["answered"] and q is not cur and q["item_ids"] and set(q["item_ids"]) <= got:
                     q.update(answered=True, skipped=True)
             if cur or h["phase"] != "readback":
-                self._colleague_says(j, sdef, h, g)
+                self._colleague_says(j, sdef, h, g, outcome=outcome)
             else:
                 h["messages"].append({"who": "colleague", "text": "Noted. I will add that to what I have.", "time": now_iso(), "kind": "ack",
                                       "provider": "offline", "wording": "authored", "fallback": False})
@@ -549,19 +619,26 @@ class JourneyManager:
             if not text.strip():
                 continue
             d = g["elements"][el]
+            own = [u for u in d["unsupported"] if not u["prompted"]]
             rec.add(j["record"], sdef, idx, who, "handoff", text, "inference", None, element=el, element_label=label,
-                    status="unsupported" if d["unsupported"] else "handed_over", unsupported=[{"quote": u["quote"], "reason": u["reason"]} for u in d["unsupported"]],
-                    supported_by=sorted({x for c in d["conveyed"] for x in c["entry_ids"]}))
+                    status="unsupported" if own else "handed_over", unsupported=[{"quote": u["quote"], "reason": u["reason"]} for u in own],
+                    supported_by=sorted({x for c in d["conveyed"] for x in c["entry_ids"]}), **({"flag": claims.FLAG} if own else {}))
         col_who = {"staff_role": h["colleague"].get("staff_role") or "rn", "role_label": h["colleague"].get("label") or h["colleague"].get("role"),
                    "actor": "ai", "name": h["colleague"].get("name")}
         for q in h["questions"]:
             if q.get("skipped"):
                 continue
-            if q.get("answer") and q["answered"]:
-                rec.add(j["record"], sdef, idx, who, "handoff", q["answer"], "colleague", None, element=q["element"],
-                        element_label=f"Answer to {h['colleague'].get('name')}", status="handed_over", in_reply_to=q["text"])
-            else:
-                rec.add(j["record"], sdef, idx, col_who, "question", f"Asked at handoff, not answered: {q['text']}", "colleague", None, status="open")
+            if q.get("answer") and q["answered"] and not q.get("unresolved"):
+                bad = [{"quote": u["quote"], "reason": u["reason"]} for d in g["elements"].values() for u in d["unsupported"]
+                       if u["prompted"] and u["quote"] in q["answer"]]
+                rec.add(j["record"], sdef, idx, who, "handoff", q["answer"], "inference", None, element=q["element"],
+                        element_label=f"Answer to {h['colleague'].get('name')}", status="unsupported" if bad else "handed_over",
+                        in_reply_to=q["text"], **({"unsupported": bad, "flag": claims.FLAG} if bad else {}))
+            else:                                        # never answered, or the replies did not supply it: an open item, not a handed-over fact
+                said = q.get("answer") or (q.get("replies") or [None])[-1]
+                rec.add(j["record"], sdef, idx, col_who, "question",
+                        (f"Asked at handoff, not resolved: {q['text']} (reply: \"{said}\")" if said else f"Asked at handoff, not answered: {q['text']}"),
+                        "colleague", None, status="open", unresolved_at_handoff=True)
         for d in g["elements"].values():
             for c in d["conveyed"]:
                 for eid in c["entry_ids"]:
@@ -606,8 +683,9 @@ class JourneyManager:
                 cps.append({"kind": "patient", "name": (j["case"].get("profile") or {}).get("name"), "label": "Patient", "played_by": "ai"})
             else:
                 col = (sst.get("handoff") or {}).get("colleague") or pick_clinician(c.get("staff_role"), c.get("clinician_id"))
+                col = colleague_label(col)
                 cps.append({"kind": "colleague", "name": col.get("name"), "label": c.get("label") or col.get("role"), "staff_role": col.get("staff_role"),
-                            "credentials": col.get("credentials"), "played_by": "ai"})
+                            "credentials": col.get("credentials"), "played_by": "ai", "fictional": col["fictional"], "source_label": col["source_label"]})
         prof = j["case"].get("profile") or {}
         brief = str(sdef.get("brief") or "").replace("{name}", str(prof.get("name") or "the patient")).replace("{age}", str(prof.get("age") or ""))
         blocked = [s["stage_id"] for s in j["stages"][:idx] if s["status"] != "completed"]
@@ -651,8 +729,9 @@ class JourneyManager:
         if stage_kind(sdef) == "handoff":
             h = sst.get("handoff")
             if h:
-                hv = {"colleague": h["colleague"], "sbar": h["sbar"], "phase": h["phase"], "messages": h["messages"],
-                      "questions": [{k: q.get(k) for k in ("question_id", "text", "about", "element", "answered", "answer")} for q in h["questions"]
+                hv = {"colleague": colleague_label(h["colleague"]), "checked": claims.SCOPE_NOTE, "sbar": h["sbar"], "phase": h["phase"], "messages": h["messages"],
+                      "questions": [{k: q.get(k) for k in ("question_id", "text", "about", "element", "answered", "answer", "unresolved", "attempts")}
+                                    for q in h["questions"]
                                     if q.get("asked") or (q.get("answered") and not q.get("skipped"))],
                       "n_questions": len(h["questions"]), "max_questions": int((sdef.get("sbar") or {}).get("max_questions", 3)),
                       "grading": rec.public(h["grading"]) if sst["status"] == "completed" else None}

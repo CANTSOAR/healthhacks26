@@ -88,7 +88,10 @@ function Entry({ e, fresh, stages }: { e: RecordEntry; fresh: boolean; stages: S
         <span className="mt-[1px] shrink-0 text-[10px] font-semibold uppercase tracking-[0.06em] text-ink-3">{e.kind === "handoff" ? (e.element_label ?? "Handoff") : (KIND_LABEL[e.kind] ?? e.kind)}</span>
         {e.status === "superseded" && <span className="chip" style={{ background: "rgba(20,26,51,0.06)", color: "#4A5275" }}>later corrected</span>}
         {conflict && <span className="chip" style={{ background: "#F6C445", color: "#4A3500" }}>in conflict</span>}
-        {unsupported && <span className="chip" style={{ background: "#E5484D", color: "#fff" }}>not supported by the record</span>}
+        {unsupported && <span className="chip" style={{ background: "#E5484D", color: "#fff" }} data-testid="entry-flag">{e.flag ?? "unsupported — not in the shared record"}</span>}
+        {e.default_normal && <span className="chip" style={{ background: "rgba(20,26,51,0.06)", color: "#4A5275" }}>default normal, synthetic</span>}
+        {e.copied_from_case && <span className="chip" style={{ background: "rgba(20,26,51,0.06)", color: "#4A5275" }} title="This stage was not played: the sampler copied this entry from the case file">sampled from the case</span>}
+        {e.after_confrontation && <span className="chip" style={{ background: "rgba(20,26,51,0.06)", color: "#4A5275" }}>said after being shown the record</span>}
         {e.order_status && e.kind === "order" && <span className="chip" style={{ background: e.order_status === "resulted" ? "#E3F4EA" : "#FFF1D6", color: e.order_status === "resulted" ? "#1F7A4D" : "#8A5200" }}>{e.order_status}</span>}
       </div>
       <div className={`mt-1 text-[12.5px] leading-snug text-ink ${e.status === "superseded" ? "line-through decoration-ink-4" : ""}`}>{e.kind === "patient_report" ? `“${e.text}”` : e.text}</div>

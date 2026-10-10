@@ -19,6 +19,8 @@ export interface Provenance {
   source: string;
   time: string;
   status: string;
+  /** Set when the entry is flagged, e.g. "unsupported — not in the shared record". */
+  flag?: string;
 }
 export interface UsedIn {
   stage_id: string;
@@ -50,6 +52,11 @@ export interface RecordEntry extends Provenance {
   in_reply_to?: string;
   unsupported?: Unsupported[];
   discrepancy_ids?: string[];
+  /** Written by a sampled stage: copied from the case by the sampler, not elicited from the patient. */
+  copied_from_case?: boolean;
+  after_confrontation?: boolean;
+  default_normal?: boolean;
+  synthetic?: boolean;
 }
 export interface Discrepancy {
   discrepancy_id: string;
@@ -90,6 +97,8 @@ export interface Counterpart {
   label?: string;
   staff_role?: string;
   credentials?: string;
+  fictional?: boolean;
+  source_label?: string;
 }
 export interface Stage {
   stage_id: string;
@@ -157,21 +166,26 @@ export interface SbarGrading {
   score: number;
   overall: { result: ObjectiveLabel; feedback: string };
   graded_against: string;
+  /** What the unsupported-statement rules cover, and what they do not. */
+  checked?: string;
 }
 export interface HandoffMsg {
   who: "colleague" | "learner";
   text: string;
   kind?: string;
+  reask?: boolean;
   question_id?: string | null;
   provider?: string;
   wording?: string;
 }
 export interface HandoffView {
-  colleague: { id?: string; name: string; role?: string; label?: string; credentials?: string; communication_style?: string };
+  colleague: { id?: string; name: string; role?: string; label?: string; credentials?: string; communication_style?: string; fictional?: boolean; source_label?: string };
+  /** What the unsupported-statement rules cover, and what they do not. */
+  checked?: string;
   sbar: Record<string, string> | null;
   phase: "compose" | "questions" | "readback" | "done";
   messages: HandoffMsg[];
-  questions: { question_id: string; text: string; about: string; answered: boolean; answer: string | null }[];
+  questions: { question_id: string; text: string; about: string; answered: boolean; answer: string | null; unresolved?: boolean | null; attempts?: number | null }[];
   n_questions: number;
   max_questions: number;
   grading: SbarGrading | null;
@@ -224,6 +238,10 @@ export interface CarePlan {
   complete: boolean;
   assembled_from: string;
   n_entries: number;
+  n_sampled_entries?: number;
+  /** Clinicians' notes as written. Never problems; an unsupported one carries `flag`. */
+  notes?: PlanRow[];
+  unsupported_check?: string;
   patient: { name?: string; age?: number; gender?: string };
   problems: PlanRow[];
   findings: { section: string; title: string; items: PlanRow[] }[];

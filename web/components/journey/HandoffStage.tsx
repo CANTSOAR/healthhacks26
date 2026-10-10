@@ -34,12 +34,13 @@ export function HandoffStage({ stage, handoff, busy, onSbar, onAnswer, onFinish 
         <div className="min-w-0 flex-1">
           <div className="truncate text-[15px] font-semibold tracking-[-0.01em] text-ink" data-testid="colleague-name">{col.name}</div>
           <div className="truncate text-[11.5px] text-ink-3">
-            {col.label ?? col.role} · AI colleague receiving the handoff · fictional
+            {col.label ?? col.role} · AI colleague receiving the handoff · <span data-testid="colleague-source">{col.source_label ?? (col.fictional === false ? "organizer sample profile" : "fictional")}</span>
           </div>
         </div>
         {!composing && (
           <span className="chip" style={{ background: "rgba(20,26,51,0.06)", color: "#4A5275" }} data-testid="question-count">
             {handoff.questions.length} of up to {handoff.max_questions} questions asked
+            {handoff.questions.some((q) => q.unresolved) ? ` · ${handoff.questions.filter((q) => q.unresolved).length} unresolved` : ""}
           </span>
         )}
         {!composing && (
@@ -80,7 +81,7 @@ export function HandoffStage({ stage, handoff, busy, onSbar, onAnswer, onFinish 
               <button className="btn-primary !h-9 !px-4" disabled={busy || !Object.values(sbar).some((v) => v.trim())} onClick={() => onSbar(sbar)} data-testid="sbar-submit">
                 {busy && <Spinner size={12} />} Give the handoff
               </button>
-              <span className="text-[11.5px] text-ink-3">It is checked against the shared record on the right: what the team learned, not the hidden case.</span>
+              <span className="text-[11.5px] leading-snug text-ink-3" data-testid="sbar-check-scope">{handoff.checked ?? "Checked against the shared record by fixed rules: medicines, allergies, test and imaging results, past history and figures. Free-text reasoning is not checked."} The record is what the team learned, not the hidden case.</span>
             </div>
           </div>
         )}

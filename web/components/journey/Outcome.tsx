@@ -10,12 +10,25 @@ import { DiscrepancyCard, ProvenanceChips } from "./RecordPanel";
 import { ObjectiveList, SbarReport } from "./StagePanels";
 import { RoleAvatar } from "./StageRail";
 
+function RowFlags({ r }: { r: PlanRow }) {
+  const grey = { background: "rgba(20,26,51,0.06)", color: "#4A5275" };
+  return (
+    <>
+      {r.flag && <span className="chip" style={{ background: "#E5484D", color: "#fff" }} data-testid="plan-flag">{r.flag}</span>}
+      {r.kind === "order" && r.order_status && <span className="chip" style={r.order_status === "resulted" ? { background: "#E3F4EA", color: "#1F7A4D" } : { background: "#FFF1D6", color: "#8A5200" }} data-testid="plan-order-status">{r.order_status}{r.default_normal ? " (default normal, synthetic)" : ""}</span>}
+      {r.copied_from_case && <span className="chip" style={grey} title="This stage was not played: the sampler copied this entry from the case file">sampled from the case</span>}
+      {r.after_confrontation && <span className="chip" style={grey}>said after being shown the record</span>}
+    </>
+  );
+}
+
 function Row({ r }: { r: PlanRow }) {
   return (
     <li className="rounded-lg border border-line bg-white/70 p-2" data-testid="plan-row">
       <div className="text-[12.5px] leading-snug text-ink">{r.kind === "patient_report" ? `“${r.text}”` : r.text}</div>
-      <div className="mt-1">
+      <div className="mt-1 flex flex-wrap items-center gap-1">
         <ProvenanceChips p={r} sourceLabel={r.source_label} />
+        <RowFlags r={r} />
       </div>
     </li>
   );
@@ -59,13 +72,13 @@ function Plan({ cp, stages }: { cp: CarePlan; stages: Stage[] }) {
         </div>
       </div>
       <div className="grid gap-3 lg:grid-cols-2">
-        <Card title="Problems, with the evidence and the actions that answer them" note="Each problem is a record entry; evidence and actions are linked by shared wording, not by a model." testid="plan-coordinated">
+        <Card title="Problems, with the evidence and the actions that answer them" note="Each problem is a recorded fact (the presenting complaint, a diagnosis, or something the patient first held back). Notes are listed separately. Evidence and actions are linked by shared wording, not by a model." testid="plan-coordinated">
           {cp.coordinated_plan.length ? (
             <ul className="grid gap-2.5">
               {cp.coordinated_plan.map((c) => (
                 <li key={c.problem.entry_id} className="rounded-xl border border-line bg-white/60 p-2.5">
                   <div className="text-[13px] font-semibold leading-snug text-ink">{c.problem.text}</div>
-                  <div className="mt-1"><ProvenanceChips p={c.problem} sourceLabel={c.problem.source_label} /></div>
+                  <div className="mt-1 flex flex-wrap items-center gap-1"><ProvenanceChips p={c.problem} sourceLabel={c.problem.source_label} /><RowFlags r={c.problem} /></div>
                   {c.evidence.length > 0 && <div className="mt-2 text-[11.5px] leading-snug text-ink-2"><b>Evidence:</b> {c.evidence.map((e) => `${e.text} (${e.by.role_label})`).join("; ")}</div>}
                   {c.actions.length > 0 && <div className="mt-1 text-[11.5px] leading-snug text-ink-2"><b>Actions:</b> {c.actions.map((e) => `${e.text} (${e.by.role_label})`).join("; ")}</div>}
                 </li>
@@ -76,7 +89,7 @@ function Plan({ cp, stages }: { cp: CarePlan; stages: Stage[] }) {
           )}
         </Card>
         <div className="grid content-start gap-3">
-          <Card title="Open questions" note="Pending results, unsettled conflicts, unanswered questions and unsupported statements." testid="plan-open">
+          <Card title="Open questions" note={`Results not back, unsettled conflicts, questions the handoff left unresolved, and unsupported statements. ${cp.unsupported_check ?? ""}`} testid="plan-open">
             {cp.open_questions.length ? (
               <ul className="grid gap-1.5">
                 {cp.open_questions.map((q, i) => (
@@ -92,8 +105,11 @@ function Plan({ cp, stages }: { cp: CarePlan; stages: Stage[] }) {
           <Card title="Medicines and allergies">
             {cp.medications.length + cp.allergies.length ? <ul className="grid gap-1.5">{[...cp.allergies, ...cp.medications].map((r) => <Row key={r.entry_id} r={r} />)}</ul> : <Empty>Not recorded by any role.</Empty>}
           </Card>
-          <Card title="Plan and orders">
+          <Card title="Plan and orders" note="Plan lines a stage wrote, the recommendation given at handoff, and requests with their status." testid="plan-orders">
             {cp.plan.length + cp.orders.length ? <ul className="grid gap-1.5">{[...cp.plan, ...cp.orders].map((r) => <Row key={r.entry_id} r={r} />)}</ul> : <Empty>No plan item or order is on the record.</Empty>}
+          </Card>
+          <Card title="Clinicians' notes" note="As written by each role. A note is not a problem; one the record does not support keeps its flag." testid="plan-notes">
+            {cp.notes?.length ? <ul className="grid gap-1.5">{cp.notes.map((r) => <Row key={r.entry_id} r={r} />)}</ul> : <Empty>No note is on the record.</Empty>}
           </Card>
         </div>
       </div>

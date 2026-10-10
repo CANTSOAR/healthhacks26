@@ -1,10 +1,20 @@
 """Care plan and debrief. The care plan is assembled ONLY from the shared record: if the team did not record it,
-it is not in the plan. The debrief (available once the journey is complete) may additionally say what the case
+it is not in the plan. Entries written by a SAMPLED stage were copied from the case by the sampler (nobody spoke to
+the patient), so the plan says how many of its entries are of that kind rather than claiming none of it is case content.
+
+Sections hold only what belongs in them:
+  problems   recorded facts: the presenting complaint, diagnoses, and what the patient first held back
+  notes      clinicians' notes, as written; an unsupported one keeps its flag and is never a problem, evidence or action
+  plan       plan lines a stage wrote, and the Recommendation given at handoff (not replies to the colleague)
+  orders     requests; one with a result on the record (including a default-normal synthetic result) is resulted
+
+The debrief (available once the journey is complete) may additionally say what the case
 held that nobody found, the way encounter feedback does.
 """
 from __future__ import annotations
 
 from ..patient import _stems, filler_stems
+from . import claims
 from . import record as rec
 from .definition import stage_kind
 
@@ -18,10 +28,12 @@ def _content(text: str) -> set[str]:
 def _row(e: dict) -> dict:
     out = rec.provenance(e)
     for k in ("fact_id", "category", "section", "section_title", "key", "value", "order_status", "request", "title", "artifact_id",
-              "unsupported", "element_label", "used_in", "discrepancy_ids"):
+              "unsupported", "flag", "element_label", "used_in", "discrepancy_ids", "after_confrontation", "default_normal", "synthetic"):
         if e.get(k) not in (None, [], ""):
             out[k] = e[k]
     out["source_label"] = rec.SOURCE_LABEL.get(e["source"], e["source"])
+    if e["by"].get("actor") == "sampled":
+        out["copied_from_case"] = True
     return out
 
 
@@ -34,32 +46,43 @@ def care_plan(j: dict) -> dict:
     for e in facts:
         s = sections.setdefault(e.get("section") or "notes", {"section": e.get("section") or "notes", "title": e.get("section_title") or "Notes", "items": []})
         s["items"].append(_row(e))
-    problems = [_row(e) for e in facts if e.get("category") == "chief_complaint"]
-    problems += [_row(e) for e in es if e["kind"] == "note" and e["status"] != "unsupported"]
-    problems += [_row(e) for e in facts if e.get("rule") in ("after_rapport", "denied_until_confronted")]
+    # problems are recorded facts. A note (a demographic line, a whole triage note, an unsupported claim) is not a problem.
+    problems, seen_p = [], set()
+    for e in ([x for x in facts if x.get("category") == "chief_complaint"] + [x for x in facts if x.get("category") == "diagnosis"]
+              + [x for x in facts if x.get("rule") in ("after_rapport", "denied_until_confronted")]):
+        if e["entry_id"] not in seen_p:
+            seen_p.add(e["entry_id"])
+            problems.append(_row(e))
+    notes = [_row(e) for e in es if e["kind"] == "note"]
     orders = []
     for e in es:
         if e["kind"] == "order":
-            orders.append(dict(_row(e), results=[_row(a) for a in es if a["kind"] == "artifact" and a["stage_id"] == e["stage_id"]
-                                                 and e.get("order_status") == "resulted" and _content(a.get("title") or "") & _content(e["text"])]))
+            orders.append(dict(_row(e), results=[_row(a) for a in es if a["kind"] == "artifact" and e.get("order_status") == "resulted" and
+                                                 (a.get("request") == e.get("request") or
+                                                  (a["stage_id"] == e["stage_id"] and _content(a.get("title") or "") & _content(e["text"])))]))
     results = [_row(e) for e in es if e["kind"] == "artifact"] + [_row(e) for e in facts if e.get("category") in ("lab", "imaging", "exam")]
     acuity, disp = rec.latest(record, "acuity"), rec.latest(record, "disposition")
     open_q = [{"text": e["text"], "why": "recorded as an open question", "provenance": rec.provenance(e)} for e in es if e["kind"] == "question"]
     open_q += [{"text": f"Result not back: {e['text'].split(': ', 1)[-1]}", "why": "ordered, no result in the record", "provenance": rec.provenance(e)}
-               for e in es if e["kind"] == "order" and e.get("is_order") and e.get("order_status") != "resulted"]
+               for e in es if e["kind"] == "order" and e.get("is_order") and e.get("order_status") not in ("resulted", "no result defined")]
+    open_q += [{"text": f"No result exists for: {e['text'].split(': ', 1)[-1]}", "why": "the scenario defines no result for this request",
+                "provenance": rec.provenance(e)}
+               for e in es if e["kind"] == "order" and e.get("is_order") and e.get("order_status") == "no result defined"]
     open_q += [{"text": d["note"], "why": "conflict flagged and not settled", "provenance": d["entries"][0], "discrepancy_id": d["discrepancy_id"]}
                for d in rec.unresolved(record)]
     open_q += [{"text": f"Stated without support in the record: \"{u['quote']}\"", "why": u["reason"], "provenance": rec.provenance(e)}
                for e in es for u in e.get("unsupported") or []]
     if not disp:
         open_q.append({"text": "No disposition has been recorded.", "why": "missing decision", "provenance": None})
-    plan_items = [e for e in es if e["kind"] == "plan"] + [e for e in es if e["kind"] == "handoff" and e.get("element") == "R"]
+    # plan lines a stage wrote, and the Recommendation part of the SBAR. A reply to the colleague is not a plan row.
+    plan_items = [e for e in es if e["kind"] == "plan"] + [e for e in es if e["kind"] == "handoff" and e.get("element") == "R"
+                                                           and not e.get("in_reply_to") and e.get("status") != "unsupported"]
     # coordinated plan: each problem with the recorded evidence and the actions that speak to it
     coordinated, used_actions = [], set()
     actions = plan_items + [e for e in es if e["kind"] == "order" and e.get("is_order")]
     for p in problems[:6]:
         words = _content(p["text"])
-        ev = [_row(e) for e in facts if e["entry_id"] != p["entry_id"] and len(_content(e["text"]) & words) >= 2][:4]
+        ev = [_row(e) for e in facts if e["entry_id"] not in seen_p and len(_content(e["text"]) & words) >= 2][:4]
         acts = [e for e in actions if len(_content(e["text"]) & words) >= 1]
         used_actions |= {e["entry_id"] for e in acts}
         coordinated.append({"problem": p, "evidence": ev, "actions": [_row(e) for e in acts],
@@ -79,8 +102,18 @@ def care_plan(j: dict) -> dict:
     for e in es:
         for u in e.get("used_in") or []:
             flow.append({"entry": rec.provenance(e), "used_in_stage": u["stage_id"], "how": u["how"], "quote": u.get("quote"), "turn": u.get("turn")})
+    n_sampled = len([e for e in es if e["by"].get("actor") == "sampled"])
+    n_sim = len([e for e in es if e["by"].get("actor") == "sim"])
+    origin = "the shared record only"
+    if n_sampled or n_sim:
+        bits = ([f"{n_sampled} were written by sampled stages, which copy them from the case file rather than asking the patient"] if n_sampled else []) + \
+               ([f"{n_sim} came from the running simulation"] if n_sim else [])
+        origin += f". Of those, {' and '.join(bits)}; the rest are what a played stage elicited or wrote"
+    else:
+        origin += ": every entry is something a played stage elicited or wrote"
     return {"journey_id": j["journey_id"], "status": j["status"], "complete": j["status"] == "complete",
-            "assembled_from": "the shared record only; nothing here comes from the hidden case", "n_entries": len(es),
+            "assembled_from": origin, "n_entries": len(es), "n_sampled_entries": n_sampled, "notes": notes,
+            "unsupported_check": claims.SCOPE_NOTE,
             "patient": {"name": prof.get("name"), "age": prof.get("age"), "gender": prof.get("gender")},
             "problems": problems, "findings": list(sections.values()),
             "medications": [_row(e) for e in es if e["kind"] == "medication" or e.get("category") == "medications"],
@@ -127,7 +160,8 @@ def debrief(j: dict, stages_public: list[dict]) -> dict:
             row["encounter_feedback"] = {k: fb.get(k) for k in ("strengths", "next_time", "communication", "structure", "rubric", "grader", "formative_note")}
         if sst.get("handoff") and sst["handoff"].get("grading"):
             row["handoff"] = {"colleague": sst["handoff"]["colleague"], "sbar": sst["handoff"]["sbar"], "grading": rec.public(sst["handoff"]["grading"]),
-                              "questions": [{k: q.get(k) for k in ("question_id", "text", "about", "answered", "answer")} for q in sst["handoff"]["questions"]]}
+                              "questions": [{k: q.get(k) for k in ("question_id", "text", "about", "answered", "answer", "unresolved", "attempts")}
+                                            for q in sst["handoff"]["questions"]]}
         stages.append(row)
         r = roles.setdefault(sdef["learner_role"]["label"], {"role": sdef["learner_role"], "stages": [], "played_by": [], "counts": {k: 0 for k in
                              ("met", "partly_demonstrated", "not_observed", "not_assessable")}, "objectives": []})
@@ -167,7 +201,9 @@ def debrief(j: dict, stages_public: list[dict]) -> dict:
                      "handoff_omitted": omitted, "unsupported_statements": unsupported, "carried_forward": carried,
                      "summary": {"entries": len(es), "facts_recorded": len(known), "critical_never_found": len(never),
                                  "lost_at_handoff": len(lost), "unresolved_discrepancies": len(rec.unresolved(record)),
-                                 "unsupported_statements": len(unsupported), "carried_forward": len(carried)}},
+                                 "unsupported_statements": len(unsupported), "carried_forward": len(carried),
+                                 "handoff_questions_unresolved": len([q for _, s in hand for q in s["handoff"]["questions"] if q.get("unresolved")])},
+                     "unsupported_check": claims.SCOPE_NOTE},
             "case_debrief": {"diagnosis": ft.get("diagnosis"), "expected_disposition": ft.get("expected_disposition"),
                              "recorded_disposition": disp.get("value") if disp else None, "teaching_points": ft.get("teaching_points") or []},
             "formative_note": "Formative feedback from deterministic rules over the shared record and transcripts. Not a validated assessment.",

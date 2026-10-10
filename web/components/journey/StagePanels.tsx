@@ -48,7 +48,7 @@ export function ObjectiveList({ objectives }: { objectives: StageObjective[] }) 
 export function StageStart({ stage, busy, onPlay, onAuto, onAutoBefore }: { stage: Stage; busy: boolean; onPlay: () => void; onAuto: () => void; onAutoBefore: () => void }) {
   const t = roleTone(stage.learner_role.staff_role);
   const blocked = stage.blocked_by.length > 0;
-  const other = stage.counterparts.map((c) => (c.kind === "patient" ? `${c.name} (AI patient)` : `${c.name}, ${c.label} (AI colleague)`)).join(" and ");
+  const other = stage.counterparts.map((c) => (c.kind === "patient" ? `${c.name} (AI patient)` : `${c.name}, ${c.label} (AI colleague, ${c.source_label ?? "fictional"})`)).join(" and ");
   return (
     <div className="glass scroll-thin h-full overflow-y-auto p-5" data-testid="stage-start">
       <div className="flex items-start gap-3">
@@ -99,7 +99,7 @@ export function SbarReport({ grading }: { grading: SbarGrading }) {
   return (
     <div className="grid gap-2" data-testid="sbar-report">
       <div className="rounded-xl border border-line bg-white/70 p-2.5 text-[12px] leading-snug text-ink-2">
-        <b className="text-ink">{grading.overall.feedback}</b> Graded against {grading.graded_against}.
+        <b className="text-ink">{grading.overall.feedback}</b> Graded against {grading.graded_against}.{grading.checked ? ` ${grading.checked}` : ""}
       </div>
       {Object.values(grading.elements).map((el) => (
         <div key={el.element} className="rounded-xl border border-line bg-white/70 p-2.5" data-testid="sbar-element" data-element={el.element} data-result={el.result}>

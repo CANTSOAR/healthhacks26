@@ -3,7 +3,11 @@
 Everything is judged against the SHARED RECORD (what the team actually learned), never the hidden case truth:
   conveyed     a record entry the SBAR (or an answer to the colleague) communicated
   omitted      a record entry the receiver needed and did not get
-  unsupported  a statement with clinical content that no record entry supports (quoted back)
+  unsupported  a statement naming a figure, medicine, allergy, test or imaging result, or piece of past history that
+               the record does not hold (quoted back). The rules are in claims.py; free-text reasoning is not checked.
+
+The colleague does not take a non-answer: a reply that does not supply what was asked is asked for once more and
+then recorded as unresolved.
 
 Offline the colleague is rule-based: questions come from fixed templates chosen by what is missing, and the
 read-back is assembled from record entries. Online a model may re-word those approved lines; the wording is
@@ -17,6 +21,7 @@ from .. import taxonomy as tx
 from ..matcher import match_facts
 from ..patient import _numbers, _stems, clinical_lexicon, filler_stems, grounding_check
 from ..providers import Provider, ProviderError
+from . import claims
 from . import record as rec
 
 ELEMENTS = {"S": "Situation", "B": "Background", "A": "Assessment", "R": "Recommendation"}
@@ -69,7 +74,7 @@ def expected_items(record: dict, stage: dict) -> list[dict]:
     items: list[dict] = []
     stage_id = stage["stage_id"]
     for e in record["entries"]:
-        if e["stage_id"] == stage_id:
+        if e["stage_id"] == stage_id or e.get("status") == "unsupported":
             continue
         item = None
         if e["kind"] == "fact":
@@ -108,8 +113,8 @@ def _record_text(record: dict, case: dict, stage_id: str) -> str:
     prof = case.get("profile") or {}
     parts = [str(prof.get(k) or "") for k in ("name", "age", "gender")] + [str(case.get("setting") or "")]
     for e in record["entries"]:
-        if e["stage_id"] != stage_id:
-            parts += [e["text"], str(e.get("title") or ""), str(e.get("value") or "")]
+        if e["stage_id"] != stage_id and e.get("status") != "unsupported":   # a flagged note is not support for anything
+            parts += [e["text"], str(e.get("title") or ""), str(e.get("value") or ""), str(e.get("_result_text") or "")]
     for d in record["discrepancies"]:
         parts.append(d["note"])
     shown = set(rec.artifact_ids(record))                   # the team has read these documents, so their content is on the record
@@ -186,9 +191,11 @@ def clauses(sentence: str) -> list[str]:
     return parts if len(parts) > 1 else [sentence]
 
 
-def unsupported_reason(sentence: str, element: str, record_text: str, record: dict, case: dict, hit_entries: list[dict] | None = None) -> str | None:
+def unsupported_reason(sentence: str, element: str, record_text: str, record: dict, case: dict, hit_entries: list[dict] | None = None,
+                       context: str | None = None) -> str | None:
     """Why a statement has no support in the record, or None.
     - a figure, or a named medicine, that appears nowhere in the record
+    - a medicine, allergy, test or imaging result, or piece of past history the record does not hold (claims.py)
     - the opposite of a recorded negative ("no known allergies" on the record, "allergic to ..." in the statement)
     - (statement matches no record entry) it states as a finding something the team never recorded, or, under
       Situation / Background, it uses clinical terms the record does not hold. A hedged assessment is interpretation
@@ -202,6 +209,9 @@ def unsupported_reason(sentence: str, element: str, record_text: str, record: di
     drugs = sorted(new & drug_stems())
     if drugs:
         return f"no entry in the shared record mentions {', '.join(drugs[:3])}"
+    typed = claims.claim_reason(sentence, element, record_text, context)
+    if typed:
+        return typed
     for e in hit_entries or []:
         if e.get("polarity") == "negative" and not _NEG.search(sentence):
             return f"the shared record says the opposite: \"{e['text']}\""
@@ -239,7 +249,7 @@ def grade_sbar(sbar: dict[str, str], answers: list[dict], record: dict, case: di
         for cl in clauses(st["text"]):
             ch = hits if cl == st["text"] else match_sentence(cl, items, record, case)
             hit_entries = [e for e in (rec.find(record, x) for i in ch for x in by_item[i]["entry_ids"]) if e]
-            why = unsupported_reason(cl, st["element"], rtext, record, case, hit_entries)
+            why = unsupported_reason(cl, st["element"], rtext, record, case, hit_entries, st["text"])
             if why:
                 bad = True
                 elements[st["element"]]["unsupported"].append({"quote": cl if cl != st["text"] else st["text"], "reason": why, "element": st["element"],
@@ -272,7 +282,14 @@ def grade_sbar(sbar: dict[str, str], answers: list[dict], record: dict, case: di
         if not said and not has_items:
             el["result"], el["feedback"] = "not_assessable", "The record held nothing for this part and nothing was said."
         elif not said and el["conveyed"]:
-            el["result"], el["feedback"] = "partly_demonstrated", f"Nothing was said under {el['label']}; it came out only when the colleague asked."
+            asked = [c for c in el["conveyed"] if c["prompted"]]
+            elsewhere = sorted({c["said_in"] for c in el["conveyed"] if not c["prompted"]})
+            how = []
+            if elsewhere:
+                how.append(f"{len(el['conveyed']) - len(asked)} item(s) that belong here were mentioned under {', '.join(elsewhere)} instead")
+            if asked:
+                how.append(f"{len(asked)} came out only in a reply to the colleague's questions")
+            el["result"], el["feedback"] = "partly_demonstrated", f"Nothing was said under {el['label']}; {' and '.join(how)}."
         elif not said:
             el["result"], el["feedback"] = "not_observed", f"Nothing was said under {el['label']}."
         elif el["unsupported"] or miss or any(c["prompted"] for c in crit):
@@ -297,7 +314,7 @@ def grade_sbar(sbar: dict[str, str], answers: list[dict], record: dict, case: di
     score = round(max(0.0, score - 0.1 * n_unsup), 3)
     all_text = " ".join(sbar.values()).lower()
     uncertain_items = [it for it in items if it["kind"] in ("discrepancies", "pending_results", "open_question")]
-    unc_said = [s["text"] for s in statements if any(w in s["text"].lower() for w in _UNCERTAIN)]
+    unc_said = [s["text"] for s in statements if names_uncertainty(s["text"])]
     ask_said = [s for s in sentences(sbar.get("R", "")) if any(w in s.lower() for w in _ASK)]
     behaviors = [
         _behavior("Situation stated", elements["S"]), _behavior("Relevant background given", elements["B"]),
@@ -309,7 +326,8 @@ def grade_sbar(sbar: dict[str, str], answers: list[dict], record: dict, case: di
         {"behavior": "Uncertainty named", "observed": "not_assessable" if not uncertain_items and not unc_said else "yes" if unc_said else "no",
          "evidence_location": "SBAR", "quote": unc_said[0] if unc_said else None,
          "feedback": "Said what is still pending or unclear." if unc_said else
-         ("Nothing uncertain was on the record." if not uncertain_items else "The record holds pending or conflicting items that were passed on as settled or not at all.")},
+         ("Nothing uncertain was on the record, and no uncertainty was named." if not uncertain_items else
+          "The record holds pending or conflicting items that were passed on as settled or not at all.")},
         {"behavior": "Next action requested", "observed": "yes" if ask_said else "no", "evidence_location": "SBAR, Recommendation",
          "quote": ask_said[0] if ask_said else None,
          "feedback": "A clear next step was asked for." if ask_said else "Say what you need the receiver to do first."},
@@ -319,7 +337,44 @@ def grade_sbar(sbar: dict[str, str], answers: list[dict], record: dict, case: di
             "critical_after_prompt": crit_pr, "n_unsupported": n_unsup, "receiver_understanding": understanding, "score": score,
             "overall": {"result": res, "feedback": f"{crit_un} of {crit_total} critical items reached the receiver unprompted"
                         + (f", {crit_pr} more after a question" if crit_pr else "") + (f"; {n_unsup} unsupported statement(s)" if n_unsup else "") + "."},
-            "graded_against": "the shared record (what the team learned), not the case truth"}
+            "graded_against": "the shared record (what the team learned), not the case truth",
+            "checked": claims.SCOPE_NOTE}
+
+
+def names_uncertainty(text: str) -> bool:
+    """The statement says WHAT is uncertain. A bare "I don't know." names nothing."""
+    low = (text or "").lower().replace("\u2019", "'")
+    if not any(w in low for w in _UNCERTAIN):
+        return False
+    for w in sorted(_UNCERTAIN, key=len, reverse=True):
+        low = low.replace(w, " ")
+    return bool(_content(low))
+
+
+_RETRACT = ("mistake", "sorry", "withdraw", "ignore that", "i was wrong", "misspoke", "not in the record", "not on the record", "assumed",
+            "assumption", "scratch that", "disregard", "incorrect", "should not have", "shouldn't have", "take that back", "my error",
+            "not confirmed", "not documented", "isn't in the record", "is not in the record")
+
+
+def answer_resolves(question: dict, text: str, grading: dict, record: dict, case: dict, record_text: str) -> bool:
+    """Did the reply supply what the colleague asked for? Judged by what the reply conveyed from the record, never by the case.
+    - a question about missing record items: the reply conveyed at least one of them
+    - a challenge to an unsupported statement: the reply takes it back, or is itself supported by the record
+    - "what do you need me to do first": the reply asks for something"""
+    low = (text or "").lower().replace("\u2019", "'")
+    if question.get("item_ids"):
+        got = {c["item_id"] for el in grading["elements"].values() for c in el["conveyed"]}
+        return bool(set(question["item_ids"]) & got)
+    if question.get("about") == "unsupported":
+        if any(w in low for w in _RETRACT):
+            return True
+        items = [{"item_id": f"i-{e['entry_id']}", "entry_ids": [e["entry_id"]], "text": e["text"], "kind": "fact"}
+                 for e in record["entries"] if e["kind"] in ("fact", "artifact", "patient_report", "medication", "note") and e.get("status") != "unsupported"]
+        for s in sentences(text):
+            if match_sentence(s, items, record, case) and not any(unsupported_reason(c, "B", record_text, record, case, None, s) for c in clauses(s)):
+                return True
+        return False
+    return any(w in low for w in _ASK)
 
 
 def _behavior(name: str, el: dict) -> dict:
@@ -352,7 +407,7 @@ def plan_questions(grading: dict, stage: dict) -> list[dict]:
     if unsup:
         u = unsup[0]
         qs.append({"about": "unsupported", "element": u["element"], "item_ids": [],
-                   "text": f"You said \"{u['quote']}\" I cannot find that in the shared record. Where does it come from?"})
+                   "text": f"You said \"{u['quote']}\"{'' if u['quote'][-1:] in '.!?' else '.'} I cannot find that in the shared record. Where does it come from?"})
     missing = [o for el in grading["elements"].values() for o in el["omitted"] if o["critical"]]
     seen: set[str] = set()
     for kind in _PRIORITY[1:]:

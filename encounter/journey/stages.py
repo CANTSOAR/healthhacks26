@@ -13,6 +13,7 @@ import random
 
 from ..disclosure import PATIENT_VOICED, Engine
 from ..session import DISPOSITIONS, order_label
+from . import claims
 from . import record as rec
 from .definition import DEFAULT_MINUTES
 
@@ -83,23 +84,27 @@ def request_text(request: str) -> str:
     return {"exam": f"Examination: {words}", "order": f"Ordered: {order_label(request) or words}"}.get(kind, f"Requested: {words}")
 
 
-def _source_for(f: dict, rule: str) -> str:
-    if rule in PATIENT_VOICED:
+def _source_for(f: dict, rule: str, spoken: bool = False) -> str:
+    """Where the entry truly came from. `spoken`: the patient said it in reply to the learner (any rule that releases
+    a fact in conversation, including an open prompt such as "tell me more"), as opposed to an examination, a request
+    or a document."""
+    if rule in PATIENT_VOICED or (spoken and rule not in ("on_request", "chart_initial", "known_to_care_team")):
         return "patient_statement"
     return "measurement" if f.get("category") in ("vitals", "exam") else "chart_artifact"
 
 
 def add_fact(record: dict, stage: dict, idx: int, who: dict, engine: Engine, fid: str, rule: str, turn: int | None, quote: str | None = None,
-             **extra) -> dict | None:
+             spoken: bool = False, **extra) -> dict | None:
     if rec.has_fact(record, fid):
         return None
     f = engine.by_id[fid]
     sid, stitle = rec.section_for(f.get("category"))
     if f.get("chart_section"):
         sid = f["chart_section"]
-    return rec.add(record, stage, idx, who, "fact", engine.fact_text(f), _source_for(f, rule), turn, fact_id=fid, category=f.get("category"),
+    source = _source_for(f, rule, spoken)
+    return rec.add(record, stage, idx, who, "fact", engine.fact_text(f), source, turn, fact_id=fid, category=f.get("category"),
                    section=sid, section_title=stitle, rule=rule, quote=(quote or "")[:240] or None,
-                   status="patient_reported" if rule in PATIENT_VOICED else "established", polarity=f.get("polarity"),
+                   status="patient_reported" if source == "patient_statement" else "established", polarity=f.get("polarity"),
                    _critical=bool(f.get("critical")), **extra)
 
 
@@ -117,7 +122,9 @@ def add_cover(record: dict, stage: dict, idx: int, who: dict, engine: Engine, fi
 
 def add_request(record: dict, stage: dict, idx: int, who: dict, request: str, result: str | None, turn: int | None) -> dict:
     cur = next((e for e in record["entries"] if e["kind"] == "order" and e.get("request") == request), None)
-    status = {"released": "resulted", "already_available": "resulted", "pending": "pending", "not_available": "no result defined"}.get(result or "", result or "requested")
+    # a default-normal result (the scenario does not define the test, so the engine files an unremarkable synthetic one) IS a result
+    status = {"released": "resulted", "already_available": "resulted", "default_normal": "resulted", "pending": "pending",
+              "not_available": "no result defined"}.get(result or "", result or "requested")
     if cur:
         if status == "resulted":
             cur["order_status"] = status
@@ -136,6 +143,25 @@ def add_artifact(record: dict, stage: dict, idx: int, who: dict, engine: Engine,
             e["order_status"] = "resulted"
     return rec.add(record, stage, idx, who, "artifact", f"{a.get('title') or aid} added to the chart", "chart_artifact", turn, artifact_id=aid,
                    title=a.get("title") or aid, artifact_kind=a.get("kind"))
+
+
+def _result_text(content) -> str:
+    rows = content if isinstance(content, list) else [content]
+    return " ".join(" ".join(str(v) for v in r.values()) if isinstance(r, dict) else str(r or "") for r in rows)[:1500]
+
+
+def add_default_result(record: dict, stage: dict, idx: int, who: dict, dr: dict, turn: int | None) -> dict | None:
+    """The engine's default-normal result for a test the scenario does not define: on the record as a result, marked synthetic."""
+    aid = "default." + str(dr["request"]).replace(":", ".")
+    for e in record["entries"]:
+        if e["kind"] == "order" and e.get("request") == dr["request"]:
+            e["order_status"], e["default_normal"] = "resulted", True
+    if aid in rec.artifact_ids(record):
+        return None
+    title = dr.get("title") or str(dr["request"]).split(":", 1)[-1].replace("_", " ")
+    return rec.add(record, stage, idx, who, "artifact", f"{title} added to the chart (default normal result, synthetic)", "chart_artifact", turn,
+                   artifact_id=aid, title=title, artifact_kind=dr.get("kind"), request=dr["request"], synthetic=True, default_normal=True,
+                   _result_text=_result_text(dr.get("content")))
 
 
 def sync_session(record: dict, stage: dict, idx: int, who: dict, case: dict, session_case: dict, state: dict, synced: int) -> tuple[int, list[dict]]:
@@ -158,7 +184,11 @@ def sync_session(record: dict, stage: dict, idx: int, who: dict, case: dict, ses
             if rule == "known_to_care_team":
                 continue
             e = add_fact(record, stage, idx, who, engine, fid, rule, turn, quote if ev["kind"] == "turn" else None,
-                         after_confrontation=bool((ev.get("confronted_with") or {}).get(fid)) or None)
+                         spoken=ev["kind"] == "turn", after_confrontation=bool((ev.get("confronted_with") or {}).get(fid)) or None)
+            if e:
+                new.append(e)
+        for dr in ev.get("default_results") or []:
+            e = add_default_result(record, stage, idx, who, dr, turn)
             if e:
                 new.append(e)
         for aid in ev.get("released_artifact_ids") or []:
@@ -233,7 +263,9 @@ def apply_writes(record: dict, stage: dict, idx: int, who: dict, writes: dict, t
         if s:
             e["supported_by"] = s["entry_ids"]
             if s["unsupported"]:
-                e["status"], e["unsupported"] = "unsupported", s["unsupported"]
+                # it still enters the record (the clinician did write it), but flagged, and it is never promoted to a
+                # care-plan problem, evidence or action and never counts as support for a later statement
+                e["status"], e["unsupported"], e["flag"] = "unsupported", s["unsupported"], claims.FLAG
         return e
 
     if "acuity" in writes:
@@ -302,6 +334,7 @@ def auto_resolve(record: dict, definition: dict, stage: dict, idx: int, who: dic
         if fid in start_known or rec.has_fact(record, fid) or rule not in PATIENT_VOICED or f.get("patient_knows") is False:
             continue
         crit = bool(f.get("critical"))
+        confronted = False
         if rule == "volunteered":
             ok = True
         elif rule == "if_asked":
@@ -320,10 +353,11 @@ def auto_resolve(record: dict, definition: dict, stage: dict, idx: int, who: dic
             if ok:
                 if not any(e["kind"] == "patient_report" and e.get("_about") == fid for e in record["entries"]):
                     add_cover(record, stage, idx, who, engine, fid, None, None)     # the first answer came first, then the correction
+                confronted = True
                 for e in record["entries"]:
                     if e.get("artifact_id") in evidence or e.get("fact_id") in evidence:
                         rec.mark_used(e, stage["stage_id"], None, "raised it with the patient")
-        if ok and add_fact(record, stage, idx, who, engine, fid, rule, None):
+        if ok and add_fact(record, stage, idx, who, engine, fid, rule, None, after_confrontation=confronted or None):
             found.append(fid)
     rec.detect_discrepancies(record, case)
     # decisions the stage must write
@@ -484,8 +518,9 @@ def grade_objectives(stage: dict, idx: int, record: dict, case: dict, writes: di
                 el = g["elements"].get(str(o.get("element") or "").upper())
                 if el:
                     res, fb = el["result"], el["feedback"]
-                    for c in el["conveyed"][:2]:
-                        ev.append({"quote": _q(c["quote"]), "turn": None, "entry_id": (c["entry_ids"] or [None])[0], "location": f"SBAR, {el['label']}"})
+                    for c in el["conveyed"][:2]:      # the quote is located where it was actually said, which may be another part
+                        ev.append({"quote": _q(c["quote"]), "turn": None, "entry_id": (c["entry_ids"] or [None])[0],
+                                   "location": ("Answer to the colleague" if c.get("prompted") else f"SBAR, {c.get('said_in') or el['label']}")})
                 else:
                     res, fb = g["overall"]["result"], g["overall"]["feedback"]
                     for el2 in g["elements"].values():

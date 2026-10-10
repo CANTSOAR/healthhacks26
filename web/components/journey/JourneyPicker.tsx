@@ -22,8 +22,7 @@ function Intro() {
       <div className="eyebrow">Care journey</div>
       <h1 className="text-[24px] font-semibold tracking-[-0.02em] text-ink">One patient, several professions, one record</h1>
       <p className="mt-1 text-[13px] leading-relaxed text-ink-2">
-        The same patient is seen in a chain of connected interactions. Take any role; a sampled AI colleague fills the stages you do not play. Every role reads and writes one shared record, and each entry shows who added it, in which stage, and where it came from. The last stage is an SBAR handoff, checked against what the team
-        actually learned.
+        The same patient is seen in a chain of connected interactions. Take any role; a sampled AI colleague fills the stages you do not play. Every role reads and writes one shared record, and each entry shows who added it, in which stage, and where it came from. The last stage is an SBAR handoff. Fixed rules check it against the shared record for medicines, allergies, test and imaging results, past history and figures; free-text reasoning is not checked. Stages you do not play are filled from the case file by the sampler, and those entries are marked.
       </p>
     </div>
   );

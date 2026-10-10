@@ -83,7 +83,8 @@ def mark_used(entry: dict, stage_id: str, turn: int | None, how: str, quote: str
 
 def provenance(e: dict) -> dict:
     return {"entry_id": e["entry_id"], "text": e["text"], "kind": e["kind"], "by": e["by"], "stage_id": e["stage_id"],
-            "stage_title": e["stage_title"], "turn": e["turn"], "source": e["source"], "time": e["time"], "status": e["status"]}
+            "stage_title": e["stage_title"], "turn": e["turn"], "source": e["source"], "time": e["time"], "status": e["status"],
+            **({"flag": e["flag"]} if e.get("flag") else {})}
 
 
 # ---------------------------------------------------------------- discrepancies (authored only)
@@ -171,6 +172,8 @@ def student_view(record: dict) -> dict:
     entries = public(record["entries"])
     for e in entries:
         e["source_label"] = SOURCE_LABEL.get(e["source"], e["source"])
+        if e.get("by", {}).get("actor") == "sampled":
+            e["copied_from_case"] = True               # a sampled stage does not talk to the patient: its entries are case content
     counts: dict[str, int] = {}
     for e in entries:
         counts[e["kind"]] = counts.get(e["kind"], 0) + 1
