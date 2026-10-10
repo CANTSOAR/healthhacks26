@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0.0",
   "generation": "Deterministic offline derivation; no source refetch and no inferred publication date or author",
-  "source_count": 145,
-  "record_count": 84249,
+  "source_count": 155,
+  "record_count": 84271,
   "sources": [
     {
       "source_id": "breadth-068cbcf1bb53",
@@ -4908,6 +4908,396 @@
       "normalized_path": "data/normalized/local-rwjuh-services.jsonl",
       "normalized_sha256": "b0ea43860c21c65544155e0812f72a8ea86f28307e1b213d1b4eb4559b4fd2a5",
       "record_count": 7,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "model-0ac04ed8d765",
+      "bibtex_key": "model-0ac04ed8d765",
+      "title": "Guidance for emergency departments: initial assessment",
+      "source_url": "https://www.england.nhs.uk/guidance-for-emergency-departments-initial-assessment/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T20:55:41Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T20:55:41Z"
+        }
+      ],
+      "catalog_path": "data/catalog/model-0ac04ed8d765.json",
+      "catalog_sha256": "7e38c8888ff4c4c9bdd5d6ad4c5710eab3ac17d279ce7b5e352949f060b18001",
+      "normalized_path": "data/normalized/model-0ac04ed8d765.jsonl",
+      "normalized_sha256": "4ea1e76f06505fd28e4055b33ea37fc1e53155c15c1092bb68f807b35fea1e56",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "model-5703162ab508",
+      "bibtex_key": "model-5703162ab508",
+      "title": "Evaluating alternative resource allocation in an emergency department using discrete event simulation",
+      "source_url": "https://journals.sagepub.com/doi/10.1177/0037549716673150",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1177/0037549716673150",
+        "retrieved_at": "2026-10-10T20:55:41Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T20:55:41Z"
+        }
+      ],
+      "catalog_path": "data/catalog/model-5703162ab508.json",
+      "catalog_sha256": "8fcabab21b9dc9d0a609c05cff2df829888dbffb8cdaa5d742de2a6f618c20cb",
+      "normalized_path": "data/normalized/model-5703162ab508.jsonl",
+      "normalized_sha256": "2807d17894aa06a2ae0da20e29e6b0654d2fef2b8208f9e0a6f18a79e32a440a",
+      "record_count": 4,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "model-703e2132defe",
+      "bibtex_key": "model-703e2132defe",
+      "title": "Fractures (non-complex): assessment and management",
+      "source_url": "https://www.nice.org.uk/guidance/NG38/chapter/recommendations",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T20:55:01Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T20:55:01Z"
+        }
+      ],
+      "catalog_path": "data/catalog/model-703e2132defe.json",
+      "catalog_sha256": "79bfc71585435a2e68090ba404e36684031476d887baf1b6afbe20da160ddea4",
+      "normalized_path": "data/normalized/model-703e2132defe.jsonl",
+      "normalized_sha256": "63bc58ca1caccb56e2d61139b3b4907c3026e130711ce86f7b68f08c2da66be4",
+      "record_count": 2,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "model-72fbe0694b7b",
+      "bibtex_key": "model-72fbe0694b7b",
+      "title": "Interruption of initial patient assessment in the emergency department and its effect on patient perception of care quality",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8633458/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1093/intqhc/mzab146",
+        "retrieved_at": "2026-10-10T20:55:41Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T20:55:41Z"
+        }
+      ],
+      "catalog_path": "data/catalog/model-72fbe0694b7b.json",
+      "catalog_sha256": "c0a92fb1d41ed3057eeebcb37a995f0af8c3307b70b3693df85c8116fb39d26d",
+      "normalized_path": "data/normalized/model-72fbe0694b7b.jsonl",
+      "normalized_sha256": "a9c993e6f270f8074f82b662432d2858f68cb7a563aa35dd38256640ef7837e3",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "model-96fb82eef13a",
+      "bibtex_key": "model-96fb82eef13a",
+      "title": "Performance evaluation of an emergency department in Rio de Janeiro: a hybrid approach using Discrete Events Simulation and Data Envelopment Analysis",
+      "source_url": "https://new.scielo.br/j/gp/a/Kv5ScCmWSCwzsNYLDvTMqhx/abstract/?ilang=en&lang=pt",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1590/1806-9649-2024v31e1024",
+        "retrieved_at": "2026-10-10T20:55:17Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T20:55:17Z"
+        }
+      ],
+      "catalog_path": "data/catalog/model-96fb82eef13a.json",
+      "catalog_sha256": "369ef6bd67f7ec653a167a29e8400d6ab6bf2466c24a4d9c076d29953b29aee2",
+      "normalized_path": "data/normalized/model-96fb82eef13a.jsonl",
+      "normalized_sha256": "f6c33818eafdd6ed422ca8d5c92c91fd75c108bd4b0bef211d596501fde95267",
+      "record_count": 5,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "model-b50ed61f5870",
+      "bibtex_key": "model-b50ed61f5870",
+      "title": "ACR Appropriateness Criteria® Acute Hand and Wrist Trauma",
+      "source_url": "https://acsearch.acr.org/docs/69418/Narrative/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T20:55:01Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T20:55:01Z"
+        }
+      ],
+      "catalog_path": "data/catalog/model-b50ed61f5870.json",
+      "catalog_sha256": "8823de04cb0089771c0294bb47598fb320fd420511ac243410a545f4a68f2f10",
+      "normalized_path": "data/normalized/model-b50ed61f5870.jsonl",
+      "normalized_sha256": "e3dd439edd70ad2d2c85d08d181974138bf231f6918528873f40468043b5b50a",
+      "record_count": 2,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "model-bb1f72169b09",
+      "bibtex_key": "model-bb1f72169b09",
+      "title": "Discrete-event simulation and design of experiments to study ambulatory patient waiting time in an emergency department",
+      "source_url": "https://doi.org/10.1080/01605682.2018.1510805",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1080/01605682.2018.1510805",
+        "retrieved_at": "2026-10-10T20:55:17Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T20:55:17Z"
+        }
+      ],
+      "catalog_path": "data/catalog/model-bb1f72169b09.json",
+      "catalog_sha256": "fc2b863f1dace9797e05e41ff84838c6b1475b2d855103c4b2472bb4dd5c166f",
+      "normalized_path": "data/normalized/model-bb1f72169b09.jsonl",
+      "normalized_sha256": "5ce94eadacbbc66a4a25e010942be8eea5d2f04560c36dbd293661fa6646ab06",
+      "record_count": 3,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "model-bdcce7be997f",
+      "bibtex_key": "model-bdcce7be997f",
+      "title": "Lean thinking by integrating with discrete event simulation and design of experiments: an emergency department expansion",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7924453/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.7717/peerj-cs.284",
+        "retrieved_at": "2026-10-10T20:55:41Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T20:55:41Z"
+        }
+      ],
+      "catalog_path": "data/catalog/model-bdcce7be997f.json",
+      "catalog_sha256": "4ea2ca2071e93dbc0afb68125da89b1cf043f56ecc03f629e2dc3c41fc1d2e94",
+      "normalized_path": "data/normalized/model-bdcce7be997f.jsonl",
+      "normalized_sha256": "0bac72770c24f46008174b0760de5a7e29ce46e10c7250023c4028bfdecce7e0",
+      "record_count": 2,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "model-ca6928018631",
+      "bibtex_key": "model-ca6928018631",
+      "title": "Broken arm or wrist",
+      "source_url": "https://www.nhs.uk/conditions/broken-arm-or-wrist/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T20:55:01Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T20:55:01Z"
+        }
+      ],
+      "catalog_path": "data/catalog/model-ca6928018631.json",
+      "catalog_sha256": "a9f4222ff3fcbdb5fb876793b272961d2826dfcd76fb3060fb74ae244626e191",
+      "normalized_path": "data/normalized/model-ca6928018631.jsonl",
+      "normalized_sha256": "9cd447798673d45473e5cccb5e0077e5ad073e33d12b52de57b760bb8ddc99fa",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "model-f6f1f05ce962",
+      "bibtex_key": "model-f6f1f05ce962",
+      "title": "Improving Emergency Department radiology transportation time: a successful implementation of lean methodology",
+      "source_url": "https://link.springer.com/article/10.1186/s12913-017-2488-5",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1186/s12913-017-2488-5",
+        "retrieved_at": "2026-10-10T20:55:17Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T20:55:17Z"
+        }
+      ],
+      "catalog_path": "data/catalog/model-f6f1f05ce962.json",
+      "catalog_sha256": "66fd1d8cdcb29b01bccaefcb156df550e879fa481cbecc041c6ec67dbafb1f13",
+      "normalized_path": "data/normalized/model-f6f1f05ce962.jsonl",
+      "normalized_sha256": "602d4bf1378b46d3202e7745c64328af814eb1901039074d185c7f85aed67f6c",
+      "record_count": 1,
       "stored_artifacts": [],
       "raw_availability": "no_raw_source_available"
     },

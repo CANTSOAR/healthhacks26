@@ -1,0 +1,26 @@
+{
+  "dataset_id": "model-96fb82eef13a",
+  "source_id": "model-96fb82eef13a",
+  "title": "Performance evaluation of an emergency department in Rio de Janeiro: a hybrid approach using Discrete Events Simulation and Data Envelopment Analysis",
+  "source_url": "https://new.scielo.br/j/gp/a/Kv5ScCmWSCwzsNYLDvTMqhx/abstract/?ilang=en&lang=pt",
+  "scope": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+  "access": "public_primary_article_or_abstract",
+  "rights": {
+    "source_license": "not assessed for full-text redistribution",
+    "redistribution": "Short factual paraphrases; no full article copied"
+  },
+  "acquisition_status": "acquired",
+  "raw_paths": [],
+  "normalized_path": "data/normalized/model-96fb82eef13a.jsonl",
+  "record_count": 5,
+  "limits": [
+    "Setting, period, applicability and endpoint are source-specific.",
+    "No original snapshot retained; human review should follow source URL and locator.",
+    "A role description or guideline does not establish local operational performance."
+  ],
+  "provenance": {
+    "doi": "10.1590/1806-9649-2024v31e1024",
+    "retrieved_at": "2026-10-10T20:55:17Z",
+    "raw_artifact_kind": "no_raw_limited_paraphrase"
+  }
+}

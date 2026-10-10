@@ -1,0 +1,26 @@
+{
+  "status": "not_acquired_pending_primary_inspection",
+  "candidates": [
+    {
+      "id": "model-branches-capable-adult-declines-recommendation",
+      "source_title": "Code of Ethics for Emergency Physicians",
+      "source_url": "https://www.acep.org/siteassets/uploads/uploaded-files/acep/clinical-and-practice-management/policy-statements/code-of-ethics-for-emergency-physicians.pdf",
+      "doi": null,
+      "locator": "Section 3, Respect for patient autonomy, p.7.",
+      "source_setting": "American College of Emergency Physicians professional ethics policy.",
+      "source_period": "Policy approved January 2017; official PDF listing updated 2024; inspected 2026-10-10.",
+      "source_n": "Not applicable; ethics policy, no patient cohort.",
+      "quantity": "Shared decision/refusal principles for an adult with decision-making capacity",
+      "value": "Explain condition, alternatives, and expected consequences; respect a capable patient's choice to accept or refuse recommended care; document the discussion and agreed plan.",
+      "unit": "ethical workflow recommendation",
+      "source_evidence_basis": "ACEP's code states capable adults may accept or refuse recommended care and describes physician duties to explain condition, alternatives, and expected consequences.",
+      "limitations": "Ethical guidance, not a wrist-specific clinical pathway or jurisdiction-specific legal protocol. Capacity is decision-specific and should not be inferred from disagreement alone.",
+      "inferred_scenario_use": "Authored branch: if the patient declines imaging, immobilization, or referral, preserve the choice, assess/document capacity and understanding per local policy, discuss material risks and alternatives, offer feasible next steps, and provide return instructions; do not coerce or fabricate a signed refusal requirement.",
+      "retrieved_at": "2026-10-10T20:55:01Z",
+      "evidence_basis_type": "professional_ethics_guidance",
+      "applicability_label": "external_reference_not_RWJ",
+      "source_access": "search_index_only_pending_primary_inspection",
+      "inspected_source_url": "https://www.acep.org/siteassets/uploads/uploaded-files/acep/clinical-and-practice-management/policy-statements/code-of-ethics-for-emergency-physicians.pdf"
+    }
+  ]
+}

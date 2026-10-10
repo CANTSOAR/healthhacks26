@@ -1,0 +1,81 @@
+{
+  "status": "draft_not_scheduled",
+  "max_parallel_agents": 3,
+  "jobs": [
+    {
+      "id": "timing-conflicts",
+      "objective": "Resolve Rio source inconsistencies and confirm ARENA parameter conventions; do not activate unresolved fits.",
+      "status": "draft",
+      "model": "gpt-6-luna",
+      "max_runtime_seconds": 600,
+      "max_sources": 4,
+      "max_records": 8,
+      "acceptance": [
+        "Inspect primary source; snippets remain pending",
+        "Record denominator, setting, period, endpoint and units",
+        "Separate observation, model assumption and inference",
+        "No automatic parameter or clinical approval"
+      ]
+    },
+    {
+      "id": "room-turnaround",
+      "objective": "Find primary observed cleaning and room-readiness intervals, including occupied-to-vacant and ready-to-use endpoints.",
+      "status": "draft",
+      "model": "gpt-6-luna",
+      "max_runtime_seconds": 600,
+      "max_sources": 4,
+      "max_records": 8,
+      "acceptance": [
+        "Inspect primary source; snippets remain pending",
+        "Record denominator, setting, period, endpoint and units",
+        "Separate observation, model assumption and inference",
+        "No automatic parameter or clinical approval"
+      ]
+    },
+    {
+      "id": "resource-release",
+      "objective": "Find task-level simultaneous staff/resource requirements, release points and interruption rules.",
+      "status": "draft",
+      "model": "gpt-6-luna",
+      "max_runtime_seconds": 600,
+      "max_sources": 4,
+      "max_records": 8,
+      "acceptance": [
+        "Inspect primary source; snippets remain pending",
+        "Record denominator, setting, period, endpoint and units",
+        "Separate observation, model assumption and inference",
+        "No automatic parameter or clinical approval"
+      ]
+    },
+    {
+      "id": "branch-denominators",
+      "objective": "Find population-specific conditional branch frequencies for imaging escalation, admission, return visits and follow-up failure.",
+      "status": "draft",
+      "model": "gpt-6-luna",
+      "max_runtime_seconds": 600,
+      "max_sources": 4,
+      "max_records": 8,
+      "acceptance": [
+        "Inspect primary source; snippets remain pending",
+        "Record denominator, setting, period, endpoint and units",
+        "Separate observation, model assumption and inference",
+        "No automatic parameter or clinical approval"
+      ]
+    },
+    {
+      "id": "refusal-source",
+      "objective": "Inspect original ethics and local policy sources for capacity, informed refusal and documented alternatives.",
+      "status": "draft",
+      "model": "gpt-6-luna",
+      "max_runtime_seconds": 600,
+      "max_sources": 4,
+      "max_records": 8,
+      "acceptance": [
+        "Inspect primary source; snippets remain pending",
+        "Record denominator, setting, period, endpoint and units",
+        "Separate observation, model assumption and inference",
+        "No automatic parameter or clinical approval"
+      ]
+    }
+  ]
+}

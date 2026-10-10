@@ -1,0 +1,141 @@
+{
+  "status": "proposed_requirements_not_executable_simulation",
+  "scope": "Encounter mechanics with a wrist-injury example; not exhaustive clinical coverage",
+  "requirements": [
+    {
+      "id": "occult-injury",
+      "source_record_ids": [
+        "model-branches-negative-radiograph-persistent-suspicion",
+        "model-branches-scaphoid-suspected"
+      ],
+      "requirement": "Keep diagnosis uncertainty separate from imaging results. A clinician-selected follow-up branch requires a responsible service and recorded plan.",
+      "evidence_status": "analyst_inference_from_external_sources",
+      "activation_status": "blocked_pending_human_and_local_review",
+      "missing_before_activation": [
+        "Clinician-approved scope and exclusions",
+        "Local access to MRI/CT and follow-up",
+        "Conditional branch frequencies"
+      ],
+      "local_capacity": null,
+      "duration_distribution": null,
+      "branch_probability": null
+    },
+    {
+      "id": "interpretation-and-discharge",
+      "source_record_ids": [
+        "model-branches-imaging-report-before-discharge"
+      ],
+      "requirement": "Track preliminary, definitive and acknowledged reports separately. A local discharge rule must specify which report is sufficient and who owns later discrepancies.",
+      "evidence_status": "analyst_inference_from_external_sources",
+      "activation_status": "blocked_pending_human_and_local_review",
+      "missing_before_activation": [
+        "Reconcile UK recommendation with approved local practice",
+        "Named receiving role and escalation rules"
+      ],
+      "local_capacity": null,
+      "duration_distribution": null,
+      "branch_probability": null
+    },
+    {
+      "id": "repeat-clinician-contact",
+      "source_record_ids": [
+        "model-resources-resource-revisit-gates"
+      ],
+      "requirement": "Model assessment and result-review contacts as distinct tasks. Test completion and clinician availability are separate gates.",
+      "evidence_status": "analyst_inference_from_external_sources",
+      "activation_status": "blocked_pending_human_and_local_review",
+      "missing_before_activation": [
+        "Actual role task map",
+        "Result acknowledgement and reassessment workflow"
+      ],
+      "local_capacity": null,
+      "duration_distribution": null,
+      "branch_probability": null
+    },
+    {
+      "id": "joint-resource-acquisition",
+      "source_record_ids": [
+        "model-resources-and-gates-and-staff-bundles"
+      ],
+      "requirement": "Declare simultaneous resource requirements explicitly; an acquire-all implementation is an engineering proposal. Do not reserve resources for an entire encounter by default.",
+      "evidence_status": "analyst_inference_from_external_sources",
+      "activation_status": "blocked_pending_human_and_local_review",
+      "missing_before_activation": [
+        "Which tasks require simultaneous presence",
+        "Release rules and deadlock policy",
+        "Roster, breaks and skill eligibility"
+      ],
+      "local_capacity": null,
+      "duration_distribution": null,
+      "branch_probability": null
+    },
+    {
+      "id": "interrupt-and-resume",
+      "source_record_ids": [
+        "model-resources-triage-interruption-observation"
+      ],
+      "requirement": "Represent interrupted work, remaining work and reassessment/rework separately. Acuity-based selection does not by itself imply preemption.",
+      "evidence_status": "analyst_inference_from_external_sources",
+      "activation_status": "blocked_pending_human_and_local_review",
+      "missing_before_activation": [
+        "Task-specific preemption policy",
+        "Observed interruption causes, durations and outcomes"
+      ],
+      "local_capacity": null,
+      "duration_distribution": null,
+      "branch_probability": null
+    },
+    {
+      "id": "handover-ownership",
+      "source_record_ids": [
+        "model-resources-ems-handover-acceptance"
+      ],
+      "requirement": "Represent physical arrival, responsibility acceptance and completed handover as distinct events. An external target is not a sampled service duration.",
+      "evidence_status": "analyst_inference_from_external_sources",
+      "activation_status": "blocked_pending_human_and_local_review",
+      "missing_before_activation": [
+        "Local ownership policy",
+        "Event timestamps and acceptance roles"
+      ],
+      "local_capacity": null,
+      "duration_distribution": null,
+      "branch_probability": null
+    },
+    {
+      "id": "transport-endpoints",
+      "source_record_ids": [
+        "model-timing-aub-radiology-transport"
+      ],
+      "requirement": "Keep queue, travel, imaging acquisition and interpretation intervals separate. External elapsed transport TAT must not also be charged as transporter labor.",
+      "evidence_status": "analyst_inference_from_external_sources",
+      "activation_status": "blocked_pending_human_and_local_review",
+      "missing_before_activation": [
+        "Local timestamp definitions",
+        "Travel and queue decomposition",
+        "Porter and scanner availability"
+      ],
+      "local_capacity": null,
+      "duration_distribution": null,
+      "branch_probability": null
+    },
+    {
+      "id": "timing-adoption",
+      "source_record_ids": [
+        "model-timing-rio-simulation-triage-fit",
+        "model-timing-rio-simulation-consultation-fit"
+      ],
+      "requirement": "Require resolved source conflicts, distribution convention, endpoint and fit assessment before sampling. Confidence intervals around a mean are not patient duration distributions.",
+      "evidence_status": "analyst_inference_from_external_sources",
+      "activation_status": "blocked_pending_human_and_local_review",
+      "missing_before_activation": [
+        "Resolve conflicting triage expressions",
+        "Confirm software parameterization",
+        "Review fit diagnostics",
+        "Establish population and shift compatibility"
+      ],
+      "local_capacity": null,
+      "duration_distribution": null,
+      "branch_probability": null
+    }
+  ]
+}

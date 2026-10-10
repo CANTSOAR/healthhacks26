@@ -726,6 +726,56 @@ documents:
     path: catalog/encounter-d5f69324ddce.json
     role: acquired_source_manifest
     refresh: manual
+  - id: catalog:model-0ac04ed8d765
+    type: local_file
+    path: catalog/model-0ac04ed8d765.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:model-5703162ab508
+    type: local_file
+    path: catalog/model-5703162ab508.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:model-703e2132defe
+    type: local_file
+    path: catalog/model-703e2132defe.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:model-72fbe0694b7b
+    type: local_file
+    path: catalog/model-72fbe0694b7b.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:model-96fb82eef13a
+    type: local_file
+    path: catalog/model-96fb82eef13a.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:model-b50ed61f5870
+    type: local_file
+    path: catalog/model-b50ed61f5870.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:model-bb1f72169b09
+    type: local_file
+    path: catalog/model-bb1f72169b09.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:model-bdcce7be997f
+    type: local_file
+    path: catalog/model-bdcce7be997f.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:model-ca6928018631
+    type: local_file
+    path: catalog/model-ca6928018631.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:model-f6f1f05ce962
+    type: local_file
+    path: catalog/model-f6f1f05ce962.json
+    role: acquired_source_manifest
+    refresh: manual
 - path: topics/brief.md
   depends_on:
   - id: local:research-question

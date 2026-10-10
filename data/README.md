@@ -2,9 +2,11 @@
 
 A first version of the whole-hospital knowledge system, grounded in New Brunswick, New Jersey. This repository contains the acquired data, provenance, ontology and reproducible research workflows. The database and live scenario engine are later work.
 
-**Snapshot: 2026-10-10. 145 source catalogs and 84,249 normalized record envelopes.** This includes the full 79,256-code CMS inpatient procedure reference and an overlapping earlier subset; it is not a count of unique hospital activities. Public evidence, terminology, synthetic profiles and analyst proposals remain separately labeled. See the [latest procedures, equipment and RWJ expansion](research/inventory-summary.md) and [human verification guide](review/README.md). Coverage remains partial for hospital operations and local assets.
+**Snapshot: 2026-10-10. 155 source catalogs and 84,271 normalized record envelopes.** This includes the full 79,256-code CMS inpatient procedure reference and an overlapping earlier subset; it is not a count of unique hospital activities. Public evidence, terminology, synthetic profiles and analyst proposals remain separately labeled. See the [latest procedures, equipment and RWJ expansion](research/inventory-summary.md) and [human verification guide](review/README.md). Coverage remains partial for hospital operations and local assets.
 
-Latest: [full encounter gap expansion](research/full-encounter-gap-expansion.md) adds 24 cited records and a ten-stage evidence coverage map, prioritizing arrival, treatment/reassessment and discharge/follow-up ownership.
+Latest: [case branches, resources and timing](research/model-gap-expansion.md) adds 22 cited records, eight inactive model requirements and explicit timing conflicts. Search `model-` in the review interface.
+
+Previous: [full encounter gap expansion](research/full-encounter-gap-expansion.md) adds 24 cited records and a ten-stage evidence coverage map, prioritizing arrival, treatment/reassessment and discharge/follow-up ownership.
 
 Previous: [specialty and insurance expansion](research/specialty-gap-expansion.md) adds 33 cited records across five domains, with separate inactive transfer proposals and explicit source conflicts.
 

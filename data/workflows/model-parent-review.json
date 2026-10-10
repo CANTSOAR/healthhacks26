@@ -1,0 +1,56 @@
+{
+  "status": "parent_source_spot_checks_not_human_approval",
+  "date": "2026-10-10",
+  "checks": [
+    {
+      "record_id": "model-timing-aub-radiology-transport",
+      "locator": "Publisher Methods: study dates, sampling, four interval definitions; Discussion endpoint discrepancy",
+      "outcome": "Corrected endpoint, dates and exclusions"
+    },
+    {
+      "record_id": "model-timing-rio-simulation-triage-fit",
+      "locator": "Publisher Table 7 and appendix fit table",
+      "outcome": "Conflicting expressions and fit conclusions retained; adoption blocked"
+    },
+    {
+      "record_id": "model-timing-rio-simulation-consultation-fit",
+      "locator": "Publisher Table 7 and appendix fit table",
+      "outcome": "Fit diagnostics conflict retained; adoption blocked"
+    },
+    {
+      "record_id": "model-timing-baril-registration-assumption",
+      "locator": "Author manuscript Table 5",
+      "outcome": "Triangular input verified; not promoted to empirical fit"
+    },
+    {
+      "record_id": "model-resources-and-gates-and-staff-bundles",
+      "locator": "Europe PMC PMC7924453 fullTextXML Table 2 cells",
+      "outcome": "Corrected five-role huddle, excluding porter"
+    },
+    {
+      "record_id": "model-resources-resource-seize-after-triage",
+      "locator": "Europe PMC PMC7924453 fullTextXML Table 2 cells",
+      "outcome": "Corrected charting roles ED nurse and admin"
+    },
+    {
+      "record_id": "model-resources-acuity-role-routing",
+      "locator": "SAGE Table 1 and process description",
+      "outcome": "Verified local model matrix; not universal staffing"
+    },
+    {
+      "record_id": "model-branches-imaging-report-before-discharge",
+      "locator": "NICE original recommendations 1.1.9",
+      "outcome": "Verified recommendation and locator"
+    },
+    {
+      "record_id": "model-branches-scaphoid-suspected",
+      "locator": "NICE original recommendations 1.2.3",
+      "outcome": "Verified recommendation and locator"
+    },
+    {
+      "record_id": "model-resources-triage-interruption-observation",
+      "locator": "PMC article header and abstract",
+      "outcome": "Corrected DOI assignment; removed misplaced article DOI from NHS handover guidance"
+    }
+  ]
+}

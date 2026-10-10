@@ -1,0 +1,18 @@
+#!/usr/bin/env python3
+"""Author inactive model requirements linked to evidence, never local parameters."""
+import json
+from pathlib import Path
+D=Path(__file__).resolve().parents[1]
+def entry(key, sources, requirement, missing):
+ return {'id':key,'source_record_ids':sources,'requirement':requirement,'evidence_status':'analyst_inference_from_external_sources','activation_status':'blocked_pending_human_and_local_review','missing_before_activation':missing,'local_capacity':None,'duration_distribution':None,'branch_probability':None}
+rows=[
+ entry('occult-injury', ['model-branches-negative-radiograph-persistent-suspicion','model-branches-scaphoid-suspected'], 'Keep diagnosis uncertainty separate from imaging results. A clinician-selected follow-up branch requires a responsible service and recorded plan.', ['Clinician-approved scope and exclusions','Local access to MRI/CT and follow-up','Conditional branch frequencies']),
+ entry('interpretation-and-discharge', ['model-branches-imaging-report-before-discharge'], 'Track preliminary, definitive and acknowledged reports separately. A local discharge rule must specify which report is sufficient and who owns later discrepancies.', ['Reconcile UK recommendation with approved local practice','Named receiving role and escalation rules']),
+ entry('repeat-clinician-contact', ['model-resources-resource-revisit-gates'], 'Model assessment and result-review contacts as distinct tasks. Test completion and clinician availability are separate gates.', ['Actual role task map','Result acknowledgement and reassessment workflow']),
+ entry('joint-resource-acquisition', ['model-resources-and-gates-and-staff-bundles'], 'Declare simultaneous resource requirements explicitly; an acquire-all implementation is an engineering proposal. Do not reserve resources for an entire encounter by default.', ['Which tasks require simultaneous presence','Release rules and deadlock policy','Roster, breaks and skill eligibility']),
+ entry('interrupt-and-resume', ['model-resources-triage-interruption-observation'], 'Represent interrupted work, remaining work and reassessment/rework separately. Acuity-based selection does not by itself imply preemption.', ['Task-specific preemption policy','Observed interruption causes, durations and outcomes']),
+ entry('handover-ownership', ['model-resources-ems-handover-acceptance'], 'Represent physical arrival, responsibility acceptance and completed handover as distinct events. An external target is not a sampled service duration.', ['Local ownership policy','Event timestamps and acceptance roles']),
+ entry('transport-endpoints', ['model-timing-aub-radiology-transport'], 'Keep queue, travel, imaging acquisition and interpretation intervals separate. External elapsed transport TAT must not also be charged as transporter labor.', ['Local timestamp definitions','Travel and queue decomposition','Porter and scanner availability']),
+ entry('timing-adoption', ['model-timing-rio-simulation-triage-fit','model-timing-rio-simulation-consultation-fit'], 'Require resolved source conflicts, distribution convention, endpoint and fit assessment before sampling. Confidence intervals around a mean are not patient duration distributions.', ['Resolve conflicting triage expressions','Confirm software parameterization','Review fit diagnostics','Establish population and shift compatibility'])
+]
+(D/'knowledge/model-requirement-candidates.json').write_text(json.dumps({'status':'proposed_requirements_not_executable_simulation','scope':'Encounter mechanics with a wrist-injury example; not exhaustive clinical coverage','requirements':rows},indent=2)+'\n')

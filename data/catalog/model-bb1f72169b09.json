@@ -1,0 +1,26 @@
+{
+  "dataset_id": "model-bb1f72169b09",
+  "source_id": "model-bb1f72169b09",
+  "title": "Discrete-event simulation and design of experiments to study ambulatory patient waiting time in an emergency department",
+  "source_url": "https://doi.org/10.1080/01605682.2018.1510805",
+  "scope": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+  "access": "public_primary_article_or_abstract",
+  "rights": {
+    "source_license": "not assessed for full-text redistribution",
+    "redistribution": "Short factual paraphrases; no full article copied"
+  },
+  "acquisition_status": "acquired",
+  "raw_paths": [],
+  "normalized_path": "data/normalized/model-bb1f72169b09.jsonl",
+  "record_count": 3,
+  "limits": [
+    "Setting, period, applicability and endpoint are source-specific.",
+    "No original snapshot retained; human review should follow source URL and locator.",
+    "A role description or guideline does not establish local operational performance."
+  ],
+  "provenance": {
+    "doi": "10.1080/01605682.2018.1510805",
+    "retrieved_at": "2026-10-10T20:55:17Z",
+    "raw_artifact_kind": "no_raw_limited_paraphrase"
+  }
+}

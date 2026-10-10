@@ -20,7 +20,7 @@ for r in rows:
  assert r['_review']['record_sha256']==expected[r['record_id']]
  for k in ['catalog_path','normalized_path']:
   assert (D/'review'/r['_review'][k]).resolve().is_file()
-for name in ['expansion-receipt.json','breadth-receipt.json','inventory-receipt.json','gaps-receipt.json','specialty-receipt.json','encounter-receipt.json']:
+for name in ['expansion-receipt.json','breadth-receipt.json','inventory-receipt.json','gaps-receipt.json','specialty-receipt.json','encounter-receipt.json','model-receipt.json']:
  receipt=json.loads((D/'workflows'/name).read_text())
  for j in receipt['jobs']:
   assert hashlib.sha256((D.parent/j['extract_path']).read_bytes()).hexdigest()==j['extract_sha256']
@@ -33,7 +33,7 @@ for family in coverage['families']:
 assert all(rid in expected for rid in coverage['role_evidence_record_ids'])
 contract=json.loads((D/'specs/encounter-evidence-contract.json').read_text())
 assert all(rid in expected for rid in contract['fracture_example']['source_record_ids'])
-for transfer_path in ['gap-transfer-candidates.json','specialty-transfer-candidates.json','encounter-transfer-candidates.json']:
+for transfer_path in ['gap-transfer-candidates.json','specialty-transfer-candidates.json','encounter-transfer-candidates.json','model-transfer-candidates.json']:
  transfers=json.loads((D/'knowledge'/transfer_path).read_text())['transfers']
  for t in transfers:
   assert t['status']=='inferred_candidate_not_activated'
@@ -56,3 +56,15 @@ monitor=next(r for r in arrival if r['id']=='encounter-arrival-waiting-area-moni
 assert monitor['value']['median_monitoring_minutes_per_patient']==178
 assert 'median_monitoring_hours_per_patient' not in monitor['value']
 print(f'PASS: {len(rows)} embedded plus {len(external_ids)} on-demand review records match normalized evidence and file links; Luna extract receipt hashes match')
+
+requirements=json.loads((D/'knowledge/model-requirement-candidates.json').read_text())
+assert requirements['status']=='proposed_requirements_not_executable_simulation'
+for r in requirements['requirements']:
+ assert all(i in expected for i in r['source_record_ids'])
+ assert r['activation_status']=='blocked_pending_human_and_local_review'
+ assert all(r[k] is None for k in ['local_capacity','duration_distribution','branch_probability'])
+model_transfers=json.loads((D/'knowledge/model-transfer-candidates.json').read_text())['transfers']
+for rid in ['model-timing-rio-simulation-triage-fit','model-timing-rio-simulation-consultation-fit']:
+ assert next(t for t in model_transfers if t['source_record_ids']==[rid])['quantitative_use_status'].startswith('blocked_')
+assert 'model-branches-capable-adult-declines-recommendation' not in expected
+print('PASS: inactive model requirements, source links, unresolved timing blocks and pending-source exclusion')
