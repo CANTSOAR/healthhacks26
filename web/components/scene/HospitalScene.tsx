@@ -11,7 +11,11 @@ import type { Built } from "./build";
 import { Building } from "./Building";
 import { CameraRig, type Insets } from "./CameraRig";
 import { People, type PosMap } from "./People";
+import { SceneDebug } from "./SceneDebug";
 import { SelectionBox } from "./SelectionBox";
+
+// `?dbgupload=three` leaves three's behaviour alone, so scripts/repro-black-people.mjs can show the bug described in Lights
+const UNFIXED = typeof window !== "undefined" && process.env.NODE_ENV !== "production" && new URLSearchParams(window.location.search).get("dbgupload") === "three";
 
 function Lights({ built }: { built: Built | null }) {
   const light = useRef<THREE.DirectionalLight>(null);
@@ -28,11 +32,20 @@ function Lights({ built }: { built: Built | null }) {
   // The shadow pass redraws every instance; refreshing it on alternate frames halves that cost and is not visible
   // at the speed people walk.
   const frame = useRef(0);
-  useFrame(() => {
+  useFrame((state) => {
     const l = light.current;
     if (!l) return;
     l.shadow.autoUpdate = false;
     if (frame.current++ % 2 === 0) l.shadow.needsUpdate = true;
+    // Skipping the shadow pass exposes a flaw in three (0.186, WebGLRenderer.render): instanced attributes are uploaded
+    // "once per frame" keyed on info.render.frame, but that counter is incremented between the main scene traversal and
+    // the shadow pass. A shadow caster is therefore stamped by the shadow pass with the number the next main traversal
+    // sees, and that traversal skips its upload. With a shadow pass every frame nobody notices (the shadow pass uploads
+    // before anything is drawn); on a frame without one nothing is uploaded at all. Instance matrices then reach the GPU
+    // on alternate frames only, and an instanceColor first created on such a frame is bound into the mesh's vertex
+    // array object before its buffer exists, which three caches: every instance black from then on.
+    // Advancing the counter on frames without a shadow pass makes the main traversal upload.
+    else if (!UNFIXED) state.gl.info.render.frame++;
   });
   return (
     <>
@@ -90,10 +103,6 @@ export default function HospitalScene({ feed, sync = false, insets }: { feed: Fe
     >
       <color attach="background" args={[GROUND]} />
       <fog attach="fog" args={[GROUND, 220, 620]} />
-      {/* People are remounted whenever the layout (and so the building's instanced meshes) is rebuilt. Without this,
-          every person rendered black after a layout change. Narrowed down by experiment, root cause not found: it needs
-          shadows on, the body mesh both casting and receiving, and the people meshes outliving a rebuild of the
-          building's instanced meshes; remounting the lights instead does not help. */}
       <Lights built={built} />
       {/* ground: flat colour that matches the page, plus a shadow-only plane */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.02, 0]} raycast={() => null}>
@@ -105,10 +114,11 @@ export default function HospitalScene({ feed, sync = false, insets }: { feed: Fe
         <shadowMaterial color="#5B6BB5" opacity={0.16} />
       </mesh>
       {layout ? <Building layout={layout} feed={feed} feedKey={feedKey} onBuilt={onBuilt} /> : null}
-      <People key={`p${layoutRev}:${built ? Math.round(built.bounds.r) : 0}`} feed={feed} feedKey={feedKey} positions={positions} />
+      <People feed={feed} feedKey={feedKey} positions={positions} />
       <Ambulances key={`a${layoutRev}`} feed={feed} feedKey={feedKey} positions={positions} />
       {sel ? <SelectionBox key={`${sel.kind}:${sel.id}`} sel={sel} feed={feed} positions={positions} /> : null}
       {hov && !(sel && sel.kind === hov.kind && sel.id === hov.id) ? <SelectionBox key={`h${hov.kind}:${hov.id}`} sel={hov} feed={feed} positions={positions} variant="hover" /> : null}
+      {process.env.NODE_ENV !== "production" ? <SceneDebug feedKey={feedKey} positions={positions} /> : null}
       <CameraRig built={built} feed={feed} feedKey={feedKey} positions={positions} sync={sync} insets={insets} />
     </Canvas>
   );
