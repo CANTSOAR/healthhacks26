@@ -139,6 +139,10 @@ class BedrockProvider(Provider):
     def __init__(self, client=None, model: str | None = None, region: str | None = None):
         super().__init__()
         self.model = model or os.environ.get("BEDROCK_MODEL_ID") or DEFAULT_BEDROCK_MODEL
+        # models to try, in order, when the account refuses the preferred one (workshop accounts list models they
+        # cannot actually invoke); a refused model is dropped for the life of the process
+        extra = [m.strip() for m in (os.environ.get("BEDROCK_FALLBACK_MODEL_IDS") or "").split(",") if m.strip()]
+        self.models = [self.model] + [m for m in extra if m != self.model]
         self.region = region or os.environ.get("AWS_REGION") or os.environ.get("AWS_DEFAULT_REGION") or "us-east-1"
         self._client = client
 
@@ -153,12 +157,26 @@ class BedrockProvider(Provider):
     def _complete(self, system, user, max_tokens, schema):
         if schema is not None:
             system = system + "\n\nReply with ONE JSON object only, no prose, matching this JSON schema:\n" + json.dumps(schema)
-        resp = self.client().converse(
-            modelId=self.model,
-            system=[{"text": system}],
-            messages=[{"role": "user", "content": [{"text": user}]}],
-            inferenceConfig={"maxTokens": max_tokens},      # no sampling params: some models reject them
-        )
+        resp, last = None, None
+        for model in list(self.models):
+            try:
+                resp = self.client().converse(
+                    modelId=model,
+                    system=[{"text": system}],
+                    messages=[{"role": "user", "content": [{"text": user}]}],
+                    inferenceConfig={"maxTokens": max_tokens},      # no sampling params: some models reject them
+                )
+                self.model = model
+                break
+            except Exception as e:  # noqa: BLE001
+                last = e
+                denied = type(e).__name__ in ("AccessDeniedException", "ResourceNotFoundException") or "AccessDenied" in str(e)
+                if denied and len(self.models) > 1:
+                    self.models.remove(model)      # not usable on this account: do not try it again
+                    continue
+                raise
+        if resp is None:
+            raise last  # type: ignore[misc]
         blocks = (((resp or {}).get("output") or {}).get("message") or {}).get("content") or []
         text = "".join(b.get("text", "") for b in blocks if isinstance(b, dict) and "text" in b)
         if (resp or {}).get("stopReason") in ("content_filtered", "guardrail_intervened"):
@@ -202,6 +220,9 @@ class AnthropicProvider(Provider):
 
 
 def aws_credentials_resolve() -> bool:
+    # a Bedrock API key (bearer token) is a credential too; boto3 picks it up from this variable
+    if (os.environ.get("AWS_BEARER_TOKEN_BEDROCK") or "").strip():
+        return True
     try:
         import boto3
         return boto3.Session().get_credentials() is not None
