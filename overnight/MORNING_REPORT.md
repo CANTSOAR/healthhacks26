@@ -15,7 +15,7 @@ Everything is committed on `aryan`. Nothing was pushed, deployed, or spent.
 ./run_web.sh        # http://localhost:3000
 ```
 
-Both are running right now on this Mac (started by the wrap-up; stop them with `pkill -f "uvicorn server.app"` and `pkill -f "next dev"`). First-time setup is in the [README](../README.md). Pages: `/` (3D hospital), `/encounter`, `/studio`, `/journey`.
+Neither is running: the wrap-up started both, ran the checks below, and stopped them. First-time setup is in the [README](../README.md). Pages: `/` (3D hospital), `/encounter`, `/studio`, `/journey`.
 
 One rule that bit us: do not run `pnpm --dir web build` while `next dev` is running. It corrupts the dev server's `.next` and pages start returning 500.
 
@@ -28,7 +28,7 @@ One rule that bit us: do not run `pnpm --dir web build` while `next dev` is runn
 | Encounter engine (`encounter/`) | Cases as data with validation and a draft → approved → published lifecycle, disclosure engine with a ledger, offline patient, grader, write-back, three seed cases, nine condition templates | Part of the 222-test combined run below. Offline probes: 46/48 on the development set; 0 of 194 patient sentences unsupported. |
 | Care journey (`encounter/journey/`, `/journey`) | Four connected stages on one shared record with provenance, SBAR handoff with an AI colleague, care plan and team debrief | 18 tests; browser e2e 41 checks (agent-run). Not looked at by QA. |
 | Combined Python suites | | `encounter + journey + server`: 222 passed. In a **clean virtualenv built from `requirements.txt`**: 241 passed (adds `rl` and data adapters) and simulator 15 passed. |
-| Web (`web/`) | Play, Watch, Compare, Trade-off, inspector with catalog sources, demo tour, Patient Studio, encounter, journey | `pnpm build` passes (run by me at 09:38). One-tab path Play → find a playable patient → play the encounter → finish → return to the same run: verified in a browser by the web agent, twice. Encounter e2e 56/56 (agent-run). |
+| Web (`web/`) | Play, Watch, Compare, Trade-off, inspector with catalog sources, demo tour, Patient Studio, encounter, journey | `pnpm build` passes (run by me at 09:38). At 09:35–09:45 I started both servers with the two run scripts and ran `web/scripts/screenshots.mjs` against them: every step completed with no page errors, including the one-tab path Play → find a playable patient → play the encounter → finish (write-back "Applied") → return to the same run with the patient selected and the clock advancing; reload-and-rejoin; a human run saved to the trade-off chart; live compare; a structural change rebuilding the layout (beds 125 → 129 on day 71); and all six demo-tour steps. Encounter e2e 56/56 (agent-run). |
 | RL (`rl/`) | Gym wrapper, three baselines, five tuned heuristics, PPO, held-out evaluation, 40 recorded rollouts | 14 tests, re-run by me. 20 managers load on the Mac CPU; the server lists 21 including `human`. |
 
 ![Play mode](screenshots/web-live-play.png)
@@ -43,7 +43,7 @@ One rule that bit us: do not run `pnpm --dir web build` while `next dev` is runn
 
 ![Care journey: shared record with provenance](screenshots/journey-shared-record.png)
 
-The first two screenshots are being re-taken as this is written; if the files look stale, run `node scripts/screenshots.mjs http://localhost:3000 --gpu --api http://localhost:8000` from `web/`.
+The web screenshots were re-taken at 09:35–09:45 from the final build. To regenerate: with both servers up, `node scripts/screenshots.mjs http://localhost:3000 --gpu --api http://localhost:8000` from `web/` (about 12 minutes).
 
 ## What is partial or broken
 
@@ -55,7 +55,8 @@ Read [QA_REPORT.md](QA_REPORT.md): an independent agent walked the demo at 03:00
 - **Organizer sample patients appear by default** on `/encounter` and `/studio` when `.private/` is present (as the handoff asked), with names and photos; their auto-converted wording is uneven. They are never in tracked files or committed screenshots. Decide whether to show them in the demo.
 - **Wait-time tail is too short.** Simulated 90th-percentile wait is 40 min against 63–118 in the survey.
 - **Cost barely responds to the manager** in total-cost terms, because measured overhead dominates; the trade-off chart defaults to staffing cost for that reason.
-- **Web:** KPI labels truncate at 1280 px; the "people render black after a layout change" bug has a workaround (remount) but no root cause; fixture-mode auto-recovery is untested.
+- **People render black in live Compare.** Visible in this morning's `screenshots/web-live-compare-two-managers.png`: in the right-hand pane every person is black instead of coloured by acuity or role. The same bug appeared earlier after layout changes and was worked around by remounting; the root cause is not known (it needs shadows on and people meshes outliving a rebuild of the building). Recorded-rollout Compare was not seen to do this. Fix before demoing live Compare, or use recorded rollouts.
+- **Web, smaller:** KPI labels truncate at 1280 px; fixture-mode auto-recovery is untested.
 - **Simulator not modelled:** MRI and ultrasound, staff turnover, the results-waiting area, a dedicated fast-track nurse; `relocate` changes walking distances only; the two contrast hospitals run but are uncalibrated; per-hospital scenario mixing in one batch was not done.
 - **Never run against a real service:** Bedrock, Anthropic, ElevenLabs, Vlada. No credentials were set; those adapters are tested against faked responses only. Voice in the browser is implemented but unexercised.
 
