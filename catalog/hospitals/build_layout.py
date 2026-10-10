@@ -40,7 +40,26 @@ DISCLAIMER_FICTIONAL = (
 )
 
 # Source strings reused on rooms -------------------------------------------------------------
-ED_PAGE = "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/"
+ED_PAGE = "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion"
+ED_FAQ = "https://rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion/frequently-asked-questions"
+ED_SERVICES = "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-room-services/"
+ROI_2018 = "https://www.roi-nj.com/2018/04/27/healthcare/rwj-university-hospital-cuts-ribbon-on-emergency-department-expansions-first-phase"
+ROI_2019 = "https://www.roi-nj.com/2019/11/26/healthcare/rwjuh-celebrates-final-phase-of-emergency-dept-expansion-with-ribbon-cutting/"
+AMB_FLYER = "https://www.rwjbh.org/documents/rwj-new-brunswick/Ambulance-N-Non-Emergency-ED-Construction.pdf"
+PUBLIC_FLYER = "https://www.rwjbh.org/documents/rwj-new-brunswick/Patients-Public-ED-Construction.pdf"
+CAMPUS_MAP = "https://www.rwjbh.org/documents/rwj-new-brunswick/for-physicians/physician-relations/Hospital-Map-NB.pdf"
+PAGNES = "https://pagnes.com/project/robert-wood-johnson-hospital-emergency-department-expansion"
+WIKI_BMSCH = "https://en.wikipedia.org/wiki/The_Bristol-Myers_Squibb_Children%27s_Hospital"
+OSM_URL = "https://www.openstreetmap.org/way/251382262"
+OSM_SITE_FILE = HERE / "rwjuh_nb.osm_site.json"
+
+# Site frame for RWJUH. Local axes are rotated to the hospital's own building grid so rooms can be
+# axis-aligned: +x points 34 degrees north of east (parallel to Somerset Street, towards Easton
+# Avenue), +z points 34 degrees east of south (towards French Street).
+OSM_LAT0, OSM_LON0 = 40.49543, -74.44992     # centroid of OSM way 251382262 (the main hospital building)
+OSM_THETA_DEG = 34.0
+OSM_OFFSET = (100.0, 85.0)                    # site origin = local (-100, -85)
+RWJ_SITE = (240.0, 170.0)
 SRC_INFER = "No public interior plan. Placed by the layout generator following common ED planning practice"
 
 
@@ -95,10 +114,10 @@ def build(cfg):
                 if k >= n_peds:
                     break
                 k += 1
-                b.rect(f"peds-{k:02d}", "peds_ed", f"Pediatric ED {k}", wx + c * pitch, rz, wx + c * pitch + bay_w, rz + bay_d,
+                b.rect(f"peds-{k:02d}", "peds_ed", f"Pediatric ED {k}", wx + c * 3.2, rz, wx + c * 3.2 + 3.0, rz + bay_d,
                        1, "Pediatric ED", **pv("peds"),
-                       note="Separate pediatric emergency department is published; room count and position are assumed. Pediatric stream is not simulated in v1.")
-        b.rect("station-peds", "nurse_station", "Pediatric ED nurse station", wx + 4, z + 5.5, wx + min(per * pitch, west_w) - 4, z + 8.5,
+                       note=cfg.get("peds_note", ""))
+        b.rect("station-peds", "nurse_station", "Pediatric ED nurse station", wx + min(4, per * 0.4), z + 5.5, wx + min(per * 3.2, west_w) - min(4, per * 0.4), z + 8.5,
                0, "Pediatric ED")
         z += 16.0
     n_ft = cfg["fast_track"]
@@ -171,7 +190,8 @@ def build(cfg):
 
     # imaging + support band after the first pod row
     bz0 = ez0 + 1.0 + pod_d + 2.6
-    b.rect("corr-ew-1", "corridor", "Imaging corridor (north)", px0, bz0 - 2.2, pods_x1, bz0 - 0.4, 0, "Circulation")
+    # widest ED corridor on purpose: the simulator lines hallway overflow stretchers along the largest corridor
+    b.rect("corr-ew-1", "corridor", "Imaging corridor (north)", px0, bz0 - 2.5, pods_x1, bz0 - 0.1, 0, "Circulation")
     x = px0
     img = []
     for i in range(cfg["ct"]):
@@ -181,7 +201,7 @@ def build(cfg):
     for i in range(cfg["ultrasound"]):
         img.append((f"us-{i+1}", "ultrasound", f"Ultrasound {i+1}", 4.0, 1))
     for id, type, label, w, cap in img:
-        b.rect(id, type, label, x, bz0, x + w, bz0 + band_d - 1.0, cap, "ED imaging", **pv("imaging"),
+        b.rect(id, type, label, x, bz0, x + w, bz0 + band_d - 1.0, cap, "ED imaging", **pv(type if type in P else "imaging"),
                note="Radiology inside the emergency department is published; the number of rooms and their position are assumed."
                if cfg["hospital_id"] == "rwjuh_nb" else "")
         b.equip(f"{id}-unit", type, {"ct": "CT scanner", "xray": "X-ray unit", "ultrasound": "Ultrasound machine"}[type] + f" {id.split('-')[1]}",
@@ -202,29 +222,29 @@ def build(cfg):
         south_z0 = bz0 + band_d + 1.2
         b.rect("corr-ew-2", "corridor", "Resuscitation corridor", px0, bz0 + band_d - 0.6, pods_x1, bz0 + band_d + 0.9, 0, "Circulation")
 
-    # ---- south band: resuscitation next to the ambulance entrance, decontamination, registration
+    # ---- street-side band: decontamination and resuscitation next to the ambulance entrance
     n_resus = cfg["resus"]
     rw, rd = 6.0, 6.5
-    rx1 = pods_x1
-    for i in range(n_resus):
-        x1 = rx1 - i * (rw + 0.4)
-        b.rect(f"resus-{i+1}", "resus_bay", f"Resuscitation {i+1}", x1 - rw, south_z0, x1, south_z0 + rd, 1, "Resuscitation", **pv("resus"),
-               note="Resuscitation / trauma bay next to the ambulance entrance. " + cfg.get("resus_note", ""))
-    rx0 = rx1 - n_resus * (rw + 0.4)
-    if rx0 - px0 >= 9:
-        b.rect("station-resus", "nurse_station", "Resuscitation station", max(px0, rx0 - 8.5), south_z0, rx0, south_z0 + rd, 0, "Resuscitation")
-    if rx0 - 9.5 - px0 >= 6:
-        b.rect("registration", "support", "Registration and security", px0, south_z0, min(px0 + 15, rx0 - 9.5), south_z0 + rd, 0, "ED front")
-    ed_x1 = pods_x1 + 6.5
-    b.rect("decon", "decon", "Decontamination", pods_x1 + 1.5, south_z0, ed_x1 - 0.5, south_z0 + rd, 1, "Resuscitation", **pv("decon"),
+    b.rect("decon", "decon", "Decontamination", px0, south_z0, px0 + 4.0, south_z0 + rd, 1, "Resuscitation", **pv("decon"),
            note="Decontamination area with outside access. Published as a zone; size and position assumed.")
-    b.rect("ems-room", "support", "EMS and staff support", pods_x1 + 1.5, ez0 + 1, ed_x1 - 0.5, south_z0 - 1.0, 0, "Support")
+    rx0 = px0 + 4.4
+    for i in range(n_resus):
+        x0 = rx0 + i * (rw + 0.4)
+        b.rect(f"resus-{i+1}", "resus_bay", f"Resuscitation {i+1}", x0, south_z0, x0 + rw, south_z0 + rd, 1, "Resuscitation", **pv("resus"),
+               note="Resuscitation / trauma bay next to the ambulance entrance. " + cfg.get("resus_note", ""))
+    rx1 = rx0 + n_resus * (rw + 0.4)
+    if pods_x1 - rx1 >= 6:
+        b.rect("station-resus", "nurse_station", "Resuscitation station", rx1, south_z0, min(rx1 + 8.5, pods_x1), south_z0 + rd, 0, "Resuscitation")
+    if pods_x1 - rx1 - 9 >= 6:
+        b.rect("registration", "support", "Security and EMS room", rx1 + 9, south_z0, pods_x1, south_z0 + rd, 0, "ED front")
+    ed_x1 = pods_x1 + 6.5
+    b.rect("ems-room", "support", "Staff support and storage", pods_x1 + 1.5, ez0 + 1, ed_x1 - 0.5, south_z0 + rd, 0, "Support")
     ed_z1 = max(south_z0 + rd + 0.5, west_z1)
 
-    # ---- outside: ambulance entrance and bay
+    # ---- outside: ambulance entrance and bay, in front of the resuscitation bays
     amb_w = cfg["ambulance_slots"] * 5.0
-    ax1 = min(pods_x1 + 2, ed_x1)
-    ax0 = ax1 - amb_w
+    ax0 = px0
+    ax1 = ax0 + amb_w
     b.rect("amb-entrance", "entrance", "Ambulance entrance", (ax0 + ax1) / 2 - 4, ed_z1, (ax0 + ax1) / 2 + 4, ed_z1 + 3, 0, "Ambulance",
            **pv("amb_entrance"))
     b.rect("amb-bay", "ambulance_bay", "Ambulance bay", ax0, ed_z1 + 4, ax1, ed_z1 + 12, cfg["ambulance_slots"], "Ambulance", **pv("ambulance"),
@@ -248,7 +268,8 @@ def build(cfg):
     x = ix0
     for id, type, label, cap, frac in ctx:
         w = span * frac
-        b.rect(id, type, label, x, z2, x + w - 2.0, z2 + ud, cap, "Inpatient", **pv("context"), note=inp_note + " Capacity is assumed.")
+        b.rect(id, type, label, x, z2, x + w - 2.0, z2 + ud, cap, "Inpatient", **pv(id if id in P else "context"),
+               note=inp_note + " " + cfg.get("context_notes", {}).get(id, "Capacity is assumed."))
         x += w
     for i in range(cfg["mri"]):
         b.rect(f"mri-{i+1}", "mri", f"MRI {i+1}", ix1 - 9.0, z2 + i * 8, ix1, z2 + 7 + i * 8, 1, "Main radiology", **pv("context"),
@@ -258,14 +279,28 @@ def build(cfg):
     link_z0 = z2 + ud + 0.5
     if ez0 - link_z0 > 1:
         b.rect("corr-link", "corridor", "Corridor to inpatient units and elevators", lcx, link_z0, lcx + 2.2, ez0 + 0.8, 0, "Circulation")
-    b.rect("corr-inpatient", "corridor", "Inpatient corridor", ix0, iz0 + ud + 1.5, ix1, iz0 + ud + 4.5, 0, "Circulation")
+    imid = (ix0 + ix1) / 2
+    b.rect("corr-inpatient", "corridor", "Inpatient corridor", ix0, iz0 + ud + 2.0, imid - 0.1, iz0 + ud + 4.0, 0, "Circulation")
+    b.rect("corr-inpatient-2", "corridor", "Inpatient corridor", imid + 0.1, iz0 + ud + 2.0, ix1, iz0 + ud + 4.0, 0, "Circulation")
 
-    site = dict(w=cfg["site"][0], d=cfg["site"][1], roads=cfg["roads"](ax0, ax1, ed_z1, wx), buildings=cfg["buildings"])
+    ed = [ex0, ez0, ed_x1, ed_z1]
+    if cfg.get("transpose"):
+        # Design coordinates have the street on the +z side. The real ED fronts Little Albany Street on
+        # its east side in the site frame, so swap the axes: site x = design z + cx, site z = design x + cz.
+        cx, cz = cfg["transpose"]
+        for r in b.rooms:
+            r["x"], r["z"] = round(r["z"] + cx, 2), round(r["x"] + cz, 2)
+            r["w"], r["d"] = r["d"], r["w"]
+        ed = [ez0 + cx, ex0 + cz, ed_z1 + cx, ed_x1 + cz]
+    byid = {r["id"]: r for r in b.rooms}
+    roads, buildings = cfg["site_features"](byid)
+    site = dict(w=cfg["site"][0], d=cfg["site"][1], roads=roads, buildings=buildings)
+    site.update(cfg.get("site_extra", {}))
     layout = dict(
         schema_version=1, hospital_id=cfg["hospital_id"], name=cfg["name"], disclaimer=cfg["disclaimer"], version=cfg["version"],
         site=site, rooms=b.rooms, equipment=b.equipment, walk_speed_m_per_min=cfg["walk_speed"], sources=cfg["sources"],
     )
-    layout["_ed_rect"] = [ex0, ez0, ed_x1, ed_z1]
+    layout["_ed_rect"] = ed
     return layout
 
 
@@ -276,62 +311,114 @@ def poly(x0, z0, x1, z1):
 # ---------------------------------------------------------------------------------------------
 # Configurations
 # ---------------------------------------------------------------------------------------------
-PUB = lambda what: f"{ED_PAGE} ({what}); exact position inferred"
+def fict_site(w, buildings):
+    def f(byid):
+        a = byid["amb-bay"]
+        zr = a["z"] + a["d"] / 2 + 6.0
+        x0, x1 = a["x"] - a["w"] / 2 - 6, a["x"] + a["w"] / 2 + 6
+        roads = [
+            dict(id="road-access", label="Access road", width=7, points=[[0, zr + 4], [w, zr + 4]], provenance="inferred"),
+            dict(id="road-ambulance", label="Ambulance drive", width=6, points=[[x0, zr + 4], [x0, zr - 1], [x1, zr - 1], [x1, zr + 4]],
+                 provenance="inferred"),
+        ]
+        return roads, buildings
+    return f
+
+
+def rwj_site(byid):
+    """Roads and exterior footprints from the OpenStreetMap extract (surveyed), plus two short
+    inferred driveways that join the modelled entrances to Little Albany Street."""
+    osm = json.loads(OSM_SITE_FILE.read_text())
+    src = f"OpenStreetMap way {{}} (c) OpenStreetMap contributors, ODbL 1.0; extract of {osm['extracted']}"
+    buildings = []
+    for bd in osm["buildings"]:
+        e = dict(id=f"osm-{bd['way']}", label=bd["label"], height=bd["height"], polygon=bd["polygon"], provenance="surveyed",
+                 source=src.format(bd["way"]) + ". Footprint from OSM; height " + bd["height_basis"] + ".")
+        buildings.append(e)
+    roads = [dict(id=f"osm-{r['way']}-{r['part']}", label=r["label"], width=r["width"], points=r["points"], provenance="surveyed")
+             for r in osm["roads"]]
+    amb, ent = byid["amb-bay"], byid["entrance"]
+    ex = ent["x"] + ent["w"] / 2
+    roads += [
+        dict(id="road-ambulance", label="Ambulance drive (position inferred)", width=6,
+             points=[[amb["x"], amb["z"] - amb["d"] / 2], [amb["x"] + 3, amb["z"] - amb["d"] / 2 - 5], [166.5, 55.0]], provenance="inferred"),
+        dict(id="road-dropoff", label="Emergency drop-off (position inferred)", width=5,
+             points=[[ex + 1, ent["z"]], [165.5, 44.0]], provenance="inferred"),
+    ]
+    return roads, buildings
+
+
+def pub(url, what):
+    return ("published", f"{url} ({what}); exact position inferred")
+
 
 RWJ = dict(
     hospital_id="rwjuh_nb",
     name="Robert Wood Johnson University Hospital, New Brunswick (model)",
-    disclaimer=DISCLAIMER_RWJ, version=1, walk_speed=70,
-    site=(220, 160), ed_origin=(40, 66), inpatient_origin=(40, 8), ward_size=(26, 14),
-    adult_bays=68, pods=[18, 18, 16, 16], resus=6, fast_track=10, peds=16, triage=3,
+    disclaimer=DISCLAIMER_RWJ, version=2, walk_speed=70,
+    site=RWJ_SITE, ed_origin=(40, 66), inpatient_origin=(40, 28), ward_size=(21, 12),
+    transpose=(26.0, -12.0), site_features=rwj_site,
+    site_extra=dict(
+        attribution="Site outline and streets (c) OpenStreetMap contributors, ODbL 1.0",
+        x_axis_bearing_deg=56.0,
+        note="Axes follow the hospital's building grid: +x points 34 degrees north of east (compass bearing 56, along Somerset Street "
+             "towards Easton Avenue); +z points 34 degrees east of south (towards French Street). Origin and rotation are in "
+             "catalog/hospitals/rwjuh_nb.osm_site.json."),
+    adult_bays=68, pods=[18, 18, 16, 16], resus=6, fast_track=10, peds=17, triage=3,
     ct=2, xray=2, ultrasound=2, mri=1, ambulance_slots=8,
     waiting_cap=60, waiting_d=13.0, care_init_cap=8, results_cap=16,
     wards=[24, 24, 24, 24, 24], icu_beds=24, stepdown_beds=24, or_rooms=12, recovery_beds=16,
     resus_note="Phase one of the expansion added three resuscitation bays (published); a total of six is assumed.",
-    ambulance_note="Ambulance bay for eight ambulances is published; position inferred.",
+    ambulance_note="Ambulance entrance with parking for eight ambulances is published, on the Little Albany Street side; exact position inferred.",
+    peds_note="A separate pediatric emergency department is published by the hospital. 17 bays (three for behavioral health) is the figure "
+              "given by Wikipedia citing local press; position assumed. The pediatric stream is not simulated in v1.",
+    context_notes=dict(icu="A 24-bed ICU on the third floor of the Core Pavilion is published by the builder; the hospital has other "
+                           "intensive care units that are not modelled."),
     prov=dict(
-        peds=("published", PUB("separate pediatric emergency department; count assumed")),
-        fast_track=("published", PUB("fast-track area; count assumed")),
-        care_init=("published", PUB("care-initiation area added in phase one")),
-        results=("published", PUB("results-waiting area added in phase one")),
-        entrance=("published", PUB("new walk-in entrance")),
-        bay=("published", PUB("more than 100 private treatment areas across the department; split assumed")),
-        imaging=("published", PUB("radiology inside the department; counts assumed")),
-        resus=("published", PUB("three resuscitation bays added in phase one; total of six assumed")),
-        decon=("published", PUB("decontamination area added in phase one")),
-        ambulance=("published", PUB("ambulance bay for eight ambulances")),
+        peds=pub(ED_FAQ, "'Separate, expanded Pediatric Emergency Department'; 17 bays per " + WIKI_BMSCH),
+        fast_track=pub(ED_PAGE, "'a fast-track option for patients who arrive ... with less emergent diagnoses'; count assumed"),
+        care_init=pub(ROI_2018, "phase one added 'a care initiation area'"),
+        results=pub(ROI_2018, "phase one added 'a result waiting area'"),
+        entrance=pub(ED_FAQ, "'New walk-in entrance'; emergency drop-off at the Somerset Street / Little Albany Street intersection per " + PUBLIC_FLYER),
+        bay=pub(ED_PAGE, "'more than 100 private treatment areas'; split into pods assumed"),
+        imaging=pub(ED_PAGE, "'radiology imaging in the department'; number of rooms assumed"),
+        ct=pub(ROI_2019, "'New in-house radiology and CT imaging'; number of scanners assumed"),
+        resus=pub(ROI_2018, "phase one added 'three new resuscitation bays'; total of six assumed"),
+        decon=pub(ROI_2018, "phase one added 'a decontamination area'"),
+        ambulance=pub(ED_PAGE, "'A new ambulance bay will accommodate eight ambulances at one time'"),
+        amb_entrance=pub(ROI_2018, "'a new ambulance entrance'; ambulances reach it from Little Albany Street per " + AMB_FLYER),
+        icu=pub(PAGNES, "Core Pavilion third-floor expansion 'with a 24-bed ICU'"),
     ),
-    roads=lambda ax0, ax1, z1, wx: [
-        dict(id="road-access", label="Access road", width=7, points=[[0, z1 + 18], [220, z1 + 18]], provenance="inferred"),
-        dict(id="road-ambulance", label="Ambulance drive", width=6,
-             points=[[ax0 - 6, z1 + 18], [ax0 - 6, z1 + 13.5], [ax1 + 6, z1 + 13.5], [ax1 + 6, z1 + 18]], provenance="inferred"),
-        dict(id="road-dropoff", label="Walk-in drop-off", width=5, points=[[wx + 2, z1 + 18], [wx + 2, z1 + 4], [wx + 18, z1 + 4], [wx + 18, z1 + 18]],
-             provenance="inferred"),
-    ],
-    buildings=[
-        dict(id="parking-deck", label="Parking deck", height=18, polygon=poly(4, 70, 32, 124), provenance="inferred", source="first-cut placeholder"),
-        dict(id="childrens", label="Children's hospital", height=24, polygon=poly(160, 62, 214, 112), provenance="inferred", source="first-cut placeholder"),
-        dict(id="cancer-institute", label="Cancer institute", height=24, polygon=poly(186, 8, 216, 50), provenance="inferred", source="first-cut placeholder"),
-        dict(id="med-school", label="Medical education building", height=20, polygon=poly(4, 8, 32, 56), provenance="inferred", source="first-cut placeholder"),
-    ],
     sources=[
-        dict(title="RWJUH emergency department expansion description (published counts and zones, as recorded in HANDOFF.md)",
-             url=ED_PAGE, used_for="ED area, zones and counts tagged 'published'", accessed="2026-10-10"),
+        dict(title="RWJUH: Emergency Department Expansion (hospital page)", url=ED_PAGE, accessed="2026-10-10",
+             used_for="40,000 to 60,000 sq ft; more than 100 private treatment areas; three additional trauma bays; ambulance bay for eight; radiology in the department; fast track"),
+        dict(title="RWJUH: Emergency Department Expansion, Frequently Asked Questions", url=ED_FAQ, accessed="2026-10-10",
+             used_for="separate pediatric ED; new walk-in entrance; more than 95,000 ED and trauma patients a year"),
+        dict(title="RWJUH: Emergency Department in New Brunswick (service page)", url=ED_SERVICES, accessed="2026-10-10",
+             used_for="non-urgent / urgent / emergent care areas; sensory rooms; Level I trauma"),
+        dict(title="ROI-NJ, 27 Apr 2018: RWJ University Hospital cuts ribbon on emergency department expansion's first phase", url=ROI_2018,
+             accessed="2026-10-10", used_for="phase one: ambulance entrance with parking for eight, three resuscitation bays, decontamination, care initiation, result waiting"),
+        dict(title="ROI-NJ, 26 Nov 2019: RWJUH celebrates final phase of emergency dept. expansion", url=ROI_2019, accessed="2026-10-10",
+             used_for="60,000 sq ft; in-house radiology and CT imaging"),
+        dict(title="RWJUH construction notice: Ambulance and non-emergency transport (PDF with aerial map)", url=AMB_FLYER, accessed="2026-10-10",
+             used_for="ED entrance at Somerset Street and Little Albany Street; ambulance approach; position of the expansion work area"),
+        dict(title="RWJUH construction notice: Patients and visitors (PDF)", url=PUBLIC_FLYER, accessed="2026-10-10",
+             used_for="emergency drop-off at the Somerset / Little Albany intersection; main entrance on Somerset Street"),
+        dict(title="RWJUH visitor campus map (PDF, page 2)", url=CAMPUS_MAP, accessed="2026-10-10",
+             used_for="lettered buildings and where the Emergency Room sits in the complex; used to position the ED block, not traced"),
+        dict(title="P. Agnes: Robert Wood Johnson University Hospital, Ambulette, AMBI & Core Pavilion", url=PAGNES, accessed="2026-10-10",
+             used_for="24-bed ICU (Core Pavilion, 3rd floor); ambulance bays under the ambulatory building; rebuilt ED entrance"),
+        dict(title="Wikipedia: The Bristol-Myers Squibb Children's Hospital", url=WIKI_BMSCH, accessed="2026-10-10",
+             used_for="17 pediatric ED bays (secondary source citing local press that could not be opened)"),
+        dict(title="OpenStreetMap (c) OpenStreetMap contributors, Open Database License 1.0", url="https://www.openstreetmap.org/copyright",
+             accessed="2026-10-10", used_for="exterior building footprints and street centrelines (site.buildings, site.roads tagged surveyed); main hospital is "
+                                              + OSM_URL),
     ],
 )
 
 FICT = dict(disclaimer=DISCLAIMER_FICTIONAL, version=1, walk_speed=70, prov={},
             sources=[dict(title="Generated by catalog/hospitals/build_layout.py; fictional, all rooms inferred",
                           url="catalog/hospitals/build_layout.py", used_for="everything")])
-
-
-def simple_roads(ax0, ax1, z1, wx, w):
-    return [
-        dict(id="road-access", label="Access road", width=7, points=[[0, z1 + 18], [w, z1 + 18]], provenance="inferred"),
-        dict(id="road-ambulance", label="Ambulance drive", width=6,
-             points=[[ax0 - 6, z1 + 18], [ax0 - 6, z1 + 13.5], [ax1 + 6, z1 + 13.5], [ax1 + 6, z1 + 18]], provenance="inferred"),
-    ]
-
 
 SMALL = dict(
     FICT, hospital_id="community_small", name="Small community hospital (fictional contrast)",
@@ -340,8 +427,8 @@ SMALL = dict(
     ct=1, xray=1, ultrasound=1, mri=1, ambulance_slots=2,
     waiting_cap=24, waiting_d=9.0, care_init_cap=4, results_cap=6,
     wards=[20, 20], icu_beds=8, stepdown_beds=6, or_rooms=3, recovery_beds=4,
-    roads=lambda ax0, ax1, z1, wx: simple_roads(ax0, ax1, z1, wx, 120),
-    buildings=[dict(id="medical-office", label="Medical office building", height=10, polygon=poly(90, 6, 114, 30), provenance="inferred", source="fictional")],
+    site_features=fict_site(120, [dict(id="medical-office", label="Medical office building", height=10, polygon=poly(90, 6, 114, 30),
+                                       provenance="inferred", source="fictional")]),
 )
 
 MID = dict(
@@ -351,11 +438,149 @@ MID = dict(
     ct=1, xray=2, ultrasound=1, mri=1, ambulance_slots=4,
     waiting_cap=40, waiting_d=11.0, care_init_cap=6, results_cap=10,
     wards=[24, 24, 24], icu_beds=14, stepdown_beds=12, or_rooms=6, recovery_beds=8,
-    roads=lambda ax0, ax1, z1, wx: simple_roads(ax0, ax1, z1, wx, 170),
-    buildings=[dict(id="parking", label="Parking deck", height=12, polygon=poly(132, 6, 164, 40), provenance="inferred", source="fictional")],
+    site_features=fict_site(170, [dict(id="parking", label="Parking deck", height=12, polygon=poly(132, 6, 164, 40),
+                                       provenance="inferred", source="fictional")]),
 )
 
 CONFIGS = {"rwjuh_nb": RWJ, "community_small": SMALL, "midsize": MID}
+
+
+# ---------------------------------------------------------------------------------------------
+# OpenStreetMap extract -> rwjuh_nb.osm_site.json (run once; the result is committed so the build
+# needs no network).  .venv/bin/python catalog/hospitals/build_layout.py --refresh-osm <file.osm>
+# The .osm file is the response of
+#   https://api.openstreetmap.org/api/0.6/map?bbox=-74.4545,40.4925,-74.4450,40.4985
+# ---------------------------------------------------------------------------------------------
+def _clip_poly(pts, W, D):
+    def clip(pts, inside, cross):
+        out = []
+        for i, cur in enumerate(pts):
+            prev = pts[i - 1]
+            if inside(cur):
+                if not inside(prev):
+                    out.append(cross(prev, cur))
+                out.append(cur)
+            elif inside(prev):
+                out.append(cross(prev, cur))
+        return out
+
+    def xcut(v):
+        return lambda a, c: (v, a[1] + (c[1] - a[1]) * (v - a[0]) / (c[0] - a[0]))
+
+    def zcut(v):
+        return lambda a, c: (a[0] + (c[0] - a[0]) * (v - a[1]) / (c[1] - a[1]), v)
+
+    for inside, cross in [(lambda q: q[0] >= 0, xcut(0.0)), (lambda q: q[0] <= W, xcut(W)), (lambda q: q[1] >= 0, zcut(0.0)), (lambda q: q[1] <= D, zcut(D))]:
+        if not pts:
+            break
+        pts = clip(pts, inside, cross)
+    return pts
+
+
+def _clip_line(pts, W, D):
+    """Clip a polyline to the site rectangle; returns a list of polylines."""
+    parts, cur = [], []
+    for a, c in zip(pts, pts[1:]):
+        t0, t1 = 0.0, 1.0
+        dx, dz = c[0] - a[0], c[1] - a[1]
+        ok = True
+        for pp, q in ((-dx, a[0]), (dx, W - a[0]), (-dz, a[1]), (dz, D - a[1])):
+            if pp == 0:
+                if q < 0:
+                    ok = False
+                    break
+            else:
+                t = q / pp
+                if pp < 0:
+                    t0 = max(t0, t)
+                else:
+                    t1 = min(t1, t)
+        if not ok or t0 > t1:
+            if len(cur) > 1:
+                parts.append(cur)
+            cur = []
+            continue
+        p0 = (a[0] + t0 * dx, a[1] + t0 * dz)
+        p1 = (a[0] + t1 * dx, a[1] + t1 * dz)
+        if not cur or t0 > 0:
+            if len(cur) > 1:
+                parts.append(cur)
+            cur = [p0]
+        cur.append(p1)
+        if t1 < 1:
+            parts.append(cur)
+            cur = []
+    if len(cur) > 1:
+        parts.append(cur)
+    return parts
+
+
+def _area(pts):
+    return abs(sum(a[0] * c[1] - c[0] * a[1] for a, c in zip(pts, pts[1:] + pts[:1]))) / 2
+
+
+def refresh_osm(osm_path):
+    import xml.etree.ElementTree as ET
+    root = ET.parse(osm_path).getroot()
+    th = math.radians(OSM_THETA_DEG)
+    c, s = math.cos(th), math.sin(th)
+    W, D = RWJ_SITE
+
+    def to_site(lat, lon):
+        e = (lon - OSM_LON0) * 111320.0 * math.cos(math.radians(OSM_LAT0))
+        so = -(lat - OSM_LAT0) * 110574.0
+        return (e * c - so * s + OSM_OFFSET[0], e * s + so * c + OSM_OFFSET[1])
+
+    nodes = {n.get("id"): to_site(float(n.get("lat")), float(n.get("lon"))) for n in root.findall("node")}
+    rnd = lambda pts: [[round(x, 1), round(z, 1)] for x, z in pts]
+    # labels for campus buildings that carry no name in OSM, read off the hospital's visitor map
+    extra = {"608442206": "Hospital building, east end (unnamed in OSM; Medical Education Building / parking deck area on the visitor map)",
+             "749656970": "Hospital building (unnamed in OSM; Administration Building area on the visitor map)",
+             "749453558": "Parking deck on Little Albany Street (unnamed in OSM)"}
+    assumed_h = {"hospital": 20.0, "parking": 12.0}
+    buildings, roads = [], []
+    for w in root.findall("way"):
+        tags = {t.get("k"): t.get("v") for t in w.findall("tag")}
+        pts = [nodes[n.get("ref")] for n in w.findall("nd") if n.get("ref") in nodes]
+        wid = w.get("id")
+        if "building" in tags and tags["building"] not in ("bridge", "walkway") and len(pts) >= 4:
+            if pts[0] == pts[-1]:
+                pts = pts[:-1]
+            cl = _clip_poly(pts, W, D)
+            if len(cl) < 3 or _area(cl) < 120:
+                continue
+            main = wid == "251382262"
+            name = tags.get("name") or extra.get(wid)
+            if not name and _area(cl) < 400:
+                continue
+            if main:
+                label, h, basis = "RWJUH main hospital complex (ground outline; the modelled rooms sit inside it)", 0.3, "set to 0.3 m so it draws as a ground slab under the rooms"
+            else:
+                label = name or "Building"
+                if tags.get("building:levels"):
+                    h, basis = float(tags["building:levels"]) * 4.0, f"assumed 4 m x {tags['building:levels']} levels (OSM building:levels)"
+                else:
+                    kind = "parking" if (tags.get("amenity") == "parking" or tags.get("building") == "parking" or "arking" in label) else tags.get("building")
+                    h, basis = assumed_h.get(kind, 10.0), "assumed (not in OSM)"
+            buildings.append(dict(way=wid, label=label, height=h, height_basis=basis, polygon=rnd(cl), main=main))
+        elif tags.get("highway") in ("residential", "tertiary", "secondary", "primary", "unclassified", "service") and tags.get("service") != "parking_aisle":
+            named = bool(tags.get("name"))
+            for k, part in enumerate(_clip_line(pts, W, D)):
+                length = sum(math.dist(a, c) for a, c in zip(part, part[1:]))
+                if length < (8 if named else 25):
+                    continue
+                roads.append(dict(way=wid, part=k, label=tags.get("name") or "Service road", width=7.0 if named else 4.5, points=rnd(part)))
+    buildings.sort(key=lambda b_: (not b_["main"], int(b_["way"])))
+    roads.sort(key=lambda r: (int(r["way"]), r["part"]))
+    out = dict(
+        note="Derived from OpenStreetMap by build_layout.py --refresh-osm. (c) OpenStreetMap contributors, Open Database License (ODbL) 1.0.",
+        attribution="(c) OpenStreetMap contributors", license="ODbL-1.0", license_url="https://www.openstreetmap.org/copyright",
+        source_url="https://api.openstreetmap.org/api/0.6/map?bbox=-74.4545,40.4925,-74.4450,40.4985", extracted="2026-10-10",
+        frame=dict(lat0=OSM_LAT0, lon0=OSM_LON0, theta_deg=OSM_THETA_DEG, offset=list(OSM_OFFSET), site=list(RWJ_SITE),
+                   description="equirectangular metres about (lat0, lon0), rotated so +x points theta_deg north of east and +z points theta_deg east of south, then shifted by offset"),
+        buildings=buildings, roads=roads)
+    OSM_SITE_FILE.write_text(json.dumps(out, indent=1) + "\n")
+    print(f"wrote {OSM_SITE_FILE.relative_to(ROOT)}: {len(buildings)} buildings, {len(roads)} road pieces")
 
 
 # ---------------------------------------------------------------------------------------------
@@ -430,7 +655,10 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--check", action="store_true", help="build and validate, write nothing")
     ap.add_argument("--only", help="one hospital id")
+    ap.add_argument("--refresh-osm", metavar="FILE.osm", help="rebuild rwjuh_nb.osm_site.json from an OpenStreetMap extract")
     args = ap.parse_args()
+    if args.refresh_osm:
+        refresh_osm(args.refresh_osm)
     bad = False
     for hid, cfg in CONFIGS.items():
         if args.only and hid != args.only:

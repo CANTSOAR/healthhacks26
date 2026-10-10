@@ -3,71 +3,347 @@
  "hospital_id": "rwjuh_nb",
  "name": "Robert Wood Johnson University Hospital, New Brunswick (model)",
  "disclaimer": "A model built from public information. Not affiliated with or endorsed by Robert Wood Johnson University Hospital. Patient flows, staffing and outcomes are simulated, not the hospital's operational data. Staff are fictional.",
- "version": 1,
+ "version": 2,
  "site": {
-  "w": 220,
-  "d": 160,
+  "w": 240.0,
+  "d": 170.0,
   "roads": [
    {
-    "id": "road-access",
-    "label": "Access road",
-    "width": 7,
+    "id": "osm-11660684-0",
+    "label": "Division Street",
+    "width": 7.0,
     "points": [
      [
-      0,
-      139.0
+      55.8,
+      19.6
      ],
      [
-      220,
-      139.0
+      55.7,
+      10.4
+     ],
+     [
+      55.6,
+      0.0
      ]
     ],
-    "provenance": "inferred"
+    "provenance": "surveyed"
+   },
+   {
+    "id": "osm-11665849-0",
+    "label": "Hardenbergh Street",
+    "width": 7.0,
+    "points": [
+     [
+      172.7,
+      0.0
+     ],
+     [
+      172.8,
+      2.5
+     ],
+     [
+      172.6,
+      4.8
+     ],
+     [
+      172.3,
+      8.8
+     ],
+     [
+      171.4,
+      15.2
+     ]
+    ],
+    "provenance": "surveyed"
+   },
+   {
+    "id": "osm-11677387-0",
+    "label": "Little Albany Street",
+    "width": 7.0,
+    "points": [
+     [
+      240.0,
+      93.9
+     ],
+     [
+      214.2,
+      82.4
+     ],
+     [
+      206.6,
+      79.1
+     ],
+     [
+      173.9,
+      64.6
+     ],
+     [
+      168.6,
+      60.3
+     ],
+     [
+      165.9,
+      57.3
+     ],
+     [
+      164.1,
+      53.4
+     ],
+     [
+      163.0,
+      46.5
+     ],
+     [
+      164.8,
+      36.7
+     ]
+    ],
+    "provenance": "surveyed"
+   },
+   {
+    "id": "osm-61260968-0",
+    "label": "Somerset Street",
+    "width": 7.0,
+    "points": [
+     [
+      240.0,
+      11.5
+     ],
+     [
+      222.2,
+      12.5
+     ],
+     [
+      212.7,
+      13.0
+     ],
+     [
+      179.9,
+      14.8
+     ],
+     [
+      171.4,
+      15.2
+     ]
+    ],
+    "provenance": "surveyed"
+   },
+   {
+    "id": "osm-588915716-0",
+    "label": "French Street",
+    "width": 7.0,
+    "points": [
+     [
+      200.2,
+      170.0
+     ],
+     [
+      163.7,
+      167.0
+     ],
+     [
+      36.0,
+      156.6
+     ],
+     [
+      0.0,
+      153.6
+     ]
+    ],
+    "provenance": "surveyed"
+   },
+   {
+    "id": "osm-687426189-1",
+    "label": "Service road",
+    "width": 4.5,
+    "points": [
+     [
+      240.0,
+      60.4
+     ],
+     [
+      239.1,
+      59.9
+     ],
+     [
+      235.5,
+      58.4
+     ],
+     [
+      232.3,
+      58.3
+     ],
+     [
+      228.7,
+      59.0
+     ],
+     [
+      225.6,
+      61.1
+     ],
+     [
+      222.5,
+      64.4
+     ],
+     [
+      217.9,
+      74.3
+     ]
+    ],
+    "provenance": "surveyed"
+   },
+   {
+    "id": "osm-1008841457-0",
+    "label": "Somerset Street",
+    "width": 7.0,
+    "points": [
+     [
+      148.4,
+      16.1
+     ],
+     [
+      138.8,
+      15.4
+     ],
+     [
+      110.6,
+      16.1
+     ],
+     [
+      55.8,
+      19.6
+     ],
+     [
+      49.7,
+      19.8
+     ],
+     [
+      0.0,
+      21.2
+     ]
+    ],
+    "provenance": "surveyed"
+   },
+   {
+    "id": "osm-1386429802-0",
+    "label": "Somerset Street",
+    "width": 7.0,
+    "points": [
+     [
+      171.4,
+      15.2
+     ],
+     [
+      156.9,
+      15.8
+     ],
+     [
+      151.9,
+      16.1
+     ]
+    ],
+    "provenance": "surveyed"
+   },
+   {
+    "id": "osm-1386429810-0",
+    "label": "Little Albany Street",
+    "width": 7.0,
+    "points": [
+     [
+      165.8,
+      34.0
+     ],
+     [
+      168.5,
+      27.2
+     ],
+     [
+      170.0,
+      22.0
+     ],
+     [
+      170.3,
+      21.1
+     ],
+     [
+      171.4,
+      15.2
+     ]
+    ],
+    "provenance": "surveyed"
+   },
+   {
+    "id": "osm-1429922839-0",
+    "label": "Service road",
+    "width": 4.5,
+    "points": [
+     [
+      138.8,
+      15.4
+     ],
+     [
+      138.5,
+      8.0
+     ],
+     [
+      135.9,
+      5.1
+     ],
+     [
+      131.2,
+      2.5
+     ],
+     [
+      114.7,
+      2.9
+     ],
+     [
+      111.3,
+      5.2
+     ],
+     [
+      110.8,
+      8.7
+     ],
+     [
+      110.6,
+      16.1
+     ]
+    ],
+    "provenance": "surveyed"
    },
    {
     "id": "road-ambulance",
-    "label": "Ambulance drive",
+    "label": "Ambulance drive (position inferred)",
     "width": 6,
     "points": [
      [
-      93.6,
-      139.0
+      155.0,
+      61.0
      ],
      [
-      93.6,
-      134.5
+      158.0,
+      56.0
      ],
      [
-      145.6,
-      134.5
-     ],
-     [
-      145.6,
-      139.0
+      166.5,
+      55.0
      ]
     ],
     "provenance": "inferred"
    },
    {
     "id": "road-dropoff",
-    "label": "Walk-in drop-off",
+    "label": "Emergency drop-off (position inferred)",
     "width": 5,
     "points": [
      [
-      43.0,
-      139.0
+      148.0,
+      39.0
      ],
      [
-      43.0,
-      125.0
-     ],
-     [
-      59.0,
-      125.0
-     ],
-     [
-      59.0,
-      139.0
+      165.5,
+      44.0
      ]
     ],
     "provenance": "inferred"
@@ -75,106 +351,619 @@
   ],
   "buildings": [
    {
-    "id": "parking-deck",
-    "label": "Parking deck",
-    "height": 18,
+    "id": "osm-251382262",
+    "label": "RWJUH main hospital complex (ground outline; the modelled rooms sit inside it)",
+    "height": 0.3,
     "polygon": [
      [
-      4,
-      70
+      32.2,
+      69.7
      ],
      [
-      32,
-      70
+      32.5,
+      66.5
      ],
      [
-      32,
-      124
+      32.8,
+      63.3
      ],
      [
-      4,
-      124
+      33.6,
+      63.4
+     ],
+     [
+      33.6,
+      63.7
+     ],
+     [
+      46.0,
+      63.3
+     ],
+     [
+      45.2,
+      38.5
+     ],
+     [
+      51.4,
+      38.7
+     ],
+     [
+      51.5,
+      34.1
+     ],
+     [
+      86.9,
+      35.0
+     ],
+     [
+      88.5,
+      35.0
+     ],
+     [
+      88.4,
+      27.3
+     ],
+     [
+      121.5,
+      27.0
+     ],
+     [
+      127.6,
+      26.8
+     ],
+     [
+      151.8,
+      25.8
+     ],
+     [
+      151.9,
+      28.3
+     ],
+     [
+      149.5,
+      33.5
+     ],
+     [
+      154.9,
+      36.0
+     ],
+     [
+      149.7,
+      47.2
+     ],
+     [
+      146.0,
+      45.5
+     ],
+     [
+      143.5,
+      50.9
+     ],
+     [
+      152.6,
+      55.1
+     ],
+     [
+      149.3,
+      62.2
+     ],
+     [
+      148.6,
+      64.1
+     ],
+     [
+      147.3,
+      68.7
+     ],
+     [
+      138.6,
+      87.4
+     ],
+     [
+      147.2,
+      91.5
+     ],
+     [
+      148.7,
+      88.3
+     ],
+     [
+      152.8,
+      90.2
+     ],
+     [
+      162.8,
+      68.5
+     ],
+     [
+      166.7,
+      70.1
+     ],
+     [
+      236.6,
+      101.6
+     ],
+     [
+      230.6,
+      114.6
+     ],
+     [
+      228.5,
+      113.6
+     ],
+     [
+      220.8,
+      130.7
+     ],
+     [
+      218.4,
+      161.0
+     ],
+     [
+      177.2,
+      157.8
+     ],
+     [
+      177.4,
+      155.3
+     ],
+     [
+      172.6,
+      154.9
+     ],
+     [
+      172.4,
+      158.2
+     ],
+     [
+      50.4,
+      147.5
+     ],
+     [
+      51.4,
+      127.9
+     ],
+     [
+      15.0,
+      125.6
+     ],
+     [
+      15.1,
+      124.3
+     ],
+     [
+      13.8,
+      124.3
+     ],
+     [
+      12.8,
+      143.8
+     ],
+     [
+      0.0,
+      143.1
+     ],
+     [
+      0.0,
+      113.3
+     ],
+     [
+      14.4,
+      114.1
+     ],
+     [
+      14.3,
+      115.2
+     ],
+     [
+      15.5,
+      115.3
+     ],
+     [
+      16.5,
+      99.6
+     ],
+     [
+      16.8,
+      95.0
+     ],
+     [
+      33.4,
+      95.9
+     ],
+     [
+      34.6,
+      69.9
      ]
     ],
-    "provenance": "inferred",
-    "source": "first-cut placeholder"
+    "provenance": "surveyed",
+    "source": "OpenStreetMap way 251382262 (c) OpenStreetMap contributors, ODbL 1.0; extract of 2026-10-10. Footprint from OSM; height set to 0.3 m so it draws as a ground slab under the rooms."
    },
    {
-    "id": "childrens",
-    "label": "Children's hospital",
-    "height": 24,
+    "id": "osm-251381378",
+    "label": "Cancer Institute Of New Jersey",
+    "height": 20.0,
     "polygon": [
      [
-      160,
-      62
+      175.9,
+      48.5
      ],
      [
-      214,
-      62
+      172.3,
+      47.0
      ],
      [
-      214,
-      112
+      171.3,
+      43.1
      ],
      [
-      160,
-      112
+      172.7,
+      40.6
+     ],
+     [
+      174.4,
+      42.0
+     ],
+     [
+      174.9,
+      40.2
+     ],
+     [
+      176.0,
+      40.6
+     ],
+     [
+      175.9,
+      41.1
+     ],
+     [
+      177.8,
+      41.9
+     ],
+     [
+      177.4,
+      39.6
+     ],
+     [
+      177.1,
+      37.0
+     ],
+     [
+      177.2,
+      34.2
+     ],
+     [
+      177.5,
+      31.8
+     ],
+     [
+      178.0,
+      29.6
+     ],
+     [
+      178.8,
+      27.4
+     ],
+     [
+      179.7,
+      25.5
+     ],
+     [
+      183.5,
+      25.4
+     ],
+     [
+      183.6,
+      23.5
+     ],
+     [
+      240.0,
+      20.9
+     ],
+     [
+      240.0,
+      52.8
+     ],
+     [
+      237.2,
+      51.7
+     ],
+     [
+      234.1,
+      51.1
+     ],
+     [
+      233.9,
+      50.0
+     ],
+     [
+      218.4,
+      50.8
+     ],
+     [
+      218.7,
+      59.5
+     ],
+     [
+      215.4,
+      61.5
+     ],
+     [
+      211.3,
+      63.0
+     ],
+     [
+      207.1,
+      63.9
+     ],
+     [
+      202.3,
+      64.1
+     ],
+     [
+      197.9,
+      63.2
+     ],
+     [
+      193.1,
+      61.6
+     ],
+     [
+      188.8,
+      59.0
+     ],
+     [
+      185.0,
+      56.0
+     ],
+     [
+      182.1,
+      52.5
+     ],
+     [
+      180.1,
+      49.3
+     ],
+     [
+      178.8,
+      46.3
+     ],
+     [
+      177.0,
+      47.2
      ]
     ],
-    "provenance": "inferred",
-    "source": "first-cut placeholder"
+    "provenance": "surveyed",
+    "source": "OpenStreetMap way 251381378 (c) OpenStreetMap contributors, ODbL 1.0; extract of 2026-10-10. Footprint from OSM; height assumed (not in OSM)."
    },
    {
-    "id": "cancer-institute",
-    "label": "Cancer institute",
-    "height": 24,
+    "id": "osm-608442206",
+    "label": "Hospital building, east end (unnamed in OSM; Medical Education Building / parking deck area on the visitor map)",
+    "height": 12.0,
     "polygon": [
      [
-      186,
-      8
+      240.0,
+      160.3
      ],
      [
-      216,
-      8
+      230.3,
+      159.5
      ],
      [
-      216,
-      50
+      230.1,
+      161.7
      ],
      [
-      186,
-      50
+      224.7,
+      161.3
+     ],
+     [
+      224.8,
+      159.2
+     ],
+     [
+      221.4,
+      159.0
+     ],
+     [
+      221.3,
+      161.1
+     ],
+     [
+      218.4,
+      161.0
+     ],
+     [
+      220.8,
+      130.7
+     ],
+     [
+      228.5,
+      113.6
+     ],
+     [
+      230.6,
+      114.6
+     ],
+     [
+      240.0,
+      115.2
      ]
     ],
-    "provenance": "inferred",
-    "source": "first-cut placeholder"
+    "provenance": "surveyed",
+    "source": "OpenStreetMap way 608442206 (c) OpenStreetMap contributors, ODbL 1.0; extract of 2026-10-10. Footprint from OSM; height assumed (not in OSM)."
    },
    {
-    "id": "med-school",
-    "label": "Medical education building",
-    "height": 20,
+    "id": "osm-749656970",
+    "label": "Hospital building (unnamed in OSM; Administration Building area on the visitor map)",
+    "height": 20.0,
     "polygon": [
      [
-      4,
-      8
+      0.8,
+      37.6
      ],
      [
-      32,
-      8
+      1.4,
+      58.2
      ],
      [
-      32,
-      56
+      33.4,
+      57.4
      ],
      [
-      4,
-      56
+      33.6,
+      63.4
+     ],
+     [
+      33.6,
+      63.7
+     ],
+     [
+      46.0,
+      63.3
+     ],
+     [
+      45.2,
+      38.5
+     ],
+     [
+      45.2,
+      36.4
+     ],
+     [
+      32.8,
+      36.7
+     ],
+     [
+      33.1,
+      45.0
+     ],
+     [
+      13.3,
+      45.5
+     ],
+     [
+      13.0,
+      37.3
      ]
     ],
-    "provenance": "inferred",
-    "source": "first-cut placeholder"
+    "provenance": "surveyed",
+    "source": "OpenStreetMap way 749656970 (c) OpenStreetMap contributors, ODbL 1.0; extract of 2026-10-10. Footprint from OSM; height assumed (not in OSM)."
+   },
+   {
+    "id": "osm-749656976",
+    "label": "The Bristol-Meyers Squibb Children's Hospital",
+    "height": 20.0,
+    "polygon": [
+     [
+      0.0,
+      67.7
+     ],
+     [
+      20.4,
+      67.3
+     ],
+     [
+      27.1,
+      61.3
+     ],
+     [
+      30.5,
+      64.8
+     ],
+     [
+      30.2,
+      66.3
+     ],
+     [
+      32.5,
+      66.5
+     ],
+     [
+      32.2,
+      69.7
+     ],
+     [
+      34.6,
+      69.9
+     ],
+     [
+      33.4,
+      95.9
+     ],
+     [
+      16.8,
+      95.0
+     ],
+     [
+      16.5,
+      99.6
+     ],
+     [
+      0.0,
+      98.4
+     ]
+    ],
+    "provenance": "surveyed",
+    "source": "OpenStreetMap way 749656976 (c) OpenStreetMap contributors, ODbL 1.0; extract of 2026-10-10. Footprint from OSM; height assumed (not in OSM)."
+   },
+   {
+    "id": "osm-1386429801",
+    "label": "Jack and Sheryl Morris Cancer Center",
+    "height": 48.0,
+    "polygon": [
+     [
+      69.8,
+      0.0
+     ],
+     [
+      69.9,
+      3.9
+     ],
+     [
+      107.9,
+      1.7
+     ],
+     [
+      107.8,
+      0.0
+     ],
+     [
+      132.9,
+      0.0
+     ],
+     [
+      140.2,
+      4.0
+     ],
+     [
+      142.4,
+      0.3
+     ],
+     [
+      142.6,
+      0.0
+     ],
+     [
+      146.8,
+      0.0
+     ],
+     [
+      152.2,
+      2.8
+     ],
+     [
+      153.7,
+      0.0
+     ]
+    ],
+    "provenance": "surveyed",
+    "source": "OpenStreetMap way 1386429801 (c) OpenStreetMap contributors, ODbL 1.0; extract of 2026-10-10. Footprint from OSM; height assumed 4 m x 12 levels (OSM building:levels)."
    }
-  ]
+  ],
+  "attribution": "Site outline and streets (c) OpenStreetMap contributors, ODbL 1.0",
+  "x_axis_bearing_deg": 56.0,
+  "note": "Axes follow the hospital's building grid: +x points 34 degrees north of east (compass bearing 56, along Somerset Street towards Easton Avenue); +z points 34 degrees east of south (towards French Street). Origin and rotation are in catalog/hospitals/rwjuh_nb.osm_site.json."
  },
  "rooms": [
   {
@@ -182,282 +971,299 @@
    "type": "peds_ed",
    "label": "Pediatric ED 1",
    "zone": "Pediatric ED",
-   "x": 42.6,
-   "z": 69.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 95.0,
+   "z": 30.5,
+   "w": 4.0,
+   "d": 3.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/peds_ed",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (separate pediatric emergency department; count assumed); exact position inferred",
-   "note": "Separate pediatric emergency department is published; room count and position are assumed. Pediatric stream is not simulated in v1."
+   "source": "https://rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion/frequently-asked-questions ('Separate, expanded Pediatric Emergency Department'; 17 bays per https://en.wikipedia.org/wiki/The_Bristol-Myers_Squibb_Children%27s_Hospital); exact position inferred",
+   "note": "A separate pediatric emergency department is published by the hospital. 17 bays (three for behavioral health) is the figure given by Wikipedia citing local press; position assumed. The pediatric stream is not simulated in v1."
   },
   {
    "id": "peds-02",
    "type": "peds_ed",
    "label": "Pediatric ED 2",
    "zone": "Pediatric ED",
-   "x": 46.0,
-   "z": 69.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 95.0,
+   "z": 33.7,
+   "w": 4.0,
+   "d": 3.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/peds_ed",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (separate pediatric emergency department; count assumed); exact position inferred",
-   "note": "Separate pediatric emergency department is published; room count and position are assumed. Pediatric stream is not simulated in v1."
+   "source": "https://rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion/frequently-asked-questions ('Separate, expanded Pediatric Emergency Department'; 17 bays per https://en.wikipedia.org/wiki/The_Bristol-Myers_Squibb_Children%27s_Hospital); exact position inferred",
+   "note": "A separate pediatric emergency department is published by the hospital. 17 bays (three for behavioral health) is the figure given by Wikipedia citing local press; position assumed. The pediatric stream is not simulated in v1."
   },
   {
    "id": "peds-03",
    "type": "peds_ed",
    "label": "Pediatric ED 3",
    "zone": "Pediatric ED",
-   "x": 49.4,
-   "z": 69.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 95.0,
+   "z": 36.9,
+   "w": 4.0,
+   "d": 3.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/peds_ed",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (separate pediatric emergency department; count assumed); exact position inferred",
-   "note": "Separate pediatric emergency department is published; room count and position are assumed. Pediatric stream is not simulated in v1."
+   "source": "https://rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion/frequently-asked-questions ('Separate, expanded Pediatric Emergency Department'; 17 bays per https://en.wikipedia.org/wiki/The_Bristol-Myers_Squibb_Children%27s_Hospital); exact position inferred",
+   "note": "A separate pediatric emergency department is published by the hospital. 17 bays (three for behavioral health) is the figure given by Wikipedia citing local press; position assumed. The pediatric stream is not simulated in v1."
   },
   {
    "id": "peds-04",
    "type": "peds_ed",
    "label": "Pediatric ED 4",
    "zone": "Pediatric ED",
-   "x": 52.8,
-   "z": 69.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 95.0,
+   "z": 40.1,
+   "w": 4.0,
+   "d": 3.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/peds_ed",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (separate pediatric emergency department; count assumed); exact position inferred",
-   "note": "Separate pediatric emergency department is published; room count and position are assumed. Pediatric stream is not simulated in v1."
+   "source": "https://rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion/frequently-asked-questions ('Separate, expanded Pediatric Emergency Department'; 17 bays per https://en.wikipedia.org/wiki/The_Bristol-Myers_Squibb_Children%27s_Hospital); exact position inferred",
+   "note": "A separate pediatric emergency department is published by the hospital. 17 bays (three for behavioral health) is the figure given by Wikipedia citing local press; position assumed. The pediatric stream is not simulated in v1."
   },
   {
    "id": "peds-05",
    "type": "peds_ed",
    "label": "Pediatric ED 5",
    "zone": "Pediatric ED",
-   "x": 56.2,
-   "z": 69.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 95.0,
+   "z": 43.3,
+   "w": 4.0,
+   "d": 3.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/peds_ed",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (separate pediatric emergency department; count assumed); exact position inferred",
-   "note": "Separate pediatric emergency department is published; room count and position are assumed. Pediatric stream is not simulated in v1."
+   "source": "https://rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion/frequently-asked-questions ('Separate, expanded Pediatric Emergency Department'; 17 bays per https://en.wikipedia.org/wiki/The_Bristol-Myers_Squibb_Children%27s_Hospital); exact position inferred",
+   "note": "A separate pediatric emergency department is published by the hospital. 17 bays (three for behavioral health) is the figure given by Wikipedia citing local press; position assumed. The pediatric stream is not simulated in v1."
   },
   {
    "id": "peds-06",
    "type": "peds_ed",
    "label": "Pediatric ED 6",
    "zone": "Pediatric ED",
-   "x": 59.6,
-   "z": 69.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 95.0,
+   "z": 46.5,
+   "w": 4.0,
+   "d": 3.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/peds_ed",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (separate pediatric emergency department; count assumed); exact position inferred",
-   "note": "Separate pediatric emergency department is published; room count and position are assumed. Pediatric stream is not simulated in v1."
+   "source": "https://rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion/frequently-asked-questions ('Separate, expanded Pediatric Emergency Department'; 17 bays per https://en.wikipedia.org/wiki/The_Bristol-Myers_Squibb_Children%27s_Hospital); exact position inferred",
+   "note": "A separate pediatric emergency department is published by the hospital. 17 bays (three for behavioral health) is the figure given by Wikipedia citing local press; position assumed. The pediatric stream is not simulated in v1."
   },
   {
    "id": "peds-07",
    "type": "peds_ed",
    "label": "Pediatric ED 7",
    "zone": "Pediatric ED",
-   "x": 63.0,
-   "z": 69.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 95.0,
+   "z": 49.7,
+   "w": 4.0,
+   "d": 3.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/peds_ed",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (separate pediatric emergency department; count assumed); exact position inferred",
-   "note": "Separate pediatric emergency department is published; room count and position are assumed. Pediatric stream is not simulated in v1."
+   "source": "https://rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion/frequently-asked-questions ('Separate, expanded Pediatric Emergency Department'; 17 bays per https://en.wikipedia.org/wiki/The_Bristol-Myers_Squibb_Children%27s_Hospital); exact position inferred",
+   "note": "A separate pediatric emergency department is published by the hospital. 17 bays (three for behavioral health) is the figure given by Wikipedia citing local press; position assumed. The pediatric stream is not simulated in v1."
   },
   {
    "id": "peds-08",
    "type": "peds_ed",
    "label": "Pediatric ED 8",
    "zone": "Pediatric ED",
-   "x": 66.4,
-   "z": 69.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 95.0,
+   "z": 52.9,
+   "w": 4.0,
+   "d": 3.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/peds_ed",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (separate pediatric emergency department; count assumed); exact position inferred",
-   "note": "Separate pediatric emergency department is published; room count and position are assumed. Pediatric stream is not simulated in v1."
+   "source": "https://rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion/frequently-asked-questions ('Separate, expanded Pediatric Emergency Department'; 17 bays per https://en.wikipedia.org/wiki/The_Bristol-Myers_Squibb_Children%27s_Hospital); exact position inferred",
+   "note": "A separate pediatric emergency department is published by the hospital. 17 bays (three for behavioral health) is the figure given by Wikipedia citing local press; position assumed. The pediatric stream is not simulated in v1."
   },
   {
    "id": "peds-09",
    "type": "peds_ed",
    "label": "Pediatric ED 9",
    "zone": "Pediatric ED",
-   "x": 42.6,
-   "z": 79.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 95.0,
+   "z": 56.1,
+   "w": 4.0,
+   "d": 3.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/peds_ed",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (separate pediatric emergency department; count assumed); exact position inferred",
-   "note": "Separate pediatric emergency department is published; room count and position are assumed. Pediatric stream is not simulated in v1."
+   "source": "https://rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion/frequently-asked-questions ('Separate, expanded Pediatric Emergency Department'; 17 bays per https://en.wikipedia.org/wiki/The_Bristol-Myers_Squibb_Children%27s_Hospital); exact position inferred",
+   "note": "A separate pediatric emergency department is published by the hospital. 17 bays (three for behavioral health) is the figure given by Wikipedia citing local press; position assumed. The pediatric stream is not simulated in v1."
   },
   {
    "id": "peds-10",
    "type": "peds_ed",
    "label": "Pediatric ED 10",
    "zone": "Pediatric ED",
-   "x": 46.0,
-   "z": 79.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 105.0,
+   "z": 30.5,
+   "w": 4.0,
+   "d": 3.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/peds_ed",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (separate pediatric emergency department; count assumed); exact position inferred",
-   "note": "Separate pediatric emergency department is published; room count and position are assumed. Pediatric stream is not simulated in v1."
+   "source": "https://rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion/frequently-asked-questions ('Separate, expanded Pediatric Emergency Department'; 17 bays per https://en.wikipedia.org/wiki/The_Bristol-Myers_Squibb_Children%27s_Hospital); exact position inferred",
+   "note": "A separate pediatric emergency department is published by the hospital. 17 bays (three for behavioral health) is the figure given by Wikipedia citing local press; position assumed. The pediatric stream is not simulated in v1."
   },
   {
    "id": "peds-11",
    "type": "peds_ed",
    "label": "Pediatric ED 11",
    "zone": "Pediatric ED",
-   "x": 49.4,
-   "z": 79.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 105.0,
+   "z": 33.7,
+   "w": 4.0,
+   "d": 3.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/peds_ed",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (separate pediatric emergency department; count assumed); exact position inferred",
-   "note": "Separate pediatric emergency department is published; room count and position are assumed. Pediatric stream is not simulated in v1."
+   "source": "https://rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion/frequently-asked-questions ('Separate, expanded Pediatric Emergency Department'; 17 bays per https://en.wikipedia.org/wiki/The_Bristol-Myers_Squibb_Children%27s_Hospital); exact position inferred",
+   "note": "A separate pediatric emergency department is published by the hospital. 17 bays (three for behavioral health) is the figure given by Wikipedia citing local press; position assumed. The pediatric stream is not simulated in v1."
   },
   {
    "id": "peds-12",
    "type": "peds_ed",
    "label": "Pediatric ED 12",
    "zone": "Pediatric ED",
-   "x": 52.8,
-   "z": 79.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 105.0,
+   "z": 36.9,
+   "w": 4.0,
+   "d": 3.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/peds_ed",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (separate pediatric emergency department; count assumed); exact position inferred",
-   "note": "Separate pediatric emergency department is published; room count and position are assumed. Pediatric stream is not simulated in v1."
+   "source": "https://rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion/frequently-asked-questions ('Separate, expanded Pediatric Emergency Department'; 17 bays per https://en.wikipedia.org/wiki/The_Bristol-Myers_Squibb_Children%27s_Hospital); exact position inferred",
+   "note": "A separate pediatric emergency department is published by the hospital. 17 bays (three for behavioral health) is the figure given by Wikipedia citing local press; position assumed. The pediatric stream is not simulated in v1."
   },
   {
    "id": "peds-13",
    "type": "peds_ed",
    "label": "Pediatric ED 13",
    "zone": "Pediatric ED",
-   "x": 56.2,
-   "z": 79.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 105.0,
+   "z": 40.1,
+   "w": 4.0,
+   "d": 3.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/peds_ed",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (separate pediatric emergency department; count assumed); exact position inferred",
-   "note": "Separate pediatric emergency department is published; room count and position are assumed. Pediatric stream is not simulated in v1."
+   "source": "https://rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion/frequently-asked-questions ('Separate, expanded Pediatric Emergency Department'; 17 bays per https://en.wikipedia.org/wiki/The_Bristol-Myers_Squibb_Children%27s_Hospital); exact position inferred",
+   "note": "A separate pediatric emergency department is published by the hospital. 17 bays (three for behavioral health) is the figure given by Wikipedia citing local press; position assumed. The pediatric stream is not simulated in v1."
   },
   {
    "id": "peds-14",
    "type": "peds_ed",
    "label": "Pediatric ED 14",
    "zone": "Pediatric ED",
-   "x": 59.6,
-   "z": 79.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 105.0,
+   "z": 43.3,
+   "w": 4.0,
+   "d": 3.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/peds_ed",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (separate pediatric emergency department; count assumed); exact position inferred",
-   "note": "Separate pediatric emergency department is published; room count and position are assumed. Pediatric stream is not simulated in v1."
+   "source": "https://rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion/frequently-asked-questions ('Separate, expanded Pediatric Emergency Department'; 17 bays per https://en.wikipedia.org/wiki/The_Bristol-Myers_Squibb_Children%27s_Hospital); exact position inferred",
+   "note": "A separate pediatric emergency department is published by the hospital. 17 bays (three for behavioral health) is the figure given by Wikipedia citing local press; position assumed. The pediatric stream is not simulated in v1."
   },
   {
    "id": "peds-15",
    "type": "peds_ed",
    "label": "Pediatric ED 15",
    "zone": "Pediatric ED",
-   "x": 63.0,
-   "z": 79.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 105.0,
+   "z": 46.5,
+   "w": 4.0,
+   "d": 3.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/peds_ed",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (separate pediatric emergency department; count assumed); exact position inferred",
-   "note": "Separate pediatric emergency department is published; room count and position are assumed. Pediatric stream is not simulated in v1."
+   "source": "https://rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion/frequently-asked-questions ('Separate, expanded Pediatric Emergency Department'; 17 bays per https://en.wikipedia.org/wiki/The_Bristol-Myers_Squibb_Children%27s_Hospital); exact position inferred",
+   "note": "A separate pediatric emergency department is published by the hospital. 17 bays (three for behavioral health) is the figure given by Wikipedia citing local press; position assumed. The pediatric stream is not simulated in v1."
   },
   {
    "id": "peds-16",
    "type": "peds_ed",
    "label": "Pediatric ED 16",
    "zone": "Pediatric ED",
-   "x": 66.4,
-   "z": 79.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 105.0,
+   "z": 49.7,
+   "w": 4.0,
+   "d": 3.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/peds_ed",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (separate pediatric emergency department; count assumed); exact position inferred",
-   "note": "Separate pediatric emergency department is published; room count and position are assumed. Pediatric stream is not simulated in v1."
+   "source": "https://rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion/frequently-asked-questions ('Separate, expanded Pediatric Emergency Department'; 17 bays per https://en.wikipedia.org/wiki/The_Bristol-Myers_Squibb_Children%27s_Hospital); exact position inferred",
+   "note": "A separate pediatric emergency department is published by the hospital. 17 bays (three for behavioral health) is the figure given by Wikipedia citing local press; position assumed. The pediatric stream is not simulated in v1."
+  },
+  {
+   "id": "peds-17",
+   "type": "peds_ed",
+   "label": "Pediatric ED 17",
+   "zone": "Pediatric ED",
+   "x": 105.0,
+   "z": 52.9,
+   "w": 4.0,
+   "d": 3.0,
+   "floor": 0,
+   "capacity": 1,
+   "physical": true,
+   "catalog_ref": "space/peds_ed",
+   "provenance": "published",
+   "source": "https://rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion/frequently-asked-questions ('Separate, expanded Pediatric Emergency Department'; 17 bays per https://en.wikipedia.org/wiki/The_Bristol-Myers_Squibb_Children%27s_Hospital); exact position inferred",
+   "note": "A separate pediatric emergency department is published by the hospital. 17 bays (three for behavioral health) is the figure given by Wikipedia citing local press; position assumed. The pediatric stream is not simulated in v1."
   },
   {
    "id": "station-peds",
    "type": "nurse_station",
    "label": "Pediatric ED nurse station",
    "zone": "Pediatric ED",
-   "x": 54.6,
-   "z": 74.0,
-   "w": 19.2,
-   "d": 3.0,
+   "x": 100.0,
+   "z": 43.4,
+   "w": 3.0,
+   "d": 21.6,
    "floor": 0,
    "capacity": 0,
    "physical": true,
@@ -470,16 +1276,16 @@
    "type": "fast_track",
    "label": "Fast track 1",
    "zone": "Fast track",
-   "x": 42.5,
-   "z": 85.8,
-   "w": 3.0,
-   "d": 3.6,
+   "x": 111.8,
+   "z": 30.5,
+   "w": 3.6,
+   "d": 3.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/fast_track",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (fast-track area; count assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('a fast-track option for patients who arrive ... with less emergent diagnoses'; count assumed); exact position inferred",
    "note": "Fast-track area is published; the number of spaces and their position are assumed."
   },
   {
@@ -487,16 +1293,16 @@
    "type": "fast_track",
    "label": "Fast track 2",
    "zone": "Fast track",
-   "x": 45.7,
-   "z": 85.8,
-   "w": 3.0,
-   "d": 3.6,
+   "x": 111.8,
+   "z": 33.7,
+   "w": 3.6,
+   "d": 3.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/fast_track",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (fast-track area; count assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('a fast-track option for patients who arrive ... with less emergent diagnoses'; count assumed); exact position inferred",
    "note": "Fast-track area is published; the number of spaces and their position are assumed."
   },
   {
@@ -504,16 +1310,16 @@
    "type": "fast_track",
    "label": "Fast track 3",
    "zone": "Fast track",
-   "x": 48.9,
-   "z": 85.8,
-   "w": 3.0,
-   "d": 3.6,
+   "x": 111.8,
+   "z": 36.9,
+   "w": 3.6,
+   "d": 3.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/fast_track",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (fast-track area; count assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('a fast-track option for patients who arrive ... with less emergent diagnoses'; count assumed); exact position inferred",
    "note": "Fast-track area is published; the number of spaces and their position are assumed."
   },
   {
@@ -521,16 +1327,16 @@
    "type": "fast_track",
    "label": "Fast track 4",
    "zone": "Fast track",
-   "x": 52.1,
-   "z": 85.8,
-   "w": 3.0,
-   "d": 3.6,
+   "x": 111.8,
+   "z": 40.1,
+   "w": 3.6,
+   "d": 3.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/fast_track",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (fast-track area; count assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('a fast-track option for patients who arrive ... with less emergent diagnoses'; count assumed); exact position inferred",
    "note": "Fast-track area is published; the number of spaces and their position are assumed."
   },
   {
@@ -538,16 +1344,16 @@
    "type": "fast_track",
    "label": "Fast track 5",
    "zone": "Fast track",
-   "x": 55.3,
-   "z": 85.8,
-   "w": 3.0,
-   "d": 3.6,
+   "x": 111.8,
+   "z": 43.3,
+   "w": 3.6,
+   "d": 3.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/fast_track",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (fast-track area; count assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('a fast-track option for patients who arrive ... with less emergent diagnoses'; count assumed); exact position inferred",
    "note": "Fast-track area is published; the number of spaces and their position are assumed."
   },
   {
@@ -555,16 +1361,16 @@
    "type": "fast_track",
    "label": "Fast track 6",
    "zone": "Fast track",
-   "x": 42.5,
-   "z": 91.4,
-   "w": 3.0,
-   "d": 3.6,
+   "x": 117.4,
+   "z": 30.5,
+   "w": 3.6,
+   "d": 3.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/fast_track",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (fast-track area; count assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('a fast-track option for patients who arrive ... with less emergent diagnoses'; count assumed); exact position inferred",
    "note": "Fast-track area is published; the number of spaces and their position are assumed."
   },
   {
@@ -572,16 +1378,16 @@
    "type": "fast_track",
    "label": "Fast track 7",
    "zone": "Fast track",
-   "x": 45.7,
-   "z": 91.4,
-   "w": 3.0,
-   "d": 3.6,
+   "x": 117.4,
+   "z": 33.7,
+   "w": 3.6,
+   "d": 3.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/fast_track",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (fast-track area; count assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('a fast-track option for patients who arrive ... with less emergent diagnoses'; count assumed); exact position inferred",
    "note": "Fast-track area is published; the number of spaces and their position are assumed."
   },
   {
@@ -589,16 +1395,16 @@
    "type": "fast_track",
    "label": "Fast track 8",
    "zone": "Fast track",
-   "x": 48.9,
-   "z": 91.4,
-   "w": 3.0,
-   "d": 3.6,
+   "x": 117.4,
+   "z": 36.9,
+   "w": 3.6,
+   "d": 3.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/fast_track",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (fast-track area; count assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('a fast-track option for patients who arrive ... with less emergent diagnoses'; count assumed); exact position inferred",
    "note": "Fast-track area is published; the number of spaces and their position are assumed."
   },
   {
@@ -606,16 +1412,16 @@
    "type": "fast_track",
    "label": "Fast track 9",
    "zone": "Fast track",
-   "x": 52.1,
-   "z": 91.4,
-   "w": 3.0,
-   "d": 3.6,
+   "x": 117.4,
+   "z": 40.1,
+   "w": 3.6,
+   "d": 3.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/fast_track",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (fast-track area; count assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('a fast-track option for patients who arrive ... with less emergent diagnoses'; count assumed); exact position inferred",
    "note": "Fast-track area is published; the number of spaces and their position are assumed."
   },
   {
@@ -623,16 +1429,16 @@
    "type": "fast_track",
    "label": "Fast track 10",
    "zone": "Fast track",
-   "x": 55.3,
-   "z": 91.4,
-   "w": 3.0,
-   "d": 3.6,
+   "x": 117.4,
+   "z": 43.3,
+   "w": 3.6,
+   "d": 3.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/fast_track",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (fast-track area; count assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('a fast-track option for patients who arrive ... with less emergent diagnoses'; count assumed); exact position inferred",
    "note": "Fast-track area is published; the number of spaces and their position are assumed."
   },
   {
@@ -640,10 +1446,10 @@
    "type": "nurse_station",
    "label": "Fast track station",
    "zone": "Fast track",
-   "x": 63.5,
-   "z": 88.6,
-   "w": 11.0,
-   "d": 5.2,
+   "x": 114.6,
+   "z": 51.5,
+   "w": 5.2,
+   "d": 11.0,
    "floor": 0,
    "capacity": 0,
    "physical": true,
@@ -656,16 +1462,16 @@
    "type": "support",
    "label": "Care initiation area",
    "zone": "ED front",
-   "x": 48.0,
-   "z": 98.5,
-   "w": 14.0,
-   "d": 7.0,
+   "x": 124.5,
+   "z": 36.0,
+   "w": 7.0,
+   "d": 14.0,
    "floor": 0,
    "capacity": 8,
    "physical": true,
    "catalog_ref": "space/support",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (care-initiation area added in phase one); exact position inferred",
+   "source": "https://www.roi-nj.com/2018/04/27/healthcare/rwj-university-hospital-cuts-ribbon-on-emergency-department-expansions-first-phase (phase one added 'a care initiation area'); exact position inferred",
    "note": "Area where a provider starts orders right after triage. Published as a zone; size and position assumed."
   },
   {
@@ -673,16 +1479,16 @@
    "type": "results_waiting",
    "label": "Results waiting",
    "zone": "ED front",
-   "x": 62.5,
-   "z": 98.5,
-   "w": 13.0,
-   "d": 7.0,
+   "x": 124.5,
+   "z": 50.5,
+   "w": 7.0,
+   "d": 13.0,
    "floor": 0,
    "capacity": 16,
    "physical": true,
    "catalog_ref": "space/results_waiting",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (results-waiting area added in phase one); exact position inferred",
+   "source": "https://www.roi-nj.com/2018/04/27/healthcare/rwj-university-hospital-cuts-ribbon-on-emergency-department-expansions-first-phase (phase one added 'a result waiting area'); exact position inferred",
    "note": "Seated area for patients waiting on results, freeing treatment spaces. Published as a zone; size and position assumed."
   },
   {
@@ -690,10 +1496,10 @@
    "type": "waiting_room",
    "label": "Waiting room",
    "zone": "ED front",
-   "x": 51.0,
-   "z": 110.5,
-   "w": 20.0,
-   "d": 13.0,
+   "x": 136.5,
+   "z": 39.0,
+   "w": 13.0,
+   "d": 20.0,
    "floor": 0,
    "capacity": 60,
    "physical": true,
@@ -706,10 +1512,10 @@
    "type": "triage",
    "label": "Triage 1",
    "zone": "ED front",
-   "x": 66.0,
-   "z": 106.0,
-   "w": 5.0,
-   "d": 4.0,
+   "x": 132.0,
+   "z": 54.0,
+   "w": 4.0,
+   "d": 5.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
@@ -722,10 +1528,10 @@
    "type": "triage",
    "label": "Triage 2",
    "zone": "ED front",
-   "x": 66.0,
-   "z": 110.5,
-   "w": 5.0,
-   "d": 4.0,
+   "x": 136.5,
+   "z": 54.0,
+   "w": 4.0,
+   "d": 5.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
@@ -738,10 +1544,10 @@
    "type": "triage",
    "label": "Triage 3",
    "zone": "ED front",
-   "x": 66.0,
-   "z": 115.0,
-   "w": 5.0,
-   "d": 4.0,
+   "x": 141.0,
+   "z": 54.0,
+   "w": 4.0,
+   "d": 5.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
@@ -754,32 +1560,32 @@
    "type": "entrance",
    "label": "Walk-in entrance",
    "zone": "ED front",
-   "x": 51.0,
-   "z": 119.5,
-   "w": 8.0,
-   "d": 3.0,
+   "x": 145.5,
+   "z": 39.0,
+   "w": 3.0,
+   "d": 8.0,
    "floor": 0,
    "capacity": 0,
    "physical": true,
    "catalog_ref": "space/entrance",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (new walk-in entrance); exact position inferred"
+   "source": "https://rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion/frequently-asked-questions ('New walk-in entrance'; emergency drop-off at the Somerset Street / Little Albany Street intersection per https://www.rwjbh.org/documents/rwj-new-brunswick/Patients-Public-ED-Construction.pdf); exact position inferred"
   },
   {
    "id": "bay-001",
    "type": "treatment_bay",
    "label": "Bay 1",
    "zone": "ED main, pod A",
-   "x": 74.6,
-   "z": 69.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 95.0,
+   "z": 62.6,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -787,16 +1593,16 @@
    "type": "treatment_bay",
    "label": "Bay 2",
    "zone": "ED main, pod A",
-   "x": 78.0,
-   "z": 69.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 95.0,
+   "z": 66.0,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -804,16 +1610,16 @@
    "type": "treatment_bay",
    "label": "Bay 3",
    "zone": "ED main, pod A",
-   "x": 81.4,
-   "z": 69.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 95.0,
+   "z": 69.4,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -821,16 +1627,16 @@
    "type": "treatment_bay",
    "label": "Bay 4",
    "zone": "ED main, pod A",
-   "x": 84.8,
-   "z": 69.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 95.0,
+   "z": 72.8,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -838,16 +1644,16 @@
    "type": "treatment_bay",
    "label": "Bay 5",
    "zone": "ED main, pod A",
-   "x": 88.2,
-   "z": 69.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 95.0,
+   "z": 76.2,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -855,16 +1661,16 @@
    "type": "treatment_bay",
    "label": "Bay 6",
    "zone": "ED main, pod A",
-   "x": 91.6,
-   "z": 69.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 95.0,
+   "z": 79.6,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -873,15 +1679,15 @@
    "label": "Bay 7",
    "zone": "ED main, pod A",
    "x": 95.0,
-   "z": 69.0,
-   "w": 3.2,
-   "d": 4.0,
+   "z": 83.0,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -889,16 +1695,16 @@
    "type": "treatment_bay",
    "label": "Bay 8",
    "zone": "ED main, pod A",
-   "x": 98.4,
-   "z": 69.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 95.0,
+   "z": 86.4,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -906,16 +1712,16 @@
    "type": "treatment_bay",
    "label": "Bay 9",
    "zone": "ED main, pod A",
-   "x": 101.8,
-   "z": 69.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 95.0,
+   "z": 89.8,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -923,16 +1729,16 @@
    "type": "treatment_bay",
    "label": "Bay 10",
    "zone": "ED main, pod A",
-   "x": 74.6,
-   "z": 81.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 107.0,
+   "z": 62.6,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -940,16 +1746,16 @@
    "type": "treatment_bay",
    "label": "Bay 11",
    "zone": "ED main, pod A",
-   "x": 78.0,
-   "z": 81.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 107.0,
+   "z": 66.0,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -957,16 +1763,16 @@
    "type": "treatment_bay",
    "label": "Bay 12",
    "zone": "ED main, pod A",
-   "x": 81.4,
-   "z": 81.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 107.0,
+   "z": 69.4,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -974,16 +1780,16 @@
    "type": "treatment_bay",
    "label": "Bay 13",
    "zone": "ED main, pod A",
-   "x": 84.8,
-   "z": 81.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 107.0,
+   "z": 72.8,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -991,16 +1797,16 @@
    "type": "treatment_bay",
    "label": "Bay 14",
    "zone": "ED main, pod A",
-   "x": 88.2,
-   "z": 81.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 107.0,
+   "z": 76.2,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1008,16 +1814,16 @@
    "type": "treatment_bay",
    "label": "Bay 15",
    "zone": "ED main, pod A",
-   "x": 91.6,
-   "z": 81.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 107.0,
+   "z": 79.6,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1025,16 +1831,16 @@
    "type": "treatment_bay",
    "label": "Bay 16",
    "zone": "ED main, pod A",
-   "x": 95.0,
-   "z": 81.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 107.0,
+   "z": 83.0,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1042,16 +1848,16 @@
    "type": "treatment_bay",
    "label": "Bay 17",
    "zone": "ED main, pod A",
-   "x": 98.4,
-   "z": 81.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 107.0,
+   "z": 86.4,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1059,16 +1865,16 @@
    "type": "treatment_bay",
    "label": "Bay 18",
    "zone": "ED main, pod A",
-   "x": 101.8,
-   "z": 81.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 107.0,
+   "z": 89.8,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1076,10 +1882,10 @@
    "type": "nurse_station",
    "label": "Nurse station A",
    "zone": "ED main, pod A",
-   "x": 88.2,
-   "z": 75.0,
-   "w": 24.4,
-   "d": 3.0,
+   "x": 101.0,
+   "z": 76.2,
+   "w": 3.0,
+   "d": 24.4,
    "floor": 0,
    "capacity": 0,
    "physical": true,
@@ -1092,10 +1898,10 @@
    "type": "corridor",
    "label": "Cross corridor",
    "zone": "Circulation",
-   "x": 104.9,
-   "z": 75.0,
-   "w": 2.2,
-   "d": 16.0,
+   "x": 101.0,
+   "z": 92.9,
+   "w": 16.0,
+   "d": 2.2,
    "floor": 0,
    "capacity": 0,
    "physical": true,
@@ -1108,16 +1914,16 @@
    "type": "treatment_bay",
    "label": "Bay 19",
    "zone": "ED main, pod B",
-   "x": 108.6,
-   "z": 69.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 95.0,
+   "z": 96.6,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1125,16 +1931,16 @@
    "type": "treatment_bay",
    "label": "Bay 20",
    "zone": "ED main, pod B",
-   "x": 112.0,
-   "z": 69.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 95.0,
+   "z": 100.0,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1142,16 +1948,16 @@
    "type": "treatment_bay",
    "label": "Bay 21",
    "zone": "ED main, pod B",
-   "x": 115.4,
-   "z": 69.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 95.0,
+   "z": 103.4,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1159,16 +1965,16 @@
    "type": "treatment_bay",
    "label": "Bay 22",
    "zone": "ED main, pod B",
-   "x": 118.8,
-   "z": 69.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 95.0,
+   "z": 106.8,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1176,16 +1982,16 @@
    "type": "treatment_bay",
    "label": "Bay 23",
    "zone": "ED main, pod B",
-   "x": 122.2,
-   "z": 69.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 95.0,
+   "z": 110.2,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1193,16 +1999,16 @@
    "type": "treatment_bay",
    "label": "Bay 24",
    "zone": "ED main, pod B",
-   "x": 125.6,
-   "z": 69.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 95.0,
+   "z": 113.6,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1210,16 +2016,16 @@
    "type": "treatment_bay",
    "label": "Bay 25",
    "zone": "ED main, pod B",
-   "x": 129.0,
-   "z": 69.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 95.0,
+   "z": 117.0,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1227,16 +2033,16 @@
    "type": "treatment_bay",
    "label": "Bay 26",
    "zone": "ED main, pod B",
-   "x": 132.4,
-   "z": 69.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 95.0,
+   "z": 120.4,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1244,16 +2050,16 @@
    "type": "treatment_bay",
    "label": "Bay 27",
    "zone": "ED main, pod B",
-   "x": 135.8,
-   "z": 69.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 95.0,
+   "z": 123.8,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1261,16 +2067,16 @@
    "type": "treatment_bay",
    "label": "Bay 28",
    "zone": "ED main, pod B",
-   "x": 108.6,
-   "z": 81.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 107.0,
+   "z": 96.6,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1278,16 +2084,16 @@
    "type": "treatment_bay",
    "label": "Bay 29",
    "zone": "ED main, pod B",
-   "x": 112.0,
-   "z": 81.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 107.0,
+   "z": 100.0,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1295,16 +2101,16 @@
    "type": "treatment_bay",
    "label": "Bay 30",
    "zone": "ED main, pod B",
-   "x": 115.4,
-   "z": 81.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 107.0,
+   "z": 103.4,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1312,16 +2118,16 @@
    "type": "treatment_bay",
    "label": "Bay 31",
    "zone": "ED main, pod B",
-   "x": 118.8,
-   "z": 81.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 107.0,
+   "z": 106.8,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1329,16 +2135,16 @@
    "type": "treatment_bay",
    "label": "Bay 32",
    "zone": "ED main, pod B",
-   "x": 122.2,
-   "z": 81.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 107.0,
+   "z": 110.2,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1346,16 +2152,16 @@
    "type": "treatment_bay",
    "label": "Bay 33",
    "zone": "ED main, pod B",
-   "x": 125.6,
-   "z": 81.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 107.0,
+   "z": 113.6,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1363,16 +2169,16 @@
    "type": "treatment_bay",
    "label": "Bay 34",
    "zone": "ED main, pod B",
-   "x": 129.0,
-   "z": 81.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 107.0,
+   "z": 117.0,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1380,16 +2186,16 @@
    "type": "treatment_bay",
    "label": "Bay 35",
    "zone": "ED main, pod B",
-   "x": 132.4,
-   "z": 81.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 107.0,
+   "z": 120.4,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1397,16 +2203,16 @@
    "type": "treatment_bay",
    "label": "Bay 36",
    "zone": "ED main, pod B",
-   "x": 135.8,
-   "z": 81.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 107.0,
+   "z": 123.8,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1414,10 +2220,10 @@
    "type": "nurse_station",
    "label": "Nurse station B",
    "zone": "ED main, pod B",
-   "x": 122.2,
-   "z": 75.0,
-   "w": 24.4,
-   "d": 3.0,
+   "x": 101.0,
+   "z": 110.2,
+   "w": 3.0,
+   "d": 24.4,
    "floor": 0,
    "capacity": 0,
    "physical": true,
@@ -1430,16 +2236,16 @@
    "type": "treatment_bay",
    "label": "Bay 37",
    "zone": "ED main, pod C",
-   "x": 74.6,
-   "z": 97.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 123.0,
+   "z": 62.6,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1447,16 +2253,16 @@
    "type": "treatment_bay",
    "label": "Bay 38",
    "zone": "ED main, pod C",
-   "x": 78.0,
-   "z": 97.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 123.0,
+   "z": 66.0,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1464,16 +2270,16 @@
    "type": "treatment_bay",
    "label": "Bay 39",
    "zone": "ED main, pod C",
-   "x": 81.4,
-   "z": 97.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 123.0,
+   "z": 69.4,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1481,16 +2287,16 @@
    "type": "treatment_bay",
    "label": "Bay 40",
    "zone": "ED main, pod C",
-   "x": 84.8,
-   "z": 97.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 123.0,
+   "z": 72.8,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1498,16 +2304,16 @@
    "type": "treatment_bay",
    "label": "Bay 41",
    "zone": "ED main, pod C",
-   "x": 88.2,
-   "z": 97.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 123.0,
+   "z": 76.2,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1515,16 +2321,16 @@
    "type": "treatment_bay",
    "label": "Bay 42",
    "zone": "ED main, pod C",
-   "x": 91.6,
-   "z": 97.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 123.0,
+   "z": 79.6,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1532,16 +2338,16 @@
    "type": "treatment_bay",
    "label": "Bay 43",
    "zone": "ED main, pod C",
-   "x": 95.0,
-   "z": 97.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 123.0,
+   "z": 83.0,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1549,16 +2355,16 @@
    "type": "treatment_bay",
    "label": "Bay 44",
    "zone": "ED main, pod C",
-   "x": 98.4,
-   "z": 97.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 123.0,
+   "z": 86.4,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1566,16 +2372,16 @@
    "type": "treatment_bay",
    "label": "Bay 45",
    "zone": "ED main, pod C",
-   "x": 74.6,
-   "z": 109.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 135.0,
+   "z": 62.6,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1583,16 +2389,16 @@
    "type": "treatment_bay",
    "label": "Bay 46",
    "zone": "ED main, pod C",
-   "x": 78.0,
-   "z": 109.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 135.0,
+   "z": 66.0,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1600,16 +2406,16 @@
    "type": "treatment_bay",
    "label": "Bay 47",
    "zone": "ED main, pod C",
-   "x": 81.4,
-   "z": 109.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 135.0,
+   "z": 69.4,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1617,16 +2423,16 @@
    "type": "treatment_bay",
    "label": "Bay 48",
    "zone": "ED main, pod C",
-   "x": 84.8,
-   "z": 109.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 135.0,
+   "z": 72.8,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1634,16 +2440,16 @@
    "type": "treatment_bay",
    "label": "Bay 49",
    "zone": "ED main, pod C",
-   "x": 88.2,
-   "z": 109.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 135.0,
+   "z": 76.2,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1651,16 +2457,16 @@
    "type": "treatment_bay",
    "label": "Bay 50",
    "zone": "ED main, pod C",
-   "x": 91.6,
-   "z": 109.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 135.0,
+   "z": 79.6,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1668,16 +2474,16 @@
    "type": "treatment_bay",
    "label": "Bay 51",
    "zone": "ED main, pod C",
-   "x": 95.0,
-   "z": 109.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 135.0,
+   "z": 83.0,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1685,16 +2491,16 @@
    "type": "treatment_bay",
    "label": "Bay 52",
    "zone": "ED main, pod C",
-   "x": 98.4,
-   "z": 109.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 135.0,
+   "z": 86.4,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1702,10 +2508,10 @@
    "type": "nurse_station",
    "label": "Nurse station C",
    "zone": "ED main, pod C",
-   "x": 86.5,
-   "z": 103.0,
-   "w": 21.0,
-   "d": 3.0,
+   "x": 129.0,
+   "z": 74.5,
+   "w": 3.0,
+   "d": 21.0,
    "floor": 0,
    "capacity": 0,
    "physical": true,
@@ -1718,10 +2524,10 @@
    "type": "corridor",
    "label": "Cross corridor",
    "zone": "Circulation",
-   "x": 104.9,
-   "z": 103.0,
-   "w": 2.2,
-   "d": 16.0,
+   "x": 129.0,
+   "z": 92.9,
+   "w": 16.0,
+   "d": 2.2,
    "floor": 0,
    "capacity": 0,
    "physical": true,
@@ -1734,16 +2540,16 @@
    "type": "treatment_bay",
    "label": "Bay 53",
    "zone": "ED main, pod D",
-   "x": 108.6,
-   "z": 97.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 123.0,
+   "z": 96.6,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1751,16 +2557,16 @@
    "type": "treatment_bay",
    "label": "Bay 54",
    "zone": "ED main, pod D",
-   "x": 112.0,
-   "z": 97.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 123.0,
+   "z": 100.0,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1768,16 +2574,16 @@
    "type": "treatment_bay",
    "label": "Bay 55",
    "zone": "ED main, pod D",
-   "x": 115.4,
-   "z": 97.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 123.0,
+   "z": 103.4,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1785,16 +2591,16 @@
    "type": "treatment_bay",
    "label": "Bay 56",
    "zone": "ED main, pod D",
-   "x": 118.8,
-   "z": 97.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 123.0,
+   "z": 106.8,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1802,16 +2608,16 @@
    "type": "treatment_bay",
    "label": "Bay 57",
    "zone": "ED main, pod D",
-   "x": 122.2,
-   "z": 97.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 123.0,
+   "z": 110.2,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1819,16 +2625,16 @@
    "type": "treatment_bay",
    "label": "Bay 58",
    "zone": "ED main, pod D",
-   "x": 125.6,
-   "z": 97.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 123.0,
+   "z": 113.6,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1836,16 +2642,16 @@
    "type": "treatment_bay",
    "label": "Bay 59",
    "zone": "ED main, pod D",
-   "x": 129.0,
-   "z": 97.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 123.0,
+   "z": 117.0,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1853,16 +2659,16 @@
    "type": "treatment_bay",
    "label": "Bay 60",
    "zone": "ED main, pod D",
-   "x": 132.4,
-   "z": 97.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 123.0,
+   "z": 120.4,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1870,16 +2676,16 @@
    "type": "treatment_bay",
    "label": "Bay 61",
    "zone": "ED main, pod D",
-   "x": 108.6,
-   "z": 109.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 135.0,
+   "z": 96.6,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1887,16 +2693,16 @@
    "type": "treatment_bay",
    "label": "Bay 62",
    "zone": "ED main, pod D",
-   "x": 112.0,
-   "z": 109.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 135.0,
+   "z": 100.0,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1904,16 +2710,16 @@
    "type": "treatment_bay",
    "label": "Bay 63",
    "zone": "ED main, pod D",
-   "x": 115.4,
-   "z": 109.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 135.0,
+   "z": 103.4,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1921,16 +2727,16 @@
    "type": "treatment_bay",
    "label": "Bay 64",
    "zone": "ED main, pod D",
-   "x": 118.8,
-   "z": 109.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 135.0,
+   "z": 106.8,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1938,16 +2744,16 @@
    "type": "treatment_bay",
    "label": "Bay 65",
    "zone": "ED main, pod D",
-   "x": 122.2,
-   "z": 109.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 135.0,
+   "z": 110.2,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1955,16 +2761,16 @@
    "type": "treatment_bay",
    "label": "Bay 66",
    "zone": "ED main, pod D",
-   "x": 125.6,
-   "z": 109.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 135.0,
+   "z": 113.6,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1972,16 +2778,16 @@
    "type": "treatment_bay",
    "label": "Bay 67",
    "zone": "ED main, pod D",
-   "x": 129.0,
-   "z": 109.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 135.0,
+   "z": 117.0,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -1989,16 +2795,16 @@
    "type": "treatment_bay",
    "label": "Bay 68",
    "zone": "ED main, pod D",
-   "x": 132.4,
-   "z": 109.0,
-   "w": 3.2,
-   "d": 4.0,
+   "x": 135.0,
+   "z": 120.4,
+   "w": 4.0,
+   "d": 3.2,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/treatment_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (more than 100 private treatment areas across the department; split assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('more than 100 private treatment areas'; split into pods assumed); exact position inferred",
    "note": "Private treatment room. 'More than 100 private treatment areas' is published for the whole department; the split into pods and each position are assumed."
   },
   {
@@ -2006,10 +2812,10 @@
    "type": "nurse_station",
    "label": "Nurse station D",
    "zone": "ED main, pod D",
-   "x": 120.5,
-   "z": 103.0,
-   "w": 21.0,
-   "d": 3.0,
+   "x": 129.0,
+   "z": 108.5,
+   "w": 3.0,
+   "d": 21.0,
    "floor": 0,
    "capacity": 0,
    "physical": true,
@@ -2022,10 +2828,10 @@
    "type": "corridor",
    "label": "Main corridor",
    "zone": "Circulation",
-   "x": 71.0,
-   "z": 93.5,
-   "w": 2.0,
-   "d": 53.0,
+   "x": 119.5,
+   "z": 59.0,
+   "w": 53.0,
+   "d": 2.0,
    "floor": 0,
    "capacity": 0,
    "physical": true,
@@ -2038,10 +2844,10 @@
    "type": "corridor",
    "label": "Imaging corridor (north)",
    "zone": "Circulation",
-   "x": 105.3,
-   "z": 84.3,
-   "w": 64.6,
-   "d": 1.8,
+   "x": 110.3,
+   "z": 93.3,
+   "w": 2.4,
+   "d": 64.6,
    "floor": 0,
    "capacity": 0,
    "physical": true,
@@ -2054,8 +2860,8 @@
    "type": "ct",
    "label": "CT 1",
    "zone": "ED imaging",
-   "x": 76.5,
-   "z": 89.1,
+   "x": 115.1,
+   "z": 64.5,
    "w": 7.0,
    "d": 7.0,
    "floor": 0,
@@ -2063,7 +2869,7 @@
    "physical": true,
    "catalog_ref": "space/ct",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (radiology inside the department; counts assumed); exact position inferred",
+   "source": "https://www.roi-nj.com/2019/11/26/healthcare/rwjuh-celebrates-final-phase-of-emergency-dept-expansion-with-ribbon-cutting/ ('New in-house radiology and CT imaging'; number of scanners assumed); exact position inferred",
    "note": "Radiology inside the emergency department is published; the number of rooms and their position are assumed."
   },
   {
@@ -2071,8 +2877,8 @@
    "type": "ct",
    "label": "CT 2",
    "zone": "ED imaging",
-   "x": 84.5,
-   "z": 89.1,
+   "x": 115.1,
+   "z": 72.5,
    "w": 7.0,
    "d": 7.0,
    "floor": 0,
@@ -2080,7 +2886,7 @@
    "physical": true,
    "catalog_ref": "space/ct",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (radiology inside the department; counts assumed); exact position inferred",
+   "source": "https://www.roi-nj.com/2019/11/26/healthcare/rwjuh-celebrates-final-phase-of-emergency-dept-expansion-with-ribbon-cutting/ ('New in-house radiology and CT imaging'; number of scanners assumed); exact position inferred",
    "note": "Radiology inside the emergency department is published; the number of rooms and their position are assumed."
   },
   {
@@ -2088,16 +2894,16 @@
    "type": "xray",
    "label": "X-ray 1",
    "zone": "ED imaging",
-   "x": 92.0,
-   "z": 89.1,
-   "w": 6.0,
-   "d": 7.0,
+   "x": 115.1,
+   "z": 80.0,
+   "w": 7.0,
+   "d": 6.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/xray",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (radiology inside the department; counts assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('radiology imaging in the department'; number of rooms assumed); exact position inferred",
    "note": "Radiology inside the emergency department is published; the number of rooms and their position are assumed."
   },
   {
@@ -2105,16 +2911,16 @@
    "type": "xray",
    "label": "X-ray 2",
    "zone": "ED imaging",
-   "x": 99.0,
-   "z": 89.1,
-   "w": 6.0,
-   "d": 7.0,
+   "x": 115.1,
+   "z": 87.0,
+   "w": 7.0,
+   "d": 6.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/xray",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (radiology inside the department; counts assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('radiology imaging in the department'; number of rooms assumed); exact position inferred",
    "note": "Radiology inside the emergency department is published; the number of rooms and their position are assumed."
   },
   {
@@ -2122,16 +2928,16 @@
    "type": "ultrasound",
    "label": "Ultrasound 1",
    "zone": "ED imaging",
-   "x": 105.0,
-   "z": 89.1,
-   "w": 4.0,
-   "d": 7.0,
+   "x": 115.1,
+   "z": 93.0,
+   "w": 7.0,
+   "d": 4.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/ultrasound",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (radiology inside the department; counts assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('radiology imaging in the department'; number of rooms assumed); exact position inferred",
    "note": "Radiology inside the emergency department is published; the number of rooms and their position are assumed."
   },
   {
@@ -2139,16 +2945,16 @@
    "type": "ultrasound",
    "label": "Ultrasound 2",
    "zone": "ED imaging",
-   "x": 110.0,
-   "z": 89.1,
-   "w": 4.0,
-   "d": 7.0,
+   "x": 115.1,
+   "z": 98.0,
+   "w": 7.0,
+   "d": 4.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/ultrasound",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (radiology inside the department; counts assumed); exact position inferred",
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('radiology imaging in the department'; number of rooms assumed); exact position inferred",
    "note": "Radiology inside the emergency department is published; the number of rooms and their position are assumed."
   },
   {
@@ -2156,10 +2962,10 @@
    "type": "pharmacy",
    "label": "ED pharmacy",
    "zone": "Support",
-   "x": 117.0,
-   "z": 89.1,
-   "w": 8.0,
-   "d": 7.0,
+   "x": 115.1,
+   "z": 105.0,
+   "w": 7.0,
+   "d": 8.0,
    "floor": 0,
    "capacity": 0,
    "physical": true,
@@ -2172,10 +2978,10 @@
    "type": "lab",
    "label": "Lab",
    "zone": "Support",
-   "x": 127.0,
-   "z": 89.1,
-   "w": 10.0,
-   "d": 7.0,
+   "x": 115.1,
+   "z": 115.0,
+   "w": 7.0,
+   "d": 10.0,
    "floor": 0,
    "capacity": 0,
    "physical": true,
@@ -2189,10 +2995,10 @@
    "type": "support",
    "label": "Staff room",
    "zone": "Support",
-   "x": 135.3,
-   "z": 89.1,
-   "w": 4.6,
-   "d": 7.0,
+   "x": 115.1,
+   "z": 123.3,
+   "w": 7.0,
+   "d": 4.6,
    "floor": 0,
    "capacity": 0,
    "physical": true,
@@ -2205,10 +3011,10 @@
    "type": "corridor",
    "label": "Imaging corridor (south)",
    "zone": "Circulation",
-   "x": 105.3,
-   "z": 93.8,
-   "w": 64.6,
-   "d": 1.6,
+   "x": 119.8,
+   "z": 93.3,
+   "w": 1.6,
+   "d": 64.6,
    "floor": 0,
    "capacity": 0,
    "physical": true,
@@ -2221,10 +3027,10 @@
    "type": "corridor",
    "label": "Resuscitation corridor",
    "zone": "Circulation",
-   "x": 105.3,
-   "z": 112.1,
-   "w": 64.6,
-   "d": 1.6,
+   "x": 138.1,
+   "z": 93.3,
+   "w": 1.6,
+   "d": 64.6,
    "floor": 0,
    "capacity": 0,
    "physical": true,
@@ -2233,20 +3039,37 @@
    "source": "No public interior plan. Placed by the layout generator following common ED planning practice"
   },
   {
+   "id": "decon",
+   "type": "decon",
+   "label": "Decontamination",
+   "zone": "Resuscitation",
+   "x": 142.45,
+   "z": 63.0,
+   "w": 6.5,
+   "d": 4.0,
+   "floor": 0,
+   "capacity": 1,
+   "physical": true,
+   "catalog_ref": "space/decon",
+   "provenance": "published",
+   "source": "https://www.roi-nj.com/2018/04/27/healthcare/rwj-university-hospital-cuts-ribbon-on-emergency-department-expansions-first-phase (phase one added 'a decontamination area'); exact position inferred",
+   "note": "Decontamination area with outside access. Published as a zone; size and position assumed."
+  },
+  {
    "id": "resus-1",
    "type": "resus_bay",
    "label": "Resuscitation 1",
    "zone": "Resuscitation",
-   "x": 134.6,
-   "z": 116.45,
-   "w": 6.0,
-   "d": 6.5,
+   "x": 142.45,
+   "z": 68.4,
+   "w": 6.5,
+   "d": 6.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/resus_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (three resuscitation bays added in phase one; total of six assumed); exact position inferred",
+   "source": "https://www.roi-nj.com/2018/04/27/healthcare/rwj-university-hospital-cuts-ribbon-on-emergency-department-expansions-first-phase (phase one added 'three new resuscitation bays'; total of six assumed); exact position inferred",
    "note": "Resuscitation / trauma bay next to the ambulance entrance. Phase one of the expansion added three resuscitation bays (published); a total of six is assumed."
   },
   {
@@ -2254,16 +3077,16 @@
    "type": "resus_bay",
    "label": "Resuscitation 2",
    "zone": "Resuscitation",
-   "x": 128.2,
-   "z": 116.45,
-   "w": 6.0,
-   "d": 6.5,
+   "x": 142.45,
+   "z": 74.8,
+   "w": 6.5,
+   "d": 6.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/resus_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (three resuscitation bays added in phase one; total of six assumed); exact position inferred",
+   "source": "https://www.roi-nj.com/2018/04/27/healthcare/rwj-university-hospital-cuts-ribbon-on-emergency-department-expansions-first-phase (phase one added 'three new resuscitation bays'; total of six assumed); exact position inferred",
    "note": "Resuscitation / trauma bay next to the ambulance entrance. Phase one of the expansion added three resuscitation bays (published); a total of six is assumed."
   },
   {
@@ -2271,16 +3094,16 @@
    "type": "resus_bay",
    "label": "Resuscitation 3",
    "zone": "Resuscitation",
-   "x": 121.8,
-   "z": 116.45,
-   "w": 6.0,
-   "d": 6.5,
+   "x": 142.45,
+   "z": 81.2,
+   "w": 6.5,
+   "d": 6.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/resus_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (three resuscitation bays added in phase one; total of six assumed); exact position inferred",
+   "source": "https://www.roi-nj.com/2018/04/27/healthcare/rwj-university-hospital-cuts-ribbon-on-emergency-department-expansions-first-phase (phase one added 'three new resuscitation bays'; total of six assumed); exact position inferred",
    "note": "Resuscitation / trauma bay next to the ambulance entrance. Phase one of the expansion added three resuscitation bays (published); a total of six is assumed."
   },
   {
@@ -2288,16 +3111,16 @@
    "type": "resus_bay",
    "label": "Resuscitation 4",
    "zone": "Resuscitation",
-   "x": 115.4,
-   "z": 116.45,
-   "w": 6.0,
-   "d": 6.5,
+   "x": 142.45,
+   "z": 87.6,
+   "w": 6.5,
+   "d": 6.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/resus_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (three resuscitation bays added in phase one; total of six assumed); exact position inferred",
+   "source": "https://www.roi-nj.com/2018/04/27/healthcare/rwj-university-hospital-cuts-ribbon-on-emergency-department-expansions-first-phase (phase one added 'three new resuscitation bays'; total of six assumed); exact position inferred",
    "note": "Resuscitation / trauma bay next to the ambulance entrance. Phase one of the expansion added three resuscitation bays (published); a total of six is assumed."
   },
   {
@@ -2305,16 +3128,16 @@
    "type": "resus_bay",
    "label": "Resuscitation 5",
    "zone": "Resuscitation",
-   "x": 109.0,
-   "z": 116.45,
-   "w": 6.0,
-   "d": 6.5,
+   "x": 142.45,
+   "z": 94.0,
+   "w": 6.5,
+   "d": 6.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/resus_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (three resuscitation bays added in phase one; total of six assumed); exact position inferred",
+   "source": "https://www.roi-nj.com/2018/04/27/healthcare/rwj-university-hospital-cuts-ribbon-on-emergency-department-expansions-first-phase (phase one added 'three new resuscitation bays'; total of six assumed); exact position inferred",
    "note": "Resuscitation / trauma bay next to the ambulance entrance. Phase one of the expansion added three resuscitation bays (published); a total of six is assumed."
   },
   {
@@ -2322,16 +3145,16 @@
    "type": "resus_bay",
    "label": "Resuscitation 6",
    "zone": "Resuscitation",
-   "x": 102.6,
-   "z": 116.45,
-   "w": 6.0,
-   "d": 6.5,
+   "x": 142.45,
+   "z": 100.4,
+   "w": 6.5,
+   "d": 6.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
    "catalog_ref": "space/resus_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (three resuscitation bays added in phase one; total of six assumed); exact position inferred",
+   "source": "https://www.roi-nj.com/2018/04/27/healthcare/rwj-university-hospital-cuts-ribbon-on-emergency-department-expansions-first-phase (phase one added 'three new resuscitation bays'; total of six assumed); exact position inferred",
    "note": "Resuscitation / trauma bay next to the ambulance entrance. Phase one of the expansion added three resuscitation bays (published); a total of six is assumed."
   },
   {
@@ -2339,10 +3162,10 @@
    "type": "nurse_station",
    "label": "Resuscitation station",
    "zone": "Resuscitation",
-   "x": 94.95,
-   "z": 116.45,
-   "w": 8.5,
-   "d": 6.5,
+   "x": 142.45,
+   "z": 108.05,
+   "w": 6.5,
+   "d": 8.5,
    "floor": 0,
    "capacity": 0,
    "physical": true,
@@ -2353,12 +3176,12 @@
   {
    "id": "registration",
    "type": "support",
-   "label": "Registration and security",
+   "label": "Security and EMS room",
    "zone": "ED front",
-   "x": 80.5,
-   "z": 116.45,
-   "w": 15.0,
-   "d": 6.5,
+   "x": 142.45,
+   "z": 119.2,
+   "w": 6.5,
+   "d": 12.8,
    "floor": 0,
    "capacity": 0,
    "physical": true,
@@ -2367,31 +3190,14 @@
    "source": "No public interior plan. Placed by the layout generator following common ED planning practice"
   },
   {
-   "id": "decon",
-   "type": "decon",
-   "label": "Decontamination",
-   "zone": "Resuscitation",
-   "x": 141.35,
-   "z": 116.45,
-   "w": 4.5,
-   "d": 6.5,
-   "floor": 0,
-   "capacity": 1,
-   "physical": true,
-   "catalog_ref": "space/decon",
-   "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (decontamination area added in phase one); exact position inferred",
-   "note": "Decontamination area with outside access. Published as a zone; size and position assumed."
-  },
-  {
    "id": "ems-room",
    "type": "support",
-   "label": "EMS and staff support",
+   "label": "Staff support and storage",
    "zone": "Support",
-   "x": 141.35,
-   "z": 89.6,
-   "w": 4.5,
-   "d": 45.2,
+   "x": 119.35,
+   "z": 129.35,
+   "w": 52.7,
+   "d": 4.5,
    "floor": 0,
    "capacity": 0,
    "physical": true,
@@ -2404,43 +3210,43 @@
    "type": "entrance",
    "label": "Ambulance entrance",
    "zone": "Ambulance",
-   "x": 119.6,
-   "z": 122.5,
-   "w": 8.0,
-   "d": 3.0,
+   "x": 148.5,
+   "z": 81.0,
+   "w": 3.0,
+   "d": 8.0,
    "floor": 0,
    "capacity": 0,
    "physical": true,
    "catalog_ref": "space/entrance",
-   "provenance": "inferred",
-   "source": "No public interior plan. Placed by the layout generator following common ED planning practice"
+   "provenance": "published",
+   "source": "https://www.roi-nj.com/2018/04/27/healthcare/rwj-university-hospital-cuts-ribbon-on-emergency-department-expansions-first-phase ('a new ambulance entrance'; ambulances reach it from Little Albany Street per https://www.rwjbh.org/documents/rwj-new-brunswick/Ambulance-N-Non-Emergency-ED-Construction.pdf); exact position inferred"
   },
   {
    "id": "amb-bay",
    "type": "ambulance_bay",
    "label": "Ambulance bay",
    "zone": "Ambulance",
-   "x": 119.6,
-   "z": 129.0,
-   "w": 40.0,
-   "d": 8.0,
+   "x": 155.0,
+   "z": 81.0,
+   "w": 8.0,
+   "d": 40.0,
    "floor": 0,
    "capacity": 8,
    "physical": true,
    "catalog_ref": "space/ambulance_bay",
    "provenance": "published",
-   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/ (ambulance bay for eight ambulances); exact position inferred",
-   "note": "Ambulance bay for eight ambulances is published; position inferred."
+   "source": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion ('A new ambulance bay will accommodate eight ambulances at one time'); exact position inferred",
+   "note": "Ambulance entrance with parking for eight ambulances is published, on the Little Albany Street side; exact position inferred."
   },
   {
    "id": "ward-a",
    "type": "ward_unit",
    "label": "Inpatient unit A",
    "zone": "Inpatient",
-   "x": 53.0,
-   "z": 15.0,
-   "w": 26,
-   "d": 14,
+   "x": 60.0,
+   "z": 38.5,
+   "w": 12,
+   "d": 21,
    "floor": 0,
    "capacity": 24,
    "physical": true,
@@ -2454,10 +3260,10 @@
    "type": "ward_unit",
    "label": "Inpatient unit B",
    "zone": "Inpatient",
-   "x": 81.0,
-   "z": 15.0,
-   "w": 26.0,
-   "d": 14,
+   "x": 60.0,
+   "z": 61.5,
+   "w": 12,
+   "d": 21.0,
    "floor": 0,
    "capacity": 24,
    "physical": true,
@@ -2471,10 +3277,10 @@
    "type": "ward_unit",
    "label": "Inpatient unit C",
    "zone": "Inpatient",
-   "x": 109.0,
-   "z": 15.0,
-   "w": 26.0,
-   "d": 14,
+   "x": 60.0,
+   "z": 84.5,
+   "w": 12,
+   "d": 21.0,
    "floor": 0,
    "capacity": 24,
    "physical": true,
@@ -2488,10 +3294,10 @@
    "type": "ward_unit",
    "label": "Inpatient unit D",
    "zone": "Inpatient",
-   "x": 137.0,
-   "z": 15.0,
-   "w": 26.0,
-   "d": 14,
+   "x": 60.0,
+   "z": 107.5,
+   "w": 12,
+   "d": 21.0,
    "floor": 0,
    "capacity": 24,
    "physical": true,
@@ -2505,10 +3311,10 @@
    "type": "ward_unit",
    "label": "Inpatient unit E",
    "zone": "Inpatient",
-   "x": 165.0,
-   "z": 15.0,
-   "w": 26.0,
-   "d": 14,
+   "x": 60.0,
+   "z": 130.5,
+   "w": 12,
+   "d": 21.0,
    "floor": 0,
    "capacity": 24,
    "physical": true,
@@ -2522,27 +3328,27 @@
    "type": "icu_bed",
    "label": "Intensive care unit",
    "zone": "Inpatient",
-   "x": 54.12,
-   "z": 35.0,
-   "w": 28.24,
-   "d": 14.0,
+   "x": 78.0,
+   "z": 39.12,
+   "w": 12.0,
+   "d": 22.24,
    "floor": 0,
    "capacity": 24,
    "physical": true,
    "catalog_ref": "space/icu_bed",
-   "provenance": "inferred",
-   "source": "No public interior plan. Placed by the layout generator following common ED planning practice",
-   "note": "Low-detail block. Drawn at ground level beside the ED for readability; in reality inpatient units are on upper floors. Capacity is assumed."
+   "provenance": "published",
+   "source": "https://pagnes.com/project/robert-wood-johnson-hospital-emergency-department-expansion (Core Pavilion third-floor expansion 'with a 24-bed ICU'); exact position inferred",
+   "note": "Low-detail block. Drawn at ground level beside the ED for readability; in reality inpatient units are on upper floors. A 24-bed ICU on the third floor of the Core Pavilion is published by the builder; the hospital has other intensive care units that are not modelled."
   },
   {
    "id": "stepdown",
    "type": "stepdown_bed",
    "label": "Step-down unit",
    "zone": "Inpatient",
-   "x": 81.84,
-   "z": 35.0,
-   "w": 23.2,
-   "d": 14.0,
+   "x": 78.0,
+   "z": 61.34,
+   "w": 12.0,
+   "d": 18.2,
    "floor": 0,
    "capacity": 24,
    "physical": true,
@@ -2556,10 +3362,10 @@
    "type": "operating_room",
    "label": "Operating rooms",
    "zone": "Inpatient",
-   "x": 109.56,
-   "z": 35.0,
-   "w": 28.24,
-   "d": 14.0,
+   "x": 78.0,
+   "z": 83.56,
+   "w": 12.0,
+   "d": 22.24,
    "floor": 0,
    "capacity": 12,
    "physical": true,
@@ -2573,10 +3379,10 @@
    "type": "recovery",
    "label": "Recovery (PACU)",
    "zone": "Inpatient",
-   "x": 134.76,
-   "z": 35.0,
-   "w": 18.16,
-   "d": 14.0,
+   "x": 78.0,
+   "z": 103.76,
+   "w": 12.0,
+   "d": 14.16,
    "floor": 0,
    "capacity": 16,
    "physical": true,
@@ -2590,10 +3396,10 @@
    "type": "mri",
    "label": "MRI 1",
    "zone": "Main radiology",
-   "x": 173.5,
-   "z": 31.5,
-   "w": 9.0,
-   "d": 7.0,
+   "x": 75.5,
+   "z": 136.5,
+   "w": 7.0,
+   "d": 9.0,
    "floor": 0,
    "capacity": 1,
    "physical": true,
@@ -2607,10 +3413,10 @@
    "type": "corridor",
    "label": "Corridor to inpatient units and elevators",
    "zone": "Circulation",
-   "x": 104.9,
-   "z": 54.65,
-   "w": 2.2,
-   "d": 24.3,
+   "x": 88.65,
+   "z": 92.9,
+   "w": 8.3,
+   "d": 2.2,
    "floor": 0,
    "capacity": 0,
    "physical": true,
@@ -2623,10 +3429,26 @@
    "type": "corridor",
    "label": "Inpatient corridor",
    "zone": "Circulation",
-   "x": 109.0,
-   "z": 25.0,
-   "w": 138.0,
-   "d": 3.0,
+   "x": 69.0,
+   "z": 56.2,
+   "w": 2.0,
+   "d": 56.4,
+   "floor": 0,
+   "capacity": 0,
+   "physical": true,
+   "catalog_ref": "space/corridor",
+   "provenance": "inferred",
+   "source": "No public interior plan. Placed by the layout generator following common ED planning practice"
+  },
+  {
+   "id": "corr-inpatient-2",
+   "type": "corridor",
+   "label": "Inpatient corridor",
+   "zone": "Circulation",
+   "x": 69.0,
+   "z": 112.8,
+   "w": 2.0,
+   "d": 56.4,
    "floor": 0,
    "capacity": 0,
    "physical": true,
@@ -2703,10 +3525,70 @@
  "walk_speed_m_per_min": 70,
  "sources": [
   {
-   "title": "RWJUH emergency department expansion description (published counts and zones, as recorded in HANDOFF.md)",
-   "url": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-services/",
-   "used_for": "ED area, zones and counts tagged 'published'",
-   "accessed": "2026-10-10"
+   "title": "RWJUH: Emergency Department Expansion (hospital page)",
+   "url": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion",
+   "accessed": "2026-10-10",
+   "used_for": "40,000 to 60,000 sq ft; more than 100 private treatment areas; three additional trauma bays; ambulance bay for eight; radiology in the department; fast track"
+  },
+  {
+   "title": "RWJUH: Emergency Department Expansion, Frequently Asked Questions",
+   "url": "https://rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion/frequently-asked-questions",
+   "accessed": "2026-10-10",
+   "used_for": "separate pediatric ED; new walk-in entrance; more than 95,000 ED and trauma patients a year"
+  },
+  {
+   "title": "RWJUH: Emergency Department in New Brunswick (service page)",
+   "url": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-room-services/",
+   "accessed": "2026-10-10",
+   "used_for": "non-urgent / urgent / emergent care areas; sensory rooms; Level I trauma"
+  },
+  {
+   "title": "ROI-NJ, 27 Apr 2018: RWJ University Hospital cuts ribbon on emergency department expansion's first phase",
+   "url": "https://www.roi-nj.com/2018/04/27/healthcare/rwj-university-hospital-cuts-ribbon-on-emergency-department-expansions-first-phase",
+   "accessed": "2026-10-10",
+   "used_for": "phase one: ambulance entrance with parking for eight, three resuscitation bays, decontamination, care initiation, result waiting"
+  },
+  {
+   "title": "ROI-NJ, 26 Nov 2019: RWJUH celebrates final phase of emergency dept. expansion",
+   "url": "https://www.roi-nj.com/2019/11/26/healthcare/rwjuh-celebrates-final-phase-of-emergency-dept-expansion-with-ribbon-cutting/",
+   "accessed": "2026-10-10",
+   "used_for": "60,000 sq ft; in-house radiology and CT imaging"
+  },
+  {
+   "title": "RWJUH construction notice: Ambulance and non-emergency transport (PDF with aerial map)",
+   "url": "https://www.rwjbh.org/documents/rwj-new-brunswick/Ambulance-N-Non-Emergency-ED-Construction.pdf",
+   "accessed": "2026-10-10",
+   "used_for": "ED entrance at Somerset Street and Little Albany Street; ambulance approach; position of the expansion work area"
+  },
+  {
+   "title": "RWJUH construction notice: Patients and visitors (PDF)",
+   "url": "https://www.rwjbh.org/documents/rwj-new-brunswick/Patients-Public-ED-Construction.pdf",
+   "accessed": "2026-10-10",
+   "used_for": "emergency drop-off at the Somerset / Little Albany intersection; main entrance on Somerset Street"
+  },
+  {
+   "title": "RWJUH visitor campus map (PDF, page 2)",
+   "url": "https://www.rwjbh.org/documents/rwj-new-brunswick/for-physicians/physician-relations/Hospital-Map-NB.pdf",
+   "accessed": "2026-10-10",
+   "used_for": "lettered buildings and where the Emergency Room sits in the complex; used to position the ED block, not traced"
+  },
+  {
+   "title": "P. Agnes: Robert Wood Johnson University Hospital, Ambulette, AMBI & Core Pavilion",
+   "url": "https://pagnes.com/project/robert-wood-johnson-hospital-emergency-department-expansion",
+   "accessed": "2026-10-10",
+   "used_for": "24-bed ICU (Core Pavilion, 3rd floor); ambulance bays under the ambulatory building; rebuilt ED entrance"
+  },
+  {
+   "title": "Wikipedia: The Bristol-Myers Squibb Children's Hospital",
+   "url": "https://en.wikipedia.org/wiki/The_Bristol-Myers_Squibb_Children%27s_Hospital",
+   "accessed": "2026-10-10",
+   "used_for": "17 pediatric ED bays (secondary source citing local press that could not be opened)"
+  },
+  {
+   "title": "OpenStreetMap (c) OpenStreetMap contributors, Open Database License 1.0",
+   "url": "https://www.openstreetmap.org/copyright",
+   "accessed": "2026-10-10",
+   "used_for": "exterior building footprints and street centrelines (site.buildings, site.roads tagged surveyed); main hospital is https://www.openstreetmap.org/way/251382262"
   }
  ]
 }

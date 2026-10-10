@@ -14,14 +14,15 @@ variants:
         value: 95000
         unit: visits/year
         source: literature
-        citation: 'Hospital''s published ED expansion description: ''more than 95,000 emergency and trauma patients a year'' (see research/data-sources-and-hospital-context.md);
-          to re-verify URL'
+        citation: '''RWJUH currently cares for more than 95,000 emergency department and trauma patients annually'' - hospital ED expansion FAQ,
+          https://rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion/frequently-asked-questions (fetched 2026-10-10)'
         note: calibration anchor
       ed_area_sqft:
         value: 60000
         unit: sq ft
         source: literature
-        citation: Hospital's published ED expansion description (40,000 -> 60,000 sq ft); to re-verify URL
+        citation: '''expands RWJUH''s current Emergency Department from 40,000 to 60,000 square feet'' - https://www.rwjbh.org/rwj-university-hospital-new-brunswick/about/emergency-department-expansion
+          (fetched 2026-10-10)'
       ed_treatment_spaces:
         value: 100
         unit: spaces
@@ -38,11 +39,12 @@ variants:
         source: assumed
         citation: Placeholder set in Wave 0 so the simulator can run; zone published, count assumed
       peds_ed_spaces:
-        value: 16
+        value: 17
         unit: spaces
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; separate pediatric ED published, count assumed; pediatric stream not simulated
-          in v1
+        source: literature
+        citation: '''17 private pediatric patient bays with three dedicated bays for behavioral health'' - Wikipedia, The Bristol-Myers Squibb
+          Children''s Hospital (https://en.wikipedia.org/wiki/The_Bristol-Myers_Squibb_Children%27s_Hospital, fetched 2026-10-10), a secondary source
+          citing local press that could not be opened; separate pediatric ED is stated by the hospital. Pediatric stream not simulated in v1'
       adult_main_bays:
         value: 68
         unit: bays
@@ -115,14 +117,61 @@ variants:
         source: literature
         citation: hospital public description
       validation_median_ed_time_min:
-        value: null
+        value: 206
         unit: minutes
-        source: assumed
-        citation: to be filled from CMS Care Compare OP-18b for this hospital and peer group
+        source: measured
+        citation: CMS Care Compare 'Timely and Effective Care - Hospital' (Provider Data Catalog yv7e-xc69, release 2026-08-13), Facility ID (CCN) 310038
+          ROBERT WOOD JOHNSON UNIVERSITY HOSPITAL, ONE ROBERT WOOD JOHNSON PLACE, NEW BRUNSWICK NJ; measure OP_18b score, sample 408 sampled visits,
+          period 10/01/2024-09/30/2025
         validation_only: true
+        url: https://data.cms.gov/provider-data/dataset/yv7e-xc69
+        file: data/processed/care_compare_ed_rwjuh.json
+        range:
+        - 133.10000000000002
+        - 269.0
+        note: Median minutes from ED arrival to ED departure for DISCHARGED patients only (excludes admitted, transferred and psychiatric patients).
+          range = 10th-90th percentile of OP_18b across the 702 hospitals in the same 'very high' ED-volume category (median 192); see data/processed/care_compare_ed_peer_groups.csv.
+          Compare with the simulator's median length of visit of discharged patients.
       validation_lwbs_rate:
-        value: null
+        value: 0.01
         unit: fraction
-        source: assumed
-        citation: to be filled from CMS Care Compare OP-22
+        source: measured
+        citation: CMS Care Compare 'Timely and Effective Care - Hospital' (Provider Data Catalog yv7e-xc69, release 2026-08-13), Facility ID (CCN) 310038
+          ROBERT WOOD JOHNSON UNIVERSITY HOSPITAL, ONE ROBERT WOOD JOHNSON PLACE, NEW BRUNSWICK NJ; measure OP_22 score 1 percent, denominator 81126
+          ED visits, period 01/01/2024-12/31/2024
         validation_only: true
+        url: https://data.cms.gov/provider-data/dataset/yv7e-xc69
+        file: data/processed/care_compare_ed_rwjuh.json
+        range:
+        - 0.01
+        - 0.05
+        note: CMS publishes OP_22 as a whole-number percent, so 0.01 means between 0.5% and 1.5%. range = 10th-90th percentile across 703 'very high'
+          ED-volume hospitals (median 2%).
+      ed_visits_per_year_cms:
+        value: 81126
+        unit: visits/year
+        source: measured
+        citation: CMS Care Compare 'Timely and Effective Care - Hospital' (Provider Data Catalog yv7e-xc69, release 2026-08-13), Facility ID (CCN) 310038
+          ROBERT WOOD JOHNSON UNIVERSITY HOSPITAL, ONE ROBERT WOOD JOHNSON PLACE, NEW BRUNSWICK NJ; denominator ('Sample') of measure OP_22 = total
+          ED visits reported for 01/01/2024-12/31/2024
+        url: https://data.cms.gov/provider-data/dataset/yv7e-xc69
+        file: data/processed/care_compare_ed_rwjuh.json
+        note: 81126 visits / 366 days = 222 per day. The hospital's own page says 'more than 95,000 emergency and trauma patients a year' (ed_visits_per_year);
+          the two differ in year and possibly in what is counted (the CCN-level count vs. a marketing figure).
+      ed_volume_category_cms:
+        value: very high
+        unit: category
+        source: measured
+        citation: CMS Care Compare 'Timely and Effective Care - Hospital' (Provider Data Catalog yv7e-xc69, release 2026-08-13), Facility ID (CCN) 310038
+          ROBERT WOOD JOHNSON UNIVERSITY HOSPITAL, ONE ROBERT WOOD JOHNSON PLACE, NEW BRUNSWICK NJ; measure EDV, period 01/01/2024-12/31/2024
+        url: https://data.cms.gov/provider-data/dataset/yv7e-xc69
+        file: data/processed/care_compare_ed_rwjuh.json
+        note: 'CMS EDV categories: low <20,000; medium 20,000-39,999; high 40,000-59,999; very high >=60,000 visits/year'
+      cms_certification_number:
+        value: '310038'
+        unit: identifier
+        source: measured
+        citation: CMS Hospital General Information (Provider Data Catalog xubh-q36u), matched on facility name and verified on street address (ONE ROBERT
+          WOOD JOHNSON PLACE, NEW BRUNSWICK, NJ 08901)
+        url: https://data.cms.gov/provider-data/dataset/xubh-q36u
+        file: data/processed/care_compare_ed_rwjuh.json
