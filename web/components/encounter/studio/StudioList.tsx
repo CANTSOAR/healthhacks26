@@ -1,5 +1,6 @@
 "use client";
 // Patient Studio home: every case with its status, versions and origin, and three ways to start a new patient.
+import { SiteDisclaimer } from "../../ui/SiteDisclaimer";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { ApiError, encApi } from "@/lib/encounter/api";
@@ -449,6 +450,7 @@ export function StudioList({ onOpen, startNew }: { onOpen: (caseId: string) => v
           }}
         />
       )}
+      <SiteDisclaimer className="mt-8" />
     </div>
   );
 }

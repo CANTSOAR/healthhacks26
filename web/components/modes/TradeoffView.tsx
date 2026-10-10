@@ -4,7 +4,7 @@ import { api } from "@/lib/api";
 import { metricValue, money, num, titleCase } from "@/lib/format";
 import { useApi } from "@/lib/hooks";
 import { KIND, kindInfo } from "@/lib/palette";
-import { managerStory, prettyManager } from "@/lib/story";
+import { managerStory, objectiveWords, prettyManager, shortManager } from "@/lib/story";
 import { feeds } from "@/lib/session";
 import { useUI } from "@/lib/ui";
 import type { ManagerKind, RolloutListItem, Validation } from "@/lib/types";
@@ -15,6 +15,8 @@ import { Disclaimer } from "../ui/Chrome";
 interface Pt {
   id: string;
   label: string;
+  /** the server's full label, for hover */
+  full?: string;
   kind: ManagerKind;
   objective?: string;
   x: number;
@@ -152,45 +154,106 @@ function Scatter({ pts, selected, onSelect, xLabel }: { pts: Pt[]; selected: str
   const X = (v: number) => pad.l + ((v - xmin) / (xmax - xmin || 1)) * iw;
   const Y = (v: number) => pad.t + ih - ((v - ymin) / (ymax - ymin || 1)) * ih;
 
-  // direct labels with a simple collision pass: right, left, above, below
+  // Managers that land on the same spot (a cloned agent on its heuristic) form one cluster: one label, a count badge,
+  // a tooltip that lists them all, and clicks that step through them. Nothing is hidden under another mark unsaid.
+  const clusters = useMemo(() => {
+    const out: { members: number[]; cx: number; cy: number }[] = [];
+    pts.forEach((p, i) => {
+      const x = X(p.x);
+      const y = Y(p.y);
+      const c = out.find((q) => Math.hypot(q.cx - x, q.cy - y) < 11);
+      if (c) c.members.push(i);
+      else out.push({ members: [i], cx: x, cy: y });
+    });
+    // the tuned heuristic leads its cluster (it is the reference the others are compared with), then baselines
+    const rank = (k: string) => (k === "tuned_heuristic" ? 0 : k === "learned" ? 2 : 1);
+    out.forEach((c) => c.members.sort((i, j) => rank(pts[i].kind) - rank(pts[j].kind)));
+    return out;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pts, size.w, size.h, xmin, xmax, ymin, ymax]);
+  const clusterOf = (i: number) => clusters.find((c) => c.members.includes(i))!;
+
+  // one direct label per cluster: close to the mark if there is room, otherwise further out on a leader line
   const labels = useMemo(() => {
     // obstacles: every marker, and both error bars of every point
     const placed: { x0: number; y0: number; x1: number; y1: number }[] = pts.flatMap((p) => [
-      { x0: X(p.x) - 7, y0: Y(p.y) - 7, x1: X(p.x) + 7, y1: Y(p.y) + 7 },
+      { x0: X(p.x) - 8, y0: Y(p.y) - 8, x1: X(p.x) + 8, y1: Y(p.y) + 8 },
       { x0: X(p.x - p.ex), y0: Y(p.y) - 2, x1: X(p.x + p.ex), y1: Y(p.y) + 2 },
       { x0: X(p.x) - 2, y0: Y(p.y + p.ey), x1: X(p.x) + 2, y1: Y(p.y - p.ey) },
     ]);
-    return pts.map((p) => {
-      const text = p.label.replace(/\s*\[fixture\]$/, "");
-      const tw = text.length * 5.9 + 4;
-      const cx = X(p.x);
-      const cy = Y(p.y);
-      const cands = [
-        // diagonals first: the error bars run straight through the point, so corners stay clear of them
-        { x: cx + 9, y: cy - 10, a: "start" as const, bx: cx + 9, by: cy - 21 },
-        { x: cx + 9, y: cy + 19, a: "start" as const, bx: cx + 9, by: cy + 8 },
-        { x: cx - 9, y: cy - 10, a: "end" as const, bx: cx - 9 - tw, by: cy - 21 },
-        { x: cx - 9, y: cy + 19, a: "end" as const, bx: cx - 9 - tw, by: cy + 8 },
+    const labelBoxes: typeof placed = [];
+    // the count badge of a shared spot is an obstacle too
+    clusters.forEach((c) => c.members.length > 1 && placed.push({ x0: c.cx + 1, y0: c.cy - 17, x1: c.cx + 17, y1: c.cy - 1 }));
+    const hit = (b: { x0: number; y0: number; x1: number; y1: number }) => placed.some((q) => !(b.x1 < q.x0 || b.x0 > q.x1 || b.y1 < q.y0 || b.y0 > q.y1));
+    const out: { x: number; y: number; a: "start" | "end"; leader: null | { x: number; y0: number; y1: number }; text: string; show: boolean }[] = [];
+    // Labels all run the same way from their marks (towards the emptier side of the chart) and are placed starting
+    // from that side, so the vertical leader of a mark placed later can never run through an earlier label: a crowded
+    // row of marks becomes a staircase of labels.
+    const mid = pad.l + iw / 2;
+    const left = clusters.filter((c) => c.cx > mid).length >= clusters.length / 2; // most marks on the right: labels run leftwards
+    const order = clusters.map((_, i) => i).sort((i, j) => (left ? clusters[i].cx - clusters[j].cx : clusters[j].cx - clusters[i].cx));
+    for (const ci of order) {
+      const c = clusters[ci];
+      const inCluster = c.members.find((i) => pts[i].id === selected);
+      const lead = pts[inCluster ?? c.members[0]];
+      const text = lead.label.replace(/\s*\[fixture\]$/, "") + (c.members.length > 1 ? `  +${c.members.length - 1} here` : "");
+      const tw = text.length * 6.1 + 6;
+      const { cx, cy } = c;
+      const badge = c.members.length > 1 ? 10 : 0;
+      type Cand = { x: number; y: number; a: "start" | "end"; leader: null | { x: number; y0: number; y1: number }; away?: boolean };
+      const A = left ? "end" : "start";
+      const sgn = left ? -1 : 1;
+      const cands: Cand[] = [
+        // beside the mark, on the diagonals (the error bars run straight through the point, so corners stay clear)
+        { x: cx + sgn * (10 + (left ? 0 : badge)), y: cy - 8, a: A, leader: null },
+        { x: cx + sgn * 10, y: cy + 18, a: A, leader: null },
+        // on the other side only where no other mark sits under the label
+        { x: cx - sgn * (10 + (left ? badge : 0)), y: cy - 8, a: left ? "start" : "end", leader: null, away: true },
+        { x: cx - sgn * 10, y: cy + 18, a: left ? "start" : "end", leader: null, away: true },
       ];
-      for (const c of cands) {
-        const b = { x0: c.bx, y0: c.by, x1: c.bx + tw, y1: c.by + 13 };
+      // then straight above, higher and higher, joined to the mark by a vertical line
+      for (let h = 26; h <= 280; h += 15) cands.push({ x: cx + sgn * 5, y: cy - h, a: A, leader: { x: cx, y0: cy - 10, y1: cy - h - 9 } });
+      for (let h = 30; h <= 90; h += 15) cands.push({ x: cx + sgn * 5, y: cy + h, a: A, leader: { x: cx, y0: cy + 10, y1: cy + h + 3 } });
+      let chosen: Cand | null = null;
+      for (const k of cands) {
+        const bx = k.a === "start" ? k.x : k.x - tw;
+        const b = { x0: bx, y0: k.y - 11, x1: bx + tw, y1: k.y + 3 };
         if (b.x0 < pad.l || b.x1 > size.w - 4 || b.y0 < pad.t - 6 || b.y1 > size.h - pad.b + 2) continue;
-        if (placed.some((q) => !(b.x1 < q.x0 || b.x0 > q.x1 || b.y1 < q.y0 || b.y0 > q.y1))) continue;
+        if (hit(b)) continue;
+        // (a leader rises at most 300 px from its mark, so a label far above other marks is in nobody's way)
+        if (k.away && clusters.some((q) => q !== c && q.cx > b.x0 - 8 && q.cx < b.x1 + 8 && b.y1 > q.cy - 300 && b.y0 < q.cy + 100)) continue;
+        const lb = k.leader ? { x0: k.leader.x - 1.5, x1: k.leader.x + 1.5, y0: Math.min(k.leader.y0, k.leader.y1), y1: Math.max(k.leader.y0, k.leader.y1) } : null;
+        // a leader may pass error bars but not another label
+        if (lb && labelBoxes.some((q) => !(lb.x1 < q.x0 || lb.x0 > q.x1 || lb.y1 < q.y0 || lb.y0 > q.y1))) continue;
         placed.push(b);
-        return { ...c, text, show: true };
+        labelBoxes.push(b);
+        if (lb) placed.push(lb);
+        chosen = k;
+        break;
       }
-      return { ...cands[0], text, show: false };
-    });
+      out[ci] = { ...(chosen ?? cands[0]), text, show: !!chosen };
+    }
+    return out;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pts, size.w, size.h, xmin, xmax, ymin, ymax]);
+  }, [clusters, selected]);
 
-  const hp = pts.find((p) => p.id === hover);
+  const hoverIdx = pts.findIndex((p) => p.id === hover);
+  const hc = hoverIdx >= 0 ? clusterOf(hoverIdx) : null;
+  // learned marks are drawn first, so the heuristic or baseline they sit on stays visible on top
+  const drawOrder = pts.map((_, i) => i).sort((i, j) => (pts[i].kind === "learned" ? 0 : 1) - (pts[j].kind === "learned" ? 0 : 1));
+  const clickPoint = (i: number) => {
+    const c = clusterOf(i);
+    const at = c.members.findIndex((m) => pts[m].id === selected);
+    if (c.members.length === 1) return onSelect(pts[i].id === selected ? null : pts[i].id);
+    // a spot shared by several managers: each click steps to the next one
+    onSelect(pts[c.members[(at + 1) % c.members.length]].id);
+  };
   return (
     <div
       ref={box}
       className="relative h-full min-h-[280px] w-full overflow-hidden"
     >
-      <svg className="absolute inset-0" width={size.w} height={size.h} role="img" aria-label="Cost per day against mean wait for every evaluated manager" onClick={() => onSelect(null)}>
+      <svg className="absolute inset-0" width={size.w} height={size.h} role="img" aria-label={`${xLabel} against mean wait for every evaluated manager`} onClick={() => onSelect(null)}>
         {yt.map((v) => (
           <g key={`y${v}`}>
             <line x1={pad.l} x2={pad.l + iw} y1={Y(v)} y2={Y(v)} stroke="rgba(20,26,51,0.07)" />
@@ -226,11 +289,25 @@ function Scatter({ pts, selected, onSelect, xLabel }: { pts: Pt[]; selected: str
             </g>
           );
         })}
-        {pts.map((p, i) => {
+        {clusters.map((c, ci) => {
+          const l = labels[ci];
+          const on = c.members.some((i) => pts[i].id === selected);
+          if (!l || !(l.show || on)) return null;
+          const dim = selected && !on ? 0.45 : 1;
+          return (
+            <g key={`l${ci}`} opacity={dim} pointerEvents="none" data-label={pts[c.members[0]].id}>
+              {l.leader && <line x1={l.leader.x} y1={l.leader.y0} x2={l.leader.x} y2={l.leader.y1} stroke="#9AA3B5" strokeWidth={1} />}
+              <text x={l.x} y={l.y} textAnchor={l.a} fontSize={11} fontWeight={on ? 700 : 500} fill={on ? "#141A33" : "#4A5275"} stroke="#fff" strokeWidth={3} paintOrder="stroke" strokeLinejoin="round" style={{ whiteSpace: "pre" }}>
+                {l.text}
+              </text>
+            </g>
+          );
+        })}
+        {drawOrder.map((i) => {
+          const p = pts[i];
           const k = kindInfo(p.kind);
           const on = selected === p.id;
           const dim = selected && !on ? 0.4 : 1;
-          const l = labels[i];
           return (
             <g
               key={p.id}
@@ -240,7 +317,7 @@ function Scatter({ pts, selected, onSelect, xLabel }: { pts: Pt[]; selected: str
               style={{ cursor: "pointer" }}
               onClick={(e) => {
                 e.stopPropagation();
-                onSelect(on ? null : p.id);
+                clickPoint(i);
               }}
               onPointerEnter={() => setHover(p.id)}
               onPointerLeave={() => setHover(null)}
@@ -249,30 +326,46 @@ function Scatter({ pts, selected, onSelect, xLabel }: { pts: Pt[]; selected: str
               {on && <circle r={13} fill="none" stroke="#2F55F5" strokeWidth={2} />}
               {p.caveat && <circle r={11} fill="none" stroke="#141A33" strokeWidth={1.2} strokeDasharray="2 3" />}
               <Marker shape={k.shape} color={k.color} size={p.human ? 13 : 12} ring />
-              {(l.show || on) && (
-                <text x={l.x - X(p.x)} y={l.y - Y(p.y)} textAnchor={l.a} fontSize={11} fontWeight={on ? 700 : 500} fill={on ? "#141A33" : "#4A5275"} stroke="#fff" strokeWidth={3} paintOrder="stroke" strokeLinejoin="round">
-                  {l.text}
-                </text>
-              )}
             </g>
           );
         })}
+        {clusters
+          .filter((c) => c.members.length > 1)
+          .map((c, ci) => (
+            <g key={`n${ci}`} transform={`translate(${c.cx + 9} ${c.cy - 9})`} pointerEvents="none" data-cluster={c.members.length}>
+              <circle r={7} fill="#141A33" stroke="#fff" strokeWidth={1.5} />
+              <text y={3.5} textAnchor="middle" fontSize={9.5} fontWeight={700} fill="#fff">
+                {c.members.length}
+              </text>
+            </g>
+          ))}
       </svg>
-      {hp && (
-        <div className="pointer-events-none absolute z-10 w-[210px] rounded-xl border border-line bg-white/95 px-3 py-2 text-[11px] shadow-card" style={{ left: Math.min(X(hp.x) + 16, size.w - 220), top: Math.max(4, Math.min(Y(hp.y) - 30, size.h - 110)) }}>
-          <div className="mb-1 font-semibold text-ink">{hp.label}</div>
-          <div className="mb-1">
-            <KindChip kind={hp.kind} />
-          </div>
-          <div className="tnum flex justify-between text-ink-2">
-            <span>{xLabel.replace(" per day", " / day")}</span>
-            <b className="text-ink">{money(hp.x)}{hp.ex ? ` ± ${money(hp.ex)}` : ""}</b>
-          </div>
-          <div className="tnum flex justify-between text-ink-2">
-            <span>Mean wait</span>
-            <b className="text-ink">{num(hp.y, 1)}{hp.ey ? ` ± ${num(hp.ey, 1)}` : ""} min</b>
-          </div>
-          {hp.n ? <div className="mt-0.5 text-ink-3">{hp.n} seeds · bars show 95% interval</div> : <div className="mt-0.5 text-ink-3">{hp.caveat ? "single short run · not comparable" : "single run"}</div>}
+      {hc && (
+        <div className="pointer-events-none absolute z-10 w-[250px] rounded-xl border border-line bg-white/95 px-3 py-2 text-[11px] shadow-card" style={{ left: Math.max(4, Math.min(hc.cx + 18, size.w - 258)), top: Math.max(4, Math.min(hc.cy - 30, size.h - 80 - hc.members.length * 46)) }} data-testid="tradeoff-tip">
+          {hc.members.length > 1 && <div className="mb-1 font-semibold text-ink">{hc.members.length} managers at this spot · click to step through them</div>}
+          {hc.members.map((i) => {
+            const hp = pts[i];
+            const k = kindInfo(hp.kind);
+            return (
+              <div key={hp.id} className="border-t border-line py-1 first:border-t-0">
+                <div className="flex items-center gap-1.5 font-semibold text-ink">
+                  <svg width="11" height="11" viewBox="-7 -7 14 14" className="shrink-0" aria-hidden>
+                    <Marker shape={k.shape} color={k.color} size={9} />
+                  </svg>
+                  {hp.label}
+                </div>
+                <div className="tnum flex justify-between text-ink-2">
+                  <span>{xLabel.replace(" per day", " / day")}</span>
+                  <b className="text-ink">{money(hp.x)}{hp.ex ? ` ± ${money(hp.ex)}` : ""}</b>
+                </div>
+                <div className="tnum flex justify-between text-ink-2">
+                  <span>Mean wait</span>
+                  <b className="text-ink">{num(hp.y, 1)}{hp.ey ? ` ± ${num(hp.ey, 1)}` : ""} min</b>
+                </div>
+                {hc.members.length === 1 && (hp.n ? <div className="mt-0.5 text-ink-3">{hp.n} seeds · bars show 95% interval</div> : <div className="mt-0.5 text-ink-3">{hp.caveat ? "single short run · not comparable" : "single run"}</div>)}
+              </div>
+            );
+          })}
         </div>
       )}
     </div>
@@ -313,7 +406,7 @@ export function TradeoffView({ narrow, top, onWatch, onCompare }: { narrow: bool
       const c = r.metrics[xKey];
       const w = r.metrics.wait_mean_min;
       if (!c || !w) continue;
-      out.push({ id: r.manager_id, label: prettyManager(r.label), kind: r.kind, objective: r.objective, x: c.mean, y: w.mean, ex: c.ci95 ?? 0, ey: w.ci95 ?? 0, n: r.n_seeds, metrics: r.metrics });
+      out.push({ id: r.manager_id, label: shortManager(r), full: prettyManager(r.label), kind: r.kind, objective: r.objective, x: c.mean, y: w.mean, ex: c.ci95 ?? 0, ey: w.ci95 ?? 0, n: r.n_seeds, metrics: r.metrics });
     }
     const humans = (data.human_runs ?? []).filter((h) => h.scenario === sc && h.summary?.[xKey] != null && h.summary?.wait_mean_min != null);
     const last = humans[humans.length - 1];
@@ -364,7 +457,7 @@ export function TradeoffView({ narrow, top, onWatch, onCompare }: { narrow: bool
                   {Array.isArray(data?.protocol?.seeds) && data!.protocol!.seeds!.length ? ` · ${data!.protocol!.seeds!.length} held-out seeds` : ""}
                 </div>
               </div>
-              <div className="ml-auto flex items-center gap-2">
+              <div className="ml-auto flex max-w-full flex-wrap items-center justify-end gap-2">
                 {source === "fixture" ? <SourceChip tag="fixture" /> : <SimTag />}
                 {laborKey && (
                   <div className="seg" data-testid="xaxis-toggle" title={`Staffing cost is read from the results metric “${laborKey}”`}>
@@ -430,12 +523,13 @@ export function TradeoffView({ narrow, top, onWatch, onCompare }: { narrow: bool
                 <div className="flex items-start gap-2">
                   <div className="min-w-0 flex-1">
                     <div className="eyebrow">Selected manager</div>
-                    <div className="text-[15px] font-semibold leading-snug text-ink">{sel.label}</div>
+                    <div className="text-[15px] font-semibold leading-snug text-ink" title={sel.full} data-testid="selected-name">{sel.label}</div>
+                    {sel.full && <div className="text-[10.5px] leading-snug text-ink-3">{sel.full}</div>}
                   </div>
                   <KindChip kind={sel.kind} />
                 </div>
                 <div className="mt-1 text-[11px] text-ink-3">
-                  {sel.objective && sel.objective !== "none" ? `Objective: ${titleCase(sel.objective)} · ` : ""}
+                  {objectiveWords(managers.find((m) => m.id === sel.id), data) ? `Objective: ${objectiveWords(managers.find((m) => m.id === sel.id), data)} · ` : ""}
                   {sel.human ? "your last run, single seed" : `${sel.n ?? "?"} seeds`}
                 </div>
                 {!sel.human && managerStory(sel.id, sc) && (
@@ -465,7 +559,7 @@ export function TradeoffView({ narrow, top, onWatch, onCompare }: { narrow: bool
                   <select className="select min-w-0 flex-1" value={otherId} onChange={(e) => setOther(e.target.value)} disabled={!others.length} aria-label="Manager to compare with">
                     {others.length === 0 && <option value="">no other rollout</option>}
                     {others.map((o) => (
-                      <option key={o.r!.rollout_id} value={o.r!.rollout_id}>
+                      <option key={o.r!.rollout_id} value={o.r!.rollout_id} title={o.p.full}>
                         {o.p.label}
                       </option>
                     ))}
@@ -476,7 +570,7 @@ export function TradeoffView({ narrow, top, onWatch, onCompare }: { narrow: bool
             ) : (
               <div className="border-b border-line p-4 text-[12px] leading-relaxed text-ink-3">
                 <div className="eyebrow mb-1">How to read this</div>
-                Each mark is one manager, averaged over held-out seeds; the bars are 95% intervals. Marks that overlap did not differ on these two measures. Click a mark for its details, to replay it, or to put two side by side.
+                Each mark is one manager, averaged over held-out seeds; the bars are 95% intervals. Marks that overlap did not differ on these two measures; a numbered badge says how many managers share a spot, and clicking it steps through them. Click a mark for its details, to replay it, or to put two side by side.
               </div>
             )}
             <div className="scroll-thin min-h-0 flex-1 overflow-auto p-3">
@@ -495,14 +589,14 @@ export function TradeoffView({ narrow, top, onWatch, onCompare }: { narrow: bool
                     const k = kindInfo(p.kind);
                     const on = p.id === selected;
                     return (
-                      <tr key={p.id} className={`cursor-pointer ${on ? "bg-accent-soft" : "hover:bg-white"}`} onClick={() => setSelected(on ? null : p.id)}>
+                      <tr key={p.id} data-row={p.id} title={p.full} className={`cursor-pointer ${on ? "bg-accent-soft" : "hover:bg-white"}`} onClick={() => setSelected(on ? null : p.id)}>
                         <td className="rounded-l-lg border-t border-line py-1.5 pl-1 pr-2">
                           <span className="flex items-center gap-1.5">
                             <svg width="12" height="12" viewBox="-7 -7 14 14" className="shrink-0" aria-hidden>
                               <Marker shape={k.shape} color={k.color} size={9} />
                             </svg>
                             <span className="min-w-0">
-                              <span className="block truncate font-semibold text-ink" style={{ maxWidth: 150 }}>{p.label.replace(/\s*\[fixture\]$/, "")}</span>
+                              <span className="block break-words font-semibold leading-tight text-ink">{p.label.replace(/\s*\[fixture\]$/, "")}</span>
                               <span className="block text-[10px] text-ink-3">{k.label}</span>
                             </span>
                           </span>

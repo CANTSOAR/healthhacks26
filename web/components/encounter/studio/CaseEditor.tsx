@@ -1,5 +1,6 @@
 "use client";
 // One case in the Patient Studio: edit, validate, preview, approve, publish, start an encounter.
+import { SiteDisclaimer } from "../../ui/SiteDisclaimer";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ApiError, encApi } from "@/lib/encounter/api";
@@ -420,8 +421,9 @@ export function CaseEditor({ caseId, onBack }: { caseId: string; onBack: () => v
           </div>
 
           {/* tabs */}
-          <div className="scroll-thin sticky top-[70px] z-20 mt-3 overflow-x-auto pb-1">
-            <div className="seg shadow-pill !bg-white/95 backdrop-blur" role="tablist">
+          {/* on a phone the six tabs wrap onto two rows instead of running off the right edge */}
+          <div className="sticky top-[70px] z-20 mt-3 pb-1">
+            <div className="seg max-w-full flex-wrap shadow-pill !bg-white/95 backdrop-blur max-sm:!rounded-2xl" role="tablist" data-testid="editor-tabs">
               {TABS.map((t) => {
                 const w = worst(t.paths.flatMap((p) => issuesUnder(issues, p)));
                 const count = t.key === "facts" ? draft.facts.length : t.key === "objectives" ? draft.objectives.length : t.key === "chart" ? (draft.chart.artifacts?.length ?? 0) : t.key === "sources" ? draft.sources.length : null;
@@ -455,6 +457,7 @@ export function CaseEditor({ caseId, onBack }: { caseId: string; onBack: () => v
             )}
           </div>
         </div>
+        <SiteDisclaimer className="mt-8" />
       </div>
     </IssueCtx.Provider>
   );

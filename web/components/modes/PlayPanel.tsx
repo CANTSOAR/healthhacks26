@@ -4,6 +4,7 @@ import { useState } from "react";
 import type { FeedState } from "@/lib/feed";
 import { DOW, duration, hhmm, titleCase } from "@/lib/format";
 import { playCtl, savedRun, startPlay } from "@/lib/session";
+import { managerStory, prettyManager, shortManager } from "@/lib/story";
 import { useUI } from "@/lib/ui";
 import type { ActionHead, Cadence, Snapshot } from "@/lib/types";
 import { Icon, ICONS, KindChip, SimTag, SourceChip } from "../ui/atoms";
@@ -113,6 +114,10 @@ export function PlayPanel({ f, className = "" }: { f: FeedState; className?: str
   const spec = f.header?.action_spec ?? [];
   const clock = f.snap?.clock;
   const human = play.manager === "human";
+  const inCharge = managers.find((m) => m.id === play.manager);
+  // subscribed so the card fills in when the results table arrives
+  const results = useUI((s) => s.results);
+  const story = !human && running && results !== undefined ? managerStory(play.manager, f.header?.scenario ?? scenarioId) : "";
 
   return (
     <div className={`glass pointer-events-auto flex min-h-0 flex-col ${className}`} data-testid="play-panel">
@@ -132,7 +137,7 @@ export function PlayPanel({ f, className = "" }: { f: FeedState; className?: str
               .filter((m) => m.kind !== "human")
               .map((m) => (
                 <option key={m.id} value={m.id} disabled={m.available === false}>
-                  Hand over: {m.label}
+                  Hand over: {shortManager(m)}
                 </option>
               ))}
           </select>
@@ -142,18 +147,27 @@ export function PlayPanel({ f, className = "" }: { f: FeedState; className?: str
           </label>
         </div>
         {running && (
-          <div className={`flex items-center gap-2 rounded-xl px-3 py-2 ${human ? "bg-[#141a33]/[0.035]" : "bg-accent-soft ring-1 ring-inset ring-accent/25"}`} data-testid="in-charge">
-            <span className="min-w-0 flex-1">
-              <span className="flex items-center gap-2">
-                <span className="eyebrow shrink-0">In charge</span>
-                <KindChip kind={human ? "human" : (managers.find((m) => m.id === play.manager)?.kind ?? f.header?.manager.kind ?? "learned")} />
+          <div className={`rounded-xl px-3 py-2 ${human ? "bg-[#141a33]/[0.035]" : "bg-accent-soft ring-1 ring-inset ring-accent/25"}`} data-testid="in-charge">
+            <div className="flex items-center gap-2">
+              <span className="min-w-0 flex-1">
+                <span className="flex items-center gap-2">
+                  <span className="eyebrow shrink-0">In charge</span>
+                  <KindChip kind={human ? "human" : (inCharge?.kind ?? f.header?.manager.kind ?? "learned")} />
+                </span>
+                <span className="mt-0.5 block text-[12px] font-semibold leading-snug text-ink" title={inCharge ? prettyManager(inCharge.label) : undefined} data-testid="in-charge-name">
+                  {human ? "You" : inCharge ? shortManager(inCharge) : play.manager}
+                </span>
               </span>
-              <span className="mt-0.5 block truncate text-[12px] font-semibold text-ink">{human ? "You" : (managers.find((m) => m.id === play.manager)?.label ?? play.manager)}</span>
-            </span>
-            {!human && (
-              <button className="btn-quiet !h-7 shrink-0 !px-2.5 !text-[11px]" onClick={() => playCtl.manager("human")} data-testid="take-back">
-                Take back
-              </button>
+              {!human && (
+                <button className="btn-quiet !h-7 shrink-0 !px-2.5 !text-[11px]" onClick={() => playCtl.manager("human")} data-testid="take-back">
+                  Take back
+                </button>
+              )}
+            </div>
+            {story && (
+              <div className="mt-1.5 text-[11px] leading-snug text-ink-2" data-testid="manager-story">
+                {story}
+              </div>
             )}
           </div>
         )}
@@ -237,7 +251,7 @@ export function PlayPanel({ f, className = "" }: { f: FeedState; className?: str
                       </button>
                       {isOpen && (
                         <div className="pb-1">
-                          {!human && <div className="mb-1 text-[10.5px] text-ink-3">Read-only while a trained manager is in charge.</div>}
+                          {!human && <div className="mb-1 text-[10.5px] text-ink-3">Read-only while {inCharge ? shortManager(inCharge) : "another manager"} is in charge. Take back to change these yourself.</div>}
                           {heads.map((h) => (
                             <Knob key={h.name} h={h} f={f} disabled={!human} />
                           ))}

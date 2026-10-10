@@ -24,8 +24,8 @@ export function EncounterRoute() {
   useEffect(() => {
     const p = parse(new URLSearchParams(qs));
     // the view rewrites the address to ?encounter_id=... after starting; that is the same session, not a new request
-    if (p?.encounterId && selfStarted.id === p.encounterId) return;
-    setParams(p);
+    // (only while that view is mounted: coming back to the same encounter later, from the hospital, must load it)
+    setParams((prev) => (prev !== undefined && p?.encounterId && selfStarted.id === p.encounterId ? prev : p));
   }, [qs]);
   if (params === undefined) return null;
   if (params === null) return <CasePicker />;

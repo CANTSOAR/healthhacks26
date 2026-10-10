@@ -1,9 +1,9 @@
 "use client";
 import type { FeedState } from "@/lib/feed";
 import { metricValue, tickLabelLong, titleCase } from "@/lib/format";
-import { managerStory, prettyManager } from "@/lib/story";
+import { managerStory, objectiveWords, prettyManager, shortManager } from "@/lib/story";
 import { HEAD_LABEL, optLabel } from "./labels";
-import { openWatch } from "@/lib/session";
+import { eventText, openWatch } from "@/lib/session";
 import { useUI } from "@/lib/ui";
 import type { RolloutListItem } from "@/lib/types";
 import { KindChip, SimTag, SourceChip } from "../ui/atoms";
@@ -17,15 +17,13 @@ const CADENCE_STYLE: Record<string, [string, string]> = {
 
 const ROUTINE = new Set(["lwbs", "deterioration", "callout", "info"]);
 
-export const rolloutLabel = (r: RolloutListItem) => `${prettyManager(r.manager.label)} · ${titleCase(r.scenario)} · seed ${r.seed}`;
+export const rolloutLabel = (r: RolloutListItem) => `${shortManager(r.manager)} · ${titleCase(r.scenario)} · seed ${r.seed}`;
 
 /** The server writes decisions as "md_night: lvl2 -> lvl0" and events as "Scenario event started: flu_wave": say them in words. */
 export function plainText(text: string): string {
   const m = /^([a-z0-9_]+): (\S+) -> (\S+)$/.exec(text);
   if (m) return `${HEAD_LABEL[m[1]] ?? titleCase(m[1])}: ${optLabel(m[2])} → ${optLabel(m[3])}`;
-  const e = /^(.*: )([a-z0-9]+(?:_[a-z0-9]+)+)$/.exec(text);
-  if (e) return `${e[1]}${titleCase(e[2]).toLowerCase()}`;
-  return text.replace(/ -> /g, " → ");
+  return eventText(text);
 }
 
 export function RolloutPicker({ value, onChange, testid }: { value: string | null; onChange: (id: string) => void; testid?: string }) {
@@ -34,7 +32,7 @@ export function RolloutPicker({ value, onChange, testid }: { value: string | nul
     <select className="select w-full" value={value ?? ""} onChange={(e) => onChange(e.target.value)} aria-label="Recorded rollout" data-testid={testid}>
       {rollouts.length === 0 && <option value="">No recorded rollouts</option>}
       {rollouts.map((r) => (
-        <option key={r.rollout_id} value={r.rollout_id} disabled={!r.has_segments}>
+        <option key={r.rollout_id} value={r.rollout_id} disabled={!r.has_segments} title={prettyManager(r.manager.label)}>
           {rolloutLabel(r)}
           {r.has_segments ? "" : " (charts only)"}
         </option>
@@ -116,7 +114,9 @@ export function DecisionFeed({ f, limit = 40 }: { f: FeedState; limit?: number }
 export function WatchPanel({ f, className = "" }: { f: FeedState; className?: string }) {
   const watchId = useUI((s) => s.watchId);
   const loading = useUI((s) => s.loading);
+  useUI((s) => s.results); // the story is composed from the results table: re-render when it arrives
   const h = f.header;
+  const goal = h ? objectiveWords(h.manager) : "";
   return (
     <div className={`glass pointer-events-auto flex min-h-0 flex-col ${className}`} data-testid="watch-panel">
       <div className="space-y-2.5 px-3.5 pb-3 pt-3.5">
@@ -136,7 +136,7 @@ export function WatchPanel({ f, className = "" }: { f: FeedState; className?: st
         )}
         {h && (
           <div className="text-[11px] leading-snug text-ink-3">
-            {h.manager.objective && h.manager.objective !== "none" ? `Objective: ${titleCase(h.manager.objective)} · ` : ""}
+            {goal ? `Objective: ${goal} · ` : ""}
             {titleCase(h.scenario)} · seed {h.seed} · {h.days} {h.days === 1 ? "day" : "days"}
             {loading ? ` · ${loading}` : ""}
           </div>

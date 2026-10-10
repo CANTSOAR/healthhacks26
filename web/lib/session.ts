@@ -3,6 +3,7 @@ import { api, onReachability } from "./api";
 import { createFeed, resetFeed, type Feed, type FeedState } from "./feed";
 import { LiveSim } from "./live";
 import { ReplayPlayer } from "./replay";
+import { shortManager } from "./story";
 import { SPEEDS, useUI } from "./ui";
 import type { HumanRun } from "./types";
 
@@ -57,7 +58,14 @@ export async function refreshStatus() {
 export async function loadLists() {
   const [sc, ho, ma, ro, re] = await Promise.all([api.scenarios(), api.hospitals(), api.managers(), api.rollouts(), api.results().catch(() => null)]);
   const s = ui();
+  // live Compare starts on the cost-tuned against the wait-tuned heuristic; if the server has neither, on whatever it has
+  const runnable = ma.data.filter((m) => m.kind !== "human" && m.available !== false);
+  const tuned = (re: RegExp) => runnable.find((m) => m.kind === "tuned_heuristic" && re.test(`${m.objective ?? ""} ${m.id}`))?.id;
+  const pair: [string, string] = s.compareManagers.every((id) => runnable.some((m) => m.id === id))
+    ? s.compareManagers
+    : [tuned(/min_cost/) ?? runnable[0]?.id ?? s.compareManagers[0], tuned(/min_wait/) ?? runnable[1]?.id ?? runnable[0]?.id ?? s.compareManagers[1]];
   useUI.setState({
+    compareManagers: pair,
     scenarios: sc.data,
     hospitals: ho.data,
     managers: ma.data,
@@ -209,10 +217,36 @@ export async function refreshPlayable() {
   }
 }
 
+/** Names for the scenario and injected events the simulator reports by id ("Scenario event started: flu_wave"). */
+const EVENT_NAME: Record<string, string> = {
+  flu_wave: "Flu wave",
+  flu_surge: "Flu surge",
+  mass_casualty: "Mass-casualty incident",
+  mci: "Mass-casualty incident",
+  ct_outage: "CT scanner outage",
+  ct_down: "CT scanner outage",
+  rn_callouts: "Nurse call-outs",
+  rn_callout: "Nurse call-outs",
+  staff_callout: "Staff call-outs",
+  heat_wave: "Heat wave",
+  ems_surge: "Ambulance surge",
+};
+const words = (id: string) => id.replace(/_/g, " ").replace(/\b(ct|mri|ed|icu|rn|md|ems)\b/gi, (w) => w.toUpperCase());
+/** Simulator event text with raw ids put into words: "Scenario event started: flu_wave" becomes "Flu wave started". */
+export function eventText(text: string): string {
+  const m = /^Scenario event (started|ended|finished|over|cleared):\s*([a-z0-9_]+)$/i.exec(text.trim());
+  if (m) {
+    const name = EVENT_NAME[m[2]] ?? words(m[2]).replace(/^./, (c) => c.toUpperCase());
+    return `${name} ${m[1].toLowerCase() === "started" ? "started" : "ended"}`;
+  }
+  // any other identifier with underscores, and "a -> b"
+  return text.replace(/\b[a-z0-9]+(?:_[a-z0-9]+)+\b/g, (id) => EVENT_NAME[id]?.toLowerCase() ?? words(id)).replace(/ -> /g, " → ");
+}
+
 /** Events worth interrupting for. Routine ones (a patient leaving, a call-out) stay in the feed only. */
 const LOUD: Record<string, "info" | "warn"> = { scenario: "warn", arrival_surge: "warn", equipment_down: "warn", equipment_up: "info", structural_started: "info", structural_done: "info", diversion_on: "warn", diversion_off: "info", death: "warn" };
 function announce(events: import("./types").SimEvent[]) {
-  for (const e of events) if (LOUD[e.kind]) ui().toast(e.text, LOUD[e.kind]);
+  for (const e of events) if (LOUD[e.kind]) ui().toast(eventText(e.text), LOUD[e.kind]);
 }
 
 // ------------------------------------------------------------------ Play mode
@@ -254,7 +288,7 @@ export async function startPlay(opts: { attach?: string; select?: { kind: string
         const known = ui().managers.find((x) => x.id === m.id);
         if (known && feeds.a.getState().header) feeds.a.setState((s) => (s.header ? { header: { ...s.header, manager: { ...m, kind: known.kind, label: known.label } } } : {}));
         if (ui().play.manager !== m.id) ui().setPlay({ manager: m.id });
-        ui().toast(m.id === "human" ? "You are back in charge of the hospital." : `${known?.label ?? m.label} is now running the hospital.`, "info");
+        ui().toast(m.id === "human" ? "You are back in charge of the hospital." : `${known ? shortManager(known) : m.label} is now running the hospital.`, "info");
       },
     },
   );
@@ -349,6 +383,8 @@ export function notPlayableReason(f: FeedState, patientIdx: number): string {
   return "This patient's encounter with the provider has already happened. Pick someone who is still waiting or with the provider.";
 }
 
+const NO_PLAYABLE = "No playable patient right now — let the clock run a moment, then try again.";
+
 export const playCtl = {
   /** Pause the run before stepping into an encounter, so the patient cannot move on meanwhile. */
   pauseForEncounter() {
@@ -368,7 +404,10 @@ export const playCtl = {
     await refreshPlayable();
     const f = feeds.a.getState();
     const snap = f.snap;
-    if (!snap) return false;
+    if (!snap) {
+      ui().setPlay({ note: NO_PLAYABLE });
+      return false;
+    }
     const en = f.header?.enums.patient_state ?? [];
     // someone already in a bay waiting for the provider is the best pick; then with the provider; then earlier in the pathway
     const want = ["waiting_provider", "with_provider", "waiting_bay", "in_triage", "waiting_triage"];
@@ -387,9 +426,12 @@ export const playCtl = {
     }
     if (best < 0) {
       useUI.setState({ paused: false });
-      ui().toast("Nobody is waiting for or with a provider right now. Let the clock run for a moment and try again.", "warn");
+      // said in the panel as well as in a toast: a toast alone is easy to miss
+      ui().setPlay({ note: NO_PLAYABLE });
+      ui().toast(NO_PLAYABLE, "warn");
       return false;
     }
+    if (ui().play.note === NO_PLAYABLE) ui().setPlay({ note: null });
     ui().select({ kind: "patient", id: snap.patients.id[best], feed: "a" });
     useUI.setState({ listTab: "patients" });
     ui().toast("Paused the hospital so this patient stays put. Play their encounter from the panel on the right, or press play to carry on.", "info");

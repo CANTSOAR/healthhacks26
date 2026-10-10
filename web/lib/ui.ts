@@ -89,7 +89,7 @@ export const useUI = create<UIState>((set) => ({
   watchId: null,
   compareIds: [null, null],
   compareLive: "off",
-  compareManagers: ["fixed", "rule_based"],
+  compareManagers: ["tuned_min_cost", "tuned_min_wait"], // checked against the manager list when it loads (session.loadLists)
   compareNote: null,
   loading: null,
   hasSavedRun: false,

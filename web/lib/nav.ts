@@ -7,11 +7,11 @@ function pickPair(): [string, string] | null {
   const { scenarioId } = useUI.getState();
   const usable = rollouts.filter((r) => r.has_segments);
   if (!usable.length) return null;
-  // Default pair: the cost-tuned against the wait-tuned manager on the chosen scenario (learned ones if recorded,
-  // otherwise the tuned heuristics), because that is the comparison the objectives are about.
+  // Default pair: the cost-tuned against the wait-tuned heuristic on the chosen scenario. The tuned heuristics are the
+  // real result of the evaluation (the learned agents mostly reproduce them), so they are what is shown first.
   const inScenario = usable.filter((r) => r.scenario === scenarioId);
   const pool = inScenario.length ? inScenario : usable;
-  const pickObj = (re: RegExp) => pool.find((r) => r.manager.kind === "learned" && re.test(`${r.manager.objective ?? ""} ${r.manager.id}`)) ?? pool.find((r) => re.test(`${r.manager.objective ?? ""} ${r.manager.id}`));
+  const pickObj = (re: RegExp) => pool.find((r) => r.manager.kind === "tuned_heuristic" && re.test(`${r.manager.objective ?? ""} ${r.manager.id}`)) ?? pool.find((r) => re.test(`${r.manager.objective ?? ""} ${r.manager.id}`));
   const cost = pickObj(/min_cost/);
   const wait = pickObj(/min_wait/);
   if (!compareIds[0] && !compareIds[1] && cost && wait && cost.rollout_id !== wait.rollout_id && cost.seed === wait.seed) return [cost.rollout_id, wait.rollout_id];

@@ -71,6 +71,21 @@ export class HttpError extends Error {
 }
 
 const cache = new Map<string, Promise<unknown>>();
+/** Variant names of a catalog entity type, or null when the server does not list them (hospitals, conditions, offline). */
+function catalogVariants(entityType: string): Promise<string[] | null> {
+  const key = `variants:${entityType}`;
+  let p = cache.get(key) as Promise<string[] | null> | undefined;
+  if (!p) {
+    p = live<{ variants?: Record<string, unknown> }>(`/api/catalog/${encodeURIComponent(entityType)}`)
+      .then((d) => (d.variants && typeof d.variants === "object" && !Array.isArray(d.variants) ? Object.keys(d.variants) : null))
+      .catch(() => {
+        cache.delete(key);
+        return null;
+      });
+    cache.set(key, p);
+  }
+  return p;
+}
 function fixture<T>(file: string): Promise<T> {
   let p = cache.get(file) as Promise<T> | undefined;
   if (!p) {
@@ -106,6 +121,13 @@ export const api = {
   metrics: () => get<{ metrics: Record<string, { unit: string; desc: string; window?: string; episode?: string }>; episode_summary?: Record<string, string> }>("/api/metrics", () => fixture("metrics.json")),
   catalog: () => get<CatalogSummary>("/api/catalog", () => fixture("catalog.json")),
   catalogRef: async (ref: string): Promise<Sourced<CatalogRef | null>> => {
+    // A layout may name a kind of space the catalog does not describe (corridors). The entity file lists its variants,
+    // so that case is answered from the list instead of by a request that can only come back 404.
+    const [entityType, variant, ...rest] = ref.split("/");
+    if (variant && !rest.length) {
+      const known = await catalogVariants(entityType);
+      if (known && !known.includes(variant)) return { data: null, source: "live" };
+    }
     try {
       return { data: await live<CatalogRef>(`/api/catalog/ref/${ref.split("/").map(encodeURIComponent).join("/")}`, undefined, 8000), source: "live" };
     } catch (e) {

@@ -96,6 +96,8 @@ export const encApi = {
   runPatient: (runId: string, patientId: number) => call<RunPatient>(`/api/runs/${enc(runId)}/patients/${patientId}`, { timeoutMs: 6000 }),
   /** Let a patient go again when the learner leaves an encounter without finishing (a held patient cannot be played or move on). */
   releaseHold: (runId: string, patientId: number | string) => call<unknown>(`/api/runs/${enc(runId)}/patients/${enc(String(patientId))}/hold`, { method: "DELETE", timeoutMs: 4000 }),
+  /** Every encounter the server knows (summaries); used to find the open one that holds a simulated patient. */
+  encounters: () => call<{ encounter_id: string; status: string; started?: string; sim?: { run_id?: string; patient_id?: number | string } | null }[]>("/api/encounters", { timeoutMs: 6000 }),
   runs: () => call<{ run_id: string; hospital_id?: string; scenario?: string; t?: number }[]>("/api/runs", { timeoutMs: 4000 }),
   hospitals: () => call<{ id: string; name: string }[]>("/api/hospitals", { timeoutMs: 4000 }),
 

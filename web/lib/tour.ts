@@ -1,11 +1,12 @@
 // The guided demo: the six steps of the README's demo, each one a scripted state of the real app.
 // A step only runs with managers and rollouts that exist right now; otherwise it is skipped and says why.
-// Captions describe what to look at. They never state a number or an outcome: those are on screen, from the simulation.
+// Captions describe what to look at. The only numbers in them are the held-out comparison of a learned manager, which
+// lib/story.ts composes from the results table (margin, interval, and the wait, walk-outs and deaths that came with it).
 import { enter } from "./nav";
 import { loadLists, startLiveCompare, startPlay, transport } from "./session";
 import { useUI } from "./ui";
 import type { ManagerInfo, RolloutListItem } from "./types";
-import { managerStory, namedManager } from "./story";
+import { heldOutVerdict, namedManager } from "./story";
 
 export interface TourStep {
   title: string;
@@ -17,8 +18,8 @@ export interface TourStep {
 
 const ui = () => useUI.getState();
 const named = namedManager;
-/** The manager's own description and held-out verdict, when the server provides them (nothing otherwise). */
-const story = (m: ManagerInfo | null | undefined, scenario: string) => (m ? managerStory(m.id, scenario) : "");
+/** The held-out verdict of a learned manager, with its margin and what came with it (nothing when there is no comparison). */
+const story = (m: ManagerInfo | null | undefined, scenario: string) => (m ? heldOutVerdict(m.id, scenario) : "");
 const sp = (s: string) => (s ? ` ${s}` : "");
 
 /** A manager for an objective: a learned agent if one is available, otherwise a tuned heuristic. */
@@ -92,7 +93,7 @@ export function buildTour(): TourStep[] {
     },
     {
       title: "Same patients, wait-tuned manager",
-      caption: cost && wait ? `Side by side on the same seed, so both face the same arrivals: A is ${named(cost)}, B is ${named(wait)}. The table gives each side's totals for the episode and the difference; rows that are close mean the two did not differ much on that measure.` : "",
+      caption: cost && wait ? `Side by side on the same seed, so both face the same arrivals: A is ${named(cost)}, B is ${named(wait)}. The table gives each side's totals for the episode and the difference; rows that are close mean the two did not differ much on that measure. What each manager is, and how it did against its tuned heuristic on held-out seeds, is in the panel on the right.` : "",
       skip: !cost || !wait ? "needs both a cost-tuned and a wait-tuned manager" : !(costR && waitR) && !online ? "no recordings of both managers, and the simulator is offline" : undefined,
       run: async () => {
         useUI.setState({ scenarioId: normal, speed: 12, paused: false });
@@ -126,7 +127,7 @@ export function buildTour(): TourStep[] {
     },
     {
       title: "The trade-off",
-      caption: "Every evaluated manager, cost against wait, with intervals across held-out seeds. Marks that sit on top of each other did not differ. Click one for its details and its held-out comparison. Your own Play run appears here too, flagged if it was too short to compare.",
+      caption: "Every evaluated manager, cost against wait, with intervals across held-out seeds. Marks that sit on top of each other did not differ: a numbered badge says how many share a spot, and clicking it steps through them. Click one for its details and its held-out comparison. Your own Play run appears here too, flagged if it was too short to compare.",
       run: async () => {
         useUI.setState({ scenarioId: normal });
         await enter("tradeoff");

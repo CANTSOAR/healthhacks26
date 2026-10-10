@@ -104,10 +104,17 @@ export default function App() {
     <>
       <TopBar narrow={narrow} onMode={onMode} />
       <FixtureBanner />
-      <div className="pointer-events-none fixed left-1/2 top-[118px] z-[60] flex w-[min(92vw,460px)] -translate-x-1/2 flex-col gap-2 max-[900px]:top-[120px]">
-        <TourCard />
+      <div className={`pointer-events-none fixed left-1/2 z-[60] flex w-[min(92vw,460px)] -translate-x-1/2 flex-col gap-2 ${mode === "compare" && !narrow ? "top-[196px]" : "top-[118px] max-[900px]:top-[120px]"}`} data-testid="toast-stack">
+        {narrow && <TourCard />}
         <Toasts />
       </div>
+      {/* On a desktop the tour card is docked bottom-right, over the lower part of the side column, so it never covers
+          a pane title, the scenario toggle or the building. */}
+      {!narrow && (
+        <div className="pointer-events-none fixed bottom-3 right-3 z-[60] flex max-h-[62vh] w-[360px] flex-col justify-end" data-testid="tour-dock">
+          <TourCard />
+        </div>
+      )}
     </>
   );
 

@@ -1,10 +1,11 @@
 "use client";
 import { useState } from "react";
 import type { FeedState } from "@/lib/feed";
-import { hhmm, metricValue, tickClock, DOW } from "@/lib/format";
+import { hhmm, metricValue, tickClock, DOW, DOW_LONG } from "@/lib/format";
 import { useUI } from "@/lib/ui";
 import { SERIES } from "@/lib/palette";
 import { transport } from "@/lib/session";
+import { shortManager } from "@/lib/story";
 import { SimTag } from "./atoms";
 import { LineChart, type Series } from "./LineChart";
 
@@ -68,7 +69,11 @@ export function ZoomToggle({ zoom, onZoom }: { zoom: ChartZoom; onZoom: (z: Char
 export function windowLabel(w: { start: number; end: number }, tickMinutes = 5): string {
   const a = tickClock(w.start, tickMinutes);
   const b = tickClock(w.end, tickMinutes);
-  return `Day ${a.day + 1} · ${DOW[a.dow]} ${hhmm(a.minute_of_day)}–${hhmm(b.minute_of_day)}`;
+  const minutes = (w.end - w.start) * tickMinutes;
+  // a window that starts at midnight and runs a whole day reads "00:00–00:00" otherwise
+  if (a.minute_of_day === 0 && minutes >= 1435 && minutes <= 1445) return `Day ${a.day + 1} · ${DOW_LONG[a.dow]} (full day)`;
+  if (a.minute_of_day === 0 && minutes > 1445 && minutes % 1440 <= 5) return `Days ${a.day + 1}–${a.day + Math.round(minutes / 1440)} (full days)`;
+  return `Day ${a.day + 1} · ${DOW[a.dow]} ${hhmm(a.minute_of_day)}–${hhmm(b.minute_of_day)}${b.day > a.day && b.minute_of_day !== 0 ? ` (day ${b.day + 1})` : ""}`;
 }
 
 /**
@@ -142,8 +147,8 @@ export function Timeline({ f, other, className = "" }: { f: FeedState; other?: F
   // the cursor is the playhead, unless it was moved to an hour that has no 3D recording
   const cur = chartCursor != null && f.origin !== "live" ? chartCursor - f.hour0 : play;
   const view = chartView([values.length, other?.hourly[metric.key]?.length ?? 0], f.hour0, cur, zoom);
-  const series: Series[] = [{ name: f.header?.manager.label ?? "This run", color: SERIES[0], ...view.shape(values) }];
-  if (other?.hourly[metric.key]) series.push({ name: other.header?.manager.label ?? "Other", color: SERIES[1], ...view.shape(other.hourly[metric.key]) });
+  const series: Series[] = [{ name: shortManager(f.header?.manager) || "This run", color: SERIES[0], ...view.shape(values) }];
+  if (other?.hourly[metric.key]) series.push({ name: shortManager(other.header?.manager) || "Other", color: SERIES[1], ...view.shape(other.hourly[metric.key]) });
   const curVal = cur != null ? values[Math.max(0, Math.min(values.length - 1, Math.floor(cur)))] : NaN;
   const seek = transport.canSeek();
   return (

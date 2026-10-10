@@ -467,6 +467,9 @@ export interface SampledBaseline {
   orders?: string[];
   disposition?: string;
   bay?: string;
+  /** the patient's state when the encounter was taken over (e.g. "in_triage"), and whether they were in a treatment bay */
+  state?: string;
+  in_bay?: boolean;
   acuity?: number;
   condition_group?: string;
   clinician?: string;

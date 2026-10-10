@@ -4,7 +4,7 @@ import type { FeedState } from "@/lib/feed";
 import { metricValue, titleCase } from "@/lib/format";
 import { useFeedState } from "@/lib/hooks";
 import { SERIES } from "@/lib/palette";
-import { managerStory, prettyManager } from "@/lib/story";
+import { managerStory, prettyManager, shortManager } from "@/lib/story";
 import { feeds, openCompare, startLiveCompare, stopLiveCompare, summarise, transport } from "@/lib/session";
 import { useUI } from "@/lib/ui";
 import HospitalScene from "../scene/HospitalScene";
@@ -41,7 +41,7 @@ function PaneHeader({ f, side, color }: { f: FeedState; side: "A" | "B"; color: 
       <span className="flex h-5 w-5 items-center justify-center rounded-md text-[11px] font-bold text-white" style={{ background: color }}>
         {side}
       </span>
-      <span className="max-w-[260px] truncate text-[13px] font-semibold text-ink">{h ? prettyManager(h.manager.label) : "…"}</span>
+      <span className="max-w-[260px] truncate text-[13px] font-semibold text-ink" title={h ? prettyManager(h.manager.label) : undefined} data-testid="pane-title">{h ? shortManager(h.manager) : "…"}</span>
       {h && <KindChip kind={h.manager.kind} />}
       {f.origin === "fixture" && <SourceChip tag="fixture" />}
       <span className="tnum flex items-center gap-3 text-[11px] text-ink-3">
@@ -124,6 +124,7 @@ export function CompareView({ narrow, top }: { narrow: boolean; top: React.React
   const seed = useUI((s) => s.play.seed);
   const scenarioId = useUI((s) => s.scenarioId);
   const set = useUI((s) => s.set);
+  useUI((s) => s.results); // manager stories are composed from the results table
   const [source, setSource] = useState<"recorded" | "live">("recorded");
   const [zoom, setZoom] = useState<ChartZoom>("all");
   const isLive = liveState === "live" || liveState === "connecting";
@@ -157,8 +158,8 @@ export function CompareView({ narrow, top }: { narrow: boolean; top: React.React
           </div>
           <LineChart
             series={[
-              { name: `A · ${a.header?.manager.label ?? ""}`, color: SERIES[0], ...view.shape(a.hourly[m.key] ?? []) },
-              { name: `B · ${b.header?.manager.label ?? ""}`, color: SERIES[1], ...view.shape(b.hourly[m.key] ?? []) },
+              { name: `A · ${shortManager(a.header?.manager)}`, color: SERIES[0], ...view.shape(a.hourly[m.key] ?? []) },
+              { name: `B · ${shortManager(b.header?.manager)}`, color: SERIES[1], ...view.shape(b.hourly[m.key] ?? []) },
             ]}
             unit={m.unit}
             height={narrow ? 84 : 92}
@@ -206,8 +207,8 @@ export function CompareView({ narrow, top }: { narrow: boolean; top: React.React
               >
                 {!runnable.some((m) => m.id === liveManagers[i]) && <option value={liveManagers[i]}>{liveManagers[i]}</option>}
                 {runnable.map((m) => (
-                  <option key={m.id} value={m.id}>
-                    {m.label} · {m.kind.replace(/_/g, " ")}
+                  <option key={m.id} value={m.id} title={prettyManager(m.label)}>
+                    {shortManager(m)}
                   </option>
                 ))}
               </select>

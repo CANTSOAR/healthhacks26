@@ -39,7 +39,7 @@ export function TourCard() {
   if (!step) return null;
   const skipped = steps.map((s, i) => ({ s, i })).filter((x) => x.s.skip);
   return (
-    <div className="glass-solid rise pointer-events-auto px-4 pb-3 pt-3.5" data-testid="tour-card" role="dialog" aria-label="Demo tour">
+    <div className="glass-solid rise scroll-thin pointer-events-auto max-h-full overflow-y-auto px-4 pb-3 pt-3.5 shadow-card ring-1 ring-accent/30" data-testid="tour-card" role="dialog" aria-label="Demo tour">
       <div className="flex items-center gap-2">
         <span className="eyebrow">
           Demo tour · step {t.index + 1} of {steps.length}

@@ -4,12 +4,14 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ApiError, encApi, newRequestId } from "@/lib/encounter/api";
+import { forgetOpenEncounter, giveBack, rememberOpenEncounter } from "@/lib/encounter/open";
 import { bayLabel, mmss, requestLabel, shortHospital, simClock } from "@/lib/encounter/labels";
 import type { AvailableRequest, Chart, EncounterStart, EncounterState, Feedback, InteractionResult, LearnerCase, LedgerEvent, LlmStatus, PatientView, RunPatient, SampledBaseline, SimBinding } from "@/lib/encounter/types";
 import { speak, stopSpeaking } from "@/lib/encounter/voice";
 import { ChartPane } from "./ChartPane";
 import { ConversationPane, type Msg } from "./ConversationPane";
 import { FeedbackView } from "./FeedbackView";
+import { SiteDisclaimer } from "../ui/SiteDisclaimer";
 import { ErrorCard, Field, InlineError, inputCls, LoadingCard, Modal, ProviderChip, Spinner, SyntheticLabel } from "./ui";
 
 export interface EncounterParams {
@@ -61,6 +63,8 @@ async function captureBaseline(runId: string, patientId: number): Promise<Sample
       orders: p.live?.orders,
       disposition: p.live?.disposition,
       bay: p.live?.bay ?? p.live?.room,
+      state: p.live?.state,
+      in_bay: !!p.live?.bay,
       acuity: p.live?.acuity,
       condition_group: p.live?.condition_group,
       clinician: md ? `${md.entity_id} (${md.role})` : undefined,
@@ -119,6 +123,22 @@ function noteText(n: string): string {
   const i = n.indexOf(":");
   if (i > 0 && i < 30) return requestLabel(n.slice(0, i).replace(/ /g, "_")) + n.slice(i);
   return n;
+}
+
+const STATE_WHERE: Record<string, string> = {
+  waiting_triage: "waiting for triage",
+  in_triage: "at triage",
+  waiting_bay: "in the waiting room, waiting for a treatment bay",
+  waiting_provider: "in a treatment bay, waiting for the provider",
+  with_provider: "in a treatment bay with the provider",
+};
+/** Where the simulated patient was when the encounter was taken over, in words that fit that place (never "a bed" for triage). */
+function simWhere(b: SampledBaseline | null, finished: boolean): string {
+  if (finished) return "this encounter is finished; the patient carries on in the running simulation";
+  const where = b?.state ? STATE_WHERE[b.state] : undefined;
+  if (where) return `this patient is ${where} in the running simulation`;
+  if (b?.in_bay) return "this patient is in a treatment bay in the running simulation";
+  return "this patient is in the running simulation";
 }
 
 const DISPOSITIONS: { key: string; label: string; hint: string }[] = [
@@ -229,6 +249,8 @@ export function EncounterView({ params }: { params: EncounterParams }) {
   const [baseline, setBaseline] = useState<SampledBaseline | null>(null);
   const [after, setAfter] = useState<RunPatient | null>(null);
   const [elapsed, setElapsed] = useState(0);
+  const [leaveOpen, setLeaveOpen] = useState(false);
+  const [leaving, setLeaving] = useState(false);
   const voiceRef = useRef(false);
   voiceRef.current = voiceOn;
 
@@ -252,6 +274,11 @@ export function EncounterView({ params }: { params: EncounterParams }) {
         if (b) setBaseline(JSON.parse(b) as SampledBaseline);
       } catch {
         /* ignore */
+      }
+      // an unfinished encounter on a simulated patient: the hospital's inspector can find its way back here
+      if (s.sim?.run_id && s.sim.patient_id != null) {
+        if (s.status === "finished") forgetOpenEncounter(s.sim.run_id, s.sim.patient_id);
+        else rememberOpenEncounter(s.sim.run_id, s.sim.patient_id, s.encounter_id);
       }
       if (s.status === "finished" && s.feedback) {
         setElapsed(Math.max(0, ((Date.parse(s.finished ?? "") || Date.now()) - (Date.parse(s.started) || Date.now())) / 1000));
@@ -277,6 +304,7 @@ export function EncounterView({ params }: { params: EncounterParams }) {
         }
         setSession({ id: started.encounter_id, kase: started.case, patient: started.patient, chart: started.chart, requests: started.available_requests, sim: started.sim ?? null, preview: !!started.preview, llm: started.llm, startedAt: Date.now() });
         setRapport(typeof started.rapport === "number" ? started.rapport : null);
+        if (started.sim?.run_id && started.sim.patient_id != null) rememberOpenEncounter(started.sim.run_id, started.sim.patient_id, started.encounter_id);
         if (started.opening_line) setMessages([{ id: "open", who: "patient", text: started.opening_line }]);
         // the ledger's first event (what the chart opened with) comes from the session itself
         encApi
@@ -406,6 +434,7 @@ export function EncounterView({ params }: { params: EncounterParams }) {
           /* keep what we have */
         }
         setDone({ feedback: r.feedback, result: r.interaction_result, writtenBack: r.written_back, writeBack: r.write_back ?? null });
+        if (session.sim?.run_id && session.sim.patient_id != null) forgetOpenEncounter(session.sim.run_id, session.sim.patient_id);
         setFinishOpen(false);
         window.scrollTo({ top: 0 });
       } catch (e) {
@@ -456,10 +485,14 @@ export function EncounterView({ params }: { params: EncounterParams }) {
         <div className="glass flex flex-wrap items-center gap-x-3 gap-y-2 px-3 py-2 sm:px-4">
           <Link
             href={session.sim ? hospitalHref(session.sim) : "/encounter"}
-            onClick={() => {
-              // leaving without finishing: release the patient, or they stay held and the hospital cannot move them on
-              if (!done && session.sim?.run_id && session.sim.patient_id != null) void encApi.releaseHold(session.sim.run_id, session.sim.patient_id).catch(() => undefined);
+            onClick={(e) => {
+              // leaving a simulated patient's encounter unfinished: ask whether to come back later or hand them back
+              if (!done && session.sim?.run_id && session.sim.patient_id != null) {
+                e.preventDefault();
+                setLeaveOpen(true);
+              }
             }}
+            data-testid="encounter-back"
             className="btn-quiet !h-7 !px-2.5" title={session.sim ? "Back to the hospital" : "Back to the case list"}>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
               <path d="M19 12H5M11 6l-6 6 6 6" />
@@ -473,7 +506,7 @@ export function EncounterView({ params }: { params: EncounterParams }) {
             <div className="truncate text-[11px] text-ink-3">
               {session.sim ? (
                 <span data-testid="sim-context">
-                  <span className="font-semibold text-accent-dark">{simLine}</span> · {baseline?.bay ? "this patient is occupying a bed in the running simulation" : "this patient is in the running simulation, not yet in a bed"}
+                  <span className="font-semibold text-accent-dark">{simLine}</span> · {simWhere(baseline, !!done)}
                 </span>
               ) : (
                 <>
@@ -553,6 +586,36 @@ export function EncounterView({ params }: { params: EncounterParams }) {
         </>
       )}
 
+      {!done && <SiteDisclaimer className="shrink-0 pb-2 max-sm:line-clamp-2" />}
+      {leaveOpen && !done && session.sim?.run_id && (
+        <Modal title="Leave this encounter?" onClose={leaving ? () => {} : () => setLeaveOpen(false)}>
+          <div className="space-y-3" data-testid="leave-dialog">
+            <p className="text-[12.5px] leading-relaxed text-ink-2">
+              This patient is held for you in the running hospital. <b className="font-semibold text-ink">Resume later</b> keeps them waiting where they are: select them in the hospital and choose “Resume encounter” (the hold lapses by itself after about thirty minutes). <b className="font-semibold text-ink">Give the patient back</b> lets the simulation decide this encounter itself; nothing you did here is written back.
+            </p>
+            <div className="flex flex-wrap items-center justify-end gap-2">
+              <button className="btn" onClick={() => setLeaveOpen(false)} disabled={leaving} data-testid="leave-stay">
+                Stay
+              </button>
+              <button className="btn-quiet" disabled={leaving} onClick={() => router.push(hospitalHref(session.sim!))} data-testid="leave-resume-later">
+                Resume later
+              </button>
+              <button
+                className="btn-primary"
+                disabled={leaving}
+                data-testid="leave-give-back"
+                onClick={async () => {
+                  setLeaving(true);
+                  await giveBack(session.sim!.run_id!, session.sim!.patient_id!).catch(() => undefined);
+                  router.push(hospitalHref(session.sim!));
+                }}
+              >
+                {leaving ? "Releasing…" : "Give the patient back"}
+              </button>
+            </div>
+          </div>
+        </Modal>
+      )}
       {finishOpen && !done && <FinishDialog requests={session.requests} requested={requested} busy={finishing} error={finishError} onCancel={() => setFinishOpen(false)} onSubmit={finish} />}
     </div>
   );

@@ -1,5 +1,6 @@
 "use client";
 // /encounter with no parameters: the published cases a learner can open.
+import { SiteDisclaimer } from "../ui/SiteDisclaimer";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { ApiError, encApi } from "@/lib/encounter/api";
@@ -151,6 +152,7 @@ export function CasePicker() {
           ))
         )}
       </div>
+      <SiteDisclaimer className="mt-8" />
     </div>
   );
 }

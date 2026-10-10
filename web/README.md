@@ -77,7 +77,9 @@ Other behaviour worth knowing:
   name), and marks a human run shorter than the evaluation protocol as not comparable.
 - "Demo tour" (top bar) walks the six demo steps as scripted states of the real app. Each step uses only managers and
   rollouts that exist at that moment, prefers learned agents over tuned heuristics when both are available, and is
-  skipped with a stated reason otherwise. Captions contain no numbers. Arrow keys move, Escape leaves.
+  skipped with a stated reason otherwise. The only numbers in a caption are a learned manager's held-out comparison,
+  composed from `/api/results`. On a desktop the card is docked bottom-right so it never covers a pane title or the
+  scenario toggle. Arrow keys move, Escape leaves.
 - Speed "Max" asks the server for 600 ticks a second; it delivers what it can and skips snapshots above about 30 a second.
 
 Round 3 (after the QA pass):
@@ -95,8 +97,21 @@ Round 3 (after the QA pass):
   itself when the API answers again.
 - Watch stops at the end of each recorded window (next window / replay) instead of looping; the windows are listed
   under the chart; a click outside them moves only the chart cursor and says there is no 3D recording for that hour.
-- What is said about a manager comes from metadata only: its `note` / `training` / `description` if the server sends
-  one, and the held-out verdict from `results.comparisons`.
+- What is said about a manager is composed in `lib/story.ts` from `/api/managers` and `/api/results` only, never typed
+  in: what a learned agent was rewarded for (its reward weights), how it was trained (from its label and note), the
+  held-out verdict against its tuned heuristic with the paired margin and interval on that objective's score, and the
+  mean wait, walk-outs and deaths per 10k of both. A margin under 0.01 is called "effectively the same", never
+  "beats". The same sentence is used in Watch, Compare, Trade-off, the tour and the Play "In charge" card.
+- Manager names are shortened with the distinguishing part first (`shortManager`: "Lowest cost · PPO cloned",
+  "Shortest wait · tuned heuristic", "Cost dial · PPO conditioned"); the server's full label is the hover title.
+  On the trade-off chart managers that share a spot get one label, a count badge, a tooltip listing all of them, and
+  clicks that step through them. Compare defaults to the two tuned heuristics (lowest cost against shortest wait),
+  recorded and live.
+- An encounter left unfinished keeps its patient held: the inspector then offers "Resume encounter" (the encounter id
+  is remembered in sessionStorage when it starts, else found through `GET /api/encounters`) and "Give back to the
+  simulation" (`DELETE /api/runs/{run}/patients/{id}/hold`). The encounter page's Hospital link asks which of the two
+  the learner wants before leaving. The browser's own Back button cannot ask; the hold stays and the inspector shows
+  both controls.
 - People in the scene have enlarged invisible click targets and win over the room behind them. The idle camera sways
   about twenty degrees instead of circling, so floor labels are never read from behind.
 
