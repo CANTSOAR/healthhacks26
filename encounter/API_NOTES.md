@@ -1851,3 +1851,17 @@ Nothing was removed or renamed. Offline responses carry the new fields too, with
   `ENCOUNTER_WORDING_TIER` (`fast` default, or `main`), `ENCOUNTER_INTENT_COMBINE` (`first` default; `guarded`, `union`, `agree`, `model`, `offline`),
   `ENCOUNTER_LLM_TURN_TIMEOUT_S` (default 6), `ENCOUNTER_GRADER_TIER` (`fast` default, or `main`). `feedback.grader_call_ms` gives the time of each grading call. Under pytest no real client is ever built and ambient AWS credentials are ignored
   (`ENCOUNTER_ALLOW_NETWORK_IN_TESTS=1` lifts this).
+
+## Round 7 changes (additive)
+
+- Faculty ledger: `grounding_reason` (string) on every turn with `grounding_fallback: true`: why the model's wording was not used (the guard or verifier reason).
+- A direct question on the topic of a fact the patient conceals always reaches that fact (cover answer before the gate, the truth after), whatever the
+  intent step proposed; `matched_intents[].via` is then `"direct question on a concealed topic"`. Adherence questions ("as prescribed", "missed any doses",
+  "still taking ...", "run out of") reach a concealed medication-adherence fact ahead of the medication list. Broad questions ("what medicines are you on?") do not.
+- Description drafts, both paths: when the text states what the patient tells people instead of the truth ("... and he tells staff he takes everything as
+  prescribed"), that sentence in the first person is the concealed fact's `cover_answer` and the fact carries `cover_from_text: true`; the offline reader now
+  recognises that construction as concealment. Concealed medicine-taking facts carry the `adherence` topic.
+- `notes[]`, `review.taken_from_text`, `review.scaffolded` and `review.missing` are recomputed from the final case on both paths (nothing the case holds is
+  listed as missing).
+- Online wording: a reply may use the part of a released multi-part line that the question asks about; the verifier's `omitted` list is recorded in
+  `grounding` but no longer rejects. Added feelings, worries and reasons not in the released lines are rejected.

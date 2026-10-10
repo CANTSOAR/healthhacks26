@@ -613,7 +613,9 @@ def model_extract(text: str, provider: Provider) -> dict:
         f"lowercase words from the item: {_TOPIC_KEYS}.\n"
         "- concealed: only what the description says the patient hides, plays down, denies or is not mentioning. statement and "
         "reveal_answer (first person, what the patient says once they trust the student) carry exactly what the description says; "
-        "cover_answer is the short, vague thing the patient says instead before that - it must not contain the hidden information, "
+        "cover_answer is what the patient says instead before that: if the description states what the patient tells people "
+        "('tells staff he takes everything as prescribed', 'says she only drinks at weekends'), use exactly that in the first person "
+        "('Yes, I take everything as prescribed.'); otherwise a short, vague deflection. It must not contain the hidden information, "
         "any number, or any new clinical detail. Do not also list a concealed item under facts.\n"
         "- source: for every item, the exact words of the description it comes from, copied verbatim.\n"
         "- personality and speech_style: at most six words each, only if the description gives a clear basis; otherwise ''.\n"
@@ -672,6 +674,20 @@ def model_extract(text: str, provider: Provider) -> dict:
         f["source_text"] = str(it.get("source") or "")[:300]
         f["drafted_by"] = "model"
         f["disclosure"] = {"rule": "after_rapport", "rapport_needed": 3, "empathy_needed": 1}      # same gate as the offline builder
+        blob = (str(it["statement"]) + " " + it["patient_answer"]).lower()
+        if re.search(r"stopp|not (?:been )?tak|n't (?:been )?tak|skip|miss|r[au]n out|more .{0,40}than|as prescribed|instead of", blob) and \
+                re.search(r"pill|tablet|medic|dose|inhaler|insulin|prescri|packet", blob + " " + " ".join(f["topics"])) or \
+                (re.search(r"stopp|not (?:been )?tak|skip|miss|r[au]n out", blob) and "medications" in f["topics"]):
+            f["topics"] = list(dict.fromkeys(["adherence"] + f["topics"]))       # questions about taking medicines as prescribed reach it
+            f["chart_section"] = "medications"
+        from .describe import claim_source, stated_claim
+        only_one = len([c for c in data.get("concealed") or [] if isinstance(c, dict)]) == 1
+        claim = stated_claim(text, str(data.get("name") or "")) if only_one else ""
+        if claim:
+            # the description states what the patient tells people instead: that is the cover answer (preferred over a model-made one)
+            cover = claim
+            f["cover_answer"], f["cover_from_text"] = claim, True
+            f["source_text"] = (f["source_text"] + " " + claim_source(text)).strip()[:500]
         if not cover:
             f["cover_answer_auto"] = True
         facts.append(f)
@@ -694,6 +710,34 @@ def model_extract(text: str, provider: Provider) -> dict:
         if v and len(v.split()) <= 8 and not [r for r in _supported(v, text, 0.0) if not r.startswith("only")]:
             profile[k] = v
     return {"data": data, "facts": facts, "rejected": rejected, "profile": profile, "complaint": complaint}
+
+
+_MISSING_BY_CATEGORY = (("medications (none stated", "medications"), ("allergies", "allergies"), ("past medical history", "pmh"),
+                        ("vital signs (none in the text)", "vitals"))
+
+
+def reconcile_notes(case: dict, taken: list[str], scaffolded: list[str], missing: list[str]) -> tuple[list[str], list[str], list[str]]:
+    """Make the taken / scaffolded / missing notes describe the FINAL case, whichever path drafted it: nothing is listed as
+    missing that the case holds, and a cover answer taken from the description is not called generic."""
+    facts = case.get("facts") or []
+    cats = {f.get("category") for f in facts}
+    if any(f.get("category") == "concealed" and (f.get("chart_section") == "medications" or "adherence" in (f.get("topics") or [])) for f in facts):
+        cats.add("medications")
+    missing = [m for m in missing if not any(m.startswith(prefix) and cat in cats for prefix, cat in _MISSING_BY_CATEGORY)]
+    if any(f.get("category") == "hpi" and ("duration" in (f.get("topics") or []) or "onset" in (f.get("topics") or [])) for f in facts):
+        missing = [m for m in missing if not m.startswith("how long the complaint")]
+    scaffolded = [x for x in scaffolded if not x.startswith("cover answer for the concealed item")]
+    for f in facts:
+        if f.get("cover_answer"):
+            src = ("taken from what your text says the patient tells people" if f.get("cover_from_text")
+                   else "drafted by the language model: check it" if f.get("drafted_by") == "model" and not f.get("cover_answer_auto")
+                   else "generic wording: edit")
+            scaffolded.append(f"cover answer for the concealed item '{str(f.get('statement'))[:50]}': \"{f['cover_answer']}\" ({src})")
+            if not any(str(f.get("statement"))[:40] in t for t in taken):
+                taken.append(f"concealed: {f.get('statement')}")
+    for key, val in (("taken_from_text", taken), ("scaffolded", scaffolded), ("missing", missing)):
+        case.setdefault("review", {})[key] = val
+    return taken, scaffolded, missing
 
 
 def from_description(text: str, provider: Provider | None = None) -> dict:
@@ -775,6 +819,7 @@ def from_description(text: str, provider: Provider | None = None) -> dict:
         except Exception as e:  # noqa: BLE001 - a malformed model draft must never fail the teacher's action
             fallback = True
             notes.append(f"Language model draft not used ({type(e).__name__}: {str(e)[:120]}); used the offline pattern extractor.")
+    taken, scaffolded, missing = reconcile_notes(case, taken, scaffolded, missing)
     notes.insert(0, "This draft contains only what your description states. Nothing was copied from another illness: the condition template "
                     f"'{tid}' supplied structure only.")
     notes.append("Taken from your text: " + ("; ".join(taken) if taken else "nothing could be read reliably") + ".")

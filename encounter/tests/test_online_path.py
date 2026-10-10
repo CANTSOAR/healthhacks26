@@ -113,7 +113,17 @@ def test_paraphrase_is_accepted_and_new_clinical_content_is_caught_by_the_guards
     assert paraphrase_guards("No, I don't drink gin.", ["Only a sherry at Christmas."], "Do you drink gin?", mini_case, set())
     assert paraphrase_guards("It's been about an hour now.", ["It's been 1 hour."], "How long?", mini_case, set()) == []
     released = ["No fever, no cough. My legs are fine, no swelling. I haven't travelled anywhere and I didn't pass out."]
-    assert any("leaves out" in r for r in paraphrase_guards("No, no cough or fever. I'm fine.", released, "Any cough or fever?", mini_case, set()))
+    # a reply may use the PART of a released multi-part line that was asked about (the chart shows the whole fact) ...
+    assert paraphrase_guards("No, no cough and no fever.", released, "Any cough or fever?", mini_case, set()) == []
+    both = ["I've had three weeks of worsening shortness of breath when climbing stairs and swelling in both ankles."]
+    assert paraphrase_guards("Yes, both my ankles have been swelling.", both, "Have you noticed any swelling anywhere?", mini_case, set()) == []
+    # ... but not a new body part, number or duration, and not a reply that carries nothing of it
+    assert paraphrase_guards("Yes, my ankles and my knees have been swelling.", both, "Any swelling?", mini_case, set())
+    assert paraphrase_guards("Yes, for about six weeks.", both, "Any swelling?", mini_case, set())
+    assert any("almost none" in r for r in paraphrase_guards("Yeah, it's been rough, doc.", both, "Any swelling?", mini_case, set()))
+    meds = ["I'm prescribed lisinopril 20 mg daily."]
+    assert paraphrase_guards("I take lisinopril, 20 mg once a day. Every day.", meds, "What are you on?", mini_case, set()) == []
+    assert paraphrase_guards("I quit smoking ten years back.", ["I quit smoking ten years ago."], "Do you smoke?", mini_case, set()) == []
     assert any("left out" in r for r in paraphrase_guards("Yeah, I smoke a bit.", ["About five cigarettes a day."], "Do you smoke?", mini_case, {"f.social.smoking"}))
     assert paraphrase_guards("About five a day, for a while now.", ["About five cigarettes a day."], "Do you smoke?", mini_case, {"f.social.smoking"})
     assert paraphrase_guards("I just want to get back to work, doc. Five a day.", ["About five cigarettes a day."], "Do you smoke?", mini_case, {"f.social.smoking"}) == []
@@ -155,10 +165,109 @@ def test_verifier_failure_or_malformed_verdict_means_authored_wording(mini_case,
     assert any(e.startswith("verifier:") for e in r["event"]["provider_errors"])
 
 
-def test_omitted_detail_reported_by_the_verifier_also_falls_back(mini_case):
-    fake = FakeAnthropic(intent=SMOKE, wording="Yeah, I smoke.", verify={"grounded": True, "unsupported_claims": [], "omitted": ["five cigarettes a day"]})
+def test_subset_of_released_lines_is_kept_but_a_dropped_number_or_added_feeling_is_not(mini_case):
+    fake = FakeAnthropic(intent=SMOKE, wording="Yeah, about five a day.", verify={"grounded": True, "unsupported_claims": [], "omitted": ["cigarettes"]})
     eng, st, say = _play(mini_case, AnthropicProvider(client=fake))
-    assert say("Do you smoke?")["reply"] == "About five cigarettes a day."
+    r = say("Do you smoke?")
+    assert r["reply"] == "Yeah, about five a day." and r["event"]["grounding"]["omitted"] == ["cigarettes"]      # recorded, not a rejection
+    eng, st, say = _play(mini_case, AnthropicProvider(client=FakeAnthropic(intent=SMOKE, wording="Yeah, I smoke.")))
+    r = say("Do you smoke?")
+    assert r["reply"] == "About five cigarettes a day." and "left out" in r["event"]["grounding_reason"]
+    fake = FakeAnthropic(intent=SMOKE, wording="About five a day, and that worries me a bit.",
+                         verify={"grounded": False, "unsupported_claims": ["that worries me a bit"], "omitted": []})
+    eng, st, say = _play(mini_case, AnthropicProvider(client=fake))
+    r = say("Do you smoke?")
+    assert r["reply"] == "About five cigarettes a day." and r["event"]["grounding_reason"] == "verifier: unsupported claim: that worries me a bit"
+    v = [c for c in fake.calls if fake.kind(c["system"]) == "verify"][0]["system"]
+    w = [c for c in fake.calls if fake.kind(c["system"]) == "wording"][0]["system"]
+    assert "a feeling or worry" in v and "NOT free" in v and "Do NOT add a feeling, worry, reason" in w
+
+
+RIVERA = ("Tomás Rivera-Ortiz is a 52-year-old long-haul truck driver who comes in with three weeks of worsening shortness of breath when climbing stairs "
+          "and swelling in both ankles. He is prescribed lisinopril 20 mg daily, metformin 1000 mg twice a day and furosemide 40 mg each morning. He stopped "
+          "the furosemide two weeks ago because stopping to urinate on the road was costing him deliveries, and he tells staff he takes everything as "
+          "prescribed. He is allergic to codeine, which makes him vomit.")
+MEDS3 = ["f.medications.lisinopril", "f.medications.metformin", "f.medications.furosemide"]
+
+
+def _rivera_model_case():
+    from encounter import templates as tpl
+    med = lambda n, s, a: {"category": "medications", "slug": n, "statement": s, "patient_answer": a, "topics": ["medications", n], "negative": False, "source": s[14:]}
+    draft = {"template_id": "x", "name": "Tomás Rivera-Ortiz", "age": 52, "gender": "male", "occupation": "long-haul truck driver", "severity": "moderate",
+             "personality": "", "speech_style": "",
+             "complaint": {"text": "worsening shortness of breath when climbing stairs and swelling in both ankles", "duration": "three weeks",
+                           "statement": "He has had three weeks of worsening shortness of breath when climbing stairs and swelling in both ankles",
+                           "patient_answer": "I've had three weeks of worsening shortness of breath when climbing stairs and swelling in both ankles.",
+                           "source": "three weeks of worsening shortness of breath when climbing stairs and swelling in both ankles"},
+             "facts": [med("lisinopril", "He is prescribed lisinopril 20 mg daily", "I'm prescribed lisinopril 20 mg daily."),
+                       {"category": "medications", "slug": "metformin", "statement": "He is prescribed metformin 1000 mg twice a day", "patient_answer": "I'm prescribed metformin 1000 mg twice a day.",
+                        "topics": ["medications", "metformin"], "negative": False, "source": "metformin 1000 mg twice a day"},
+                       {"category": "medications", "slug": "furosemide", "statement": "He is prescribed furosemide 40 mg each morning", "patient_answer": "I'm prescribed furosemide 40 mg each morning.",
+                        "topics": ["medications", "furosemide"], "negative": False, "source": "furosemide 40 mg each morning"},
+                       {"category": "allergies", "slug": "codeine", "statement": "He is allergic to codeine, which makes him vomit", "patient_answer": "I'm allergic to codeine. It makes me vomit.",
+                        "topics": ["allergies", "codeine"], "negative": False, "source": "He is allergic to codeine, which makes him vomit"}],
+             "concealed": [{"slug": "furosemide nonadherence", "statement": "He stopped the furosemide two weeks ago because stopping to urinate on the road was costing him deliveries",
+                            "reveal_answer": "I stopped the furosemide two weeks ago because stopping to urinate on the road was costing me deliveries.",
+                            "cover_answer": "", "topics": ["medications", "furosemide"],
+                            "source": "He stopped the furosemide two weeks ago because stopping to urinate on the road was costing him deliveries"}]}
+    out = tpl.from_description(RIVERA, AnthropicProvider(client=FakeAnthropic(extract=draft)))
+    assert out["method"] == "anthropic", out["notes"]
+    return out
+
+
+@pytest.mark.parametrize("path", ["offline", "model"])
+def test_description_cover_comes_from_what_the_text_says_the_patient_tells_people(path):
+    from encounter import templates as tpl
+    out = tpl.from_description(RIVERA) if path == "offline" else _rivera_model_case()
+    hid = [f for f in out["case"]["facts"] if f["category"] == "concealed"]
+    assert len(hid) == 1 and hid[0]["cover_answer"] == "I take everything as prescribed." and "adherence" in hid[0]["topics"]
+    assert hid[0]["disclosure"] == {"rule": "after_rapport", "rapport_needed": 3, "empathy_needed": 1}
+    assert "stopped the furosemide" in hid[0]["patient_answer"]
+    assert not any("stopped" in str(f.get("patient_answer")) for f in out["case"]["facts"] if f["category"] != "concealed")
+    # the notes describe the final case: nothing it holds is listed as missing, and the cover is not called generic
+    assert not any(m.startswith(("medications", "allergies")) for m in out["missing"]) and out["case"]["review"]["missing"] == out["missing"]
+    assert any("medications (none stated" in n or "allergies;" in n for n in out["notes"]) is False
+    assert any("cover answer" in x and ("patient tells people" in x) for x in out["scaffolded"])
+
+
+@pytest.mark.parametrize("path", ["offline", "model"])
+def test_adherence_question_gets_the_cover_then_the_truth_never_the_medication_list(path):
+    """Whatever the intent model proposes (here: the medication list, as the live run did), a direct question on the topic of a
+    concealed fact reaches that fact: cover before the gate, the truth after."""
+    from encounter import templates as tpl
+    case = (tpl.from_description(RIVERA) if path == "offline" else _rivera_model_case())["case"]
+    case["status"] = "published"
+    ids = [f["fact_id"] for f in case["facts"] if f["category"] == "medications"]
+    hid = next(f["fact_id"] for f in case["facts"] if f["category"] == "concealed")
+    wording = lambda kw: kw["messages"][0]["content"].split("YOUR FACTS\n- ")[-1].split("\n")[0]       # echoes the first approved line
+    fake = FakeAnthropic(intent=NONE, wording=wording)
+    eng, st, say = _play(case, AnthropicProvider(client=fake))
+    say("Hello, I'm Dr. Shah. Is it okay if I ask you a few questions?")
+    fake.intent = {"fact_ids": ids, "requests": [], "open_question": False, "kind": "question"}
+    assert set(say("What medicines are you on?")["event"]["disclosed_fact_ids"]) == set(ids)           # the broad question still lists them
+    for q in ["Are you taking them all as prescribed?", "Have you missed any doses?", "Are you still taking the furosemide?"]:
+        r = say(q)
+        assert r["reply"] == "I take everything as prescribed." and r["event"]["result"] == "withheld", (q, r["reply"])
+        assert hid not in r["event"]["disclosed_fact_ids"] and "stopped" not in json.dumps(fake.calls[-3:])
+    fake.intent = {"fact_ids": [], "requests": [], "open_question": False}
+    r = say("That sounds really hard, and I'm sorry. Many people find water pills difficult on the road.")
+    assert hid in r["event"]["disclosed_fact_ids"] and "stopped the furosemide" in r["reply"]
+    fake.intent = {"fact_ids": ids, "requests": [], "open_question": False}
+    r = say("Are you taking them all as prescribed?")
+    assert "stopped the furosemide" in r["reply"] and "lisinopril" not in r["reply"]
+
+
+def test_direct_question_on_any_concealed_topic_gets_its_cover_not_a_neighbour(mini_case):
+    """General rule: the model proposes a neighbouring fact, the question is on the concealed fact's topic, the cover is said."""
+    fake = FakeAnthropic(intent=SMOKE, wording="I'm fine, really.")
+    eng, st, say = _play(mini_case, AnthropicProvider(client=fake))
+    r = say("How has your mood been?")
+    assert "f.concealed.mood" in r["event"]["covered_fact_ids"] and "f.concealed.mood" not in r["event"]["disclosed_fact_ids"]
+    assert "I'm fine, really." in r["event"]["approved_lines"] and "lost my job" not in json.dumps(fake.calls)
+    # a word that belongs to a longer phrase of another fact is not a concealed topic: "drug allergies" is about allergies
+    from encounter.tests.conftest import seed_case
+    eng, st, say = _play(seed_case("chest-pain-line-cook"), OfflineProvider())
+    assert say("any drug allergies?")["reply"] == "No allergies that I know of."
 
 
 # ------------------------------------------------------------------ the engine decides; the model only words

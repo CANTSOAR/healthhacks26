@@ -449,3 +449,22 @@ Interview (12 questions, run 2):
 
 Grader (run 2, main model, 5 calls): 9099 ms, `llm`, total 12/28. Objectives: obj.complaint=met; obj.rapport=partly_demonstrated (offline said met); obj.structure=partly_demonstrated.
 Rubric rationales (first two domains): opening_and_purpose = 2: The student introduces self and role clearly and asks permission to proceed, but does not establish a clear agenda, confirm the patient's immediate concern beyond the initial 'What brings you in today?', or set expectati | rapport_respect_empathy = 2: While the student offers empathic statements in turns 9 and 10, these feel disconnected and formulaic given they follow an inappropriate football question (turn 7) and a nonsensical instruction attempt (turn 8) that disr
+## Addendum: follow-up run on an unseen description (truck driver with heart failure, concealed furosemide non-adherence)
+
+Same 13 learner turns as the orchestrator's first live run on this description (12 that can use the model, 1 recognised injection), through
+`uvicorn encounter.app:app --port 8017`, about 40 real calls (1 main, the rest fast).
+
+| | before (orchestrator's run) | after |
+|---|---|---|
+| model turns replaced by authored wording | 6 of 12 | 2 of 12 |
+| "Are you taking them all as prescribed?" before rapport | the medication list again | "Yeah, I take them all like I'm supposed to." (the cover, result `answered`) |
+| same topic after an empathic, normalising question | truth, authored wording | "No, I stopped taking it two weeks ago - the constant stops to pee were making me miss deliveries out on the road." |
+| "Have you noticed any swelling anywhere?" | the whole complaint sentence | "Yes, both my ankles have been swelling up." |
+| draft notes "Missing" | listed medications, allergies and past history although present | only the faculty-truth diagnosis and examination/test findings |
+| turn latency | median 1.7 s | median 1728 ms, max 2843 ms (n 12) |
+
+The two remaining fallbacks: "How long has this been going on?" (the model added "That's when it started getting worse"; correctly rejected) and
+"What medicines are you on?" (the verifier objected to "once a day" for "daily": a false alarm; the authored list was said). My reading of the 10
+kept replies: no unsupported clinical content and no added feeling or worry; the nearest thing is "the constant stops", an intensifier the case
+does not state. Known leftovers: the offline reader gives a concealed "stopped the furosemide ... to urinate" fact urinary topic words as well,
+so a plain question about passing urine would reach its cover answer; and the cover is used only when the description states exactly one claim.

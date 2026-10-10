@@ -118,6 +118,9 @@ class Engine:
     _WEAK = {"pain", "hurt", "ach", "sore", "problem", "symptom", "sick", "ill", "bad", "histori", "med", "feel", "doctor", "hospit", "issu", "troubl",
              "today", "recent", "late", "ever", "anyth", "someth", "anywher", "normal", "usual", "chang", "start", "stop", "happen", "notic", "bother"}
 
+    _BROAD_KEYS = {"medications", "pmh", "psh", "allergies", "chief_complaint", "associated_symptoms", "family_history", "onset", "duration", "character",
+                   "location", "severity", "radiation", "aggravating", "relieving", "previous_episodes", "patient_concerns", "occupation", "living_situation"}
+
     def _distinctive(self, norm: str) -> set[str]:
         from . import conversation as conv
         from .patient import _GENERIC
@@ -447,12 +450,52 @@ class Engine:
                 cands, in_source = self.case_text_match(norm, list(getattr(intent, "topics_asked", []) or []) + (["progression"] if "progression" in conv else []))
                 matched = cands[:1]
                 via_extra = "the case's own wording"
+        # A direct question on the topic of a fact the patient is concealing always reaches THAT fact (its cover answer before the
+        # gate, the truth after), whatever the intent step proposed: "are you taking them all as prescribed?" is about the hidden
+        # non-adherence, not a request to list the medicines again. Broad category phrases ("what medicines are you on?") do not count.
+        scores = dict(intent.fact_scores)
+        adherence_hit = False
+        direct: list[str] = []
+        if intent.is_question and "injection" not in conv and not blocked:
+            qt = tx.tokens(norm)
+            # words already explained by a longer phrase of a matched, unconcealed fact ("drug" in "any drug allergies?") are not a topic of their own
+            taken_pos: set[int] = set()
+            for fid_ in matched:
+                if self.rule(self.by_id[fid_]) not in ("after_rapport", "denied_until_confronted"):
+                    for phrase, _w, _k in fact_phrases(self.by_id[fid_]):
+                        pt = tx.tokens(phrase)
+                        if len(pt) >= 2:
+                            taken_pos |= set(tx.phrase_positions(qt, pt) or ())
+            for f in self.facts:
+                fid_ = f["fact_id"]
+                if self.rule(f) not in ("after_rapport", "denied_until_confronted") or f.get("patient_knows") is False:
+                    continue
+                best, adh = 0.0, False
+                for phrase, w, key in fact_phrases(f):
+                    if key.startswith("category:") or key in self._BROAD_KEYS or key == "slug":
+                        continue
+                    sc_ = _match_phrase(qt, phrase) * w
+                    if sc_ <= 0:
+                        continue
+                    pos = set(tx.phrase_positions(qt, tx.tokens(phrase)) or ())
+                    if pos and pos <= taken_pos:
+                        continue
+                    best = max(best, sc_)
+                    adh = adh or key == "adherence"
+                if best >= 2.0:
+                    scores[fid_] = max(scores.get(fid_) or 0, best)
+                    adherence_hit = adherence_hit or adh
+                    direct.append(fid_)
+                    if fid_ not in matched:
+                        matched = [fid_] + matched
+                        via_extra = "direct question on a concealed topic"
         # a concealed fact wins over a neighbouring symptom fact: "No, I'm not coughing" is not the answer to "coughing up blood?"
-        hid = [fid for fid in matched if self.rule(self.by_id[fid]) in ("after_rapport", "denied_until_confronted") and fid not in already]
+        hid = [fid for fid in matched if self.rule(self.by_id[fid]) in ("after_rapport", "denied_until_confronted") and (fid not in already or fid in direct)]
         if hid and len(matched) > len(hid):
-            top = max(intent.fact_scores.get(fid) or 0 for fid in hid)
-            matched = [fid for fid in matched if fid in hid or self.by_id[fid].get("category") not in ("ros", "hpi", "chief_complaint")
-                       or (intent.fact_scores.get(fid) or 0) > top]
+            top = max(scores.get(fid) or 0 for fid in hid)
+            near = ("ros", "hpi", "chief_complaint") + (("medications",) if adherence_hit else ())
+            matched = [fid for fid in matched if fid in hid or self.by_id[fid].get("category") not in near
+                       or ((scores.get(fid) or 0) > top and not (adherence_hit and self.by_id[fid].get("category") == "medications"))]
         ev["matched_intents"] = [m for m in ev["matched_intents"] if m["fact_id"] in matched] + \
             [{"fact_id": fid, "score": None, "via": via_extra} for fid in matched if fid not in {m["fact_id"] for m in ev["matched_intents"]}]
         voiced_before = {fid for e in state["ledger"][:-1] if e.get("kind") == "turn"

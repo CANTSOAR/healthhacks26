@@ -101,6 +101,11 @@ _HIDE_AFTER = re.compile(
     r"(?:(?:she|he|i)\s+)?(?:(?:has not|have not|hasn'?t|haven'?t|did not|didn'?t|does not|doesn'?t|do not|don'?t|won'?t|will not|never)\s+"
     r"(?:told|tell|mentioned|mention|admitted|admit)\b[^.;]{0,60}?|(?:minimi[sz]es?|downplays?|under-?reports?|hides?|conceals?|denies|deny|plays? down)\s+(?:it|this|that)\b[^.;]{0,40}?)"
     + _END, re.I | re.S | re.M)
+# "He stopped the furosemide two weeks ago because ..., and he tells staff he takes everything as prescribed": the first clause is
+# what is hidden, the second is what the patient says instead (the cover answer, see stated_claim)
+_HIDE_CLAIM = re.compile(
+    r"(?:(?<=[.;]\s)|^)(?:she|he|the patient)\s+([^.;]{6,220}?),?\s+(?:and|but|yet|though)\s+(?:(?:he|she|they)\s+)?(?:tells?|told|says?|claims?|insists?|assures?|reports?|maintains?)\s+"
+    r"(?:(?:the\s+)?(?:staff|people|everyone|everybody|doctors?|nurses?|team|them|us|(?:his|her)\s+\w+)\s+)?(?:that\s+)?(?:he|she|they)\s+[^.;]+?" + _END, re.I | re.S)
 _STOPPED = re.compile(r"\b(?:stopped|quit|not|isn'?t|hasn'?t been|skips?|skipping|misses|missing)\s+(?:taking\s+|been taking\s+)?(?:(?:her|his|their|the|my)\s+)?"
                       r"([a-z][a-z\- ]{2,40}?(?:pills?|tablets?|medication|medicine|meds|inhalers?|insulin|injections?|thinners?|drops|patch(?:es)?|statins?|antibiotics?))\b", re.I)
 _VITALS = [
@@ -268,6 +273,30 @@ _LAY = [(r"\bSOB\b", "shortness of breath"), (r"\bCP\b", "chest pain"), (r"\bN/V
         (r"\b[Hh]ypertension\b", "high blood pressure"), (r"\b[Dd]yspn(?:o)?ea\b", "shortness of breath"), (r"\b[Ss]yncope\b", "fainting"),
         (r"\b[Hh](?:a)?emoptysis\b", "coughing up blood"), (r"\b[Hh](?:a)?ematemesis\b", "vomiting blood"), (r"\b[Mm]el(?:a)?ena\b", "black stools"),
         (r"\b[Ee]mesis\b", "vomiting"), (r"\b[Pp]yrexia\b", "a fever"), (r"\bx\s*(?=\d)", "for ")]
+
+
+_CLAIM = re.compile(r"\b(?:he|she|they|[A-Z][a-z]+)\s+(?:tells?|told|says?|said|claims?|insists?|assures?|reports?|maintains?)"
+                    r"(?:\s+(?:the\s+)?(?:staff|people|everyone|everybody|doctors?|nurses?|team|them|us|(?:his|her)\s+\w+))?(?:\s+that)?\s+"
+                    r"((?:he|she)\s+(?:[^.;,]+?\s+){2,14}?[^.;,\s]+)(?=[.;,]|$)", re.S)
+
+
+def stated_claim(text: str, name: str = "") -> str:
+    """What the description says the patient TELLS people instead of the truth ("... and he tells staff he takes everything as
+    prescribed"), in the first person: the authored cover answer for the concealed item. Empty when the text states none
+    (or more than one: which secret it covers would be a guess)."""
+    hits = [re.sub(r"\s+", " ", m.group(1)).strip() for m in _CLAIM.finditer(text or "")]
+    if len(hits) != 1:
+        return ""
+    fp = first_person(hits[0], name).strip().rstrip(".")
+    if not fp or _THIRD_PERSON.search(fp) or len(fp) > 110:
+        return ""
+    return _cap(fp) + "."
+
+
+def claim_source(text: str) -> str:
+    """The words of the description that state what the patient tells people (for the coverage check), or ''."""
+    m = list(_CLAIM.finditer(text or ""))
+    return re.sub(r"\s+", " ", m[0].group(0)).strip() if len(m) == 1 else ""
 
 
 def lay(s: str) -> str:
@@ -502,7 +531,7 @@ def extract(text: str) -> dict:
     low = t.lower()
 
     # ---- 1. concealed elements first, so their text is not re-read as ordinary history
-    for rx in (_HIDE_DENIES_BUT, _HIDE_ONLY_IF, _HIDE_POST, _HIDE_AFTER, _HIDE, _HIDE_DENIES):
+    for rx in (_HIDE_CLAIM, _HIDE_DENIES_BUT, _HIDE_ONLY_IF, _HIDE_POST, _HIDE_AFTER, _HIDE, _HIDE_DENIES):
         for m in rx.finditer(T.work):
             phrase = re.sub(r"\s+", " ", m.group(1)).strip().rstrip(".")
             if len(phrase) < 4 or not re.search(r"[a-z]{3}", phrase) or not T.work[m.start():m.end()].strip():
@@ -519,7 +548,7 @@ def extract(text: str) -> dict:
                 continue
             reason = ""
             r = re.search(r"\s+because\s+(.+)$", phrase, re.I)
-            if r and not _STOPPED.search(phrase):
+            if r and not _STOPPED.search(phrase) and rx is not _HIDE_CLAIM:      # there, "because" explains the act, not the hiding
                 reason, phrase = r.group(1).strip(), phrase[: r.start()].strip()
             out["concealed"].append({"phrase": phrase, "reason": reason, "source": re.sub(r"\s+", " ", m.group(0)).strip()})
             T.claim(m.start(), m.end())
@@ -1242,6 +1271,13 @@ def build_case(text: str, ex: dict, template: dict, model_extra: list[dict] | No
             part = re.search(rf"\b(?:left |right )?(?:{_BODY})\b", " ".join(x for x in ([ex.get("complaint") or ""] + list(ex.get("leftover") or [])) if re.search(r"pain|hurt|ache|sore|swollen|swelling", x)), re.I)
             deflect = f"I'm fine. It's just my {part.group(0).lower().replace('left ', '').replace('right ', '')}." if part and part.group(0).lower() not in phrase.lower() else COVER_SYMPTOM
             f["cover_answer"] = COVER_CHILD if young else (COVERS[keys[0]] if keys else ("No, nothing like that." if drugs_named else (deflect if symptomish else COVER_GENERIC)))
+            claim = stated_claim(text, nm) if len(ex.get("concealed") or []) == 1 and not young else ""
+            if claim:                   # the description says what the patient tells people instead: that IS the cover answer
+                f["cover_answer"] = claim
+                f["cover_from_text"] = True
+            if drugs_named and (re.search(r"\b(?:stopp|skip|miss|not tak|n't tak|r[au]n out|more .{0,40}than)", phrase, re.I) or "prescribed" in f["cover_answer"]) \
+                    and "adherence" not in f["topics"]:
+                f["topics"] = ["adherence"] + f["topics"]        # "are you taking them as prescribed?" reaches it
             # an introduction, an agenda and one open question already make rapport 3: a secret also needs one turn of real
             # empathy or normalising before it opens (QA: it came out on the first direct ask)
             f["disclosure"] = {"rule": "after_rapport", "rapport_needed": 3, "empathy_needed": 1}

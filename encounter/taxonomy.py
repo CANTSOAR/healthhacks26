@@ -110,7 +110,7 @@ TOPICS: dict[str, list[str]] = {
         "on any", "drugs do you take", "over the counter", "supplements", "vitamins", "herbal", "inhaler",
         "blood thinners", "blood thinner", "birth control",
     ],
-    "adherence": [
+    "adherence": ["missed any doses", "miss any doses", "missed a dose", "missing doses", "still taking", "taking everything", "take everything", "taking them all", "taking all your", "taking all of", "taking your pills", "taking your tablets", "taking your medication", "taking your medications", "taking your medicines", "taking your medicine", "run out of", "stopped any", "as directed", "supposed to take", 
         "taking them", "take them every day", "miss doses", "missed doses", "miss any", "skip", "skipped",
         "taking it as prescribed", "as prescribed", "run out", "ran out", "stopped taking", "adherence",
         "remember to take", "how often do you actually take", "take them regularly", "taking them regularly",
