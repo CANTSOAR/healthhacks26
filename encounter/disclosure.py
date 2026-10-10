@@ -114,6 +114,72 @@ class Engine:
         state["ledger"].append(ev)
         return ev
 
+    # ------------------------------------------------------------ safety net for questions no topic matched
+    _WEAK = {"pain", "hurt", "ach", "sore", "problem", "symptom", "sick", "ill", "bad", "histori", "med", "feel", "doctor", "hospit", "issu", "troubl",
+             "today", "recent", "late", "ever", "anyth", "someth", "anywher", "normal", "usual", "chang", "start", "stop", "happen", "notic", "bother"}
+
+    def _distinctive(self, norm: str) -> set[str]:
+        from . import conversation as conv
+        from .patient import _GENERIC
+        generic = {tx.stem(w) for w in _GENERIC} | tx.STOPWORDS | {tx.stem(w) for w in tx.STOPWORDS} | self._WEAK
+        out: set[str] = set()
+        for raw in norm.replace("-", " ").split():
+            st = tx.stem(raw)
+            if len(st) >= 3 and not st.isdigit() and st not in generic:
+                out.add(st)
+            for syn in conv.BODY_SYNONYMS.get(raw, []) + conv.BODY_SYNONYMS.get(st, []):
+                out.add(tx.stem(syn))
+        return out
+
+    def _text_hits(self, toks: list[str], words: set[str], topics: list[str], min_len: int = 2) -> float:
+        """Distinctive words of the question found in a text, plus topic phrases found in it. A one-word topic phrase is too
+        weak to tie a question to a FACT ("blood" is not "blood pressure"), so facts need a phrase of `min_len` words."""
+        have = set(toks)
+        score = float(len(words & have))
+        for key in topics:
+            for p in tx.TOPICS.get(key, []):
+                pt = tx.tokens(p)
+                if len(pt) >= min_len and "you" not in pt and "your" not in pt and tx.contains_phrase(toks, pt, slack=1):
+                    score += len(pt)
+        return score
+
+    def case_text_match(self, norm: str, topics: list[str]) -> tuple[list[str], bool]:
+        """Facts (any category, any rule) whose own wording touches the question, best first, and whether the description the
+        case was drafted from touches it. Used only when no topic matched: a default "no" must never contradict the case."""
+        # a question on a recognised topic is checked phrase by phrase ("chest pain" must be in the text, not just "pain");
+        # only a question on no recognised topic falls back to its distinctive words
+        words = set() if topics else self._distinctive(norm)
+        if not words and not topics:
+            return [], False
+        scored = []
+        for i, f in enumerate(self.facts):
+            if f.get("category") == "allergies":
+                continue                # "do you take codeine?" is not answered by "I'm allergic to codeine"; allergy questions match by topic
+            blob = " ".join(str(f.get(k) or "") for k in ("statement", "patient_answer", "label"))
+            s = self._text_hits(tx.tokens(blob), words, topics)
+            if s > 0:
+                hidden = self.rule(f) in ("after_rapport", "denied_until_confronted")
+                scored.append((-s, 0 if hidden else 1, i, f["fact_id"]))
+        scored.sort()
+        src = str((self.case.get("review") or {}).get("source_description") or "")
+        # ... but for the description itself any mention is enough to rule out a flat "no"
+        in_source = bool(src) and self._text_hits(tx.tokens(src), words or self._distinctive(norm), topics, min_len=1) > 0
+        return [fid for *_, fid in scored], in_source
+
+    def pain_facts(self) -> list[str]:
+        """What "do you have pain anywhere?" should be answered from: the complaint first, then any other fact about pain."""
+        from . import conversation as conv
+        out = []
+        for cats in (("chief_complaint",), ("hpi",), ("ros", "pmh", "medications", "social")):
+            for f in self.facts:
+                if f.get("category") in cats and self.rule(f) in ("volunteered", "if_asked") and f.get("patient_knows") is not False \
+                        and f.get("polarity") != "negative":
+                    blob = " ".join(str(f.get(k) or "") for k in ("statement", "patient_answer")) + " " + f["fact_id"].replace(".", " ").replace("_", " ") \
+                        + " " + " ".join(str(t).replace("_", " ") for t in f.get("topics") or [])
+                    if set(tx.tokens(blob)) & conv.PAIN_WORDS and f["fact_id"] not in out:
+                        out.append(f["fact_id"])
+        return out[:1]
+
     # ------------------------------------------------------------ start
     def start(self, state: dict, known_fact_ids: list[str] | None = None) -> dict:
         ids = [f["fact_id"] for f in self.facts if self.rule(f) == "chart_initial"]
@@ -308,8 +374,39 @@ class Engine:
                           and f.get("patient_knows") is not False]
                 fresh = [fid for fid in tagged if fid not in already]
                 matched = (fresh or tagged)[:1]
+        norm = getattr(intent, "norm", "") or tx.normalize(text)
+        via_extra = "feelings"
+        probe = False
+        blocked = {"injection", "backchannel", "closing", "summarising", "explaining"} & set(conv)
+        if "probe_hidden" in conv and "injection" not in conv:
+            # "is there something you're afraid to tell me?": asks about everything the patient is holding back
+            hidden = [f["fact_id"] for f in self.facts if self.rule(f) == "after_rapport" and f["fact_id"] not in already and f.get("patient_knows") is not False]
+            if hidden:
+                matched, probe, via_extra = hidden[:2], True, "general invitation to say what is held back"
+            elif not matched:
+                conv = dict(conv)
+                conv.setdefault("ice", ["probe"])
+        in_source = False
+        if not matched and intent.is_question and not blocked and "ice" not in conv and not intent.requests and not getattr(intent, "off_topic", False):
+            if "generic_pain" in conv and not getattr(intent, "topics_asked", None):
+                matched = self.pain_facts()
+                via_extra = "pain, asked in general"
+            if not matched:
+                cands, in_source = self.case_text_match(norm, list(getattr(intent, "topics_asked", []) or []) + (["progression"] if "progression" in conv else []))
+                matched = cands[:1]
+                via_extra = "the case's own wording"
+        # a concealed fact wins over a neighbouring symptom fact: "No, I'm not coughing" is not the answer to "coughing up blood?"
+        hid = [fid for fid in matched if self.rule(self.by_id[fid]) in ("after_rapport", "denied_until_confronted") and fid not in already]
+        if hid and len(matched) > len(hid):
+            top = max(intent.fact_scores.get(fid) or 0 for fid in hid)
+            matched = [fid for fid in matched if fid in hid or self.by_id[fid].get("category") not in ("ros", "hpi", "chief_complaint")
+                       or (intent.fact_scores.get(fid) or 0) > top]
         ev["matched_intents"] = [m for m in ev["matched_intents"] if m["fact_id"] in matched] + \
-            [{"fact_id": fid, "score": None, "via": "feelings"} for fid in matched if fid not in {m["fact_id"] for m in ev["matched_intents"]}]
+            [{"fact_id": fid, "score": None, "via": via_extra} for fid in matched if fid not in {m["fact_id"] for m in ev["matched_intents"]}]
+        voiced_before = {fid for e in state["ledger"][:-1] if e.get("kind") == "turn"
+                         for fid in list(e.get("disclosed_fact_ids") or []) + list(e.get("restated_fact_ids") or [])
+                         if (e.get("rule_fired") or {}).get(fid) not in ("on_request", "chart_initial")}
+        outcome["restated"], outcome["noncommittal"] = [], False
         statement_only = (not intent.is_question) or bool({"summarising", "closing"} & set(intent.cues))
         for fid in matched:
             f = self.by_id[fid]
@@ -321,8 +418,11 @@ class Engine:
                     continue
                 if f.get("patient_knows") is False:
                     outcome["patient_unknown"].append(fid)
-                else:
+                elif fid in voiced_before or fid in ev["disclosed_fact_ids"]:
                     outcome["repeated"].append(fid)
+                else:
+                    # known to the care team (chart, an earlier stage) but never said to THIS listener: no "Like I said"
+                    outcome["restated"].append(fid)
                 continue
             if f.get("patient_knows") is False or rule in ("on_request", "chart_initial"):
                 if {"explaining", "summarising", "closing"} & set(conv):
@@ -338,7 +438,7 @@ class Engine:
                     if fid in state["pending_rapport"]:
                         state["pending_rapport"].remove(fid)
                 else:
-                    outcome["covered" if f.get("cover_answer") else "deflected"].append(fid)
+                    outcome["covered" if f.get("cover_answer") and not probe else "deflected"].append(fid)
                     ev["withheld"].append({"fact_id": fid, "rule": rule, "reason": f"rapport {state['rapport']} < {need}"})
                     if fid not in state["pending_rapport"]:
                         state["pending_rapport"].append(fid)
@@ -368,7 +468,7 @@ class Engine:
         # volunteered facts come out at the first open question or question about the complaint
         asked_complaint = any(self.by_id[fid].get("category") == "chief_complaint" for fid in matched)
         # ... but "tell me about your smoking" is an open question about something else
-        if "injection" not in conv and "ice" not in conv and (
+        if "injection" not in conv and "ice" not in conv and not getattr(intent, "off_topic", False) and (
                 asked_complaint or (intent.is_open_question and not [fid for fid in matched if self.by_id[fid].get("category") != "chief_complaint"])):
             for f in self.facts:
                 if self.rule(f) == "volunteered" and f["fact_id"] not in already and f["fact_id"] not in ev["disclosed_fact_ids"] \
@@ -390,6 +490,7 @@ class Engine:
             if nxt:
                 release(nxt, "open_prompt", "open_prompt")
                 outcome["repeated"] = []
+                outcome["restated"] = []
             elif not matched:
                 outcome["social"] = "nothing_more"
 
@@ -403,7 +504,7 @@ class Engine:
             ev["result"] = "disclosed"
         elif outcome["covered"] or outcome["deflected"]:
             ev["result"] = "withheld"
-        elif outcome["repeated"]:
+        elif outcome["repeated"] or outcome["restated"]:
             ev["result"] = "repeat"
         elif outcome["patient_unknown"]:
             ev["result"] = "patient_does_not_know"
@@ -419,11 +520,19 @@ class Engine:
             outcome["social"] = "ice"
         elif "explaining" in conv and not getattr(intent, "starts_as_question", False):
             ev["result"] = "no_fact_requested"          # "...does that make sense?" after an explanation
+        elif intent.is_question and not any(f.get("category") == "chief_complaint" for f in self.facts) \
+                and tx.phrase_in(norm, tx.TOPICS["chief_complaint"]):
+            ev["result"] = "answered_from_case_summary"  # "what brings you in?" is always answerable
+            outcome["social"] = "complaint_fallback"
         elif intent.is_question and "closing" not in intent.cues and "summarising" not in intent.cues and "backchannel" not in conv:
             topics = list(getattr(intent, "topics_asked", []) or [])
             defined = {str(t).lower() for f in self.facts for t in (f.get("topics") or [])} | {f["fact_id"].split(".")[-1] for f in self.facts}
             free = [t for t in topics if t not in defined]
-            if self.case.get("default_negatives", True) and (free or (not topics and getattr(intent, "clinical_yes_no", False))):
+            if in_source or "progression" in conv:
+                # the text the case was drafted from mentions this, but no fact answers it: never a flat "no"
+                ev["result"] = "answered_noncommittal"
+                outcome["noncommittal"] = True
+            elif self.case.get("default_negatives", True) and (free or (not topics and getattr(intent, "clinical_yes_no", False))):
                 ev["result"] = "answered_negative_by_default"
                 ev["default_negative_topics"] = free or ["unspecified"]
                 outcome["default_negative"] = free or ["unspecified"]
@@ -436,7 +545,10 @@ class Engine:
         else:
             ev["result"] = "no_fact_requested"
         ev["covered_fact_ids"] = outcome["covered"] + outcome["deflected"]
+        ev["deflected_fact_ids"] = list(outcome["deflected"])
         ev["repeated_fact_ids"] = outcome["repeated"]
+        if outcome["restated"]:
+            ev["restated_fact_ids"] = list(outcome["restated"])
         outcome["event"] = ev
         return outcome
 
@@ -469,8 +581,8 @@ class Engine:
         self._due_and_on_fact(state, ev)
         ev["requests"] = [req]
         ev["result"] = result if result != "released" or ev["disclosed_fact_ids"] or ev["released_artifact_ids"] else "pending"
-        return {"released": list(ev["disclosed_fact_ids"]), "repeated": [], "covered": [], "deflected": [], "patient_unknown": [],
-                "spontaneous": [], "request_results": {req: ev["result"]}, "not_specified": False, "event": ev}
+        return {"released": list(ev["disclosed_fact_ids"]), "repeated": [], "restated": [], "covered": [], "deflected": [], "patient_unknown": [],
+                "spontaneous": [], "request_results": {req: ev["result"]}, "not_specified": False, "noncommittal": False, "event": ev}
 
     # ------------------------------------------------------------ views
     def fact_text(self, f: dict) -> str:
@@ -496,7 +608,7 @@ class Engine:
                     source_of[fid] = "result" if r == "on_request" else ("chart" if r in ("chart_initial", "known_to_care_team") else src)
             for k, fid in enumerate(ev.get("covered_fact_ids") or []):
                 f = self.by_id.get(fid)
-                if f and f.get("cover_answer") and not any(n["_fact"] == fid for n in notes):
+                if f and f.get("cover_answer") and fid not in (ev.get("deflected_fact_ids") or []) and not any(n["_fact"] == fid for n in notes):
                     notes.append({"note_id": f"n{ev['seq']}-{k}", "text": f["cover_answer"], "turn": ev["turn"], "_fact": fid,
                                   "section_id": f.get("chart_section") or tx.CATEGORY_SECTION.get(f.get("category"), ("hpi", ""))[0]})
         arts = self.released_artifacts(state)

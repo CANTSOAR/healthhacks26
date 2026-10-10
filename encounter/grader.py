@@ -137,11 +137,27 @@ class Signals:
         for e in self.turn_events:
             for m in e.get("matched_intents") or []:
                 self.asked.setdefault(m["fact_id"], []).append(e)
+        for e in self.turn_events:
+            for fid in e.get("covered_fact_ids") or []:
+                if e not in self.asked.get(fid, []):
+                    self.asked.setdefault(fid, []).append(e)
+        from .matcher import match_facts
+        for f in engine.facts:
+            fid = f["fact_id"]
+            if fid in self.disclosed or fid in self.asked or engine.rule(f) not in ("after_rapport", "denied_until_confronted"):
+                continue
+            for e in self.turn_events:      # asked in words the matcher did not credit at the time
+                if "?" in (e.get("text") or "") and (match_facts(e.get("text") or "", [f]).fact_ids
+                                                      or fid in engine.case_text_match(tx.normalize(e.get("text") or ""), [])[0][:1]):
+                    self.asked.setdefault(fid, []).append(e)
         self.requests_made = list(state.get("requests_made") or [])
         for o in finish.get("orders") or []:
             o = str(o).lower()
             if o not in self.requests_made:
                 self.requests_made.append(o)
+        # A turn that reassures or normalises ("whatever you tell me stays between us", "I'm not here to judge") is never judgmental,
+        # whatever single words it happens to contain: the supportive reading wins for that turn.
+        self.judgmental = [e for e in self.by_cue.get("judgmental", []) if not ({"normalising", "empathy"} & set(e.get("cues") or []))]
         self.questions = [e for e in self.turn_events if "?" in (e.get("text") or "") or e.get("matched_intents")]
         self.open_q = self.by_cue.get("open_question", [])
         self.stacked = [e for e in self.turn_events if (e.get("text") or "").count("?") >= 3]
@@ -243,10 +259,10 @@ def _objective_offline(o: dict, sig: Signals) -> dict:
         else:
             evidence += sig.cue_quotes("empathy") + sig.cue_quotes("normalising", 2)
             n = len(sig.by_cue.get("empathy", [])) + len(sig.by_cue.get("normalising", []))
-            bad = len(sig.by_cue.get("judgmental", []))
+            bad = len(sig.judgmental)
             result = "met" if n >= 2 and not bad else ("partly_demonstrated" if n >= 1 else "not_observed")
             if bad:
-                evidence += sig.cue_quotes("judgmental", 1)
+                evidence += [sig.ev_quote(e) for e in sig.judgmental[:1]]
                 note = "judgmental wording was also detected"
         if lf:      # communication objective tied to a sensitive fact: opening up is the strongest evidence
             got, asked_only, _ = fact_part()
@@ -398,7 +414,7 @@ def communication(sig: Signals) -> dict:
         "note": FORMATIVE_NOTE,
         "empathy_statements": sig.cue_quotes("empathy", 5),
         "normalising_statements": sig.cue_quotes("normalising", 5),
-        "judgmental_language": sig.cue_quotes("judgmental", 5),
+        "judgmental_language": [sig.ev_quote(e) for e in sig.judgmental[:5]],
         "jargon": sig.jargon[:6],
         "stacked_questions": [sig.ev_quote(e) for e in sig.stacked[:4]],
         "missed_cues": sig.missed_cues[:4],
@@ -424,7 +440,8 @@ def rubric_offline(rubric: dict, sig: Signals, objectives: list[dict]) -> dict:
     hidden = [f for f in facts if sig.engine.rule(f) in ("after_rapport", "denied_until_confronted")]
     hidden_got = [f for f in hidden if f["fact_id"] in sig.disclosed]
     emp = len(sig.by_cue.get("empathy", [])) + len(sig.by_cue.get("normalising", []))
-    bad = len(sig.by_cue.get("judgmental", []))
+    bad = len(sig.judgmental)
+    bad_q = [sig.ev_quote(e) for e in sig.judgmental[:1]]
     exp_list = _acceptable(sig.case)
     disp = sig.finish.get("disposition")
     exp = disp if (disp in exp_list) else (exp_list[0] if exp_list else None)
@@ -442,7 +459,7 @@ def rubric_offline(rubric: dict, sig: Signals, objectives: list[dict]) -> dict:
             pts = 2 + (1 if emp >= 1 else 0) + (1 if emp >= 3 or (emp >= 2 and hidden_got) else 0) - (2 if bad else 0)
             if emp == 0 and sig.n_turns >= 4:
                 pts = 2
-            score, ev = _clip(pts), sig.cue_quotes("empathy", 2) + sig.cue_quotes("normalising", 1) + sig.cue_quotes("judgmental", 1)
+            score, ev = _clip(pts), sig.cue_quotes("empathy", 2) + sig.cue_quotes("normalising", 1) + bad_q
             why = f"{emp} empathic or normalising statement(s) detected" + (f", {bad} judgmental phrase(s)" if bad else "") + "."
         elif canon == "gathering":
             frac = len(got) / len(askable) if askable else 0
@@ -499,13 +516,15 @@ def rubric_offline(rubric: dict, sig: Signals, objectives: list[dict]) -> dict:
                 score = _clip(pts)
                 why = (f"{len(crit_got)} of {len(crit)} critical findings in hand; "
                        + (f"{len([x for x in exp_orders if x in sig.requests_made])} of {len(exp_orders)} expected requests made; " if exp_orders else "")
-                       + (f"disposition '{disp}' {'matches' if disp == exp else 'differs from'} the case's expected disposition." if exp else f"disposition '{disp}' (case defines no expected disposition)."))
+                       + ((f"disposition '{disp}' is one of the dispositions this case accepts ({' or '.join(exp_list)})." if len(exp_list) > 1 and disp in exp_list
+                           else f"disposition '{disp}' {'matches' if disp == exp else 'differs from'} the case's expected disposition.")
+                          if exp else f"disposition '{disp}' (case defines no expected disposition)."))
                 ev = [{"turn": sig.state["turn"], "quote": f"[disposition at finish] {disp}"}]
         elif canon == "closure":
             pts = 2 + (1 if st["closing"]["observed"] else 0) + (1 if st["summarising"]["observed"] else 0) - (2 if bad else 0)
             if sig.n_turns < 3:
                 pts = min(pts, 2)
-            score, ev = _clip(pts), st["summarising"]["evidence"] + st["closing"]["evidence"] + sig.cue_quotes("judgmental", 1)
+            score, ev = _clip(pts), st["summarising"]["evidence"] + st["closing"]["evidence"] + bad_q
             why = f"{st['summarising']['detail']}; {st['closing']['detail']}" + ("; judgmental wording detected" if bad else "") + "."
         out.append({"key": d.get("key"), "name": d.get("name"), "score": score, "rationale": why, "evidence": ev[:3],
                     "uncertain": bool(unc), "descriptor": (d.get("descriptors") or {}).get(str(score)) if score != "N/A" else None,
@@ -535,7 +554,11 @@ def findings(sig: Signals, objectives: list[dict]) -> tuple[list[dict], list[dic
                    "after_rapport": f"build rapport first (needs {(f.get('disclosure') or {}).get('rapport_needed')}), then ask",
                    "denied_until_confronted": "the patient denies it until you raise evidence you have seen in the chart or results",
                    "on_request": f"request {request_label((f.get('disclosure') or {}).get('request') or '')}", "chart_initial": "in the chart"}.get(rule, "")
-            missed.append({**base, "asked": fid in sig.asked, "how_to_reach": how})
+            asked = fid in sig.asked
+            if asked and rule in ("after_rapport", "denied_until_confronted"):
+                how = ("you asked; it stays hidden until rapport is built" + (f" (needs {(f.get('disclosure') or {}).get('rapport_needed')})" if rule == "after_rapport" else "")
+                       + ", then ask again") if rule == "after_rapport" else "you asked; the patient denies it until you raise evidence you have seen in the chart or results"
+            missed.append({**base, "asked": asked, "status": "asked_not_disclosed" if asked else "not_asked", "how_to_reach": how})
     return elicited, missed
 
 
@@ -699,8 +722,12 @@ def grade(case: dict, state: dict, rubric: dict, finish: dict, provider: Provide
     for o in obj_results:
         if o["result"] == "met" and len(strengths) < 3:
             strengths.append(f"{o['criterion']} (objective met)")
-    if comm["empathy_statements"] and len(strengths) < 4:
-        strengths.append(f"Acknowledged the patient's feelings, e.g. turn {comm['empathy_statements'][0]['turn']}: \"{comm['empathy_statements'][0]['quote']}\"")
+    rapport_dom = next((d for d in rub["domains"] if canonical_domain(d) == "rapport"), None)
+    bad_turns = {e["turn"] for e in sig.judgmental}
+    emp_ok = [q for q in comm["empathy_statements"] + comm["normalising_statements"] if q["turn"] not in bad_turns]
+    # the same turn is never both a strength and the evidence for the lowest rapport score
+    if emp_ok and len(strengths) < 4 and not (rapport_dom and rapport_dom.get("score") == 1):
+        strengths.append(f"Acknowledged the patient's feelings, e.g. turn {emp_ok[0]['turn']}: \"{emp_ok[0]['quote']}\"")
     if st["opening"]["observed"] and len(strengths) < 4:
         strengths.append("Opened by introducing yourself.")
     if st["summarising"]["observed"] and len(strengths) < 5:

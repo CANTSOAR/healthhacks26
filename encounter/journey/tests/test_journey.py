@@ -621,7 +621,7 @@ def test_a_freshly_created_case_gets_a_journey_with_zero_code_edits(client):
     }
     cid = post(client, "/cases", body, 201)["case_id"]
     post(client, "/journeys", {"case_id": cid}, 409)                     # drafts cannot start a journey
-    post(client, f"/cases/{cid}/approve", {"reviewer": "Prof. Test"})
+    post(client, f"/cases/{cid}/approve", {"reviewer": "Prof. Test", "acknowledge_warnings": True})
     case = post(client, f"/cases/{cid}/publish")
     ts = get(client, f"/journeys/templates?case_id={cid}")
     assert [(t["journey_id"], t["default"]) for t in ts] == [("ed-to-ward", True)]

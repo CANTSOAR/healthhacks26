@@ -388,7 +388,16 @@ def validate_case(case: dict, rubric: dict | None = None) -> dict:
     # ---- thin or malformed cases (D18): never silent
     voiced = [f for f in facts if (f.get("disclosure") or {}).get("rule") in PATIENT_VOICED and f.get("patient_knows") is not False]
     if not any(f.get("category") == "chief_complaint" for f in facts):
-        warn("/facts", "no chief complaint: add a fact with category chief_complaint so the patient can say why they came", "attention")
+        err("/facts", "no chief complaint: add a fact with category chief_complaint so the patient can say why they came. "
+                      "A case without one cannot be approved or published")
+    src = (case.get("review") or {}).get("source_description") if isinstance(case.get("review"), dict) else None
+    if isinstance(src, str) and src.strip():
+        from .coverage import coverage_report
+        cov = coverage_report(case)
+        if cov["uncovered"]:
+            shown = "; ".join(f"\"{u['text'][:90]}\" (not found: {', '.join(u['missing_words'][:5])})" for u in cov["uncovered"][:3])
+            warn("/review/source_description", f"description coverage incomplete: {len(cov['uncovered'])} of {cov['sentences']} sentence(s) of the source description "
+                                               f"are not fully reflected in any fact or artifact: {shown}", "attention")
     history = [f for f in voiced if f.get("category") not in ("chief_complaint",)]
     if len(history) < MIN_HISTORY_FACTS:
         warn("/facts", f"only {len(history)} history fact(s) the patient can talk about (fewer than {MIN_HISTORY_FACTS}): most questions will get "

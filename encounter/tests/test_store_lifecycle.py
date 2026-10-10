@@ -20,7 +20,7 @@ def test_lifecycle_draft_approved_published(store, mini_case):
     with pytest.raises(CaseError) as e:
         store.publish(cid)                                   # draft cannot jump to published
     assert e.value.status == 409
-    a = store.approve(cid, "Dr. Faculty")
+    a = store.approve(cid, "Dr. Faculty", acknowledge_warnings=True)
     assert a["status"] == "approved" and a["review"]["reviewer"] == "Dr. Faculty" and a["review"]["reviewed_at"]
     p = store.publish(cid)
     assert p["status"] == "published" and p["version"] == 1
@@ -38,7 +38,7 @@ def test_invalid_case_cannot_be_approved(store, mini_case):
 
 def test_published_is_immutable_and_edit_creates_new_draft_version(store, mini_case):
     cid = store.create(mini_case)["case_id"]
-    store.approve(cid)
+    store.approve(cid, acknowledge_warnings=True)
     store.publish(cid)
     v2 = store.update(cid, {"title": "Edited title"})
     assert v2["version"] == 2 and v2["status"] == "draft" and v2["title"] == "Edited title"
@@ -53,7 +53,7 @@ def test_published_is_immutable_and_edit_creates_new_draft_version(store, mini_c
     # editing a draft stays in place; editing an approved version returns it to draft
     v2b = store.update(cid, {"prebrief": "x"})
     assert v2b["version"] == 2
-    store.approve(cid)
+    store.approve(cid, acknowledge_warnings=True)
     assert store.update(cid, {"prebrief": "y"})["status"] == "draft"
 
 
@@ -84,11 +84,11 @@ def test_to_first_person():
 
 def test_encounter_keeps_the_version_it_started_with(store, manager, mini_case):
     cid = store.create(mini_case)["case_id"]
-    store.approve(cid)
+    store.approve(cid, acknowledge_warnings=True)
     store.publish(cid)
     enc = manager.start(store.get(cid, status="published"))
     v2 = store.update(cid, {"facts": [dict(f, patient_answer="CHANGED") if f.get("patient_answer") else f for f in mini_case["facts"]]})
-    store.approve(cid)
+    store.approve(cid, acknowledge_warnings=True)
     store.publish(cid)
     r = manager.turn(enc["encounter_id"], "Do you smoke?")
     assert r["reply"] == "About five cigarettes a day."

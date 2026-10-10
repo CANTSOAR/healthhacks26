@@ -1738,3 +1738,55 @@ Body `{"text": "...", "voice"?: "<elevenlabs voice id>"}`. `200 audio/mpeg` with
 **Simulated patients**
 - `ClinicianEncounterResolver.playable(sim, b, patient_id)` -> `{"playable": bool, "reason": str|None}` without holding the patient. `start` (and so `POST /api/encounters {run_id, patient_id}`) answers 409 "this patient cannot be played: ..." for a child whose condition template is adult-only or who is under 5.
 - The case keeps the patient's age (children stay children, "accompanied by a parent") and shows the triage level the hospital view shows (`patient_detail().acuity`); the hidden true acuity stays in `faculty_truth.acuity`, with `faculty_truth.triage_acuity` beside it.
+
+## Round 3 changes (after overnight/QA_REPORT_2.md; additive except where marked BEHAVIOUR CHANGE)
+
+**Lifecycle**
+
+- BEHAVIOUR CHANGE: `POST /api/cases/{id}/approve` is now a hard gate. While the validation report has `needs_acknowledgement: true`, any call without
+  `"acknowledge_warnings": true` (no body, `{}`, `{"reviewer": ...}`, `false`, a non-boolean) returns **409**
+  `{detail: {message, needs_acknowledgement: true, warnings: [{path, message, level: "attention"}]}}` and the case stays a draft. A case with no attention
+  warnings (the seed cases) still approves without the flag. The Studio flow (send `false`, show the warnings, send `true`) is unchanged.
+- BEHAVIOUR CHANGE: a case with no `chief_complaint` fact now has a validation **error** (`/facts`, "no chief complaint ...") instead of an attention warning, so
+  approve returns 422 and it cannot be published.
+- New attention warning at `/review/source_description`: "description coverage incomplete: N of M sentence(s) of the source description are not fully reflected
+  in any fact or artifact: ...". Only for cases that carry `review.source_description`.
+
+**Cases drafted from a description** (`POST /api/cases {from_description}`); response shape unchanged, new content:
+
+- `review.coverage`: `{sentences, covered, uncovered: [{text, missing_words: [...]}], unplaced: [text]}`: the completeness check. Every sentence of the description is
+  either reflected in the case or listed verbatim in `review.missing` / the "Missing, needs your input" note (entries beginning "not placed anywhere in the draft"
+  or "not fully captured, check this sentence").
+- Top-level `"default_negatives": false` and `"unknown_response": "I'm not sure about that, to be honest."` on these drafts: what the text did not say is unknown,
+  never "no". The author can set `default_negatives: true`. Seed and template cases are unchanged (default on).
+- Facts may carry `source_text` (the exact words of the description a vital, lab value or concealed item was read from), `complaint_part: true` (one symptom of the
+  presenting complaint, also covered by the chief-complaint fact) and `needs_review: true`. Faculty-only, like every other fact field.
+- New fact shapes: one `chief_complaint` fact always (when the text has any clinical clause), one `hpi` fact per symptom, ONE `medications` fact listing every
+  item (`f.medications.current`, or `f.medications.<name>` when the only medicine is implied by a concealed "stopped taking ..."), ONE `allergies` fact listing every
+  allergy with its reaction, `lab` facts released `on_request` by the matching order (`order:cbc`, `order:coags`, `order:bmp`, ...) with a `lab_report` artifact
+  per order (`art.lab_<order>`), an `art.medication_list` artifact (`order:medication_list`), `f.social.accompanied_by`, `pmh`, `ros` (stated negatives),
+  `family` and leftover-sentence facts. `faculty_truth.severity_basis` holds the word the severity band was read from.
+- Title is `"<complaint> in a <age>-year-old <man|woman|boy|girl|patient>"`, or `"<who> (presenting complaint not stated)"`; never a template's complaint label.
+
+**Encounter turns** (`POST /api/encounters/{id}/turn`); same response shape:
+
+- New `result` values in ledger events: `answered_noncommittal` (the case's source description touches the topic but no fact answers it, or a "has it been getting
+  worse?" question with no matching fact; the patient says a neutral line instead of "no") and `answered_from_case_summary` ("what brings you in?" on a case with no
+  chief-complaint fact: answered from the title or prebrief in the first person).
+- `matched_intents[].via` (faculty view only) can now be `"the case's own wording"`, `"pain, asked in general"` or `"general invitation to say what is held back"`,
+  with `score: null`, when the match came from the safety net rather than a topic.
+- Faculty ledger events may carry `restated_fact_ids` (a fact the care team already knew, voiced to this listener for the first time: no "Like I said") and
+  `deflected_fact_ids`. "Like I said:" is now used only for a fact the patient already voiced in a turn of this same encounter.
+- A general invitation ("is there something you're afraid to tell me?", "anything you haven't mentioned?") counts as asking about every undisclosed
+  `after_rapport` fact: released if rapport is sufficient, otherwise deflected and volunteered later once rapport is reached.
+
+**Feedback** (`POST /api/encounters/{id}/finish`):
+
+- `feedback.missed[]` items gain `status`: `"asked_not_disclosed"` or `"not_asked"` (`asked` is kept and agrees with it). For an asked concealed fact
+  `how_to_reach` now starts "you asked; ...". `asked` is true when the matcher credited the question, when the patient gave a cover answer or deflection,
+  or when the question's wording matches the fact.
+- A turn that carries an empathy or normalising cue is never counted as judgmental; `communication.judgmental_language` and the rapport / closure rationales
+  use the filtered list. "Acknowledged the patient's feelings" is not listed under `strengths` when the rapport domain scores 1.
+- Reasoning rationale: when the chosen disposition is one of several in `faculty_truth.acceptable_dispositions` the text reads "is one of the dispositions this
+  case accepts (...)" instead of "matches / differs from the case's expected disposition".
+

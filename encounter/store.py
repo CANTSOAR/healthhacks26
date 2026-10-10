@@ -289,9 +289,9 @@ class CaseStore:
         return validate_case({k: v for k, v in c.items() if not k.startswith("_") and k != "updated"}, get_rubric(c.get("rubric_id")))
 
     def approve(self, case_id: str, reviewer: str | None = None, acknowledge_warnings: bool | None = None) -> dict:
-        """Approval needs zero errors and contradictions. `acknowledge_warnings`: None (default) approves and records
-        that 'attention' warnings were not explicitly acknowledged; False refuses (409) while such warnings exist;
-        True records the acknowledgement."""
+        """Approval needs zero errors and contradictions, and an explicit acknowledgement of 'attention' warnings:
+        while the report has `needs_acknowledgement`, anything other than `acknowledge_warnings=True` is refused (409, with
+        the warnings). A case with no such warnings approves without it."""
         with _LOCK:
             c = self.get(case_id)
             if c.get("status") == "published":
@@ -300,7 +300,7 @@ class CaseStore:
             if not report["ok"]:
                 raise CaseError("case does not validate; fix errors and contradictions before approval", 422, report)
             attention = [w for w in report["warnings"] if w.get("level") == "attention"]
-            if attention and acknowledge_warnings is False:
+            if attention and acknowledge_warnings is not True:
                 raise CaseError("this case has warnings that need acknowledgement; resend with acknowledge_warnings: true", 409,
                                 {"needs_acknowledgement": True, "warnings": attention})
             c["status"] = "approved"

@@ -94,7 +94,9 @@ def test_d4_text_without_a_complaint_is_flagged_not_invented():
     c = out["case"]
     assert not [f for f in c["facts"] if f["category"] == "chief_complaint"]
     assert any("WARNING: no presenting complaint" in n for n in out["notes"])
-    assert any(w.get("level") == "attention" and "chief complaint" in w["message"] for w in validate_case(c)["warnings"])
+    rep = validate_case(c)          # round 2 follow-up: no chief complaint is an error, so the draft cannot be approved or published
+    assert not rep["ok"] and any("chief complaint" in e["message"] for e in rep["errors"])
+    assert "presenting complaint not stated" in c["title"] and "anxious" in " ".join(out["missing"])
 
 
 # ------------------------------------------------------------------ D18
@@ -128,7 +130,8 @@ def test_d18_empty_and_malformed_values(mini_case):
             "profile": {"name": "n", "age": 30, "gender": "f"}, "facts": [], "chart": {"sections": []}, "objectives": [], "rubric_id": "default", "sources": []}
     rep = validate_case(bare)
     att = [w["message"] for w in rep["warnings"] if w.get("level") == "attention"]
-    assert len(att) >= 6 and any("no learning objectives" in m for m in att) and any("nothing is in the chart" in m for m in att)
+    assert not rep["ok"] and any("no chief complaint" in e["message"] for e in rep["errors"])
+    assert len(att) >= 5 and any("no learning objectives" in m for m in att) and any("nothing is in the chart" in m for m in att)
 
 
 def test_d18_stopped_medicine_must_be_on_the_medication_list(mini_case):

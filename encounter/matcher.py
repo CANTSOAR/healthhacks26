@@ -30,6 +30,8 @@ class Intent:
     starts_as_question: bool = False
     is_question: bool = False
     is_open_question: bool = False
+    off_topic: bool = False                                       # words that belong to neither medicine nor this case, and nothing matched
+    norm: str = ""                                                # the message after normalisation and typo correction
     source: str = "offline"
 
 
@@ -113,8 +115,10 @@ def _fact_phrases_cached(fact_id: str, category: str, topics: tuple[str, ...]) -
                         add(p, 1.3)
     for key in tx.CATEGORY_TOPICS.get(fact.get("category", ""), []):
         cur[0] = "category:" + key
+        # "which pills are you on?" IS the medication question: for these two categories the category is the topic
+        w = 2.0 if key in ("medications", "allergies") else 1.0
         for p in tx.TOPICS.get(key, []):
-            add(p, 1.0)
+            add(p, w)
     return tuple(out)
 
 
@@ -219,11 +223,49 @@ def _vocabulary() -> frozenset[str]:
     return frozenset(words)
 
 
+_TEXT_SPEAK = {"u": "you", "ur": "your", "r": "are", "wat": "what", "wht": "what", "wot": "what", "abt": "about", "hav": "have", "pls": "please",
+               "plz": "please", "thx": "thanks", "b4": "before", "2day": "today", "cuz": "because", "bc": "because", "hows": "how is", "ya": "you",
+               "yr": "your", "wen": "when", "wer": "where"}
+_COMMON_SHORT = {"about", "what", "when", "where", "which", "have", "does", "your", "pain", "hurt", "cough", "fever", "chest", "smoke", "drink", "sleep",
+                 "work", "take", "long", "start", "worse", "feel", "blood", "heart", "pills", "meds", "dizzy", "sick", "tell", "more", "much", "many"}
+
+
+@lru_cache(maxsize=1)
+def _known_words() -> frozenset[str]:
+    """Stems of every word the engine has a use for: topic phrases, requests, conversational cues, generic interview words."""
+    from . import conversation as conv
+    from .patient import _FILLER, _GENERIC, clinical_lexicon
+    words: set[str] = set()
+    lists = list(tx.TOPICS.values()) + list(tx.REQUEST_ALIASES.values()) + [
+        tx.OPEN_QUESTION, tx.INTRODUCTION, tx.AGENDA, tx.EMPATHY, tx.NORMALISING, tx.JUDGMENTAL, tx.SUMMARISING, tx.CLOSING, tx.EXPLAINING, tx.CONFRONT_CUES,
+        tx.JARGON, tx.REQUEST_VERBS, conv.CONTINUATION, conv.ICE, conv.INJECTION, conv.THANKS, conv.PROBE_HIDDEN, conv.GENERIC_PAIN, list(conv.BACKCHANNEL),
+        list(conv.BODY_SYNONYMS), [w for v in conv.BODY_SYNONYMS.values() for w in v]]
+    for phrases in lists:
+        for p in phrases:
+            words |= set(tx.tokens(p))
+    words |= {tx.stem(w) for w in _GENERIC} | {tx.stem(w) for w in _FILLER} | set(tx.STOPWORDS) | {tx.stem(w) for w in tx.STOPWORDS} | set(clinical_lexicon())
+    words |= {tx.stem(w) for w in "doctor nurse hospital clinic today yesterday tonight morning evening week month year hour minute day ago recent recently lately "
+              "symptom symptoms problem problems question questions patient mister mrs miss sir madam name old age born bit lot little exactly "
+              "happen happened happening notice noticed start started begin began stop stopped change changed bother bothering worry worried "
+              "body side left right upper lower front top bottom inside outside usual usually normal normally often sometimes".split()}
+    return frozenset(words)
+
+
 def correct_typos(norm: str, extra: set[str] | None = None) -> str:
-    """Replace a misspelt long word with the closest topic word ('medcations' -> 'medications')."""
+    """Replace a misspelt long word with the closest topic word ('medcations' -> 'medications'), expand text-speak
+    ('ur' -> 'your') and undo swapped letters in short common words ('abuot' -> 'about')."""
     vocab = _vocabulary() | (extra or set())
     out = []
     for w in norm.split():
+        if w in _TEXT_SPEAK:
+            out.append(_TEXT_SPEAK[w])
+            continue
+        if 4 <= len(w) <= 5 and w.isalpha() and w not in _COMMON_SHORT and w not in tx.STOPWORDS:
+            swap = next((c for c in _COMMON_SHORT if len(c) == len(w) and sorted(c) == sorted(w) and c[0] == w[0]
+                         and sum(a != b for a, b in zip(c, w)) == 2), None)
+            if swap and tx.stem(w) not in _known_words():
+                out.append(swap)
+                continue
         if len(w) >= 6 and w not in vocab and w not in tx.STOPWORDS and w.isalpha():
             best, score = None, 0.0
             for v in vocab:
@@ -246,6 +288,7 @@ def match_facts(text: str, facts: list[dict], exclude_categories: tuple[str, ...
     intent.cues = detect_cues(text)
     from . import conversation as conv
     intent.cues.update(conv.cues(text))
+    intent.norm = norm
     intent.topics_asked = conv.question_topics(norm)
     intent.is_question = "?" in (text or "") or bool(_Q_START.match(norm))
     intent.starts_as_question = bool(_Q_START.match(norm))
@@ -273,6 +316,9 @@ def match_facts(text: str, facts: list[dict], exclude_categories: tuple[str, ...
                     authored_hits.append(s)
                 if s > best:
                     best, best_phrase, best_key, best_pos = s, phrase, key, pos
+        if best and "progression" in intent.cues and best_key in ("aggravating", "relieving") \
+                and "progression" not in {str(t).lower() for t in f.get("topics") or []}:
+            continue                # "has it been getting worse?" asks how it has changed over time, not what brings it on
         if len(authored_hits) > 1:
             # several of the author's own trigger phrases in one message: stronger evidence than any single one
             authored_hits.sort(reverse=True)
@@ -296,7 +342,8 @@ def match_facts(text: str, facts: list[dict], exclude_categories: tuple[str, ...
                 for k in dims:
                     sc.pop(k)
             else:
-                for k in [k for k in sc if cats[k] == "chief_complaint" and k not in dims]:
+                parts = {f["fact_id"] for f in facts if f.get("complaint_part")}
+                for k in [k for k in sc if (cats[k] == "chief_complaint" or k in parts) and k not in dims]:
                     sc.pop(k)
         # "does anyone in your family have heart problems?" is a family question, not a question about the patient
         if any(cats[k] == "family" and keys[k] in ("family_history", "category:family_history", "authored") for k in sc) \
@@ -330,4 +377,11 @@ def match_facts(text: str, facts: list[dict], exclude_categories: tuple[str, ...
         order = {f["fact_id"]: i for i, f in enumerate(facts)}
         keep.sort(key=lambda x: (-x[0], order.get(x[1], 0)))
         intent.fact_ids = [fid for _, fid in keep[:MAX_FACTS_PER_TURN]]
+    if not intent.fact_ids and not intent.topics_asked and not intent.clinical_words:
+        # N7: a question made of words that belong to neither medicine nor this case ("who will win the election?")
+        case_words = {t for f in facts for k in ("statement", "patient_answer", "label") for t in tx.tokens(str(f.get(k) or ""))}
+        case_words |= {t for f in facts for tp in (f.get("topics") or []) for t in tx.tokens(str(tp))}
+        known = _known_words()
+        foreign = [t for t in toks if len(t) >= 3 and not t.isdigit() and t not in known and t not in case_words]
+        intent.off_topic = bool(foreign)
     return intent

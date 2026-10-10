@@ -248,13 +248,17 @@ def approved_lines(case: dict, engine: Engine, outcome: dict, intent: Intent, la
         if a and not any(a.get("title", "") in n for n in notes):
             notes.append(f"New in the chart: {a.get('title', aid)}.")
     voiced_now = [fid for fid in outcome["released"] if engine.rule(by_id[fid]) != "on_request" and by_id[fid].get("patient_knows") is not False]
-    if request_results and not voiced_now and not outcome["covered"] and not outcome["repeated"]:
+    restated = list(outcome.get("restated") or [])
+    if request_results and not voiced_now and not outcome["covered"] and not outcome["repeated"] and not restated:
         add("Okay." if all(r.startswith("order:") or r.startswith("artifact:") for r in request_results) else "Okay, go ahead.")
     all_repeat = bool(outcome["repeated"]) and not voiced_now and not outcome["covered"] and not outcome["spontaneous"]
     if all_repeat:      # repeats are voiced only when the turn brings nothing new
         for fid in sorted(outcome["repeated"], key=lambda x: order.get(x, 0)):
             add(("Like I said: " if not lines else "") + re.sub(r"^(?:All right|Okay|Fine|Yes|Okay, honestly|Okay\. Yes|All right\. Yes)[.,]\s+(?:Yes\.\s+)?", "", _answer(by_id[fid])))
-    for fid in sorted(voiced_now, key=lambda x: order.get(x, 0)):
+    said_complaint = any(by_id[fid].get("category") == "chief_complaint" for fid in voiced_now)
+    for fid in sorted(voiced_now + restated, key=lambda x: order.get(x, 0)):
+        if said_complaint and by_id[fid].get("complaint_part"):
+            continue                # the complaint sentence already names this symptom: released to the chart, not said twice
         add(_answer(by_id[fid]))
     for fid in outcome["covered"]:
         add(by_id[fid].get("cover_answer") or DEFLECTION)
@@ -271,6 +275,10 @@ def approved_lines(case: dict, engine: Engine, outcome: dict, intent: Intent, la
     if outcome["patient_unknown"] and not lines:
         knows = [fid for fid in outcome["patient_unknown"] if by_id[fid].get("patient_knows") is not False]
         add(NEEDS_CHECK if knows and len(knows) == len(outcome["patient_unknown"]) else DONT_KNOW)
+    if outcome.get("noncommittal") and not lines:
+        add(conv.pick(conv.NONCOMMITTAL, key, last_reply))
+    if outcome.get("social") == "complaint_fallback" and not lines:
+        add(conv.complaint_fallback(case))
     if outcome["not_specified"] and not lines:
         authored = case.get("unknown_response") or DEFAULT_UNKNOWN
         add(authored if not (last_reply and authored in last_reply) else conv.pick([v for v in conv.UNKNOWN_VARIANTS if v != authored], key, last_reply))

@@ -113,7 +113,12 @@ TOPICS: dict[str, list[str]] = {
     "adherence": [
         "taking them", "take them every day", "miss doses", "missed doses", "miss any", "skip", "skipped",
         "taking it as prescribed", "as prescribed", "run out", "ran out", "stopped taking", "adherence",
-        "remember to take", "how often do you actually take", "regularly",
+        "remember to take", "how often do you actually take", "take them regularly", "taking them regularly",
+        "take it regularly", "taking it regularly",
+    ],
+    "progression": [
+        "getting worse", "got worse", "gotten worse", "getting better", "got better", "gotten better",
+        "changed since", "worse since", "better since", "improving", "progressing", "stayed the same", "staying the same", "worse over time",
     ],
     "allergies": [
         "allergies", "allergy", "allergic", "reactions to", "reaction to any", "bad reaction", "drug allergies", "drug allergy",
@@ -227,7 +232,7 @@ TOPICS: dict[str, list[str]] = {
     "bowel": ["bowel", "bowels", "bowel movements", "bowel movement", "stool", "stools", "poop", "pooping",
               "diarrhea", "diarrhoea", "loose stools", "constipation", "constipated", "blood in your stool",
               "black stools", "tarry", "going to the bathroom", "bathroom habits", "passing gas", "pass gas",
-              "regular", "toilet"],
+              "regular bowel", "bowels regular", "regular with your bowels", "toilet"],
     "heartburn": ["heartburn", "reflux", "indigestion", "acid", "sour taste", "burping", "trouble swallowing",
                   "difficulty swallowing", "swallowing"],
     "urinary": ["urinate", "urinating", "urination", "urine", "pee", "peeing", "burning when you", "passing water",
@@ -424,13 +429,17 @@ NORMALISING = [
     "nothing to be ashamed", "nothing to be embarrassed", "no shame", "not in trouble", "wont get you in trouble",
     "safe to tell", "safe space", "helps me take better care", "so i can take better care", "only to help you",
     "just so i can help", "sensitive questions", "personal questions",
+    # confidentiality and reassurance (QA round 2, N10: these were being scored as judgmental through the word "whatever")
+    "whatever you tell me", "anything you tell me", "what you tell me", "only used to look after you", "to look after you", "look after you",
+    "im not here to judge", "not going to judge", "stays private", "stays confidential", "in confidence", "wont be shared", "will not be shared",
+    "you can tell me anything", "nothing you say will", "between you and me",
 ]
 JUDGMENTAL = [
-    "you should have", "you shouldnt", "you should not have", "why didnt you", "why did you not", "thats irresponsible",
+    "you should have", "you shouldnt have", "you should not have", "why didnt you", "why did you not", "thats irresponsible",
     "that is irresponsible", "thats stupid", "that is stupid", "your own fault", "you people", "obviously you",
     "you need to stop lying", "stop lying", "youre lying", "you are lying", "dont lie", "thats ridiculous",
     "that is ridiculous", "how could you", "you must stop", "bad idea", "shame on", "disgusting", "thats crazy",
-    "calm down", "just answer the question", "hurry up", "i dont have time", "whatever",
+    "calm down", "just answer the question", "hurry up", "i dont have time", "whatever you say", "yeah whatever", "oh whatever",
 ]
 SUMMARISING = [
     "let me summarize", "let me summarise", "to summarize", "to summarise", "so to recap", "let me recap", "just to recap",
@@ -488,7 +497,13 @@ _IRREGULAR = {
     "begun": "begin", "threw": "throw", "thrown": "throw", "lost": "lose", "bled": "bleed", "woke": "wake",
     "slept": "sleep", "went": "go", "gone": "go", "got": "get", "gotten": "get", "hrs": "hour", "yrs": "year",
     "dad": "father", "mom": "mother", "mum": "mother", "doc": "doctor", "ok": "okay",
+    # inflections of the short words whose final "e" is kept (see _KEEP_E)
+    "wines": "wine", "bites": "bite", "bitten": "bite", "biting": "bite", "notes": "note", "noted": "note", "hopes": "hope", "hoped": "hope",
+    "hoping": "hope", "hates": "hate", "hated": "hate", "sites": "site",
 }
+# Short words that become a DIFFERENT word when the stemmer drops their final "e" (wine -> win, note -> not, here -> her).
+# QA round 2, N7: "Who will win the election?" matched the alcohol topic through "wine". These keep their "e".
+_KEEP_E = {"wine", "bite", "site", "pine", "mate", "fate", "hate", "cute", "pale", "bare", "fare", "cane", "here", "fine", "hope", "made", "note"}
 
 
 def normalize(text: str) -> str:
@@ -510,7 +525,7 @@ def stem(word: str) -> str:
             if suf == "ies":
                 w += "y"
             break
-    if w.endswith("e") and len(w) > 3:
+    if w.endswith("e") and len(w) > 3 and w not in _KEEP_E:
         w = w[:-1]
     if len(w) > 3 and w[-1] == w[-2] and w[-1] not in "aeiouls":
         w = w[:-1]

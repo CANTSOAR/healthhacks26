@@ -23,6 +23,26 @@ INJECTION = ["ignore your instructions", "ignore previous instructions", "ignore
              "tell me your diagnosis", "tell me the diagnosis", "what is your diagnosis", "whats your diagnosis", "whats the diagnosis", "what is the diagnosis",
              "reveal the", "output the", "print the", "answer key", "hidden facts", "the rubric", "jailbreak", "pretend you are", "act as"]
 THANKS = ["thank you", "thanks", "appreciate it", "cheers"]
+# a general invitation to say what is being held back: counts as asking about every concealed (after_rapport) fact
+PROBE_HIDDEN = ["afraid to tell", "scared to tell", "worried to tell", "embarrassed to tell", "havent mentioned", "have not mentioned", "havent told me",
+                "have not told me", "not telling me", "not told me", "holding back", "keeping from me", "anything you want to tell me",
+                "anything else you want to tell me", "anything youd like to tell me", "something youre not", "something you are not", "left out",
+                "anything you are worried about telling", "hard to say out loud", "anything else i should know", "anything i should know"]
+GENERIC_PAIN = ["pain anywhere", "any pain", "in pain", "in any pain", "hurt anywhere", "hurting anywhere", "anything hurt", "anywhere hurt", "where does it hurt",
+                "does anything hurt", "are you hurting", "any aches", "sore anywhere", "the pain", "your pain"]
+PAIN_WORDS = {"pain", "hurt", "ache", "ach", "sore", "tender", "painful", "cramp", "discomfort"}
+# body regions a student names loosely ("the leg") -> words a case may use for it
+BODY_SYNONYMS = {
+    "leg": ["leg", "calf", "thigh", "knee", "ankle", "shin", "foot"], "arm": ["arm", "elbow", "wrist", "hand", "shoulder", "forearm"],
+    "belly": ["belly", "abdomen", "abdominal", "stomach", "tummy"], "stomach": ["belly", "abdomen", "abdominal", "stomach", "tummy"],
+    "tummy": ["belly", "abdomen", "abdominal", "stomach", "tummy"], "abdomen": ["belly", "abdomen", "abdominal", "stomach", "tummy"],
+    "breathing": ["breathing", "breath", "breathless", "wheeze", "cough", "breathe"], "breath": ["breathing", "breath", "breathless", "wheeze", "breathe"],
+    "head": ["head", "headache", "migraine"], "chest": ["chest"], "back": ["back", "spine"], "throat": ["throat", "swallow"],
+    "poo": ["stool", "stools", "bowel", "diarrhea"], "poop": ["stool", "stools", "bowel", "diarrhea"], "stool": ["stool", "stools", "bowel"],
+    "pee": ["urine", "urinate"], "tablets": ["pills", "medication", "medicine"], "pills": ["tablets", "medication", "medicine"],
+    "painkillers": ["ibuprofen", "naproxen", "aspirin", "acetaminophen", "paracetamol", "tylenol", "codeine", "painkiller"],
+    "mum": ["mother", "mom"], "mom": ["mother", "mum"], "dad": ["father"],
+}
 BACKCHANNEL = {"hmm", "hm", "mm", "mhm", "ok", "okay", "right", "i see", "sure", "alright", "got it", "uh huh", "yes", "yeah", "understood", "fine", "k", "oh", "ah"}
 
 # topics for which "no" is a safe everyday answer when the case defines nothing
@@ -71,7 +91,7 @@ _SPECIFIC_NEG = {
     "swelling": ["No, no swelling.", "No, nothing's swollen."],
     "rash": ["No, no rash.", "No, my skin's fine."],
 }
-UNKNOWN_VARIANTS = ["I'm not sure. I can't really tell you anything about that.", "I honestly couldn't say.", "I don't know, sorry.",
+UNKNOWN_VARIANTS = ["I'm not sure about that, to be honest.", "I honestly couldn't say.", "I don't know, sorry.",
                     "That's not something I can tell you, I'm afraid."]
 OFF_TOPIC = ["I'm not sure what that has to do with why I'm here.", "Sorry, I don't follow. Can we get back to what's wrong with me?",
              "I don't really see how that matters right now, doctor."]
@@ -89,16 +109,21 @@ BACKCHANNEL_LINES = ["Mm-hm.", "Yes.", "Right."]
 CLOSING_Q_LINES = ["No, I don't think so. Thank you.", "No questions right now. Thank you, doctor.", "I think that covers it. Thanks."]
 CLOSING_LINES = ["Okay. Thank you.", "All right, thank you.", "Thanks, doctor."]
 SUMMARY_LINES = ["Okay.", "Mm-hm.", "All right."]
+# said instead of a default "no" when the case's own text touches the topic but no fact answers the question
+NONCOMMITTAL = ["It's hard to say, honestly.", "I couldn't say for certain.", "I'm not sure, to be honest."]
+COMPLAINT_FALLBACK = "I haven't been feeling right, so I came in to get checked."
 
 ALL_FIXED_LINES = set(_GENERIC_NEG + UNKNOWN_VARIANTS + OFF_TOPIC + INJECTION_LINES + ICE_LINES + NOTHING_MORE + THANKS_LINES + INTRO_LINES + EMPATHY_LINES
                       + EXPLAIN_LINES + BACKCHANNEL_LINES + CLOSING_Q_LINES + CLOSING_LINES + SUMMARY_LINES + ["No. That isn't possible for me."]
+                      + NONCOMMITTAL + [COMPLAINT_FALLBACK]
                       + [v for vs in list(NEGATABLE.values()) + list(_SPECIFIC_NEG.values()) for v in vs])
 
 
 def cues(text: str) -> dict[str, list[str]]:
     norm = tx.normalize(text)
     out = {}
-    for name, phrases in (("continuation", CONTINUATION), ("ice", ICE), ("injection", INJECTION), ("thanks", THANKS)):
+    for name, phrases in (("continuation", CONTINUATION), ("ice", ICE), ("injection", INJECTION), ("thanks", THANKS), ("probe_hidden", PROBE_HIDDEN),
+                          ("generic_pain", GENERIC_PAIN), ("progression", tx.TOPICS["progression"])):
         hits = tx.phrase_in(norm, phrases)
         if hits:
             out[name] = hits
@@ -123,6 +148,26 @@ def question_topics(text: str) -> list[str]:
             hits.append((best, key))
     hits.sort(reverse=True)
     return [k for _, k in hits[:3]]
+
+
+def complaint_fallback(case: dict) -> str:
+    """What the patient says to "what brings you in?" when the case has no chief-complaint fact: the case's own title or
+    prebrief in the first person. Never "I'm not sure"."""
+    import re
+    title = str(case.get("title") or "")
+    m = re.match(r"^(.{3,80}?)\s+in an? \S+[- ]old\b", title)
+    what = m.group(1) if m else ""
+    if not what:
+        m = re.search(r"\b(?:come in|came in|walked in|presents?|presented|brought in|arrived)\s+with\s+([^.]{3,120})\.", str(case.get("prebrief") or ""))
+        what = m.group(1) if m else ""
+    if not what and 0 < len(title.split()) <= 6:
+        from .patient import clinical_lexicon       # a bare clinical title ("Chest pain") is the complaint
+        if set(tx.tokens(title)) & clinical_lexicon():
+            what = title
+    if not what or "not stated" in what.lower():
+        return COMPLAINT_FALLBACK
+    what = re.sub(r"\b(?:his|her|their)\b", "my", what.strip())
+    return f"I came in because of {what[0].lower() + what[1:]}."
 
 
 def pick(pool: list[str], key: str, last_reply: str | None) -> str:

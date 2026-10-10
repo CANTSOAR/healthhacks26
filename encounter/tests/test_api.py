@@ -140,7 +140,7 @@ def test_key_demonstration_new_faculty_case_works_immediately(client):
     assert client.post("/api/encounters", json={"case_id": cid, "preview": True}).status_code == 201   # faculty preview can
     assert client.post(f"/api/cases/{cid}/validate").json()["ok"]
     assert client.post(f"/api/cases/{cid}/publish").status_code == 409                                 # must be approved first
-    assert client.post(f"/api/cases/{cid}/approve", json={"reviewer": "Prof. Test"}).json()["status"] == "approved"
+    assert client.post(f"/api/cases/{cid}/approve", json={"reviewer": "Prof. Test", "acknowledge_warnings": True}).json()["status"] == "approved"
     assert client.post(f"/api/cases/{cid}/publish").json()["status"] == "published"
     assert cid in [c["case_id"] for c in client.get("/api/cases", params={"status": "published"}).json()]
 
