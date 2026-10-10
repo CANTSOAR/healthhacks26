@@ -36,3 +36,4 @@ Start: Sat 2026-10-10 00:59 EDT. Wrap-up starts by 06:59. Target end ~08:00.
 - 02:29 Encounter pages agent done: /encounter and /studio verified in browser (55/56 e2e, studio 24/24 after test fix), sim-patient write-back shown. Server on :8000 restarted to pick up newer engine code.
 - 02:30 Core list items 1-3 and 5 are built; item 4 (learned agents) training. Stretch started: care-journey agent (Challenge 2: encounter/journey, web/app/journey; test ports 8011/3002). Running: sim (to M2), RL, web round 2, care journey. bdvg7fuds-style watcher on sim/M2_READY.
 - 02:33 sim/M2_READY appeared but orchestrator's local run: 10 passed, 1 FAILED (test_same_seed_same_trajectory[cpu], reproducible), 11 skipped; BASELINE.md/BENCHMARK.md missing. Sim agent told to fix determinism and re-verify before M2 stands.
+- 02:51 sim M2: orchestrator ran sim/tests locally: 11 passed, 11 skipped (CUDA params). Determinism fixed. RL agent retrains on this.
