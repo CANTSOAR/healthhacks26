@@ -62,7 +62,7 @@ A percentage would obscure the distinction: most of the encounter feature list i
 ## Recommended execution order
 
 1. Assign the five existing workstreams; establish what teammates already have working. Preserve the plan's Sunday October 11 noon EDT working cutoff, 11 AM materials target and 11:30 AM submission-verification target.
-2. In a 20–30 minute gate, obtain the promised personas/prompts/objectives/templates and a mentor review slot. Prove one synthetic Bedrock response through the actual app role and record budget/expiry. Do not assume the listed quota is a spending allowance.
+2. In a 20–30 minute gate, reconcile the later-acquired profile/rubric drafts, obtain remaining prompts/templates and a mentor review slot. See the [October 10 dataset review](discord-dataset-review-2026-10-10.md), which supersedes this earlier snapshot's missing-persona dependency. Prove one synthetic Bedrock response through the actual app role and record budget/expiry. Do not assume the listed quota is a spending allowance.
 3. Build one local vertical slice: create a genuinely new case → validate → approve an immutable version → start encounter → elicit one approved fact → reveal chart/asset → debrief with that event as evidence.
 4. Finish two reviewed cases and one held-out newly authored case. Test unknown questions, leading questions, hidden-fact leakage, reload/reset, retry duplication and provider failure before adding voice.
 5. Deploy the smallest portable app. Lambda/API Gateway/DynamoDB/S3 remain a candidate after creation/IAM permission proof; use the same provider adapter and preserve a local export if workshop provisioning blocks progress.

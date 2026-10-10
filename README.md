@@ -2,7 +2,7 @@
 
 Research and planning for Rutgers Health Hack, October 9–11, 2026.
 
-Start with [research/README.md](research/README.md) and the [weekend action plan](research/action-plan.md).
+Start with [research/README.md](research/README.md), the [Codex project synthesis](research/codex-project-synthesis.md), and the [ontology and knowledge-base plan](research/ontology-and-knowledge-base-plan.md). The [weekend action plan](research/action-plan.md) owns the encounter demo and submission gates.
 
 The recommended prototype is **ER Encounter Studio**, targeting TwinVerse Challenge 1: faculty-approved synthetic patient authoring, an interview beside a progressively revealed chart, and evidence-linked formative feedback.
 

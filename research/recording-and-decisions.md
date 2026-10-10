@@ -38,7 +38,7 @@ Earlier exploratory track ideas are superseded by the team's current TwinVerse c
 ## Dependencies before implementation
 
 1. Confirm Challenge 1, judging interaction format, portal fields and official asset/AI-tool rules.
-2. Obtain the promised synthetic personas, VHS prompts, sample encounters, objectives and documentation templates; they are absent from the supplied ZIP.
+2. Reconcile the now-acquired synthetic profiles, faculty seed rows and example rubric; obtain remaining VHS prompts, sample encounters and documentation templates. The initial ZIP lacked these, but a later resource bundle supplies case inputs. See the [dataset review](discord-dataset-review-2026-10-10.md).
 3. Secure a faculty case/rubric reviewer and agree disclosure behavior, unavailable facts and acceptable communication feedback.
 4. Test the actual AWS region/model/permissions and record its account end time; separately verify other sponsor entitlements.
 5. Assign the five workstream owners and freeze the case/event interface contract.

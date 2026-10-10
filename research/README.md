@@ -4,11 +4,14 @@ Research snapshot prepared October 9 and expanded October 10, 2026 for the Octob
 
 | Document | Contents |
 |---|---|
+| [Codex project synthesis](codex-project-synthesis.md) | Consolidated project threads, challenge fit, current decisions, corrections and evidence limits |
+| [Ontology and knowledge-base plan](ontology-and-knowledge-base-plan.md) | KRAIL-first sequencing, acquisition priorities, entities/relationships, review gates and later AI generation |
+| [Discord dataset review — October 10](discord-dataset-review-2026-10-10.md) | Acquired TwinVerse drafts/rubric, Sevaro synthetic kits, all identified dataset resources and reuse gaps |
 | [Action plan](action-plan.md) | Scope, five workstreams, first 45 minutes, architecture, acceptance gates, weekend schedule, four-minute pitch and submission checklist |
 | [Resource feasibility — October 10](resource-feasibility-2026-10-10.md) | Live workshop console checks, listed Bedrock quota, local capacity, sponsor activation gaps and encounter/operations/3-D execution boundaries |
 | [ChatGPT project synthesis](project-research-synthesis.md) | Fifteen research conversations, architecture, rubric/case conflicts, minimum hospital data request and primary-source leads |
 | [GPT-6 Luna workflows](luna-data-workflows.md) | Provider candidates, bounded job packets, ten reusable prompts, provenance and review gates |
-| [Data acquisition manifest](data-acquisition-manifest.json) | Sixteen domains with priorities, source leads, access status and explicit not-started execution state |
+| [Data acquisition manifest](data-acquisition-manifest.json) | Sixteen domains with priorities, source leads, acquired-versus-lead inputs, review gaps and explicit not-run Luna workflow state |
 | [Brainstorm and decisions](recording-and-decisions.md) | Research-backed interpretation of the original idea, transcription limitations, decisions and unresolved dependencies |
 | [Clinical research](clinical-research.md) | Original studies, educational evidence, competitors, clinical case sourcing, licensing and validation limits |
 | [Technical and data research](technical-and-data-research.md) | Proposed case contract, grounded replies, state/provenance, evaluation precedents, datasets and future operational simulation |

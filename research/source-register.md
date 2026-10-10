@@ -44,7 +44,7 @@ Public web sources were checked during the October 9 research. A linked source s
 - **Deadline:** use the team's Sunday October 11 noon EDT deadline, supported by the correct-year brochure. The Devpost header's 5 p.m. display does not extend the working deadline. Internal targets are 11 a.m. readiness and 11:30 a.m. verified submission.
 - **Pitch:** the detailed Challenge 1 document establishes four minutes and a mandatory repository. This supersedes the early provisional three-minute rehearsal.
 - **TwinVerse tiers:** the written Challenge 1 document controls its Base/stretch scope. The first architecture video mixes broader connected-care content and labels voice/SBAR differently; confirm any change with the mentor.
-- **Starter assets:** resources promised in the challenge text are absent from the ZIP. Mentor-provided cases/prompts/objectives remain a dependency.
+- **Starter assets:** resources promised in the challenge text are absent from the ZIP. A later October 10 bundle supplies case profiles, faculty seeds and an example rubric; case approval and remaining prompts/templates remain dependencies. See the [dataset review](discord-dataset-review-2026-10-10.md).
 - **ElevenLabs allowance:** the participant guide and current public pricing differ. The redeemed account balance and applicable terms determine the actual allowance.
 - **Vlada years:** guide/catalog coverage conflicts and flagged code-dimension issues must be resolved using the specific product's schema/version before querying.
 - **Expiry:** Vlada's Monday 9 a.m. cutoff is specific to Vlada. AWS account end time and the other offers' actual terms are separate checks.
@@ -68,3 +68,11 @@ Original private correspondence, account identifiers, codes, join links, OTPs an
 | [MIMIC-IV-ED Demo 2.2](https://physionet.org/content/mimic-iv-ed-demo/2.2/), [SAEM curriculum](https://www.saem.org/about-saem/academies-interest-groups-affiliates2/cdem/for-students/online-education/m3-curriculum/group-approach-to-the-undifferentiated-patient/approach-to-the-undifferentiated-patient) | Primary page checks: open deidentified demo/schema and acuity-dependent encounter workflow. No patient records downloaded or clinical content approved | [Project synthesis](project-research-synthesis.md) |
 
 No actual clinical or operational dataset was acquired in this consolidation. The manifest records proposed jobs; it is not a completed coverage report. Private chat responses, the full meeting transcript, original sponsor attachments and access-bearing URLs remain excluded from publication.
+
+## October 10 dataset and ontology update
+
+The [Codex synthesis](codex-project-synthesis.md) records the five project threads inspected for this handoff. Recent completed turn summaries/final responses were checked against owning research documents; full raw thread archives are not published. Current user instructions establish ontology-first sequencing, not completed implementation.
+
+The [dataset review](discord-dataset-review-2026-10-10.md) records signed-in resource inspection and local parsing of small organizer files. Eight normalized patient objects and eight faculty CSV rows were reconfirmed locally for this handoff. Profiles/rubric are acquired drafts, not approved clinical content. The earlier consolidation's no-acquisition statement applies to that task, before these later downloads.
+
+The [ontology plan](ontology-and-knowledge-base-plan.md) uses official RxNorm, LOINC and FHIR Observation pages for terminology and entity-boundary guidance. These references do not establish implemented interoperability, permission to redistribute every vocabulary or clinical validation. The updated manifest records input acquisition separately from the unexecuted Luna workflow pipeline.

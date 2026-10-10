@@ -71,7 +71,7 @@ source list. No publication, repository mutation or large download in this job.
 
 ## Run order and bounded execution
 
-1. **P0:** W1–W3 for existing evidence and permitted source pack; W4 for workflow/rubric; W5–W6 for two mentor-reviewed cases and the live authoring contract; W10 for gaps. Obtain organizer assets before expanding synthetic generation. This supports Challenge 1.
+1. **P0:** W1–W3 for existing evidence and permitted source pack; W4 for workflow/rubric; W5–W6 for two mentor-reviewed cases and the live authoring contract; W10 for gaps. Start from the acquired organizer profile/rubric drafts described in the [dataset review](discord-dataset-review-2026-10-10.md); reconcile and review them before expanding synthetic generation. The [ontology plan](ontology-and-knowledge-base-plan.md) defines the initial knowledge contract. This supports Challenge 1.
 2. **P1:** synthetic background, codes, a single aggregate teaching card, and illustrative geometry. Reuse accepted sources rather than repeated web searches. Voice is independent of data completeness.
 3. **Later:** W7 and authorized hospital aggregates → W9 → verified DES engine and holdout → administrator scenarios → geometry. Broad institutional acquisition remains blocked on actual permissions and source availability.
 

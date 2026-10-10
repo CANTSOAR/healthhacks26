@@ -2,6 +2,10 @@
 
 Consolidated October 10, 2026 from the team's signed-in Health Hacks project. This is derived planning research, not a transcript export. Fifteen conversation titles were inventoried; their recommendations, principal findings and limitations were inspected. Long responses were read in selected sections, not every cited appendix or paper. Chat outputs are secondary research leads: their claims of verification are not independent verification by this repository review. Original chats and participant identifiers remain private.
 
+## Later updates
+
+This document preserves the earlier research-chat synthesis. The later [dataset review](discord-dataset-review-2026-10-10.md) establishes acquired organizer profile/rubric drafts, superseding missing-case-input assumptions. Prefer supplied nutrition/communication cases for mentor review; retain possible-ACS and STEMI proposals as distinct unapproved alternatives. The supplied seven-domain 1–4/N/A rubric can coexist with objective-level evidence; neither its supply nor earlier draft scales establishes automated-scoring validity. The current user sequence and cross-thread decisions are in the [ontology plan](ontology-and-knowledge-base-plan.md) and [Codex synthesis](codex-project-synthesis.md).
+
 ## What the project adds
 
 | Conversation | Useful contribution | Adoption / verification boundary |

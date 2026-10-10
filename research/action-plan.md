@@ -4,6 +4,12 @@ Prepared October 9; refined October 10, 2026, America/New_York. Team confirmed T
 
 **This public research snapshot incorporates the sponsor guides, both TwinVerse challenge documents and architecture videos, the Vlada catalog/guide, hospital-context sources, and the team's AWS access steps.** Workshop console access and listed Nova models/quota have now been inspected; successful inference, credits and app deployment remain unverified. See the [live resource assessment](resource-feasibility-2026-10-10.md). Requirements, evidence, proposed implementation and future validation are distinguished throughout. See the [source register](source-register.md) for provenance; original private material is not included.
 
+## October 10 current preparation sequence
+
+Start with a project KRAIL, ontology and teaching knowledge base; database design and AI scenario generation follow. See the [ontology plan](ontology-and-knowledge-base-plan.md) for acquisition priorities, entity relationships and proposed readiness gates, and the [Codex synthesis](codex-project-synthesis.md) for cross-thread decisions. This is preparation for the reusable encounter contract, not evidence these layers are implemented.
+
+The later [dataset review](discord-dataset-review-2026-10-10.md) supersedes the missing-organizer-assets finding: eight synthetic profiles, faculty seed rows and the supplied rubric are acquired drafts. Prefer a mentor-reviewed supplied nutrition/communication case for the first encounter; acute ER adaptations need new reviewed content.
+
 ## Decision
 
 Build **ER Encounter Studio**: a faculty member creates and approves a synthetic patient; a student interviews that patient beside a progressively revealed chart; the debrief explains elicited and missed findings, interview quality, and communication using the faculty's objectives and the student's actual interaction.
@@ -51,7 +57,7 @@ The competitive field is substantial. [Body Interact](https://bodyinteract.com/v
 
 ## Supplied resources and how to use them
 
-The ZIP supplies two challenge documents and two architecture videos. **It does not contain starter code, a JSON schema, patient datasets, learning-objective files, or prompts.** The Challenge 1 document promises access to synthetic personas, existing VHS prompts, sample encounters/case materials, learning objectives, documentation templates and Bedrock access/credits. The case owner should obtain those from the mentor/organizer immediately; do not assume they are in the archive. The actual schema below remains our implementation proposal.
+The ZIP supplies two challenge documents and two architecture videos. **It does not contain starter code, a JSON schema, patient datasets, learning-objective files, or prompts.** The Challenge 1 document promises access to synthetic personas, existing VHS prompts, sample encounters/case materials, learning objectives, documentation templates and Bedrock access/credits. A later separately posted bundle now provides patient profiles, faculty seed data and an example rubric; see the [dataset review](discord-dataset-review-2026-10-10.md). Reconcile and review those drafts, and request any still-missing VHS prompts, encounter examples and documentation templates. The actual schema below remains our implementation proposal.
 
 The architecture videos explain a broader platform, including shared state, provenance and SBAR/team collaboration. One Challenge 1 video slide describes voice/SBAR as an Enhanced tier, while the written Challenge 1 document places voice under Stretch and specifies no Enhanced tier. Follow the written Challenge 1 Base for the submitted scope and clarify that discrepancy with the mentor. Challenge 2's three-plus encounters, professional roles and synthesized care plan remain an alternative project, not extra Base work for this one.
 
@@ -100,7 +106,7 @@ Detailed evidence: [Sponsor resources](sponsor-resources.md), [data sources and 
 
 The detailed challenge includes labs, ECGs, X-rays, CTs and prior notes as artifact examples. Support a generic attachment mechanism and demonstrate at least one mentor-approved artifact; confirm the minimum demonstration breadth with faculty. Store release timing and the case/source link, and provide a consistency-review step. Automatic image diagnosis or scan generation is not needed for Base.
 
-**First case:** one adult ER history-taking scenario selected with a TwinVerse faculty mentor. A stable chest-pain or shortness-of-breath interview can work if a mentor provides/reviews it; the prototype should not invent a treatment protocol. Target one 5–8 minute teaching encounter, not the actual clinical duration of an ER visit. Second case changes several relevant facts and objectives. The held-out case should use a different complaint and new content within the same documented schema.
+**First case:** a supplied nutrition/communication profile selected and reviewed with a TwinVerse faculty mentor. A stable chest-pain or shortness-of-breath interview remains a separate option only if a mentor supplies/reviews new compatible content; the prototype should not invent a treatment protocol. Target one 5–8 minute teaching encounter, not the actual clinical duration of an ER visit. Second case changes several relevant facts and objectives. The held-out case should use a different complaint and new content within the same documented schema.
 
 ## Five workstreams: assign names now
 
@@ -111,7 +117,7 @@ Use skills to fill these positions in the first 15 minutes. Suggested Akash role
 | 1. Akash / integration lead | Scope, shared contract, AWS access/proof, integration, portable release and submission | One-page interface contract, runnable local app and confirmed provider route | One end-to-end path; integration every 2–3 hours; code/infra repo and submission receipt |
 | 2. UI owner | Faculty Studio and student split-screen; readable progressive chart and attachments | Clickable Studio -> Start -> Encounter flow using a fixture | Faculty can create a case unaided; second-device usability |
 | 3. State/backend owner | Case validation/approval, encounter state, fact release, events, persistence, provider adapter | Approve case -> start encounter -> reveal one fact -> reset | Isolation, versions, retries, provider failure behavior |
-| 4. Case/clinical owner | Obtain promised personas/VHS prompts/objectives/templates, mentor review, two cases, answers/assets/sources | Actual supplied resources or explicitly original reviewed case table/rubric | Coherent cases; source/artifact consistency; clinical review; factual evaluation set |
+| 4. Case/clinical owner | Reconcile acquired profiles/rubric, obtain missing VHS prompts/templates, mentor review, two cases, answers/assets/sources | Actual supplied resources or explicitly original reviewed case table/rubric | Coherent cases; source/artifact consistency; clinical review; factual evaluation set |
 | 5. Evaluation/demo owner | Held-out case tests, feedback checks, four-minute pitch, screenshots, fallback video and credit/access tracking | Acceptance checklist, resource-expiry register and timed demo script | Measured results, educational-value narrative, required video/live demo and submission materials |
 
 Owner 5 helps owner 2 with layout after tests are defined. Owner 4 helps owner 3 connect objective IDs to facts. Owner 1 unblocks deployment early. Every P0 item has one accountable owner. If “five teammates” means five plus Akash, assign the sixth person independent QA/mentor coordination; retain this scope.

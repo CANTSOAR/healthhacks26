@@ -1,8 +1,8 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "prepared_date": "2026-10-10",
   "purpose": "Broad data acquisition backlog for Encounter Studio, Operations Lab and Hospital World",
-  "execution_status": "planned_not_run",
+  "execution_status": "luna_workflows_planned_not_run",
   "preferred_model": "gpt-6-luna",
   "workflow_document": "luna-data-workflows.md",
   "public_repository_policy": "Derived research and cleared artifacts only; private chats, original transcript, credentials and restricted records excluded",
@@ -45,35 +45,47 @@
       "id": "cases",
       "priority": "P0",
       "domain": "Patient scripts and cases",
-      "seed_sources": "Organizer promised TwinVerse personas/cases; original faculty cases; MedEdPORTAL leads",
+      "seed_sources": "TwinVerse eight synthetic profiles; eight faculty seed rows; original faculty cases; MedEdPORTAL leads",
       "required_output": "Fixed facts, patient knowledge, explicit unknowns, objectives, disclosure and review",
       "workflows": [
         "W2",
         "W5",
         "W6"
       ],
-      "input_status": "organizer_assets_missing",
+      "input_status": "acquired_synthetic_drafts_review_pending",
       "execution_status": "not_started",
       "review_owner_role": "clinical educator",
-      "blocking_gaps": [],
-      "accepted_artifacts": []
+      "blocking_gaps": [
+        "Profile/CSV reconciliation and clinical approval required"
+      ],
+      "accepted_artifacts": [],
+      "input_evidence_documents": [
+        "discord-dataset-review-2026-10-10.md"
+      ],
+      "clinical_approval_status": "not_established"
     },
     {
       "id": "rubrics",
       "priority": "P0",
       "domain": "Learning objectives and rubrics",
-      "seed_sources": "Organizer objectives; original instrument publications; faculty criteria",
+      "seed_sources": "Acquired organizer seven-domain 1\u20134/N/A rubric; faculty objectives; original instrument publications",
       "required_output": "Objective-level observable evidence, accepted alternatives, review flags",
       "workflows": [
         "W2",
         "W4",
         "W6"
       ],
-      "input_status": "source_leads",
+      "input_status": "acquired_example_review_pending",
       "execution_status": "not_started",
       "review_owner_role": "clinical educator",
-      "blocking_gaps": [],
-      "accepted_artifacts": []
+      "blocking_gaps": [
+        "Faculty configuration and scoring agreement evaluation required"
+      ],
+      "accepted_artifacts": [],
+      "input_evidence_documents": [
+        "discord-dataset-review-2026-10-10.md"
+      ],
+      "clinical_approval_status": "not_established"
     },
     {
       "id": "artifacts",
@@ -130,18 +142,24 @@
       "id": "people",
       "priority": "Later",
       "domain": "Staff roles and specialties",
-      "seed_sources": "Official public specialties; authorized role/skill process review",
+      "seed_sources": "Acquired five fictional clinician personas; Sevaro fictional physician rosters; authorized role/skill process review",
       "required_output": "Fictional training profiles; scope, skill compatibility, action authority",
       "workflows": [
         "W1",
         "W2",
         "W7"
       ],
-      "input_status": "local_staffing_data_missing",
+      "input_status": "acquired_synthetic_role_examples",
       "execution_status": "not_started",
       "review_owner_role": "data/research owner",
-      "blocking_gaps": [],
-      "accepted_artifacts": []
+      "blocking_gaps": [
+        "Local real staffing and role authority remain unverified"
+      ],
+      "accepted_artifacts": [],
+      "input_evidence_documents": [
+        "discord-dataset-review-2026-10-10.md"
+      ],
+      "clinical_approval_status": "not_established"
     },
     {
       "id": "geometry",
@@ -180,17 +198,23 @@
       "id": "demand",
       "priority": "Later",
       "domain": "Arrivals and patient routes",
-      "seed_sources": "Authorized aggregate arrival/triage/admission/transfer counts",
+      "seed_sources": "Acquired Sevaro synthetic baseline hourly consult volume; later authorized local arrival/triage/admission/transfer counts",
       "required_output": "Counts by time/route, observation window, dependencies and limitations",
       "workflows": [
         "W7",
         "W9"
       ],
-      "input_status": "institutional_inputs_missing",
+      "input_status": "acquired_synthetic_consult_examples_local_data_missing",
       "execution_status": "not_started",
       "review_owner_role": "data/research owner",
-      "blocking_gaps": [],
-      "accepted_artifacts": []
+      "blocking_gaps": [
+        "Sevaro consult demand does not calibrate RWJUH ED arrivals"
+      ],
+      "accepted_artifacts": [],
+      "input_evidence_documents": [
+        "discord-dataset-review-2026-10-10.md"
+      ],
+      "clinical_approval_status": "not_applicable_to_synthetic_operations_examples"
     },
     {
       "id": "durations",
@@ -212,17 +236,23 @@
       "id": "staffing",
       "priority": "Later",
       "domain": "Rosters, skills and constraints",
-      "seed_sources": "Approved role/shift aggregates and local policies",
+      "seed_sources": "Acquired Sevaro synthetic rosters, credentialing and coverage requirements; later approved local shift aggregates/policies",
       "required_output": "Planned versus actual shifts, skills, floating eligibility, shared services, prerequisites",
       "workflows": [
         "W7",
         "W9"
       ],
-      "input_status": "institutional_inputs_missing",
+      "input_status": "acquired_synthetic_roster_examples_local_data_missing",
       "execution_status": "not_started",
       "review_owner_role": "data/research owner",
-      "blocking_gaps": [],
-      "accepted_artifacts": []
+      "blocking_gaps": [
+        "Cross-track reuse expectations and local staffing data unresolved"
+      ],
+      "accepted_artifacts": [],
+      "input_evidence_documents": [
+        "discord-dataset-review-2026-10-10.md"
+      ],
+      "clinical_approval_status": "not_applicable_to_synthetic_operations_examples"
     },
     {
       "id": "cost_access",
@@ -245,35 +275,51 @@
       "id": "policies",
       "priority": "Later",
       "domain": "Operational policies and administrator curriculum",
-      "seed_sources": "AHRQ/TeamSTEPPS; institutional decision rules; project scenario leads",
+      "seed_sources": "Acquired Sevaro synthetic hospital guides and source-conflict examples; AHRQ/TeamSTEPPS; later institutional decision rules",
       "required_output": "Authority, action delay/prerequisites, tradeoffs, approved scenario objectives",
       "workflows": [
         "W1",
         "W2",
         "W7"
       ],
-      "input_status": "source_leads",
+      "input_status": "acquired_synthetic_workflow_examples",
       "execution_status": "not_started",
       "review_owner_role": "data/research owner",
-      "blocking_gaps": [],
-      "accepted_artifacts": []
+      "blocking_gaps": [
+        "Synthetic guides are not real hospital protocols"
+      ],
+      "accepted_artifacts": [],
+      "input_evidence_documents": [
+        "discord-dataset-review-2026-10-10.md"
+      ],
+      "clinical_approval_status": "not_applicable_to_synthetic_operations_examples"
     },
     {
       "id": "validation",
       "priority": "P0",
       "domain": "Evaluation and reproducibility data",
-      "seed_sources": "Synthetic test transcripts; reviewer ratings; later authorized holdout observations",
+      "seed_sources": "Acquired Sevaro synthetic retrieval questions and replay snapshots; planned encounter transcripts/reviewer ratings; later authorized holdout observations",
       "required_output": "Expected/observed fact IDs, disclosure and evidence checks, uncertainty, separate validity dossiers",
       "workflows": [
         "W6",
         "W9",
         "W10"
       ],
-      "input_status": "planned_not_run",
+      "input_status": "operations_examples_acquired_encounter_validation_pending",
       "execution_status": "not_started",
       "review_owner_role": "data/research owner",
-      "blocking_gaps": [],
-      "accepted_artifacts": []
+      "blocking_gaps": [
+        "Sevaro reference examples do not validate clinical encounters"
+      ],
+      "accepted_artifacts": [],
+      "input_evidence_documents": [
+        "discord-dataset-review-2026-10-10.md"
+      ],
+      "clinical_approval_status": "not_applicable_to_synthetic_operations_examples"
     }
-  ]
+  ],
+  "updated_date": "2026-10-10",
+  "status_note": "Input acquisition is separate from Luna workflow execution and clinical approval. Later organizer resources supersede initial missing-case-input entries.",
+  "ontology_plan": "ontology-and-knowledge-base-plan.md",
+  "input_review_document": "discord-dataset-review-2026-10-10.md"
 }

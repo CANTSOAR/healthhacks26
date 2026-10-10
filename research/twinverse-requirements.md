@@ -50,7 +50,7 @@ Evaluation areas (pages 4–5) are architecture/reusability, profile quality and
 
 ## Resources promised versus actually available
 
-Challenge 1 page 4 promises synthetic personas, existing VHS prompts, sample encounters/cases, learning objectives, documentation templates, and AWS Bedrock access/credits. The ZIP itself provides only challenge documents and videos. It does not supply those case/persona/prompt/objective/template assets or a predefined schema. Request the case bundle and review slot from the TwinVerse mentor at the start; do not call a generated local fixture an organizer-provided persona.
+Challenge 1 page 4 promises synthetic personas, existing VHS prompts, sample encounters/cases, learning objectives, documentation templates, and AWS Bedrock access/credits. The ZIP itself provides only challenge documents and videos. It does not supply those case/persona/prompt/objective/template assets or a predefined schema. The later October 10 resource bundle supplies synthetic profiles, faculty seeds, a rubric and clinician personas; see the [dataset review](discord-dataset-review-2026-10-10.md). Review those drafts and request remaining prompts/templates plus a mentor review slot. The absence statement applies to the initial ZIP only; do not call a generated local fixture an organizer-provided persona.
 
 Challenge 2 explicitly labels provided resources TBD (page 14). Its faculty-provided structured case/scenarios are part of its expected workflow, but no actual case is bundled here.
 
