@@ -4,7 +4,7 @@ import { useStore } from "zustand";
 import { apiBase } from "@/lib/api";
 import { DOW_LONG, hhmm, patientId, titleCase } from "@/lib/format";
 import { useClickAway, useFeedState } from "@/lib/hooks";
-import { feeds, refreshStatus, transport } from "@/lib/session";
+import { feeds, playCtl, refreshStatus, runIsLive, transport } from "@/lib/session";
 import { speedLabel, SPEEDS, useUI, type Mode } from "@/lib/ui";
 import type { Selection } from "@/lib/types";
 import { Icon, ICONS } from "./atoms";
@@ -39,9 +39,6 @@ export function ModeTabs({ onMode }: { onMode: (m: Mode) => void }) {
           {m.label}
         </button>
       ))}
-      <a href="/encounter" data-nav="encounter">Encounter</a>
-      <a href="/studio" data-nav="studio">Studio</a>
-      <a href="/journey" data-nav="journey">Journey</a>
     </div>
   );
 }
@@ -120,7 +117,7 @@ export function StatusIndicator() {
         aria-expanded={open}
       >
         <span className="h-2 w-2 rounded-full" style={{ background: color, boxShadow: `0 0 0 3px ${color}33` }} />
-        <span className="max-[1180px]:hidden">{label}</span>
+        <span>{label}</span>
       </button>
       {open && (
         <div className="glass-solid rise absolute right-0 top-10 z-50 w-[290px] p-3" data-testid="status-pop">
@@ -230,23 +227,73 @@ export function Switchers() {
   const scenarioId = useUI((s) => s.scenarioId);
   const hospitalId = useUI((s) => s.hospitalId);
   const set = useUI((s) => s.set);
+  const mode = useUI((s) => s.mode);
+  /** A live run belongs to one scenario and one hospital: changing either means ending it, so ask first. */
+  const change = async (patch: { scenarioId?: string; hospitalId?: string }, label: string) => {
+    if (runIsLive()) {
+      if (!window.confirm(`A run is in progress. End it, save its result, and switch to ${label}?`)) return;
+      await playCtl.stop();
+    }
+    set(patch);
+  };
   return (
     <>
-      <select className="select max-w-[150px]" value={scenarioId} onChange={(e) => set({ scenarioId: e.target.value })} aria-label="Scenario" data-testid="scenario">
+      <select className="select max-w-[150px]" value={scenarioId} onChange={(e) => void change({ scenarioId: e.target.value }, scenarios.find((s) => s.id === e.target.value)?.label ?? e.target.value)} aria-label="Scenario" data-testid="scenario" title={mode === "watch" || mode === "compare" ? "Show recordings of this scenario" : "Scenario for the next run"}>
         {scenarios.map((s) => (
           <option key={s.id} value={s.id}>
             {s.label}
           </option>
         ))}
       </select>
-      <select className="select max-w-[170px] max-[1599px]:hidden" value={hospitalId} onChange={(e) => set({ hospitalId: e.target.value })} aria-label="Hospital" data-testid="hospital">
+      {mode === "play" && <select className="select max-w-[170px]" value={hospitalId} onChange={(e) => void change({ hospitalId: e.target.value }, hospitals.find((h) => h.id === e.target.value)?.name ?? e.target.value)} aria-label="Hospital" data-testid="hospital" title="Hospital for the next run">
         {hospitals.map((h) => (
           <option key={h.id} value={h.id}>
             {h.name.replace(/\s*\(.*\)$/, "").replace("Robert Wood Johnson University Hospital", "RWJUH")}
           </option>
         ))}
-      </select>
+      </select>}
     </>
+  );
+}
+
+const PAGES: [string, string, string][] = [
+  ["/encounter", "Encounter", "encounter"],
+  ["/studio", "Studio", "studio"],
+  ["/journey", "Journey", "journey"],
+];
+
+/** Links to the other pages of the app. Inline on a wide bar; behind a "More" button on a phone. */
+export function NavLinks({ menu = false }: { menu?: boolean }) {
+  const [open, setOpen] = useState(false);
+  const ref = useClickAway<HTMLDivElement>(useCallback(() => setOpen(false), []));
+  if (!menu)
+    return (
+      <nav className="flex items-center" aria-label="Other pages">
+        {PAGES.map(([href, label, id]) => (
+          <a key={id} href={href} data-nav={id} className="flex h-8 items-center rounded-full px-2.5 text-[12px] font-semibold text-ink-3 transition-colors hover:bg-accent-soft hover:text-accent-dark">
+            {label}
+          </a>
+        ))}
+      </nav>
+    );
+  return (
+    <div className="relative" ref={ref}>
+      <button className="btn-quiet !px-2.5" aria-label="More pages" aria-expanded={open} onClick={() => setOpen((o) => !o)} data-testid="nav-more">
+        More
+      </button>
+      {open && (
+        <nav className="glass-solid rise absolute right-0 top-10 z-50 flex w-[170px] flex-col p-1.5" aria-label="Other pages">
+          {PAGES.map(([href, label, id]) => (
+            <a key={id} href={href} data-nav={id} className="rounded-lg px-2.5 py-2 text-[13px] font-semibold text-ink-2 hover:bg-accent-soft hover:text-accent-dark">
+              {label}
+            </a>
+          ))}
+          <div className="mt-1 border-t border-line px-1 pt-2" onClick={() => setOpen(false)}>
+            <TourButton />
+          </div>
+        </nav>
+      )}
+    </div>
   );
 }
 
@@ -255,10 +302,10 @@ export function TopBar({ narrow, onMode }: { narrow: boolean; onMode: (m: Mode) 
   if (narrow)
     return (
       <div className="pointer-events-auto flex flex-col gap-2">
-        <div className="glass flex h-12 items-center gap-2 px-2.5">
+        <div className="glass relative z-40 flex h-12 items-center gap-1.5 px-2.5">
           <Logo />
           <div className="ml-auto">{!clockless && <Clock compact />}</div>
-          <TourButton compact />
+          <NavLinks menu />
           <StatusIndicator />
         </div>
         <div className="flex items-center gap-2">
@@ -273,20 +320,26 @@ export function TopBar({ narrow, onMode }: { narrow: boolean; onMode: (m: Mode) 
         </div>
       </div>
     );
+  // Two rows: pages and tools on the first, the run's own controls (scenario, clock, speed) on the second.
+  // Everything fits from 1280 px; nothing is hidden by width.
   return (
-    <div className="glass pointer-events-auto relative z-40 flex h-[52px] items-center gap-3 px-3">
-      <Logo />
-      <ModeTabs onMode={onMode} />
-      <SearchBox />
-      <div className="ml-auto flex items-center gap-2">
-        <div className="flex items-center gap-2 max-[1280px]:hidden">
-          <Switchers />
+    <div className="glass pointer-events-auto relative z-40 flex flex-col px-3" data-testid="topbar">
+      <div className="flex h-[48px] items-center gap-2">
+        <Logo />
+        <ModeTabs onMode={onMode} />
+        <NavLinks />
+        <SearchBox />
+        <div className="ml-auto flex shrink-0 items-center gap-2">
+          <TourButton />
+          <StatusIndicator />
         </div>
-        <span className="mx-1 h-5 w-px bg-line" />
-        {!clockless && <Clock />}
-        {!clockless && <SpeedControl />}
-        <TourButton />
-        <StatusIndicator />
+      </div>
+      <div className="flex h-[42px] items-center gap-2 border-t border-line">
+        <Switchers />
+        <div className="ml-auto flex shrink-0 items-center gap-2">
+          {!clockless && <Clock />}
+          {!clockless && <SpeedControl />}
+        </div>
       </div>
     </div>
   );

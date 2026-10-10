@@ -76,7 +76,11 @@ export const encApi = {
   createCase: (body: Record<string, unknown>) => call<CreatedCase>("/api/cases", { body }),
   updateCase: (id: string, body: Record<string, unknown>) => call<CaseDoc & { validation: ValidationReport; new_version_created: boolean }>(`/api/cases/${enc(id)}`, { method: "PUT", body }),
   validateCase: (id: string, body?: Record<string, unknown>) => call<ValidationReport>(`/api/cases/${enc(id)}/validate`, { method: "POST", body: body ?? {} }),
-  approveCase: (id: string, reviewer?: string) => call<CaseDoc>(`/api/cases/${enc(id)}/approve`, { body: reviewer ? { reviewer } : {} }),
+  /**
+   * Approve a case. `acknowledge` false asks the server to refuse (409, with the warnings) while attention-level
+   * warnings exist; true approves and records that the reviewer has read them.
+   */
+  approveCase: (id: string, acknowledge?: boolean, reviewer?: string) => call<CaseDoc>(`/api/cases/${enc(id)}/approve`, { body: { ...(reviewer ? { reviewer } : {}), ...(acknowledge == null ? {} : { acknowledge_warnings: acknowledge }) } }),
   publishCase: (id: string) => call<CaseDoc>(`/api/cases/${enc(id)}/publish`, { body: {} }),
   templates: () => call<TemplateSummary[]>("/api/templates"),
   rubrics: () => call<RubricSummary[]>("/api/rubrics"),
@@ -90,6 +94,8 @@ export const encApi = {
 
   // ---- the running simulation (read-only context for a simulated patient; never the latent truth)
   runPatient: (runId: string, patientId: number) => call<RunPatient>(`/api/runs/${enc(runId)}/patients/${patientId}`, { timeoutMs: 6000 }),
+  /** Let a patient go again when the learner leaves an encounter without finishing (a held patient cannot be played or move on). */
+  releaseHold: (runId: string, patientId: number | string) => call<unknown>(`/api/runs/${enc(runId)}/patients/${enc(String(patientId))}/hold`, { method: "DELETE", timeoutMs: 4000 }),
   runs: () => call<{ run_id: string; hospital_id?: string; scenario?: string; t?: number }[]>("/api/runs", { timeoutMs: 4000 }),
   hospitals: () => call<{ id: string; name: string }[]>("/api/hospitals", { timeoutMs: 4000 }),
 

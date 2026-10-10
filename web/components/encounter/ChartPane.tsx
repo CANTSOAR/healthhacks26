@@ -208,6 +208,11 @@ function ArtifactCard({ a, fresh }: { a: ChartArtifact; fresh: boolean }) {
         <span className="text-[12.5px] font-semibold text-ink">{a.title}</span>
         <span className="sim-tag">{KIND_LABEL[a.kind] ?? a.kind}</span>
         {a.synthetic !== false && <span className="sim-tag">synthetic</span>}
+        {(a as { default_normal?: boolean }).default_normal && (
+          <span className="sim-tag" style={{ background: "#FDEFD8", color: "#8A5A00" }} title={(a as { note?: string }).note ?? "A default normal result: the case does not define this test"} data-testid="default-normal">
+            default normal
+          </span>
+        )}
         {fresh && <NewTag />}
         {a.turn ? <span className="tnum ml-auto text-[10.5px] font-medium text-ink-3">turn {a.turn}</span> : null}
       </div>

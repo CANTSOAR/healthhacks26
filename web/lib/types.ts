@@ -143,6 +143,10 @@ export interface ManagerInfo {
   reward_weights?: Record<string, number> | null;
   available?: boolean;
   checkpoint?: string;
+  /** how it was made, when the server says (e.g. "PPO warm-started by behaviour cloning from the tuned heuristic") */
+  note?: string;
+  training?: unknown;
+  description?: string;
 }
 export interface RolloutHeader {
   rollout_id: string;
@@ -254,6 +258,8 @@ export interface Results {
   rows: ResultRow[];
   human_runs: HumanRun[];
   note?: string;
+  /** paired held-out comparisons between managers, with the verdict as the evaluation states it */
+  comparisons?: { a: string; b: string; scenario: string; objective?: string; verdict?: string }[];
 }
 
 export interface ValidationTarget {

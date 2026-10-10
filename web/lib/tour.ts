@@ -5,7 +5,7 @@ import { enter } from "./nav";
 import { loadLists, startLiveCompare, startPlay, transport } from "./session";
 import { useUI } from "./ui";
 import type { ManagerInfo, RolloutListItem } from "./types";
-import { kindInfo } from "./palette";
+import { managerStory, namedManager } from "./story";
 
 export interface TourStep {
   title: string;
@@ -16,7 +16,10 @@ export interface TourStep {
 }
 
 const ui = () => useUI.getState();
-const named = (m: ManagerInfo) => `${m.label.replace(/\s*\[fixture\]$/, "")} (${kindInfo(m.kind).label.toLowerCase()})`;
+const named = namedManager;
+/** The manager's own description and held-out verdict, when the server provides them (nothing otherwise). */
+const story = (m: ManagerInfo | null | undefined, scenario: string) => (m ? managerStory(m.id, scenario) : "");
+const sp = (s: string) => (s ? ` ${s}` : "");
 
 /** A manager for an objective: a learned agent if one is available, otherwise a tuned heuristic. */
 function managerFor(test: RegExp): ManagerInfo | null {
@@ -63,16 +66,16 @@ export function buildTour(): TourStep[] {
       run: async () => {
         useUI.setState({ scenarioId: normal, speed: 4, paused: false, watchId: baseline!.rollout_id });
         await enter("watch");
-        // a Tuesday mid-morning, if the recording covers it (the player snaps to the nearest recorded snapshot)
-        transport.seekTick(288 + 120);
+        // a Tuesday mid-morning, or the nearest recorded moment to it
+        transport.seekTick(288 + 120, true);
       },
     },
     {
       title: "Hand it to a cost-tuned manager",
       caption: cost
         ? online
-          ? `${named(cost)} now runs the hospital live, at full speed. It was told to care about cost. Watch the staffing decisions in the feed, and the wait and cost cards.`
-          : `A recorded run of ${named(cost)}, which was told to care about cost. Watch the staffing decisions in the feed, and the wait and cost cards.`
+          ? `${named(cost)} now runs the hospital live, at full speed. Its objective is cost.${sp(story(cost, normal))} Its decisions appear in the feed as it makes them; the cards show the wait and cost that result.`
+          : `A recorded run of ${named(cost)}, whose objective is cost.${sp(story(cost, normal))} Its decisions are in the feed; the cards show the wait and cost that result.`
         : "",
       skip: !cost ? "no cost-tuned manager is available yet" : !online && !costR ? "the simulator is offline and no recording of a cost-tuned manager exists" : undefined,
       run: async () => {
@@ -89,7 +92,7 @@ export function buildTour(): TourStep[] {
     },
     {
       title: "Same patients, wait-tuned manager",
-      caption: cost && wait ? `Side by side on the same seed, so both face the same arrivals: A is ${named(cost)}, B is ${named(wait)}. Each does what it was asked to. The charts and the table show what that costs.` : "",
+      caption: cost && wait ? `Side by side on the same seed, so both face the same arrivals: A is ${named(cost)}, B is ${named(wait)}. The table gives each side's totals for the episode and the difference; rows that are close mean the two did not differ much on that measure.` : "",
       skip: !cost || !wait ? "needs both a cost-tuned and a wait-tuned manager" : !(costR && waitR) && !online ? "no recordings of both managers, and the simulator is offline" : undefined,
       run: async () => {
         useUI.setState({ scenarioId: normal, speed: 12, paused: false });
@@ -105,7 +108,7 @@ export function buildTour(): TourStep[] {
     },
     {
       title: "A constrained manager",
-      caption: con ? `${named(con)} was asked for the cheapest hospital that still keeps waits under a limit. Its decisions are listed as they happen.` : "",
+      caption: con ? `${named(con)}: its objective is the lowest cost that still keeps the 95th-percentile wait under a limit.${sp(story(con, normal))} Its decisions are listed as they happen.` : "",
       skip: !con ? "no constrained manager is available yet" : !conR ? "no recording of the constrained manager exists yet" : undefined,
       run: async () => {
         useUI.setState({ scenarioId: normal, speed: 12, paused: false, watchId: conR!.rollout_id });
@@ -114,7 +117,7 @@ export function buildTour(): TourStep[] {
     },
     {
       title: "Throw a flu surge at them",
-      caption: surgeA && surgeB && cost && surgeBManager ? `The same two kinds of manager under a flu surge: A is ${named(cost)}, B is ${named(surgeBManager)}. Watch which one keeps its waiting room under control.` : "",
+      caption: surgeA && surgeB && cost && surgeBManager ? `The same comparison under a flu surge: A is ${named(cost)}, B is ${named(surgeBManager)}. The table shows how each one's waits and costs held up.` : "",
       skip: !surge ? "no flu-surge scenario is defined" : !(surgeA && surgeB) ? "no flu-surge recordings of two managers exist yet" : undefined,
       run: async () => {
         useUI.setState({ scenarioId: surge!, speed: 12, paused: false, compareIds: [surgeA!.rollout_id, surgeB!.rollout_id] });
@@ -123,7 +126,7 @@ export function buildTour(): TourStep[] {
     },
     {
       title: "The trade-off",
-      caption: "Every evaluated manager on cost against wait, with intervals across held-out seeds. Managers do exactly what their objective asks for, which is why choosing the objective is the real decision. Your own Play run appears here too.",
+      caption: "Every evaluated manager, cost against wait, with intervals across held-out seeds. Marks that sit on top of each other did not differ. Click one for its details and its held-out comparison. Your own Play run appears here too, flagged if it was too short to compare.",
       run: async () => {
         useUI.setState({ scenarioId: normal });
         await enter("tradeoff");

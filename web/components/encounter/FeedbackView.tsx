@@ -115,9 +115,12 @@ function OrdersList({ orders }: { orders?: string[] }) {
   );
 }
 
+type WriteBack = { status: "applied" | "queued" | "rejected" | "not_applicable"; detail?: string } | null | undefined;
+
 export function WriteBackCard({
   result,
   writtenBack,
+  writeBack,
   error,
   sim,
   baseline,
@@ -126,6 +129,8 @@ export function WriteBackCard({
 }: {
   result: InteractionResult;
   writtenBack: boolean;
+  /** newer servers say how the result landed; "queued" is a success: it is applied when the patient reaches the provider */
+  writeBack?: WriteBack;
   error?: string;
   sim: SimBinding;
   baseline: SampledBaseline | null;
@@ -141,30 +146,42 @@ export function WriteBackCard({
   const recorded = after?.interactions?.find((i) => i.interaction_id === result.interaction_id) ?? null;
   const where = [bayLabel(baseline?.bay), shortHospital(baseline?.hospital_id, baseline?.hospital_name), simClock(sim.t_start)].filter(Boolean).join(" · ");
   const none = <span className="text-ink-3">Not captured before the encounter started</span>;
+  const status: "applied" | "queued" | "rejected" = writeBack?.status === "applied" || writeBack?.status === "queued" ? writeBack.status : writtenBack ? "applied" : "rejected";
+  void error; // the raw server error is not shown to the learner
+  const good = status !== "rejected";
+  const heading = status === "applied" ? "Written back to the simulation" : status === "queued" ? "Queued for the simulation" : "Not written back to the simulation";
+  const flag = status === "applied" ? "Applied" : status === "queued" ? "Queued" : "Not applied";
+  const outcome =
+    status === "applied"
+      ? "The simulation carries on from your decision."
+      : status === "queued"
+        ? "This patient has not reached the provider yet, so your result is queued: it will be applied when they do, in place of the sampled one. This card updates when that happens; return to the hospital and let the clock run."
+        : writeBack?.detail
+          ? `The simulation did not take the result: ${writeBack.detail.replace(/\.$/, "")}.`
+          : "The simulation did not take the result (the run may have ended), so it was stored with this session only.";
   return (
-    <section className="glass overflow-hidden" data-testid="writeback-card" data-written-back={String(writtenBack)}>
+    <section className="glass overflow-hidden" data-testid="writeback-card" data-written-back={String(writtenBack)} data-write-back={status}>
       <div className="flex flex-wrap items-center gap-3 border-b border-line bg-gradient-to-r from-accent-soft/80 to-white/40 px-4 py-3.5 sm:px-5">
-        <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-white ${writtenBack ? "bg-[#2FA36B]" : "bg-[#D8434C]"}`}>
+        <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-white ${status === "applied" ? "bg-[#2FA36B]" : status === "queued" ? "bg-[#2F55F5]" : "bg-[#D8434C]"}`}>
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-            {writtenBack ? <path d="M5 12.5l4.5 4.5L19 7.5" /> : <path d="M6 6l12 12M18 6L6 18" />}
+            {good ? <path d="M5 12.5l4.5 4.5L19 7.5" /> : <path d="M6 6l12 12M18 6L6 18" />}
           </svg>
         </span>
         <div className="min-w-0 flex-1">
           <div className="eyebrow">One hospital, two fidelities</div>
-          <h2 className="text-[17px] font-semibold tracking-[-0.01em] text-ink">{writtenBack ? "Written back to the simulation" : "Not written back to the simulation"}</h2>
+          <h2 className="text-[17px] font-semibold tracking-[-0.01em] text-ink">{heading}</h2>
           <p className="mt-0.5 text-[12px] leading-snug text-ink-2">
             Patient {String(result.patient_id).padStart(6, "0")} in run <span className="tnum">{sim.run_id}</span>
             {where ? ` · ${where}` : ""}
           </p>
         </div>
-        <Tone bg={writtenBack ? "#E3F4EA" : "#FDE7E7"} fg={writtenBack ? "#1F7A4D" : "#B4232C"}>
-          <span data-testid="written-back-flag">written_back: {String(writtenBack)}</span>
+        <Tone bg={status === "applied" ? "#E3F4EA" : status === "queued" ? "#E3E9FF" : "#FDE7E7"} fg={status === "applied" ? "#1F7A4D" : status === "queued" ? "#1F3FD1" : "#B4232C"}>
+          <span data-testid="written-back-flag">{flag}</span>
         </Tone>
       </div>
       <div className="px-4 py-3 sm:px-5">
         <p className="text-[12.5px] leading-relaxed text-ink-2">
-          Every clinician–patient encounter in the hospital fills the same four outputs. The simulation normally <b className="font-semibold text-ink">samples</b> them from its catalog; for this patient you <b className="font-semibold text-ink">played</b> the encounter, and your result replaced the sampled one.{" "}
-          {writtenBack ? "The simulation carries on from your decision." : error ? `The simulation did not accept the result (${error}).` : "The run this patient belonged to is no longer live, so the result was stored with the session only."}
+          Every clinician–patient encounter in the hospital fills the same four outputs. The simulation normally <b className="font-semibold text-ink">samples</b> them from its catalog; for this patient you <b className="font-semibold text-ink">played</b> the encounter{good ? ", and your result takes the place of the sampled one." : "."} {outcome}
         </p>
         <div className="mt-3 hidden grid-cols-[150px_1fr_22px_1fr] gap-x-3 pb-1 sm:grid">
           <span />
@@ -243,7 +260,7 @@ export function WriteBackCard({
           </div>
         )}
         <div className="mt-3 flex flex-wrap items-center gap-2">
-          <Link href="/" className="btn-primary" data-testid="return-hospital">
+          <Link href={sim.run_id ? `/?run_id=${encodeURIComponent(sim.run_id)}&patient_id=${encodeURIComponent(String(result.patient_id ?? sim.patient_id ?? ""))}` : "/?mode=play"} className="btn-primary" data-testid="return-hospital">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
               <path d="M19 12H5M11 6l-6 6 6 6" />
             </svg>
@@ -263,6 +280,7 @@ export function FeedbackView({
   feedback,
   result,
   writtenBack,
+  writeBack,
   sim,
   baseline,
   after,
@@ -275,6 +293,7 @@ export function FeedbackView({
   feedback: Feedback;
   result: InteractionResult | null;
   writtenBack: boolean;
+  writeBack?: WriteBack;
   sim: SimBinding | null;
   baseline: SampledBaseline | null;
   after: RunPatient | null;
@@ -324,7 +343,7 @@ export function FeedbackView({
         {feedback.formative_note && <p className="mt-3 text-[12px] leading-relaxed text-ink-3">{feedback.formative_note}</p>}
       </section>
 
-      {sim && result && <WriteBackCard result={result} writtenBack={writtenBack} error={feedback.writeback_error} sim={sim} baseline={baseline} after={after} chart={chart} />}
+      {sim && result && <WriteBackCard result={result} writtenBack={writtenBack} writeBack={writeBack} error={feedback.writeback_error} sim={sim} baseline={baseline} after={after} chart={chart} />}
 
       {/* objectives */}
       <Card title="Learning objectives" eyebrow="Objective by objective" testid="objectives" right={<span className="text-[11.5px] text-ink-3">Met · Partly demonstrated · Not observed · Not assessable</span>}>

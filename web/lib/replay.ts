@@ -18,8 +18,12 @@ export class ReplayPlayer {
   private tps = 4;
   private playing = true;
   private every = 1;
-  loop = true;
-  onEnd: (() => void) | null = null;
+  /** true = wrap around silently (offline fixture playback); false = stop at the end of each recorded window */
+  loop = false;
+  /** playback reached the end of a recorded window; `next` says whether another window follows */
+  onWindowEnd: ((info: { next: boolean }) => void) | null = null;
+  /** recorded windows as index ranges into the snapshot list (a rollout stores snapshots only for chosen stretches) */
+  windows: { from: number; to: number }[] = [];
 
   constructor(pairs: { feed: Feed; rollout: Rollout; origin: FeedOrigin }[]) {
     for (const { feed, rollout, origin } of pairs) {
@@ -59,6 +63,13 @@ export class ReplayPlayer {
     }
     this.ticks = this.tracks[0]?.frames.map((f) => f.t) ?? [];
     this.every = this.tracks[0]?.rollout.segments[0]?.every_ticks ?? 1;
+    let from = 0;
+    for (let k = 1; k <= this.ticks.length; k++) {
+      if (k === this.ticks.length || this.ticks[k] - this.ticks[k - 1] > this.every * 3) {
+        this.windows.push({ from, to: k - 1 });
+        from = k;
+      }
+    }
     this.emit(true);
   }
 
@@ -105,18 +116,19 @@ export class ReplayPlayer {
     this.timer = null;
     if (!this.playing || this.ticks.length < 2) return;
     this.timer = setTimeout(() => {
-      if (this.i >= this.ticks.length - 1) {
-        this.onEnd?.();
+      const w = this.windowOf(this.i);
+      if (w && this.i >= w.to) {
         if (!this.loop) {
+          // do not run on into another day, or back to the start, as if nothing happened
           this.playing = false;
+          this.onWindowEnd?.({ next: w.to < this.ticks.length - 1 });
           return;
         }
-        this.i = 0;
+        this.i = w.to >= this.ticks.length - 1 ? 0 : this.i + 1;
         this.emit(true);
       } else {
-        const prev = this.ticks[this.i];
         this.i++;
-        this.emit(this.ticks[this.i] - prev > this.every * 3);
+        this.emit(false);
       }
       this.schedule();
     }, this.frameMs());
@@ -129,9 +141,33 @@ export class ReplayPlayer {
     this.tps = tps;
     this.schedule();
   }
+  private windowOf(i: number) {
+    return this.windows.find((w) => i >= w.from && i <= w.to) ?? null;
+  }
   setPlaying(p: boolean) {
+    // pressing play at the end of a window carries on with the next one (or starts again after the last)
+    if (p && !this.playing) {
+      const w = this.windowOf(this.i);
+      if (w && this.i >= w.to && this.ticks.length > 1) {
+        this.i = w.to >= this.ticks.length - 1 ? 0 : w.to + 1;
+        this.emit(true);
+      }
+    }
     this.playing = p;
     this.schedule();
+  }
+  /** Start of the window after the current one (wraps to the first). */
+  nextWindow() {
+    const k = this.windows.findIndex((w) => this.i >= w.from && this.i <= w.to);
+    const n = this.windows[(k + 1) % Math.max(1, this.windows.length)];
+    if (n) this.seekIndex(n.from);
+  }
+  replayWindow() {
+    const w = this.windowOf(this.i);
+    if (w) this.seekIndex(w.from);
+  }
+  windowTicks() {
+    return this.windows.map((w) => ({ start: this.ticks[w.from], end: this.ticks[w.to] }));
   }
   step() {
     if (this.i < this.ticks.length - 1) {
@@ -144,8 +180,11 @@ export class ReplayPlayer {
     this.emit(true);
     this.schedule();
   }
-  /** Jump to the recorded snapshot closest to tick t. */
-  seekTick(t: number) {
+  /**
+   * Jump to the recorded snapshot at tick t. Returns false, without moving, when t is outside every recorded window
+   * (`snap` = true jumps to the nearest snapshot regardless).
+   */
+  seekTick(t: number, snap = false): boolean {
     let best = 0;
     let bd = Infinity;
     for (let k = 0; k < this.ticks.length; k++) {
@@ -155,7 +194,9 @@ export class ReplayPlayer {
         best = k;
       }
     }
+    if (!snap && bd > Math.max(12, this.every * 3)) return false;
     this.seekIndex(best);
+    return true;
   }
   dispose() {
     if (this.timer) clearTimeout(this.timer);

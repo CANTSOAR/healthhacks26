@@ -378,7 +378,7 @@ if (want("sim")) {
       await page.getByTestId("finish-submit").click();
       await page.waitForSelector('[data-testid="writeback-card"]');
       const flag = await page.getByTestId("written-back-flag").innerText();
-      ok(flag.trim() === "written_back: true", `write-back card shows ${flag.trim()}`);
+      ok(/^(Applied|Queued)$/.test(flag.trim()), `write-back card shows ${flag.trim()}`);
       await page.waitForSelector('[data-testid="wb-confirmed"]', { timeout: 8000 }).catch(() => {});
       ok((await page.getByTestId("wb-confirmed").count()) === 1, "the run's own record of the patient lists the played interaction");
       ok((await page.getByTestId("contract-row").count()) === 4, "the four contract outputs are shown, sampled next to played");

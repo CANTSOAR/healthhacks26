@@ -1,7 +1,7 @@
 // Interface state shared by all panels (the simulation data itself lives in feeds, see feed.ts).
 import { create } from "zustand";
 import type { Source } from "./api";
-import type { Hospital, ManagerInfo, RolloutListItem, Scenario, Selection, ServiceStatus } from "./types";
+import type { Hospital, ManagerInfo, Results, RolloutListItem, Scenario, Selection, ServiceStatus } from "./types";
 
 export type Mode = "play" | "watch" | "compare" | "tradeoff";
 export type ListTab = "beds" | "staff" | "patients";
@@ -28,6 +28,11 @@ export interface UIState {
   managers: ManagerInfo[];
   rollouts: RolloutListItem[];
   listsSource: Source | null;
+  results: Results | null;
+  /** Watch: playback reached the end of a recorded window (next = another window follows) */
+  windowEnd: null | { next: boolean };
+  /** Watch: an hour the chart cursor was moved to that has no 3D recording */
+  chartCursor: number | null;
   scenarioId: string;
   hospitalId: string;
   watchId: string | null;
@@ -37,6 +42,8 @@ export interface UIState {
   compareManagers: [string, string];
   compareNote: string | null;
   loading: string | null;
+  /** a live run of this tab is remembered and can be rejoined */
+  hasSavedRun: boolean;
   play: {
     state: PlayState;
     manager: string;
@@ -74,6 +81,9 @@ export const useUI = create<UIState>((set) => ({
   managers: [],
   rollouts: [],
   listsSource: null,
+  results: null,
+  windowEnd: null,
+  chartCursor: null,
   scenarioId: "normal_week",
   hospitalId: "rwjuh_nb",
   watchId: null,
@@ -82,6 +92,7 @@ export const useUI = create<UIState>((set) => ({
   compareManagers: ["fixed", "rule_based"],
   compareNote: null,
   loading: null,
+  hasSavedRun: false,
   play: { state: "idle", manager: "human", seed: 7, requested: {}, posted: null, note: null },
   drawer: null,
   tour: null,

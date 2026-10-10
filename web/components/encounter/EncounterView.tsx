@@ -42,6 +42,12 @@ const VOICE_KEY = "hg.enc.voice";
 export const selfStarted = { id: null as string | null };
 const starts = new Map<string, Promise<{ started: EncounterStart; baseline: SampledBaseline | null }>>();
 
+/** Back to the hospital on the same run, with this patient selected (the app rejoins the run it finds in the link). */
+export function hospitalHref(sim: { run_id?: string | null; patient_id?: number | string | null }): string {
+  if (!sim.run_id) return "/?mode=play";
+  return `/?run_id=${encodeURIComponent(sim.run_id)}${sim.patient_id != null ? `&patient_id=${encodeURIComponent(String(sim.patient_id))}` : ""}`;
+}
+
 async function captureBaseline(runId: string, patientId: number): Promise<SampledBaseline | null> {
   try {
     const [p, runs, hospitals] = await Promise.all([encApi.runPatient(runId, patientId), encApi.runs().catch(() => []), encApi.hospitals().catch(() => [])]);
@@ -219,7 +225,7 @@ export function EncounterView({ params }: { params: EncounterParams }) {
   const [finishOpen, setFinishOpen] = useState(false);
   const [finishing, setFinishing] = useState(false);
   const [finishError, setFinishError] = useState<string | null>(null);
-  const [done, setDone] = useState<{ feedback: Feedback; result: InteractionResult | null; writtenBack: boolean } | null>(null);
+  const [done, setDone] = useState<{ feedback: Feedback; result: InteractionResult | null; writtenBack: boolean; writeBack?: { status: "applied" | "queued" | "rejected" | "not_applicable"; detail?: string } | null } | null>(null);
   const [baseline, setBaseline] = useState<SampledBaseline | null>(null);
   const [after, setAfter] = useState<RunPatient | null>(null);
   const [elapsed, setElapsed] = useState(0);
@@ -249,7 +255,7 @@ export function EncounterView({ params }: { params: EncounterParams }) {
       }
       if (s.status === "finished" && s.feedback) {
         setElapsed(Math.max(0, ((Date.parse(s.finished ?? "") || Date.now()) - (Date.parse(s.started) || Date.now())) / 1000));
-        setDone({ feedback: s.feedback, result: s.interaction_result ?? null, writtenBack: !!s.written_back });
+        setDone({ feedback: s.feedback, result: s.interaction_result ?? null, writtenBack: !!s.written_back, writeBack: s.write_back ?? null });
       }
     };
     (async () => {
@@ -310,6 +316,20 @@ export function EncounterView({ params }: { params: EncounterParams }) {
     const t = setInterval(tick, 1000);
     return () => clearInterval(t);
   }, [session, done]);
+
+  // A queued result is applied once the run advances and the patient reaches the provider: keep asking until it lands.
+  useEffect(() => {
+    if (!session || done?.writeBack?.status !== "queued") return;
+    const timer = setInterval(() => {
+      encApi
+        .get(session.id)
+        .then((s) => {
+          if (s.write_back && s.write_back.status !== "queued") setDone((d) => (d ? { ...d, writtenBack: !!s.written_back, writeBack: s.write_back } : d));
+        })
+        .catch(() => undefined);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [session, done?.writeBack?.status]);
 
   // after a write-back, read the patient's record from the run to show that the simulation took the result
   useEffect(() => {
@@ -385,7 +405,7 @@ export function EncounterView({ params }: { params: EncounterParams }) {
         } catch {
           /* keep what we have */
         }
-        setDone({ feedback: r.feedback, result: r.interaction_result, writtenBack: r.written_back });
+        setDone({ feedback: r.feedback, result: r.interaction_result, writtenBack: r.written_back, writeBack: r.write_back ?? null });
         setFinishOpen(false);
         window.scrollTo({ top: 0 });
       } catch (e) {
@@ -434,7 +454,13 @@ export function EncounterView({ params }: { params: EncounterParams }) {
       {/* header */}
       <header className="z-20 shrink-0 px-3 pt-3 sm:px-4">
         <div className="glass flex flex-wrap items-center gap-x-3 gap-y-2 px-3 py-2 sm:px-4">
-          <Link href={session.sim ? "/" : "/encounter"} className="btn-quiet !h-7 !px-2.5" title={session.sim ? "Back to the hospital" : "Back to the case list"}>
+          <Link
+            href={session.sim ? hospitalHref(session.sim) : "/encounter"}
+            onClick={() => {
+              // leaving without finishing: release the patient, or they stay held and the hospital cannot move them on
+              if (!done && session.sim?.run_id && session.sim.patient_id != null) void encApi.releaseHold(session.sim.run_id, session.sim.patient_id).catch(() => undefined);
+            }}
+            className="btn-quiet !h-7 !px-2.5" title={session.sim ? "Back to the hospital" : "Back to the case list"}>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
               <path d="M19 12H5M11 6l-6 6 6 6" />
             </svg>
@@ -447,7 +473,7 @@ export function EncounterView({ params }: { params: EncounterParams }) {
             <div className="truncate text-[11px] text-ink-3">
               {session.sim ? (
                 <span data-testid="sim-context">
-                  <span className="font-semibold text-accent-dark">{simLine}</span> · this patient is occupying a bed in the running simulation
+                  <span className="font-semibold text-accent-dark">{simLine}</span> · {baseline?.bay ? "this patient is occupying a bed in the running simulation" : "this patient is in the running simulation, not yet in a bed"}
                 </span>
               ) : (
                 <>
@@ -480,7 +506,7 @@ export function EncounterView({ params }: { params: EncounterParams }) {
               Finish encounter
             </button>
           ) : (
-            <Link href={session.preview ? "/studio" : session.sim ? "/" : `/encounter?case_id=${encodeURIComponent(session.kase.case_id)}`} className="btn-primary" data-testid="after-finish-link">
+            <Link href={session.preview ? "/studio" : session.sim ? hospitalHref(session.sim) : `/encounter?case_id=${encodeURIComponent(session.kase.case_id)}`} className="btn-primary" data-testid="after-finish-link">
               {session.preview ? "Back to the Studio" : session.sim ? "Return to hospital" : "Try again"}
             </Link>
           )}
@@ -488,7 +514,7 @@ export function EncounterView({ params }: { params: EncounterParams }) {
       </header>
 
       {done ? (
-        <FeedbackView kase={session.kase} patient={session.patient} feedback={done.feedback} result={done.result} writtenBack={done.writtenBack} sim={session.sim} baseline={baseline} after={after} chart={session.chart} transcript={transcript} preview={session.preview} />
+        <FeedbackView kase={session.kase} patient={session.patient} feedback={done.feedback} result={done.result} writtenBack={done.writtenBack} writeBack={done.writeBack} sim={session.sim} baseline={baseline} after={after} chart={session.chart} transcript={transcript} preview={session.preview} />
       ) : (
         <>
           {/* narrow screens: one pane at a time */}

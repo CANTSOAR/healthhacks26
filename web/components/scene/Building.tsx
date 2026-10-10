@@ -78,6 +78,8 @@ function Instances({ geo, items, feed, feedKey }: { geo: Geo; items: Prim[]; fee
       receiveShadow
       onClick={(e) => {
         if (e.delta > 5 || e.instanceId == null) return;
+        // a person's click target anywhere along this ray wins: let the event travel on to it
+        if (e.intersections.some((x) => x.object.userData?.personHit)) return;
         const p = items[e.instanceId];
         if (!p?.pick) return;
         e.stopPropagation();
@@ -187,7 +189,7 @@ export function Building({ layout, feed, feedKey, onBuilt }: { layout: Layout; f
           castShadow
           receiveShadow
           onClick={(e) => {
-            if (e.delta > 5 || !t.pick) return;
+            if (e.delta > 5 || !t.pick || e.intersections.some((x) => x.object.userData?.personHit)) return;
             e.stopPropagation();
             useUI.getState().select({ kind: t.pick.kind, id: t.pick.id, feed: feedKey });
           }}

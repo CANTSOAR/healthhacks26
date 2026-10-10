@@ -44,6 +44,10 @@ export interface FeedState {
   decisions: Decision[];
   events: SimEvent[];
   journeys: Map<number, JourneyEntry[]>;
+  /** the headline numbers about once a simulated hour, so a card can say how its own number moved */
+  kpiHist: { t: number; wait: number; waiting: number }[];
+  /** ids the server says can be played right now (null until it sends such a list) */
+  playable: Set<number> | null;
   pending: Record<string, number>;
   mask: Record<string, boolean>;
   summary: Record<string, number> | null;
@@ -68,6 +72,8 @@ const empty = (key: string): FeedState => ({
   decisions: [],
   events: [],
   journeys: new Map(),
+  kpiHist: [],
+  playable: null,
   pending: {},
   mask: {},
   summary: null,
@@ -105,6 +111,12 @@ export function pushSnapshot(feed: Feed, snap: Snapshot, tickMs: number, opts: {
   const st = feed.getState();
   const patch: Partial<FeedState> = { snap, snapAt: performance.now(), tickMs };
   if (opts.jump) patch.jump = st.jump + 1;
+  {
+    const k = snap.kpis as Record<string, unknown>;
+    const last = st.kpiHist[st.kpiHist.length - 1];
+    if (last && (snap.t < last.t || snap.t - last.t > 60)) patch.kpiHist = [{ t: snap.t, wait: Number(k.wait_mean_min), waiting: Number(k.waiting_count) }];
+    else if (!last || snap.t - last.t >= 6) patch.kpiHist = st.kpiHist.concat([{ t: snap.t, wait: Number(k.wait_mean_min), waiting: Number(k.waiting_count) }]).slice(-40);
+  }
   if (opts.record) {
     if (snap.decisions?.length) patch.decisions = st.decisions.concat(snap.decisions).slice(-500);
     if (snap.events?.length) patch.events = st.events.concat(snap.events).slice(-500);

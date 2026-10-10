@@ -3,6 +3,11 @@ import { wsBase } from "./api";
 import { pushSnapshot, resetFeed, setLayout, type Feed } from "./feed";
 import type { ManagerInfo, ServerMsg, SimEvent } from "./types";
 
+/** Rejoin a run the server still holds instead of starting one: `{"type":"attach","run_id"}`. */
+export interface AttachParams {
+  attach: string;
+  speed: number;
+}
 export interface StartParams {
   scenario: string;
   seed: number;
@@ -18,22 +23,29 @@ export class LiveSim {
   private ema = 0;
   state: LiveState = "connecting";
   gotHeader = false;
+  /** the server said the run to attach to no longer exists */
+  gone = false;
+  detached = false;
+  /** speed the server reported for an attached run */
+  attachedSpeed: number | null = null;
+  private attachId: string | null = null;
   private finalWaiters: (() => void)[] = [];
 
   constructor(
     private feed: Feed,
-    private params: StartParams,
+    private params: StartParams & { attach?: string },
     private on: {
       state: (s: LiveState) => void;
       summary?: (s: Record<string, number>) => void;
       events?: (e: SimEvent[]) => void;
       manager?: (m: ManagerInfo) => void;
       error?: (message: string) => void;
+      detached?: () => void;
     },
   ) {}
 
   /** Resolves true once the server has sent its header; false when the socket cannot be opened in time. */
-  connect(timeoutMs = 2500): Promise<boolean> {
+  connect(timeoutMs = this.params.attach ? 9000 : 2500): Promise<boolean> {
     return new Promise((resolve) => {
       let settled = false;
       const done = (ok: boolean) => {
@@ -61,7 +73,10 @@ export class LiveSim {
       ws.onopen = () => {
         resetFeed(this.feed);
         this.feed.setState({ origin: "live" });
-        this.send({ type: "start", ...this.params });
+        const { attach, ...start } = this.params;
+        this.attachId = attach ?? null;
+        if (attach) this.send({ type: "attach", run_id: attach });
+        else this.send({ type: "start", ...start });
       };
       ws.onerror = () => {
         if (!this.gotHeader) {
@@ -81,6 +96,14 @@ export class LiveSim {
           return;
         }
         this.handle(msg);
+        if (msg.type === "error" && this.attachId && !this.gotHeader) {
+          // attach refused: {"type":"error","code":"run_gone"} (an older server answers with a plain error)
+          this.gone = true;
+          this.setState("failed");
+          done(false);
+          this.close();
+          return;
+        }
         if (msg.type === "header") {
           this.setState("open");
           done(true);
@@ -99,6 +122,14 @@ export class LiveSim {
     switch (msg.type) {
       case "header": {
         this.gotHeader = true;
+        {
+          const extra = msg as unknown as { speed?: number; ticks_per_second?: number; paused?: boolean };
+          const sp = extra.ticks_per_second ?? extra.speed;
+          if (typeof sp === "number" && sp > 0) {
+            this.attachedSpeed = sp;
+            this.params.speed = sp;
+          }
+        }
         feed.setState((s) => ({
           origin: "live",
           header: {
@@ -132,6 +163,10 @@ export class LiveSim {
       }
       case "hour": {
         this.syncManager(msg as unknown as { manager?: string; manager_info?: ManagerInfo });
+        {
+          const pl = (msg as unknown as { playable?: unknown }).playable;
+          if (Array.isArray(pl)) feed.setState({ playable: new Set(pl.map((x) => Number(typeof x === "object" && x ? (x as { patient_id?: number; id?: number }).patient_id ?? (x as { id?: number }).id : x))) });
+        }
         // The server also sends `hour` as an immediate acknowledgement of action / manager / inject, with empty
         // metrics: it only updates the queued knobs and the mask, and must not add a point to the charts.
         if (msg.ack || !msg.metrics || Object.keys(msg.metrics).length === 0) {
@@ -156,6 +191,16 @@ export class LiveSim {
         if (msg.final) this.finalWaiters.splice(0).forEach((f) => f());
         break;
       case "error":
+        {
+          const code = (msg as unknown as { code?: string }).code;
+          if (code === "detached") {
+            // the run was opened from another tab or window: step back quietly
+            this.detached = true;
+            this.on.detached?.();
+            break;
+          }
+          if (code === "run_gone" && !this.gotHeader) break; // reported by connect()
+        }
         feed.setState({ error: msg.message });
         this.on.error?.(msg.message);
         break;

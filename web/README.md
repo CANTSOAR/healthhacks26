@@ -80,6 +80,26 @@ Other behaviour worth knowing:
   skipped with a stated reason otherwise. Captions contain no numbers. Arrow keys move, Escape leaves.
 - Speed "Max" asks the server for 600 ticks a second; it delivers what it can and skips snapshots above about 30 a second.
 
+Round 3 (after the QA pass):
+- **A live run survives reloads, mode switches and a trip to the encounter page.** Its `run_id` is kept in
+  sessionStorage; Play rejoins it with the websocket `attach` message. `/?run_id=..&patient_id=..` (the link the
+  encounter page returns with) lands in Play on that run with the patient selected. If the server no longer has the
+  run, Play says so and offers a fresh start. Changing scenario or hospital mid-run asks before ending the run.
+- **"Play this encounter" appears only for playable patients** (the server's `playable` list and per-patient answer;
+  on a recorded run it never appears). Playable patients are marked and listed first; "Find a patient to play" pauses
+  the hospital, asks the server who is playable at that instant and selects one.
+- **Never run `pnpm build` or a second `next dev` in `web/` while a dev server is running**: both write `web/.next`
+  and break the running server.
+- The top bar has two rows on a desktop and fits from 1280 px; on a phone the other pages are under "More".
+- When the API is unreachable a banner says so in every mode, tags read "fixture", and the app reloads live data by
+  itself when the API answers again.
+- Watch stops at the end of each recorded window (next window / replay) instead of looping; the windows are listed
+  under the chart; a click outside them moves only the chart cursor and says there is no 3D recording for that hour.
+- What is said about a manager comes from metadata only: its `note` / `training` / `description` if the server sends
+  one, and the held-out verdict from `results.comparisons`.
+- People in the scene have enlarged invisible click targets and win over the room behind them. The idle camera sways
+  about twenty degrees instead of circling, so floor labels are never read from behind.
+
 Compare has two sources: recorded rollouts (one shared replay clock) or "Run live" (two live simulations; each runs
 on its own clock, so they can drift a few ticks apart).
 

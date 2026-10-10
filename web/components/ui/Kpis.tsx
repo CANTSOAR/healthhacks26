@@ -38,18 +38,21 @@ export function computeKpis(f: FeedState): Kpi[] {
   const wait = isFinite(n(k.wait_mean_min)) ? n(k.wait_mean_min) : at("wait_mean_min", h - 1);
   const waiting = isFinite(n(k.waiting_count)) ? n(k.waiting_count) : at("waiting_count", h - 1);
   const lwbs = isFinite(n(k.lwbs_rate)) ? n(k.lwbs_rate) : at("lwbs_rate", h - 1);
-  const cost = trailing(f.hourly.cost_total, h, 24);
-  const costPrev = trailing(f.hourly.cost_total, h - 1, 24);
+  // each chip compares the card's own number with what it was about one simulated hour ago
+  const ago = snap ? [...f.kpiHist].reverse().find((x) => x.t <= snap.t - 12) : undefined;
+  const hc = Math.min(h, f.hourly.cost_total?.length ?? 0);
+  const cost = trailing(f.hourly.cost_total, hc, 24);
+  const costPrev = hc >= 2 ? trailing(f.hourly.cost_total, hc - 1, 24) : NaN;
   const margin = trailing(f.hourly.margin, h, 24);
 
   return [
-    { key: "wait", label: "Door to provider", value: isFinite(wait) ? num(wait, 0) : "–", unit: "min", sub: isFinite(n(k.wait_p95_min)) ? `95th pct ${num(n(k.wait_p95_min))} min` : "mean wait", delta: rel(at("wait_mean_min", h - 1), at("wait_mean_min", h - 2)), goodWhenDown: true },
-    { key: "waiting", label: "Patients waiting", value: isFinite(waiting) ? num(waiting) : "–", sub: isFinite(lwbs) ? `LWBS ${pct(lwbs, 1)}` : "not yet seen", delta: rel(at("waiting_count", h - 1), at("waiting_count", h - 2)), goodWhenDown: true },
+    { key: "wait", label: "Door to provider", value: isFinite(wait) ? num(wait, 0) : "–", unit: "min", sub: isFinite(n(k.wait_p95_min)) ? `95th pct ${num(n(k.wait_p95_min))} min` : "mean wait", delta: ago ? rel(wait, ago.wait) : NaN, goodWhenDown: true },
+    { key: "waiting", label: "Patients waiting", value: isFinite(waiting) ? num(waiting) : "–", sub: isFinite(lwbs) ? `LWBS ${pct(lwbs, 1)}` : "not yet seen", delta: ago ? rel(waiting, ago.waiting) : NaN, goodWhenDown: true },
     { key: "cost", label: "Cost per day", value: isFinite(cost) ? money(cost) : "–", sub: isFinite(margin) ? `margin ${money(margin)}` : "trailing 24 h", delta: rel(cost, costPrev), goodWhenDown: true },
   ];
 }
 
-export function DeltaChip({ delta, goodWhenDown, title = "Change against one simulated hour earlier" }: { delta: number; goodWhenDown: boolean; title?: string }) {
+export function DeltaChip({ delta, goodWhenDown, title = "Change in this number against one simulated hour earlier" }: { delta: number; goodWhenDown: boolean; title?: string }) {
   if (!isFinite(delta)) return <span className="chip bg-[#141a33]/[0.05] text-ink-3">–</span>;
   const flat = Math.abs(delta) < 0.005;
   const good = flat ? null : delta < 0 === goodWhenDown;

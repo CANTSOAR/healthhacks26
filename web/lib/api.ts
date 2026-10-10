@@ -107,7 +107,7 @@ export const api = {
   catalog: () => get<CatalogSummary>("/api/catalog", () => fixture("catalog.json")),
   catalogRef: async (ref: string): Promise<Sourced<CatalogRef | null>> => {
     try {
-      return { data: await live<CatalogRef>(`/api/catalog/ref/${ref.split("/").map(encodeURIComponent).join("/")}`), source: "live" };
+      return { data: await live<CatalogRef>(`/api/catalog/ref/${ref.split("/").map(encodeURIComponent).join("/")}`, undefined, 8000), source: "live" };
     } catch (e) {
       // the server answered "no such entry": that is the truth, do not paper over it with a fixture
       if (e instanceof HttpError && e.status === 404) return { data: null, source: "live" };
@@ -159,6 +159,7 @@ export const api = {
       return "fixture";
     }
   },
+  runPlayable: (runId: string) => live<{ playable: number[] }>(`/api/runs/${encodeURIComponent(runId)}/playable`),
   runPatient: (runId: string, patientId: number) => live<Record<string, unknown>>(`/api/runs/${encodeURIComponent(runId)}/patients/${patientId}`),
   runStaff: (runId: string, staffId: string) => live<Record<string, unknown>>(`/api/runs/${encodeURIComponent(runId)}/staff/${encodeURIComponent(staffId)}`),
 };

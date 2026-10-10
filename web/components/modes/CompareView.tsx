@@ -4,6 +4,7 @@ import type { FeedState } from "@/lib/feed";
 import { metricValue, titleCase } from "@/lib/format";
 import { useFeedState } from "@/lib/hooks";
 import { SERIES } from "@/lib/palette";
+import { managerStory, prettyManager } from "@/lib/story";
 import { feeds, openCompare, startLiveCompare, stopLiveCompare, summarise, transport } from "@/lib/session";
 import { useUI } from "@/lib/ui";
 import HospitalScene from "../scene/HospitalScene";
@@ -11,7 +12,7 @@ import { Icon, ICONS, KindChip, SimTag, SourceChip } from "../ui/atoms";
 import { CameraPill, Disclaimer, Legend } from "../ui/Chrome";
 import { Inspector } from "../ui/Inspector";
 import { LineChart } from "../ui/LineChart";
-import { chartView, CHART_METRICS, playheadHour, ZoomToggle, type ChartZoom } from "../ui/Timeline";
+import { chartView, CHART_METRICS, playheadHour, RecordingNote, scrubTo, ZoomToggle, type ChartZoom } from "../ui/Timeline";
 import { RolloutPicker } from "./WatchPanel";
 
 const DIFF: [string, string, string, boolean][] = [
@@ -40,7 +41,7 @@ function PaneHeader({ f, side, color }: { f: FeedState; side: "A" | "B"; color: 
       <span className="flex h-5 w-5 items-center justify-center rounded-md text-[11px] font-bold text-white" style={{ background: color }}>
         {side}
       </span>
-      <span className="max-w-[260px] truncate text-[13px] font-semibold text-ink">{h?.manager.label ?? "…"}</span>
+      <span className="max-w-[260px] truncate text-[13px] font-semibold text-ink">{h ? prettyManager(h.manager.label) : "…"}</span>
       {h && <KindChip kind={h.manager.kind} />}
       {f.origin === "fixture" && <SourceChip tag="fixture" />}
       <span className="tnum flex items-center gap-3 text-[11px] text-ink-3">
@@ -128,7 +129,8 @@ export function CompareView({ narrow, top }: { narrow: boolean; top: React.React
   const isLive = liveState === "live" || liveState === "connecting";
   const runnable = managers.filter((m) => m.kind !== "human" && m.available !== false);
   const sameSeed = a.header && b.header ? a.header.seed === b.header.seed && a.header.scenario === b.header.scenario : true;
-  const cur = playheadHour(a);
+  const chartCursor = useUI((s) => s.chartCursor);
+  const cur = chartCursor != null && a.origin !== "live" ? chartCursor - a.hour0 : playheadHour(a);
   const selFeed = selection?.feed === "b" ? b : a;
 
   const charts = (
@@ -163,7 +165,7 @@ export function CompareView({ narrow, top }: { narrow: boolean; top: React.React
             cursor={view.cursor}
             hour0={view.hour0}
             step={view.step}
-            onScrub={transport.canSeek() ? (h) => transport.seekTick(Math.round((h + view.offset + a.hour0) * 12)) : undefined}
+            onScrub={transport.canSeek() ? (h) => scrubTo(h + view.offset + a.hour0, view.step === 24) : undefined}
             bands={a.segments.map((s) => ({ start: s.start / 12 - a.hour0 - view.offset, end: s.end / 12 - a.hour0 - view.offset }))}
           />
         </div>
@@ -231,9 +233,17 @@ export function CompareView({ narrow, top }: { narrow: boolean; top: React.React
             {titleCase(a.header.scenario)} · seed {a.header.seed} ·{" "}
             {a.origin === "live" ? "two live simulations with the same arrivals; each runs on its own clock, so they can drift a few ticks apart." : "clocks locked together."}
             {!sameSeed && <span className="font-semibold text-[#B4232A]"> These two runs differ in scenario or seed, so patients are not the same.</span>}
-            {a.origin !== "live" && ids[0] && ids[0] === ids[1] && <span className="font-semibold text-[#8A5A00]"> Both sides show the same rollout: only one recorded rollout is available. Use “Run live” to compare two managers.</span>}
+            {a.origin !== "live" && ids[0] && ids[0] === ids[1] && <span className="font-semibold text-[#8A5A00]"> Both sides show the same recording. Pick a different one for B, or use “Run live”.</span>}
           </div>
         )}
+        {[a, b].map((f, i) => {
+          const story = f.header ? managerStory(f.header.manager.id, f.header.scenario) : "";
+          return story ? (
+            <div key={i} className="rounded-xl bg-[#141a33]/[0.035] px-3 py-2 text-[11px] leading-snug text-ink-2" data-testid="manager-story">
+              <b className="font-semibold text-ink">{i === 0 ? "A" : "B"}:</b> {story}
+            </div>
+          ) : null;
+        })}
       </div>
       <div className="scroll-thin min-h-0 flex-1 overflow-y-auto border-t border-line px-3.5 pb-3 pt-3">
         <DiffTable a={a} b={b} />
@@ -280,6 +290,7 @@ export function CompareView({ narrow, top }: { narrow: boolean; top: React.React
             </div>
           </div>
           {charts}
+          <RecordingNote f={a} />
           <div className="flex items-center justify-between gap-4">
             <Disclaimer feed={feeds.a} className="!text-left" />
             <div className="shrink-0 max-[1500px]:hidden">

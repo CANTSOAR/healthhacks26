@@ -4,6 +4,7 @@ import { api } from "@/lib/api";
 import { metricValue, money, num, titleCase } from "@/lib/format";
 import { useApi } from "@/lib/hooks";
 import { KIND, kindInfo } from "@/lib/palette";
+import { managerStory, prettyManager } from "@/lib/story";
 import { feeds } from "@/lib/session";
 import { useUI } from "@/lib/ui";
 import type { ManagerKind, RolloutListItem, Validation } from "@/lib/types";
@@ -293,7 +294,9 @@ export function TradeoffView({ narrow, top, onWatch, onCompare }: { narrow: bool
     const keys = new Set((data?.rows ?? []).flatMap((r) => Object.keys(r.metrics)));
     return [...keys].find((k) => /(labou?r|staffing).*cost|cost.*(labou?r|staffing)/i.test(k) && /per_day/i.test(k)) ?? [...keys].find((k) => /(labou?r|staffing).*cost|cost.*(labou?r|staffing)/i.test(k)) ?? null;
   }, [data]);
-  const [xAxis, setXAxis] = useState<"total" | "labor">("total");
+  // Staffing cost is what a manager's decisions move (total cost is dominated by costs no action touches), so it is
+  // the default x-axis whenever the results carry it.
+  const [xAxis, setXAxis] = useState<"total" | "labor">("labor");
   const xKey = xAxis === "labor" && laborKey ? laborKey : "cost_per_day";
   const xLabel = xKey === "cost_per_day" ? "Cost per day" : "Staffing cost per day";
   const validation = useApi(() => api.validation(), []);
@@ -310,7 +313,7 @@ export function TradeoffView({ narrow, top, onWatch, onCompare }: { narrow: bool
       const c = r.metrics[xKey];
       const w = r.metrics.wait_mean_min;
       if (!c || !w) continue;
-      out.push({ id: r.manager_id, label: r.label, kind: r.kind, objective: r.objective, x: c.mean, y: w.mean, ex: c.ci95 ?? 0, ey: w.ci95 ?? 0, n: r.n_seeds, metrics: r.metrics });
+      out.push({ id: r.manager_id, label: prettyManager(r.label), kind: r.kind, objective: r.objective, x: c.mean, y: w.mean, ex: c.ci95 ?? 0, ey: w.ci95 ?? 0, n: r.n_seeds, metrics: r.metrics });
     }
     const humans = (data.human_runs ?? []).filter((h) => h.scenario === sc && h.summary?.[xKey] != null && h.summary?.wait_mean_min != null);
     const last = humans[humans.length - 1];
@@ -365,11 +368,11 @@ export function TradeoffView({ narrow, top, onWatch, onCompare }: { narrow: bool
                 {source === "fixture" ? <SourceChip tag="fixture" /> : <SimTag />}
                 {laborKey && (
                   <div className="seg" data-testid="xaxis-toggle" title={`Staffing cost is read from the results metric “${laborKey}”`}>
-                    <button data-on={xAxis === "total"} onClick={() => setXAxis("total")}>
-                      Total cost
-                    </button>
                     <button data-on={xAxis === "labor"} onClick={() => setXAxis("labor")}>
                       Staffing cost
+                    </button>
+                    <button data-on={xAxis === "total"} onClick={() => setXAxis("total")}>
+                      Total cost
                     </button>
                   </div>
                 )}
@@ -405,6 +408,11 @@ export function TradeoffView({ narrow, top, onWatch, onCompare }: { narrow: bool
                 </span>
               ))}
               <span className="text-ink-3">· bars: 95% interval across seeds</span>
+              {xKey !== "cost_per_day" && (data?.human_runs ?? []).some((h) => h.scenario === sc && h.summary?.[xKey] == null) && (
+                <span className="text-ink-3" data-testid="human-axis-note">
+                  · your own run has no staffing-cost figure, so it appears on the Total cost axis only
+                </span>
+              )}
             </div>
             <div className={narrow ? "mt-2 h-[340px] flex-none" : "mt-2 min-h-0 flex-1"}>
               {loading ? <div className="flex h-full items-center justify-center text-[12px] text-ink-3">Loading results…</div> : pts.length ? <Scatter pts={pts} selected={selected} onSelect={setSelected} xLabel={xLabel} /> : <div className="flex h-full flex-col items-center justify-center gap-1 px-6 text-center text-[12px] text-ink-3" data-testid="tradeoff-empty">
@@ -430,6 +438,11 @@ export function TradeoffView({ narrow, top, onWatch, onCompare }: { narrow: bool
                   {sel.objective && sel.objective !== "none" ? `Objective: ${titleCase(sel.objective)} · ` : ""}
                   {sel.human ? "your last run, single seed" : `${sel.n ?? "?"} seeds`}
                 </div>
+                {!sel.human && managerStory(sel.id, sc) && (
+                  <div className="mt-2 rounded-xl bg-[#141a33]/[0.035] px-3 py-2 text-[11px] leading-snug text-ink-2" data-testid="manager-story">
+                    {managerStory(sel.id, sc)}
+                  </div>
+                )}
                 {sel.caveat && <div className="mt-2 rounded-xl bg-[#FDF6E7] px-3 py-2 text-[11px] leading-snug text-[#8A5A00]" data-testid="human-caveat">{sel.caveat}</div>}
                 <div className="mt-2 grid grid-cols-2 gap-x-4 gap-y-1.5">
                   {TABLE.filter(([k]) => sel.metrics[k]).map(([k, label, unit]) => (
@@ -463,7 +476,7 @@ export function TradeoffView({ narrow, top, onWatch, onCompare }: { narrow: bool
             ) : (
               <div className="border-b border-line p-4 text-[12px] leading-relaxed text-ink-3">
                 <div className="eyebrow mb-1">How to read this</div>
-                Each mark is one manager. Managers do what their objective asks for, so a cost-tuned one sits far left and high. Click a mark to replay that manager or put two side by side.
+                Each mark is one manager, averaged over held-out seeds; the bars are 95% intervals. Marks that overlap did not differ on these two measures. Click a mark for its details, to replay it, or to put two side by side.
               </div>
             )}
             <div className="scroll-thin min-h-0 flex-1 overflow-auto p-3">

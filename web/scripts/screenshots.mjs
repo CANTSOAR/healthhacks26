@@ -46,7 +46,7 @@ async function open(url, viewport = { width: 1440, height: 900 }) {
 }
 // overnight/screenshots is kept small: a curated set against the live server, and four fixture views.
 // Every step still runs its checks; `--all` saves every view.
-const KEEP_LIVE = new Set(["watch", "selection-bay-inspector", "selection-patient-journey", "play", "live-inject", "live-handover", "play-ended", "live-structural", "compare", "live-compare-two-managers", "tradeoff", "tradeoff-selected", "tradeoff-surge", "live-demo-tour", "narrow-watch", "narrow-inspector", "narrow-tradeoff", "hospital-layout", "status-indicator", "live-tradeoff-human"]);
+const KEEP_LIVE = new Set(["watch", "selection-bay-inspector", "play", "live-inject", "live-handover", "play-ended", "live-structural", "compare", "live-compare-two-managers", "tradeoff", "live-demo-tour", "narrow-watch", "narrow-inspector", "narrow-tradeoff", "hospital-layout", "live-tradeoff-human", "live-rejoin", "live-playable", "topbar-1280", "watch-window-end", "live-p0-writeback", "live-p0-returned"]);
 const KEEP_OFFLINE = new Set(["watch", "play", "compare", "tradeoff"]);
 async function shot(page, name) {
   if (!flag("--all") && !(liveRun ? KEEP_LIVE : KEEP_OFFLINE).has(name)) return;
@@ -68,15 +68,41 @@ const step = async (name, fn) => {
 await step("watch", async () => {
   const page = await open("/?mode=watch");
   await shot(page, "watch");
-  // scrubbing: a click on the hourly chart jumps the replay to the nearest recorded snapshot
-  const clockBefore = await page.locator('[data-testid="clock"]').textContent();
+  // The timeline shows the whole episode; the 3D scene exists only for recorded windows.
+  const clockOf = () => page.locator('[data-testid="clock"]').textContent();
+  const windows = await page.locator("[data-window]").count();
+  console.log("recorded windows offered:", windows, "| fixture banner:", await page.locator('[data-testid="fixture-banner-global"]').count(), "| SIMULATED tags:", await page.locator(".sim-tag", { hasText: /^simulated$/i }).count());
+  if (offline && !(await page.locator('[data-testid="fixture-banner-global"]').count())) problems.push("offline: no global fixture banner");
+  if (offline && (await page.locator(".sim-tag", { hasText: /^simulated$/i }).count())) problems.push("offline: charts still tagged SIMULATED");
   const tl = await page.locator('[data-testid="timeline"] svg').boundingBox();
-  if (tl) {
-    await page.mouse.click(tl.x + tl.width * 0.36, tl.y + tl.height * 0.5);
-    await page.waitForTimeout(300);
-    const clockAfter = await page.locator('[data-testid="clock"]').textContent();
-    console.log("scrub:", clockBefore, "->", clockAfter);
-    if (clockBefore === clockAfter) problems.push("scrub: clock did not move");
+  if (tl && windows > 0) {
+    const c0 = await clockOf();
+    if (windows > 1) {
+      await page.locator("[data-window]").nth(1).click();
+      await page.waitForTimeout(500);
+      console.log("jump to second window:", c0, "->", await clockOf());
+      if ((await clockOf()) === c0) problems.push("windows: jumping to the second window did not move the clock");
+    }
+    if (await page.locator('[data-testid="chart-zoom"]').count()) {
+      // a long recording: a click far from every window moves only the chart cursor and says so
+      const c1 = await clockOf();
+      await page.mouse.click(tl.x + tl.width * 0.62, tl.y + tl.height * 0.5);
+      await page.waitForTimeout(400);
+      const note = await page.locator('[data-testid="no-recording"]').count();
+      console.log("click outside the windows: note shown =", note, "| clock", c1, "->", await clockOf());
+      if (!note) problems.push("timeline: clicking outside a recorded window gave no notice");
+    }
+    // run to the end of the window: playback must stop and offer what next, not loop
+    await page.locator("[data-window]").first().click();
+    await page.click('[aria-label="Simulation speed"] button:has-text("Max")');
+    await page.waitForSelector('[data-testid="window-end"]', { timeout: 60000 }).catch(() => problems.push("windows: playback did not stop at the end of a window"));
+    const cEnd = await clockOf();
+    await page.waitForTimeout(1500);
+    console.log("end of window:", (await page.locator('[data-testid="window-end"]').innerText().catch(() => "")).replace(/\s+/g, " "), "| clock stays", cEnd, "->", await clockOf());
+    await shot(page, "watch-window-end");
+    await page.locator('[data-testid="replay-window"]').click().catch(() => {});
+    await page.click('[aria-label="Simulation speed"] button:has-text("4×")');
+    await page.waitForTimeout(800);
   }
   // selection through search: a bay, with the inspector and its catalog definition open
   await page.fill('[data-testid="search"]', "Bay 4");
@@ -93,17 +119,59 @@ await step("watch", async () => {
   const occ = /(Occupancy|In the room now)\s*\n?\s*(\d+) of (\d+)/.exec(rows);
   console.log("bay status:", status, "|", occ?.[1], occ?.[2], "of", occ?.[3]);
   if (occ && /^Occupied/.test(status ?? "") && occ[2] === "0") problems.push("inspector: status Occupied with occupancy 0");
+  const hrefs = await page.locator('[data-testid="provenance-link"]').evaluateAll((as) => as.map((a) => a.getAttribute("href")));
+  console.log("provenance links:", JSON.stringify(hrefs));
+  if (hrefs.some((h) => /%20|\s|\(/.test(h ?? ""))) problems.push("provenance: a link still has prose glued to the URL");
   await shot(page, "selection-bay-inspector");
   // a patient picked from the list: journey stepper + "Play this encounter"
   await page.click('[data-tab="patients"]');
   await page.locator('[data-row^="patient:"]').nth(3).click();
-  await page.waitForSelector('[data-testid="play-encounter"]');
+  await page.waitForSelector('[data-testid="inspector"]');
   await page.waitForTimeout(settle);
+  console.log("recorded run: play button", await page.locator('[data-testid="play-encounter"]').count(), "| not-playable note", await page.locator('[data-testid="not-playable"]').count());
+  if (await page.locator('[data-testid="play-encounter"]').count()) problems.push("a recorded run offers Play this encounter");
   await shot(page, "selection-patient-journey");
   // picking in the 3D scene itself: click around the middle of the canvas until something is hit
   await page.keyboard.press("Escape");
   await page.click('[aria-label="Close inspector"]');
+  // people in 3D: click where 20 of them are on screen, at the default zoom and again zoomed in
+  const clickPeople = async (label) => {
+    // ids spread over the hospital; each one is located on screen just before its click, because selecting someone
+    // moves the camera
+    const ids = await page.evaluate(() => {
+      const p = window.__hg.feeds.a.getState().snap.patients;
+      // interleave so the 20 tries are spread over wards, bays and waiting areas
+      return p.id.filter((_, i) => i % 3 === 0).concat(p.id.filter((_, i) => i % 3 === 1));
+    });
+    let ok = 0, tried = 0, rooms = 0, wrong = 0, none = 0;
+    for (const id of ids) {
+      if (tried >= 20) break;
+      const xy = await page.evaluate((pid) => { const q = window.__hg.project?.a?.("patient:" + pid); return q && document.elementFromPoint(q[0], q[1])?.tagName === "CANVAS" ? q : null; }, id);
+      if (!xy) continue; // off screen or under a panel
+      tried++;
+      await page.mouse.click(xy[0], xy[1]);
+      await page.waitForTimeout(gpu ? 150 : 900);
+      const sel = await page.evaluate(() => window.__hg.ui.getState().selection);
+      if (sel?.kind === "patient" && sel.id === id) ok++;
+      else if (sel?.kind === "patient" || sel?.kind === "staff") wrong++;
+      else if (sel) rooms++;
+      else none++;
+      await page.evaluate(() => window.__hg.ui.getState().select(null));
+      await page.waitForTimeout(gpu ? 900 : 2500); // let the camera settle before the next one
+    }
+    console.log(`3D people clicks (${label}): ${ok} of ${tried} selected that person, ${wrong} a neighbouring person, ${rooms} a room or machine, ${none} nothing`);
+    if (tried && (ok + wrong) / tried < 0.9) problems.push(`3D picking (${label}): only ${ok + wrong} of ${tried} clicks on people selected a person`);
+  };
   await page.click('[aria-label="Pause"]');
+  await page.waitForTimeout(600);
+  await clickPeople("default zoom");
+  await page.click('[aria-label="Zoom in"]');
+  await page.click('[aria-label="Zoom in"]');
+  await page.waitForTimeout(gpu ? 1800 : 6000);
+  await clickPeople("zoomed in");
+  await page.click('[aria-label="Reset view"]');
+  await page.waitForTimeout(gpu ? 1500 : 5000);
+  await page.click('[aria-label="Close inspector"]').catch(() => {});
   const vp = page.viewportSize();
   let hit = null;
   outer: for (const dy of [0, -40, 40, -80, 80, -120]) {
@@ -175,6 +243,12 @@ await step("narrow", async () => {
   const vp = { width: 390, height: 844 };
   let page = await open("/?mode=watch", vp);
   await shot(page, "narrow-watch");
+  await page.click('[data-testid="nav-more"]');
+  const navs = await page.locator('nav [data-nav]').evaluateAll((as) => as.map((a) => { const r = a.getBoundingClientRect(); return [a.getAttribute("data-nav"), r.left >= 0 && r.right <= innerWidth && r.width > 0]; }));
+  console.log("phone nav links reachable:", JSON.stringify(navs));
+  if (navs.length < 3 || navs.some(([, ok]) => !ok)) problems.push("phone: Encounter / Studio / Journey links are not all reachable");
+  await page.keyboard.press("Escape");
+  await page.mouse.click(195, 500);
   await page.click('[data-drawer="list"]');
   await page.waitForSelector('[data-testid="entity-list"]');
   await shot(page, "narrow-list");
@@ -256,11 +330,51 @@ await step("live", async () => {
   } else problems.push("hand-over: no manager available to hand over to");
 
   await page.click('[data-testid="play-panel"] .seg button:has-text("Controls")');
-  await page.click('[data-tab="patients"]');
-  await page.locator('[data-row^="patient:"]').nth(5).click();
-  await page.waitForSelector('[data-testid="play-encounter"]');
+  // playable patients: marked in the list, findable in one click, and the button only where it can work
+  await page.click('[data-testid="find-playable"]');
+  await page.waitForSelector('[data-testid="play-encounter"]', { timeout: 15000 });
+  const firstRow = await page.locator('[data-row^="patient:"]').first().innerText();
+  console.log("playable: chips in list =", await page.locator('[data-row^="patient:"] .chip:has-text("playable")').count(), "| first row:", firstRow.replace(/\s+/g, " ").slice(0, 60));
   await page.waitForTimeout(settle);
-  await shot(page, "live-patient");
+  await shot(page, "live-playable");
+  const encHref = await page.locator('[data-testid="play-encounter"]').getAttribute("href");
+  const picked = await page.evaluate(() => window.__hg.ui.getState().selection?.id);
+  await page.locator('[data-row^="patient:"]').last().click();
+  await page.waitForTimeout(700);
+  console.log("ward patient: play button", await page.locator('[data-testid="play-encounter"]').count(), "| note:", (await page.locator('[data-testid="not-playable"]').innerText().catch(() => "")).slice(0, 80));
+
+  // rejoin: reload, a mode switch, and the link an encounter returns with must all land back in the same run
+  const runId = await page.evaluate(() => window.__hg.feeds.a.getState().header.id);
+  const tBefore = await tick();
+  await page.reload({ waitUntil: "domcontentloaded" });
+  await page.waitForSelector("canvas");
+  await page.waitForTimeout(settle + 2500);
+  const afterReload = await page.evaluate(() => ({ mode: window.__hg.ui.getState().mode, state: window.__hg.ui.getState().play.state, run: window.__hg.feeds.a.getState().header?.id, t: window.__hg.feeds.a.getState().snap?.t, note: window.__hg.ui.getState().play.note }));
+  console.log("reload mid-run:", JSON.stringify(afterReload), "| same run:", afterReload.run === runId, "| tick before", tBefore);
+  const attachWorks = afterReload.run === runId && afterReload.state === "live";
+  if (!attachWorks) problems.push(`rejoin after reload did not attach (${afterReload.note ?? afterReload.state})`);
+  if (attachWorks) {
+    await page.click('[data-mode="watch"]');
+    await page.waitForTimeout(settle);
+    await page.click('[data-mode="play"]');
+    await page.waitForTimeout(settle + 2000);
+    const back = await page.evaluate(() => ({ state: window.__hg.ui.getState().play.state, run: window.__hg.feeds.a.getState().header?.id, t: window.__hg.feeds.a.getState().snap?.t }));
+    console.log("Play -> Watch -> Play:", JSON.stringify(back), "| same run:", back.run === runId);
+    if (back.run !== runId) problems.push("mode switch did not rejoin the run");
+    await page.goto(`${base}/?run_id=${encodeURIComponent(runId)}&patient_id=${picked}&api=${encodeURIComponent(apiUrl)}`, { waitUntil: "domcontentloaded" });
+    await page.waitForSelector("canvas");
+    await page.waitForTimeout(settle + 3000);
+    const ret = await page.evaluate(() => ({ mode: window.__hg.ui.getState().mode, run: window.__hg.feeds.a.getState().header?.id, sel: window.__hg.ui.getState().selection, url: location.search }));
+    console.log("return from encounter link:", JSON.stringify(ret), "| encounter href was", encHref);
+    if (ret.run !== runId || ret.mode !== "play") problems.push("return link did not land in Play on the same run");
+    await shot(page, "live-rejoin");
+    // changing scenario mid-run asks first; declining keeps both the run and the menu as they were
+    page.once("dialog", (d) => d.dismiss());
+    const scBefore = await page.locator('[data-testid="scenario"]').inputValue();
+    await page.selectOption('[data-testid="scenario"]', { index: 1 });
+    await page.waitForTimeout(500);
+    console.log("scenario change mid-run declined: menu", scBefore, "->", await page.locator('[data-testid="scenario"]').inputValue(), "| run still", await page.evaluate(() => window.__hg.ui.getState().play.state));
+  }
   await page.click('[data-testid="play-stop"]');
   await page.waitForSelector('[data-testid="play-result"]', { timeout: 15000 });
   await page.waitForTimeout(600);
@@ -269,7 +383,9 @@ await step("live", async () => {
   await page.goto(base + "/?mode=tradeoff&api=" + encodeURIComponent(apiUrl));
   await page.waitForSelector('[data-point], [data-testid="tradeoff-empty"]');
   await page.waitForTimeout(1500);
-  console.log("human point on trade-off chart:", await page.locator('[data-point="__human"]').count(), "| x-axis toggle:", await page.locator('[data-testid="xaxis-toggle"]').count());
+  if (await page.locator('[data-testid="xaxis-toggle"]').count()) await page.click('[data-testid="xaxis-toggle"] button:has-text("Total cost")');
+  await page.waitForTimeout(500);
+  console.log("human point on trade-off chart (total cost axis):", await page.locator('[data-point="__human"]').count(), "| x-axis toggle:", await page.locator('[data-testid="xaxis-toggle"]').count());
   if (await page.locator('[data-point="__human"]').count()) {
     await page.locator('[data-point="__human"] circle').first().click({ force: true });
     await page.waitForTimeout(400);
@@ -290,6 +406,54 @@ await step("live", async () => {
   await cmp.click('[data-testid="compare-live-stop"]');
   await cmp.waitForTimeout(1500);
   await cmp.close();
+});
+
+await step("p0", async () => {
+  // The whole encounter round trip in ONE tab: Play -> a playable patient -> Play this encounter -> finish ->
+  // Return to hospital -> the same run, attached, with that patient selected, and the write-back shown.
+  if (!liveRun) return;
+  const page = await open("/?mode=play");
+  await page.click('[data-testid="play-start"]');
+  await page.waitForSelector('[data-cadence="hourly"]', { timeout: 20000 });
+  await page.click('[aria-label="Simulation speed"] button:has-text("48×")');
+  await page.waitForTimeout(9000);
+  await page.click('[data-testid="find-playable"]');
+  await page.waitForSelector('[data-testid="play-encounter"]', { timeout: 15000 });
+  const before = await page.evaluate(() => { const f = window.__hg.feeds.a.getState(); const sel = window.__hg.ui.getState().selection; const i = f.snap.patients.id.indexOf(sel.id); return { run: f.header.id, patient: sel.id, t: f.snap.t, state: f.header.enums.patient_state[f.snap.patients.state[i]], paused: window.__hg.ui.getState().paused }; });
+  console.log("p0: picked", JSON.stringify(before));
+  await page.click('[data-testid="play-encounter"]');
+  const which = await Promise.race([page.waitForSelector('[data-testid="encounter"]', { timeout: 60000 }).then(() => "ok"), page.waitForSelector('[data-testid="error-card"]', { timeout: 60000 }).then(() => "err")]);
+  if (which !== "ok") {
+    problems.push("p0: the encounter did not open: " + (await page.getByTestId("error-card").innerText()).replace(/\s+/g, " ").slice(0, 160));
+    await page.close();
+    return;
+  }
+  console.log("p0: encounter header:", (await page.getByTestId("sim-context").innerText()).replace(/\s+/g, " "));
+  await page.getByTestId("finish-open").click();
+  await page.getByTestId("disposition-admit").click();
+  await page.getByTestId("finish-summary").fill("Round-trip check from the hospital view.");
+  await page.getByTestId("finish-submit").click();
+  await page.waitForSelector('[data-testid="writeback-card"]', { timeout: 120000 });
+  const flag = (await page.getByTestId("written-back-flag").innerText()).trim();
+  console.log("p0: write-back card:", flag, "|", (await page.locator('[data-testid="writeback-card"] h2').innerText()).trim());
+  if (!/^(Applied|Queued)$/.test(flag)) problems.push(`p0: write-back shows "${flag}"`);
+  await page.getByTestId("writeback-card").scrollIntoViewIfNeeded();
+  await shot(page, "live-p0-writeback");
+  const href = await page.getByTestId("return-hospital").getAttribute("href");
+  await page.getByTestId("return-hospital").click();
+  await page.waitForSelector("canvas", { timeout: 60000 });
+  await page.waitForTimeout(settle + 4000);
+  const after = await page.evaluate(() => { const f = window.__hg.feeds.a.getState(); const u = window.__hg.ui.getState(); const sel = u.selection; const i = sel && f.snap ? f.snap.patients.id.indexOf(sel.id) : -1; return { mode: u.mode, play: u.play.state, run: f.header?.id, t: f.snap?.t, sel, state: i >= 0 ? f.header.enums.patient_state[f.snap.patients.state[i]] : null, played: i >= 0 ? (f.snap.patients.flags[i] & 8) !== 0 : null, note: u.play.note }; });
+  console.log("p0: return link", href, "->", JSON.stringify(after));
+  if (after.run !== before.run || after.play !== "live") problems.push(`p0: not attached to the same run after returning (${after.note ?? after.play})`);
+  if (after.sel?.id !== before.patient) problems.push("p0: the played patient is not selected after returning");
+  await page.waitForTimeout(3000);
+  const later = await page.evaluate(() => { const f = window.__hg.feeds.a.getState(); const sel = window.__hg.ui.getState().selection; const i = sel && f.snap ? f.snap.patients.id.indexOf(sel.id) : -1; return { t: f.snap?.t, state: i >= 0 ? f.header.enums.patient_state[f.snap.patients.state[i]] : "gone", played: i >= 0 ? (f.snap.patients.flags[i] & 8) !== 0 : null }; });
+  console.log("p0: a few seconds on:", JSON.stringify(later), "| clock advancing:", later.t > after.t);
+  await shot(page, "live-p0-returned");
+  await page.click('[data-testid="play-stop"]').catch(() => {});
+  await page.waitForTimeout(1200);
+  await page.close();
 });
 
 await step("structural", async () => {
@@ -361,6 +525,15 @@ await step("hospital", async () => {
   // the real-site layout on its own (Play before a run starts)
   const page = await open("/?mode=play", { width: 1600, height: 1000 });
   await shot(page, "hospital-layout");
+  // the top bar must fit from 1280 px: status pill, tour button and hospital menu all inside the viewport
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.waitForTimeout(700);
+  const fit = await page.evaluate(() => ["status", "tour-button", "hospital", "scenario", "search", "clock"].map((id) => { const r = document.querySelector(`[data-testid="${id}"]`)?.getBoundingClientRect(); return [id, r ? Math.round(r.left) : null, r ? Math.round(r.right) : null]; }));
+  console.log("top bar at 1280:", JSON.stringify(fit));
+  if (fit.some(([, l, r]) => l == null || l < 0 || r > 1280)) problems.push("top bar: something is off-screen at 1280 px");
+  await shot(page, "topbar-1280");
+  await page.setViewportSize({ width: 1600, height: 1000 });
+  await page.waitForTimeout(500);
   // a different layout redraws the building: the bed count in the list follows the layout
   const before = await page.locator('[data-tab="beds"]').textContent();
   const options = await page.locator('[data-testid="hospital"] option').count();

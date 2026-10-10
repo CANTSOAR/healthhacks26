@@ -1,6 +1,8 @@
 "use client";
 import type { FeedState } from "@/lib/feed";
 import { metricValue, tickLabelLong, titleCase } from "@/lib/format";
+import { managerStory, prettyManager } from "@/lib/story";
+import { HEAD_LABEL, optLabel } from "./labels";
 import { openWatch } from "@/lib/session";
 import { useUI } from "@/lib/ui";
 import type { RolloutListItem } from "@/lib/types";
@@ -15,7 +17,16 @@ const CADENCE_STYLE: Record<string, [string, string]> = {
 
 const ROUTINE = new Set(["lwbs", "deterioration", "callout", "info"]);
 
-export const rolloutLabel = (r: RolloutListItem) => `${r.manager.label} · ${titleCase(r.scenario)} · seed ${r.seed}`;
+export const rolloutLabel = (r: RolloutListItem) => `${prettyManager(r.manager.label)} · ${titleCase(r.scenario)} · seed ${r.seed}`;
+
+/** The server writes decisions as "md_night: lvl2 -> lvl0" and events as "Scenario event started: flu_wave": say them in words. */
+export function plainText(text: string): string {
+  const m = /^([a-z0-9_]+): (\S+) -> (\S+)$/.exec(text);
+  if (m) return `${HEAD_LABEL[m[1]] ?? titleCase(m[1])}: ${optLabel(m[2])} → ${optLabel(m[3])}`;
+  const e = /^(.*: )([a-z0-9]+(?:_[a-z0-9]+)+)$/.exec(text);
+  if (e) return `${e[1]}${titleCase(e[2]).toLowerCase()}`;
+  return text.replace(/ -> /g, " → ");
+}
 
 export function RolloutPicker({ value, onChange, testid }: { value: string | null; onChange: (id: string) => void; testid?: string }) {
   const rollouts = useUI((s) => s.rollouts);
@@ -67,8 +78,8 @@ export function DecisionFeed({ f, limit = 40 }: { f: FeedState; limit?: number }
   // routine events (a patient leaving, a call-out) would bury the rest: keep only the latest few of those
   const events = [...seen.filter((e) => !ROUTINE.has(e.kind)).slice(-30), ...seen.filter((e) => ROUTINE.has(e.kind)).slice(-4)];
   const items = [
-    ...past.map((d) => ({ t: d.t, kind: "decision" as const, text: d.label, cadence: d.cadence })),
-    ...events.map((e) => ({ t: e.t, kind: "event" as const, text: e.text, cadence: titleCase(e.kind) })),
+    ...past.map((d) => ({ t: d.t, kind: "decision" as const, text: plainText(d.label), cadence: d.cadence })),
+    ...events.map((e) => ({ t: e.t, kind: "event" as const, text: plainText(e.text), cadence: titleCase(e.kind) })),
   ]
     .sort((a, b) => b.t - a.t)
     .slice(0, limit);
@@ -118,6 +129,11 @@ export function WatchPanel({ f, className = "" }: { f: FeedState; className?: st
           </span>
         </div>
         <RolloutPicker value={watchId} onChange={(id) => void openWatch(id)} testid="rollout-picker" />
+        {h && managerStory(h.manager.id, h.scenario) && (
+          <div className="rounded-xl bg-[#141a33]/[0.035] px-3 py-2 text-[11px] leading-snug text-ink-2" data-testid="manager-story">
+            {managerStory(h.manager.id, h.scenario)}
+          </div>
+        )}
         {h && (
           <div className="text-[11px] leading-snug text-ink-3">
             {h.manager.objective && h.manager.objective !== "none" ? `Objective: ${titleCase(h.manager.objective)} · ` : ""}
@@ -128,9 +144,9 @@ export function WatchPanel({ f, className = "" }: { f: FeedState; className?: st
         <SummaryGrid summary={f.summary} />
       </div>
       <div className="flex items-center gap-2 border-t border-line px-3.5 pb-1.5 pt-2.5">
-        <span className="eyebrow">Manager decisions</span>
+        <span className="eyebrow">{f.decisions.length ? "Manager decisions and events" : "Events"}</span>
         <span className="tnum ml-auto text-[10.5px] text-ink-3">
-          {f.decisions.filter((d) => d.t <= (f.snap?.t ?? 0)).length} of {f.decisions.length}
+          {f.decisions.length ? `${f.decisions.filter((d) => d.t <= (f.snap?.t ?? 0)).length} of ${f.decisions.length} decisions` : "this manager never changes a setting"}
         </span>
       </div>
       <div className="scroll-thin min-h-0 flex-1 overflow-y-auto px-2.5 pb-2.5">

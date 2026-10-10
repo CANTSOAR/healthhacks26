@@ -63,6 +63,7 @@ export function CaseEditor({ caseId, onBack }: { caseId: string; onBack: () => v
   const [report, setReport] = useState<ValidationReport | null>(null);
   const [reportStale, setReportStale] = useState(false);
   const [busy, setBusy] = useState<string | null>(null);
+  const [ack, setAck] = useState<{ warnings: string[]; read: boolean } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [notes, setNotes] = useState<string[]>([]);
@@ -179,12 +180,25 @@ export function CaseEditor({ caseId, onBack }: { caseId: string; onBack: () => v
       setNotice(v.ok ? (n.length ? `Valid, with ${n.length} warning${n.length === 1 ? "" : "s"} to review. It can be approved.` : "Valid. No errors, warnings or contradictions.") : null);
       if (!v.ok) setError(`${v.errors.length} error${v.errors.length === 1 ? "" : "s"} and ${v.consistency.filter((x) => x.level !== "warning").length} contradiction(s) must be fixed before approval. They are shown next to the fields.`);
     });
-  const approve = () =>
+  // Approval is two steps when the case has attention-level warnings (a thin case, say): the server refuses the first
+  // request and lists them; the reviewer ticks that they have read them; the second request records that.
+  const approve = (acknowledged = false) =>
     run("approve", async () => {
       await saveIfDirty();
-      const c = await encApi.approveCase(caseId);
-      adopt(c);
-      setNotice("Approved. Review is recorded; publish it to make it available to learners.");
+      try {
+        const c = await encApi.approveCase(caseId, acknowledged);
+        setAck(null);
+        adopt(c);
+        setNotice(acknowledged ? "Approved, with the warnings acknowledged. Publish it to make it available to learners." : "Approved. Review is recorded; publish it to make it available to learners.");
+      } catch (e) {
+        const d = (e as { status?: number; detail?: { needs_acknowledgement?: boolean; warnings?: unknown[] } }) ?? {};
+        if (d.status === 409 && d.detail?.needs_acknowledgement) {
+          const list = (d.detail.warnings ?? []).map((w) => (typeof w === "string" ? w : String((w as { message?: string }).message ?? JSON.stringify(w))));
+          setAck({ warnings: list, read: false });
+          return;
+        }
+        throw e;
+      }
     });
   const publish = () =>
     run("publish", async () => {
@@ -285,7 +299,7 @@ export function CaseEditor({ caseId, onBack }: { caseId: string; onBack: () => v
                 <button className="btn-quiet" onClick={preview} disabled={!!busy} title="Opens a test encounter with the latest saved version in a new tab. It is marked as a preview and is never offered to learners." data-testid="btn-preview">
                   Preview
                 </button>
-                <button className={status === "draft" ? "btn-primary" : "btn-quiet"} onClick={approve} disabled={!!busy || (status !== "draft" && !dirty)} title={status === "draft" || dirty ? "Validates, then records the review" : "Already approved"} data-testid="btn-approve">
+                <button className={status === "draft" ? "btn-primary" : "btn-quiet"} onClick={() => void approve(false)} disabled={!!busy || (status !== "draft" && !dirty)} title={status === "draft" || dirty ? "Validates, then records the review" : "Already approved"} data-testid="btn-approve">
                   {busy === "approve" ? <Spinner size={12} /> : null}
                   Approve
                 </button>
@@ -321,6 +335,28 @@ export function CaseEditor({ caseId, onBack }: { caseId: string; onBack: () => v
               </div>
             )}
 
+            {ack && (
+              <div className="mt-3 rounded-xl border border-[#E0A21B]/40 bg-[#FFF6DF] px-4 py-3" data-testid="ack-warnings" role="alertdialog" aria-label="Warnings to acknowledge before approval">
+                <div className="text-[12.5px] font-semibold text-[#7A4E00]">Before this case is approved, read these warnings</div>
+                <ul className="mt-1.5 list-disc space-y-1 pl-5 text-[12px] leading-snug text-[#7A4E00]">
+                  {ack.warnings.map((w, i) => (
+                    <li key={i}>{w}</li>
+                  ))}
+                </ul>
+                <label className="mt-2 flex items-center gap-2 text-[12px] font-medium text-ink">
+                  <input type="checkbox" checked={ack.read} onChange={(e) => setAck({ ...ack, read: e.target.checked })} data-testid="ack-read" />
+                  I have read these and want to approve the case as it is
+                </label>
+                <div className="mt-2 flex gap-2">
+                  <button className="btn-primary !h-7" disabled={!ack.read || !!busy} onClick={() => void approve(true)} data-testid="ack-approve">
+                    Approve with warnings acknowledged
+                  </button>
+                  <button className="btn-quiet !h-7" onClick={() => setAck(null)}>
+                    Go back and edit
+                  </button>
+                </div>
+              </div>
+            )}
             {notes.length > 0 && (
               <div className="mt-3 rounded-xl border border-accent/20 bg-accent-soft/60 px-4 py-2.5" data-testid="creation-notes">
                 <div className="eyebrow" style={{ color: "#1F3FD1" }}>

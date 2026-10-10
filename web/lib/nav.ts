@@ -1,5 +1,5 @@
 // Mode navigation: loads whatever a mode needs into the feeds. Used by the top bar and by the demo tour.
-import { feeds, loadLists, openCompare, openWatch, showLayoutOnly } from "./session";
+import { feeds, loadLists, openCompare, openWatch, runIsLive, savedRun, showLayoutOnly, startPlay } from "./session";
 import { useUI, type Mode } from "./ui";
 
 function pickPair(): [string, string] | null {
@@ -7,7 +7,14 @@ function pickPair(): [string, string] | null {
   const { scenarioId } = useUI.getState();
   const usable = rollouts.filter((r) => r.has_segments);
   if (!usable.length) return null;
-  // start from the scenario chosen in the top bar when a rollout exists for it
+  // Default pair: the cost-tuned against the wait-tuned manager on the chosen scenario (learned ones if recorded,
+  // otherwise the tuned heuristics), because that is the comparison the objectives are about.
+  const inScenario = usable.filter((r) => r.scenario === scenarioId);
+  const pool = inScenario.length ? inScenario : usable;
+  const pickObj = (re: RegExp) => pool.find((r) => r.manager.kind === "learned" && re.test(`${r.manager.objective ?? ""} ${r.manager.id}`)) ?? pool.find((r) => re.test(`${r.manager.objective ?? ""} ${r.manager.id}`));
+  const cost = pickObj(/min_cost/);
+  const wait = pickObj(/min_wait/);
+  if (!compareIds[0] && !compareIds[1] && cost && wait && cost.rollout_id !== wait.rollout_id && cost.seed === wait.seed) return [cost.rollout_id, wait.rollout_id];
   const a = usable.find((r) => r.rollout_id === compareIds[0]) ?? usable.find((r) => r.scenario === scenarioId) ?? usable[0];
   // prefer a second manager on the same scenario and seed
   const b = usable.find((r) => r.rollout_id === compareIds[1]) ?? usable.find((r) => r.rollout_id !== a.rollout_id && r.scenario === a.scenario && r.seed === a.seed) ?? usable.find((r) => r.rollout_id !== a.rollout_id) ?? a;
@@ -17,6 +24,9 @@ function pickPair(): [string, string] | null {
 /** Load whatever the mode needs into the feeds. */
 export async function enter(mode: Mode) {
   const s = useUI.getState();
+  if (mode === "play" && s.mode === "play" && runIsLive()) return; // already there, with the run going
+  // leaving a live run closes its socket; the server keeps the run paused, and coming back to Play rejoins it
+  if (s.mode === "play" && mode !== "play" && runIsLive()) s.toast("Your run is paused on the server. Come back to Play within about ten minutes to carry on.", "info");
   s.set({ mode, selection: null, hover: null, drawer: null });
   const url = new URL(window.location.href);
   url.searchParams.set("mode", mode);
@@ -33,7 +43,9 @@ export async function enter(mode: Mode) {
     await openCompare(pair[0], pair[1]);
   } else if (mode === "play") {
     s.setPlay({ state: "idle", note: null, posted: null, requested: {} });
-    await showLayoutOnly();
+    const saved = savedRun();
+    if (saved) await startPlay({ attach: saved.run_id, select: saved.selection ?? null });
+    else await showLayoutOnly();
   } else if (mode === "tradeoff") {
     if (!feeds.a.getState().layout) await showLayoutOnly();
   }

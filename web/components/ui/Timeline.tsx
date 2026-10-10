@@ -1,7 +1,8 @@
 "use client";
 import { useState } from "react";
 import type { FeedState } from "@/lib/feed";
-import { metricValue } from "@/lib/format";
+import { hhmm, metricValue, tickClock, DOW } from "@/lib/format";
+import { useUI } from "@/lib/ui";
 import { SERIES } from "@/lib/palette";
 import { transport } from "@/lib/session";
 import { SimTag } from "./atoms";
@@ -63,12 +64,83 @@ export function ZoomToggle({ zoom, onZoom }: { zoom: ChartZoom; onZoom: (z: Char
   );
 }
 
+/** "Day 2 · Tue 08:00–20:00" for a recorded window, from its ticks (not from the recording's own label). */
+export function windowLabel(w: { start: number; end: number }, tickMinutes = 5): string {
+  const a = tickClock(w.start, tickMinutes);
+  const b = tickClock(w.end, tickMinutes);
+  return `Day ${a.day + 1} · ${DOW[a.dow]} ${hhmm(a.minute_of_day)}–${hhmm(b.minute_of_day)}`;
+}
+
+/**
+ * Move to an hour of the episode from a chart. Hourly metrics exist for the whole episode but the 3D scene was
+ * recorded only for some windows: inside one, playback jumps there; outside, only the chart cursor moves.
+ * `hour` is absolute (hours since the start of the episode); `wholeDay` = the click came from a daily chart.
+ */
+export function scrubTo(hour: number, wholeDay: boolean) {
+  const tick = Math.round(hour * 12);
+  if (wholeDay) {
+    const day0 = Math.floor(hour / 24) * 288;
+    const w = transport.windows().find((x) => x.end >= day0 && x.start < day0 + 288);
+    if (w && transport.seekTick(Math.max(w.start, Math.min(w.end, tick)), true)) return;
+  } else if (transport.seekTick(tick)) return;
+  useUI.setState({ chartCursor: hour });
+}
+
+/** Controls that say what the recording holds: its windows, the end of one, and a cursor outside them. */
+export function RecordingNote({ f }: { f: FeedState }) {
+  const windowEnd = useUI((s) => s.windowEnd);
+  const chartCursor = useUI((s) => s.chartCursor);
+  const tm = f.header?.tick_minutes ?? 5;
+  if (f.origin === "live" || !f.segments.length) return null;
+  const now = f.snap?.t ?? 0;
+  const cur = f.segments.findIndex((w) => now >= w.start && now <= w.end);
+  return (
+    <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-[10.5px] text-ink-3" data-testid="recording-note">
+      {chartCursor != null ? (
+        <span className="rounded-md bg-[#FDF6E7] px-1.5 py-[2px] font-medium text-[#8A5A00]" data-testid="no-recording">
+          No 3D recording for {`Day ${Math.floor(chartCursor / 24) + 1}, ${hhmm((Math.floor(chartCursor) % 24) * 60)}`}: the chart shows that hour, the scene stays where it was.
+        </span>
+      ) : windowEnd ? (
+        <span className="flex items-center gap-1.5" data-testid="window-end">
+          <span className="font-semibold text-ink-2">End of this recorded window.</span>
+          {windowEnd.next && (
+            <button className="btn-primary !h-6 !px-2 !text-[10.5px]" onClick={() => transport.nextWindow()} data-testid="next-window">
+              Next recorded window
+            </button>
+          )}
+          <button className="btn-quiet !h-6 !px-2 !text-[10.5px]" onClick={() => transport.replayWindow()} data-testid="replay-window">
+            Replay
+          </button>
+          {!windowEnd.next && f.segments.length > 1 && (
+            <button className="btn-quiet !h-6 !px-2 !text-[10.5px]" onClick={() => transport.nextWindow()}>
+              First window
+            </button>
+          )}
+        </span>
+      ) : (
+        <span>The 3D scene was recorded for {f.segments.length === 1 ? "one window" : `${f.segments.length} windows`} of this {f.header?.days ?? ""}-day run; the charts cover all of it.</span>
+      )}
+      <span className="flex flex-wrap items-center gap-1">
+        {f.segments.slice(0, 8).map((w, i) => (
+          <button key={i} onClick={() => transport.seekTick(w.start, true)} data-window={i} className={`rounded-full border px-2 py-[1px] font-semibold transition-colors ${i === cur && chartCursor == null ? "border-accent/40 bg-accent-soft text-accent-dark" : "border-line bg-white/70 text-ink-2 hover:border-accent/40"}`} title="Jump to this recorded window">
+            {windowLabel(w, tm)}
+          </button>
+        ))}
+        {f.segments.length > 8 && <span>+{f.segments.length - 8} more</span>}
+      </span>
+    </div>
+  );
+}
+
 /** Whole-episode chart with a scrubber. Click or drag to jump to the nearest recorded snapshot. */
 export function Timeline({ f, other, className = "" }: { f: FeedState; other?: FeedState; className?: string }) {
   const [metric, setMetric] = useState(CHART_METRICS[0]);
   const [zoom, setZoom] = useState<ChartZoom>("all");
   const values = f.hourly[metric.key] ?? [];
-  const cur = playheadHour(f);
+  const chartCursor = useUI((s) => s.chartCursor);
+  const play = playheadHour(f);
+  // the cursor is the playhead, unless it was moved to an hour that has no 3D recording
+  const cur = chartCursor != null && f.origin !== "live" ? chartCursor - f.hour0 : play;
   const view = chartView([values.length, other?.hourly[metric.key]?.length ?? 0], f.hour0, cur, zoom);
   const series: Series[] = [{ name: f.header?.manager.label ?? "This run", color: SERIES[0], ...view.shape(values) }];
   if (other?.hourly[metric.key]) series.push({ name: other.header?.manager.label ?? "Other", color: SERIES[1], ...view.shape(other.hourly[metric.key]) });
@@ -85,7 +157,7 @@ export function Timeline({ f, other, className = "" }: { f: FeedState; other?: F
           ))}
         </div>
         <span className="tnum ml-1 whitespace-nowrap text-[13px] font-semibold text-ink">{metricValue(curVal, metric.unit)}</span>
-        <span className="whitespace-nowrap text-[11px] text-ink-3 max-[1500px]:hidden">this hour</span>
+        <span className="whitespace-nowrap text-[11px] text-ink-3">{metric.key === "cost_total" ? "per hour" : metric.key === "lwbs" ? "this hour" : ""}</span>
         <span className="ml-auto flex items-center gap-2 text-[10.5px] text-ink-3">
           {view.long && <ZoomToggle zoom={zoom} onZoom={setZoom} />}
           <SimTag>{f.origin === "fixture" ? "fixture" : "simulated"}</SimTag>
@@ -99,7 +171,7 @@ export function Timeline({ f, other, className = "" }: { f: FeedState; other?: F
           cursor={view.cursor}
           hour0={view.hour0}
           step={view.step}
-          onScrub={seek ? (h) => transport.seekTick(Math.round((h + view.offset + f.hour0) * 12)) : undefined}
+          onScrub={seek ? (h) => scrubTo(h + view.offset + f.hour0, view.step === 24) : undefined}
           bands={f.segments.map((s) => ({ start: s.start / 12 - f.hour0 - view.offset, end: s.end / 12 - f.hour0 - view.offset }))}
           marks={view.step === 1 ? f.decisions.map((d) => d.t / 12 - f.hour0 - view.offset).filter((h) => h >= 0 && h <= WINDOW * 10) : []}
           showLegend={series.length > 1}
@@ -107,8 +179,9 @@ export function Timeline({ f, other, className = "" }: { f: FeedState; other?: F
       ) : (
         <div className="flex h-[104px] items-center justify-center text-[12px] text-ink-3">Hourly metrics appear here once the first simulated hour completes.</div>
       )}
+      <RecordingNote f={f} />
       {view.long && (
-        <div className="-mt-0.5 text-[10px] text-ink-3">{view.step === 24 ? `One point per day: the day’s mean, shaded from its lowest to its highest hour.${f.segments.length ? " Shaded columns: days with recorded snapshots." : ""}` : "Hourly values in a 72-hour window around the playhead."}</div>
+        <div className="mt-0.5 text-[10px] text-ink-3">{view.step === 24 ? `One point per day: the day’s mean, shaded from its lowest to its highest hour.${f.segments.length ? " Shaded columns: recorded windows." : ""}` : "Hourly values in a 72-hour window around the playhead."}</div>
       )}
     </div>
   );

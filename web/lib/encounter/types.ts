@@ -403,6 +403,8 @@ export interface FinishResponse {
   feedback: Feedback;
   interaction_result: InteractionResult;
   written_back: boolean;
+  /** applied = in the simulation now; queued = held until the patient reaches the provider (a success); rejected = refused */
+  write_back?: { status: "applied" | "queued" | "rejected" | "not_applicable"; detail?: string } | null;
   already_finished?: boolean;
 }
 export interface EncounterState {
@@ -423,6 +425,7 @@ export interface EncounterState {
   feedback?: Feedback | null;
   interaction_result?: InteractionResult | null;
   written_back?: boolean;
+  write_back?: { status: "applied" | "queued" | "rejected" | "not_applicable"; detail?: string } | null;
   llm?: LlmStatus;
 }
 /** GET /api/runs/{run}/patients/{id}: what the simulation shows about a patient (never the latent truth). */

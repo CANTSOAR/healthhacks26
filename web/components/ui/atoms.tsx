@@ -1,6 +1,8 @@
 "use client";
 import type { ReactNode } from "react";
+import { useStore } from "zustand";
 import { kindInfo, SOURCE_CHIP } from "@/lib/palette";
+import { feeds } from "@/lib/session";
 
 export function Chip({ children, bg, fg, title }: { children: ReactNode; bg: string; fg: string; title?: string }) {
   return (
@@ -70,7 +72,18 @@ export function KindChip({ kind }: { kind: string }) {
   );
 }
 
-export const SimTag = ({ children = "simulated" }: { children?: ReactNode }) => <span className="sim-tag">{children}</span>;
+/** "simulated" beside numbers from the simulator; "fixture" when what is on screen is the bundled placeholder data. */
+export function SimTag({ children }: { children?: ReactNode }) {
+  const fixture = useStore(feeds.a, (s) => s.origin === "fixture");
+  if (children) return <span className="sim-tag">{children}</span>;
+  return fixture ? (
+    <span className="sim-tag" style={{ background: "#FDEFD8", color: "#8A5A00" }} title="Bundled placeholder data, not a simulator run">
+      fixture
+    </span>
+  ) : (
+    <span className="sim-tag">simulated</span>
+  );
+}
 
 export function Bar({ value, color = "#2F55F5", track = "rgba(20,26,51,0.07)" }: { value: number; color?: string; track?: string }) {
   const v = Math.max(0, Math.min(1, isFinite(value) ? value : 0));

@@ -32,8 +32,14 @@ export function duration(min: number): string {
 
 export const patientId = (id: number | string) => `P-${String(id).padStart(6, "0")}`;
 
+const ACRONYM: Record<string, string> = { lwbs: "LWBS", fcfs: "First come, first served", ct: "CT", mri: "MRI", xray: "X-ray", rn: "RN", md: "MD", ed: "ED", icu: "ICU", app: "APP", esi: "ESI", los: "LOS", abg: "ABG", cbc: "CBC", ecg: "ECG" };
 export function titleCase(s: string): string {
-  const t = s.replace(/_/g, " ").trim();
+  const t = s
+    .replace(/_/g, " ")
+    .trim()
+    .split(" ")
+    .map((w) => ACRONYM[w.toLowerCase()] ?? w)
+    .join(" ");
   return t.charAt(0).toUpperCase() + t.slice(1);
 }
 

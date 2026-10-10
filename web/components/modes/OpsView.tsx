@@ -22,7 +22,7 @@ export function OpsView({ narrow, top }: { narrow: boolean; top: React.ReactNode
   const set = useUI((s) => s.set);
   const Panel = mode === "play" ? PlayPanel : WatchPanel;
 
-  const insets = useMemo(() => (narrow ? { l: 0, r: 0, t: 200, b: 96 } : { l: 372, r: 352, t: 64, b: 236 }), [narrow]);
+  const insets = useMemo(() => (narrow ? { l: 0, r: 0, t: 200, b: 96 } : { l: 372, r: 352, t: 104, b: 236 }), [narrow]);
 
   if (narrow) {
     const tabs: [NonNullable<typeof drawer>, string][] = [

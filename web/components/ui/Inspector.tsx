@@ -6,6 +6,7 @@ import { describe, enumsOf, roomState } from "@/lib/describe";
 import type { FeedState } from "@/lib/feed";
 import { duration, formatValue, L, patientId, titleCase } from "@/lib/format";
 import { useApi } from "@/lib/hooks";
+import { isPlayable, notPlayableReason, playCtl } from "@/lib/session";
 import { ACUITY, ACUITY_LABEL } from "@/lib/palette";
 import { useUI } from "@/lib/ui";
 import type { CatalogAttribute, Selection } from "@/lib/types";
@@ -20,6 +21,28 @@ function Row({ k, children }: { k: string; children: ReactNode }) {
   );
 }
 const isUrl = (s?: string) => !!s && /^https?:\/\//.test(s);
+
+/** Layout `source` strings are often "URL (prose…); more prose": link only the URL and show the rest as text. */
+function SourceText({ source, fallback }: { source?: string; fallback: string }) {
+  if (!source) return <>{fallback}</>;
+  const parts = source.split(/(https?:\/\/[^\s)]+)/g);
+  return (
+    <>
+      {parts.map((p, i) => {
+        if (!/^https?:\/\//.test(p)) return <span key={i}>{p}</span>;
+        const url = p.replace(/[.,;:'"]+$/, "");
+        return (
+          <span key={i}>
+            <a href={url} target="_blank" rel="noreferrer" className="break-all text-accent-dark underline decoration-accent/30 underline-offset-2" data-testid="provenance-link">
+              {url.replace(/^https?:\/\/(www\.)?/, "")}
+            </a>
+            {p.slice(url.length)}
+          </span>
+        );
+      })}
+    </>
+  );
+}
 
 function EntityLink({ sel, children }: { sel: Selection; children: ReactNode }) {
   const select = useUI((s) => s.select);
@@ -111,7 +134,15 @@ function LiveState({ sel, f }: { sel: Selection; f: FeedState }) {
             )}
           </Row>
         ) : null}
-        <Row k={rs.held ? "In the room now" : "Occupancy"}>{`${snap?.rooms.occupancy[i] ?? 0} of ${r.capacity}`}</Row>
+        <Row k={rs.held ? "In the room now" : "Occupancy"}>
+          {(snap?.rooms.occupancy[i] ?? 0) > r.capacity && r.capacity > 0 ? (
+            <span className="rounded bg-[#FDE7E8] px-1.5 py-[1px] text-[#B4232A]" data-testid="over-capacity" title="The snapshot reports more patients here than the layout has places for. Shown as reported; a simulator fix is pending.">
+              {snap?.rooms.occupancy[i]} (layout shows {r.capacity})
+            </span>
+          ) : (
+            `${snap?.rooms.occupancy[i] ?? 0} of ${r.capacity}`
+          )}
+        </Row>
         {rs.held && <div className="pb-1 text-right text-[10.5px] text-ink-3">The bay stays assigned while its patient is away for a test.</div>}
         {snap?.rooms.queue?.[i] ? <Row k="Queue">{snap.rooms.queue[i]}</Row> : null}
         <Row k="Size">{`${+r.w.toFixed(1)} × ${+r.d.toFixed(1)} m`}</Row>
@@ -144,13 +175,7 @@ function LiveState({ sel, f }: { sel: Selection; f: FeedState }) {
             <SourceChip tag={r.provenance} title="surveyed = from a real plan · published = a count or zone the hospital has stated · inferred = placed to be consistent with those" />
           </div>
           <div className="break-words text-[11px] leading-snug text-ink-2">
-            {isUrl(r.source) ? (
-              <a href={r.source} target="_blank" rel="noreferrer" className="text-accent-dark underline decoration-accent/30 underline-offset-2">
-                {r.source}
-              </a>
-            ) : (
-              (r.source ?? "No source recorded for this room.")
-            )}
+            <SourceText source={r.source} fallback="No source recorded for this room." />
           </div>
           {r.note ? <div className="mt-1 text-[11px] leading-snug text-ink-3">{r.note}</div> : null}
         </div>
@@ -171,7 +196,9 @@ function LiveState({ sel, f }: { sel: Selection; f: FeedState }) {
             <span className="eyebrow">Layout provenance</span>
             <SourceChip tag={q.provenance} />
           </div>
-          <div className="break-words text-[11px] leading-snug text-ink-2">{q.source ?? "No source recorded."}</div>
+          <div className="break-words text-[11px] leading-snug text-ink-2">
+            <SourceText source={q.source} fallback="No source recorded." />
+          </div>
         </div>
       </>
     );
@@ -287,28 +314,47 @@ function Catalog({ refPath }: { refPath: string }) {
   );
 }
 
-function SimDetail({ sel, f }: { sel: Selection; f: FeedState }) {
-  const [data, setData] = useState<Record<string, unknown> | null>(null);
+type PatientDetail = Record<string, unknown> & { playable?: boolean; playable_reason?: string; pending_interaction?: { playable?: boolean } | null };
+
+/** What the server says about one entity of a live run (never the latent truth). */
+function useRunDetail(sel: Selection | null, f: FeedState): PatientDetail | null {
+  const [data, setData] = useState<PatientDetail | null>(null);
   const runId = f.header?.live ? f.header.id : null;
+  const kind = sel?.kind;
+  const id = sel?.id;
+  // re-ask when the patient changes state: playability follows the state
+  const stateKey = kind === "patient" && f.snap ? f.snap.patients.state[f.snap.patients.id.indexOf(Number(id))] : 0;
   useEffect(() => {
     setData(null);
-    if (!runId || (sel.kind !== "patient" && sel.kind !== "staff")) return;
+    if (!runId || (kind !== "patient" && kind !== "staff") || id == null) return;
     let dead = false;
-    const p = sel.kind === "patient" ? api.runPatient(runId, Number(sel.id)) : api.runStaff(runId, String(sel.id));
-    p.then((d) => !dead && setData(d)).catch(() => undefined);
+    const p = kind === "patient" ? api.runPatient(runId, Number(id)) : api.runStaff(runId, String(id));
+    p.then((d) => !dead && setData(d as PatientDetail)).catch(() => undefined);
     return () => {
       dead = true;
     };
-  }, [runId, sel.kind, sel.id]);
+  }, [runId, kind, id, stateKey]);
+  return data;
+}
+
+const HIDE_KNOWN = new Set(["patient_id", "known_fact_ids", "run_id"]);
+function SimDetail({ data }: { data: PatientDetail | null }) {
   if (!data) return null;
   const known = (data.known_state ?? data.profile ?? null) as Record<string, unknown> | null;
   const inter = Array.isArray(data.interactions) ? (data.interactions as Record<string, unknown>[]) : [];
-  if (!known && !inter.length) return null;
+  const facts = Array.isArray(known?.known_fact_ids) ? (known!.known_fact_ids as unknown[]).length : null;
+  const rows = known ? Object.entries(known).filter(([k, v]) => !HIDE_KNOWN.has(k) && v != null && v !== "" && !(Array.isArray(v) && v.length === 0)) : [];
+  if (!rows.length && !inter.length && facts == null) return null;
   return (
     <div className="mt-3 border-t border-line pt-3">
-      <div className="eyebrow mb-1">From the simulator</div>
-      {known && Object.entries(known).slice(0, 14).map(([k, v]) => <Row key={k} k={titleCase(k)}>{formatValue(v)}</Row>)}
-      {inter.length > 0 && <div className="mt-1 text-[11px] text-ink-3">{inter.length} interactions recorded for this run.</div>}
+      <div className="eyebrow mb-1">Known so far in this run</div>
+      {rows.slice(0, 12).map(([k, v]) => (
+        <Row key={k} k={titleCase(k)}>
+          {formatValue(v)}
+        </Row>
+      ))}
+      {facts != null && <Row k="Facts on the chart">{facts}</Row>}
+      {inter.length > 0 && <div className="mt-1 text-[11px] text-ink-3">{inter.length} interactions recorded for this patient.</div>}
     </div>
   );
 }
@@ -316,9 +362,14 @@ function SimDetail({ sel, f }: { sel: Selection; f: FeedState }) {
 export function Inspector({ f, className = "" }: { f: FeedState; className?: string }) {
   const sel = useUI((s) => s.selection);
   const select = useUI((s) => s.select);
+  const detail = useRunDetail(sel && sel.feed === f.key ? sel : null, f);
   if (!sel || sel.feed !== f.key) return null;
   const d = describe(sel, f);
   const runId = f.header?.id ?? "";
+  // the server's word on playability wins; until it has one, the patient's state decides
+  const fromServer = detail?.playable ?? detail?.pending_interaction?.playable;
+  const playable = sel.kind === "patient" && f.origin === "live" && (d?.index ?? -1) >= 0 && (fromServer ?? isPlayable(f, d?.index ?? -1));
+  const why = sel.kind === "patient" && !playable ? (detail?.playable_reason ?? notPlayableReason(f, d?.index ?? -1)) : "";
   return (
     <div className={`glass slidein pointer-events-auto flex min-h-0 flex-col ${className}`} data-testid="inspector">
       <div className="flex items-start gap-2 px-4 pb-2 pt-3.5">
@@ -332,23 +383,32 @@ export function Inspector({ f, className = "" }: { f: FeedState; className?: str
         </button>
       </div>
       <div className="scroll-thin min-h-0 flex-1 overflow-y-auto px-4 pb-4">
-        {sel.kind === "patient" && (
-          <Link
-            href={`/encounter?run_id=${encodeURIComponent(runId)}&patient_id=${encodeURIComponent(String(sel.id))}`}
-            className="btn-primary mb-3 w-full"
-            data-testid="play-encounter"
-            title="Step into the clinician's role for this patient"
-          >
-            <Icon d={ICONS.play} size={12} stroke={2.4} />
-            Play this encounter
-          </Link>
-        )}
+        {sel.kind === "patient" &&
+          (playable ? (
+            <div className="mb-3">
+              <Link
+                href={`/encounter?run_id=${encodeURIComponent(runId)}&patient_id=${encodeURIComponent(String(sel.id))}`}
+                className="btn-primary w-full"
+                data-testid="play-encounter"
+                onClick={() => playCtl.pauseForEncounter()}
+                title="Step into the clinician's role for this patient"
+              >
+                <Icon d={ICONS.play} size={12} stroke={2.4} />
+                Play this encounter
+              </Link>
+              <div className="mt-1 text-center text-[10.5px] leading-snug text-ink-3">The hospital pauses while you play, so this patient stays put. You come back to this run afterwards.</div>
+            </div>
+          ) : (
+            <div className="mb-3 rounded-xl bg-[#141a33]/[0.035] px-3 py-2 text-[11px] leading-snug text-ink-3" data-testid="not-playable">
+              <span className="font-semibold text-ink-2">Encounter not playable now.</span> {why}
+            </div>
+          ))}
         <div className="mb-1 flex items-center gap-2">
           <span className="eyebrow">Live state</span>
           <SimTag>{f.origin === "fixture" ? "fixture" : "simulated"}</SimTag>
         </div>
         <LiveState sel={sel} f={f} />
-        <SimDetail sel={sel} f={f} />
+        <SimDetail data={detail} />
         {d?.catalogRef ? (
           <div className="mt-3 border-t border-line pt-3">
             <Catalog refPath={d.catalogRef} />

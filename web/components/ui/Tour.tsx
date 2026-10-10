@@ -12,10 +12,7 @@ export function TourButton({ compact = false }: { compact?: boolean }) {
       {compact ? (
         "Tour"
       ) : (
-        <>
-          <span className="max-[1500px]:hidden">{active ? "End tour" : "Demo tour"}</span>
-          <span className="min-[1501px]:hidden">{active ? "End" : "Tour"}</span>
-        </>
+        <span>{active ? "End tour" : "Demo tour"}</span>
       )}
     </button>
   );

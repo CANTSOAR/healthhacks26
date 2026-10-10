@@ -28,7 +28,8 @@ export interface Insets {
 
 export function CameraRig({ built, feed, feedKey, positions, sync, insets }: { built: Built | null; feed: Feed; feedKey: string; positions: PosMap; sync: boolean; insets?: Insets }) {
   const ctl = useRef<ComponentRef<typeof OrbitControls>>(null);
-  const { camera, size, scene } = useThree();
+  const { camera, size, scene, gl } = useThree();
+  const swayFrom = useRef<number | null>(null);
   const want = useRef<{ target: THREE.Vector3; dist: number } | null>(null);
   const spin = useRef(0);
   const tilt = useRef(0);
@@ -148,13 +149,38 @@ export function CameraRig({ built, feed, feedKey, positions, sync, insets }: { b
       moving = true;
     }
     if (moving) camera.position.copy(c.target).add(off);
-    // slow idle drift once nobody has touched the camera for a while
+    // Slow idle drift once nobody has touched the camera for a while: a gentle sway of about twenty degrees either
+    // side of where the view was left, never a full turn (from behind, the floor labels would read mirrored).
     const idle = !moving && now - lastTouch.current > 6000;
-    c.autoRotate = idle && (!sync || feedKey === "a");
+    const drifting = idle && (!sync || feedKey === "a");
+    if (drifting) {
+      if (swayFrom.current == null) swayFrom.current = now;
+      const w = 0.045; // radians per second of phase
+      const ph = ((now - swayFrom.current) / 1000) * w;
+      const dth = 0.35 * w * Math.cos(ph) * Math.min(dt, 0.1);
+      const sph = new THREE.Spherical().setFromVector3(off);
+      sph.theta += dth;
+      off.setFromSpherical(sph);
+      camera.position.copy(c.target).add(off);
+    } else swayFrom.current = null;
+    c.autoRotate = false;
     c.update();
 
+    // test hook: where an entity is on screen (used by scripts/screenshots.mjs to click people)
+    const hg = (window as unknown as { __hg?: { project?: Record<string, (key: string) => [number, number] | null> } }).__hg;
+    if (hg && !hg.project?.[feedKey]) {
+      hg.project = hg.project ?? {};
+      hg.project[feedKey] = (key: string) => {
+        const p = positions.get(key);
+        if (!p) return null;
+        const v3 = new THREE.Vector3(p[0], 0.9, p[1]).project(camera);
+        const r = gl.domElement.getBoundingClientRect();
+        return [r.left + ((v3.x + 1) / 2) * r.width, r.top + ((1 - v3.y) / 2) * r.height];
+      };
+    }
+
     if (sync) {
-      if (moving || c.autoRotate || share.owner === "") {
+      if (moving || drifting || share.owner === "") {
         share.owner = feedKey;
         share.stamp = now;
         share.pos.copy(camera.position);

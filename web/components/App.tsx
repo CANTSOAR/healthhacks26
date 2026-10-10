@@ -2,11 +2,12 @@
 import { useCallback, useEffect, useRef } from "react";
 import { useNarrow } from "@/lib/hooks";
 import { enter } from "@/lib/nav";
-import { loadLists, refreshStatus, showLayoutOnly, stopAll } from "@/lib/session";
+import { loadLists, openCompare, openWatch, refreshStatus, runIsLive, savedRun, saveRun, showLayoutOnly, stopAll } from "@/lib/session";
 import { useUI, type Mode } from "@/lib/ui";
 import { CompareView } from "./modes/CompareView";
 import { OpsView } from "./modes/OpsView";
 import { TradeoffView } from "./modes/TradeoffView";
+import { FixtureBanner } from "./ui/FixtureBanner";
 import { Toasts } from "./ui/Toasts";
 import { TourCard } from "./ui/Tour";
 import { TopBar } from "./ui/TopBar";
@@ -24,7 +25,19 @@ export default function App() {
     booted.current = true;
     const q = new URLSearchParams(window.location.search);
     const m = q.get("mode") as Mode | null;
-    const initial: Mode = m && MODES.includes(m) ? m : "watch";
+    // coming back from an encounter: /?run_id=..&patient_id=.. lands in Play on that run with that patient selected
+    const backRun = q.get("run_id");
+    const backPatient = q.get("patient_id");
+    if (backRun) {
+      saveRun({ run_id: backRun, selection: backPatient != null && backPatient !== "" ? { kind: "patient", id: Number(backPatient) } : null });
+      const u = new URL(window.location.href);
+      u.searchParams.delete("run_id");
+      u.searchParams.delete("patient_id");
+      window.history.replaceState(null, "", u);
+    }
+    useUI.setState({ hasSavedRun: !!savedRun() });
+    // a remembered live run wins over the default mode, so a reload never drops it silently
+    const initial: Mode = backRun ? "play" : m && MODES.includes(m) ? m : savedRun() ? "play" : "watch";
     useUI.setState({ mode: initial });
     const w = q.get("rollout");
     if (w) useUI.setState({ watchId: w });
@@ -36,7 +49,21 @@ export default function App() {
       await loadLists();
       await enter(initial);
     })();
-    const timer = setInterval(() => void refreshStatus(), 15000);
+    // poll the server: slowly while it answers, quickly while it does not; when it comes back, reload what is on screen
+    let wasOnline: boolean | null = null;
+    const timer = setInterval(() => {
+      const before = useUI.getState().online;
+      if (before === false || Date.now() % 15000 < 4000)
+        void refreshStatus().then((r) => {
+          const nowOnline = r.source === "live";
+          if (wasOnline === false && nowOnline) {
+            useUI.getState().toast("The API is back. Reloading live data.", "info");
+            const s = useUI.getState();
+            if (!(s.mode === "play" && runIsLive())) void enter(s.mode);
+          }
+          wasOnline = nowOnline;
+        });
+    }, 4000);
     return () => {
       clearInterval(timer);
       stopAll();
@@ -47,14 +74,37 @@ export default function App() {
   useEffect(() => {
     if (!booted.current) return;
     const s = useUI.getState();
-    if (s.mode === "play" && (s.play.state === "idle" || s.play.state === "ended")) void showLayoutOnly();
+    if (s.mode === "play" && (s.play.state === "idle" || s.play.state === "ended") && !runIsLive()) void showLayoutOnly();
   }, [hospitalId]);
+
+  // In Watch and Compare the scenario menu chooses among recordings of that scenario.
+  const scenarioId = useUI((s) => s.scenarioId);
+  useEffect(() => {
+    if (!booted.current) return;
+    const s = useUI.getState();
+    const of = s.rollouts.filter((r) => r.has_segments && r.scenario === scenarioId);
+    if (s.mode === "watch") {
+      const cur = s.rollouts.find((r) => r.rollout_id === s.watchId);
+      if (!cur || cur.scenario === scenarioId) return;
+      const next = of.find((r) => r.manager.id === cur.manager.id) ?? of[0];
+      if (next) void openWatch(next.rollout_id);
+      else s.toast("There is no recording of that scenario yet. Still showing the previous one.", "warn");
+    } else if (s.mode === "compare" && s.compareLive === "off") {
+      const [a, b] = s.compareIds.map((id) => s.rollouts.find((r) => r.rollout_id === id));
+      if (!a || !b || (a.scenario === scenarioId && b.scenario === scenarioId)) return;
+      const na = of.find((r) => r.manager.id === a.manager.id) ?? of[0];
+      const nb = of.find((r) => r.manager.id === b.manager.id && r.rollout_id !== na?.rollout_id) ?? of.find((r) => r.rollout_id !== na?.rollout_id);
+      if (na && nb) void openCompare(na.rollout_id, nb.rollout_id);
+      else s.toast("There are not two recordings of that scenario yet. Still showing the previous pair.", "warn");
+    }
+  }, [scenarioId]);
 
   const onMode = useCallback((m: Mode) => void enter(m), []);
   const top = (
     <>
       <TopBar narrow={narrow} onMode={onMode} />
-      <div className="pointer-events-none fixed left-1/2 top-[76px] z-[60] flex w-[min(92vw,460px)] -translate-x-1/2 flex-col gap-2 max-[900px]:top-[120px]">
+      <FixtureBanner />
+      <div className="pointer-events-none fixed left-1/2 top-[118px] z-[60] flex w-[min(92vw,460px)] -translate-x-1/2 flex-col gap-2 max-[900px]:top-[120px]">
         <TourCard />
         <Toasts />
       </div>

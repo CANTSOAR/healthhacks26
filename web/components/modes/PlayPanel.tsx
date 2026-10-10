@@ -3,36 +3,13 @@ import Link from "next/link";
 import { useState } from "react";
 import type { FeedState } from "@/lib/feed";
 import { DOW, duration, hhmm, titleCase } from "@/lib/format";
-import { playCtl, startPlay } from "@/lib/session";
+import { playCtl, savedRun, startPlay } from "@/lib/session";
 import { useUI } from "@/lib/ui";
 import type { ActionHead, Cadence, Snapshot } from "@/lib/types";
 import { Icon, ICONS, KindChip, SimTag, SourceChip } from "../ui/atoms";
+import { HEAD_LABEL, optLabel } from "./labels";
 import { DecisionFeed, SummaryGrid } from "./WatchPanel";
 
-const HEAD_LABEL: Record<string, string> = {
-  priority_rule: "Queue priority",
-  overflow_bays: "Overflow bays",
-  divert: "Ambulance diversion",
-  call_in: "Call in staff",
-  fast_track: "Fast track",
-  provider_split: "Provider focus",
-  md_day: "Providers · day",
-  md_evening: "Providers · evening",
-  md_night: "Providers · night",
-  rn_day: "Nurses · day",
-  rn_evening: "Nurses · evening",
-  rn_night: "Nurses · night",
-  triage_nurses: "Triage stations",
-  admission_cap: "Admission cap",
-  discharge_push: "Discharge rounds",
-  agency_contract: "Agency nurses",
-  imaging_hours: "Imaging hours",
-  bays_delta: "Treatment bays",
-  ward_beds_delta: "Ward beds",
-  equipment_buy: "Buy equipment",
-  relocate: "Relocate a zone",
-  headcount: "Permanent headcount",
-};
 const CADENCES: { id: Cadence; label: string; when: string }[] = [
   { id: "hourly", label: "Hourly", when: "applies at the top of the next hour" },
   { id: "daily", label: "Daily", when: "sets the plan for the day that starts at 00:00" },
@@ -63,7 +40,6 @@ function boundaryLabel(c: Cadence, clock: Snapshot["clock"]): string {
   return `in ${duration(m)} · ${DOW[((day % 7) + 7) % 7]} ${hhmm(abs % 1440)}${c === "hourly" ? "" : `, day ${day + 1}`}`;
 }
 
-const optLabel = (o: string) => (/^lvl\d+$/.test(o) ? `Level ${o.slice(3)}` : titleCase(o));
 function optValue(h: ActionHead, i: number): string | null {
   const v = h.values?.[i];
   if (v == null) return null;
@@ -130,6 +106,7 @@ export function PlayPanel({ f, className = "" }: { f: FeedState; className?: str
   const setPlay = useUI((s) => s.setPlay);
   const managers = useUI((s) => s.managers);
   const scenarioId = useUI((s) => s.scenarioId);
+  const hasSaved = useUI((s) => s.hasSavedRun);
   const [open, setOpen] = useState<Record<string, boolean>>({ hourly: true, daily: true, weekly: false, monthly: false });
   const [tab, setTab] = useState<"knobs" | "log">("knobs");
   const running = play.state === "live" || play.state === "fixture";
@@ -149,7 +126,7 @@ export function PlayPanel({ f, className = "" }: { f: FeedState; className?: str
           </span>
         </div>
         <div className="flex items-center gap-2">
-          <select className="select min-w-0 flex-1" value={play.manager} onChange={(e) => playCtl.manager(e.target.value)} aria-label="Who is managing" data-testid="manager-select" title="Hand the hospital to a trained manager, or take it back">
+          <select className="select min-w-0 flex-1" value={play.manager} onChange={(e) => playCtl.manager(e.target.value)} disabled={play.state === "fixture"} aria-label="Who is managing" data-testid="manager-select" title="Hand the hospital to a trained manager, or take it back">
             <option value="human">You (human)</option>
             {managers
               .filter((m) => m.kind !== "human")
@@ -182,14 +159,26 @@ export function PlayPanel({ f, className = "" }: { f: FeedState; className?: str
         )}
         <div className="flex items-center gap-2">
           {!running ? (
-            <button className="btn-primary flex-1" onClick={() => void startPlay()} disabled={play.state === "connecting"} data-testid="play-start">
-              <Icon d={ICONS.play} size={12} stroke={2.4} />
-              {play.state === "connecting" ? "Connecting…" : play.state === "ended" ? "Start a new run" : `Start · ${titleCase(scenarioId)}`}
-            </button>
+            <>
+              {hasSaved && play.state === "idle" && (
+                <button className="btn-primary flex-1" onClick={() => { const r = savedRun(); if (r) void startPlay({ attach: r.run_id, select: r.selection ?? null }); }} data-testid="play-rejoin" title="Carry on with the run this tab started earlier">
+                  Rejoin run
+                </button>
+              )}
+              <button className={hasSaved && play.state === "idle" ? "btn-quiet flex-1" : "btn-primary flex-1"} onClick={() => void startPlay()} disabled={play.state === "connecting"} data-testid="play-start">
+                <Icon d={ICONS.play} size={12} stroke={2.4} />
+                {play.state === "connecting" ? "Connecting…" : play.state === "ended" || hasSaved ? "Start a new run" : `Start · ${titleCase(scenarioId)}`}
+              </button>
+            </>
           ) : (
-            <button className="btn-quiet flex-1" onClick={() => void playCtl.stop()} data-testid="play-stop">
-              End run and save result
-            </button>
+            <>
+              <button className="btn-quiet flex-1" onClick={() => void playCtl.stop()} data-testid="play-stop">
+                End run and save
+              </button>
+              <button className="btn-quiet flex-1" onClick={() => void playCtl.findPlayable()} disabled={play.state !== "live"} data-testid="find-playable" title="Select a patient who is waiting for, or with, a provider: you can play their encounter yourself">
+                Find a patient to play
+              </button>
+            </>
           )}
         </div>
         {play.note && <div className="rounded-xl bg-[#FDF6E7] px-3 py-2 text-[11px] leading-snug text-[#8A5A00]">{play.note}</div>}

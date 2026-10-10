@@ -44,16 +44,24 @@ const easeOut = (t: number) => 1 - (1 - t) * (1 - t);
 export function People({ feed, feedKey, positions }: { feed: Feed; feedKey: string; positions: PosMap }) {
   const body = useRef<THREE.InstancedMesh>(null);
   const head = useRef<THREE.InstancedMesh>(null);
+  // People are a few pixels wide from the default camera, so each one also gets an invisible, much larger click target.
+  const hit = useRef<THREE.InstancedMesh>(null);
+  const hitGeo = useMemo(() => new THREE.CylinderGeometry(1, 1, 2.4, 10), []);
+  const hovered = useRef<string>("");
+  const centres = useRef<Float32Array>(new Float32Array(MAX * 2));
   const ents = useRef(new Map<string, Ent>());
   const order = useRef<Selection[]>([]);
   const last = useRef<{ snap: unknown; jump: number; gen: number }>({ snap: null, jump: -1, gen: 0 });
   const bodyGeo = useMemo(() => new THREE.CapsuleGeometry(0.21, 0.46, 4, 12), []);
   const headGeo = useMemo(() => new THREE.SphereGeometry(0.2, 16, 12), []);
 
-  useFrame(() => {
+  useFrame((state) => {
     const b = body.current;
     const h = head.current;
+    const ht = hit.current;
     if (!b || !h) return;
+    // click radius in metres: about a dozen pixels whatever the zoom, without swallowing a whole bay when close
+    const hitR = Math.max(0.55, Math.min(1.9, state.camera.position.y * 0.0125));
     const st = feed.getState();
     const now = performance.now();
     const map = ents.current;
@@ -134,9 +142,15 @@ export function People({ feed, feedKey, positions }: { feed: Feed; feedKey: stri
         m4.compose(v.set(e.cx, 0.16 + 1.06 * k, e.cz), q, s.set(k, k, k));
         h.setMatrixAt(n, m4);
       }
+      if (ht) {
+        m4.compose(v.set(e.cx, 1.2, e.cz), qStand, s.set(hitR, 1, hitR));
+        ht.setMatrixAt(n, m4);
+      }
       b.setColorAt(n, e.color);
       h.setColorAt(n, e.kind === "staff" ? staffHead : skin);
       ord[n] = { kind: e.kind, id: e.id, feed: feedKey };
+      centres.current[n * 2] = e.cx;
+      centres.current[n * 2 + 1] = e.cz;
       positions.set(key, [e.cx, e.cz, e.lying ? 1 : 0]);
       n++;
     }
@@ -148,30 +162,65 @@ export function People({ feed, feedKey, positions }: { feed: Feed; feedKey: stri
     if (h.instanceColor) h.instanceColor.needsUpdate = true;
     b.boundingSphere = null;
     h.boundingSphere = null;
+    if (ht) {
+      ht.count = n;
+      ht.instanceMatrix.needsUpdate = true;
+      ht.boundingSphere = null;
+    }
   });
 
+  /** Click targets overlap where people stand close together: take the person whose centre is nearest the pointer's ray. */
+  type Ev = { delta: number; instanceId?: number; stopPropagation: () => void; ray: THREE.Ray; intersections: { object: THREE.Object3D; instanceId?: number }[] };
+  const pick = (e: Ev): Selection | null => {
+    let best = -1;
+    let bd = Infinity;
+    for (const x of e.intersections) {
+      if (x.object !== hit.current || x.instanceId == null) continue;
+      const d = e.ray.distanceSqToPoint(v.set(centres.current[x.instanceId * 2], 0.9, centres.current[x.instanceId * 2 + 1]));
+      if (d < bd) {
+        bd = d;
+        best = x.instanceId;
+      }
+    }
+    if (best < 0 && e.instanceId != null) best = e.instanceId;
+    return best >= 0 ? (order.current[best] ?? null) : null;
+  };
   const handlers = {
-    onClick: (e: { delta: number; instanceId?: number; stopPropagation: () => void }) => {
-      if (e.delta > 5 || e.instanceId == null) return;
-      const sel = order.current[e.instanceId];
+    onClick: (e: Ev) => {
+      if (e.delta > 5) return;
+      const sel = pick(e);
       if (!sel) return;
       e.stopPropagation();
       useUI.getState().select(sel);
     },
-    onPointerOver: () => {
-      document.body.style.cursor = "pointer";
+    onPointerMove: (e: Ev) => {
+      const sel = pick(e);
+      if (!sel) return;
+      e.stopPropagation();
+      const key = `${sel.kind}:${sel.id}`;
+      if (hovered.current !== key) {
+        hovered.current = key;
+        document.body.style.cursor = "pointer";
+        useUI.setState({ hover: sel });
+      }
     },
     onPointerOut: () => {
+      if (!hovered.current) return;
+      hovered.current = "";
       document.body.style.cursor = "";
+      useUI.setState({ hover: null });
     },
   };
 
   return (
     <>
-      <instancedMesh ref={body} args={[bodyGeo, undefined, MAX]} frustumCulled={false} castShadow receiveShadow {...handlers}>
+      <instancedMesh ref={hit} args={[hitGeo, undefined, MAX]} frustumCulled={false} userData={{ personHit: true }} {...handlers}>
+        <meshBasicMaterial transparent opacity={0} depthWrite={false} colorWrite={false} />
+      </instancedMesh>
+      <instancedMesh ref={body} args={[bodyGeo, undefined, MAX]} frustumCulled={false} castShadow receiveShadow raycast={() => null}>
         <meshStandardMaterial roughness={0.85} metalness={0} />
       </instancedMesh>
-      <instancedMesh ref={head} args={[headGeo, undefined, MAX]} frustumCulled={false} castShadow {...handlers}>
+      <instancedMesh ref={head} args={[headGeo, undefined, MAX]} frustumCulled={false} castShadow raycast={() => null}>
         <meshStandardMaterial roughness={0.85} metalness={0} />
       </instancedMesh>
     </>

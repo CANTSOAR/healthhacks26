@@ -43,3 +43,13 @@ Nothing here blocks the web app; each item says what the app assumes today.
 
 9. **Human run length.** The app posts `days` as a fraction (for example 0.375 for a nine-hour run) so the trade-off chart
    can flag runs shorter than the evaluation protocol.
+
+10. **Round 3, now relied on** (all implemented by the server; listed so `api.md` can catch up): websocket `attach`
+    (`header.attached`, `speed`, `paused`; errors with `code: run_gone | detached`), `hour.playable`,
+    `GET /api/runs/{run_id}/playable`, `playable` / `playable_reason` on the patient route,
+    `DELETE /api/runs/{run_id}/patients/{id}/hold`, `write_back: {status, detail}` on finish and on the encounter state,
+    and `results.comparisons[].verdict`.
+
+11. **Still inferred by the app:** which patient holds a bay (item 8), and how a learned manager was trained: no
+    `note` / `training` / `description` field is on `/api/managers` or the result rows yet, so only the held-out verdict
+    is shown.
