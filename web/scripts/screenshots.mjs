@@ -305,7 +305,7 @@ await step("live", async () => {
   await page.click('[data-testid="play-panel"] .seg button:has-text("Decisions")');
   await page.waitForTimeout(gpu ? 5000 : 12000);
   const feed = await page.locator('[data-testid="decision-feed"]').innerText();
-  const started = (feed.match(/Scenario event started/g) ?? []).length;
+  const started = (feed.match(/Scenario event started|(?:Flu wave|Mass-casualty incident|Equipment outage|Staff callouts) started/g) ?? []).length;
   console.log("inject: scenario events in the feed =", started, "| toasts on screen =", await page.locator('[data-testid="toasts"] > div').count());
   if (started < 4) problems.push(`inject: only ${started} of 4 injected events reached the feed`);
   await shot(page, "live-inject");
