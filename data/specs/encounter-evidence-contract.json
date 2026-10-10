@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "status": "proposed_contract_not_implemented_simulator",
+  "required_per_transition": [
+    "event_id",
+    "from_state",
+    "to_state",
+    "trigger_or_decision",
+    "actor_role",
+    "required_information",
+    "resources_acquired_and_released",
+    "ehr_action_and_permission",
+    "duration_model_or_explicit_unknown",
+    "source_record_ids",
+    "evidence_kind",
+    "inference_and_transfer_limits",
+    "exception_or_escalation",
+    "review_status"
+  ],
+  "separate_state_tracks": [
+    "clinical condition and findings",
+    "orders/results and care tasks",
+    "physical location and resource occupancy",
+    "communication/consent/handoffs",
+    "administrative eligibility/authorization/claims"
+  ],
+  "invariants": [
+    "Emergency screening/stabilization must not wait for an invented payer authorization gate.",
+    "A suspected condition does not become confirmed without authored evidence.",
+    "Real clinician identities do not imply known personality, behavior, availability or permissions.",
+    "A guideline timing goal is not an observed service-time distribution.",
+    "Training assessment improvements do not establish actual patient-outcome improvement.",
+    "Unacquired policy or timing stays unknown or explicitly assumed; never silently observed."
+  ],
+  "fracture_example": {
+    "source_record_ids": [
+      "acr-acute-wrist-trauma-imaging-pathway",
+      "admin-emtala-screening",
+      "admin-aetna-emergency-authorization",
+      "admin-aetna-plan-specific-priorauth"
+    ],
+    "authored_skeleton": [
+      "arrival and urgency assessment",
+      "medical assessment",
+      "initial radiographs when appropriate",
+      "result review and persistent-suspicion branch",
+      "injury-specific treatment decision (missing complete protocol)",
+      "disposition, handoff and follow-up (missing complete protocol)"
+    ],
+    "missing_before_complete": [
+      "Neurovascular/open-injury escalation and full injury-specific care source pack",
+      "Reviewed treatment and disposition branches",
+      "Local orthopedic access and staffing",
+      "Specific Aetna plan/service/network/benefit snapshot",
+      "Calibrated or explicitly adopted duration models"
+    ],
+    "status": "partial_example_not_runnable_or_clinically_approved"
+  }
+}

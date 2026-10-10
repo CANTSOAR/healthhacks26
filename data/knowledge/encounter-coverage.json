@@ -1,0 +1,449 @@
+{
+  "version": 1,
+  "status": "authored_research_map_not_clinical_protocol",
+  "scope": "Non-exhaustive hospital encounter families; no claim every patient or specialty is covered",
+  "families": [
+    {
+      "id": "wrist-trauma",
+      "title": "Suspected wrist fracture",
+      "source_record_ids": [
+        "acr-acute-wrist-trauma-imaging-pathway"
+      ],
+      "coverage_status": "partial_guidance",
+      "local_validation": "not_established",
+      "missing": [
+        "Complete clinician-reviewed branch conditions and exclusions",
+        "Task-level local role responsibility and escalation ownership",
+        "Resource availability, service-time distributions and dependencies",
+        "EHR actions and permissions for each role",
+        "Patient goals, communication/access needs and follow-up",
+        "Versioned plan/service applicability where insurance matters"
+      ],
+      "note": "Coverage applies to this map only; related general evidence may exist elsewhere."
+    },
+    {
+      "id": "chest-pain",
+      "title": "Adult acute chest pain",
+      "source_record_ids": [
+        "acc-2022-ed-acute-chest-pain-initial-pathway"
+      ],
+      "coverage_status": "partial_guidance",
+      "local_validation": "not_established",
+      "missing": [
+        "Complete clinician-reviewed branch conditions and exclusions",
+        "Task-level local role responsibility and escalation ownership",
+        "Resource availability, service-time distributions and dependencies",
+        "EHR actions and permissions for each role",
+        "Patient goals, communication/access needs and follow-up",
+        "Versioned plan/service applicability where insurance matters"
+      ],
+      "note": "Coverage applies to this map only; related general evidence may exist elsewhere."
+    },
+    {
+      "id": "stroke",
+      "title": "Suspected acute stroke",
+      "source_record_ids": [
+        "aha-asa-2026-suspected-ischemic-stroke-emergency-pathway"
+      ],
+      "coverage_status": "partial_guidance",
+      "local_validation": "not_established",
+      "missing": [
+        "Complete clinician-reviewed branch conditions and exclusions",
+        "Task-level local role responsibility and escalation ownership",
+        "Resource availability, service-time distributions and dependencies",
+        "EHR actions and permissions for each role",
+        "Patient goals, communication/access needs and follow-up",
+        "Versioned plan/service applicability where insurance matters"
+      ],
+      "note": "Coverage applies to this map only; related general evidence may exist elsewhere."
+    },
+    {
+      "id": "pediatric-asthma",
+      "title": "Pediatric respiratory exacerbation",
+      "source_record_ids": [
+        "gina-2026-pediatric-acute-asthma-emergency-assessment"
+      ],
+      "coverage_status": "partial_guidance",
+      "local_validation": "not_established",
+      "missing": [
+        "Complete clinician-reviewed branch conditions and exclusions",
+        "Task-level local role responsibility and escalation ownership",
+        "Resource availability, service-time distributions and dependencies",
+        "EHR actions and permissions for each role",
+        "Patient goals, communication/access needs and follow-up",
+        "Versioned plan/service applicability where insurance matters"
+      ],
+      "note": "Coverage applies to this map only; related general evidence may exist elsewhere."
+    },
+    {
+      "id": "obstetric-triage",
+      "title": "Urgent pregnancy-related presentation",
+      "source_record_ids": [
+        "acog-2016-hospital-based-obstetric-triage"
+      ],
+      "coverage_status": "partial_guidance",
+      "local_validation": "not_established",
+      "missing": [
+        "Complete clinician-reviewed branch conditions and exclusions",
+        "Task-level local role responsibility and escalation ownership",
+        "Resource availability, service-time distributions and dependencies",
+        "EHR actions and permissions for each role",
+        "Patient goals, communication/access needs and follow-up",
+        "Versioned plan/service applicability where insurance matters"
+      ],
+      "note": "Coverage applies to this map only; related general evidence may exist elsewhere."
+    },
+    {
+      "id": "behavioral-crisis",
+      "title": "Behavioral-health crisis",
+      "source_record_ids": [
+        "samhsa-2025-behavioral-health-crisis-continuum"
+      ],
+      "coverage_status": "partial_guidance",
+      "local_validation": "not_established",
+      "missing": [
+        "Complete clinician-reviewed branch conditions and exclusions",
+        "Task-level local role responsibility and escalation ownership",
+        "Resource availability, service-time distributions and dependencies",
+        "EHR actions and permissions for each role",
+        "Patient goals, communication/access needs and follow-up",
+        "Versioned plan/service applicability where insurance matters"
+      ],
+      "note": "Coverage applies to this map only; related general evidence may exist elsewhere."
+    },
+    {
+      "id": "sepsis",
+      "title": "Infection and suspected sepsis",
+      "source_record_ids": [],
+      "coverage_status": "dedicated_pathway_not_acquired_this_pass",
+      "local_validation": "not_established",
+      "missing": [
+        "Complete clinician-reviewed branch conditions and exclusions",
+        "Task-level local role responsibility and escalation ownership",
+        "Resource availability, service-time distributions and dependencies",
+        "EHR actions and permissions for each role",
+        "Patient goals, communication/access needs and follow-up",
+        "Versioned plan/service applicability where insurance matters"
+      ],
+      "note": "Coverage applies to this map only; related general evidence may exist elsewhere."
+    },
+    {
+      "id": "abdominal-pain",
+      "title": "Abdominal pain and emergency surgery",
+      "source_record_ids": [],
+      "coverage_status": "dedicated_pathway_not_acquired_this_pass",
+      "local_validation": "not_established",
+      "missing": [
+        "Complete clinician-reviewed branch conditions and exclusions",
+        "Task-level local role responsibility and escalation ownership",
+        "Resource availability, service-time distributions and dependencies",
+        "EHR actions and permissions for each role",
+        "Patient goals, communication/access needs and follow-up",
+        "Versioned plan/service applicability where insurance matters"
+      ],
+      "note": "Coverage applies to this map only; related general evidence may exist elsewhere."
+    },
+    {
+      "id": "polytrauma",
+      "title": "Major trauma and resuscitation",
+      "source_record_ids": [],
+      "coverage_status": "dedicated_pathway_not_acquired_this_pass",
+      "local_validation": "not_established",
+      "missing": [
+        "Complete clinician-reviewed branch conditions and exclusions",
+        "Task-level local role responsibility and escalation ownership",
+        "Resource availability, service-time distributions and dependencies",
+        "EHR actions and permissions for each role",
+        "Patient goals, communication/access needs and follow-up",
+        "Versioned plan/service applicability where insurance matters"
+      ],
+      "note": "Coverage applies to this map only; related general evidence may exist elsewhere."
+    },
+    {
+      "id": "toxicology",
+      "title": "Poisoning and overdose",
+      "source_record_ids": [],
+      "coverage_status": "dedicated_pathway_not_acquired_this_pass",
+      "local_validation": "not_established",
+      "missing": [
+        "Complete clinician-reviewed branch conditions and exclusions",
+        "Task-level local role responsibility and escalation ownership",
+        "Resource availability, service-time distributions and dependencies",
+        "EHR actions and permissions for each role",
+        "Patient goals, communication/access needs and follow-up",
+        "Versioned plan/service applicability where insurance matters"
+      ],
+      "note": "Coverage applies to this map only; related general evidence may exist elsewhere."
+    },
+    {
+      "id": "metabolic",
+      "title": "Diabetes and metabolic emergencies",
+      "source_record_ids": [],
+      "coverage_status": "dedicated_pathway_not_acquired_this_pass",
+      "local_validation": "not_established",
+      "missing": [
+        "Complete clinician-reviewed branch conditions and exclusions",
+        "Task-level local role responsibility and escalation ownership",
+        "Resource availability, service-time distributions and dependencies",
+        "EHR actions and permissions for each role",
+        "Patient goals, communication/access needs and follow-up",
+        "Versioned plan/service applicability where insurance matters"
+      ],
+      "note": "Coverage applies to this map only; related general evidence may exist elsewhere."
+    },
+    {
+      "id": "geriatric",
+      "title": "Falls, delirium and frailty",
+      "source_record_ids": [],
+      "coverage_status": "dedicated_pathway_not_acquired_this_pass",
+      "local_validation": "not_established",
+      "missing": [
+        "Complete clinician-reviewed branch conditions and exclusions",
+        "Task-level local role responsibility and escalation ownership",
+        "Resource availability, service-time distributions and dependencies",
+        "EHR actions and permissions for each role",
+        "Patient goals, communication/access needs and follow-up",
+        "Versioned plan/service applicability where insurance matters"
+      ],
+      "note": "Coverage applies to this map only; related general evidence may exist elsewhere."
+    },
+    {
+      "id": "neonatal",
+      "title": "Newborn and neonatal intensive care",
+      "source_record_ids": [],
+      "coverage_status": "dedicated_pathway_not_acquired_this_pass",
+      "local_validation": "not_established",
+      "missing": [
+        "Complete clinician-reviewed branch conditions and exclusions",
+        "Task-level local role responsibility and escalation ownership",
+        "Resource availability, service-time distributions and dependencies",
+        "EHR actions and permissions for each role",
+        "Patient goals, communication/access needs and follow-up",
+        "Versioned plan/service applicability where insurance matters"
+      ],
+      "note": "Coverage applies to this map only; related general evidence may exist elsewhere."
+    },
+    {
+      "id": "oncology",
+      "title": "Cancer therapy and complications",
+      "source_record_ids": [],
+      "coverage_status": "dedicated_pathway_not_acquired_this_pass",
+      "local_validation": "not_established",
+      "missing": [
+        "Complete clinician-reviewed branch conditions and exclusions",
+        "Task-level local role responsibility and escalation ownership",
+        "Resource availability, service-time distributions and dependencies",
+        "EHR actions and permissions for each role",
+        "Patient goals, communication/access needs and follow-up",
+        "Versioned plan/service applicability where insurance matters"
+      ],
+      "note": "Coverage applies to this map only; related general evidence may exist elsewhere."
+    },
+    {
+      "id": "dialysis",
+      "title": "Renal replacement encounters",
+      "source_record_ids": [
+        "cms-esrd-interdisciplinary-dialysis-plan"
+      ],
+      "coverage_status": "partial_guidance",
+      "local_validation": "not_established",
+      "missing": [
+        "Complete clinician-reviewed branch conditions and exclusions",
+        "Task-level local role responsibility and escalation ownership",
+        "Resource availability, service-time distributions and dependencies",
+        "EHR actions and permissions for each role",
+        "Patient goals, communication/access needs and follow-up",
+        "Versioned plan/service applicability where insurance matters"
+      ],
+      "note": "General timing or support-role evidence elsewhere does not make this encounter complete. Dialysis evidence is longitudinal ESRD guidance, not an acute inpatient protocol."
+    },
+    {
+      "id": "elective-surgery",
+      "title": "Scheduled surgery and perioperative care",
+      "source_record_ids": [],
+      "coverage_status": "dedicated_pathway_not_acquired_this_pass",
+      "local_validation": "not_established",
+      "missing": [
+        "Complete clinician-reviewed branch conditions and exclusions",
+        "Task-level local role responsibility and escalation ownership",
+        "Resource availability, service-time distributions and dependencies",
+        "EHR actions and permissions for each role",
+        "Patient goals, communication/access needs and follow-up",
+        "Versioned plan/service applicability where insurance matters"
+      ],
+      "note": "Coverage applies to this map only; related general evidence may exist elsewhere."
+    },
+    {
+      "id": "icu",
+      "title": "Critical care and ICU transfers",
+      "source_record_ids": [],
+      "coverage_status": "dedicated_pathway_not_acquired_this_pass",
+      "local_validation": "not_established",
+      "missing": [
+        "Complete clinician-reviewed branch conditions and exclusions",
+        "Task-level local role responsibility and escalation ownership",
+        "Resource availability, service-time distributions and dependencies",
+        "EHR actions and permissions for each role",
+        "Patient goals, communication/access needs and follow-up",
+        "Versioned plan/service applicability where insurance matters"
+      ],
+      "note": "Coverage applies to this map only; related general evidence may exist elsewhere."
+    },
+    {
+      "id": "general-inpatient",
+      "title": "Ward admission, daily care and discharge",
+      "source_record_ids": [],
+      "coverage_status": "dedicated_pathway_not_acquired_this_pass",
+      "local_validation": "not_established",
+      "missing": [
+        "Complete clinician-reviewed branch conditions and exclusions",
+        "Task-level local role responsibility and escalation ownership",
+        "Resource availability, service-time distributions and dependencies",
+        "EHR actions and permissions for each role",
+        "Patient goals, communication/access needs and follow-up",
+        "Versioned plan/service applicability where insurance matters"
+      ],
+      "note": "Coverage applies to this map only; related general evidence may exist elsewhere."
+    },
+    {
+      "id": "rehabilitation",
+      "title": "Rehabilitation and functional recovery",
+      "source_record_ids": [],
+      "coverage_status": "dedicated_pathway_not_acquired_this_pass",
+      "local_validation": "not_established",
+      "missing": [
+        "Complete clinician-reviewed branch conditions and exclusions",
+        "Task-level local role responsibility and escalation ownership",
+        "Resource availability, service-time distributions and dependencies",
+        "EHR actions and permissions for each role",
+        "Patient goals, communication/access needs and follow-up",
+        "Versioned plan/service applicability where insurance matters"
+      ],
+      "note": "Coverage applies to this map only; related general evidence may exist elsewhere."
+    },
+    {
+      "id": "palliative",
+      "title": "Palliative and end-of-life care",
+      "source_record_ids": [],
+      "coverage_status": "dedicated_pathway_not_acquired_this_pass",
+      "local_validation": "not_established",
+      "missing": [
+        "Complete clinician-reviewed branch conditions and exclusions",
+        "Task-level local role responsibility and escalation ownership",
+        "Resource availability, service-time distributions and dependencies",
+        "EHR actions and permissions for each role",
+        "Patient goals, communication/access needs and follow-up",
+        "Versioned plan/service applicability where insurance matters"
+      ],
+      "note": "Coverage applies to this map only; related general evidence may exist elsewhere."
+    },
+    {
+      "id": "ambulatory",
+      "title": "Outpatient consultation and follow-up",
+      "source_record_ids": [],
+      "coverage_status": "dedicated_pathway_not_acquired_this_pass",
+      "local_validation": "not_established",
+      "missing": [
+        "Complete clinician-reviewed branch conditions and exclusions",
+        "Task-level local role responsibility and escalation ownership",
+        "Resource availability, service-time distributions and dependencies",
+        "EHR actions and permissions for each role",
+        "Patient goals, communication/access needs and follow-up",
+        "Versioned plan/service applicability where insurance matters"
+      ],
+      "note": "Coverage applies to this map only; related general evidence may exist elsewhere."
+    },
+    {
+      "id": "discharge-placement",
+      "title": "Post-acute placement and home services",
+      "source_record_ids": [
+        "ahrq-red-case-management-discharge"
+      ],
+      "coverage_status": "partial_guidance",
+      "local_validation": "not_established",
+      "missing": [
+        "Complete clinician-reviewed branch conditions and exclusions",
+        "Task-level local role responsibility and escalation ownership",
+        "Resource availability, service-time distributions and dependencies",
+        "EHR actions and permissions for each role",
+        "Patient goals, communication/access needs and follow-up",
+        "Versioned plan/service applicability where insurance matters"
+      ],
+      "note": "Coverage applies to this map only; related general evidence may exist elsewhere."
+    }
+  ],
+  "role_inventory": [
+    "patient",
+    "caregiver or surrogate",
+    "EMS",
+    "triage nurse",
+    "bedside nurse",
+    "charge nurse",
+    "nursing assistant",
+    "ED physician",
+    "resident or fellow",
+    "advanced practice clinician",
+    "hospitalist",
+    "specialist consultant",
+    "surgeon",
+    "anesthesiology clinician",
+    "midwife or obstetric clinician",
+    "pediatric clinician",
+    "psychiatry clinician",
+    "pharmacist",
+    "pharmacy technician",
+    "respiratory therapist",
+    "laboratory technologist",
+    "phlebotomist",
+    "radiology technologist",
+    "radiologist",
+    "blood bank staff",
+    "dialysis nurse",
+    "physical therapist",
+    "occupational therapist",
+    "speech-language pathologist",
+    "dietitian",
+    "case manager",
+    "social worker",
+    "qualified interpreter",
+    "transport staff",
+    "bed manager",
+    "environmental services",
+    "sterile processing staff",
+    "infection preventionist",
+    "registration staff",
+    "financial counselor",
+    "utilization reviewer",
+    "coding and billing staff",
+    "IT or clinical informatics",
+    "biomedical engineering",
+    "security",
+    "chaplain or spiritual care"
+  ],
+  "role_inventory_basis": "Analyst-authored planning taxonomy; not a measured staffing list or canonical role-permission mapping",
+  "role_evidence_record_ids": [
+    "aarc-rt-inpatient-scope",
+    "fda-hospital-transfusion-compatibility",
+    "cms-esrd-interdisciplinary-dialysis-plan",
+    "ahrq-red-case-management-discharge",
+    "hhs-qualified-interpreter-workflow",
+    "cdc-infection-prevention-surveillance",
+    "corewell-intrahospital-patient-transport",
+    "mount-sinai-system-bed-management",
+    "cdc-environmental-services-turnover"
+  ],
+  "cross_cutting_dimensions": [
+    "age and developmental stage",
+    "acuity and arrival route",
+    "chief complaint and diagnostic uncertainty",
+    "comorbidities and medication history",
+    "language/accessibility",
+    "capacity, consent and surrogate",
+    "pregnancy status where relevant",
+    "infection/isolation requirements",
+    "insurance product and effective date",
+    "social support, transport and placement",
+    "staffing, space, equipment and workload",
+    "time of day and handoff boundaries"
+  ]
+}

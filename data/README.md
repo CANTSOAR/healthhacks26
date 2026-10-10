@@ -74,3 +74,7 @@ The literature extension brings the catalog to **38 datasets and 4,819 records**
 ## Hospital-wide expansion and human review
 
 Current totals: **48 catalogs / 4,844 records** after a three-agent Luna pass added 25 findings from 10 papers. See [expansion and remaining gaps](research/expansion-summary.md). **[Start human verification here](review/README.md)** or open `review/index.html` in your browser. Source links, locators, evidence, and exportable review decisions are provided for every record.
+
+## Encounter and role coverage
+
+Latest totals: **74 catalogs / 4,872 records**. The [new breadth report](research/breadth-summary.md) adds clinical pathways, support-role workflows, EHR/training evidence and Aetna/emergency-access distinctions. The [coverage map](knowledge/encounter-coverage.json) tracks 22 encounter families and 46 planning roles without claiming complete coverage. Review new records through `review/index.html`.

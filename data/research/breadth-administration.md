@@ -1,0 +1,5 @@
+# Insurance and emergency access
+
+The four extracts in `breadth-administration.json` add administrative constraints to encounter modeling. [CMS emergency rights](https://www.cms.gov/priorities/your-patient-rights/emergency-room-rights) and [Aetna's rights disclosure](https://www.aetna.com/individuals-families/member-rights-resources/rights/federal-no-surprises-act.html) support separating emergency care from insurance processing. [Aetna prior authorization guidance](https://www.aetna.com/individuals-families/prior-authorization-guidelines.html) makes exact plan/service applicability necessary for later authorization decisions.
+
+For the user's Aetna/fracture example, the proposed model has separate clinical and administrative state. Emergency screening is not gated by a fabricated authorization step. Eligibility, cost-sharing, post-stabilization rules, elective surgery and follow-up network participation remain plan-specific unknowns until supported by an applicable policy snapshot. These are brief guidance extracts, not a complete executable insurance/legal rulebook. No member account or private eligibility data was accessed.

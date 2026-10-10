@@ -1,0 +1,102 @@
+[
+  {
+    "id": "admin-emtala-screening",
+    "source_title": "Emergency room rights under EMTALA",
+    "source_url": "https://www.cms.gov/priorities/your-patient-rights/emergency-room-rights",
+    "doi": null,
+    "locator": "Your rights: medical screening, stabilization and appropriate transfer",
+    "source_setting": "US hospital emergency services subject to EMTALA",
+    "source_period": "Public web guidance inspected 2026-10-10; publication date not established",
+    "source_n": "Not a patient cohort",
+    "quantity": "Administrative workflow constraint",
+    "value": [
+      "Offer an appropriate medical screening examination regardless of insurance or ability to pay.",
+      "Emergency stabilization obligations apply when an emergency medical condition is identified."
+    ],
+    "unit": "workflow_rules",
+    "source_evidence_basis": "Primary agency or insurer guidance; not an observed operational distribution",
+    "limitations": "Apply only within the source jurisdiction and stated plan/service scope. Does not establish patient eligibility, coverage, a price, or actual local performance.",
+    "inferred_scenario_use": "Represent registration and coverage checks without making insurer approval a prerequisite for emergency screening/stabilization.",
+    "retrieved_at": "2026-10-10T17:12:44.628358+00:00"
+  },
+  {
+    "id": "admin-aetna-emergency-authorization",
+    "source_title": "Federal No Surprises Act — Aetna",
+    "source_url": "https://www.aetna.com/individuals-families/member-rights-resources/rights/federal-no-surprises-act.html",
+    "doi": null,
+    "locator": "What types of plans; What coverage policies must my health plan follow?",
+    "source_setting": "Aetna disclosure for self-funded, fully insured, FEHBP and grandfathered plans listed on page",
+    "source_period": "Public web guidance inspected 2026-10-10; publication date not established",
+    "source_n": "Not a patient cohort",
+    "quantity": "Administrative workflow constraint",
+    "value": [
+      "Emergency services do not require advance authorization under the protections described.",
+      "The described protections include out-of-network emergency services and in-network cost-sharing treatment."
+    ],
+    "unit": "workflow_rules",
+    "source_evidence_basis": "Primary agency or insurer guidance; not an observed operational distribution",
+    "limitations": "Apply only within the source jurisdiction and stated plan/service scope. Does not establish patient eligibility, coverage, a price, or actual local performance.",
+    "inferred_scenario_use": "Keep emergency care authorization separate from later elective-care authorization. Do not treat all Aetna products as one benefit plan.",
+    "retrieved_at": "2026-10-10T17:12:44.628358+00:00"
+  },
+  {
+    "id": "admin-aetna-poststabilization",
+    "source_title": "Federal No Surprises Act — Aetna",
+    "source_url": "https://www.aetna.com/individuals-families/member-rights-resources/rights/federal-no-surprises-act.html",
+    "doi": null,
+    "locator": "What services are protected against balance billing? Emergency services",
+    "source_setting": "Plan and service scope in Aetna federal rights disclosure",
+    "source_period": "Public web guidance inspected 2026-10-10; publication date not established",
+    "source_n": "Not a patient cohort",
+    "quantity": "Administrative workflow constraint",
+    "value": [
+      "The page describes protections for post-stabilization services and a notice/consent exception."
+    ],
+    "unit": "workflow_rules",
+    "source_evidence_basis": "Primary agency or insurer guidance; not an observed operational distribution",
+    "limitations": "Apply only within the source jurisdiction and stated plan/service scope. Does not establish patient eligibility, coverage, a price, or actual local performance.",
+    "inferred_scenario_use": "Model post-stabilization billing as a separate state with rule applicability unknown until reviewed. This abbreviated extract is insufficient to implement consent exceptions.",
+    "retrieved_at": "2026-10-10T17:12:44.628358+00:00"
+  },
+  {
+    "id": "admin-aetna-plan-specific-priorauth",
+    "source_title": "Aetna prior authorization guidelines",
+    "source_url": "https://www.aetna.com/individuals-families/prior-authorization-guidelines.html",
+    "doi": null,
+    "locator": "FAQs for employer plans; finding services requiring prior authorization",
+    "source_setting": "Employer plans; page distinguishes Medicare and Medicaid information",
+    "source_period": "Public web guidance inspected 2026-10-10; publication date not established",
+    "source_n": "Not a patient cohort",
+    "quantity": "Administrative workflow constraint",
+    "value": [
+      "Prior authorization requirements depend on the service and member plan.",
+      "Members can check plan-specific requirements through their account."
+    ],
+    "unit": "workflow_rules",
+    "source_evidence_basis": "Primary agency or insurer guidance; not an observed operational distribution",
+    "limitations": "Apply only within the source jurisdiction and stated plan/service scope. Does not establish patient eligibility, coverage, a price, or actual local performance.",
+    "inferred_scenario_use": "Require plan identifier, effective period and applicable service rule before deciding authorization. Unknown coverage stays unknown rather than assumed denied or covered.",
+    "retrieved_at": "2026-10-10T17:12:44.628358+00:00"
+  },
+  {
+    "id": "rwjuh-ed-published-visit-workflow",
+    "source_title": "RWJUH New Brunswick Emergency Room Services",
+    "source_url": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-room-services/",
+    "doi": null,
+    "locator": "How It Works: Visiting the Emergency Department; numbered Steps 1–4",
+    "source_setting": "Robert Wood Johnson University Hospital, New Brunswick, New Jersey",
+    "source_period": "Public web page inspected 2026-10-10; content update date not established",
+    "source_n": "Not a patient cohort",
+    "quantity": "Published ED visit structure",
+    "value": [
+      "Triage assesses urgency and routes to a treatment area.",
+      "The numbered steps describe examination/testing before bedside registration.",
+      "Admission may involve waiting for a suitable bed; discharge includes verbal and written diagnosis, medication and follow-up instructions."
+    ],
+    "unit": "workflow_steps",
+    "source_evidence_basis": "Hospital public description; not measured execution logs",
+    "limitations": "Introductory list orders registration before examination but numbered headings reverse those two. Preserve that inconsistency; the page cannot establish strict task serialization, routing probabilities or real-time staffing.",
+    "inferred_scenario_use": "Use the published components as a local skeleton with examination and registration modeled as potentially overlapping. Exact sequencing and exceptions need local confirmation.",
+    "retrieved_at": "2026-10-10T17:14:53.357427+00:00"
+  }
+]

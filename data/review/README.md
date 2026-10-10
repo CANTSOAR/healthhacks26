@@ -31,3 +31,7 @@ Each exported decision includes the record ID and SHA-256 of the exact normalize
 ## Regeneration
 
 Run `python3 data/scripts/build_expansion_evidence.py`, `python3 data/scripts/build_citations.py`, then `python3 data/scripts/build_review_index.py`. Regeneration does not refresh source websites or erase exported decision files. The generated HTML duplicates evidence for portability; edit source data, never the embedded copy. `template.html` is the UI template, not the populated review page.
+
+### Encounter/role expansion
+
+New records are in `data/research/breadth-*.json`. Rebuild with `python3 data/scripts/build_breadth_evidence.py` and `python3 data/scripts/build_encounter_coverage.py`, followed by the citation and review-index builders above. Search `rwjuh-ed-`, `acr-`, `aarc-`, `ehrgym-`, or `admin-aetna-`. Export any current browser decisions before reloading to see newly added records.

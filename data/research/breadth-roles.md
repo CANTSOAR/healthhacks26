@@ -1,0 +1,23 @@
+# Hospital role and encounter workflow expansion
+
+This source set broadens the hospital encounter model with workflow responsibilities that are easy to miss when a prototype centers on physicians, nurses, and diagnostic services. It contains nine source-backed role/service records spanning respiratory therapy, transfusion service, dialysis, case-management/discharge coordination, interpreter access, infection prevention, patient transport, bed management, and environmental services.
+
+All records describe workflows or role boundaries, not local staffing, durations, demand rates, or measured hospital behavior. Values are lists of source-supported workflow domains. The `source_n` field is explicitly non-applicable where the source is a policy, professional scope statement, or institutional service description. These facts can support candidate event types and coordination dependencies; they do not establish what a target hospital does.
+
+| Role/service | Source-grounded workflow | Model use boundary |
+|---|---|---|
+| Respiratory therapist | Assess/monitor cardiopulmonary status; perform diagnostic and therapeutic work; educate; work under applicable practitioner direction and state law. | Add therapy, reassessment and communication events; local orders, response rules and durations remain unknown. |
+| Blood bank/transfusion service | Compatibility testing and transfusion are distinct from routine collection or component processing; computer crossmatch guidance describes compatibility safeguards. | Model request, compatibility work and product issue as events; no turnaround or emergency-release assumptions. |
+| Dialysis | CMS ESRD guidance describes reassessment and interdisciplinary individualized care planning across multiple care domains. | Useful for representing a specialty coordination dependency; outpatient ESRD requirements do not define acute inpatient dialysis timing. |
+| Case management/discharge | AHRQ describes case-manager collaboration for equipment and home services, social-support review and transition coordination. | Treat home services, equipment, referrals and receiving-provider handoff as conditional tasks, not universal patient needs. |
+| Interpreter services | HHS defines qualified interpreter functions and protections; AHRQ connects interpreter use with discharge teaching and documentation. | Add a language-assistance resource/connection when needed; no utilization, wait time or language mix is implied. |
+| Infection prevention | CDC identifies surveillance, adherence monitoring, outbreak preparedness, prevention activities, communication and feedback. | Represent consult/review/escalation dependencies only where local triggers and staffing are configured. |
+| Patient transport | A health-system role description includes preparation/identity checks, trips to diagnostic/procedure areas, and discharge transport. | A task can include request, preparation/ID, movement and completion; escort rules and times need local evidence. |
+| Bed management | Mount Sinai describes centralized requests and coordination around service, acuity/bed type, nursing, infection prevention and EVS. | Model placement coordination against bed suitability/readiness; do not assume a particular queue policy or assignment delay. |
+| Environmental services | CDC recommends room-specific terminal cleaning, pathogen/PPE rules, ready-state identification, time tracking and coordination with bed control/nursing. | Record local clean-start/ready timestamps; CDC supplies no universal cleaning duration. |
+
+## Provenance and limitations
+
+Primary official/professional sources were opened and inspected on 2026-10-10. Where a source is a professional scope document or a hospital's own service/job description, it is used only for the workflow explicitly stated by that source. Regulatory and toolkit guidance may apply only to the described setting and jurisdiction. The Dialysis record relies on outpatient ESRD facility guidance and is not a claim about an acute inpatient dialysis process. The case-management record uses AHRQ's re-engineered discharge workflow, which separates the discharge educator from case management; it does not establish a universal social-work placement process. The blood-bank record draws a limited service boundary from FDA guidance and is not an end-to-end transfusion SOP.
+
+No operational numbers are asserted, so records use workflow lists rather than values without denominators. There are no clinical probabilities, dosages, synthetic-person behavior claims, or target-hospital observations. Any later numeric simulation parameter must be acquired from a target source or explicitly represented as an adjustable assumption, with local calibration and replacement criteria.

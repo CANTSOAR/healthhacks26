@@ -1,0 +1,187 @@
+[
+  {
+    "id": "acc-2022-ed-acute-chest-pain-initial-pathway",
+    "source_title": "2022 ACC Expert Consensus Decision Pathway on the Evaluation and Disposition of Acute Chest Pain in the Emergency Department",
+    "source_url": "https://www.jacc.org/doi/10.1016/j.jacc.2022.08.750",
+    "doi": "10.1016/j.jacc.2022.08.750",
+    "locator": "Sections 5.2.1 (Initial ECG Interpretation), 5.3 (hs-cTn Assays), and pathway figures; key points 1–3",
+    "source_setting": "U.S. emergency department; adult acute chest-pain evaluation, especially possible ACS; requires validated high-sensitivity troponin assay pathways.",
+    "value": [
+      "Obtain and interpret an ECG within 10 minutes of ED arrival; review prehospital ECG when available.",
+      "Patients with ischemic ECG findings follow acute STEMI/NSTE-ACS guidance; nonischemic ECG patients may enter an accelerated clinical decision pathway.",
+      "Use assay-specific high-sensitivity troponin testing and serial change within a validated rapid pathway to guide rule-out, observation/testing, or high-risk disposition."
+    ],
+    "source_evidence_basis": "The consensus pathway states ECG should be obtained/interpreted within 10 minutes, identifies ischemic ECG as prompting acute ACS guideline management, and describes hs-cTn rapid pathways for patients with nonischemic ECGs. The source specifically cautions these pathways are not suitable for older-generation assays.",
+    "limitations": "Clinical pathway, not a complete differential for all chest pain. Depends on local validated assay-specific thresholds and timing; definite ACS management is outside this document’s scope.",
+    "inferred_scenario_use": "A synthetic ED case may expose arrival, ECG interpretation, troponin collection/result review, risk-pathway branch, and disposition as separate decisions; do not simulate numeric assay thresholds without local validated protocol and clinician review.",
+    "roleparticipants": [
+      "patient/support person",
+      "triage nurse",
+      "ED clinician",
+      "ECG-trained clinician",
+      "laboratory",
+      "cardiology/ACS team as indicated"
+    ],
+    "applicability": "Adult ED patients with acute chest pain and possible ACS; not an automatic diagnosis or treatment rule.",
+    "source_period": "2022 consensus pathway (publication date 2022-10-11); no cohort period applies.",
+    "source_n": "Not applicable; guideline/pathway, not a patient cohort",
+    "quantity": "Source-supported workflow decision points",
+    "unit": "workflow_steps",
+    "retrieved_at": "2026-10-10T17:12:06Z",
+    "role_assignment_basis": "Role participants are proposed scenario assignments inferred from the pathway setting for simulation design; the cited source does not enumerate this exact role list."
+  },
+  {
+    "id": "acr-acute-wrist-trauma-imaging-pathway",
+    "source_title": "ACR Appropriateness Criteria®: Acute Hand and Wrist Trauma",
+    "source_url": "https://acsearch.acr.org/docs/69418/narrative/",
+    "doi": null,
+    "locator": "Variant 1: Suspect acute hand or wrist trauma, initial imaging; Variant 2: initial radiographs negative or equivocal, next imaging study; narrative pages 3–5",
+    "source_setting": "Acute hand/wrist trauma imaging decision support; suspected adult wrist fracture case is within scope, though recommendations cover broader ages and hand injuries.",
+    "value": [
+      "For suspected acute hand/wrist trauma, initial radiographs of the area of interest are usually appropriate.",
+      "If initial radiographs are negative or equivocal but clinical suspicion persists, ACR lists repeat radiographs in 10–14 days, noncontrast CT, or noncontrast MRI as usually appropriate next imaging options."
+    ],
+    "source_evidence_basis": "The ACR Appropriateness Criteria narrative’s Variant 1 rates radiography as usually appropriate for suspected acute hand/wrist trauma. Variant 2 lists repeat radiographs, CT without IV contrast, and MRI without IV contrast as usually appropriate after negative/equivocal radiographs.",
+    "limitations": "Imaging appropriateness guidance does not determine individual immobilization, reduction, referral, or discharge; the repeat-radiograph option may delay diagnosis. Do not infer fracture absence from a negative initial study when suspicion remains.",
+    "inferred_scenario_use": "Model initial assessment and radiographs, then branch by result and continuing clinician suspicion to follow-up imaging or other locally approved care.",
+    "roleparticipants": [
+      "patient",
+      "triage nurse",
+      "ED clinician",
+      "radiology technologist",
+      "radiologist",
+      "orthopedic/hand specialist as indicated"
+    ],
+    "applicability": "Acute trauma with suspected wrist/hand injury; adapt to patient age, examination, pregnancy status, and local imaging/referral pathways.",
+    "source_period": "ACR narrative identifies the topic as revised in 2018; whether superseded or reaffirmed is not stated on the accessed narrative (retrieved 2026-10-10).",
+    "source_n": "Not applicable; guideline/pathway, not a patient cohort",
+    "quantity": "Source-supported workflow decision points",
+    "unit": "workflow_steps",
+    "retrieved_at": "2026-10-10T17:12:06Z",
+    "role_assignment_basis": "Role participants are proposed scenario assignments inferred from the pathway setting for simulation design; the cited source does not enumerate this exact role list."
+  },
+  {
+    "id": "aha-asa-2026-suspected-ischemic-stroke-emergency-pathway",
+    "source_title": "2026 Guideline for the Early Management of Patients With Acute Ischemic Stroke",
+    "source_url": "https://doi.org/10.1161/STR.0000000000000513",
+    "doi": "10.1161/STR.0000000000000513",
+    "locator": "Section 2.7 Emergency Evaluation of Patients With Suspected Stroke; Section 3.2 Initial, Vascular, and Multimodal Imaging Approaches; Figure 2",
+    "source_setting": "Acute hospital and prehospital stroke systems; primarily adult suspected acute ischemic stroke, with specified pediatric recommendations.",
+    "value": [
+      "Activate the local suspected-stroke/ED-stroke-team process and establish the clinical timeline, including last-known-well, during initial evaluation.",
+      "Obtain emergent brain imaging (noncontrast CT or MRI) to assess ischemic burden and exclude intracranial hemorrhage before reperfusion intervention. AHA/ASA calls for imaging as rapidly as possible (example: within 25 minutes); its supporting text says door-to-imaging times of 25 minutes or less have been achieved in some settings and MRI-first hospitals should strive for similar times.",
+      "When suspected large-vessel occlusion warrants vascular imaging, do not delay emergent CTA/CTP to obtain serum creatinine."
+    ],
+    "source_evidence_basis": "The 2026 AHA/ASA guideline §§2.7 and 3.2 address ED/stroke-team evaluation and imaging. Recommendation 2 in §3.2 says systems should use process-improvement protocols for imaging as rapidly as possible (e.g., within 25 minutes). Supporting text explains door-to-imaging times ≤25 minutes have been achieved in various settings and MRI-first hospitals should strive for comparable times; this is an example/process aim, not a universal guaranteed threshold.",
+    "limitations": "The guideline’s recommendations require clinical eligibility assessment and local stroke protocols; the within-25-minute language is an example/process aim supported by observed feasibility in some settings, not a universal guaranteed patient-level threshold. Avoid encoding treatment eligibility from isolated time or imaging fields.",
+    "inferred_scenario_use": "Use a witnessed-onset or uncertain-onset synthetic case to teach timeline capture, stroke-team activation, imaging choice, and specialist disposition decisions; clinician adjudication is needed for interpretation and treatment selection.",
+    "roleparticipants": [
+      "patient/witness",
+      "EMS",
+      "triage/ED nurse",
+      "ED clinician",
+      "stroke neurologist/team",
+      "radiology",
+      "laboratory"
+    ],
+    "applicability": "Suspected acute stroke pathway; adult AIS guidance, with separate pediatric provisions. Hemorrhagic stroke and stroke mimics remain in the diagnostic differential.",
+    "source_period": "Originally published 2026-01-26; guideline literature review searched through March 2025 with later high-impact publications added where appropriate.",
+    "source_n": "Not applicable; guideline/pathway, not a patient cohort",
+    "quantity": "Source-supported workflow decision points",
+    "unit": "workflow_steps",
+    "retrieved_at": "2026-10-10T17:12:06Z",
+    "role_assignment_basis": "Role participants are proposed scenario assignments inferred from the pathway setting for simulation design; the cited source does not enumerate this exact role list."
+  },
+  {
+    "id": "gina-2026-pediatric-acute-asthma-emergency-assessment",
+    "source_title": "Global Strategy for Asthma Management and Prevention, 2026 Update",
+    "source_url": "https://ginasthma.org/wp-content/uploads/2026/05/GINA-2026-Strategy-Report-WMS.pdf",
+    "doi": null,
+    "locator": "Chapter 9, Emergency Department Management of Exacerbations (Adults, Adolescents, Children 6–11 years), pp. 184–186; Chapter 12, children 5 years and younger, Box 12-3, p. 219.",
+    "source_setting": "Acute-care/emergency assessment; GINA distinguishes children 6–11 years and children 5 years and younger.",
+    "value": [
+      "Take a brief history and perform examination concurrently with prompt therapy; assess severity, vital signs/oxygen saturation, response to treatment, risk factors, and alternative or additional causes of breathlessness.",
+      "For children under 18, consider a validated assessment tool such as PRAM; monitor oxygen saturation and, where feasible without delaying care, lung function before treatment and during response.",
+      "For children 5 and younger, features such as inability to speak/drink, cyanosis, respiratory rate above 40/min, room-air oxygen saturation below 92%, or quiet chest are immediate hospital-transfer indicators in the GINA box."
+    ],
+    "source_evidence_basis": "GINA 2026 text under ED management specifies concurrent brief history/physical exam and prompt therapy, severity/vital-sign assessment, differential causes, objective assessment, and PRAM consideration for under-18s. Box 12-3 provides the listed under-5 transfer indicators.",
+    "limitations": "The under-5 transfer signs are age-specific and must not be generalized to older children. This record deliberately omits treatment doses; GINA itself notes oximetry limitations including potential overestimation in people with dark skin and altitude adjustments.",
+    "inferred_scenario_use": "Use age-banded cases to represent assessment, escalation, response reassessment, and disposition; do not turn the guideline into an autonomous treatment order.",
+    "roleparticipants": [
+      "child",
+      "parent/caregiver",
+      "triage nurse",
+      "ED clinician",
+      "respiratory therapist",
+      "pediatric team"
+    ],
+    "applicability": "Pediatric acute asthma exacerbation assessment in acute care; distinguish age bands and assess competing diagnoses.",
+    "source_period": "2026 Strategy Report; GINA announced the report in May 2026. No patient cohort period applies.",
+    "source_n": "Not applicable; guideline/pathway, not a patient cohort",
+    "quantity": "Source-supported workflow decision points",
+    "unit": "workflow_steps",
+    "retrieved_at": "2026-10-10T17:12:06Z",
+    "role_assignment_basis": "Role participants are proposed scenario assignments inferred from the pathway setting for simulation design; the cited source does not enumerate this exact role list."
+  },
+  {
+    "id": "acog-2016-hospital-based-obstetric-triage",
+    "source_title": "Hospital-Based Triage of Obstetric Patients, Committee Opinion No. 667",
+    "source_url": "https://www.acog.org/clinical/clinical-guidance/committee-opinion/articles/2016/07/hospital-based-triage-of-obstetric-patients",
+    "doi": null,
+    "locator": "Abstract; Recommendations; section “Obstetric Triage”",
+    "source_setting": "Hospital-based obstetric triage; pregnant patients presenting for urgent assessment, including coordination between obstetric units and EDs.",
+    "value": [
+      "Establish hospital-specific triage guidelines collaboratively among obstetric units, emergency departments, ancillary services, and external emergency-response systems.",
+      "Use a validated obstetric triage acuity tool as a candidate template to guide prompt evaluation and resource use, adapted to the individual hospital unit."
+    ],
+    "source_evidence_basis": "ACOG Committee Opinion 667 explicitly recommends collaboration across obstetric units, EDs, ancillary services, and outside emergency response systems; it says recently developed validated acuity tools may guide quality, efficiency, and resource use and serve as templates for individual units.",
+    "limitations": "This is a systems-level recommendation, not a universal acuity algorithm or fixed timing rule. ACOG states its guidance is not an exclusive course of care and may change; verify current local protocol and current ACOG status before clinical use.",
+    "inferred_scenario_use": "A synthetic triage scenario can model pregnancy-related presentation, acuity assessment, maternal/fetal considerations, and routing among ED, obstetric unit, and ancillary services as locally configured decisions.",
+    "roleparticipants": [
+      "pregnant patient/support person",
+      "triage nurse",
+      "obstetric clinician",
+      "ED clinician",
+      "ancillary services",
+      "EMS/response system as indicated"
+    ],
+    "applicability": "Hospital-based triage of obstetric patients; local facility determines location, staffing, timing, and validated acuity tool.",
+    "source_period": "Committee Opinion No. 667, issued July 2016; current reaffirmation/update status is not established by the accessed page (retrieved 2026-10-10).",
+    "source_n": "Not applicable; guideline/pathway, not a patient cohort",
+    "quantity": "Source-supported workflow decision points",
+    "unit": "workflow_steps",
+    "retrieved_at": "2026-10-10T17:12:06Z",
+    "role_assignment_basis": "Role participants are proposed scenario assignments inferred from the pathway setting for simulation design; the cited source does not enumerate this exact role list."
+  },
+  {
+    "id": "samhsa-2025-behavioral-health-crisis-continuum",
+    "source_title": "2025 National Guidelines for a Behavioral Health Coordinated System of Crisis Care",
+    "source_url": "https://library.samhsa.gov/sites/default/files/national-guidelines-crisis-care-pep24-01-037.pdf",
+    "doi": null,
+    "locator": "Executive Summary / “Essential Elements of a Crisis System”; system elements “Someone to Contact,” “Someone to Respond,” and “A Safe Place for Help”",
+    "source_setting": "U.S. community behavioral-health crisis systems, including crisis lines, mobile crisis response, and stabilization settings; not an ED-specific clinical decision algorithm.",
+    "value": [
+      "Connect people in crisis to immediate contact support (e.g., 988 or another behavioral-health hotline).",
+      "Dispatch mobile crisis response based on assessed need, with de-escalation and connection to care.",
+      "Route to an appropriate safe stabilization setting for immediate treatment/support, with crisis-system coordination."
+    ],
+    "source_evidence_basis": "SAMHSA 2025 national guidance names three foundational system elements: someone to contact, someone to respond, and a safe place for help; it describes hotline/988, mobile crisis teams, and stabilization services respectively.",
+    "limitations": "Community system design guidance, not a patient-level suicide-risk assessment, involuntary-hold rule, or ED disposition protocol. Actual service availability and escalation criteria vary by jurisdiction.",
+    "inferred_scenario_use": "Represent crisis presentation as a safety and needs assessment followed by locally available contact/response/stabilization options; urgent medical needs and immediate safety concerns require human clinician judgment and local emergency procedures.",
+    "roleparticipants": [
+      "person in crisis",
+      "support person",
+      "988/crisis-line counselor",
+      "mobile crisis team",
+      "ED/medical clinician when indicated",
+      "crisis stabilization service"
+    ],
+    "applicability": "Behavioral-health emergency/crisis system planning in the U.S.; local service map and legal requirements determine operational routing.",
+    "source_period": "2025 national guideline; SAMHSA resource page lists publication date 2025-01-15. No patient cohort period applies.",
+    "source_n": "Not applicable; guideline/pathway, not a patient cohort",
+    "quantity": "Source-supported workflow decision points",
+    "unit": "workflow_steps",
+    "retrieved_at": "2026-10-10T17:12:06Z",
+    "role_assignment_basis": "Role participants are proposed scenario assignments inferred from the pathway setting for simulation design; the cited source does not enumerate this exact role list."
+  }
+]

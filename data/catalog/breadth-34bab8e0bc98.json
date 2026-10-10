@@ -1,0 +1,26 @@
+{
+  "dataset_id": "breadth-34bab8e0bc98",
+  "source_id": "breadth-34bab8e0bc98",
+  "title": "Epic on FHIR Developer Testing Guide: Epic Instances and Environments",
+  "source_url": "https://fhir.epic.com/Documentation?docId=patientfacingfhirapps&section=AutomaticClientDistribution",
+  "scope": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+  "access": "public_primary_article_or_abstract",
+  "rights": {
+    "source_license": "not assessed for full-text redistribution",
+    "redistribution": "Short factual paraphrases; no full article copied"
+  },
+  "acquisition_status": "acquired",
+  "raw_paths": [],
+  "normalized_path": "data/normalized/breadth-34bab8e0bc98.jsonl",
+  "record_count": 1,
+  "limits": [
+    "Setting, period, applicability and endpoint are source-specific.",
+    "No original snapshot retained; human review should follow source URL and locator.",
+    "A role description or guideline does not establish local operational performance."
+  ],
+  "provenance": {
+    "doi": null,
+    "retrieved_at": "2026-10-10T17:12:31Z",
+    "raw_artifact_kind": "no_raw_limited_paraphrase"
+  }
+}

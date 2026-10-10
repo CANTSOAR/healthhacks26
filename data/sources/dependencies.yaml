@@ -241,6 +241,136 @@ documents:
     path: catalog/expansion-f9433cd5b3f0.json
     role: acquired_source_manifest
     refresh: manual
+  - id: catalog:breadth-068cbcf1bb53
+    type: local_file
+    path: catalog/breadth-068cbcf1bb53.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:breadth-0a1c24520548
+    type: local_file
+    path: catalog/breadth-0a1c24520548.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:breadth-0a4eeef81e7d
+    type: local_file
+    path: catalog/breadth-0a4eeef81e7d.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:breadth-0b9f8bcb7bd7
+    type: local_file
+    path: catalog/breadth-0b9f8bcb7bd7.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:breadth-198412b34008
+    type: local_file
+    path: catalog/breadth-198412b34008.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:breadth-2a7b99548f98
+    type: local_file
+    path: catalog/breadth-2a7b99548f98.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:breadth-34bab8e0bc98
+    type: local_file
+    path: catalog/breadth-34bab8e0bc98.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:breadth-42967c7d9769
+    type: local_file
+    path: catalog/breadth-42967c7d9769.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:breadth-43f4783baba3
+    type: local_file
+    path: catalog/breadth-43f4783baba3.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:breadth-4c419279e6f5
+    type: local_file
+    path: catalog/breadth-4c419279e6f5.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:breadth-4e7177491441
+    type: local_file
+    path: catalog/breadth-4e7177491441.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:breadth-53ff143a088d
+    type: local_file
+    path: catalog/breadth-53ff143a088d.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:breadth-60a3bdb1b082
+    type: local_file
+    path: catalog/breadth-60a3bdb1b082.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:breadth-6f4aa91a6eeb
+    type: local_file
+    path: catalog/breadth-6f4aa91a6eeb.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:breadth-78729e9029b9
+    type: local_file
+    path: catalog/breadth-78729e9029b9.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:breadth-795d231d7eb5
+    type: local_file
+    path: catalog/breadth-795d231d7eb5.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:breadth-95e452e3e738
+    type: local_file
+    path: catalog/breadth-95e452e3e738.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:breadth-9e126721292a
+    type: local_file
+    path: catalog/breadth-9e126721292a.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:breadth-a818ac220195
+    type: local_file
+    path: catalog/breadth-a818ac220195.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:breadth-aba5b5cc5a08
+    type: local_file
+    path: catalog/breadth-aba5b5cc5a08.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:breadth-c3d4d1f30b96
+    type: local_file
+    path: catalog/breadth-c3d4d1f30b96.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:breadth-c75f0a1430f1
+    type: local_file
+    path: catalog/breadth-c75f0a1430f1.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:breadth-d1dff532593f
+    type: local_file
+    path: catalog/breadth-d1dff532593f.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:breadth-db4b25f6dee5
+    type: local_file
+    path: catalog/breadth-db4b25f6dee5.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:breadth-e7fe214f134d
+    type: local_file
+    path: catalog/breadth-e7fe214f134d.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:breadth-f2ce81064374
+    type: local_file
+    path: catalog/breadth-f2ce81064374.json
+    role: acquired_source_manifest
+    refresh: manual
 - path: topics/brief.md
   depends_on:
   - id: local:research-question

@@ -1,0 +1,26 @@
+{
+  "dataset_id": "breadth-0a1c24520548",
+  "source_id": "breadth-0a1c24520548",
+  "title": "Impact of Electronic Medical Record Training on Pediatric Residents’ Learning Outcomes: A Simulation-Based Study",
+  "source_url": "https://www.cureus.com/articles/397072-impact-of-electronic-medical-record-training-on-pediatric-residents-learning-outcomes-a-simulation-based-study",
+  "scope": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+  "access": "public_primary_article_or_abstract",
+  "rights": {
+    "source_license": "not assessed for full-text redistribution",
+    "redistribution": "Short factual paraphrases; no full article copied"
+  },
+  "acquisition_status": "acquired",
+  "raw_paths": [],
+  "normalized_path": "data/normalized/breadth-0a1c24520548.jsonl",
+  "record_count": 1,
+  "limits": [
+    "Setting, period, applicability and endpoint are source-specific.",
+    "No original snapshot retained; human review should follow source URL and locator.",
+    "A role description or guideline does not establish local operational performance."
+  ],
+  "provenance": {
+    "doi": "10.7759/cureus.103149",
+    "retrieved_at": "2026-10-10T17:12:31Z",
+    "raw_artifact_kind": "no_raw_limited_paraphrase"
+  }
+}

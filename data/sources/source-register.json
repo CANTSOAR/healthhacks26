@@ -1,9 +1,1023 @@
 {
   "schema_version": "1.0.0",
   "generation": "Deterministic offline derivation; no source refetch and no inferred publication date or author",
-  "source_count": 48,
-  "record_count": 4844,
+  "source_count": 74,
+  "record_count": 4872,
   "sources": [
+    {
+      "source_id": "breadth-068cbcf1bb53",
+      "bibtex_key": "breadth-068cbcf1bb53",
+      "title": "Federal No Surprises Act — Aetna",
+      "source_url": "https://www.aetna.com/individuals-families/member-rights-resources/rights/federal-no-surprises-act.html",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T17:12:44.628358+00:00",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:12:44.628358+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/breadth-068cbcf1bb53.json",
+      "catalog_sha256": "04cf6f61f4689aae6890eb4bd23e8a775ba13a50ebb90f73ce47f3d3bb4cba01",
+      "normalized_path": "data/normalized/breadth-068cbcf1bb53.jsonl",
+      "normalized_sha256": "1d360af80b41d089bbab1e718144fd8ccd36e39b1bdd6e4eecb7f0cdb86483e0",
+      "record_count": 2,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "breadth-0a1c24520548",
+      "bibtex_key": "breadth-0a1c24520548",
+      "title": "Impact of Electronic Medical Record Training on Pediatric Residents’ Learning Outcomes: A Simulation-Based Study",
+      "source_url": "https://www.cureus.com/articles/397072-impact-of-electronic-medical-record-training-on-pediatric-residents-learning-outcomes-a-simulation-based-study",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.7759/cureus.103149",
+        "retrieved_at": "2026-10-10T17:12:31Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:12:31Z"
+        }
+      ],
+      "catalog_path": "data/catalog/breadth-0a1c24520548.json",
+      "catalog_sha256": "652c11c59c304035f54b61c36e67501a81bb55f984d35b47eb2836d3ca23e032",
+      "normalized_path": "data/normalized/breadth-0a1c24520548.jsonl",
+      "normalized_sha256": "2b003ffd931cc3ae1374c65d692a4f17de26e5eb022e776e1f245c55c211a13b",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "breadth-0a4eeef81e7d",
+      "bibtex_key": "breadth-0a4eeef81e7d",
+      "title": "I work in a hospital transfusion service - do we need to register with FDA?",
+      "source_url": "https://www.fda.gov/industry/fda-basics-industry/i-work-hospital-transfusion-service-do-we-need-register-fda",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T17:12:24Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:12:24Z"
+        }
+      ],
+      "catalog_path": "data/catalog/breadth-0a4eeef81e7d.json",
+      "catalog_sha256": "464d694d3d963ea18b2de62262da23ef72464c2252606756515b2a9bc1dd5f50",
+      "normalized_path": "data/normalized/breadth-0a4eeef81e7d.jsonl",
+      "normalized_sha256": "4b62f51285ac89f26f593c95b855935409b4c7e40fed464cd24cc5f028b5a755",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "breadth-0b9f8bcb7bd7",
+      "bibtex_key": "breadth-0b9f8bcb7bd7",
+      "title": "ACR Appropriateness Criteria®: Acute Hand and Wrist Trauma",
+      "source_url": "https://acsearch.acr.org/docs/69418/narrative/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T17:12:06Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:12:06Z"
+        }
+      ],
+      "catalog_path": "data/catalog/breadth-0b9f8bcb7bd7.json",
+      "catalog_sha256": "ab999ff2170d26c5702c6fd5ab6dafa2e8b6c20f380dd88087470cc28a4fed4a",
+      "normalized_path": "data/normalized/breadth-0b9f8bcb7bd7.jsonl",
+      "normalized_sha256": "8388d818175c6305de9c83e4674104c6f874b6d0bab871ec25c26f0db9dcedde",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "breadth-198412b34008",
+      "bibtex_key": "breadth-198412b34008",
+      "title": "2025 National Guidelines for a Behavioral Health Coordinated System of Crisis Care",
+      "source_url": "https://library.samhsa.gov/sites/default/files/national-guidelines-crisis-care-pep24-01-037.pdf",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T17:12:06Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:12:06Z"
+        }
+      ],
+      "catalog_path": "data/catalog/breadth-198412b34008.json",
+      "catalog_sha256": "fed98edfafae34ce77c3081973265a884b6e37c1571a28e3c96e9f1fba066722",
+      "normalized_path": "data/normalized/breadth-198412b34008.jsonl",
+      "normalized_sha256": "8ec1154a6629387f24322c8b262902db0784a206c8e3af83822c1bfda148d0b7",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "breadth-2a7b99548f98",
+      "bibtex_key": "breadth-2a7b99548f98",
+      "title": "Respiratory Care Scope of Practice",
+      "source_url": "https://www.aarc.org/wp-content/uploads/2018/08/respriatory-scope-of-practice-071218-Final.pdf",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T17:12:24Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:12:24Z"
+        }
+      ],
+      "catalog_path": "data/catalog/breadth-2a7b99548f98.json",
+      "catalog_sha256": "9967e4e7cd221e3cfe5ac1b573c15b63031a9c7398c85bee0bfbea251d3af475",
+      "normalized_path": "data/normalized/breadth-2a7b99548f98.jsonl",
+      "normalized_sha256": "451d133d48c0864f72351ef9c4fbf6f5bf34cbf522766ece563c8e24bd8f9de1",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "breadth-34bab8e0bc98",
+      "bibtex_key": "breadth-34bab8e0bc98",
+      "title": "Epic on FHIR Developer Testing Guide: Epic Instances and Environments",
+      "source_url": "https://fhir.epic.com/Documentation?docId=patientfacingfhirapps&section=AutomaticClientDistribution",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T17:12:31Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:12:31Z"
+        }
+      ],
+      "catalog_path": "data/catalog/breadth-34bab8e0bc98.json",
+      "catalog_sha256": "91966fe332e170a7b581d9f83788974fff3935de97e2cdeda9e724431eb1fcd6",
+      "normalized_path": "data/normalized/breadth-34bab8e0bc98.jsonl",
+      "normalized_sha256": "a2665fb267571c8b5f14971a241b5e237d12b7937db26457673e976aa147185e",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "breadth-42967c7d9769",
+      "bibtex_key": "breadth-42967c7d9769",
+      "title": "Emergency room rights under EMTALA",
+      "source_url": "https://www.cms.gov/priorities/your-patient-rights/emergency-room-rights",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T17:12:44.628358+00:00",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:12:44.628358+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/breadth-42967c7d9769.json",
+      "catalog_sha256": "5fb8fa6b06a0d8e2e87622a3c9ceb6163f1ff11b4adfd59c10c76337a28cd84d",
+      "normalized_path": "data/normalized/breadth-42967c7d9769.jsonl",
+      "normalized_sha256": "c7a06aeae1bdfb92a32ff091a8dcfa6bdb95ca851ab0940542653d8289466852",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "breadth-43f4783baba3",
+      "bibtex_key": "breadth-43f4783baba3",
+      "title": "System Throughput",
+      "source_url": "https://www.mountsinai.org/about/clinical-command-center/throughput",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T17:12:24Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:12:24Z"
+        }
+      ],
+      "catalog_path": "data/catalog/breadth-43f4783baba3.json",
+      "catalog_sha256": "821e924bf3583b3a29f944b19d9824855d852950f10ff015d6dc49d6ae6db878",
+      "normalized_path": "data/normalized/breadth-43f4783baba3.jsonl",
+      "normalized_sha256": "c3c554e2d65b5d7bc5e2dcc0f33aa35f98e1c737130cd6b3b24aa2b954dbdfa3",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "breadth-4c419279e6f5",
+      "bibtex_key": "breadth-4c419279e6f5",
+      "title": "open.epic Terms of Use",
+      "source_url": "https://open.epic.com/Home/TermsOfUse",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T17:12:31Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:12:31Z"
+        }
+      ],
+      "catalog_path": "data/catalog/breadth-4c419279e6f5.json",
+      "catalog_sha256": "0b1b2fadd792187df023de142615a62b93af3ad975fb4448fb18062209195061",
+      "normalized_path": "data/normalized/breadth-4c419279e6f5.jsonl",
+      "normalized_sha256": "efab3866e7f8ed6d528c3b94f562af58d39f393238befe1cfd5a83d9576c5c7d",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "breadth-4e7177491441",
+      "bibtex_key": "breadth-4e7177491441",
+      "title": "Considerations for Reducing Risk: Surfaces in Healthcare Facilities",
+      "source_url": "https://www.cdc.gov/healthcare-associated-infections/hcp/infection-control/index.html",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T17:12:24Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:12:24Z"
+        }
+      ],
+      "catalog_path": "data/catalog/breadth-4e7177491441.json",
+      "catalog_sha256": "7eda9da418777889bc115a19c5a236609d1a3b368a6c24bca947cbe6cfe164fc",
+      "normalized_path": "data/normalized/breadth-4e7177491441.jsonl",
+      "normalized_sha256": "b4d70deeace8c8e4d9d545b2debf1df83db1ef86d40cba6e7a92a3c799111239",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "breadth-53ff143a088d",
+      "bibtex_key": "breadth-53ff143a088d",
+      "title": "Patient Transport Careers",
+      "source_url": "https://careers.corewellhealth.org/us/en/patienttransport",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T17:12:24Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:12:24Z"
+        }
+      ],
+      "catalog_path": "data/catalog/breadth-53ff143a088d.json",
+      "catalog_sha256": "9bb0230aedec1802de04d4d4812f66a0297dafa1f498fdfaec1fc402b4b16c5c",
+      "normalized_path": "data/normalized/breadth-53ff143a088d.jsonl",
+      "normalized_sha256": "149e0b0eefd7ac68a2b3562106205e8bbdd9560ec3b3bd4c95ef795dbeabc4ad",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "breadth-60a3bdb1b082",
+      "bibtex_key": "breadth-60a3bdb1b082",
+      "title": "Language Access Provisions of the Final Rule Implementing Section 1557 of the Affordable Care Act",
+      "source_url": "https://www.hhs.gov/sites/default/files/ocr-dcl-section-1557-language-access.pdf",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T17:12:24Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:12:24Z"
+        }
+      ],
+      "catalog_path": "data/catalog/breadth-60a3bdb1b082.json",
+      "catalog_sha256": "4765821af7df381d6cce9dbe358a91de8bcef7f892fe836e1634d0c2a8fc03e5",
+      "normalized_path": "data/normalized/breadth-60a3bdb1b082.jsonl",
+      "normalized_sha256": "45b05f92dec3c8fd0d502653f0b46c555fb425c36f1dcfa9bbd4892abc25944a",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "breadth-6f4aa91a6eeb",
+      "bibtex_key": "breadth-6f4aa91a6eeb",
+      "title": "II. Fundamental Elements Needed to Prevent Transmission of Infectious Agents in Healthcare Settings",
+      "source_url": "https://www.cdc.gov/infection-control/hcp/isolation-precautions/prevention.html",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T17:12:24Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:12:24Z"
+        }
+      ],
+      "catalog_path": "data/catalog/breadth-6f4aa91a6eeb.json",
+      "catalog_sha256": "800abf1742fc69a8114e8fcd4c3550f1833f97ee974b6f16ef3c982b075204d4",
+      "normalized_path": "data/normalized/breadth-6f4aa91a6eeb.jsonl",
+      "normalized_sha256": "dab68e2797bf44b1faee45b6af2892d7a200c6958efa8b89785a643a1e47aa2b",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "breadth-78729e9029b9",
+      "bibtex_key": "breadth-78729e9029b9",
+      "title": "About the Department of Emergency Medicine: Clerkship Overview",
+      "source_url": "https://rwjms.rutgers.edu/department/emergency-medicine/about",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T17:12:31Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:12:31Z"
+        }
+      ],
+      "catalog_path": "data/catalog/breadth-78729e9029b9.json",
+      "catalog_sha256": "df7a302d922d192568f6ed932e209496d6953250e31032c1f810876175b526a8",
+      "normalized_path": "data/normalized/breadth-78729e9029b9.jsonl",
+      "normalized_sha256": "70ec7b95b40cb60591c9626df85a094b83a11a5ffaf5911830f6fcf52ac920a2",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "breadth-795d231d7eb5",
+      "bibtex_key": "breadth-795d231d7eb5",
+      "title": "Global Strategy for Asthma Management and Prevention, 2026 Update",
+      "source_url": "https://ginasthma.org/wp-content/uploads/2026/05/GINA-2026-Strategy-Report-WMS.pdf",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T17:12:06Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:12:06Z"
+        }
+      ],
+      "catalog_path": "data/catalog/breadth-795d231d7eb5.json",
+      "catalog_sha256": "7c3c266f44e06d8ee34fabf085210c51a96c0afc3014a06ad525845783f6c796",
+      "normalized_path": "data/normalized/breadth-795d231d7eb5.jsonl",
+      "normalized_sha256": "dc7370d9749c905fa0e3c280bce0ca63e75f7ad6ebf144f733333d32aecdccd1",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "breadth-95e452e3e738",
+      "bibtex_key": "breadth-95e452e3e738",
+      "title": "ESRD Clinic Services",
+      "source_url": "https://www.cms.gov/training-education/medicare-learning-networkr-mln/compliance/medicare-provider-compliance-tips/esrd-clinic-services",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T17:12:24Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:12:24Z"
+        }
+      ],
+      "catalog_path": "data/catalog/breadth-95e452e3e738.json",
+      "catalog_sha256": "6ee4cad24188309eae32af60b49c830eb1b995e1b2c05a02167ecae25a464143",
+      "normalized_path": "data/normalized/breadth-95e452e3e738.jsonl",
+      "normalized_sha256": "1520be0aa093605b086e7328da78220f394dbe8f7af7f7f17b8e533597b304f3",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "breadth-9e126721292a",
+      "bibtex_key": "breadth-9e126721292a",
+      "title": "2026 Guideline for the Early Management of Patients With Acute Ischemic Stroke",
+      "source_url": "https://doi.org/10.1161/STR.0000000000000513",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1161/STR.0000000000000513",
+        "retrieved_at": "2026-10-10T17:12:06Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:12:06Z"
+        }
+      ],
+      "catalog_path": "data/catalog/breadth-9e126721292a.json",
+      "catalog_sha256": "abd112f26ee94875060fd7b549d466737fac35f39306b41af7eb010d04ae1cf7",
+      "normalized_path": "data/normalized/breadth-9e126721292a.jsonl",
+      "normalized_sha256": "ecf3db9805588a51106653360997ec831d5d97bdf4a18b46d64b55856b5e3177",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "breadth-a818ac220195",
+      "bibtex_key": "breadth-a818ac220195",
+      "title": "EHRGym: Epic-like EHR environment for training and evaluating computer-use agents",
+      "source_url": "https://github.com/adtserapio/EHRGym",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T17:12:31Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:12:31Z"
+        }
+      ],
+      "catalog_path": "data/catalog/breadth-a818ac220195.json",
+      "catalog_sha256": "9024e6ffa6cbbfba7da5eba71b2bcf27704b824a222dfd1722be04b93608cc81",
+      "normalized_path": "data/normalized/breadth-a818ac220195.jsonl",
+      "normalized_sha256": "cf1bf65cb1bd8b4e02cf9be20bc4670110ac6633c01c56f9c55731865eb0436a",
+      "record_count": 2,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "breadth-aba5b5cc5a08",
+      "bibtex_key": "breadth-aba5b5cc5a08",
+      "title": "Tool 3: How To Deliver the Re-Engineered Discharge at Your Hospital",
+      "source_url": "https://www.ahrq.gov/patient-safety/settings/hospital/red/toolkit/redtool3.html",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T17:12:24Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:12:24Z"
+        }
+      ],
+      "catalog_path": "data/catalog/breadth-aba5b5cc5a08.json",
+      "catalog_sha256": "05dc6b7ab646bec8c0affbda7b919840fc77477967675eef1e3fa16d61fe6b05",
+      "normalized_path": "data/normalized/breadth-aba5b5cc5a08.jsonl",
+      "normalized_sha256": "efc631f894d39fde40f1b3436989d6c4e2fe0eb55d72f47f4d61709edd729c78",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "breadth-c3d4d1f30b96",
+      "bibtex_key": "breadth-c3d4d1f30b96",
+      "title": "Aetna prior authorization guidelines",
+      "source_url": "https://www.aetna.com/individuals-families/prior-authorization-guidelines.html",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T17:12:44.628358+00:00",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:12:44.628358+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/breadth-c3d4d1f30b96.json",
+      "catalog_sha256": "be33a09627b8118627a46cfda35358f7991e46c407f595277f81632c451398c0",
+      "normalized_path": "data/normalized/breadth-c3d4d1f30b96.jsonl",
+      "normalized_sha256": "1e494ac807506c078bc16494d0953157dba4b101e5f61891c66b6b91408b60d5",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "breadth-c75f0a1430f1",
+      "bibtex_key": "breadth-c75f0a1430f1",
+      "title": "Simulation Program | The Institute for Nursing Excellence",
+      "source_url": "https://www.rwjbh.org/for-health-care-professionals/nursing/the-institute-for-nursing-excellence/simulation-program/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T17:12:31Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:12:31Z"
+        }
+      ],
+      "catalog_path": "data/catalog/breadth-c75f0a1430f1.json",
+      "catalog_sha256": "ca58be781c5aa939187637f9dfed9008aa2489050598242e4f185fc2d64c05d4",
+      "normalized_path": "data/normalized/breadth-c75f0a1430f1.jsonl",
+      "normalized_sha256": "9e11819c7181369ae015589a551e544d6352ecd35dd57a8b17dbb45f782771b6",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "breadth-d1dff532593f",
+      "bibtex_key": "breadth-d1dff532593f",
+      "title": "Foundations of Nursing Specialty Programs: Emergency Department",
+      "source_url": "https://www.rwjbh.org/for-health-care-professionals/nursing/the-institute-for-nursing-excellence/foundations-of-nursing-specialty-programs/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T17:12:31Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:12:31Z"
+        }
+      ],
+      "catalog_path": "data/catalog/breadth-d1dff532593f.json",
+      "catalog_sha256": "47bbbd6a69cf405160248b36bb9b47a2e01217b2a05db84f789d86ba91a3b09d",
+      "normalized_path": "data/normalized/breadth-d1dff532593f.jsonl",
+      "normalized_sha256": "b5b5c79ca79ed8fdae66579932e58829210044ca7f35904aad2d3285a175b661",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "breadth-db4b25f6dee5",
+      "bibtex_key": "breadth-db4b25f6dee5",
+      "title": "Hospital-Based Triage of Obstetric Patients, Committee Opinion No. 667",
+      "source_url": "https://www.acog.org/clinical/clinical-guidance/committee-opinion/articles/2016/07/hospital-based-triage-of-obstetric-patients",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T17:12:06Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:12:06Z"
+        }
+      ],
+      "catalog_path": "data/catalog/breadth-db4b25f6dee5.json",
+      "catalog_sha256": "0f91b888a0cc06fd6bacf7a4b75a34945eaf053570f955c89c3c04d48d41451c",
+      "normalized_path": "data/normalized/breadth-db4b25f6dee5.jsonl",
+      "normalized_sha256": "b3372873590cf9fc79c0d6d27d5e12a73d319f2beba3d67609a9c0b3431b9e65",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "breadth-e7fe214f134d",
+      "bibtex_key": "breadth-e7fe214f134d",
+      "title": "RWJUH New Brunswick Emergency Room Services",
+      "source_url": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/emergency-room-services/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T17:14:53.357427+00:00",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:14:53.357427+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/breadth-e7fe214f134d.json",
+      "catalog_sha256": "1d06686f30d67a8d587631c1b45e7048ad9d649ca536e65df480416255d347a4",
+      "normalized_path": "data/normalized/breadth-e7fe214f134d.jsonl",
+      "normalized_sha256": "707ce761ac238f5c14a447cfb5584d191ebd07c3b4f15f16589956aaeeb9447d",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "breadth-f2ce81064374",
+      "bibtex_key": "breadth-f2ce81064374",
+      "title": "2022 ACC Expert Consensus Decision Pathway on the Evaluation and Disposition of Acute Chest Pain in the Emergency Department",
+      "source_url": "https://www.jacc.org/doi/10.1016/j.jacc.2022.08.750",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1016/j.jacc.2022.08.750",
+        "retrieved_at": "2026-10-10T17:12:06Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:12:06Z"
+        }
+      ],
+      "catalog_path": "data/catalog/breadth-f2ce81064374.json",
+      "catalog_sha256": "9b0cd27d931eb0f40df4130e8f82cf1b17ec88403c2e59b08ac58ff10d274a2a",
+      "normalized_path": "data/normalized/breadth-f2ce81064374.jsonl",
+      "normalized_sha256": "f80c74819ca3170b2ded008edad421ebef5623e3bd7e93aa9c091e3f40d5170c",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
     {
       "source_id": "cms-complications-deaths",
       "bibtex_key": "cms-complications-deaths",

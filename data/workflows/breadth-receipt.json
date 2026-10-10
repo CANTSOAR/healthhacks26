@@ -1,0 +1,42 @@
+{
+  "campaign": "hospital-encounter-breadth-2026-10-10",
+  "execution": "Three requested Luna collaboration agents plus root administrative-source research; finite pass",
+  "jobs": [
+    {
+      "domain": "pathways",
+      "agent_model": "gpt-6-luna",
+      "status": "completed",
+      "extract_path": "data/research/breadth-pathways.json",
+      "extract_sha256": "e8024af50ea7a25214add2a1cfab705843536d5662a84a04ae2cd465e2013a33",
+      "record_count": 6
+    },
+    {
+      "domain": "roles",
+      "agent_model": "gpt-6-luna",
+      "status": "completed",
+      "extract_path": "data/research/breadth-roles.json",
+      "extract_sha256": "a9273f128529ee209d72ee19e3111d4cc5bef9114ab612136eee98772e32466d",
+      "record_count": 9
+    },
+    {
+      "domain": "ehr-training",
+      "agent_model": "gpt-6-luna",
+      "status": "completed",
+      "extract_path": "data/research/breadth-ehr-training.json",
+      "extract_sha256": "609a1ce06fd0722cfa60a211539f50091cbc14fff233ae689e860859fff25887",
+      "record_count": 8
+    },
+    {
+      "domain": "administration",
+      "agent_model": "root",
+      "status": "completed",
+      "extract_path": "data/research/breadth-administration.json",
+      "extract_sha256": "b4a238ca45ccc6fde6d86f47b26ebbe343a49ecc2f133778ce3a6c08967e7358",
+      "record_count": 5
+    }
+  ],
+  "sources_added": 26,
+  "records_added": 28,
+  "status": "completed_extraction_not_human_approved",
+  "next_step": "Human source comparison in data/review/index.html; priority review all operational parameters before adoption"
+}
