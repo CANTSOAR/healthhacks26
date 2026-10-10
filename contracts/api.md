@@ -90,3 +90,23 @@ Student (never returns `faculty_truth`, undisclosed facts, or the rubric answer 
 | POST | `/api/encounters/{id}/finish` | body `{disposition, orders?, summary?}` → `{feedback: {objectives: [{objective_id, criterion, result, evidence: [{turn, quote}], uncertain: bool, suggestion}], rubric: {domains: [{key, name, score, rationale, evidence, uncertain}]}, elicited: [...], missed: [...], strengths: [...], next_time: [...], grader: "llm"\|"offline"}, interaction_result: <interaction.schema.json result>, written_back: bool}` |
 | GET | `/api/encounters?case_id=` | session log |
 | POST | `/api/tts` | body `{text, voice?}` → audio (ElevenLabs when keyed; 204 otherwise so the browser uses speech synthesis) |
+
+## Addenda accepted during the build (2026-10-10)
+
+All additive; nothing above was removed or renamed. Details and examples live with the implementers:
+`server/CONTRACT_REQUESTS.md`, `web/CONTRACT_REQUESTS.md`, `encounter/CONTRACT_REQUESTS.md`, `encounter/API_NOTES.md`.
+
+- `hour` may also be sent immediately as an acknowledgement of `action` / `manager` / `inject` with `ack: true` and empty `metrics`. `hour` carries `manager` and `manager_info` (who is in control).
+- `pending` holds only requested values that have not reached their cadence boundary; current settings are `snapshot.kpis.settings`.
+- Above ~30 ticks/s snapshots are skipped while `hour` / `summary` are still sent for every hour / day.
+- `stop` sends `summary` with `final: true`; the socket stays open. `start` accepts `days`. `inject` accepts `params`. `action` values may be option labels.
+- `action_spec[]` entries carry `implemented: bool`. Event kinds also include `scenario`, `structural_started`, `structural_done`.
+- Extra routes: `GET /api/actions`, `GET /api/runs`, `GET /api/runs/{run_id}/rooms/{room_id}`, `GET /api/runs/{run_id}/equipment/{equipment_id}`, `GET /api/cases/{case_id}/image`, `GET /api/encounter/status`, and the care-journey routes under `/api/journeys` (see `encounter/journey/`).
+- `/api/validation` adds `status` (`pending` | `ready` | `error` | `no_targets`), `baseline`, `summary`, `stale`.
+- `/api/status` adds `services.rl`, `services.encounter`, `services.sim.active_runs`.
+- Unknown items: HTTP 404 `{"detail": ...}`. `POST /api/encounters` answers 201 and accepts `preview`, `learner`, `force`.
+- `POST /api/results/human` accepts fractional `days`; result rows may carry extra metrics (e.g. labour cost per day).
+- Entity `live` views omit `true_acuity`, `severity`, `true_disposition`.
+- People resolve to catalog refs `staff/<role>` and `patient/esi<acuity>` (+ `conditions/<group>`).
+- Slot grid inside a room (when `slots` is absent): `cols = ceil(sqrt(capacity * w / d))`, `rows = ceil(capacity / cols)`, one slot at the centre of each cell (the simulator's rule; the hand-built fixture predates it).
+- Snapshot `patients` may carry an optional `bay` column: room index of the treatment space the patient holds, -1 if none.

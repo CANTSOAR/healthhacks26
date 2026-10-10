@@ -3,84 +3,325 @@
   "$id": "snapshot.schema.json",
   "title": "Simulator snapshot (one hospital, one tick), struct-of-arrays",
   "type": "object",
-  "required": ["t", "clock", "patients", "staff", "rooms", "equipment", "kpis"],
+  "required": [
+    "t",
+    "clock",
+    "patients",
+    "staff",
+    "rooms",
+    "equipment",
+    "kpis"
+  ],
   "properties": {
-    "t": {"type": "integer", "minimum": 0, "description": "Tick index (5 simulated minutes each)"},
+    "t": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Tick index (5 simulated minutes each)"
+    },
     "clock": {
       "type": "object",
-      "required": ["day", "minute_of_day", "dow"],
+      "required": [
+        "day",
+        "minute_of_day",
+        "dow"
+      ],
       "properties": {
-        "day": {"type": "integer", "minimum": 0},
-        "minute_of_day": {"type": "integer", "minimum": 0, "maximum": 1439},
-        "dow": {"type": "integer", "minimum": 0, "maximum": 6, "description": "0 = Monday"}
+        "day": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "minute_of_day": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1439
+        },
+        "dow": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 6,
+          "description": "0 = Monday"
+        }
       }
     },
-    "layout_version": {"type": "integer", "description": "Increments when a structural change alters the layout; fetch the new layout when it changes"},
+    "layout_version": {
+      "type": "integer",
+      "description": "Increments when a structural change alters the layout; fetch the new layout when it changes"
+    },
     "patients": {
       "type": "object",
       "description": "All patients currently in the hospital, plus those who exited this tick (state=exited, exit set). Columns are equal-length arrays.",
-      "required": ["id", "acuity", "condition", "state", "exit", "room", "x", "z", "age_min", "state_min", "arrival_mode", "age_band", "flags"],
+      "required": [
+        "id",
+        "acuity",
+        "condition",
+        "state",
+        "exit",
+        "room",
+        "x",
+        "z",
+        "age_min",
+        "state_min",
+        "arrival_mode",
+        "age_band",
+        "flags"
+      ],
       "properties": {
-        "id": {"type": "array", "items": {"type": "integer"}},
-        "acuity": {"type": "array", "items": {"type": "integer", "minimum": 1, "maximum": 5}},
-        "condition": {"type": "array", "items": {"type": "integer"}, "description": "index into enums.condition_group"},
-        "state": {"type": "array", "items": {"type": "integer"}, "description": "index into enums.patient_state"},
-        "exit": {"type": "array", "items": {"type": "integer"}, "description": "index into enums.patient_exit"},
-        "room": {"type": "array", "items": {"type": "integer"}, "description": "index into layout.rooms, -1 if none"},
-        "x": {"type": "array", "items": {"type": "number"}},
-        "z": {"type": "array", "items": {"type": "number"}},
-        "age_min": {"type": "array", "items": {"type": "integer"}, "description": "minutes since arrival"},
-        "state_min": {"type": "array", "items": {"type": "integer"}, "description": "minutes in the current state"},
-        "arrival_mode": {"type": "array", "items": {"type": "integer"}},
-        "age_band": {"type": "array", "items": {"type": "integer"}},
-        "payer": {"type": "array", "items": {"type": "integer"}},
-        "flags": {"type": "array", "items": {"type": "integer"}, "description": "bitfield: 1 deteriorated, 2 admitted (decision made), 4 fast-track, 8 played (an interaction on this patient was played by a human)"},
-        "staff": {"type": "array", "items": {"type": "integer"}, "description": "index into this snapshot's staff arrays of the staff member currently with the patient, -1 if none"}
+        "id": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "acuity": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5
+          }
+        },
+        "condition": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "index into enums.condition_group"
+        },
+        "state": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "index into enums.patient_state"
+        },
+        "exit": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "index into enums.patient_exit"
+        },
+        "room": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "index into layout.rooms, -1 if none"
+        },
+        "x": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "z": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "age_min": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "minutes since arrival"
+        },
+        "state_min": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "minutes in the current state"
+        },
+        "arrival_mode": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "age_band": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "payer": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "flags": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "bitfield: 1 deteriorated, 2 admitted (decision made), 4 fast-track, 8 played (an interaction on this patient was played by a human)"
+        },
+        "staff": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "index into this snapshot's staff arrays of the staff member currently with the patient, -1 if none"
+        },
+        "bay": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "optional: room index of the treatment space this patient holds (even while away at imaging), -1 if none"
+        }
       }
     },
     "staff": {
       "type": "object",
-      "required": ["id", "role", "state", "room", "x", "z"],
+      "required": [
+        "id",
+        "role",
+        "state",
+        "room",
+        "x",
+        "z"
+      ],
       "properties": {
-        "id": {"type": "array", "items": {"type": "string"}, "description": "e.g. RN-07; stable across the episode"},
-        "name": {"type": "array", "items": {"type": ["string", "null"]}, "description": "fictional display name where one is assigned"},
-        "role": {"type": "array", "items": {"type": "integer"}},
-        "state": {"type": "array", "items": {"type": "integer"}},
-        "room": {"type": "array", "items": {"type": "integer"}},
-        "x": {"type": "array", "items": {"type": "number"}},
-        "z": {"type": "array", "items": {"type": "number"}},
-        "patient": {"type": "array", "items": {"type": "integer"}, "description": "patient id being served, -1 if none"},
-        "fatigue": {"type": "array", "items": {"type": "number"}}
+        "id": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "e.g. RN-07; stable across the episode"
+        },
+        "name": {
+          "type": "array",
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "description": "fictional display name where one is assigned"
+        },
+        "role": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "state": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "room": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "x": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "z": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "patient": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "patient id being served, -1 if none"
+        },
+        "fatigue": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        }
       }
     },
     "rooms": {
       "type": "object",
       "description": "One entry per layout room, same order as layout.rooms",
-      "required": ["status", "occupancy"],
+      "required": [
+        "status",
+        "occupancy"
+      ],
       "properties": {
-        "status": {"type": "array", "items": {"type": "integer"}, "description": "index into enums.room_status"},
-        "occupancy": {"type": "array", "items": {"type": "integer"}},
-        "queue": {"type": "array", "items": {"type": "integer"}, "description": "patients queued for this room / station"}
+        "status": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "index into enums.room_status"
+        },
+        "occupancy": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "queue": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "patients queued for this room / station"
+        }
       }
     },
     "equipment": {
       "type": "object",
       "description": "One entry per layout equipment item, same order as layout.equipment",
-      "required": ["status"],
+      "required": [
+        "status"
+      ],
       "properties": {
-        "status": {"type": "array", "items": {"type": "integer"}, "description": "index into enums.equipment_status"}
+        "status": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "index into enums.equipment_status"
+        }
       }
     },
     "ambulances": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["id", "x", "z", "state"],
+        "required": [
+          "id",
+          "x",
+          "z",
+          "state"
+        ],
         "properties": {
-          "id": {"type": "string"},
-          "x": {"type": "number"},
-          "z": {"type": "number"},
-          "state": {"enum": ["approaching", "unloading", "leaving", "diverted"]}
+          "id": {
+            "type": "string"
+          },
+          "x": {
+            "type": "number"
+          },
+          "z": {
+            "type": "number"
+          },
+          "state": {
+            "enum": [
+              "approaching",
+              "unloading",
+              "leaving",
+              "diverted"
+            ]
+          }
         }
       }
     },
@@ -88,7 +329,12 @@
       "type": "object",
       "description": "Live values for the HUD; keys are metric names from metrics.yaml (instant or trailing-window values at this tick) plus `settings` echoing the current value index of every action head",
       "properties": {
-        "settings": {"type": "object", "additionalProperties": {"type": "integer"}}
+        "settings": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          }
+        }
       },
       "additionalProperties": true
     },
@@ -97,12 +343,43 @@
       "description": "Things that happened since the previous snapshot",
       "items": {
         "type": "object",
-        "required": ["t", "kind", "text"],
+        "required": [
+          "t",
+          "kind",
+          "text"
+        ],
         "properties": {
-          "t": {"type": "integer"},
-          "kind": {"enum": ["arrival_surge", "lwbs", "deterioration", "death", "diversion_on", "diversion_off", "callout", "equipment_down", "equipment_up", "structural_started", "structural_done", "scenario", "interaction_played", "info"]},
-          "text": {"type": "string"},
-          "entity": {"type": ["string", "integer", "null"]}
+          "t": {
+            "type": "integer"
+          },
+          "kind": {
+            "enum": [
+              "arrival_surge",
+              "lwbs",
+              "deterioration",
+              "death",
+              "diversion_on",
+              "diversion_off",
+              "callout",
+              "equipment_down",
+              "equipment_up",
+              "structural_started",
+              "structural_done",
+              "scenario",
+              "interaction_played",
+              "info"
+            ]
+          },
+          "text": {
+            "type": "string"
+          },
+          "entity": {
+            "type": [
+              "string",
+              "integer",
+              "null"
+            ]
+          }
         }
       }
     },
@@ -111,14 +388,38 @@
       "description": "Manager decisions that changed a setting since the previous snapshot",
       "items": {
         "type": "object",
-        "required": ["t", "head", "value", "label", "cadence"],
+        "required": [
+          "t",
+          "head",
+          "value",
+          "label",
+          "cadence"
+        ],
         "properties": {
-          "t": {"type": "integer"},
-          "head": {"type": "string"},
-          "value": {"type": "integer"},
-          "prev": {"type": "integer"},
-          "label": {"type": "string", "description": "human-readable, e.g. 'Nurses, night shift: 14 -> 11'"},
-          "cadence": {"enum": ["hourly", "daily", "weekly", "monthly"]}
+          "t": {
+            "type": "integer"
+          },
+          "head": {
+            "type": "string"
+          },
+          "value": {
+            "type": "integer"
+          },
+          "prev": {
+            "type": "integer"
+          },
+          "label": {
+            "type": "string",
+            "description": "human-readable, e.g. 'Nurses, night shift: 14 -> 11'"
+          },
+          "cadence": {
+            "enum": [
+              "hourly",
+              "daily",
+              "weekly",
+              "monthly"
+            ]
+          }
         }
       }
     }
