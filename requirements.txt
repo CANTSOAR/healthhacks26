@@ -9,3 +9,8 @@ jsonschema
 httpx
 pypdf
 websockets
+pandas
+# encounter engine
+boto3
+anthropic
+rapidfuzz

@@ -1,0 +1,135 @@
+{
+ "source": {
+  "dataset": "CDC ILINet weighted percent of outpatient visits for influenza-like illness (wILI), via Delphi Epidata fluview endpoint",
+  "url": "https://api.delphi.cmu.edu/epidata/fluview/?regions=nat,hhs2&epiweeks=201440-202639",
+  "cdc_page": "https://www.cdc.gov/fluview/",
+  "excluded_seasons": [
+   "2019-20",
+   "2020-21",
+   "2021-22"
+  ],
+  "definitions": "season = MMWR week 40 to week 39; baseline = mean wILI of weeks 21-39 of that season; wave = weeks with wILI at or above baseline + half the peak excess"
+ },
+ "hhs2": {
+  "seasons_used": [
+   "2014-15",
+   "2015-16",
+   "2016-17",
+   "2017-18",
+   "2018-19",
+   "2022-23",
+   "2023-24",
+   "2024-25",
+   "2025-26"
+  ],
+  "n_seasons": 9,
+  "wave_duration_days_median": 63.0,
+  "wave_duration_days_range": [
+   28,
+   112
+  ],
+  "weeks_above_baseline_plus_2sd_median": 30.0,
+  "peak_over_baseline_median": 4.39,
+  "peak_over_baseline_range": [
+   3.18,
+   8.13
+  ],
+  "peak_excess_share_median": 0.0541,
+  "mean_wave_excess_share_median": 0.0413,
+  "mean_wave_excess_share_range": [
+   0.026,
+   0.0999
+  ],
+  "seasons_with_wave_share": 1.0,
+  "peak_week_mode": 52,
+  "monthly_mean_wili_jan0": [
+   5.189,
+   5.246,
+   3.69,
+   2.659,
+   2.103,
+   1.686,
+   1.417,
+   1.395,
+   1.848,
+   2.444,
+   3.402,
+   5.266
+  ],
+  "monthly_wili_relative_jan0": [
+   1.713,
+   1.732,
+   1.218,
+   0.878,
+   0.694,
+   0.557,
+   0.468,
+   0.46,
+   0.61,
+   0.807,
+   1.123,
+   1.739
+  ]
+ },
+ "nat": {
+  "seasons_used": [
+   "2014-15",
+   "2015-16",
+   "2016-17",
+   "2017-18",
+   "2018-19",
+   "2022-23",
+   "2023-24",
+   "2024-25",
+   "2025-26"
+  ],
+  "n_seasons": 9,
+  "wave_duration_days_median": 77.0,
+  "wave_duration_days_range": [
+   28,
+   105
+  ],
+  "weeks_above_baseline_plus_2sd_median": 30.0,
+  "peak_over_baseline_median": 5.47,
+  "peak_over_baseline_range": [
+   3.92,
+   8.25
+  ],
+  "peak_excess_share_median": 0.0512,
+  "mean_wave_excess_share_median": 0.0355,
+  "mean_wave_excess_share_range": [
+   0.019,
+   0.0545
+  ],
+  "seasons_with_wave_share": 1.0,
+  "peak_week_mode": 52,
+  "monthly_mean_wili_jan0": [
+   4.323,
+   4.459,
+   3.077,
+   1.994,
+   1.549,
+   1.139,
+   0.932,
+   1.071,
+   1.449,
+   1.812,
+   2.727,
+   4.212
+  ],
+  "monthly_wili_relative_jan0": [
+   1.805,
+   1.862,
+   1.285,
+   0.832,
+   0.647,
+   0.476,
+   0.389,
+   0.447,
+   0.605,
+   0.756,
+   1.139,
+   1.758
+  ]
+ }
+}

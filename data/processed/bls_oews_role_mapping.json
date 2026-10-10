@@ -1,0 +1,53 @@
+{
+ "api": "https://api.bls.gov/publicAPI/v1/timeseries/data/",
+ "role_to_soc": {
+  "attending": [
+   "29-1214 Emergency Medicine Physicians"
+  ],
+  "app": [
+   "29-1171 Nurse Practitioners",
+   "29-1071 Physician Assistants"
+  ],
+  "rn": [
+   "29-1141 Registered Nurses"
+  ],
+  "charge_rn": [
+   "29-1141 Registered Nurses (75th percentile used as the charge-nurse proxy)"
+  ],
+  "tech": [
+   "29-2042 Emergency Medical Technicians",
+   "31-1131 Nursing Assistants"
+  ],
+  "registration": [
+   "43-4111 Interviewers, Except Eligibility and Loan (includes hospital admitting/registration interviewers)"
+  ],
+  "pharmacist": [
+   "29-1051 Pharmacists"
+  ],
+  "imaging_tech": [
+   "29-2034 Radiologic Technologists and Technicians"
+  ],
+  "transport": [
+   "31-1132 Orderlies"
+  ],
+  "evs": [
+   "37-2011 Janitors and Cleaners, Except Maids and Housekeeping Cleaners"
+  ]
+ },
+ "areas": {
+  "nj_state": [
+   "S",
+   "3400000"
+  ],
+  "ny_newark_metro": [
+   "M",
+   "0035620"
+  ]
+ },
+ "datatypes": {
+  "03": "hourly_mean",
+  "08": "hourly_median",
+  "07": "hourly_p25",
+  "09": "hourly_p75"
+ }
+}

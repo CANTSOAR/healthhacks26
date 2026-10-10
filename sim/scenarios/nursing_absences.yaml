@@ -1,0 +1,7 @@
+id: nursing_absences
+label: Nursing absences
+description: A week of elevated nurse call-outs starting on day 1 (catalog/event.yaml, staff_callouts). Fewer nurses means fewer staffed bays.
+hospital_id: rwjuh_nb
+days_default: 10
+events:
+  - {type: staff_callouts, start_day: 1, roles: [rn]}

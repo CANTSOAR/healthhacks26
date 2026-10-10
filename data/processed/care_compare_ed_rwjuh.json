@@ -1,0 +1,96 @@
+{
+ "source": {
+  "timely": {
+   "title": "Timely and Effective Care - Hospital",
+   "modified": "2026-07-22",
+   "released": "2026-08-13",
+   "url": "https://data.cms.gov/provider-data/sites/default/files/resources/0437b5494ac61507ad90f2af6b8085a7_1785189967/Timely_and_Effective_Care-Hospital.csv",
+   "landing": "https://data.cms.gov/provider-data/dataset/yv7e-xc69"
+  },
+  "general": {
+   "title": "Hospital General Information",
+   "modified": "2026-07-22",
+   "released": "2026-08-13",
+   "url": "https://data.cms.gov/provider-data/sites/default/files/resources/893c372430d9d71a1c52737d01239d47_1785189955/Hospital_General_Information.csv",
+   "landing": "https://data.cms.gov/provider-data/dataset/xubh-q36u"
+  }
+ },
+ "accessed": "2026-10-10",
+ "facility": {
+  "Facility ID": "310038",
+  "Facility Name": "ROBERT WOOD JOHNSON UNIVERSITY HOSPITAL",
+  "Address": "ONE ROBERT WOOD JOHNSON PLACE",
+  "City/Town": "NEW BRUNSWICK",
+  "State": "NJ",
+  "ZIP Code": "08901",
+  "County/Parish": "MIDDLESEX",
+  "Hospital Type": "Acute Care Hospitals",
+  "Hospital Ownership": "Voluntary non-profit - Private",
+  "Emergency Services": "Yes",
+  "Hospital overall rating": "2"
+ },
+ "measures": [
+  {
+   "Measure ID": "EDV",
+   "Measure Name": "Emergency department volume",
+   "Score": "very high",
+   "Sample": NaN,
+   "Footnote": NaN,
+   "Start Date": "01/01/2024",
+   "End Date": "12/31/2024"
+  },
+  {
+   "Measure ID": "OP_18b",
+   "Measure Name": "Average (median) time patients spent in the emergency department before leaving from the visit, excluding patients transferred to another facility or psychiatric care/mental health patients. A lower number of minutes is better",
+   "Score": "206",
+   "Sample": "408",
+   "Footnote": NaN,
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "Measure ID": "OP_18c",
+   "Measure Name": "Average (median) time psychiatric/mental health patients spent in the emergency department before leaving from the visit. A lower number of minutes is better",
+   "Score": "156",
+   "Sample": "21",
+   "Footnote": NaN,
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "Measure ID": "OP_22",
+   "Measure Name": "Left before being seen",
+   "Score": "1",
+   "Sample": "81126",
+   "Footnote": NaN,
+   "Start Date": "01/01/2024",
+   "End Date": "12/31/2024"
+  }
+ ],
+ "measure_periods": {
+  "EDV": {
+   "Start Date": "01/01/2024",
+   "End Date": "12/31/2024"
+  },
+  "OP_18b": {
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  "OP_18c": {
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  "OP_22": {
+   "Start Date": "01/01/2024",
+   "End Date": "12/31/2024"
+  }
+ },
+ "edv_category_counts": {
+  "low": 1657,
+  "medium": 914,
+  "Not Available": 832,
+  "very high": 703,
+  "high": 552
+ },
+ "n_hospitals_in_file": 4658
+}

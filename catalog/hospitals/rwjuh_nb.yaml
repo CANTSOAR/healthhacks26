@@ -10,6 +10,23 @@ variants:
   rwjuh_nb:
     label: RWJUH New Brunswick (model)
     attributes:
+      ward_pool_los_factor: {value: 0.85, unit: x inpatient LOS, source: assumed, citation: "Simulator model parameter (added by sim/): share of an ED admission's inpatient stay that is spent in the modelled ward pool (the rest is in units outside the model). Calibration knob - with the measured admission rate (about 31 a day) and length of stay (5.29 days) the 168-bed pool would run at about 98 percent and board without limit; 0.85 puts the long-run occupancy near 84 percent"}
+      ward_initial_occupancy: {value: 0.85, unit: fraction, source: assumed, citation: 'Simulator model parameter (added by sim/): Share of the ward
+          pool occupied at episode start (warm start so boarding exists from day 0); placeholder'}
+      ward_pool_room_types:
+        value: [ward_unit, icu_bed, stepdown_bed]
+        unit: room types
+        source: assumed
+        citation: 'Simulator model parameter (added by sim/): Layout room types whose capacity forms the inpatient pool available to ED admissions'
+      ed_bay_room_types:
+        value: {resus_bay: resus, treatment_bay: main, fast_track: fast, peds_ed: peds}
+        unit: map
+        source: assumed
+        citation: 'Simulator model parameter (added by sim/): Layout room types that are ED treatment spaces and the stream each serves'
+      min_main_bays: {value: 8, unit: bays, source: assumed, citation: 'Simulator model parameter (added by sim/): bays_delta cannot take the main ED
+          below this'}
+      min_ward_beds: {value: 16, unit: beds, source: assumed, citation: 'Simulator model parameter (added by sim/): ward_beds_delta cannot take the
+          pool below this'}
       ed_visits_per_year:
         value: 95000
         unit: visits/year
@@ -90,11 +107,15 @@ variants:
         source: assumed
         citation: Placeholder set in Wave 0 so the simulator can run; assumed, main radiology
       licensed_beds:
-        value: 700
+        value: 625
         unit: beds
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; public description '700+ bed adult hospital'; replace with CMS POS/HCRIS
-          count
+        source: measured
+        citation: CMS HCRIS hospital cost report (form CMS-2552-10), FY2024 file, report 811005 for CCN 310038, fiscal year 01/01/2024-12/31/2024; Worksheet
+          S-3 Part I line 14 column 2 (total hospital beds available)
+        url: https://downloads.cms.gov/FILES/HCRIS/HOSP10FY2024.ZIP
+        file: data/processed/hcris_310038_fy2024.json
+        note: Beds available for use as reported on the cost report, not the state licence. The Provider of Services file lists 610 certified beds (data/processed/cms_pos_310038.json);
+          the FY2023 cost report listed 630. Includes pediatric and neonatal beds (same CMS number).
       ward_beds_for_ed_admissions:
         value: 120
         unit: beds
@@ -127,7 +148,7 @@ variants:
         url: https://data.cms.gov/provider-data/dataset/yv7e-xc69
         file: data/processed/care_compare_ed_rwjuh.json
         range:
-        - 133.10000000000002
+        - 133.1
         - 269.0
         note: Median minutes from ED arrival to ED departure for DISCHARGED patients only (excludes admitted, transferred and psychiatric patients).
           range = 10th-90th percentile of OP_18b across the 702 hospitals in the same 'very high' ED-volume category (median 192); see data/processed/care_compare_ed_peer_groups.csv.
@@ -175,3 +196,154 @@ variants:
           WOOD JOHNSON PLACE, NEW BRUNSWICK, NJ 08901)
         url: https://data.cms.gov/provider-data/dataset/xubh-q36u
         file: data/processed/care_compare_ed_rwjuh.json
+      icu_beds:
+        value: 81
+        unit: beds
+        source: measured
+        citation: CMS HCRIS hospital cost report (form CMS-2552-10), FY2024 file, report 811005 for CCN 310038, fiscal year 01/01/2024-12/31/2024; Worksheet
+          S-3 Part I column 2, lines 8 intensive care (16) + 9 coronary care (14) + 11 surgical intensive care (51)
+        url: https://downloads.cms.gov/FILES/HCRIS/HOSP10FY2024.ZIP
+        file: data/processed/hcris_310038_fy2024.json
+        note: Adult critical care only; neonatal and pediatric ICU are separate attributes.
+      nicu_beds:
+        value: 37
+        unit: beds
+        source: measured
+        citation: CMS HCRIS hospital cost report (form CMS-2552-10), FY2024 file, report 811005 for CCN 310038, fiscal year 01/01/2024-12/31/2024; Worksheet
+          S-3 Part I line 12 column 2 (other special care; labelled NEONATAL ICU on Worksheet A line 35)
+        url: https://downloads.cms.gov/FILES/HCRIS/HOSP10FY2024.ZIP
+        file: data/processed/hcris_310038_fy2024.json
+      picu_beds:
+        value: 20
+        unit: beds
+        source: measured
+        citation: CMS HCRIS hospital cost report (form CMS-2552-10), FY2024 file, report 811005 for CCN 310038, fiscal year 01/01/2024-12/31/2024; Worksheet
+          S-3 Part I line 12.01 column 2 (labelled PEDIATRIC ICU on Worksheet A line 35.01)
+        url: https://downloads.cms.gov/FILES/HCRIS/HOSP10FY2024.ZIP
+        file: data/processed/hcris_310038_fy2024.json
+      routine_beds:
+        value: 487
+        unit: beds
+        source: measured
+        citation: CMS HCRIS hospital cost report (form CMS-2552-10), FY2024 file, report 811005 for CCN 310038, fiscal year 01/01/2024-12/31/2024; Worksheet
+          S-3 Part I line 1 column 2 (adults & pediatrics routine beds)
+        url: https://downloads.cms.gov/FILES/HCRIS/HOSP10FY2024.ZIP
+        file: data/processed/hcris_310038_fy2024.json
+      operating_rooms:
+        value: 30
+        unit: rooms
+        source: measured
+        citation: CMS Provider of Services file (QIES, hospital & other facilities), 2026 Q2, PRVDR_NUM 310038; OPRTG_ROOM_CNT
+        url: https://data.cms.gov/provider-characteristics/hospitals-and-other-facilities/provider-of-services-file-quality-improvement-and-evaluation-system
+        file: data/processed/cms_pos_310038.json
+      cath_lab_rooms:
+        value: 8
+        unit: rooms
+        source: measured
+        citation: CMS Provider of Services file (QIES, hospital & other facilities), 2026 Q2, PRVDR_NUM 310038; CRDC_CTHRTZTN_PRCDR_ROOMS_CNT
+        url: https://data.cms.gov/provider-characteristics/hospitals-and-other-facilities/provider-of-services-file-quality-improvement-and-evaluation-system
+        file: data/processed/cms_pos_310038.json
+      inpatient_discharges_per_year:
+        value: 36561
+        unit: discharges/year
+        source: measured
+        citation: CMS HCRIS hospital cost report (form CMS-2552-10), FY2024 file, report 811005 for CCN 310038, fiscal year 01/01/2024-12/31/2024; Worksheet
+          S-3 Part I line 14 column 15
+        url: https://downloads.cms.gov/FILES/HCRIS/HOSP10FY2024.ZIP
+        file: data/processed/hcris_310038_fy2024.json
+      inpatient_days_per_year:
+        value: 211651
+        unit: patient-days/year
+        source: measured
+        citation: CMS HCRIS hospital cost report (form CMS-2552-10), FY2024 file, report 811005 for CCN 310038, fiscal year 01/01/2024-12/31/2024; Worksheet
+          S-3 Part I line 14 column 8
+        url: https://downloads.cms.gov/FILES/HCRIS/HOSP10FY2024.ZIP
+        file: data/processed/hcris_310038_fy2024.json
+      inpatient_alos_days:
+        value: 5.79
+        unit: days
+        source: measured
+        citation: 'CMS HCRIS hospital cost report (form CMS-2552-10), FY2024 file, report 811005 for CCN 310038, fiscal year 01/01/2024-12/31/2024;
+          Worksheet S-3 Part I line 14: total inpatient days 211651 / total discharges 36561'
+        url: https://downloads.cms.gov/FILES/HCRIS/HOSP10FY2024.ZIP
+        file: data/processed/hcris_310038_fy2024.json
+        note: All inpatients of this hospital (not only ED admissions). patient.shared.inpatient_los_days uses the national NHAMCS stay length of ED
+          admissions.
+      inpatient_occupancy:
+        value: 0.925
+        unit: fraction
+        source: measured
+        citation: 'CMS HCRIS hospital cost report (form CMS-2552-10), FY2024 file, report 811005 for CCN 310038, fiscal year 01/01/2024-12/31/2024;
+          Worksheet S-3 Part I line 14: inpatient days 211651 / bed days available 228750'
+        url: https://downloads.cms.gov/FILES/HCRIS/HOSP10FY2024.ZIP
+        file: data/processed/hcris_310038_fy2024.json
+        note: Annual average occupancy of available beds; a calibration anchor for boarding (little slack downstream).
+      ed_direct_cost_per_year:
+        value: 32371536
+        unit: usd/year
+        source: measured
+        citation: CMS HCRIS hospital cost report (form CMS-2552-10), FY2024 file, report 811005 for CCN 310038, fiscal year 01/01/2024-12/31/2024; Worksheet
+          A line 91 (Emergency) column 7, net expenses for allocation; of which salaries (column 1) 27293402
+        url: https://downloads.cms.gov/FILES/HCRIS/HOSP10FY2024.ZIP
+        file: data/processed/hcris_310038_fy2024.json
+      ed_cost_after_overhead_per_year:
+        value: 70205703
+        unit: usd/year
+        source: measured
+        citation: CMS HCRIS hospital cost report (form CMS-2552-10), FY2024 file, report 811005 for CCN 310038, fiscal year 01/01/2024-12/31/2024; Worksheet
+          B Part I line 91 (Emergency) column 26, cost after step-down allocation of general service (overhead) cost centres
+        url: https://downloads.cms.gov/FILES/HCRIS/HOSP10FY2024.ZIP
+        file: data/processed/hcris_310038_fy2024.json
+        note: Excludes ancillary departments used by ED patients (laboratory, imaging, pharmacy) and physician professional fees.
+      ed_cost_per_visit:
+        value: 865.0
+        unit: usd/visit
+        source: measured
+        citation: CMS HCRIS hospital cost report (form CMS-2552-10), FY2024 file, report 811005 for CCN 310038, fiscal year 01/01/2024-12/31/2024; Worksheet
+          B Part I line 91 column 26 (70205703) / 81126 ED visits (CMS Care Compare OP-22 denominator, calendar 2024)
+        url: https://downloads.cms.gov/FILES/HCRIS/HOSP10FY2024.ZIP
+        file: data/processed/hcris_310038_fy2024.json
+        note: 'Direct cost only: 399 usd/visit. ED cost centre only, no ancillaries.'
+      ed_gross_charges_per_year:
+        value: 842633110
+        unit: usd/year
+        source: measured
+        citation: CMS HCRIS hospital cost report (form CMS-2552-10), FY2024 file, report 811005 for CCN 310038, fiscal year 01/01/2024-12/31/2024; Worksheet
+          C Part I line 91 columns 6+7 (inpatient + outpatient charges); cost-to-charge ratio column 9 = 0.083317
+        url: https://downloads.cms.gov/FILES/HCRIS/HOSP10FY2024.ZIP
+        file: data/processed/hcris_310038_fy2024.json
+        note: List charges, not payments.
+      routine_cost_per_patient_day:
+        value: 1783.0
+        unit: usd/patient-day
+        source: measured
+        citation: CMS HCRIS hospital cost report (form CMS-2552-10), FY2024 file, report 811005 for CCN 310038, fiscal year 01/01/2024-12/31/2024; Worksheet
+          B Part I line 30 column 26 (305456618) / Worksheet S-3 Part I line 1 column 8 (171284 adults & pediatrics days)
+        url: https://downloads.cms.gov/FILES/HCRIS/HOSP10FY2024.ZIP
+        file: data/processed/hcris_310038_fy2024.json
+        note: Routine (room, board, nursing) cost only; no ancillaries.
+      icu_cost_per_patient_day:
+        value: 3503.0
+        unit: usd/patient-day
+        source: measured
+        citation: CMS HCRIS hospital cost report (form CMS-2552-10), FY2024 file, report 811005 for CCN 310038, fiscal year 01/01/2024-12/31/2024; Worksheet
+          B Part I lines 31+32+34 column 26 (88070914) / Worksheet S-3 Part I lines 8+9+11 column 8 (25144 days)
+        url: https://downloads.cms.gov/FILES/HCRIS/HOSP10FY2024.ZIP
+        file: data/processed/hcris_310038_fy2024.json
+      net_patient_revenue_per_year:
+        value: 1665310131
+        unit: usd/year
+        source: measured
+        citation: CMS HCRIS hospital cost report (form CMS-2552-10), FY2024 file, report 811005 for CCN 310038, fiscal year 01/01/2024-12/31/2024; Worksheet
+          G-3 line 3; total operating expense (line 4) 1661059395
+        url: https://downloads.cms.gov/FILES/HCRIS/HOSP10FY2024.ZIP
+        file: data/processed/hcris_310038_fy2024.json
+      fte_employees:
+        value: 4563.4
+        unit: FTE
+        source: measured
+        citation: CMS Hospital Provider Cost Report 2024 (curated HCRIS summary), CCN 310038, 'FTE - Employees on Payroll'; interns and residents FTE
+          306.74
+        url: https://data.cms.gov/provider-compliance/cost-report/hospital-provider-cost-report
+        file: data/processed/cms_cost_report_summary_310038.json
+        note: Provider of Services file lists 1187.08 registered-nurse FTE hospital-wide.

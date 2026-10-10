@@ -1,0 +1,7 @@
+id: imaging_outage
+label: Imaging outage
+description: One CT scanner goes down on day 1 at 08:00 (catalog/event.yaml, equipment_outage). Patients needing CT queue for the remaining scanner.
+hospital_id: rwjuh_nb
+days_default: 7
+events:
+  - {type: equipment_outage, start_day: 1, start_hour: 8}

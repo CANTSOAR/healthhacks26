@@ -1,0 +1,96 @@
+# Engine settings shared by every scenario, and fallback values for catalog attributes the
+# simulator model needs. Nothing here is hard-coded in Python.
+#
+# `engine` holds sizing / numerical settings of the simulator itself (not hospital parameters).
+# `catalog_fallback` mirrors the catalog shape (file -> shared|variant -> attribute). A value in
+# catalog/*.yaml always wins; the fallback is used only when the catalog key is absent, and the
+# loader records every key it had to take from here in ScenarioConfig.fallback_keys.
+# Every fallback value is ASSUMED (a modelling placeholder with reasoning), never measured.
+
+engine:
+  tick_minutes: 5
+  ticks_per_step: 12
+  shift_start_hours: [7, 15, 23]      # day, evening, night
+  pool_waiting_slack: 120             # patient slots beyond bays + ward beds (waiting room, walking)
+  pool_round_to: 16
+  max_arrivals_per_tick: 16           # truncation point of the per-tick Poisson draw
+  wait_hist_bins: 288                 # 5-minute bins, last bin is overflow (24 h)
+  los_hist_bins: 576                  # 5-minute bins (48 h)
+  pool_size: 0                        # 0 = auto: ward beds (max) + bays (max) + pool_waiting_slack
+  start_month: 9                      # calendar month of day 0 (0 = January) for the seasonal profile
+  days_per_month: 28                  # "monthly" cadence in contracts/actions.yaml
+  event_log_max_batch: 8              # python-side event/decision logs are kept only for B <= this
+  structural_max_steps: 6             # max net number of add steps per structural head
+  obs_clip: 5.0
+  ward_stream_walk: true
+  flags:
+    triage: true
+    bays: true
+    post_encounter: true              # false: patient exits right after the clinician encounter (M/M/c)
+    abandonment: true
+    hazards: true
+    fatigue: true
+    absences: true
+    equipment_failures: true
+    walking: true
+    ward: true
+    diurnal: true                     # false: flat arrival rate
+
+catalog_fallback:
+  patient:
+    shared:
+      p_mistriage: {value: 0.08, unit: probability, source: assumed, citation: "Share of walk-in patients whose triage level is one level off the true acuity (half over, half under); placeholder, triage studies report roughly this order"}
+      p_transfer_in: {value: 0.02, unit: probability, source: assumed, citation: "Share of arrivals that are inter-facility transfers in; mirrors arrival_mode_mix.transfer"}
+      p_transfer_out: {value: 0.012, unit: probability, source: assumed, citation: "Share of ED patients whose true disposition is transfer to another facility; placeholder"}
+      lab_turnaround_min: {value: 50, unit: minutes, dist: {kind: lognormal, mean: 50, cv: 0.4}, source: assumed, citation: "Order-to-result time for ED labs; placeholder"}
+      inpatient_variable_cost_per_day: {value: 600, unit: usd/patient-day, source: assumed, citation: "Nursing, supplies and pharmacy per occupied inpatient bed-day; placeholder so that inpatient revenue is not pure margin"}
+      wrong_disposition_max_prob: {value: 0.08, unit: probability at quality 0, source: assumed, citation: "Probability that a sampled disposition differs from the true one scales as (1 - quality) x this; placeholder"}
+      wrong_discharge_adverse_prob: {value: 0.3, unit: probability, source: assumed, citation: "Chance that discharging a patient who truly needed admission is counted as an adverse event; placeholder"}
+      low_quality_treatment_stretch: {value: 0.3, unit: fraction longer at quality 0, source: assumed, citation: "In-bay treatment time is multiplied by 1 + (1 - quality) x this; placeholder"}
+      transfer_wait_min: {value: 120, unit: minutes, source: assumed, citation: "Time a patient waits in the ED bay for transport after a transfer decision; placeholder"}
+      acuity_aging_levels_per_hour: {value: 1.0, unit: acuity levels/hour, source: assumed, citation: "Priority credit per hour waited under the acuity_with_aging rule; placeholder"}
+      death_hazard_post_contact_multiplier: {value: 0.1, unit: x untreated hazard, source: assumed, citation: "Death hazard once under provider care in the ED relative to untreated; placeholder"}
+      discharge_push_los_factor: {value: 0.92, unit: x remaining inpatient LOS, source: assumed, citation: "Early discharge rounds shorten inpatient stays by this factor; placeholder"}
+      discharge_push_cost_per_hour: {value: 180, unit: usd/hour, source: assumed, citation: "Extra hospitalist and case-management time for early rounds; placeholder"}
+      admission_cap_thresholds: {value: [9.0, 0.98, 0.9], unit: fraction of ward beds, index: admission_cap option, source: assumed, citation: "When (ward census + boarders) / staffed ward beds exceeds this, new admit decisions become transfers out; none / soft / hard; placeholder"}
+      transfer_out_cost: {value: 1200, unit: usd/transfer, source: assumed, citation: "Ambulance and coordination cost of a transfer out; placeholder"}
+      baseline_error_events_per_patient_hour: {value: 0.0005, unit: events/patient-hour in bay, source: assumed, citation: "Base rate that fatigue and nurse overload multiply; only the excess over this base is counted as adverse_events; placeholder"}
+      mci_default_start: {value: 0, unit: flag, source: assumed, citation: "unused placeholder"}
+  staff:
+    shared:
+      provider_role_mix: {value: {attending: 0.4, resident: 0.35, app: 0.25}, unit: fraction, index: staff_role, source: assumed, citation: "Mix of provider types on a shift, used for the blended provider wage and for naming staff in the viewer; placeholder"}
+      agency_nurses_per_shift: {value: [0, 2, 4], unit: nurses/shift, index: agency_contract option, source: assumed, citation: "Nurses added to every shift by the none / small / large agency contract; placeholder"}
+      callin_max_per_shift: {value: {rn: 4, provider: 2}, unit: people/shift, source: assumed, citation: "Limit on call-ins per shift; requests beyond it are rejected as invalid; placeholder"}
+      fatigue_shift_carryover: {value: 0.5, unit: fraction, source: assumed, citation: "Share of the fatigue index carried over a shift change (chronic load); placeholder"}
+      fast_track_dedicated: {value: {provider: 1, rn: 1}, unit: people, source: assumed, citation: "Staff taken out of the main pool while fast track is open; contracts/actions.yaml: uses an APP and a nurse"}
+      triage_nurse_levels: {value: [1, 2, 3], unit: nurses, index: triage_nurses option, source: assumed, citation: "Triage stations staffed for options one / two / three"}
+      support_staff_per_shift: {value: {charge_rn: 1, tech: 6, registration: 3, pharmacist: 1, imaging_tech: 2, transport: 3, evs: 3}, unit: people/shift, index: staff_role, source: assumed, citation: "Fixed support roster per shift at the primary hospital (scaled with ED size elsewhere); placeholder"}
+      headcount_step: {value: {provider: 1, rn: 2}, unit: people/shift per step, source: assumed, citation: "Shift of the level->people mapping per headcount step; placeholder"}
+      headcount_max_steps: {value: 2, unit: steps, source: assumed, citation: "Permanent headcount can move at most this many steps either way from the starting roster; placeholder"}
+      hire_delay_days: {value: 28, unit: days, source: assumed, citation: "Recruitment and onboarding delay before a headcount increase takes effect; placeholder"}
+      hire_cost_per_head: {value: 15000, unit: usd, source: assumed, citation: "One-off recruiting / severance cost per person per shift; placeholder"}
+      encounter_quality_base: {value: 0.85, unit: index_0_1, source: assumed, citation: "Mean quality of a sampled clinician encounter by a rested provider; placeholder"}
+      encounter_quality_sd: {value: 0.08, unit: index_0_1, source: assumed, citation: "Patient-to-patient spread of sampled encounter quality; placeholder"}
+      fatigue_quality_penalty: {value: 0.2, unit: quality points at fatigue=1, source: assumed, citation: "Sampled encounter quality lost at full fatigue; placeholder"}
+      second_imaging_unit_tech: {value: 1, unit: imaging_tech per extra staffed scanner, source: assumed, citation: "Extra technologist paid while second CT units are staffed; placeholder"}
+  space:
+    shared:
+      ward_bed_open_delay_days: {value: 14, unit: days, source: assumed, citation: "Time to staff and open a block of inpatient beds; placeholder"}
+      ward_bed_open_cost: {value: 20000, unit: usd/bed, source: assumed, citation: "One-off cost per inpatient bed opened (fit-out, recruitment); placeholder"}
+      bay_close_cost: {value: 10000, unit: usd/bay, source: assumed, citation: "One-off cost per treatment bay closed (decommissioning); placeholder"}
+      walk_path_factor: {value: 1.0, unit: x rectilinear distance, source: assumed, citation: "Walking distance = rectilinear (corridor) distance between room centres x this"}
+      relocate_reduced_triage_stations: {value: 1, unit: stations, source: assumed, citation: "Triage stations usable while triage is being relocated; placeholder"}
+  equipment:
+    shared:
+      imaging_hours_windows: {value: [[7, 15], [7, 23], [0, 24]], unit: hour of day, index: imaging_hours option, source: assumed, citation: "Hours when CT units beyond the first are staffed: day_only / extended / round_the_clock"}
+      install_delay_days: {value: 30, unit: days, source: assumed, citation: "Order-to-commissioning time for a purchased scanner; placeholder"}
+      variable_cost_per_use: {value: {ct: 60, xray: 15}, unit: usd/study, index: equipment_type, source: assumed, citation: "Consumables and reading cost per study; placeholder"}
+      units_always_staffed: {value: 1, unit: units per type, source: assumed, citation: "The first unit of each scanner type is staffed round the clock"}
+  event: {}
+  hospital:
+    ward_initial_occupancy: {value: 0.85, unit: fraction, source: assumed, citation: "Share of the ward pool occupied at episode start (warm start so boarding exists from day 0); placeholder"}
+    ward_pool_room_types: {value: [ward_unit, icu_bed, stepdown_bed], unit: room types, source: assumed, citation: "Layout room types whose capacity forms the inpatient pool available to ED admissions"}
+    ed_bay_room_types: {value: {resus_bay: resus, treatment_bay: main, fast_track: fast, peds_ed: peds}, unit: map, source: assumed, citation: "Layout room types that are ED treatment spaces and the stream each serves"}
+    ward_pool_los_factor: {value: 0.85, unit: x inpatient LOS, source: assumed, citation: "Share of an ED admission's inpatient stay that is spent in the modelled ward pool (the rest is in units outside the model). Calibration knob: set so the pool runs near 85-90 percent occupancy under the measured admission rate and length of stay"}
+    min_main_bays: {value: 8, unit: bays, source: assumed, citation: "bays_delta cannot take the main ED below this"}
+    min_ward_beds: {value: 16, unit: beds, source: assumed, citation: "ward_beds_delta cannot take the pool below this"}

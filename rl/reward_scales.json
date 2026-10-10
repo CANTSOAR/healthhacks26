@@ -1,0 +1,63 @@
+{
+ "generated": "2026-10-10T01:49:10-0400",
+ "synthetic": true,
+ "sim_fingerprint": "b4fd91bc587860a4",
+ "policy": "fixed",
+ "scenario": "normal_week",
+ "seeds": [
+  100000,
+  100063
+ ],
+ "days": 30,
+ "terms": [
+  "cost",
+  "wait",
+  "lwbs",
+  "safety",
+  "boarding",
+  "staff",
+  "revenue"
+ ],
+ "raw_per_hour": {
+  "cost": 35567.01171875,
+  "wait": 2785.009033203125,
+  "lwbs": 1.4306206703186035,
+  "safety": 0.10444878041744232,
+  "boarding": 30.646038055419922,
+  "staff": 2.0869224071502686,
+  "revenue": -39138.5859375
+ },
+ "floors": {
+  "cost": 1.0,
+  "wait": 60.0,
+  "lwbs": 0.05,
+  "safety": 0.02,
+  "boarding": 0.1,
+  "staff": 1.0,
+  "revenue": 1.0
+ },
+ "scales": {
+  "cost": 35567.01171875,
+  "wait": 2785.009033203125,
+  "lwbs": 1.4306206703186035,
+  "safety": 0.10444878041744232,
+  "boarding": 30.646038055419922,
+  "staff": 2.0869224071502686,
+  "revenue": 35567.01171875
+ },
+ "baseline_summary": {
+  "wait_mean_min": 188.40090942382812,
+  "wait_p95_min": 908.515625,
+  "ed_los_median_min": 358.28125,
+  "lwbs_rate": 0.15529222786426544,
+  "cost_per_day": 853608.0,
+  "margin_per_day": 85718.140625,
+  "cost_per_treated": 4865.2890625,
+  "deaths_per_10k": 27.490142822265625,
+  "boarding_hours_per_day": 735.5049438476562,
+  "diversion_hours_per_day": 0.0,
+  "overtime_hours_per_day": 0.0
+ },
+ "p95_wait_threshold_min": 675.0,
+ "note": "scale = fixed-policy mean per hour (floored); wait = waiting_count*60 patient-minutes; revenue uses the cost scale; p95 threshold = 0.75 x baseline episode p95 wait rounded to 15 min"
+}

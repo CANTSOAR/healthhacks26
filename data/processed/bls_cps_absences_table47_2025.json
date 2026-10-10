@@ -1,0 +1,53 @@
+{
+ "table": "BLS Current Population Survey, annual averages 2025, Table 47: Absences from work of employed full-time wage and salary workers by occupation and industry",
+ "url": "https://www.bls.gov/cps/cpsaat47.htm",
+ "accessed": "2026-10-10",
+ "how_obtained": "www.bls.gov returns HTTP 403 to scripted clients (curl/urllib). The page was read twice through the WebFetch tool with different prompts; both reads returned the same figures. NOT parsed by a script - re-verify by opening the URL in a browser.",
+ "coverage_note": "Annual estimates for 2025 are 11-month averages that exclude October (not collected due to the federal government shutdown).",
+ "definitions": {
+  "absence_rate": "ratio of workers with absences to total full-time wage and salary employment (percent, reference week)",
+  "lost_worktime_rate": "hours absent as a percent of hours usually worked"
+ },
+ "rows": [
+  {
+   "group": "Total employed",
+   "full_time_workers_thousands": 121326,
+   "absence_rate_total": 3.2,
+   "absence_rate_illness_injury": 2.2,
+   "absence_rate_other": 1.0,
+   "lost_worktime_total": 1.7,
+   "lost_worktime_illness_injury": 1.1,
+   "lost_worktime_other": 0.6
+  },
+  {
+   "group": "Healthcare practitioners and technical occupations",
+   "full_time_workers_thousands": 7998,
+   "absence_rate_total": 3.7,
+   "absence_rate_illness_injury": 2.3,
+   "absence_rate_other": 1.4,
+   "lost_worktime_total": 2.1,
+   "lost_worktime_illness_injury": 1.2,
+   "lost_worktime_other": 0.9
+  },
+  {
+   "group": "Healthcare support occupations",
+   "full_time_workers_thousands": 3829,
+   "absence_rate_total": 4.1,
+   "absence_rate_illness_injury": 2.8,
+   "absence_rate_other": 1.4,
+   "lost_worktime_total": 2.2,
+   "lost_worktime_illness_injury": 1.3,
+   "lost_worktime_other": 0.9
+  },
+  {
+   "group": "Health care and social assistance (industry)",
+   "full_time_workers_thousands": 16124,
+   "absence_rate_total": 3.8,
+   "absence_rate_illness_injury": 2.4,
+   "absence_rate_other": 1.4,
+   "lost_worktime_total": 2.1,
+   "lost_worktime_illness_injury": 1.2,
+   "lost_worktime_other": 0.8
+  }
+ ]
+}

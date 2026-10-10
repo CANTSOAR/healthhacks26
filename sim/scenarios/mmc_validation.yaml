@@ -1,0 +1,13 @@
+id: mmc_validation
+label: M/M/c validation
+description: Everything stripped to a plain multi-server queue - Poisson arrivals at a flat rate, one station with c servers, exponential service, no abandonment. Used by the tests to compare the simulated mean wait with the Erlang-C result.
+hospital_id: rwjuh_nb
+days_default: 30
+fixed_servers: 8                     # c
+service_override: {kind: exponential, mean: 40.0}   # minutes
+pool_size: 256
+catalog_overrides:
+  patient.shared.arrivals_per_day: 244.8          # lambda = 10.2 per hour -> offered load 6.8, rho = 0.85
+engine:
+  flags: {triage: false, bays: false, post_encounter: false, abandonment: false, hazards: false, fatigue: false,
+          absences: false, equipment_failures: false, walking: false, ward: false, diurnal: false}

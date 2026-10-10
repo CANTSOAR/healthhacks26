@@ -1,0 +1,65 @@
+{
+  "rubric_id": "builtin_encounter_v1",
+  "title": "HospitalGym formative encounter rubric (built-in)",
+  "synthetic": true,
+  "needs_faculty_review": true,
+  "note": "Authored for this project as a stand-in with the same shape as the organizers' rubric (four-point scale, named domains, N/A allowed). Not a validated assessment instrument.",
+  "instructions": "Score only what the transcript and ledger show. Give N/A when the encounter offered no chance to demonstrate a domain.",
+  "rating_scale": [
+    {"score": 4, "label": "Well demonstrated", "meaning": "Reliable and well judged throughout"},
+    {"score": 3, "label": "Demonstrated", "meaning": "Works in most moments, small omissions"},
+    {"score": 2, "label": "Emerging", "meaning": "Some of it is there, with gaps that matter"},
+    {"score": 1, "label": "Not demonstrated or unsafe", "meaning": "Missing, misleading, or risky for the patient"}
+  ],
+  "allowed_scores": [4, 3, 2, 1, "N/A"],
+  "domains": [
+    {"id": 1, "key": "opening", "name": "Starting the encounter", "triggers_review_if_score_1": false,
+     "descriptors": {
+       "4": "Gives name and role, says what the conversation is for, asks permission, and lets the patient state the problem in their own words.",
+       "3": "Clear start with a sensible focus; one element (role, purpose or permission) is thin.",
+       "2": "Gets going, but the patient is not told who is asking or why, or is not invited to tell the story.",
+       "1": "Starts cold with closed questions, or leaves the patient unsure what is happening."}},
+    {"id": 2, "key": "rapport_empathy", "name": "Rapport and empathy", "triggers_review_if_score_1": false,
+     "descriptors": {
+       "4": "Names and responds to the patient's feelings, uses non-judging and normalising language, and earns trust on sensitive topics.",
+       "3": "Respectful and warm; acknowledges emotion at least once in a way that fits the moment.",
+       "2": "Polite but mechanical; emotional moments pass without acknowledgement.",
+       "1": "Judging, dismissive or brusque language that would make a patient stop talking."}},
+    {"id": 3, "key": "history_gathering", "name": "Gathering the history", "triggers_review_if_score_1": false,
+     "descriptors": {
+       "4": "Moves from open to focused questions, covers the complaint, background, medicines, allergies and social context, and reaches the findings that matter.",
+       "3": "Covers most of the relevant history in a logical order.",
+       "2": "Patchy: several relevant areas are untouched, or questions are mostly closed or leading.",
+       "1": "Key history is missing and the interview does not hang together."}},
+    {"id": 4, "key": "listening_cues", "name": "Listening and following cues", "triggers_review_if_score_1": false,
+     "descriptors": {
+       "4": "Picks up hesitations and mismatches between what the patient says and what the record shows, and follows them up tactfully.",
+       "3": "Follows the patient's story and asks sensible follow-up questions.",
+       "2": "Follows obvious leads, but lets vague or inconsistent answers stand.",
+       "1": "Talks past the patient, repeats questions already answered, or ignores what was said."}},
+    {"id": 5, "key": "explanation_planning", "name": "Explaining and planning together", "triggers_review_if_score_1": false,
+     "descriptors": {
+       "4": "Explains thinking and next steps in plain words, checks understanding, and asks what the patient wants.",
+       "3": "Plain explanation of what happens next, with a check that it made sense.",
+       "2": "Some explanation, but with jargon, little reasoning, or no check of understanding.",
+       "1": "No explanation where one was needed, or an explanation that is wrong or pressuring."}},
+    {"id": 6, "key": "reasoning", "name": "Clinical reasoning", "triggers_review_if_score_1": true,
+     "descriptors": {
+       "4": "Finds the critical findings, requests fitting tests, weighs alternatives, and reaches a disposition the findings support.",
+       "3": "Sound, cautious reasoning with most critical findings in hand.",
+       "2": "Some key findings, but links between them, alternatives or uncertainty are missed.",
+       "1": "Conclusion or disposition is unsupported or unsafe given what was available."}},
+    {"id": 7, "key": "professional_closure", "name": "Professional conduct and closing", "triggers_review_if_score_1": true,
+     "descriptors": {
+       "4": "Stays professional, summarises back, agrees next steps, and tells the patient what to do if things change.",
+       "3": "Professional throughout with a clear ending and next step.",
+       "2": "Professional, but the ending is abrupt or leaves next steps and safety-netting unclear.",
+       "1": "Unprofessional or unsafe: over-certain, boundary-crossing, or no plan at all."}}
+  ],
+  "scoring": {
+    "max_total": 28,
+    "interpretation": "The total is a conversation starter for a debrief, not a grade. A 1 in clinical reasoning or in professional conduct should be reviewed with a teacher whatever the total.",
+    "review_trigger_domain_ids": [6, 7]
+  },
+  "evidence_fields": ["strength", "gap", "safety_concern"]
+}

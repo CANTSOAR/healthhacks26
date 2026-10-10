@@ -1,0 +1,7 @@
+id: discharge_delays
+label: Discharge delays
+description: Inpatient stays run longer from day 1 (catalog/event.yaml, discharge_delay). Ward beds free up more slowly, so admitted patients board in ED bays.
+hospital_id: rwjuh_nb
+days_default: 14
+events:
+  - {type: discharge_delay, start_day: 1}

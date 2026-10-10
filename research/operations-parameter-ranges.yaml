@@ -1,0 +1,363 @@
+# Literature-backed parameter ranges for the HospitalGym simulator and RL workstreams.
+# Written by the overnight operations-research agent, 2026-10-10. Shape per entry:
+#   parameter: {value, low, high, unit, source_title, url, note}
+# `evidence` is the record id in research/operations-evidence.md. `derived: true` means the research agent
+# computed the number from a published table (approximation, not a published estimate).
+# `catalog` names the catalog attribute that carries this value, when one exists.
+# Every source was fetched and read; see operations-evidence.md for design, sample and limitations.
+
+# ---------------------------------------------------------------- leaving without being seen
+lwbs_patience_mean_min_esi2:
+  {value: 3500, low: 1500, high: 6000, unit: minutes, derived: true, evidence: E-01, catalog: "patient.shared.lwbs_patience_min[1]",
+   source_title: "Batt & Terwiesch 2015, Waiting Patiently (Management Science), Table 1",
+   url: "https://faculty.wharton.upenn.edu/wp-content/uploads/2013/04/Waiting_Patiently-MS.pdf",
+   note: "Exponential mean reproducing 1.7% LWBS at a 1.0 h mean wait. One US academic ED."}
+lwbs_patience_mean_min_esi3:
+  {value: 1150, low: 600, high: 3000, unit: minutes, derived: true, evidence: E-01, catalog: "patient.shared.lwbs_patience_min[2]",
+   source_title: "Batt & Terwiesch 2015, Table 1 and regression summary",
+   url: "https://faculty.wharton.upenn.edu/wp-content/uploads/2013/04/Waiting_Patiently-MS.pdf",
+   note: "9.5% LWBS at 1.9 h mean wait gives 1,150; the marginal effect of +0.5 points per 15 min gives 3,000."}
+lwbs_patience_mean_min_esi4:
+  {value: 1600, low: 800, high: 3000, unit: minutes, derived: true, evidence: E-01, catalog: "patient.shared.lwbs_patience_min[3]",
+   source_title: "Batt & Terwiesch 2015, Table 1", url: "https://faculty.wharton.upenn.edu/wp-content/uploads/2013/04/Waiting_Patiently-MS.pdf",
+   note: "4.7% LWBS at 1.3 h mean wait; 68% of ESI 4 used fast track."}
+lwbs_patience_mean_min_esi5:
+  {value: 1000, low: 500, high: 2000, unit: minutes, derived: true, evidence: E-01, catalog: "patient.shared.lwbs_patience_min[4]",
+   source_title: "Batt & Terwiesch 2015, Table 1", url: "https://faculty.wharton.upenn.edu/wp-content/uploads/2013/04/Waiting_Patiently-MS.pdf",
+   note: "7.4% LWBS at 1.3 h mean wait."}
+lwbs_esi1_abandons:
+  {value: 0, low: 0, high: 0, unit: probability, evidence: E-01, source_title: "Batt & Terwiesch 2015",
+   url: "https://faculty.wharton.upenn.edu/wp-content/uploads/2013/04/Waiting_Patiently-MS.pdf", note: "'ESI 1 patients ... do not abandon'."}
+lwbs_pp_per_extra_person_in_waiting_room:
+  {value: 0.5, low: 0.5, high: 1.0, unit: percentage points, evidence: E-01, source_title: "Batt & Terwiesch 2015",
+   url: "https://doi.org/10.1287/mnsc.2014.2058",
+   note: "Moderate-severity (ESI 3) patients; equivalent to 15 min (working paper) or 25 min (published abstract) of extra wait. +1.0 when the arrival is visibly sicker."}
+lwbs_pp_reduction_test_ordered_at_triage:
+  {value: 1.8, low: 1.0, high: 2.5, unit: percentage points, evidence: E-01, source_title: "Batt & Terwiesch 2015",
+   url: "https://faculty.wharton.upenn.edu/wp-content/uploads/2013/04/Waiting_Patiently-MS.pdf", note: "Range is a judgement around the point estimate."}
+lwbs_odds_ratio_per_person_waiting:
+  {value: 1.05, low: 1.03, high: 1.06, unit: odds ratio, evidence: E-02, source_title: "Rathlev et al. 2020, West J Emerg Med, Table 3",
+   url: "https://westjem.com/articles/patient-characteristics-and-clinical-process-predictors-of-patients-leaving-without-being-seen-from-the-emergency-department.html",
+   note: "95,000-visit adult ED."}
+lwbs_odds_ratio_per_boarder:
+  {value: 1.02, low: 1.01, high: 1.03, unit: odds ratio, evidence: E-02, source_title: "Rathlev et al. 2020, Table 3",
+   url: "https://westjem.com/articles/patient-characteristics-and-clinical-process-predictors-of-patients-leaving-without-being-seen-from-the-emergency-department.html", note: ""}
+lwbs_odds_ratio_ambulance_arrival:
+  {value: 0.29, low: 0.23, high: 0.36, unit: odds ratio, evidence: E-02, source_title: "Rathlev et al. 2020, Table 3",
+   url: "https://westjem.com/articles/patient-characteristics-and-clinical-process-predictors-of-patients-leaving-without-being-seen-from-the-emergency-department.html", note: "Versus walk-in."}
+lwbs_odds_ratio_per_lower_acuity_step:
+  {value: 2.02, low: 1.85, high: 2.21, unit: odds ratio, evidence: E-02, source_title: "Rathlev et al. 2020, Table 3",
+   url: "https://westjem.com/articles/patient-characteristics-and-clinical-process-predictors-of-patients-leaving-without-being-seen-from-the-emergency-department.html", note: "ESI as a continuous score."}
+lwbs_odds_ratio_door_to_provider_60_89_min:
+  {value: 1.69, low: 1.20, high: 2.39, unit: odds ratio, evidence: E-02, source_title: "Rathlev et al. 2020, Table 3",
+   url: "https://westjem.com/articles/patient-characteristics-and-clinical-process-predictors-of-patients-leaving-without-being-seen-from-the-emergency-department.html",
+   note: "Reference under 30 min. 30-59: 1.34; 90-119: 1.87; 120+: 1.99."}
+lwbs_rate_validation_typical_ed:
+  {value: 0.026, low: 0.0, high: 0.203, unit: fraction of visits, validation_only: true, evidence: E-03,
+   source_title: "Hsia et al. 2011, Ann Emerg Med", url: "https://doi.org/10.1016/j.annemergmed.2011.01.009",
+   note: "Median and range across 262 California hospitals, 2007. Teaching OR 2.14, trauma centre OR 1.62."}
+lwbs_rate_validation_crowded_95k_ed:
+  {value: 0.072, low: 0.012, high: 0.095, unit: fraction of visits, validation_only: true, evidence: E-02,
+   source_title: "Rathlev et al. 2020", url: "https://westjem.com/articles/patient-characteristics-and-clinical-process-predictors-of-patients-leaving-without-being-seen-from-the-emergency-department.html",
+   note: "Low = 1.2% in a 10-ED system (E-05); high = 9.5% for ESI 3 in E-01."}
+lwbs_30day_mortality_odds_ratio:
+  {value: 2.59, low: 1.0, high: 3.53, unit: odds ratio vs discharged, evidence: E-05, source_title: "Joseph et al. 2025, Jt Comm J Qual Patient Saf",
+   url: "https://doi.org/10.1016/j.jcjq.2025.02.008", note: "US system. Low = no excess harm in Ontario (E-09)."}
+lwbs_72h_return_odds_ratio:
+  {value: 2.56, low: 2.50, high: 2.62, unit: odds ratio vs discharged, evidence: E-05, source_title: "Joseph et al. 2025",
+   url: "https://doi.org/10.1016/j.jcjq.2025.02.008", note: ""}
+
+# ---------------------------------------------------------------- harm from waiting and boarding
+death_hazard_per_wait_hour_esi2:
+  {value: 0.0015, low: 0.0005, high: 0.0035, unit: probability/hour, derived: true, evidence: "E-15, E-16", catalog: "patient.shared.death_hazard_per_hour_untreated[1]",
+   source_title: "Singer et al. 2011; Jones et al. 2022", url: "https://doi.org/10.1111/j.1553-2712.2011.01236.x",
+   note: "Attributable in-hospital/30-day deaths per hour of delay for admitted patients; observational, confounded."}
+death_hazard_per_wait_hour_esi3:
+  {value: 0.0005, low: 0.0001, high: 0.001, unit: probability/hour, derived: true, evidence: "E-09, E-16", catalog: "patient.shared.death_hazard_per_hour_untreated[2]",
+   source_title: "Guttmann et al. 2011; Singer et al. 2011", url: "https://doi.org/10.1136/bmj.d2983",
+   note: "Blend: 30% admitted-type (0.0015) and 70% discharged high-acuity (8e-5)."}
+death_hazard_per_wait_hour_esi4_5:
+  {value: 0.00004, low: 0.0, high: 0.0001, unit: probability/hour, derived: true, evidence: E-09, catalog: "patient.shared.death_hazard_per_hour_untreated[3:5]",
+   source_title: "Guttmann et al. 2011, BMJ", url: "https://doi.org/10.1136/bmj.d2983",
+   note: "2,054 deaths among 7.29 million low-acuity discharged patients; one hour less mean stay avoids 12.7%."}
+boarding_mortality_onset_hours_after_arrival:
+  {value: 5, low: 5, high: 6, unit: hours, evidence: E-15, source_title: "Jones et al. 2022, Emerg Med J",
+   url: "https://doi.org/10.1136/emermed-2021-211572", note: "Linear rise from 5 to 12 h; data collection stopped at 12 h."}
+boarding_excess_30day_mortality_past_6_8h:
+  {value: 0.0122, low: 0.007, high: 0.02, unit: absolute probability, evidence: E-15, source_title: "Jones et al. 2022",
+   url: "https://doi.org/10.1136/emermed-2021-211572", note: "1 extra death per 82 admitted patients delayed beyond 6-8 h; low = 8% of 8.71% baseline; high = Singer 2.5% to 4.5%."}
+boarding_inpatient_los_penalty_per_hour:
+  {value: 0.01, low: 0.001, high: 0.025, unit: fraction of inpatient stay per boarding hour, derived: true, evidence: "E-16, E-18, E-19, E-20", catalog: "patient.shared.boarding_los_penalty",
+   source_title: "Singer 2011; Roussel 2023; Sun 2013; Richardson 2002", url: "https://doi.org/10.1111/j.1553-2712.2011.01236.x",
+   note: "Unadjusted single-site figures set the ceiling."}
+overnight_ed_stay_mortality_risk_ratio_age75plus:
+  {value: 1.39, low: 1.07, high: 1.81, unit: risk ratio, evidence: E-18, source_title: "Roussel et al. 2023, JAMA Intern Med",
+   url: "https://doi.org/10.1001/jamainternmed.2023.5961", note: "1.81 for patients needing help with daily living. France."}
+crowding_error_multiplier_top_quartile:
+  {value: 2.0, low: 1.0, high: 2.5, unit: x preventable error rate, evidence: E-22, source_title: "Epstein et al. 2012, Intern Emerg Med",
+   url: "https://doi.org/10.1007/s11739-011-0702-8", note: "'more than twofold' in the top crowding quartile; non-linear. 533 patients."}
+crowding_inpatient_death_odds_ratio_high_crowding_day:
+  {value: 1.05, low: 1.02, high: 1.08, unit: odds ratio, evidence: E-19, source_title: "Sun et al. 2013, Ann Emerg Med",
+   url: "https://doi.org/10.1016/j.annemergmed.2012.10.026", note: "995,379 admissions; also +0.8% stay, +1% cost."}
+diversion_harm_threshold_hours_per_day:
+  {value: 12, low: 12, high: 12, unit: hours/day, evidence: E-32, source_title: "Shen & Hsia 2011, JAMA",
+   url: "https://doi.org/10.1001/jama.2011.811", note: "+3.24 points 30-day AMI mortality (0.60-5.88) at 12+ h; no difference below."}
+baseline_boarding_time_median_min:
+  {value: 400, low: 250, high: 626, unit: minutes, validation_only: true, evidence: E-21, source_title: "McCarthy et al. 2009, Ann Emerg Med",
+   url: "https://doi.org/10.1016/j.annemergmed.2009.03.006", note: "Adjusted medians across four US EDs; value is a midpoint chosen by the agent."}
+baseline_waiting_room_time_median_min:
+  {value: 45, low: 26, high: 70, unit: minutes, validation_only: true, evidence: E-21, source_title: "McCarthy et al. 2009",
+   url: "https://doi.org/10.1016/j.annemergmed.2009.03.006", note: "Rises 6% to 78% when boarders go from 50th to 90th percentile."}
+
+# ---------------------------------------------------------------- arrivals
+arrival_daily_dispersion_index:
+  {value: 1.5, low: 1.0, high: 2.0, unit: variance/mean of daily totals, evidence: E-06, source_title: "Whitt & Zhang 2017, Oper Res Health Care",
+   url: "https://par.nsf.gov/servlets/purl/10023792", note: "Rambam Hospital, Israel. Hourly counts are Poisson given the rate (E-07). High end is a judgement."}
+arrival_daily_multiplier_cv_at_260_per_day:
+  {value: 0.044, low: 0.0, high: 0.06, unit: CV of gamma day multiplier, derived: true, evidence: E-06, source_title: "Whitt & Zhang 2017",
+   url: "https://par.nsf.gov/servlets/purl/10023792", note: "cv = sqrt((D-1)/mean) with D = 1.5; 0.061 at 134/day."}
+arrival_weekday_max_over_min:
+  {value: 1.54, low: 1.1, high: 1.54, unit: ratio, evidence: E-06, source_title: "Whitt & Zhang 2017, Table 2",
+   url: "https://par.nsf.gov/servlets/purl/10023792", note: "162.0 vs 105.4 a day; includes the Israeli weekend. US EDs are flatter (use the data agent's measured profile)."}
+low_acuity_spillover_min_per_10_arrivals_per_8h:
+  {value: 5.4, low: 4.2, high: 6.0, unit: minutes added to others' ED stay, evidence: E-30, source_title: "Schull et al. 2007, Ann Emerg Med",
+   url: "https://doi.org/10.1016/j.annemergmed.2006.06.027", note: "2.1 min on time to physician. 110 Ontario EDs."}
+
+# ---------------------------------------------------------------- service and productivity
+provider_min_per_patient_esi1_2:
+  {value: 76, low: 50, high: 76, unit: minutes, evidence: E-10, source_title: "Wrede et al. 2020, J Clin Med, Table 1",
+   url: "https://doi.org/10.3390/jcm9113725", note: "SD 42. Low = scaled to specialists (x31/47, derived). Germany, n=45."}
+provider_min_per_patient_esi3:
+  {value: 48, low: 32, high: 48, unit: minutes, evidence: E-10, source_title: "Wrede et al. 2020, Table 1", url: "https://doi.org/10.3390/jcm9113725", note: "SD 27, n=93."}
+provider_min_per_patient_esi4:
+  {value: 27, low: 18, high: 27, unit: minutes, evidence: E-10, source_title: "Wrede et al. 2020, Table 1", url: "https://doi.org/10.3390/jcm9113725", note: "SD 15, n=43."}
+provider_min_per_patient_esi5:
+  {value: 18, low: 12, high: 18, unit: minutes, evidence: E-10, source_title: "Wrede et al. 2020, Table 1", url: "https://doi.org/10.3390/jcm9113725", note: "SD 11, n=21."}
+provider_time_cv:
+  {value: 0.58, low: 0.55, high: 0.72, unit: coefficient of variation, derived: true, evidence: E-10, source_title: "Wrede et al. 2020, Table 1",
+   url: "https://doi.org/10.3390/jcm9113725", note: "SD/mean by ESI: 0.55, 0.56, 0.56, 0.61; 0.72 overall (34/47). Supports lognormal cv 0.6."}
+attending_new_patients_first_hour:
+  {value: 2.95, low: 2.17, high: 2.97, unit: patients/hour, evidence: E-08, source_title: "Joseph et al. 2018, Emerg Med J, Tables 2-4",
+   url: "https://doi.org/10.1136/emermed-2017-207194", note: "Three US community EDs."}
+attending_new_patients_shift_average:
+  {value: 2.0, low: 1.6, high: 2.3, unit: patients/hour, derived: true, evidence: E-08, source_title: "Joseph et al. 2018",
+   url: "https://doi.org/10.1136/emermed-2017-207194", note: "13.2 to 20.9 patients per 8-9 h shift."}
+attending_pickup_rate_by_shift_hour:
+  {value: [2.97, 1.97, 1.57, 1.36, 1.30, 1.28, 0.97, 0.41], low: [2.17, 1.38, 1.12, 1.23, 1.16, 1.11, 0.96, 0.74], high: [2.97, 1.97, 1.57, 1.36, 1.30, 1.28, 0.97, 0.41],
+   unit: new patients/hour by hour of shift, derived: true, evidence: E-08, source_title: "Joseph et al. 2018, Tables 2 and 4",
+   url: "https://doi.org/10.1136/emermed-2017-207194", note: "Intercept plus hour effects (site 1 as value and high; site 3 as low). Each extra arrival adds 0.12 to 0.42."}
+ed_stay_lognormal_cv:
+  {value: 0.9, low: 0.9, high: 1.0, unit: coefficient of variation, derived: true, validation_only: true, evidence: E-30, source_title: "Schull et al. 2007",
+   url: "https://doi.org/10.1016/j.annemergmed.2006.06.027", note: "From mean/median of 6.3/4.7, 3.9/2.8, 2.2/1.6 hours by complexity."}
+mistriage_probability:
+  {value: 0.322, low: 0.2, high: 0.4, unit: probability, evidence: E-11, source_title: "Sax et al. 2023, JAMA Netw Open",
+   url: "https://doi.org/10.1001/jamanetworkopen.2023.3404", note: "5.3 million encounters, 21 EDs. Range is a judgement."}
+overtriage_probability:
+  {value: 0.289, low: 0.2, high: 0.35, unit: probability, evidence: E-11, source_title: "Sax et al. 2023", url: "https://doi.org/10.1001/jamanetworkopen.2023.3404", note: ""}
+undertriage_probability:
+  {value: 0.033, low: 0.02, high: 0.05, unit: probability, evidence: E-11, source_title: "Sax et al. 2023", url: "https://doi.org/10.1001/jamanetworkopen.2023.3404",
+   note: "36.7% among patients with SAH, aortic dissection or STEMI (E-12)."}
+triage_sensitivity_for_critical_patients:
+  {value: 0.659, low: 0.36, high: 0.98, unit: probability, evidence: "E-11, E-13", source_title: "Sax et al. 2023; Hinson et al. 2019",
+   url: "https://doi.org/10.1001/jamanetworkopen.2023.3404", note: "Range across conditions in the systematic review."}
+undertriage_treatment_delay_min:
+  {value: 18, low: 2, high: 33, unit: minutes, evidence: E-12, source_title: "Sax et al. 2025, JAMA Netw Open",
+   url: "https://doi.org/10.1001/jamanetworkopen.2025.8498", note: "Key orders for SAH and aortic dissection; under 1 min for STEMI."}
+admission_probability_by_esi_literature:
+  {value: [0.83, 0.67, 0.42, 0.08, 0.04], low: [0.83, 0.67, 0.42, 0.08, 0.04], high: [0.83, 0.67, 0.42, 0.08, 0.04], unit: probability by ESI 1-5, validation_only: true, evidence: E-14,
+   source_title: "Eitel et al. 2003, Acad Emerg Med", url: "https://doi.org/10.1111/j.1553-2712.2003.tb00577.x",
+   note: "Seven US EDs, n=1,042, ESI v2, 2003; no interval reported in the abstract. Cross-check only; prefer the data agent's measured values."}
+
+# ---------------------------------------------------------------- levers
+fast_track_wait_reduction_min:
+  {value: 51, low: 46, high: 56, unit: minutes, evidence: E-24, source_title: "Sanchez et al. 2006, J Emerg Med", url: "https://doi.org/10.1016/j.jemermed.2005.08.019", note: "Before-after, one US tertiary ED."}
+fast_track_los_reduction_min:
+  {value: 28, low: 23, high: 31, unit: minutes, evidence: E-24, source_title: "Sanchez et al. 2006", url: "https://doi.org/10.1016/j.jemermed.2005.08.019", note: ""}
+fast_track_lwbs_reduction_pp:
+  {value: 4.06, low: 3.46, high: 4.48, unit: percentage points, evidence: E-24, source_title: "Sanchez et al. 2006", url: "https://doi.org/10.1016/j.jemermed.2005.08.019", note: ""}
+physician_in_triage_lwbs_risk_ratio:
+  {value: 0.62, low: 0.54, high: 1.0, unit: risk ratio, evidence: "E-26, E-27", source_title: "Benabbas et al. 2020; Rowe et al. 2011",
+   url: "https://doi.org/10.1016/j.ajem.2020.04.068", note: "Meta-analysis 0.62 (0.54-0.71); single RCT 0.82 (0.67-1.00)."}
+physician_in_triage_los_change_min:
+  {value: -37, low: -82, high: 20, unit: minutes, evidence: "E-26, E-27", source_title: "Rowe et al. 2011; Benabbas et al. 2020",
+   url: "https://doi.org/10.1111/j.1553-2712.2010.00984.x", note: "Pooled RCTs -36.85 (-51.11 to -22.58); observational range -82 to +20."}
+physician_in_triage_time_to_provider_change_min:
+  {value: -30, low: -57, high: -3, unit: minutes, evidence: E-26, source_title: "Rowe et al. 2011", url: "https://doi.org/10.1111/j.1553-2712.2010.00984.x", note: "One RCT."}
+split_flow_esi3_los_ratio:
+  {value: 0.89, low: 0.85, high: 0.95, unit: x length of stay, derived: true, evidence: E-29, source_title: "Hsieh et al. 2023, J Emerg Med",
+   url: "https://doi.org/10.1016/j.jemermed.2022.10.007", note: "251 vs 283 min; range is a judgement."}
+arrival_matched_staffing_lwbs_relative_change:
+  {value: -0.217, low: -0.229, high: -0.15, unit: relative change in LWBS, evidence: E-33, source_title: "Green et al. 2006, Acad Emerg Med",
+   url: "https://doi.org/10.1197/j.aem.2005.07.034", note: "Constant provider hours, arrivals +5.5%. -22.9% with +3.1% hours. High end is a judgement."}
+discharge_peak_shift_hours_to_eliminate_boarding:
+  {value: 4, low: 2, high: 4, unit: hours earlier, evidence: E-23, source_title: "Powell et al. 2012, J Emerg Med",
+   url: "https://doi.org/10.1016/j.jemermed.2010.06.028", note: "Flow model; 77.0 boarding-hours/day to about 0; 70-88% of flows happen noon to midnight."}
+ed_nurse_hours_per_visit:
+  {value: 1.6, low: 1.16, high: 2.0, unit: nurse-hours per visit, derived: true, evidence: E-51, source_title: "Ramsey et al. 2018, West J Emerg Med",
+   url: "https://doi.org/10.5811/westjem.2018.1.36327", note: "336 to 580 (median 464.7) nursing hours/day over about 290 visits/day."}
+low_nurse_staffing_los_penalty_min:
+  {value: 28.2, low: 0, high: 28.2, unit: minutes of door-to-discharge stay, evidence: E-51, source_title: "Ramsey et al. 2018",
+   url: "https://doi.org/10.5811/westjem.2018.1.36327", note: "Lowest vs highest quartile of nursing hours; +9 LWBS patients/day; no change for admitted patients."}
+ward_mortality_odds_ratio_per_extra_patient_per_nurse:
+  {value: 1.07, low: 1.03, high: 1.12, unit: odds ratio, evidence: E-50, source_title: "Aiken et al. 2002, JAMA", url: "https://doi.org/10.1001/jama.288.16.1987", note: "Surgical ward patients, Pennsylvania."}
+nurse_burnout_odds_ratio_per_extra_patient_per_nurse:
+  {value: 1.23, low: 1.13, high: 1.34, unit: odds ratio, evidence: E-50, source_title: "Aiken et al. 2002", url: "https://doi.org/10.1001/jama.288.16.1987", note: "Job dissatisfaction 1.15."}
+
+# ---------------------------------------------------------------- staff
+rn_ratio_ed:
+  {value: 4, low: 1, high: 4, unit: patients per nurse (max), evidence: "E-48, E-49", catalog: "staff.shared.rn_patients_per_nurse_max",
+   source_title: "Cal. Code Regs. tit. 22 section 70217(a)(8)", url: "https://www.law.cornell.edu/regulations/california/Cal-Code-Regs-Tit-22-SS-70217",
+   note: "2 for ED critical care, 1 for critical trauma. New Jersey: proposed only (A1974, 2026)."}
+rn_ratio_icu:
+  {value: 2, low: 2, high: 2, unit: patients per nurse (max), evidence: E-48, source_title: "Cal. Code Regs. tit. 22 section 70217(a)(1)", url: "https://www.law.cornell.edu/regulations/california/Cal-Code-Regs-Tit-22-SS-70217", note: ""}
+rn_ratio_stepdown:
+  {value: 3, low: 3, high: 4, unit: patients per nurse (max), evidence: E-48, source_title: "Cal. Code Regs. tit. 22 section 70217(a)(9)", url: "https://www.law.cornell.edu/regulations/california/Cal-Code-Regs-Tit-22-SS-70217", note: "1:4 before 2008; telemetry 1:4."}
+rn_ratio_medsurg:
+  {value: 5, low: 4, high: 6, unit: patients per nurse (max), evidence: "E-48, E-49", source_title: "Cal. Code Regs. tit. 22 section 70217(a)(11)", url: "https://www.law.cornell.edu/regulations/california/Cal-Code-Regs-Tit-22-SS-70217", note: "NJ bill A1974 proposes 1:4."}
+annual_turnover_all_hospital_staff:
+  {value: 0.185, low: 0.076, high: 0.331, unit: fraction/year, evidence: E-55, catalog: "staff.shared.annual_turnover",
+   source_title: "2026 NSI National Health Care Retention & RN Staffing Report", url: "https://www.nsinursingsolutions.com/Documents/Library/NSI_National_Health_Care_Retention_Report.pdf", note: "527 hospitals, CY2025."}
+annual_turnover_rn:
+  {value: 0.176, low: 0.056, high: 0.40, unit: fraction/year, evidence: E-55, source_title: "2026 NSI report", url: "https://www.nsinursingsolutions.com/Documents/Library/NSI_National_Health_Care_Retention_Report.pdf", note: "Range by hospital bed size."}
+annual_turnover_ed_rn:
+  {value: 0.207, low: 0.191, high: 0.227, unit: fraction/year, evidence: E-55, source_title: "2026 NSI report, RN turnover by specialty chart",
+   url: "https://www.nsinursingsolutions.com/Documents/Library/NSI_National_Health_Care_Retention_Report.pdf", note: "2025 and 2024 values read from a chart; high = 113.6% five-year cumulative / 5."}
+rn_turnover_replacement_cost_usd:
+  {value: 60090, low: 60090, high: 60090, unit: usd per departure, evidence: E-55, source_title: "2026 NSI report",
+   url: "https://www.nsinursingsolutions.com/Documents/Library/NSI_National_Health_Care_Retention_Report.pdf", note: "Survey average for one bedside RN; no range is given in the report text read. Each 1% of RN turnover is about $295,000 a year for the average hospital."}
+absence_lost_worktime_rate_clinical:
+  {value: 0.021, low: 0.017, high: 0.041, unit: fraction of scheduled hours, evidence: E-56, catalog: "staff.shared.absence_rate",
+   source_title: "BLS Current Population Survey Table 47, 2025", url: "https://www.bls.gov/cps/cpsaat47.htm", note: "Healthcare practitioners 2.1%, support 2.2%; absence rate 3.7% / 4.1%."}
+fatigue_error_multiplier:
+  {value: 2.0, low: 1.36, high: 3.5, unit: x error rate at maximum fatigue, evidence: "E-52, E-53", catalog: "staff.shared.fatigue_error_multiplier",
+   source_title: "Landrigan et al. 2004, NEJM; Barger et al. 2006, PLoS Med", url: "https://doi.org/10.1056/nejmoa041406", note: "Interns on 24 h+ shifts."}
+nurse_shift_hours_error_threshold:
+  {value: 12, low: 12, high: 12.5, unit: hours, evidence: E-54, source_title: "Rogers et al. 2004, Health Aff", url: "https://doi.org/10.1377/hlthaff.23.4.202", note: "Also overtime and weeks over 40 h. Effect size not verified."}
+
+# ---------------------------------------------------------------- spaces and equipment
+staff_walk_speed_m_per_min:
+  {value: 80, low: 76, high: 88, unit: m/min, evidence: E-67, catalog: "space.shared.walk_speed_m_per_min", source_title: "Bohannon 1997, Age Ageing",
+   url: "https://doi.org/10.1093/ageing/26.1.15", note: "Comfortable gait 127-146 cm/s; maximum 175-253 cm/s (105-152 m/min)."}
+inpatient_bed_turnaround_min:
+  {value: 68, low: 37, high: 130, unit: minutes, evidence: "E-61, E-62", catalog: "space.variants.{ward_unit,stepdown_bed,icu_bed}.turnaround_min",
+   source_title: "MD Anderson SHM Converge 2026 abstract; Ankrum et al. 2019", url: "https://shmabstracts.org/abstract/accelerating-care-spotless-turnover-to-smooth-handover-2/",
+   note: "Request-to-released 115 to 68 min; isolation rooms 130 to 65; cleaning itself 37-57."}
+ct_report_delay_after_completion_min:
+  {value: 74, low: 35, high: 127, unit: minutes, evidence: E-57, catalog: "equipment.variants.ct.result_delay_min", source_title: "Brunner et al. 2014, Radiology",
+   url: "https://doi.org/10.1148/radiol.14140253", note: "Annual median and IQR, ED imaging, one academic trauma centre."}
+ct_order_to_completion_min:
+  {value: 90, low: 40, high: 182, unit: minutes, validation_only: true, evidence: "E-57, E-58", source_title: "Brunner et al. 2014; Dhanik et al. 2024",
+   url: "https://doi.org/10.5811/westjem.17831", note: "Medians 72 (IQR 40-129) and 108 (57-182); value is the midpoint. 4.2% exceed 369 min."}
+xray_order_to_completion_min:
+  {value: 31, low: 19, high: 48, unit: minutes, validation_only: true, evidence: E-57, source_title: "Brunner et al. 2014", url: "https://doi.org/10.1148/radiol.14140253", note: "Annual median and IQR."}
+ct_downtime_fraction:
+  {value: 0.004, low: 0.0, high: 0.02, unit: fraction of operating hours, evidence: E-60, catalog: "equipment.variants.ct.failure_prob_per_hour (x repair_min/60)",
+   source_title: "Wiener Gesundheitsverbund CT downtime log", url: "https://physik.gesundheitsverbund.at/html/downtime_ct.htm", note: "One scanner, 2011-2022; 2% is the vendor guarantee."}
+
+# ---------------------------------------------------------------- events
+flu_peak_share_of_ed_visits:
+  {value: 0.08, low: 0.03, high: 0.12, unit: fraction of ED visits coded influenza, evidence: E-63, catalog: "event.variants.flu_wave.respiratory_share_uplift",
+   source_title: "CDC FluView week 5, 2024-25", url: "https://www.cdc.gov/fluview/surveillance/2025-week-05.html", note: "High-severity season; low/high are judgements."}
+flu_arrival_multiplier:
+  {value: 1.10, low: 1.03, high: 1.25, unit: x arrivals, derived: true, evidence: "E-63, E-64", catalog: "event.variants.flu_wave.arrival_multiplier",
+   source_title: "CDC FluView; Schanzer & Schwartz 2013", url: "https://www.cdc.gov/fluview/surveillance/2025-week-05.html", note: "1/(1-0.08) = 1.09 if additive; coded flu undercounts."}
+flu_weeks_above_baseline:
+  {value: 10, low: 10, high: 30, unit: weeks, evidence: "E-63, E-65", source_title: "CDC FluView; Schull et al. 2004", url: "https://www.cdc.gov/fluview/surveillance/2025-week-05.html",
+   note: "At least 10 by week 5 of 2025; Toronto seasons lasted 18-30 weeks. The catalog duration (42 days) was left assumed."}
+flu_share_of_diversion_attributable:
+  {value: 0.243, low: 0.113, high: 0.372, unit: fraction of diversion hours in flu season, validation_only: true, evidence: E-65, source_title: "Schull et al. 2004, Ann Emerg Med",
+   url: "https://doi.org/10.1016/j.annemergmed.2003.12.008", note: "Toronto, 1996 onward."}
+mci_patients_one_hospital:
+  {value: 40, low: 20, high: 200, unit: patients, evidence: "E-57, E-66", catalog: "event.variants.mass_casualty.extra_patients",
+   source_title: "Brunner et al. 2014; Lake 2025", url: "https://doi.org/10.1148/radiol.14140253", note: "Boston 2013, one hospital. High end is a judgement from 413 gunshot casualties city-wide in Las Vegas 2017."}
+mci_arrival_window_min:
+  {value: 180, low: 90, high: 240, unit: minutes, derived: true, evidence: E-57, catalog: "event.variants.mass_casualty.window_min",
+   source_title: "Brunner et al. 2014", url: "https://doi.org/10.1148/radiol.14140253", note: "Median 97 min after the blast, IQR 43-139."}
+mci_share_needing_emergency_surgery:
+  {value: 0.25, low: 0.1, high: 0.4, unit: fraction, evidence: E-57, source_title: "Brunner et al. 2014", url: "https://doi.org/10.1148/radiol.14140253", note: "10 of 40; 16 of 40 admitted. Range is a judgement."}
+
+# ---------------------------------------------------------------- reinforcement learning settings reported to work
+rl_discount_factor:
+  {value: 0.998, low: 0.99, high: 1.0, unit: gamma, evidence: "E-35, E-37", source_title: "QGym (Chen et al. 2024)", url: "https://arxiv.org/abs/2410.06170", note: "Long-run average cost also used (Dai & Gluzman)."}
+rl_gae_lambda:
+  {value: 0.99, low: 0.95, high: 0.99, unit: lambda, evidence: E-35, source_title: "QGym", url: "https://arxiv.org/abs/2410.06170", note: "Low end is a common default, not from the paper."}
+rl_rollout_steps_per_iteration:
+  {value: 50000, low: 50000, high: 50000, unit: steps (x 50 actors), evidence: E-35, source_title: "QGym", url: "https://arxiv.org/abs/2410.06170", note: "100 iterations = 5 million steps; 3 PPO epochs; policy batch = whole rollout; value batch 2,500."}
+rl_learning_rate_policy:
+  {value: 0.0009, low: 0.0003, high: 0.0009, unit: Adam learning rate, evidence: E-35, source_title: "QGym", url: "https://arxiv.org/abs/2410.06170", note: "Value network 3e-4; 3% warm-up then cosine decay to 1e-5."}
+rl_ppo_vs_heuristic_relative_gain_small_networks:
+  {value: 0.10, low: 0.0, high: 0.21, unit: relative holding-cost reduction, evidence: E-35, source_title: "QGym", url: "https://arxiv.org/abs/2410.06170", note: "About 10% exponential, 21% hyper-exponential service; negative (50x worse) on the hospital instance."}
+rl_acuity1_wait_weight:
+  {value: 30, low: 30, high: 30, unit: x weight on waiting minutes, evidence: E-39, source_title: "Lee & Lee 2020, Healthcare", url: "https://doi.org/10.3390/healthcare8020077", note: "Reward = negative acuity-weighted wait plus threshold penalties for acuity 1-2."}
+rl_target_free_bed_reserve:
+  {value: 0.05, low: 0.05, high: 0.05, unit: fraction of census, evidence: E-40, source_title: "Allen & Monks 2020", url: "https://arxiv.org/abs/2008.07434", note: "Reward = negative distance from the target reserve."}
+
+# ---------------------------------------------------------------- encounter (AI patients and scoring)
+llm_rubric_item_kappa_vs_human:
+  {value: 0.88, low: 0.6, high: 0.88, unit: Cohen kappa, evidence: E-45, source_title: "Shakur et al. 2024, arXiv 2410.12858", url: "https://arxiv.org/abs/2410.12858", note: "One rubric item, 2,027 OSCEs. Low end is a judgement for harder items."}
+llm_sp_record_qa_accuracy:
+  {value: 0.9415, low: 0.9, high: 0.95, unit: accuracy, evidence: E-47, source_title: "Yu et al. 2024, AIPatient, arXiv 2409.18924", url: "https://arxiv.org/abs/2409.18924", note: "Knowledge-graph grounded; range is a judgement."}
+llm_scorer_error_after_prompt_revision:
+  {value: 0.0606, low: 0.0321, high: 0.2983, unit: score difference fraction, evidence: E-46, source_title: "Wang et al. 2025, J Med Internet Res", url: "https://doi.org/10.2196/59435", note: "29.83% before prompt revision; 3.21% on a separate script."}
+
+# ---------------------------------------------------------------- added in the second pass (records E-68 to E-78)
+deterioration_hazard_per_boarding_hour_admitted:
+  {value: 0.003, low: 0.0013, high: 0.008, unit: probability/hour, derived: true, evidence: E-68, catalog: "patient.shared.deterioration_hazard_per_hour_waiting[1]",
+   source_title: "Rizer et al. 2026, Ann Emerg Med", url: "https://doi.org/10.1016/j.annemergmed.2026.01.023",
+   note: "3.6% escalate to intermediate/ICU care within 48 h over a median 12.5 h of boarding; low = in-ED events only; high = the Wave 0 placeholder. Admitted floor-level patients, not the waiting room."}
+deterioration_relative_risk_increase_per_boarding_hour:
+  {value: 0.024, low: 0.008, high: 0.024, unit: relative increase per hour, evidence: E-68, source_title: "Rizer et al. 2026",
+   url: "https://doi.org/10.1016/j.annemergmed.2026.01.023", note: "2.4% for deterioration occurring in the ED, 0.8% overall."}
+mortality_multiplier_after_deterioration:
+  {value: 3.3, low: 3.0, high: 3.7, unit: x 28-day mortality, derived: true, evidence: E-68, source_title: "Rizer et al. 2026",
+   url: "https://doi.org/10.1016/j.annemergmed.2026.01.023", note: "13.0% vs 3.9% (odds ratio 3.66, 3.38-3.96)."}
+baseline_boarding_time_median_hours_academic_system:
+  {value: 10.2, low: 6.9, high: 18.3, unit: hours, validation_only: true, evidence: E-68, source_title: "Rizer et al. 2026",
+   url: "https://doi.org/10.1016/j.annemergmed.2026.01.023", note: "Median and IQR among medical admissions boarding 4-48 h at five US academic hospitals, 2018-2024 (excludes boarding under 4 h)."}
+resident_relative_productivity:
+  {value: 0.6, low: 0.45, high: 0.85, unit: x attending new patients/hour, derived: true, evidence: E-73, catalog: "staff.variants.resident.attributes.productivity",
+   source_title: "Joseph et al. 2017; Shaw et al. 2024; Hamden et al. 2014", url: "https://doi.org/10.1016/j.annemergmed.2016.11.020",
+   note: "10.1 patients per 8-9 h shift; PGY-1 0.92 and PGY-2 1.68 patients/hour; attending about 2.0."}
+app_relative_productivity:
+  {value: 0.78, low: 0.7, high: 1.1, unit: x attending new patients/hour, derived: true, evidence: E-73, catalog: "staff.variants.app.attributes.productivity",
+   source_title: "Hamden et al. 2014, Emerg Med J", url: "https://doi.org/10.1136/emermed-2012-201904", note: "1.56 patients/hour in a high-acuity area; fewer RVUs per patient than residents."}
+resident_new_patients_first_hour:
+  {value: 2.14, low: 0.94, high: 3.34, unit: patients/hour, evidence: E-73, source_title: "Joseph et al. 2017, Ann Emerg Med", url: "https://doi.org/10.1016/j.annemergmed.2016.11.020", note: "Mean; low/high are mean -/+ one SD (1.2)."}
+scribe_productivity_gain:
+  {value: 0.159, low: 0.10, high: 0.256, unit: relative gain in patients per doctor-hour, evidence: E-74, source_title: "Walker et al. 2019, BMJ", url: "https://doi.org/10.1136/bmj.l121",
+   note: "1.13 to 1.31; +25.6% for primary consultations; median stay 192 to 173 min. Low end is a judgement."}
+lab_turnaround_min:
+  {value: 54, low: 41, high: 79, unit: minutes (mean), derived: true, evidence: E-75, catalog: "equipment.variants.lab_analyzer.attributes.procedure_min",
+   source_title: "Vrijsen et al. 2022; Hausfater et al. 2020", url: "https://doi.org/10.1186/s12873-022-00763-w", note: "Median 51.1 (IQR 41.1-65.0); lognormal cv 0.35; central lab mean 79 (SD 34) in France."}
+poct_lab_turnaround_min:
+  {value: 28, low: 28, high: 28, unit: minutes (mean), evidence: E-75, source_title: "Hausfater et al. 2020, Acad Emerg Med", url: "https://doi.org/10.1111/acem.14072", note: "SD 31. ED stay changed by -9 min (95% CI -22 to 5)."}
+hallway_placement_time_change_min:
+  {value: -17.85, low: -20.71, high: -14.28, unit: minutes, evidence: E-76, source_title: "Dilip et al. 2025, JACEP Open", url: "https://doi.org/10.1016/j.acepjo.2025.100257", note: "Discharged patients first treated in a hallway space."}
+hallway_ed_stay_change_min_discharged:
+  {value: 123, low: 82, high: 167, unit: minutes, evidence: E-76, source_title: "Dilip et al. 2025", url: "https://doi.org/10.1016/j.acepjo.2025.100257", note: "No significant change for admitted patients. 27.4% of 340,141 visits used hallway spaces."}
+nurse_minutes_per_patient_present:
+  {value: 45, low: 45, high: 45, unit: nurse-minutes per additional patient in the observation window, evidence: E-77, source_title: "Ganty et al. 2025, Emerg Med J",
+   url: "https://doi.org/10.1136/emermed-2024-214334", note: "Total nursing care time; direct care median 13.6 min (IQR 6-34.6). Level 1 +97 and level 2 +30 min vs level 3; levels 4-5 about -22 to -25."}
+rn_time_to_recruit_days:
+  {value: 78, low: 56, high: 102, unit: days, evidence: E-55, source_title: "2026 NSI report", url: "https://www.nsinursingsolutions.com/Documents/Library/NSI_National_Health_Care_Retention_Report.pdf", note: "ER nurses 70 days. Use as the delay on hire actions."}
+agency_rn_bill_rate_over_base_wage:
+  {value: 1.93, low: 1.9, high: 3.4, unit: x base wage, derived: true, evidence: E-55, catalog: "staff.shared.agency_premium_multiplier",
+   source_title: "2026 NSI report", url: "https://www.nsinursingsolutions.com/Documents/Library/NSI_National_Health_Care_Retention_Report.pdf", note: "$91.23/h vs $59.46/h loaded staff cost (25.8% benefits); rates range to $160/h."}
+benefits_load_rn:
+  {value: 1.258, low: 1.25, high: 1.35, unit: x wage, evidence: E-55, catalog: "staff.shared.benefits_load", source_title: "2026 NSI report",
+   url: "https://www.nsinursingsolutions.com/Documents/Library/NSI_National_Health_Care_Retention_Report.pdf", note: "High end is a judgement."}
+rl_rule_selection_agent_mean_los_change:
+  {value: -0.08, low: -0.17, high: -0.075, unit: relative change in ED stay vs hospital rule, derived: true, evidence: E-70, source_title: "Zattoni 2026, PhD thesis, University of Bologna",
+   url: "https://amsdottorato.unibo.it/id/eprint/12809/1/zattoni_luca_tesi.pdf", note: "Mean 397.8 to 365.8 (A2C) / 368.1 (PPO) min; median 379.0 to about 313 (-17%)."}
+rl_first_assessment_target_min_by_severity:
+  {value: [0, 15, 60, 120, 240], low: [0, 15, 60, 120, 240], high: [0, 15, 60, 120, 240], unit: minutes by severity 1-5, evidence: E-70, source_title: "Zattoni 2026, Table 4.1",
+   url: "https://amsdottorato.unibo.it/id/eprint/12809/1/zattoni_luca_tesi.pdf", note: "Reward thresholds with severity weights 1, 0.8, 0.6, 0.525, 0.5; per-patient penalty clipped at 4x the weight. Italian triage targets."}
+imitation_scheduler_los_change_heavy_load:
+  {value: -0.11, low: -0.11, high: -0.05, unit: relative change in ED stay vs FCFS with urgencies, evidence: E-71, source_title: "Rosemarin, Rosenfeld & Kraus 2019, AAAI",
+   url: "https://u.cs.biu.ac.il/~krauss/data/articles/aaai19er.pdf", note: "-5% at normal load; interruptions about 10x less likely."}
+ct_examination_time_min_weak:
+  {value: 15.4, low: 11.1, high: 22, unit: minutes, evidence: E-78, source_title: "Hadi et al. 2025, J Med Imaging Radiat Sci", url: "https://doi.org/10.1016/j.jmir.2024.101781",
+   note: "Weak: one site, special population. High end = the catalog placeholder, which stays assumed."}
+triage_duration_max_min_weak:
+  {value: 5, low: 3, high: 6, unit: minutes, evidence: E-78, source_title: "Al-Hindi et al. 2014, Saudi Med J", url: "https://pubmed.ncbi.nlm.nih.gov/25228183/",
+   note: "Weak: 97% of paediatric triages took 5 min or less. Low/high are the catalog placeholders."}

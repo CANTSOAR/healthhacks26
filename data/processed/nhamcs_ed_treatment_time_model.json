@@ -1,0 +1,174 @@
+{
+ "source": {
+  "dataset": "CDC/NCHS National Hospital Ambulatory Medical Care Survey, Emergency Department public-use files",
+  "years_pooled": [
+   2019,
+   2021,
+   2022
+  ],
+  "url": "https://ftp.cdc.gov/pub/Health_Statistics/NCHS/dataset_documentation/nhamcs/stata/",
+  "weights": "PATWT (patient visit weight)",
+  "subsets": {
+   "all_hospitals": "every sampled visit",
+   "metro_teaching": "MSA==1 (metropolitan) and EMEDRES==1 (hospital has an emergency medicine residency)"
+  },
+  "records_per_year": {
+   "2019": 19481,
+   "2021": 16207,
+   "2022": 16025
+  }
+ },
+ "all_hospitals": {
+  "n_unweighted": 28194,
+  "winsorized_at_p99_min": 1225.4,
+  "coefficients_min": {
+   "esi1": 153.6,
+   "esi2": 196.3,
+   "esi3": 132.5,
+   "esi4": 88.3,
+   "esi5": 86.0,
+   "xray": 17.5,
+   "ct": 57.1,
+   "mri": 117.5,
+   "ultrasound": 38.8,
+   "lab": 70.7,
+   "admitted": -16.6
+  },
+  "r2_weighted": 0.162,
+  "outcome": "LOV - WAITTIME - BOARDED(if >0), minutes; visits with a valid 1-5 triage level, excluding left-before-completion, DOA, died in ED, observation-unit stays",
+  "by_acuity": {
+   "esi1": {
+    "n": 419,
+    "mean_after_provider_min": 238.7,
+    "median_after_provider_min": 170.0,
+    "cv": 0.98,
+    "p_admit_in_model_sample": 0.3013,
+    "no_test_no_admit_n": 67,
+    "no_test_no_admit_mean_min": 100.4,
+    "no_test_no_admit_median_min": 73.6
+   },
+   "esi2": {
+    "n": 4007,
+    "mean_after_provider_min": 285.3,
+    "median_after_provider_min": 209.0,
+    "cv": 0.9,
+    "p_admit_in_model_sample": 0.331,
+    "no_test_no_admit_n": 413,
+    "no_test_no_admit_mean_min": 199.1,
+    "no_test_no_admit_median_min": 129.0
+   },
+   "esi3": {
+    "n": 14516,
+    "mean_after_provider_min": 208.3,
+    "median_after_provider_min": 169.0,
+    "cv": 0.83,
+    "p_admit_in_model_sample": 0.1146,
+    "no_test_no_admit_n": 2549,
+    "no_test_no_admit_mean_min": 122.7,
+    "no_test_no_admit_median_min": 86.0
+   },
+   "esi4": {
+    "n": 8193,
+    "mean_after_provider_min": 114.9,
+    "median_after_provider_min": 86.0,
+    "cv": 1.08,
+    "p_admit_in_model_sample": 0.012,
+    "no_test_no_admit_n": 4008,
+    "no_test_no_admit_mean_min": 82.2,
+    "no_test_no_admit_median_min": 58.0
+   },
+   "esi5": {
+    "n": 1059,
+    "mean_after_provider_min": 108.1,
+    "median_after_provider_min": 66.0,
+    "cv": 1.33,
+    "p_admit_in_model_sample": 0.0488,
+    "no_test_no_admit_n": 725,
+    "no_test_no_admit_mean_min": 75.9,
+    "no_test_no_admit_median_min": 49.0
+   }
+  }
+ },
+ "metro_teaching": {
+  "n_unweighted": 10580,
+  "winsorized_at_p99_min": 1335.6,
+  "coefficients_min": {
+   "esi1": 227.7,
+   "esi2": 217.7,
+   "esi3": 152.2,
+   "esi4": 98.2,
+   "esi5": 96.3,
+   "xray": 21.1,
+   "ct": 69.0,
+   "mri": 177.4,
+   "ultrasound": 38.9,
+   "lab": 83.1,
+   "admitted": -27.2
+  },
+  "r2_weighted": 0.167,
+  "outcome": "LOV - WAITTIME - BOARDED(if >0), minutes; visits with a valid 1-5 triage level, excluding left-before-completion, DOA, died in ED, observation-unit stays",
+  "by_acuity": {
+   "esi1": {
+    "n": 189,
+    "mean_after_provider_min": 329.4,
+    "median_after_provider_min": 224.0,
+    "cv": 0.96,
+    "p_admit_in_model_sample": 0.4602,
+    "no_test_no_admit_n": 30,
+    "no_test_no_admit_mean_min": 213.1,
+    "no_test_no_admit_median_min": 115.7
+   },
+   "esi2": {
+    "n": 1708,
+    "mean_after_provider_min": 315.1,
+    "median_after_provider_min": 226.0,
+    "cv": 0.9,
+    "p_admit_in_model_sample": 0.3751,
+    "no_test_no_admit_n": 210,
+    "no_test_no_admit_mean_min": 220.9,
+    "no_test_no_admit_median_min": 133.7
+   },
+   "esi3": {
+    "n": 5392,
+    "mean_after_provider_min": 233.2,
+    "median_after_provider_min": 182.0,
+    "cv": 0.87,
+    "p_admit_in_model_sample": 0.1132,
+    "no_test_no_admit_n": 1170,
+    "no_test_no_admit_mean_min": 153.0,
+    "no_test_no_admit_median_min": 109.0
+   },
+   "esi4": {
+    "n": 2874,
+    "mean_after_provider_min": 128.1,
+    "median_after_provider_min": 90.0,
+    "cv": 1.16,
+    "p_admit_in_model_sample": 0.0156,
+    "no_test_no_admit_n": 1546,
+    "no_test_no_admit_mean_min": 92.2,
+    "no_test_no_admit_median_min": 65.0
+   },
+   "esi5": {
+    "n": 417,
+    "mean_after_provider_min": 117.5,
+    "median_after_provider_min": 70.0,
+    "cv": 1.23,
+    "p_admit_in_model_sample": 0.0583,
+    "no_test_no_admit_n": 319,
+    "no_test_no_admit_mean_min": 89.1,
+    "no_test_no_admit_median_min": 55.7
+   }
+  }
+ },
+ "inpatient_los_of_ed_admissions_days": {
+  "variable": "LOS (if admitted, length of stay in hospital in days), ADMITHOS==1, LOS>=1, capped at 60 for the mean",
+  "n_unweighted": 5850,
+  "known_share_of_admissions": 0.934,
+  "mean": 5.29,
+  "cv": 1.12,
+  "p25": 2.0,
+  "median": 4.0,
+  "p75": 6.0,
+  "p90": 10.0
+ }
+}

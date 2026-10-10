@@ -6,31 +6,114 @@ entity_type: staff
 description: 'Staff roles. Named individuals are fictional (organizer clinician profiles when present in .private/, built-in stand-ins otherwise).
   Target sources: BLS OEWS wages, state nurse-ratio regulations, BLS absence rates, literature for productivity and fatigue.'
 shared:
+  provider_role_mix:
+    value: {attending: 0.4, resident: 0.35, app: 0.25}
+    unit: fraction
+    index: staff_role
+    source: assumed
+    citation: 'Simulator model parameter (added by sim/): Mix of provider types on a shift, used for the blended provider wage and for naming staff
+      in the viewer; placeholder'
+  agency_nurses_per_shift:
+    value: [0, 2, 4]
+    unit: nurses/shift
+    index: agency_contract option
+    source: assumed
+    citation: 'Simulator model parameter (added by sim/): Nurses added to every shift by the none / small / large agency contract; placeholder'
+  callin_max_per_shift:
+    value: {rn: 4, provider: 2}
+    unit: people/shift
+    source: assumed
+    citation: 'Simulator model parameter (added by sim/): Limit on call-ins per shift; requests beyond it are rejected as invalid; placeholder'
+  fatigue_shift_carryover: {value: 0.5, unit: fraction, source: assumed, citation: 'Simulator model parameter (added by sim/): Share of the fatigue
+      index carried over a shift change (chronic load); placeholder'}
+  fast_track_dedicated:
+    value: {provider: 1, rn: 1}
+    unit: people
+    source: assumed
+    citation: 'Simulator model parameter (added by sim/): Staff taken out of the main pool while fast track is open; contracts/actions.yaml: uses
+      an APP and a nurse'
+  triage_nurse_levels:
+    value: [1, 2, 3]
+    unit: nurses
+    index: triage_nurses option
+    source: assumed
+    citation: 'Simulator model parameter (added by sim/): Triage stations staffed for options one / two / three'
+  support_staff_per_shift:
+    value: {charge_rn: 1, tech: 6, registration: 3, pharmacist: 1, imaging_tech: 2, transport: 3, evs: 3}
+    unit: people/shift
+    index: staff_role
+    source: assumed
+    citation: 'Simulator model parameter (added by sim/): Fixed support roster per shift at the primary hospital (scaled with ED size elsewhere);
+      placeholder'
+  headcount_step:
+    value: {provider: 1, rn: 2}
+    unit: people/shift per step
+    source: assumed
+    citation: 'Simulator model parameter (added by sim/): Shift of the level->people mapping per headcount step; placeholder'
+  headcount_max_steps: {value: 2, unit: steps, source: assumed, citation: 'Simulator model parameter (added by sim/): Permanent headcount can move
+      at most this many steps either way from the starting roster; placeholder'}
+  hire_delay_days: {value: 28, unit: days, source: assumed, citation: 'Simulator model parameter (added by sim/): Recruitment and onboarding delay
+      before a headcount increase takes effect; placeholder'}
+  hire_cost_per_head: {value: 15000, unit: usd, source: assumed, citation: 'Simulator model parameter (added by sim/): One-off recruiting / severance
+      cost per person per shift; placeholder'}
+  encounter_quality_base: {value: 0.85, unit: index_0_1, source: assumed, citation: 'Simulator model parameter (added by sim/): Mean quality of
+      a sampled clinician encounter by a rested provider; placeholder'}
+  encounter_quality_sd: {value: 0.08, unit: index_0_1, source: assumed, citation: 'Simulator model parameter (added by sim/): Patient-to-patient
+      spread of sampled encounter quality; placeholder'}
+  fatigue_quality_penalty: {value: 0.2, unit: quality points at fatigue=1, source: assumed, citation: 'Simulator model parameter (added by sim/):
+      Sampled encounter quality lost at full fatigue; placeholder'}
+  second_imaging_unit_tech: {value: 1, unit: imaging_tech per extra staffed scanner, source: assumed, citation: 'Simulator model parameter (added
+      by sim/): Extra technologist paid while second CT units are staffed; placeholder'}
   overtime_multiplier:
     value: 1.5
     unit: x wage
     source: assumed
     citation: Placeholder set in Wave 0 so the simulator can run; standard time-and-a-half
   agency_premium_multiplier:
-    value: 2.0
+    value: 1.93
     unit: x wage
-    source: assumed
-    citation: Placeholder set in Wave 0 so the simulator can run; placeholder agency bill-rate premium
+    source: literature
+    citation: 'NSI Nursing Solutions, 2026 NSI National Health Care Retention & RN Staffing Report: hospital average travel nurse fee $91.23/hour against hospital
+      average RN pay $59.46/hour including 25.8% for benefits (so $47.27 base wage); ''nurse travel rates average $91/hour and range to $160/hour''. Value =
+      91.23 / 47.27.'
+    url: https://www.nsinursingsolutions.com/Documents/Library/NSI_National_Health_Care_Retention_Report.pdf
+    range:
+    - 1.9
+    - 3.4
+    note: DERIVED ratio of the travel-nurse bill rate to base RN wage (the unit of this attribute is x wage, before benefits). Against the benefits-loaded staff
+      cost the premium is 1.53x. High end = $160/hour. Industry survey of 527 US hospitals, calendar 2025; registered nurses only.
   benefits_load:
-    value: 1.28
+    value: 1.258
     unit: x wage
-    source: assumed
-    citation: Placeholder set in Wave 0 so the simulator can run; placeholder benefits loading
+    source: literature
+    citation: 'NSI Nursing Solutions, 2026 NSI National Health Care Retention & RN Staffing Report: ''Hospital Average RN Pay (includes 25.8% for benefits)
+      $59.46'' per hour.'
+    url: https://www.nsinursingsolutions.com/Documents/Library/NSI_National_Health_Care_Retention_Report.pdf
+    range:
+    - 1.25
+    - 1.35
+    note: Registered nurses, industry survey, US 2025. High end of the range is a judgement, not from the source. Replace with BLS Employer Costs for Employee
+      Compensation if the data workstream extracts it.
   shift_hours:
     value: 8
     unit: hours
     source: assumed
     citation: Placeholder set in Wave 0 so the simulator can run; three 8-hour shifts 07-15, 15-23, 23-07 (many EDs run 12s; simplified)
   absence_rate:
-    value: 0.035
+    value: 0.021
     unit: fraction of scheduled shifts
-    source: assumed
-    citation: Placeholder set in Wave 0 so the simulator can run; placeholder unplanned absence rate
+    source: literature
+    citation: 'BLS Current Population Survey, annual averages 2025, Table 47: Absences from work of employed full-time wage and salary workers by
+      occupation and industry: lost worktime rate, total, for ''Healthcare practitioners and technical occupations'' = 2.1 percent of usual hours'
+    url: https://www.bls.gov/cps/cpsaat47.htm
+    range:
+    - 0.021
+    - 0.040999999999999995
+    note: Published table value, transcribed (bls.gov blocks scripted download; read via a fetch tool twice with matching figures - re-verify in
+      a browser). Lost worktime rate = hours absent / hours usually worked, the closest published analogue of a share of scheduled shifts missed.
+      range upper end = the absence rate of healthcare support occupations (4.1% of workers absent in the reference week; practitioners 3.7%). 2025
+      averages exclude October. Wave 0 placeholder was 0.035.
+    file: data/processed/bls_cps_absences_table47_2025.json
   fatigue_gain_per_busy_hour:
     value: 0.06
     unit: index/hour
@@ -49,13 +132,31 @@ shared:
   fatigue_error_multiplier:
     value: 2.0
     unit: x error rate at fatigue=1
-    source: assumed
-    citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+    source: literature
+    citation: 'Landrigan CP et al. (2004) Effect of reducing interns'' work hours on serious medical errors in intensive care units, N Engl J Med 351:1838-48
+      (randomised; 2,203 patient-days): 35.9% more serious medical errors on the traditional schedule with 24 h+ shifts (136.0 vs 100.1 per 1,000 patient-days),
+      5.6 times as many serious diagnostic errors. Barger LK et al. (2006) PLoS Med 3(12):e487 (2,737 interns, 17,003 monthly reports, self-report): odds ratio
+      3.5 (3.3-3.7) of a fatigue-related significant medical error in months with 1-4 extended shifts and 7.5 with 5 or more.'
+    url: https://doi.org/10.1056/nejmoa041406
+    range:
+    - 1.36
+    - 3.5
+    note: 'Value set inside a loose range: 1.36 is the observed-error ratio from the trial, 3.5 the self-reported odds ratio. Both are interns on 24 h+ shifts,
+      US, 2002-2005; no direct estimate exists for 8-12 h ED shifts. Nurses: Rogers AE et al. (2004) Health Aff 23(4):202-12 found error risk significantly
+      higher past 12 h, with overtime and past 40 h/week (393 nurses, 5,317 shifts; effect size not in the abstract). Second URL: https://doi.org/10.1371/journal.pmed.0030487'
   annual_turnover:
-    value: 0.18
+    value: 0.185
     unit: fraction/year
-    source: assumed
-    citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+    source: literature
+    citation: 'NSI Nursing Solutions, 2026 NSI National Health Care Retention & RN Staffing Report (survey of 527 hospitals in 40 states, calendar year 2025):
+      hospital turnover 18.5% (range 7.6% to 33.1%); RN turnover 17.6%; RN turnover by specialty chart, Emergency about 20.7% in 2025 and 19.1% in 2024; average
+      cost of turnover for one bedside RN $60,090; each 1% change in RN turnover about $295,000/year for the average hospital.'
+    url: https://www.nsinursingsolutions.com/Documents/Library/NSI_National_Health_Care_Retention_Report.pdf
+    range:
+    - 0.076
+    - 0.331
+    note: Value is the all-staff hospital rate because this attribute is shared by every role; use about 0.21 for ED nurses. Industry survey (self-selected
+      respondents), US, 2025. The emergency-specialty figures were read from a chart whose year legend was inferred from the text of the report.
   callin_delay_min:
     value: 60
     unit: minutes
@@ -64,19 +165,31 @@ shared:
   rn_patients_per_nurse_max:
     value: 4
     unit: patients/nurse
-    source: assumed
-    citation: Placeholder set in Wave 0 so the simulator can run; placeholder ED ratio (California regulation is 1:4 ED; NJ has no mandated ratio)
-      - to verify
+    source: literature
+    citation: 'California Code of Regulations, Title 22, section 70217(a)(8): ''The licensed nurse-to-patient ratio in an emergency department shall be 1:4
+      or fewer at all times''; 1:2 or fewer for critical care patients in the ED; minimum 1:1 registered nurse for critical trauma patients; at least two licensed
+      nurses present when a patient is present, one RN assigned to triage. Other units in the same section: critical care 1:2, step-down 1:3, telemetry 1:4,
+      medical/surgical 1:5.'
+    url: https://www.law.cornell.edu/regulations/california/Cal-Code-Regs-Tit-22-SS-70217
+    range:
+    - 1
+    - 4
+    note: 'Regulation, not a measurement. California is the enforced precedent. New Jersey: no ED ratio of this kind is in force; Assembly bill A1974 (''Patient
+      Protection and Safe Staffing Act'', pre-filed for introduction in the 2026 session, https://pub.njleg.state.nj.us/Bills/2026/A2000/1974_I1.PDF) would require 1 RN : 4 ED patients,
+      1:2 ED critical care, 1:1 ED trauma; it is a bill, not law. Range low end 1 = trauma, 2 = critical care.'
   provider_levels:
     value:
-    - 3
-    - 5
-    - 7
-    - 9
-    - 11
+    - 4
+    - 6
+    - 8
+    - 10
+    - 12
     unit: providers on shift
     source: assumed
-    citation: Placeholder set in Wave 0 so the simulator can run; action levels lvl0..lvl4 for md_* heads (day); evening/night scale 1.0/0.6
+    citation: Action levels lvl0..lvl4 for the md_* heads, same mapping for every shift. Calibrated by sim/ (see sim/BASELINE.md) - with the
+      Wave 0 placeholder 3/5/7/9/11 the default roster (lvl2) gave median discharged ED time 250 min and LWBS 2.3 percent; 4/6/8/10/12
+      gives 185 min and 1.4 percent, closer to this hospital's CMS-reported 206 min and 1 percent
+    note: Assumed calibration, not a roster of the real hospital.
     index: level
   rn_levels:
     value:
@@ -94,10 +207,15 @@ variants:
     label: Emergency medicine attending
     attributes:
       wage_per_hour:
-        value: 165
+        value: 151.6
         unit: usd/hour
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder until BLS OEWS NJ extract
+        source: measured
+        citation: BLS Occupational Employment and Wage Statistics, May 2025 estimates, New Jersey statewide, all industries (BLS public API series OEUS3400000000000<SOC><datatype>);
+          SOC 29-1214 Emergency Medicine Physicians, hourly MEDIAN
+        url: https://www.bls.gov/oes/
+        file: data/processed/bls_oews_staff_wages.csv
+        note: 'Median, not mean: the distribution is bimodal (25th percentile 38.18, 75th 184.28, mean 126.00), which suggests trainees are coded in
+          the same occupation. New York-Newark-Jersey City metro median: 139.15. Base wage only; benefits are applied through staff.shared.benefits_load.'
       productivity:
         value: 1.0
         unit: relative to attending/RN
@@ -105,15 +223,35 @@ variants:
         citation: Placeholder set in Wave 0 so the simulator can run; placeholder
       patients_per_hour_by_acuity:
         value:
-        - 0.5
-        - 0.9
-        - 1.6
-        - 2.6
-        - 3.2
+        - 0.8
+        - 1.2
+        - 1.9
+        - 3.3
+        - 5.0
         unit: new patients/hour
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+        source: literature
+        citation: 'Wrede J, Wrede H, Behringer W (2020) Emergency Department Mean Physician Time per Patient and Workload Predictors ED-MPTPP, J Clin Med 9(11):3725,
+          Table 1: mean (SD) physician minutes per patient 76 (42) for ESI 1+2 (n=45), 48 (27) for ESI 3 (n=93), 27 (15) for ESI 4 (n=43), 18 (11) for ESI 5 (n=21);
+          31 (16) for fully trained specialists vs 47 (34) overall. Values = 60 / (minutes x 31/47) for ESI 2-5, and 60/76 for ESI 1. Cross-check: Joseph JW et
+          al. (2018) Emerg Med J 35(5):317-22: attendings saw 13.2 to 20.9 patients per 8-9 h shift (about 1.6 to 2.3 per hour), 2.17 to 2.97 new patients in the
+          first hour.'
+        url: https://doi.org/10.3390/jcm9113725
         index: acuity_1_to_5
+        range:
+        - - 0.5
+          - 1.2
+        - - 0.8
+          - 1.3
+        - - 1.25
+          - 2.0
+        - - 2.2
+          - 3.4
+        - - 3.3
+          - 5.0
+        note: 'DERIVED by the research agent. One German university ED, 202 observed patients, 32 physicians; ESI 1 and 2 were pooled in the source (only 2 ESI
+          1 patients). Low end of each range = all physicians including trainees, high end = specialists. These are capacity rates if a physician did nothing else;
+          with the catalog acuity mix they average about 2.0 patients/hour, matching the US shift averages in Joseph et al. Per-patient time CV is 0.55-0.61 at
+          every level, which supports the lognormal cv of 0.6 on provider_initial_min. Second URL: https://doi.org/10.1136/emermed-2017-207194'
   resident:
     label: Emergency medicine resident
     attributes:
@@ -123,31 +261,58 @@ variants:
         source: assumed
         citation: Placeholder set in Wave 0 so the simulator can run; placeholder until BLS OEWS NJ extract
       productivity:
-        value: 0.65
+        value: 0.6
         unit: relative to attending/RN
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+        source: literature
+        citation: 'Joseph JW et al. (2017) Modeling Hourly Resident Productivity in the Emergency Department, Ann Emerg Med 70(2):185-190.e6 (abstract): 75 residents,
+          14,364 shifts of 8-9 h, mean 10.1 patients per shift (SD 3.2), 2.14 in the first hour. Shaw DL et al. (2024) AEM Educ Train 8(1):e10935: 2,950 shifts,
+          PGY-1 0.88-0.96 and PGY-2 1.61-1.75 patients per hour. Hamden K et al. (2014) Emerg Med J 31(3):216-219: residents 1.23 patients/hour in a high-acuity
+          area. Divided by the attending shift average of about 2.0 patients/hour (Joseph JW et al. 2018, Emerg Med J 35(5):317-322: 13.2-20.9 per 8-9 h shift).'
+        url: https://doi.org/10.1016/j.annemergmed.2016.11.020
+        range:
+        - 0.45
+        - 0.85
+        note: DERIVED ratio across different hospitals (resident figures from US academic EDs, attending figures from community EDs), so approximate. Low end =
+          first-year residents (0.92/2.0), high end = second-year (1.7/2.0). Residents also need attending supervision time, which this ratio does not capture.
   app:
     label: Nurse practitioner / PA
     attributes:
       wage_per_hour:
-        value: 65
+        value: 76.41
         unit: usd/hour
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder until BLS OEWS NJ extract
+        source: measured
+        citation: BLS Occupational Employment and Wage Statistics, May 2025 estimates, New Jersey statewide, all industries (BLS public API series OEUS3400000000000<SOC><datatype>);
+          unweighted mean of SOC 29-1171 Nurse Practitioners (74.88) and SOC 29-1071 Physician Assistants (77.93), hourly mean
+        url: https://www.bls.gov/oes/
+        file: data/processed/bls_oews_staff_wages.csv
+        note: 'All specialties, not ED-specific. New York-Newark-Jersey City metro mean: 78.18.'
       productivity:
-        value: 0.8
+        value: 0.78
         unit: relative to attending/RN
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+        source: literature
+        citation: 'Hamden K, Jeanmonod D, Gualtieri D, Jeanmonod R (2014) Comparison of resident and mid-level provider productivity in a high-acuity emergency
+          department setting, Emerg Med J 31(3):216-219 (abstract): mid-level providers saw 1.56 patients/hour (CI +/-0.14) vs residents 1.23 (55 and 98 shifts)
+          but generated fewer relative value units per patient (2.05 vs 2.73). Divided by the attending shift average of about 2.0 patients/hour (Joseph JW et al.
+          2018, Emerg Med J 35(5):317-322).'
+        url: https://doi.org/10.1136/emermed-2012-201904
+        range:
+        - 0.7
+        - 1.1
+        note: 'DERIVED ratio across different hospitals, one small single-site study. High end: in a paediatric ED, attending-plus-nurse-practitioner pods saw 2.18
+          patients/hour against 1.90 for attending-plus-resident pods (McDonnell WM et al. 2015, Pediatr Emerg Care 31(2):101-106). Lower relative value units per
+          patient suggest a lighter case mix, so the value overstates capacity on high-acuity patients.'
   rn:
     label: Registered nurse
     attributes:
       wage_per_hour:
-        value: 48
+        value: 52.93
         unit: usd/hour
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder until BLS OEWS NJ extract
+        source: measured
+        citation: BLS Occupational Employment and Wage Statistics, May 2025 estimates, New Jersey statewide, all industries (BLS public API series OEUS3400000000000<SOC><datatype>);
+          SOC 29-1141 Registered Nurses, hourly mean
+        url: https://www.bls.gov/oes/
+        file: data/processed/bls_oews_staff_wages.csv
+        note: 'All settings, not ED-specific. New York-Newark-Jersey City metro mean: 57.50.'
       productivity:
         value: 1.0
         unit: relative to attending/RN
@@ -157,10 +322,15 @@ variants:
     label: Charge nurse
     attributes:
       wage_per_hour:
-        value: 55
+        value: 61.41
         unit: usd/hour
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder until BLS OEWS NJ extract
+        source: measured
+        citation: BLS Occupational Employment and Wage Statistics, May 2025 estimates, New Jersey statewide, all industries (BLS public API series OEUS3400000000000<SOC><datatype>);
+          SOC 29-1141 Registered Nurses, hourly 75th percentile
+        url: https://www.bls.gov/oes/
+        file: data/processed/bls_oews_staff_wages.csv
+        note: 'There is no charge-nurse occupation code; the RN 75th percentile is used as a proxy for a senior nurse (a mapping assumption). New York-Newark-Jersey
+          City metro p75: 64.05.'
       productivity:
         value: 1.0
         unit: relative to attending/RN
@@ -170,10 +340,15 @@ variants:
     label: ED technician
     attributes:
       wage_per_hour:
-        value: 22
+        value: 24.54
         unit: usd/hour
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder until BLS OEWS NJ extract
+        source: measured
+        citation: BLS Occupational Employment and Wage Statistics, May 2025 estimates, New Jersey statewide, all industries (BLS public API series OEUS3400000000000<SOC><datatype>);
+          unweighted mean of SOC 29-2042 Emergency Medical Technicians (26.58) and SOC 31-1131 Nursing Assistants (22.50), hourly mean
+        url: https://www.bls.gov/oes/
+        file: data/processed/bls_oews_staff_wages.csv
+        note: 'There is no ED-technician occupation code; hospitals fill the role with EMT-certified or nursing-assistant staff. New York-Newark-Jersey
+          City metro mean: 27.36.'
       productivity:
         value: 1.0
         unit: relative to attending/RN
@@ -183,10 +358,14 @@ variants:
     label: Registration clerk
     attributes:
       wage_per_hour:
-        value: 21
+        value: 23.47
         unit: usd/hour
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder until BLS OEWS NJ extract
+        source: measured
+        citation: BLS Occupational Employment and Wage Statistics, May 2025 estimates, New Jersey statewide, all industries (BLS public API series OEUS3400000000000<SOC><datatype>);
+          SOC 43-4111 Interviewers, Except Eligibility and Loan (the code that covers hospital admitting / registration interviewers), hourly mean
+        url: https://www.bls.gov/oes/
+        file: data/processed/bls_oews_staff_wages.csv
+        note: 'New York-Newark-Jersey City metro mean: 27.03.'
       productivity:
         value: 1.0
         unit: relative to attending/RN
@@ -196,10 +375,14 @@ variants:
     label: Pharmacist
     attributes:
       wage_per_hour:
-        value: 68
+        value: 67.96
         unit: usd/hour
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder until BLS OEWS NJ extract
+        source: measured
+        citation: BLS Occupational Employment and Wage Statistics, May 2025 estimates, New Jersey statewide, all industries (BLS public API series OEUS3400000000000<SOC><datatype>);
+          SOC 29-1051 Pharmacists, hourly mean
+        url: https://www.bls.gov/oes/
+        file: data/processed/bls_oews_staff_wages.csv
+        note: 'New York-Newark-Jersey City metro mean: 68.47.'
       productivity:
         value: 1.0
         unit: relative to attending/RN
@@ -209,10 +392,14 @@ variants:
     label: Imaging technologist
     attributes:
       wage_per_hour:
-        value: 40
+        value: 44.83
         unit: usd/hour
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder until BLS OEWS NJ extract
+        source: measured
+        citation: BLS Occupational Employment and Wage Statistics, May 2025 estimates, New Jersey statewide, all industries (BLS public API series OEUS3400000000000<SOC><datatype>);
+          SOC 29-2034 Radiologic Technologists and Technicians, hourly mean
+        url: https://www.bls.gov/oes/
+        file: data/processed/bls_oews_staff_wages.csv
+        note: 'CT/MRI technologists (SOC 29-2035) earn more; not fetched. New York-Newark-Jersey City metro mean: 49.81.'
       productivity:
         value: 1.0
         unit: relative to attending/RN
@@ -222,10 +409,14 @@ variants:
     label: Transporter
     attributes:
       wage_per_hour:
-        value: 18
+        value: 19.28
         unit: usd/hour
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder until BLS OEWS NJ extract
+        source: measured
+        citation: BLS Occupational Employment and Wage Statistics, May 2025 estimates, New Jersey statewide, all industries (BLS public API series OEUS3400000000000<SOC><datatype>);
+          SOC 31-1132 Orderlies, hourly mean
+        url: https://www.bls.gov/oes/
+        file: data/processed/bls_oews_staff_wages.csv
+        note: 'New York-Newark-Jersey City metro mean: 22.26.'
       productivity:
         value: 1.0
         unit: relative to attending/RN
@@ -235,10 +426,14 @@ variants:
     label: Environmental services
     attributes:
       wage_per_hour:
-        value: 18
+        value: 19.57
         unit: usd/hour
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder until BLS OEWS NJ extract
+        source: measured
+        citation: BLS Occupational Employment and Wage Statistics, May 2025 estimates, New Jersey statewide, all industries (BLS public API series OEUS3400000000000<SOC><datatype>);
+          SOC 37-2011 Janitors and Cleaners, Except Maids and Housekeeping Cleaners, hourly mean
+        url: https://www.bls.gov/oes/
+        file: data/processed/bls_oews_staff_wages.csv
+        note: 'All industries. New York-Newark-Jersey City metro mean: 21.88.'
       productivity:
         value: 1.0
         unit: relative to attending/RN

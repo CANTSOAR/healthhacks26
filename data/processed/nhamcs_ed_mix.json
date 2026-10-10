@@ -1,0 +1,254 @@
+{
+ "source": {
+  "dataset": "CDC/NCHS National Hospital Ambulatory Medical Care Survey, Emergency Department public-use files",
+  "years_pooled": [
+   2019,
+   2021,
+   2022
+  ],
+  "url": "https://ftp.cdc.gov/pub/Health_Statistics/NCHS/dataset_documentation/nhamcs/stata/",
+  "weights": "PATWT (patient visit weight)",
+  "subsets": {
+   "all_hospitals": "every sampled visit",
+   "metro_teaching": "MSA==1 (metropolitan) and EMEDRES==1 (hospital has an emergency medicine residency)"
+  },
+  "records_per_year": {
+   "2019": 19481,
+   "2021": 16207,
+   "2022": 16025
+  }
+ },
+ "condition_mapping": {
+  "mental_health_substance": "psychological/mental symptoms 1100-1199; mental disorders 2300-2349; self-harm, suicide attempt, intentional overdose 5818-5829; adverse effect of drug abuse / alcohol 5910-5916",
+  "chest_pain": "chest pain and related symptoms 1050; palpitations, heart pain, other heart symptoms 1260-1274",
+  "respiratory": "respiratory symptoms 1400-1499 (cough, shortness of breath, throat); respiratory diseases 2600-2649",
+  "abdominal_pain": "digestive symptoms 1500-1639 (abdominal pain 1545, nausea, vomiting, diarrhea); digestive diseases 2650-2699",
+  "neuro": "nervous-system symptoms 1200-1259 (headache, dizziness, convulsions); nervous-system diseases 2350-2399; syncope 1030; unconscious / altered consciousness 5840-5842",
+  "infection_fever": "chills, fever, temperature symptoms 1005-1012; infective and parasitic diseases 2001-2099; SIRS/sepsis 5935",
+  "injury_trauma": "injury by type/location 5001-5799; late effects, motor vehicle accident, accident NOS, violence 5800-5817; rape 5830",
+  "musculoskeletal": "musculoskeletal symptoms 1900-1999 (back, neck, limb pain); musculoskeletal diseases 2900-2949",
+  "other_medical": "all other RFV codes and blank"
+ },
+ "condition_mapping_variable": "RFV13D (first-listed reason for visit, NCHS Reason for Visit Classification, 4-digit broader category)",
+ "payer_mapping": "PAYTYPER 1 private->commercial, 2->medicare, 3 Medicaid/CHIP->medicaid, 5 self-pay + 6 no charge/charity->self_pay, 4 workers comp + 7 other->other; unknown/blank excluded",
+ "arrival_mode_mapping": "ARREMS==1 and AMBTRANSFER!=1 -> ambulance; ARREMS==1 and AMBTRANSFER==1 (transferred from another hospital/urgent care) -> transfer; ARREMS==2 -> walk_in; unknown excluded",
+ "all_hospitals": {
+  "n_unweighted": 51713,
+  "n_hospitals_year_pairs": 584,
+  "weighted_visits_per_year": 148609664,
+  "triage_item_raw_share": {
+   "-9": 0.0399,
+   "-8": 0.1987,
+   "0": 0.0307,
+   "1": 0.0156,
+   "2": 0.0999,
+   "3": 0.345,
+   "4": 0.1966,
+   "5": 0.0232,
+   "7": 0.0504
+  },
+  "triage_share_with_level_1_to_5": 0.6802,
+  "acuity_mix_among_triaged": [
+   0.02286,
+   0.14692,
+   0.5071,
+   0.28895,
+   0.03416
+  ],
+  "acuity_n_unweighted": [
+   566,
+   5118,
+   17650,
+   9675,
+   1288
+  ],
+  "condition_mix": {
+   "chest_pain": 0.06195,
+   "respiratory": 0.13473,
+   "abdominal_pain": 0.1555,
+   "injury_trauma": 0.1145,
+   "neuro": 0.07939,
+   "infection_fever": 0.04169,
+   "mental_health_substance": 0.04729,
+   "musculoskeletal": 0.1254,
+   "other_medical": 0.23954
+  },
+  "condition_n_unweighted": {
+   "chest_pain": 3006,
+   "respiratory": 6605,
+   "abdominal_pain": 7885,
+   "injury_trauma": 6013,
+   "neuro": 4005,
+   "infection_fever": 2110,
+   "mental_health_substance": 2877,
+   "musculoskeletal": 6464,
+   "other_medical": 12748
+  },
+  "arrival_mode_mix": {
+   "walk_in": 0.82873,
+   "ambulance": 0.16179,
+   "transfer": 0.00948
+  },
+  "arrival_mode_unknown_share": 0.0255,
+  "ambulance_share_by_acuity": [
+   0.3678,
+   0.3557,
+   0.1814,
+   0.0605,
+   0.0809
+  ],
+  "age_band_mix": {
+   "age_0_17": 0.21373,
+   "age_18_44": 0.36226,
+   "age_45_64": 0.22709,
+   "age_65_plus": 0.19692
+  },
+  "payer_mix": {
+   "medicare": 0.23079,
+   "medicaid": 0.38658,
+   "commercial": 0.26973,
+   "self_pay": 0.08015,
+   "other": 0.03275
+  },
+  "payer_unknown_share": 0.1075,
+  "p_lwbs": 0.0161,
+  "p_left_before_complete_or_ama": 0.0207,
+  "p_admit_all_visits": 0.1189,
+  "provider_seen_share": {
+   "attending": 0.8365,
+   "resident_intern": 0.117,
+   "nurse_practitioner": 0.1077,
+   "physician_assistant": 0.1743
+  }
+ },
+ "metro_teaching": {
+  "n_unweighted": 19992,
+  "n_hospitals_year_pairs": 219,
+  "weighted_visits_per_year": 46356228,
+  "triage_item_raw_share": {
+   "-9": 0.0463,
+   "-8": 0.2215,
+   "0": 0.0242,
+   "1": 0.0146,
+   "2": 0.118,
+   "3": 0.3367,
+   "4": 0.1901,
+   "5": 0.0271,
+   "7": 0.0216
+  },
+  "triage_share_with_level_1_to_5": 0.6865,
+  "acuity_mix_among_triaged": [
+   0.02125,
+   0.17184,
+   0.49054,
+   0.27693,
+   0.03943
+  ],
+  "acuity_n_unweighted": [
+   270,
+   2326,
+   6762,
+   3479,
+   516
+  ],
+  "condition_mix": {
+   "chest_pain": 0.05865,
+   "respiratory": 0.13524,
+   "abdominal_pain": 0.15356,
+   "injury_trauma": 0.1159,
+   "neuro": 0.073,
+   "infection_fever": 0.0502,
+   "mental_health_substance": 0.05335,
+   "musculoskeletal": 0.11535,
+   "other_medical": 0.24475
+  },
+  "condition_n_unweighted": {
+   "chest_pain": 1059,
+   "respiratory": 2474,
+   "abdominal_pain": 2898,
+   "injury_trauma": 2202,
+   "neuro": 1443,
+   "infection_fever": 929,
+   "mental_health_substance": 1368,
+   "musculoskeletal": 2289,
+   "other_medical": 5330
+  },
+  "arrival_mode_mix": {
+   "walk_in": 0.80964,
+   "ambulance": 0.17747,
+   "transfer": 0.01289
+  },
+  "arrival_mode_unknown_share": 0.0322,
+  "ambulance_share_by_acuity": [
+   0.569,
+   0.3694,
+   0.195,
+   0.0803,
+   0.0778
+  ],
+  "age_band_mix": {
+   "age_0_17": 0.29826,
+   "age_18_44": 0.33999,
+   "age_45_64": 0.20303,
+   "age_65_plus": 0.15871
+  },
+  "payer_mix": {
+   "medicare": 0.18181,
+   "medicaid": 0.46904,
+   "commercial": 0.26967,
+   "self_pay": 0.05552,
+   "other": 0.02396
+  },
+  "payer_unknown_share": 0.1127,
+  "p_lwbs": 0.019,
+  "p_left_before_complete_or_ama": 0.0216,
+  "p_admit_all_visits": 0.1379,
+  "provider_seen_share": {
+   "attending": 0.8237,
+   "resident_intern": 0.3136,
+   "nurse_practitioner": 0.0951,
+   "physician_assistant": 0.1666
+  }
+ },
+ "by_year_all_hospitals": {
+  "2019": {
+   "weighted_visits_per_year": 50216596,
+   "triage_share_with_level_1_to_5": 0.6999,
+   "acuity_mix_among_triaged": [
+    0.01218,
+    0.13677,
+    0.50934,
+    0.3026,
+    0.03911
+   ],
+   "p_lwbs": 0.0126,
+   "p_admit_all_visits": 0.1123
+  },
+  "2021": {
+   "weighted_visits_per_year": 46593820,
+   "triage_share_with_level_1_to_5": 0.689,
+   "acuity_mix_among_triaged": [
+    0.04287,
+    0.15037,
+    0.5044,
+    0.26611,
+    0.03625
+   ],
+   "p_lwbs": 0.0166,
+   "p_admit_all_visits": 0.131
+  },
+  "2022": {
+   "weighted_visits_per_year": 51799248,
+   "triage_share_with_level_1_to_5": 0.6533,
+   "acuity_mix_among_triaged": [
+    0.01499,
+    0.15419,
+    0.50735,
+    0.29642,
+    0.02705
+   ],
+   "p_lwbs": 0.0189,
+   "p_admit_all_visits": 0.1146
+  }
+ }
+}

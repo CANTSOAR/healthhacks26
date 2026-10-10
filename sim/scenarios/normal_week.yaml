@@ -1,0 +1,6 @@
+id: normal_week
+label: Normal week
+description: Baseline demand and staffing from the catalog, no special events. Random call-outs and equipment failures at their catalog rates.
+hospital_id: rwjuh_nb
+days_default: 7
+events: []

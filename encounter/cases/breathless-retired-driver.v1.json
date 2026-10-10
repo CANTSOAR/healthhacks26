@@ -1,0 +1,884 @@
+{
+  "schema_version": 1,
+  "case_id": "breathless-retired-driver",
+  "version": 1,
+  "status": "published",
+  "title": "Breathlessness in a 68-year-old retired bus driver",
+  "origin": {
+    "kind": "authored"
+  },
+  "review": {
+    "author": "HospitalGym overnight build (AI-drafted)",
+    "needs_faculty_review": true,
+    "synthetic": true
+  },
+  "intended_learner": "Medical students and first-year emergency medicine residents",
+  "learner_role": "Emergency medicine resident",
+  "setting": "Emergency department treatment bay",
+  "rubric_id": "default",
+  "unknown_response": "I'm not sure. I can't really tell you anything about that.",
+  "prebrief": "You are the emergency medicine resident. Leonard Asante, 68, has been brought in by his daughter with worsening breathlessness. Triage has started oxygen. Take a history, request the examination and tests you need, find out why he has got worse, and decide on a disposition.",
+  "profile": {
+    "name": "Leonard Asante",
+    "age": 68,
+    "gender": "male",
+    "race_ethnicity": "Black",
+    "background": "Retired city bus driver, widowed 14 months ago, lives alone on the second floor.",
+    "personality": "Dignified, private, dry sense of humour; embarrassed by anything to do with the bathroom.",
+    "speech_style": "Unhurried, short of breath, pauses between phrases. Understates."
+  },
+  "faculty_truth": {
+    "diagnosis": "Acute decompensated heart failure precipitated by stopping furosemide, anti-inflammatory painkiller use and high salt intake",
+    "differential": [
+      "Decompensated heart failure",
+      "Pneumonia",
+      "Acute coronary syndrome",
+      "Pulmonary embolism",
+      "Worsening kidney function"
+    ],
+    "teaching_points": [
+      "Finding the reason for a decompensation (medicines stopped, new medicines, diet) is as important as recognising it.",
+      "A dispensing record can show a gap the patient is embarrassed to admit; raise it kindly and ask what got in the way.",
+      "Over-the-counter anti-inflammatory painkillers are a common, easily missed precipitant.",
+      "Bereavement and low mood undermine self-care routines such as daily weights."
+    ],
+    "expected_disposition": "admit",
+    "expected_orders": [
+      "exam:lungs",
+      "order:bnp",
+      "order:chest_xray",
+      "order:bmp",
+      "order:medication_list"
+    ],
+    "severity": 0.75,
+    "acuity": 2
+  },
+  "facts": [
+    {
+      "fact_id": "f.chief_complaint.breathlessness",
+      "category": "chief_complaint",
+      "statement": "Worsening shortness of breath over two weeks, much worse for three days",
+      "patient_knows": true,
+      "disclosure": {
+        "rule": "volunteered"
+      },
+      "topics": [
+        "chief_complaint",
+        "sob"
+      ],
+      "patient_answer": "I can't get my breath. It's been building for a couple of weeks, and the last three days it's been bad.",
+      "critical": true,
+      "polarity": "positive"
+    },
+    {
+      "fact_id": "f.hpi.exertion",
+      "category": "hpi",
+      "statement": "Used to walk four blocks to the shop; now stops after half a block and after one flight of stairs",
+      "patient_knows": true,
+      "disclosure": {
+        "rule": "if_asked"
+      },
+      "topics": [
+        "exercise",
+        "aggravating",
+        "how far can you walk",
+        "severity",
+        "onset",
+        "duration"
+      ],
+      "patient_answer": "I used to walk four blocks to the store without thinking. Now I stop after half a block. One flight of stairs and I'm done.",
+      "critical": true
+    },
+    {
+      "fact_id": "f.hpi.orthopnea",
+      "category": "hpi",
+      "statement": "Sleeps propped on three pillows; wakes at night gasping and has to sit on the edge of the bed",
+      "patient_knows": true,
+      "disclosure": {
+        "rule": "if_asked"
+      },
+      "topics": [
+        "orthopnea",
+        "sleep"
+      ],
+      "patient_answer": "I'm sleeping on three pillows now. A couple of nights I woke up gasping and had to sit on the edge of the bed.",
+      "critical": true,
+      "polarity": "positive"
+    },
+    {
+      "fact_id": "f.hpi.swelling_weight",
+      "category": "hpi",
+      "statement": "Both ankles swollen for a week, shoes tight; gained about 4 kg in two weeks",
+      "patient_knows": true,
+      "disclosure": {
+        "rule": "if_asked"
+      },
+      "topics": [
+        "swelling",
+        "weight_change"
+      ],
+      "patient_answer": "Both ankles are swollen. My shoes are tight. The bathroom scale says I'm up about four kilos in two weeks.",
+      "critical": true,
+      "polarity": "positive"
+    },
+    {
+      "fact_id": "f.hpi.cough",
+      "category": "hpi",
+      "statement": "Dry cough at night; no fever; no coloured sputum or blood",
+      "patient_knows": true,
+      "disclosure": {
+        "rule": "if_asked"
+      },
+      "topics": [
+        "cough",
+        "fever"
+      ],
+      "patient_answer": "A dry cough at night. No fever. Nothing coming up, no blood."
+    },
+    {
+      "fact_id": "f.ros.chest_pain",
+      "category": "ros",
+      "statement": "No chest pain, palpitations or fainting",
+      "patient_knows": true,
+      "disclosure": {
+        "rule": "if_asked"
+      },
+      "topics": [
+        "pain_chest",
+        "palpitations",
+        "syncope",
+        "dizziness"
+      ],
+      "patient_answer": "No chest pain. No racing heart. I haven't passed out.",
+      "polarity": "negative"
+    },
+    {
+      "fact_id": "f.hpi.appetite",
+      "category": "hpi",
+      "statement": "Reduced appetite, feels full after a few bites",
+      "patient_knows": true,
+      "disclosure": {
+        "rule": "if_asked"
+      },
+      "topics": [
+        "appetite",
+        "nausea_vomiting"
+      ],
+      "patient_answer": "I'm not eating much. A few bites and I feel full."
+    },
+    {
+      "fact_id": "f.pmh.heart_failure",
+      "category": "pmh",
+      "statement": "Heart failure diagnosed three years ago after a heart attack; one admission for fluid overload last winter",
+      "patient_knows": true,
+      "disclosure": {
+        "rule": "if_asked"
+      },
+      "topics": [
+        "pmh",
+        "heart_disease",
+        "hospitalizations"
+      ],
+      "patient_answer": "I had a heart attack three years ago and they told me my heart was weak after it. I was in hospital last winter with fluid on my lungs.",
+      "critical": true,
+      "polarity": "positive"
+    },
+    {
+      "fact_id": "f.pmh.other",
+      "category": "pmh",
+      "statement": "High blood pressure for 15 years; type 2 diabetes for 8 years; no lung disease",
+      "patient_knows": true,
+      "disclosure": {
+        "rule": "if_asked"
+      },
+      "topics": [
+        "hypertension",
+        "diabetes",
+        "lung_disease"
+      ],
+      "patient_answer": "High blood pressure for about fifteen years. Diabetes for eight. My lungs have always been fine.",
+      "polarity": "positive"
+    },
+    {
+      "fact_id": "f.medications.list",
+      "category": "medications",
+      "statement": "Prescribed furosemide 40 mg each morning, lisinopril 10 mg, metoprolol succinate 50 mg, metformin 500 mg twice daily, atorvastatin 40 mg",
+      "patient_knows": true,
+      "disclosure": {
+        "rule": "if_asked"
+      },
+      "topics": [
+        "medications"
+      ],
+      "patient_answer": "I'm on a water pill, furosemide. Lisinopril, metoprolol, metformin twice a day, and a cholesterol pill, atorvastatin.",
+      "critical": true
+    },
+    {
+      "fact_id": "f.medications.otc",
+      "category": "medications",
+      "statement": "Has taken naproxen twice a day for two weeks for knee pain",
+      "patient_knows": true,
+      "disclosure": {
+        "rule": "if_asked"
+      },
+      "topics": [
+        "over the counter",
+        "painkillers",
+        "pain relievers",
+        "naproxen",
+        "anything for pain",
+        "pain_joint"
+      ],
+      "patient_answer": "I've been taking naproxen for my knee. Twice a day, for a couple of weeks now.",
+      "critical": true,
+      "polarity": "positive"
+    },
+    {
+      "fact_id": "f.allergies.nkda",
+      "category": "allergies",
+      "statement": "No known drug allergies",
+      "patient_knows": true,
+      "disclosure": {
+        "rule": "if_asked"
+      },
+      "topics": [
+        "allergies"
+      ],
+      "patient_answer": "No allergies.",
+      "polarity": "negative",
+      "value": "NKDA"
+    },
+    {
+      "fact_id": "f.concealed.stopped_diuretic",
+      "category": "concealed",
+      "statement": "Stopped furosemide about three weeks ago: it made him get up to urinate several times a night and he had an accident on the bus; he has not collected a refill",
+      "patient_knows": true,
+      "disclosure": {
+        "rule": "denied_until_confronted",
+        "confront_with": [
+          "art.pharmacy_record"
+        ]
+      },
+      "topics": [
+        "adherence",
+        "water pill",
+        "furosemide",
+        "are you taking your medicines",
+        "stopped any",
+        "pharmacy",
+        "refill"
+      ],
+      "patient_answer": "All right. I stopped the water pill about three weeks ago. I was up all night to the bathroom, and I had an accident on the bus. I was too embarrassed to say. I haven't picked up the refill.",
+      "critical": true,
+      "polarity": "positive",
+      "cover_answer": "I take my pills every morning, same as always.",
+      "chart_section": "medications"
+    },
+    {
+      "fact_id": "f.social.diet",
+      "category": "social",
+      "statement": "Eats canned soup and deli meat most days since his wife died; does not limit salt or fluids",
+      "patient_knows": true,
+      "disclosure": {
+        "rule": "if_asked"
+      },
+      "topics": [
+        "diet"
+      ],
+      "patient_answer": "Since my wife passed I mostly eat canned soup and sandwiches with deli meat. I don't watch the salt, no.",
+      "critical": true,
+      "polarity": "positive"
+    },
+    {
+      "fact_id": "f.social.living",
+      "category": "social",
+      "statement": "Widowed 14 months ago; lives alone in a second-floor apartment; daughter visits on Sundays",
+      "patient_knows": true,
+      "disclosure": {
+        "rule": "if_asked"
+      },
+      "topics": [
+        "living_situation"
+      ],
+      "patient_answer": "My wife died fourteen months ago. I live on my own, second floor. My daughter comes by on Sundays."
+    },
+    {
+      "fact_id": "f.social.occupation",
+      "category": "social",
+      "statement": "Retired city bus driver",
+      "patient_knows": true,
+      "disclosure": {
+        "rule": "if_asked"
+      },
+      "topics": [
+        "occupation"
+      ],
+      "patient_answer": "I drove a city bus for thirty-one years. Retired now."
+    },
+    {
+      "fact_id": "f.social.smoking_alcohol",
+      "category": "social",
+      "statement": "Stopped smoking 12 years ago (30 pack-years); one beer on Sundays",
+      "patient_knows": true,
+      "disclosure": {
+        "rule": "if_asked"
+      },
+      "topics": [
+        "smoking",
+        "alcohol",
+        "drugs"
+      ],
+      "patient_answer": "I quit smoking twelve years ago. I smoked a pack a day for thirty years before that. One beer on a Sunday."
+    },
+    {
+      "fact_id": "f.concealed.low_mood",
+      "category": "concealed",
+      "statement": "Low mood and poor motivation since his wife's death; has stopped weighing himself and going to the seniors' club",
+      "patient_knows": true,
+      "disclosure": {
+        "rule": "after_rapport",
+        "rapport_needed": 5
+      },
+      "topics": [
+        "mood",
+        "patient_concerns",
+        "how are you coping"
+      ],
+      "patient_answer": "Since she died I don't see much point in the routines. I stopped weighing myself, stopped going to the club. Some days I don't get dressed.",
+      "cover_answer": "I get by.",
+      "chart_section": "social"
+    },
+    {
+      "fact_id": "f.family.history",
+      "category": "family",
+      "statement": "Father died of a heart attack at 70; brother has diabetes",
+      "patient_knows": true,
+      "disclosure": {
+        "rule": "if_asked"
+      },
+      "topics": [
+        "family_history"
+      ],
+      "patient_answer": "My father died of a heart attack at seventy. My brother has diabetes."
+    },
+    {
+      "fact_id": "f.vitals.spo2",
+      "category": "vitals",
+      "statement": "SpO2 91% on room air",
+      "patient_knows": false,
+      "disclosure": {
+        "rule": "chart_initial"
+      },
+      "topics": [
+        "oxygen"
+      ],
+      "value": 91,
+      "unit": "%",
+      "label": "SpO2",
+      "chart_section": "vitals"
+    },
+    {
+      "fact_id": "f.vitals.blood_pressure",
+      "category": "vitals",
+      "statement": "Blood pressure 154/92 mmHg",
+      "patient_knows": false,
+      "disclosure": {
+        "rule": "chart_initial"
+      },
+      "topics": [
+        "blood pressure"
+      ],
+      "value": "154/92",
+      "unit": "mmHg",
+      "label": "Blood pressure",
+      "chart_section": "vitals",
+      "source_ids": [
+        "medlineplus_vitals"
+      ]
+    },
+    {
+      "fact_id": "f.vitals.other",
+      "category": "vitals",
+      "statement": "Heart rate 96 beats/min, respiratory rate 24/min, temperature 36.8 C, weight 94 kg (90 kg at clinic two months ago)",
+      "patient_knows": false,
+      "disclosure": {
+        "rule": "chart_initial"
+      },
+      "topics": [
+        "heart rate",
+        "weight"
+      ],
+      "chart_section": "vitals",
+      "source_ids": [
+        "medlineplus_vitals"
+      ]
+    },
+    {
+      "fact_id": "f.exam.lungs",
+      "category": "exam",
+      "statement": "Crackles at both lung bases to the mid zones; speaks in short sentences",
+      "patient_knows": false,
+      "disclosure": {
+        "rule": "on_request",
+        "request": "exam:lungs"
+      },
+      "topics": [
+        "lung sounds"
+      ],
+      "critical": true,
+      "chart_section": "exam"
+    },
+    {
+      "fact_id": "f.exam.cardiac",
+      "category": "exam",
+      "statement": "Raised jugular venous pressure; third heart sound; no murmur",
+      "patient_knows": false,
+      "disclosure": {
+        "rule": "on_request",
+        "request": "exam:cardiac"
+      },
+      "topics": [
+        "heart sounds"
+      ],
+      "chart_section": "exam"
+    },
+    {
+      "fact_id": "f.exam.extremities",
+      "category": "exam",
+      "statement": "Pitting oedema of both legs to the knees",
+      "patient_knows": false,
+      "disclosure": {
+        "rule": "on_request",
+        "request": "exam:extremities"
+      },
+      "topics": [
+        "leg swelling"
+      ],
+      "chart_section": "exam"
+    },
+    {
+      "fact_id": "f.lab.bnp",
+      "category": "lab",
+      "statement": "BNP 1,240 pg/mL (below 100 makes heart failure unlikely)",
+      "patient_knows": false,
+      "disclosure": {
+        "rule": "on_request",
+        "request": "order:bnp"
+      },
+      "topics": [
+        "bnp"
+      ],
+      "critical": true,
+      "value": 1240,
+      "unit": "pg/mL",
+      "label": "BNP",
+      "chart_section": "labs",
+      "source_ids": [
+        "medlineplus_bnp"
+      ]
+    },
+    {
+      "fact_id": "f.lab.creatinine",
+      "category": "lab",
+      "statement": "Creatinine 1.6 mg/dL (reference 0.8-1.2; 1.1 two months ago)",
+      "patient_knows": false,
+      "disclosure": {
+        "rule": "on_request",
+        "request": "order:bmp"
+      },
+      "topics": [
+        "kidney function"
+      ],
+      "value": 1.6,
+      "unit": "mg/dL",
+      "label": "Creatinine",
+      "chart_section": "labs",
+      "source_ids": [
+        "medlineplus_bmp"
+      ]
+    },
+    {
+      "fact_id": "f.imaging.chest_xray",
+      "category": "imaging",
+      "statement": "Chest X-ray: enlarged heart, upper-lobe vascular redistribution, small bilateral pleural effusions; no consolidation",
+      "patient_knows": false,
+      "disclosure": {
+        "rule": "on_request",
+        "request": "order:chest_xray"
+      },
+      "topics": [
+        "chest x-ray"
+      ],
+      "critical": true,
+      "chart_section": "imaging"
+    }
+  ],
+  "chart": {
+    "sections": [
+      {
+        "section_id": "triage",
+        "title": "Triage note",
+        "release": "initial"
+      },
+      {
+        "section_id": "vitals",
+        "title": "Vital signs",
+        "release": "initial"
+      },
+      {
+        "section_id": "hpi",
+        "title": "History of present illness",
+        "release": "on_fact"
+      },
+      {
+        "section_id": "ros",
+        "title": "Review of systems",
+        "release": "on_fact"
+      },
+      {
+        "section_id": "pmh",
+        "title": "Past medical history",
+        "release": "on_fact"
+      },
+      {
+        "section_id": "medications",
+        "title": "Medications",
+        "release": "on_fact"
+      },
+      {
+        "section_id": "allergies",
+        "title": "Allergies",
+        "release": "on_fact"
+      },
+      {
+        "section_id": "family",
+        "title": "Family history",
+        "release": "on_fact"
+      },
+      {
+        "section_id": "social",
+        "title": "Social history",
+        "release": "on_fact"
+      },
+      {
+        "section_id": "exam",
+        "title": "Physical examination",
+        "release": "on_request"
+      },
+      {
+        "section_id": "labs",
+        "title": "Laboratory results",
+        "release": "on_request"
+      },
+      {
+        "section_id": "imaging",
+        "title": "Imaging",
+        "release": "on_request"
+      },
+      {
+        "section_id": "records",
+        "title": "Previous records",
+        "release": "on_request"
+      }
+    ],
+    "artifacts": [
+      {
+        "artifact_id": "art.triage_note",
+        "kind": "document",
+        "title": "Triage note",
+        "section_id": "triage",
+        "release": {
+          "rule": "initial"
+        },
+        "synthetic": true,
+        "content": "68-year-old man brought by his daughter. Short of breath, worse over three days. Speaking in short sentences. Known 'weak heart'. Says he takes all his medicines. Oxygen started at 2 L/min. ESI 2."
+      },
+      {
+        "artifact_id": "art.pharmacy_record",
+        "kind": "medication_list",
+        "title": "Pharmacy dispensing record (last 3 months)",
+        "section_id": "medications",
+        "release": {
+          "rule": "on_request",
+          "request": "order:medication_list"
+        },
+        "synthetic": true,
+        "content": [
+          {
+            "medicine": "Furosemide 40 mg tablets",
+            "last_dispensed": "9 weeks ago",
+            "supply_days": 30,
+            "note": "no refill collected since"
+          },
+          {
+            "medicine": "Lisinopril 10 mg tablets",
+            "last_dispensed": "2 weeks ago",
+            "supply_days": 30,
+            "note": ""
+          },
+          {
+            "medicine": "Metoprolol succinate 50 mg tablets",
+            "last_dispensed": "2 weeks ago",
+            "supply_days": 30,
+            "note": ""
+          },
+          {
+            "medicine": "Metformin 500 mg tablets",
+            "last_dispensed": "2 weeks ago",
+            "supply_days": 30,
+            "note": ""
+          },
+          {
+            "medicine": "Atorvastatin 40 mg tablets",
+            "last_dispensed": "2 weeks ago",
+            "supply_days": 30,
+            "note": ""
+          }
+        ],
+        "interpretation": "Every medicine except furosemide has been collected on time. A 30-day supply dispensed 9 weeks ago means at least 5 weeks without a refill. A dispensing gap does not by itself prove the medicine was not taken; ask.",
+        "linked_fact_ids": [
+          "f.medications.list"
+        ],
+        "source_ids": [
+          "authored"
+        ]
+      },
+      {
+        "artifact_id": "art.blood_results",
+        "kind": "lab_report",
+        "title": "Blood results",
+        "section_id": "labs",
+        "release": {
+          "rule": "on_request",
+          "request": "order:bmp"
+        },
+        "synthetic": true,
+        "content": [
+          {
+            "test": "Sodium",
+            "value": 133,
+            "unit": "mEq/L",
+            "ref_range": "136-144",
+            "flag": "L"
+          },
+          {
+            "test": "Potassium",
+            "value": 4.8,
+            "unit": "mEq/L",
+            "ref_range": "3.7-5.2",
+            "flag": ""
+          },
+          {
+            "test": "BUN",
+            "value": 34,
+            "unit": "mg/dL",
+            "ref_range": "6-20",
+            "flag": "H"
+          },
+          {
+            "test": "Creatinine",
+            "value": 1.6,
+            "unit": "mg/dL",
+            "ref_range": "0.8-1.2",
+            "flag": "H",
+            "fact_id": "f.lab.creatinine"
+          },
+          {
+            "test": "Glucose",
+            "value": 162,
+            "unit": "mg/dL",
+            "ref_range": "64-100 fasting",
+            "flag": "H"
+          }
+        ],
+        "interpretation": "Kidney function is worse than two months ago and sodium is low. In this setting consider fluid overload and the recent anti-inflammatory painkiller.",
+        "linked_fact_ids": [
+          "f.lab.creatinine"
+        ],
+        "source_ids": [
+          "medlineplus_bmp"
+        ]
+      },
+      {
+        "artifact_id": "art.chest_xray",
+        "kind": "xray",
+        "title": "Chest X-ray (report)",
+        "section_id": "imaging",
+        "release": {
+          "rule": "on_request",
+          "request": "order:chest_xray"
+        },
+        "synthetic": true,
+        "content": "PA and lateral chest. The heart is enlarged. Upper-lobe vascular redistribution with interstitial markings at both bases. Small bilateral pleural effusions. No focal consolidation. No pneumothorax.",
+        "interpretation": "Appearances of pulmonary venous congestion with small effusions: fluid overload from heart failure rather than pneumonia.",
+        "linked_fact_ids": [
+          "f.imaging.chest_xray"
+        ],
+        "source_ids": [
+          "authored"
+        ]
+      },
+      {
+        "artifact_id": "art.cardiology_letter",
+        "kind": "prior_note",
+        "title": "Cardiology clinic letter (2 months ago)",
+        "section_id": "records",
+        "release": {
+          "rule": "on_request",
+          "request": "order:prior_records"
+        },
+        "synthetic": true,
+        "content": "Stable heart failure with reduced ejection fraction (35% on last echocardiogram). Weight 90 kg, no oedema. Creatinine 1.1 mg/dL. Continue furosemide 40 mg daily, lisinopril, metoprolol. Advised daily weights, to limit salt, and to avoid anti-inflammatory painkillers.",
+        "interpretation": "Baseline two months ago: 4 kg lighter, no oedema, normal creatinine, and explicit advice to avoid anti-inflammatory painkillers.",
+        "source_ids": [
+          "authored"
+        ]
+      }
+    ]
+  },
+  "objectives": [
+    {
+      "objective_id": "obj.hf_symptoms",
+      "criterion": "Elicits the pattern of fluid overload: exertional limit, breathlessness lying flat, swelling and weight gain",
+      "kind": "elicit_fact",
+      "linked_fact_ids": [
+        "f.hpi.exertion",
+        "f.hpi.orthopnea",
+        "f.hpi.swelling_weight"
+      ],
+      "evidence_rule": "met when all three are elicited",
+      "critical": true,
+      "rubric_domain": "gathering",
+      "feedback_missed": "Ask how far he can walk, how he sleeps, and about swelling and weight."
+    },
+    {
+      "objective_id": "obj.background",
+      "criterion": "Establishes the cardiac history and the prescribed medicines",
+      "kind": "elicit_fact",
+      "linked_fact_ids": [
+        "f.pmh.heart_failure",
+        "f.medications.list"
+      ],
+      "evidence_rule": "met when both are elicited",
+      "rubric_domain": "gathering"
+    },
+    {
+      "objective_id": "obj.adherence",
+      "criterion": "Discovers that he stopped his diuretic, and why",
+      "kind": "elicit_fact",
+      "linked_fact_ids": [
+        "f.concealed.stopped_diuretic"
+      ],
+      "evidence_rule": "met when the patient discloses stopping furosemide; partly when the learner asks about adherence but accepts 'I take my pills'",
+      "critical": true,
+      "rubric_domain": "listening",
+      "feedback_met": "You checked the dispensing record, raised the gap kindly, and learned the real barrier: night-time urination and embarrassment.",
+      "feedback_missed": "He said he takes everything, yet he is 4 kg heavier. Request the pharmacy record, then say what you see and ask what got in the way."
+    },
+    {
+      "objective_id": "obj.precipitants",
+      "criterion": "Identifies other precipitants: anti-inflammatory painkillers and a high-salt diet",
+      "kind": "elicit_fact",
+      "linked_fact_ids": [
+        "f.medications.otc",
+        "f.social.diet"
+      ],
+      "evidence_rule": "met when both are elicited",
+      "critical": true,
+      "rubric_domain": "gathering",
+      "feedback_missed": "Ask specifically about over-the-counter painkillers and about what he eats."
+    },
+    {
+      "objective_id": "obj.exam_and_tests",
+      "criterion": "Examines the chest and requests BNP and a chest X-ray",
+      "kind": "action",
+      "linked_requests": [
+        "exam:lungs",
+        "order:bnp",
+        "order:chest_xray"
+      ],
+      "evidence_rule": "met when all three are requested",
+      "rubric_domain": "reasoning"
+    },
+    {
+      "objective_id": "obj.person",
+      "criterion": "Explores how he has been coping since his wife's death",
+      "kind": "communication",
+      "linked_fact_ids": [
+        "f.concealed.low_mood"
+      ],
+      "evidence_rule": "the patient describes his low mood after sustained empathic engagement",
+      "rubric_domain": "rapport",
+      "feedback_missed": "He mentioned his wife's death in passing. Acknowledge it and ask how he has been managing; it explains the missed routines."
+    },
+    {
+      "objective_id": "obj.structure",
+      "criterion": "Runs a structured interview: introduction, open question first, summary, clear close",
+      "kind": "sequencing",
+      "evidence_rule": "three of: introduction, early open question, summary, closing",
+      "rubric_domain": "opening"
+    },
+    {
+      "objective_id": "obj.disposition",
+      "criterion": "Recognises decompensated heart failure needing admission and names the reversible causes",
+      "kind": "reasoning",
+      "linked_fact_ids": [
+        "f.lab.bnp",
+        "f.imaging.chest_xray",
+        "f.concealed.stopped_diuretic"
+      ],
+      "evidence_rule": "disposition is admit, with a summary naming fluid overload and at least one precipitant",
+      "critical": true,
+      "rubric_domain": "reasoning"
+    }
+  ],
+  "sources": [
+    {
+      "source_id": "medlineplus_bnp",
+      "title": "Brain natriuretic peptide test (MedlinePlus Medical Encyclopedia)",
+      "url": "https://medlineplus.gov/ency/article/007509.htm",
+      "date": "fetched 2026-10-10",
+      "role": "evidence_for_fact",
+      "license": "US National Library of Medicine, public information",
+      "supports": [
+        "f.lab.bnp"
+      ]
+    },
+    {
+      "source_id": "medlineplus_bmp",
+      "title": "Basic metabolic panel (MedlinePlus Medical Encyclopedia)",
+      "url": "https://medlineplus.gov/ency/article/003462.htm",
+      "date": "fetched 2026-10-10",
+      "role": "evidence_for_fact",
+      "license": "US National Library of Medicine, public information",
+      "supports": [
+        "f.lab.creatinine",
+        "art.blood_results"
+      ]
+    },
+    {
+      "source_id": "medlineplus_vitals",
+      "title": "Vital signs (MedlinePlus Medical Encyclopedia)",
+      "url": "https://medlineplus.gov/ency/article/002341.htm",
+      "date": "fetched 2026-10-10",
+      "role": "evidence_for_fact",
+      "license": "US National Library of Medicine, public information",
+      "supports": [
+        "f.vitals.blood_pressure",
+        "f.vitals.other"
+      ]
+    },
+    {
+      "source_id": "authored",
+      "title": "Authored for HospitalGym, unsourced: synthetic teaching content awaiting faculty review",
+      "role": "teaching_artifact",
+      "license": "project-authored",
+      "supports": [
+        "art.pharmacy_record",
+        "art.chest_xray",
+        "art.cardiology_letter",
+        "f.vitals.spo2"
+      ]
+    }
+  ]
+}

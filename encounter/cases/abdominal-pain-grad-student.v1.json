@@ -1,0 +1,817 @@
+{
+  "schema_version": 1,
+  "case_id": "abdominal-pain-grad-student",
+  "version": 1,
+  "status": "published",
+  "title": "Lower abdominal pain in a 26-year-old graduate student",
+  "origin": {
+    "kind": "authored"
+  },
+  "review": {
+    "author": "HospitalGym overnight build (AI-drafted)",
+    "needs_faculty_review": true,
+    "synthetic": true
+  },
+  "intended_learner": "Medical students and first-year emergency medicine residents",
+  "learner_role": "Emergency medicine resident",
+  "setting": "Emergency department treatment bay",
+  "rubric_id": "default",
+  "unknown_response": "I'm not sure. I can't really tell you anything about that.",
+  "prebrief": "You are the emergency medicine resident. Hannah Lindqvist, 26, has had worsening lower abdominal pain since yesterday evening. Take a history, request the examination and tests you need, and decide on a disposition. She seems in a hurry to leave.",
+  "profile": {
+    "name": "Hannah Lindqvist",
+    "age": 26,
+    "gender": "female",
+    "race_ethnicity": "White",
+    "background": "Chemistry graduate student two days from her thesis defence; lives with a roommate.",
+    "personality": "Conscientious, anxious, tries to stay in control; honest when she feels heard.",
+    "speech_style": "Precise and quick, a little clipped when in pain."
+  },
+  "faculty_truth": {
+    "diagnosis": "Acute uncomplicated appendicitis",
+    "differential": [
+      "Acute appendicitis",
+      "Ovarian torsion or ruptured ovarian cyst",
+      "Ectopic pregnancy (excluded by a negative test)",
+      "Urinary tract infection or kidney stone",
+      "Gastroenteritis"
+    ],
+    "teaching_points": [
+      "Pain that starts around the navel and moves to the right lower abdomen, with loss of appetite, is a classic story for appendicitis.",
+      "Every woman of child-bearing age with abdominal pain needs a pregnancy test before imaging.",
+      "Ask why a patient waited: fear of an operation can drive a request to leave, and it is addressable.",
+      "Record the allergy before anyone prescribes an antibiotic."
+    ],
+    "expected_disposition": "admit",
+    "expected_orders": [
+      "exam:abdomen",
+      "order:pregnancy_test",
+      "order:cbc",
+      "order:ct_abdomen"
+    ],
+    "severity": 0.6,
+    "acuity": 3
+  },
+  "facts": [
+    {
+      "fact_id": "f.chief_complaint.abdominal_pain",
+      "category": "chief_complaint",
+      "statement": "Lower right abdominal pain since yesterday evening, getting worse",
+      "patient_knows": true,
+      "disclosure": {
+        "rule": "volunteered"
+      },
+      "topics": [
+        "chief_complaint",
+        "pain_abdomen"
+      ],
+      "patient_answer": "My stomach has been hurting since last night, down on the right side, and it keeps getting worse.",
+      "critical": true,
+      "polarity": "positive"
+    },
+    {
+      "fact_id": "f.hpi.onset_migration",
+      "category": "hpi",
+      "statement": "Began about 18 hours ago as a dull ache around the navel, then moved to the right lower abdomen overnight",
+      "patient_knows": true,
+      "disclosure": {
+        "rule": "if_asked"
+      },
+      "topics": [
+        "onset",
+        "location",
+        "did the pain move",
+        "where did it start"
+      ],
+      "patient_answer": "It started yesterday evening as a dull ache around my belly button. Overnight it moved down to the right.",
+      "critical": true
+    },
+    {
+      "fact_id": "f.hpi.character_severity",
+      "category": "hpi",
+      "statement": "Now sharp and constant, 7/10",
+      "patient_knows": true,
+      "disclosure": {
+        "rule": "if_asked"
+      },
+      "topics": [
+        "character",
+        "severity",
+        "duration"
+      ],
+      "patient_answer": "It's sharp now, and it doesn't let up. About a seven out of ten."
+    },
+    {
+      "fact_id": "f.hpi.aggravating",
+      "category": "hpi",
+      "statement": "Worse with walking, coughing and bumps in the car; best lying still with knees bent",
+      "patient_knows": true,
+      "disclosure": {
+        "rule": "if_asked"
+      },
+      "topics": [
+        "aggravating",
+        "relieving",
+        "radiation"
+      ],
+      "patient_answer": "Walking and coughing make it much worse. Every bump on the drive here hurt. Lying still with my knees up is the only thing that helps.",
+      "critical": true
+    },
+    {
+      "fact_id": "f.hpi.appetite_nausea",
+      "category": "hpi",
+      "statement": "No appetite since yesterday; nauseated; vomited once this morning",
+      "patient_knows": true,
+      "disclosure": {
+        "rule": "if_asked"
+      },
+      "topics": [
+        "appetite",
+        "nausea_vomiting",
+        "associated_symptoms"
+      ],
+      "patient_answer": "I haven't wanted to eat since yesterday. I feel sick, and I threw up once this morning.",
+      "critical": true,
+      "polarity": "positive"
+    },
+    {
+      "fact_id": "f.hpi.fever",
+      "category": "hpi",
+      "statement": "Felt hot and shivery overnight; did not take her temperature",
+      "patient_knows": true,
+      "disclosure": {
+        "rule": "if_asked"
+      },
+      "topics": [
+        "fever"
+      ],
+      "patient_answer": "I felt hot and shivery last night. I didn't take my temperature.",
+      "polarity": "positive"
+    },
+    {
+      "fact_id": "f.ros.bowel",
+      "category": "ros",
+      "statement": "Last bowel movement yesterday, normal; no diarrhoea, no blood",
+      "patient_knows": true,
+      "disclosure": {
+        "rule": "if_asked"
+      },
+      "topics": [
+        "bowel"
+      ],
+      "patient_answer": "I went yesterday and it was normal. No diarrhea, no blood.",
+      "polarity": "negative"
+    },
+    {
+      "fact_id": "f.ros.urinary",
+      "category": "ros",
+      "statement": "No burning, frequency or blood in urine",
+      "patient_knows": true,
+      "disclosure": {
+        "rule": "if_asked"
+      },
+      "topics": [
+        "urinary"
+      ],
+      "patient_answer": "No, peeing is normal. No burning, no blood.",
+      "polarity": "negative"
+    },
+    {
+      "fact_id": "f.ros.gyn",
+      "category": "ros",
+      "statement": "Last period three weeks ago and normal; no vaginal bleeding or discharge",
+      "patient_knows": true,
+      "disclosure": {
+        "rule": "if_asked"
+      },
+      "topics": [
+        "pregnancy",
+        "vaginal bleeding",
+        "discharge"
+      ],
+      "patient_answer": "My last period was three weeks ago, right on time and normal. No bleeding or discharge since.",
+      "critical": true
+    },
+    {
+      "fact_id": "f.social.sexual_history",
+      "category": "social",
+      "statement": "Sexually active with one male partner; uses a combined oral contraceptive pill, missed no pills this month",
+      "patient_knows": true,
+      "disclosure": {
+        "rule": "if_asked"
+      },
+      "topics": [
+        "sexual_history",
+        "could you be pregnant"
+      ],
+      "patient_answer": "I have one partner, my boyfriend. I'm on the pill and I haven't missed any this month."
+    },
+    {
+      "fact_id": "f.pmh.none",
+      "category": "pmh",
+      "statement": "No chronic medical conditions; no previous surgery; appendix in place",
+      "patient_knows": true,
+      "disclosure": {
+        "rule": "if_asked"
+      },
+      "topics": [
+        "pmh",
+        "psh"
+      ],
+      "patient_answer": "I'm healthy. No medical problems, and I've never had an operation.",
+      "polarity": "negative"
+    },
+    {
+      "fact_id": "f.medications.current",
+      "category": "medications",
+      "statement": "Combined oral contraceptive daily; took ibuprofen 400 mg at 6 am with little relief",
+      "patient_knows": true,
+      "disclosure": {
+        "rule": "if_asked"
+      },
+      "topics": [
+        "medications",
+        "relieving"
+      ],
+      "patient_answer": "Just my birth control pill. I took an ibuprofen, 400 milligrams, at six this morning. It barely touched it."
+    },
+    {
+      "fact_id": "f.allergies.penicillin",
+      "category": "allergies",
+      "statement": "Penicillin allergy: widespread hives and lip swelling at age 12",
+      "patient_knows": true,
+      "disclosure": {
+        "rule": "if_asked"
+      },
+      "topics": [
+        "allergies"
+      ],
+      "patient_answer": "I'm allergic to penicillin. I got hives all over and my lips swelled when I was twelve.",
+      "critical": true,
+      "polarity": "positive",
+      "value": "penicillin"
+    },
+    {
+      "fact_id": "f.hpi.last_meal",
+      "category": "hpi",
+      "statement": "Last ate at about 7 pm yesterday; sips of water at 5 am",
+      "patient_knows": true,
+      "disclosure": {
+        "rule": "if_asked"
+      },
+      "topics": [
+        "last_meal",
+        "diet"
+      ],
+      "patient_answer": "I last ate around seven last night. I've only had sips of water since, at about five."
+    },
+    {
+      "fact_id": "f.family.history",
+      "category": "family",
+      "statement": "No family history of bowel disease; father has high blood pressure",
+      "patient_knows": true,
+      "disclosure": {
+        "rule": "if_asked"
+      },
+      "topics": [
+        "family_history"
+      ],
+      "patient_answer": "Nothing with the stomach or bowels in my family. My dad has high blood pressure."
+    },
+    {
+      "fact_id": "f.social.habits",
+      "category": "social",
+      "statement": "Does not smoke; a glass of wine at weekends; no recreational drugs",
+      "patient_knows": true,
+      "disclosure": {
+        "rule": "if_asked"
+      },
+      "topics": [
+        "smoking",
+        "alcohol",
+        "drugs"
+      ],
+      "patient_answer": "I don't smoke. A glass of wine on weekends. No drugs.",
+      "polarity": "negative"
+    },
+    {
+      "fact_id": "f.social.occupation",
+      "category": "social",
+      "statement": "Graduate student in chemistry; defends her thesis in two days",
+      "patient_knows": true,
+      "disclosure": {
+        "rule": "if_asked"
+      },
+      "topics": [
+        "occupation"
+      ],
+      "patient_answer": "I'm a grad student in chemistry. I defend my thesis in two days."
+    },
+    {
+      "fact_id": "f.social.living",
+      "category": "social",
+      "statement": "Lives with a roommate; parents live four hours away",
+      "patient_knows": true,
+      "disclosure": {
+        "rule": "if_asked"
+      },
+      "topics": [
+        "living_situation"
+      ],
+      "patient_answer": "I live with a roommate. My parents are about four hours away."
+    },
+    {
+      "fact_id": "f.concealed.fear_of_surgery",
+      "category": "concealed",
+      "statement": "Waited 18 hours before coming in and wants to leave quickly because she fears an operation: her mother was very unwell after a general anaesthetic, and the thesis defence is in two days",
+      "patient_knows": true,
+      "disclosure": {
+        "rule": "after_rapport",
+        "rapport_needed": 4
+      },
+      "topics": [
+        "patient_concerns",
+        "mood",
+        "delay",
+        "anesthesia",
+        "anaesthetic",
+        "surgery worries"
+      ],
+      "patient_answer": "The truth is I waited because I'm terrified you'll say I need surgery. My mom was really sick after an anesthetic, she took hours to wake up properly. And my defense is in two days. I can't miss it.",
+      "critical": true,
+      "cover_answer": "I just need something for the pain so I can get back to my work.",
+      "chart_section": "social"
+    },
+    {
+      "fact_id": "f.vitals.temperature",
+      "category": "vitals",
+      "statement": "Temperature 38.1 C",
+      "patient_knows": false,
+      "disclosure": {
+        "rule": "chart_initial"
+      },
+      "topics": [
+        "temperature"
+      ],
+      "value": 38.1,
+      "unit": "C",
+      "label": "Temperature",
+      "chart_section": "vitals",
+      "source_ids": [
+        "medlineplus_vitals"
+      ]
+    },
+    {
+      "fact_id": "f.vitals.heart_rate",
+      "category": "vitals",
+      "statement": "Heart rate 104 beats/min",
+      "patient_knows": false,
+      "disclosure": {
+        "rule": "chart_initial"
+      },
+      "topics": [
+        "heart rate",
+        "pulse"
+      ],
+      "value": 104,
+      "unit": "beats/min",
+      "label": "Heart rate",
+      "chart_section": "vitals",
+      "source_ids": [
+        "medlineplus_vitals"
+      ]
+    },
+    {
+      "fact_id": "f.vitals.other",
+      "category": "vitals",
+      "statement": "Blood pressure 118/72 mmHg, respiratory rate 18/min, SpO2 99% on room air",
+      "patient_knows": false,
+      "disclosure": {
+        "rule": "chart_initial"
+      },
+      "topics": [
+        "blood pressure",
+        "oxygen"
+      ],
+      "chart_section": "vitals",
+      "source_ids": [
+        "medlineplus_vitals"
+      ]
+    },
+    {
+      "fact_id": "f.exam.abdomen",
+      "category": "exam",
+      "statement": "Abdomen: tender in the right lower quadrant with guarding and rebound tenderness; pressing on the left lower abdomen causes pain on the right; bowel sounds reduced",
+      "patient_knows": false,
+      "disclosure": {
+        "rule": "on_request",
+        "request": "exam:abdomen"
+      },
+      "topics": [
+        "abdominal exam"
+      ],
+      "critical": true,
+      "chart_section": "exam",
+      "source_ids": [
+        "medlineplus_appendicitis"
+      ]
+    },
+    {
+      "fact_id": "f.lab.pregnancy_test",
+      "category": "lab",
+      "statement": "Urine pregnancy test negative",
+      "patient_knows": false,
+      "disclosure": {
+        "rule": "on_request",
+        "request": "order:pregnancy_test"
+      },
+      "topics": [
+        "pregnancy test"
+      ],
+      "critical": true,
+      "value": "negative",
+      "label": "Urine hCG",
+      "chart_section": "labs",
+      "polarity": "negative"
+    },
+    {
+      "fact_id": "f.lab.wbc",
+      "category": "lab",
+      "statement": "White blood cell count 14.8 x10^3/mcL (reference 4.5-11.0)",
+      "patient_knows": false,
+      "disclosure": {
+        "rule": "on_request",
+        "request": "order:cbc"
+      },
+      "topics": [
+        "white count"
+      ],
+      "value": 14.8,
+      "unit": "x10^3/mcL",
+      "label": "WBC",
+      "chart_section": "labs",
+      "source_ids": [
+        "medlineplus_cbc"
+      ]
+    },
+    {
+      "fact_id": "f.lab.crp",
+      "category": "lab",
+      "statement": "C-reactive protein 6.2 mg/dL (healthy adults usually below 0.3)",
+      "patient_knows": false,
+      "disclosure": {
+        "rule": "on_request",
+        "request": "order:crp"
+      },
+      "topics": [
+        "crp"
+      ],
+      "value": 6.2,
+      "unit": "mg/dL",
+      "label": "CRP",
+      "chart_section": "labs",
+      "source_ids": [
+        "medlineplus_crp"
+      ]
+    },
+    {
+      "fact_id": "f.lab.urinalysis",
+      "category": "lab",
+      "statement": "Urinalysis: no nitrites, no white cells, no blood",
+      "patient_knows": false,
+      "disclosure": {
+        "rule": "on_request",
+        "request": "order:urinalysis"
+      },
+      "topics": [
+        "urinalysis"
+      ],
+      "chart_section": "labs",
+      "polarity": "negative"
+    },
+    {
+      "fact_id": "f.imaging.ct_abdomen",
+      "category": "imaging",
+      "statement": "CT abdomen and pelvis: dilated appendix (11 mm) with wall thickening and surrounding fat stranding; no abscess, no free air",
+      "patient_knows": false,
+      "disclosure": {
+        "rule": "on_request",
+        "request": "order:ct_abdomen"
+      },
+      "topics": [
+        "ct"
+      ],
+      "critical": true,
+      "chart_section": "imaging"
+    }
+  ],
+  "chart": {
+    "sections": [
+      {
+        "section_id": "triage",
+        "title": "Triage note",
+        "release": "initial"
+      },
+      {
+        "section_id": "vitals",
+        "title": "Vital signs",
+        "release": "initial"
+      },
+      {
+        "section_id": "hpi",
+        "title": "History of present illness",
+        "release": "on_fact"
+      },
+      {
+        "section_id": "ros",
+        "title": "Review of systems",
+        "release": "on_fact"
+      },
+      {
+        "section_id": "pmh",
+        "title": "Past medical and surgical history",
+        "release": "on_fact"
+      },
+      {
+        "section_id": "medications",
+        "title": "Medications",
+        "release": "on_fact"
+      },
+      {
+        "section_id": "allergies",
+        "title": "Allergies",
+        "release": "on_fact"
+      },
+      {
+        "section_id": "family",
+        "title": "Family history",
+        "release": "on_fact"
+      },
+      {
+        "section_id": "social",
+        "title": "Social history",
+        "release": "on_fact"
+      },
+      {
+        "section_id": "exam",
+        "title": "Physical examination",
+        "release": "on_request"
+      },
+      {
+        "section_id": "labs",
+        "title": "Laboratory results",
+        "release": "on_request"
+      },
+      {
+        "section_id": "imaging",
+        "title": "Imaging",
+        "release": "on_request"
+      },
+      {
+        "section_id": "records",
+        "title": "Previous records",
+        "release": "on_request"
+      }
+    ],
+    "artifacts": [
+      {
+        "artifact_id": "art.triage_note",
+        "kind": "document",
+        "title": "Triage note",
+        "section_id": "triage",
+        "release": {
+          "rule": "initial"
+        },
+        "synthetic": true,
+        "content": "26-year-old woman, walked in bent forward holding her right side. Lower abdominal pain since yesterday evening. Vomited once. Asked twice how long this will take. ESI 3."
+      },
+      {
+        "artifact_id": "art.blood_results",
+        "kind": "lab_report",
+        "title": "Blood count",
+        "section_id": "labs",
+        "release": {
+          "rule": "on_request",
+          "request": "order:cbc"
+        },
+        "synthetic": true,
+        "content": [
+          {
+            "test": "WBC",
+            "value": 14.8,
+            "unit": "x10^3/mcL",
+            "ref_range": "4.5-11.0",
+            "flag": "H",
+            "fact_id": "f.lab.wbc"
+          },
+          {
+            "test": "Hemoglobin",
+            "value": 13.4,
+            "unit": "g/dL",
+            "ref_range": "12-16",
+            "flag": ""
+          },
+          {
+            "test": "Platelets",
+            "value": 288,
+            "unit": "x10^3/mcL",
+            "ref_range": "150-400",
+            "flag": ""
+          }
+        ],
+        "interpretation": "Raised white cell count, in keeping with an inflammatory or infective process. Not specific.",
+        "linked_fact_ids": [
+          "f.lab.wbc"
+        ],
+        "source_ids": [
+          "medlineplus_cbc"
+        ]
+      },
+      {
+        "artifact_id": "art.ct_report",
+        "kind": "ct",
+        "title": "CT abdomen and pelvis with contrast (report)",
+        "section_id": "imaging",
+        "release": {
+          "rule": "on_request",
+          "request": "order:ct_abdomen",
+          "delay_turns": 2
+        },
+        "synthetic": true,
+        "content": "Technique: CT of the abdomen and pelvis with intravenous contrast. Findings: the appendix measures 11 mm in diameter with wall thickening and stranding of the surrounding fat. No appendicolith. No abscess or free intraperitoneal air. Ovaries and uterus unremarkable. No hydronephrosis.",
+        "interpretation": "Findings consistent with acute uncomplicated appendicitis: surgical review. Note the penicillin allergy when antibiotics are chosen.",
+        "linked_fact_ids": [
+          "f.imaging.ct_abdomen"
+        ],
+        "source_ids": [
+          "authored"
+        ]
+      },
+      {
+        "artifact_id": "art.clinic_note",
+        "kind": "prior_note",
+        "title": "Student health clinic note (4 months ago)",
+        "section_id": "records",
+        "release": {
+          "rule": "on_request",
+          "request": "order:prior_records"
+        },
+        "synthetic": true,
+        "content": "Routine visit for contraception review. Well. Blood pressure 112/70. Combined oral contraceptive continued. Allergy recorded: penicillin (hives, lip swelling, childhood). No other medicines.",
+        "interpretation": "Confirms the penicillin allergy and the contraceptive pill.",
+        "linked_fact_ids": [],
+        "source_ids": [
+          "authored"
+        ]
+      }
+    ]
+  },
+  "objectives": [
+    {
+      "objective_id": "obj.pain_story",
+      "criterion": "Elicits the migration of the pain, what worsens it, and the loss of appetite and nausea",
+      "kind": "elicit_fact",
+      "linked_fact_ids": [
+        "f.hpi.onset_migration",
+        "f.hpi.aggravating",
+        "f.hpi.appetite_nausea"
+      ],
+      "evidence_rule": "met when all three are elicited",
+      "critical": true,
+      "rubric_domain": "gathering",
+      "feedback_missed": "Ask where the pain started and whether it moved, what makes it worse, and about appetite."
+    },
+    {
+      "objective_id": "obj.gyn_history",
+      "criterion": "Takes a menstrual and sexual history and requests a pregnancy test",
+      "kind": "safety",
+      "linked_fact_ids": [
+        "f.ros.gyn",
+        "f.social.sexual_history"
+      ],
+      "linked_requests": [
+        "order:pregnancy_test"
+      ],
+      "evidence_rule": "met when the last period and sexual history are asked and a pregnancy test is requested",
+      "critical": true,
+      "rubric_domain": "gathering",
+      "feedback_missed": "Lower abdominal pain in a 26-year-old woman: ask about her last period and contraception, and test for pregnancy before imaging."
+    },
+    {
+      "objective_id": "obj.allergy",
+      "criterion": "Identifies the penicillin allergy and the reaction",
+      "kind": "safety",
+      "linked_fact_ids": [
+        "f.allergies.penicillin"
+      ],
+      "evidence_rule": "met when the allergy is elicited",
+      "critical": true,
+      "rubric_domain": "gathering",
+      "feedback_missed": "Always ask about allergies and what the reaction was."
+    },
+    {
+      "objective_id": "obj.exam_and_tests",
+      "criterion": "Examines the abdomen and requests a blood count and appropriate imaging",
+      "kind": "action",
+      "linked_requests": [
+        "exam:abdomen",
+        "order:cbc",
+        "order:ct_abdomen"
+      ],
+      "evidence_rule": "met when all three are requested",
+      "rubric_domain": "reasoning"
+    },
+    {
+      "objective_id": "obj.explore_fear",
+      "criterion": "Finds out why she waited and why she wants to leave",
+      "kind": "communication",
+      "linked_fact_ids": [
+        "f.concealed.fear_of_surgery"
+      ],
+      "evidence_rule": "the patient shares her fear of surgery after the learner acknowledges her worry",
+      "critical": true,
+      "rubric_domain": "rapport",
+      "feedback_met": "You slowed down, acknowledged the pressure she is under, and she told you what was really worrying her.",
+      "feedback_missed": "She keeps asking to leave. Acknowledge the pressure of the thesis defence, then ask what worries her about being here."
+    },
+    {
+      "objective_id": "obj.structure",
+      "criterion": "Runs a structured interview: introduction, open question first, summary, clear close",
+      "kind": "sequencing",
+      "evidence_rule": "three of: introduction, early open question, summary, closing",
+      "rubric_domain": "opening"
+    },
+    {
+      "objective_id": "obj.disposition",
+      "criterion": "Recognises probable appendicitis and arranges surgical review rather than discharge",
+      "kind": "reasoning",
+      "linked_fact_ids": [
+        "f.exam.abdomen",
+        "f.imaging.ct_abdomen"
+      ],
+      "evidence_rule": "disposition is admit, with a summary naming the examination or CT findings",
+      "critical": true,
+      "rubric_domain": "reasoning"
+    }
+  ],
+  "sources": [
+    {
+      "source_id": "medlineplus_appendicitis",
+      "title": "Appendicitis (MedlinePlus Medical Encyclopedia)",
+      "url": "https://medlineplus.gov/ency/article/000256.htm",
+      "date": "fetched 2026-10-10",
+      "role": "objective_rationale",
+      "license": "US National Library of Medicine, public information",
+      "supports": [
+        "obj.pain_story",
+        "f.exam.abdomen"
+      ]
+    },
+    {
+      "source_id": "medlineplus_cbc",
+      "title": "CBC blood test (MedlinePlus Medical Encyclopedia)",
+      "url": "https://medlineplus.gov/ency/article/003642.htm",
+      "date": "fetched 2026-10-10",
+      "role": "evidence_for_fact",
+      "license": "US National Library of Medicine, public information",
+      "supports": [
+        "f.lab.wbc",
+        "art.blood_results"
+      ]
+    },
+    {
+      "source_id": "medlineplus_crp",
+      "title": "C-reactive protein (MedlinePlus Medical Encyclopedia)",
+      "url": "https://medlineplus.gov/ency/article/003356.htm",
+      "date": "fetched 2026-10-10",
+      "role": "evidence_for_fact",
+      "license": "US National Library of Medicine, public information",
+      "supports": [
+        "f.lab.crp"
+      ]
+    },
+    {
+      "source_id": "medlineplus_vitals",
+      "title": "Vital signs (MedlinePlus Medical Encyclopedia)",
+      "url": "https://medlineplus.gov/ency/article/002341.htm",
+      "date": "fetched 2026-10-10",
+      "role": "evidence_for_fact",
+      "license": "US National Library of Medicine, public information",
+      "supports": [
+        "f.vitals.temperature",
+        "f.vitals.heart_rate",
+        "f.vitals.other"
+      ]
+    },
+    {
+      "source_id": "authored",
+      "title": "Authored for HospitalGym, unsourced: synthetic teaching content awaiting faculty review",
+      "role": "teaching_artifact",
+      "license": "project-authored",
+      "supports": [
+        "art.ct_report",
+        "art.clinic_note"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+id: flu_surge
+label: Flu surge
+description: A respiratory-illness wave starts on day 2. Arrivals rise, the respiratory share grows and staff call out more often (parameters in catalog/event.yaml, flu_wave).
+hospital_id: rwjuh_nb
+days_default: 14
+events:
+  - {type: flu_wave, start_day: 2}

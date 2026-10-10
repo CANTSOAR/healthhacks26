@@ -6,55 +6,116 @@ entity_type: patient
 description: 'ED patients. Variant = acuity level; mixes over condition group, arrival mode, age band and payer are shared attributes. Target
   sources: CDC NHAMCS ED public-use file, CMS IPPS/OPPS tables, CDC FluView.'
 shared:
-  arrivals_per_day:
-    value: 260
-    unit: patients/day
+  p_mistriage: {value: 0.08, unit: probability, source: assumed, citation: 'Simulator model parameter (added by sim/): Share of walk-in patients
+      whose triage level is one level off the true acuity (half over, half under); placeholder, triage studies report roughly this order'}
+  p_transfer_in: {value: 0.02, unit: probability, source: assumed, citation: 'Simulator model parameter (added by sim/): Share of arrivals that
+      are inter-facility transfers in; mirrors arrival_mode_mix.transfer'}
+  p_transfer_out: {value: 0.012, unit: probability, source: assumed, citation: 'Simulator model parameter (added by sim/): Share of ED patients
+      whose true disposition is transfer to another facility; placeholder'}
+  lab_turnaround_min:
+    value: 50
+    unit: minutes
+    dist: {kind: lognormal, mean: 50, cv: 0.4}
     source: assumed
-    citation: Placeholder set in Wave 0 so the simulator can run; 95,000 visits/yr published by the hospital / 365
+    citation: 'Simulator model parameter (added by sim/): Order-to-result time for ED labs; placeholder'
+  inpatient_variable_cost_per_day: {value: 600, unit: usd/patient-day, source: assumed, citation: 'Simulator model parameter (added by sim/): Ancillary
+      cost (pharmacy, supplies, diagnostics) per occupied inpatient bed-day. Ward nursing and overhead are already in space.ward_unit.fixed_cost_per_hour
+      (fully allocated routine cost), so this was lowered from 2300 to avoid double counting; placeholder'}
+  wrong_disposition_max_prob: {value: 0.08, unit: probability at quality 0, source: assumed, citation: 'Simulator model parameter (added by sim/):
+      Probability that a sampled disposition differs from the true one scales as (1 - quality) x this; placeholder. Lowered from 0.25 by sim/
+      because 0.25 inflated admissions by about a quarter over the measured admission rate'}
+  wrong_discharge_adverse_prob: {value: 0.3, unit: probability, source: assumed, citation: 'Simulator model parameter (added by sim/): Chance that
+      discharging a patient who truly needed admission is counted as an adverse event; placeholder'}
+  low_quality_treatment_stretch: {value: 0.3, unit: fraction longer at quality 0, source: assumed, citation: 'Simulator model parameter (added by
+      sim/): In-bay treatment time is multiplied by 1 + (1 - quality) x this; placeholder'}
+  transfer_wait_min: {value: 120, unit: minutes, source: assumed, citation: 'Simulator model parameter (added by sim/): Time a patient waits in
+      the ED bay for transport after a transfer decision; placeholder'}
+  acuity_aging_levels_per_hour: {value: 1.0, unit: acuity levels/hour, source: assumed, citation: 'Simulator model parameter (added by sim/): Priority
+      credit per hour waited under the acuity_with_aging rule; placeholder'}
+  death_hazard_post_contact_multiplier: {value: 0.1, unit: x untreated hazard, source: assumed, citation: 'Simulator model parameter (added by sim/):
+      Death hazard once under provider care in the ED relative to untreated; placeholder'}
+  discharge_push_los_factor: {value: 0.92, unit: x remaining inpatient LOS, source: assumed, citation: 'Simulator model parameter (added by sim/):
+      Early discharge rounds shorten inpatient stays by this factor; placeholder'}
+  discharge_push_cost_per_hour: {value: 180, unit: usd/hour, source: assumed, citation: 'Simulator model parameter (added by sim/): Extra hospitalist
+      and case-management time for early rounds; placeholder'}
+  admission_cap_thresholds:
+    value: [9.0, 0.98, 0.9]
+    unit: fraction of ward beds
+    index: admission_cap option
+    source: assumed
+    citation: 'Simulator model parameter (added by sim/): When (ward census + boarders) / staffed ward beds exceeds this, new admit decisions become
+      transfers out; none / soft / hard; placeholder'
+  transfer_out_cost: {value: 1200, unit: usd/transfer, source: assumed, citation: 'Simulator model parameter (added by sim/): Ambulance and coordination
+      cost of a transfer out; placeholder'}
+  baseline_error_events_per_patient_hour: {value: 0.0005, unit: events/patient-hour in bay, source: assumed, citation: 'Simulator model parameter
+      (added by sim/): Base rate that fatigue and nurse overload multiply; only the excess over this base is counted as adverse_events; placeholder'}
+  arrivals_per_day:
+    value: 222
+    unit: patients/day
+    source: measured
+    citation: CMS Care Compare 'Timely and Effective Care - Hospital' (Provider Data Catalog yv7e-xc69, release 2026-08-13), Facility ID (CCN) 310038
+      ROBERT WOOD JOHNSON UNIVERSITY HOSPITAL, ONE ROBERT WOOD JOHNSON PLACE, NEW BRUNSWICK NJ; OP_22 denominator 81126 ED visits in 01/01/2024-12/31/2024
+      / 366 days
     index: hospital
+    url: https://data.cms.gov/provider-data/dataset/yv7e-xc69
+    file: data/processed/care_compare_ed_rwjuh.json
+    range:
+    - 222
+    - 260
+    note: All ED visits billed under the CMS number, pediatric ED included. Upper end of range = the hospital's own 'more than 95,000 emergency
+      and trauma patients a year' / 365 (Wave 0 value 260). Hourly, weekday and seasonal variation come from the arrival_*_profile attributes.
   arrival_hour_profile:
     value:
-    - 0.55
-    - 0.45
-    - 0.4
+    - 0.601
+    - 0.49
+    - 0.446
+    - 0.412
     - 0.35
-    - 0.35
-    - 0.4
-    - 0.55
-    - 0.8
-    - 1.05
-    - 1.3
-    - 1.45
-    - 1.5
-    - 1.5
-    - 1.45
-    - 1.4
-    - 1.4
-    - 1.4
-    - 1.4
-    - 1.4
-    - 1.35
-    - 1.25
-    - 1.1
-    - 0.9
-    - 0.7
+    - 0.378
+    - 0.418
+    - 0.675
+    - 1.0
+    - 1.256
+    - 1.449
+    - 1.434
+    - 1.448
+    - 1.496
+    - 1.331
+    - 1.328
+    - 1.384
+    - 1.407
+    - 1.343
+    - 1.326
+    - 1.272
+    - 1.081
+    - 0.97
+    - 0.704
     unit: multiplier (mean 1)
-    source: assumed
-    citation: Placeholder set in Wave 0 so the simulator can run; typical ED diurnal shape, late-morning to evening plateau
+    source: measured
+    citation: CDC/NCHS NHAMCS Emergency Department public-use microdata, 2019+2021+2022 pooled (51,713 sampled visits; 2020 excluded), weighted
+      by PATWT; variable ARRTIME (arrival time, hour part), all hospitals, 50393 visits with a recorded time; weighted visits per hour divided by
+      the 24-hour mean
     index: hour_of_day
+    url: https://ftp.cdc.gov/pub/Health_Statistics/NCHS/dataset_documentation/nhamcs/stata/
+    file: data/processed/nhamcs_ed_arrival_profiles.json
+    note: National shape, not this hospital's. 2.7% of weighted visits have no arrival time and are excluded.
   arrival_dow_profile:
     value:
-    - 1.08
-    - 1.02
-    - 1.0
-    - 0.99
-    - 0.99
-    - 0.95
-    - 0.97
+    - 1.154
+    - 1.068
+    - 1.012
+    - 1.013
+    - 0.972
+    - 0.881
+    - 0.9
     unit: multiplier (mean 1)
-    source: assumed
-    citation: Placeholder set in Wave 0 so the simulator can run; Monday peak commonly reported
+    source: measured
+    citation: CDC/NCHS NHAMCS Emergency Department public-use microdata, 2019+2021+2022 pooled (51,713 sampled visits; 2020 excluded), weighted
+      by PATWT; variable VDAYR (1=Sunday..7=Saturday) re-indexed Monday first, all hospitals; weighted visits per weekday divided by the 7-day mean
     index: day_of_week_mon0
+    url: https://ftp.cdc.gov/pub/Health_Statistics/NCHS/dataset_documentation/nhamcs/stata/
+    file: data/processed/nhamcs_ed_arrival_profiles.json
+    note: National shape. Each sampled hospital reports a 4-week period, so weekdays are evenly represented.
   arrival_month_profile:
     value:
     - 1.06
@@ -73,73 +134,115 @@ shared:
     source: assumed
     citation: Placeholder set in Wave 0 so the simulator can run; winter respiratory season
     index: month_jan0
+    note: 'STILL ASSUMED after checking two sources. (1) NHAMCS cannot support a month profile: each hospital reports one 4-week period, and the
+      pooled 8-year estimate [1.1074, 0.9721, 0.9869, 1.0984, 0.9768, 0.8592, 0.9082, 1.2781, 1.0944, 0.8926, 1.0292, 0.7967] has a between-year
+      SD of 0.13-0.41 per month (data/processed/nhamcs_ed_arrival_profiles.json) - noise, not seasonality. (2) CDC ILINet (HHS Region 2) gives the
+      seasonal SHAPE of influenza-like illness only: monthly mean wILI percent [5.189, 5.246, 3.69, 2.659, 2.103, 1.686, 1.417, 1.395, 1.848, 2.444,
+      3.402, 5.266] (data/processed/fluview_ili_summary.json), i.e. a winter excess of roughly 2-4 percent of visits over summer, consistent in
+      direction with the assumed winter multipliers of 1.02-1.06 but not a measurement of total ED volume.'
   acuity_mix:
     value:
-    - 0.01
-    - 0.13
-    - 0.5
-    - 0.29
-    - 0.07
+    - 0.0213
+    - 0.1718
+    - 0.4906
+    - 0.2769
+    - 0.0394
     unit: fraction
-    source: assumed
-    citation: Placeholder set in Wave 0 so the simulator can run; ESI 3 the modal level
+    source: measured
+    citation: CDC/NCHS NHAMCS Emergency Department public-use microdata, 2019+2021+2022 pooled (51,713 sampled visits; 2020 excluded), weighted
+      by PATWT; variable IMMEDR (triage level 1 immediate .. 5 nonurgent), metropolitan hospitals with an emergency medicine residency (MSA==1 &
+      EMEDRES==1; 19,992 sampled visits); shares among visits with a recorded level 1-5 (unweighted n by level [270, 2326, 6762, 3479, 516])
     index: acuity_1_to_5
+    url: https://ftp.cdc.gov/pub/Health_Statistics/NCHS/dataset_documentation/nhamcs/stata/
+    file: data/processed/nhamcs_ed_mix.json
+    note: 'IMMEDR is not imputed: only 69% of weighted visits in this subset carry a level 1-5 (the rest are unknown, blank, ''no triage'', or in
+      an ED without nursing triage) and are EXCLUDED, i.e. assumed to have the same mix. NHAMCS rescales hospitals'' 3- and 4-level scales to 5
+      levels, so level 1 is noisier than a true ESI 1. All-hospital mix for comparison: [0.02286, 0.14692, 0.5071, 0.28895, 0.03416].'
   condition_mix:
     value:
-      chest_pain: 0.07
-      respiratory: 0.11
-      abdominal_pain: 0.11
-      injury_trauma: 0.17
-      neuro: 0.07
-      infection_fever: 0.09
-      mental_health_substance: 0.06
-      musculoskeletal: 0.1
-      other_medical: 0.22
+      chest_pain: 0.0587
+      respiratory: 0.1352
+      abdominal_pain: 0.1536
+      injury_trauma: 0.1159
+      neuro: 0.073
+      infection_fever: 0.0502
+      mental_health_substance: 0.0534
+      musculoskeletal: 0.1153
+      other_medical: 0.2447
     unit: fraction
-    source: assumed
-    citation: Placeholder set in Wave 0 so the simulator can run; placeholder mix
+    source: measured
+    citation: CDC/NCHS NHAMCS Emergency Department public-use microdata, 2019+2021+2022 pooled (51,713 sampled visits; 2020 excluded), weighted
+      by PATWT; variable RFV13D (first-listed reason for visit, NCHS Reason for Visit Classification) mapped by us to nine groups, metropolitan
+      hospitals with an emergency medicine residency (MSA==1 & EMEDRES==1; 19,992 sampled visits)
     index: condition_group
+    url: https://ftp.cdc.gov/pub/Health_Statistics/NCHS/dataset_documentation/nhamcs/stata/
+    file: data/processed/nhamcs_ed_mix.json
+    note: 'The code-range -> condition_group mapping is ours (listed under condition_mapping in the extract and in research/operations-data-sources.md);
+      groups are by presenting complaint, not final diagnosis. Mix by acuity: data/processed/nhamcs_ed_condition_by_acuity.csv.'
   arrival_mode_mix:
     value:
-      walk_in: 0.8
-      ambulance: 0.18
-      transfer: 0.02
+      walk_in: 0.8096
+      ambulance: 0.1775
+      transfer: 0.0129
     unit: fraction
-    source: assumed
-    citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+    source: measured
+    citation: CDC/NCHS NHAMCS Emergency Department public-use microdata, 2019+2021+2022 pooled (51,713 sampled visits; 2020 excluded), weighted
+      by PATWT; variables ARREMS (arrival by ambulance) and AMBTRANSFER (ambulance arrival transferred from another hospital or urgent care), metropolitan
+      hospitals with an emergency medicine residency (MSA==1 & EMEDRES==1; 19,992 sampled visits)
     index: arrival_mode
+    url: https://ftp.cdc.gov/pub/Health_Statistics/NCHS/dataset_documentation/nhamcs/stata/
+    file: data/processed/nhamcs_ed_mix.json
+    note: transfer = ambulance arrivals transferred from another facility; transfers arriving by other means are not identifiable and sit in walk_in.
+      3.2% unknown arrival mode excluded.
   ambulance_share_by_acuity:
     value:
-    - 0.85
-    - 0.45
-    - 0.2
-    - 0.06
-    - 0.03
+    - 0.569
+    - 0.369
+    - 0.195
+    - 0.08
+    - 0.078
     unit: fraction
-    source: assumed
-    citation: Placeholder set in Wave 0 so the simulator can run; sicker patients arrive by ambulance more often
+    source: measured
+    citation: CDC/NCHS NHAMCS Emergency Department public-use microdata, 2019+2021+2022 pooled (51,713 sampled visits; 2020 excluded), weighted
+      by PATWT; share with ARREMS==1 among visits with known arrival mode, by IMMEDR level, metropolitan hospitals with an emergency medicine residency
+      (MSA==1 & EMEDRES==1; 19,992 sampled visits)
     index: acuity_1_to_5
+    url: https://ftp.cdc.gov/pub/Health_Statistics/NCHS/dataset_documentation/nhamcs/stata/
+    file: data/processed/nhamcs_ed_by_acuity.csv
+    note: 'Includes inter-facility transfers by ambulance. Level 5 is not lower than level 4 in the data (small cell: 516 visits). All-hospital
+      values: [0.368, 0.356, 0.181, 0.06, 0.081].'
   age_band_mix:
     value:
-      age_0_17: 0.1
-      age_18_44: 0.4
-      age_45_64: 0.27
-      age_65_plus: 0.23
+      age_0_17: 0.2983
+      age_18_44: 0.34
+      age_45_64: 0.203
+      age_65_plus: 0.1587
     unit: fraction
-    source: assumed
-    citation: Placeholder set in Wave 0 so the simulator can run; adult hospital with a separate pediatric ED
+    source: measured
+    citation: CDC/NCHS NHAMCS Emergency Department public-use microdata, 2019+2021+2022 pooled (51,713 sampled visits; 2020 excluded), weighted
+      by PATWT; variable AGE, metropolitan hospitals with an emergency medicine residency (MSA==1 & EMEDRES==1; 19,992 sampled visits)
     index: age_band
+    url: https://ftp.cdc.gov/pub/Health_Statistics/NCHS/dataset_documentation/nhamcs/stata/
+    file: data/processed/nhamcs_ed_mix.json
+    note: All ages, including children (this subset contains children's hospitals; the all-hospital share under 18 is 0.214). RWJUH runs a separate
+      pediatric ED under the same CMS number; if the simulated stream is adults only, renormalise the three adult bands.
   payer_mix:
     value:
-      medicare: 0.24
-      medicaid: 0.3
-      commercial: 0.33
-      self_pay: 0.09
-      other: 0.04
+      medicare: 0.1818
+      medicaid: 0.469
+      commercial: 0.2697
+      self_pay: 0.0555
+      other: 0.024
     unit: fraction
-    source: assumed
-    citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+    source: measured
+    citation: CDC/NCHS NHAMCS Emergency Department public-use microdata, 2019+2021+2022 pooled (51,713 sampled visits; 2020 excluded), weighted
+      by PATWT; variable PAYTYPER (recoded primary expected source of payment), metropolitan hospitals with an emergency medicine residency (MSA==1
+      & EMEDRES==1; 19,992 sampled visits)
     index: payer
+    url: https://ftp.cdc.gov/pub/Health_Statistics/NCHS/dataset_documentation/nhamcs/stata/
+    file: data/processed/nhamcs_ed_mix.json
+    note: 'Mapping: private->commercial; Medicaid/CHIP->medicaid; self-pay + no charge/charity->self_pay; workers'' compensation + other->other.
+      11.3% unknown/blank payer excluded. National teaching-hospital mix, not New Jersey''s or this hospital''s.'
   payer_revenue_multiplier:
     value:
       medicare: 1.0
@@ -152,59 +255,152 @@ shared:
     citation: Placeholder set in Wave 0 so the simulator can run; placeholder payment-to-Medicare ratios
     index: payer
   inpatient_los_days:
-    value: 4.8
+    value: 5.29
     unit: days
-    source: assumed
-    citation: Placeholder set in Wave 0 so the simulator can run; placeholder mean
+    source: measured
+    citation: CDC/NCHS NHAMCS Emergency Department public-use microdata, 2019+2021+2022 pooled (51,713 sampled visits; 2020 excluded), weighted
+      by PATWT; variable LOS (length of hospital stay in days for visits admitted to this hospital, ADMITHOS==1), all hospitals, n=5850 admissions
+      with a known stay; mean capped at 60 days
     dist:
       kind: lognormal
-      mean: 4.8
-      cv: 0.9
+      mean: 5.29
+      cv: 1.12
+    url: https://ftp.cdc.gov/pub/Health_Statistics/NCHS/dataset_documentation/nhamcs/stata/
+    file: data/processed/nhamcs_ed_treatment_time_model.json
+    range:
+    - 2.0
+    - 6.0
+    note: Median 4 days, 90th percentile 10. range is the interquartile range. Stays of patients admitted through the ED only.
   inpatient_revenue:
-    value: 14000
+    value: 28045
     unit: usd/stay
-    source: assumed
-    citation: Placeholder set in Wave 0 so the simulator can run; placeholder Medicare base x mean weight
+    source: measured
+    citation: 'CMS IPPS FY 2027 final rule + correction notice: Tables 1A/1D standardized amounts (labor 4519.68, nonlabor 2328.32, capital 539.95)
+      and Impact File row for CCN 310038 (wage index 1.2727, teaching factor 0.18135, DSH factor 0.04234, capital GAF 1.1795501088188711, transfer-adjusted
+      case-mix index 2.461, uncompensated-care amount per claim 1847.02); operating = (labor*wage_index + nonlabor) * (1 + TCHOP + DSHOPP); capital
+      = capital_rate * GAF * (1 + TCHCP + DSHCPP); payment(weight) = (operating + capital) * weight + UCP per claim. Outliers, VBP/readmission/HAC
+      adjustments, new-technology add-ons and transfers ignored.'
+    url: https://www.cms.gov/medicare/payment/prospective-payment-systems/acute-inpatient-pps/fy-2027-ipps-final-rule-home-page
+    file: data/processed/ipps_fy2027_hospital_310038.json
+    range:
+    - 12492
+    - 28045
+    note: 'Medicare fee-for-service basis (other payers through payer_revenue_multiplier). BASE-RATE ASSUMPTION: the stay is paid at this hospital''s
+      average Medicare case-mix index (2.461, all Medicare discharges including transplant and cardiac surgery); medical admissions through the
+      ED are on average lighter, so this is an upper estimate - lower end of range = a DRG weight of 1.0 (12492 usd). Payment per unit of DRG weight
+      = 10645 usd. Cross-check: the hospital''s FY2024 cost report gives net patient revenue 1,665,310,131 usd x inpatient share of charges 0.689
+      / 36,561 discharges = about 31,400 usd per discharge, all payers. MS-DRG weights and mean LOS: data/processed/ipps_fy2027_table5_msdrg.csv.'
   deterioration_hazard_per_hour_waiting:
     value:
     - 0.02
-    - 0.008
-    - 0.002
+    - 0.003
+    - 0.001
     - 0.0004
     - 0.0001
     unit: probability/hour
-    source: assumed
-    citation: Placeholder set in Wave 0 so the simulator can run; placeholder; rises with acuity
+    source: literature
+    citation: 'Rizer NW, Klein E, Copenhaver MS, Zhao X, Kelen GD, Hinson JS (2026) Early Clinical Deterioration Among Emergency Department Boarders: A Retrospective
+      Analysis, Ann Emerg Med 87(6):681-693 (abstract): of 173,168 floor-level medical admissions boarding 4-48 h at five hospitals, 6,299 (3.6%) escalated
+      to intermediate or intensive care within 48 h of the admission order, 2,823 (45%) of them while still in the ED; median boarding 12.5 h (IQR 8.2-20.7)
+      with deterioration vs 10.2 h without; +0.8% relative risk overall and +2.4% for in-ED deterioration per extra boarding hour; 28-day mortality 13.0% after
+      deterioration vs 3.9%.'
+    url: https://doi.org/10.1016/j.annemergmed.2026.01.023
     index: acuity_1_to_5
+    range:
+    - - 0.005
+      - 0.05
+    - - 0.0013
+      - 0.008
+    - - 0.0004
+      - 0.002
+    - - 0.0
+      - 0.001
+    - - 0.0
+      - 0.0005
+    note: 'DERIVED by the research agent for ESI 2 and 3 only: 3.6% / 12.5 h = 0.0029 per hour (ESI 2 value 0.003); in-ED events only, 1.6% / 12.5 h = 0.0013
+      (low end); ESI 3 set to a third of ESI 2 because most ESI 3 patients are discharged. The source measures admitted patients boarding after treatment, not
+      untreated patients in the waiting room; no waiting-room deterioration rate was found. ESI 1, 4 and 5 values are unchanged Wave 0 placeholders and remain
+      ASSUMED. US academic system, 2018-2024.'
+    mixed_provenance: 'PER-ELEMENT PROVENANCE (audit 2026-10-10): only the ESI 2 value is computed from the cited source; ESI 3 is an assumed fraction of it; ESI 1, 4 and 5 are ASSUMED placeholders.'
   death_hazard_per_hour_untreated:
     value:
     - 0.01
-    - 0.0008
-    - 5.0e-05
-    - 0.0
-    - 0.0
+    - 0.0015
+    - 0.0005
+    - 4.0e-05
+    - 4.0e-05
     unit: probability/hour
-    source: assumed
-    citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+    source: literature
+    citation: 'Derived from (a) Singer AJ et al. (2011) Acad Emerg Med, 41,256 admissions: in-hospital mortality 2.5% boarded <2 h vs 4.5% boarded >=12 h (about
+      0.0017 per hour); (b) Jones S et al. (2022) Emerg Med J, 5.25 million admitted patients, England: 30-day mortality rises linearly from 5 to 12 h after
+      arrival, one extra death per 82 patients delayed beyond 6-8 h; (c) Guttmann A et al. (2011) BMJ, 13.9 million discharged patients, Ontario: 8,502 deaths
+      among 6.64 million high-acuity and 1,998 among 7.29 million low-acuity discharged patients within 7 days, and one hour less mean stay estimated to avoid
+      6.5% and 12.7% of them (about 8e-5 and 4e-5 per patient-hour). ESI 2 = admitted-patient figure; ESI 3 = 30% admitted-type + 70% discharged high-acuity;
+      ESI 4-5 = discharged low-acuity.'
+    url: https://doi.org/10.1136/bmj.d2983
     index: acuity_1_to_5
+    range:
+    - - 0.001
+      - 0.05
+    - - 0.0005
+      - 0.0035
+    - - 0.0001
+      - 0.001
+    - - 0.0
+      - 0.0001
+    - - 0.0
+      - 0.0001
+    note: 'DERIVED by the research agent; observational, confounded, and these are attributable deaths within 7 to 30 days per hour of delay, not deaths inside
+      the department. ESI 1 (0.01) has no usable source and remains ASSUMED: ESI 1 patients are treated immediately by definition. Other URLs: https://doi.org/10.1111/j.1553-2712.2011.01236.x
+      (Singer), https://doi.org/10.1136/emermed-2021-211572 (Jones). In Jones the effect starts about 5 h after arrival; applying the hazard from minute zero
+      overstates harm for short waits.'
+    mixed_provenance: 'PER-ELEMENT PROVENANCE (audit 2026-10-10): the ESI 1 value is an ASSUMED placeholder; ESI 2-5 are derived from the cited sources.'
   lwbs_patience_min:
     value:
-    - 600
-    - 480
-    - 240
-    - 150
-    - 120
+    - 100000
+    - 3500
+    - 1150
+    - 1600
+    - 1000
     unit: minutes
-    source: assumed
-    citation: Placeholder set in Wave 0 so the simulator can run; placeholder mean patience before leaving, exponential
+    source: literature
+    citation: 'Batt RJ, Terwiesch C (2015) Waiting Patiently: An Empirical Study of Queue Abandonment in an Emergency Department, Management Science 61(1):39-59
+      (working-paper PDF read). Table 1: mean wait 1.0/1.9/1.3/1.3 h and LWBS 1.7%/9.5%/4.7%/7.4% for ESI 2/3/4/5 (N = 27,538/65,773/39,878/10,509); ''ESI 1
+      patients ... do not abandon''. Values are the exponential mean patience that reproduces each LWBS share at that mean wait: theta = -wait / ln(1 - LWBS),
+      rounded.'
+    url: https://faculty.wharton.upenn.edu/wp-content/uploads/2013/04/Waiting_Patiently-MS.pdf
     index: acuity_1_to_5
     dist:
       kind: exponential
+    range:
+    - - 100000
+      - 100000
+    - - 1500
+      - 6000
+    - - 600
+      - 3000
+    - - 800
+      - 3000
+    - - 500
+      - 2000
+    note: DERIVED by the research agent from a published table, not a published estimate. One US urban academic ED, about 180,000 visits. ESI 1 is set effectively
+      infinite (they did not leave). The same paper's regression gives about +0.5 percentage points LWBS per extra 15 min of wait for ESI 3 (hazard about 0.02/h,
+      mean 3,000 min), hence the wide range. Patience also falls with visible queue length (one more person in the waiting room = +0.5 points). The Wave 0 placeholder
+      (240 min for ESI 3) would give about 38% LWBS at a 1.9 h wait, four times the observed 9.5%.
   boarding_los_penalty:
-    value: 0.02
+    value: 0.01
     unit: fraction of inpatient LOS per boarding hour
-    source: assumed
-    citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+    source: literature
+    citation: 'Singer AJ, Thode HC, Viccellio P, Pines JM (2011) The association between length of emergency department boarding and mortality, Acad Emerg Med
+      18(12): mean hospital stay 5.6 days when boarded <2 h vs 8.7 days when boarded >24 h (41,256 admissions, one US academic ED, unadjusted) = at most about
+      +2.3% of stay per boarding hour. Roussel M et al. (2023) JAMA Intern Med: patients aged 75+ who spent the night in the ED had length-of-stay rate ratio
+      1.20 (1.11-1.31). Sun BC et al. (2013) Ann Emerg Med: admission on a high-crowding day = +0.8% length of stay (995,379 admissions, adjusted).'
+    url: https://doi.org/10.1111/j.1553-2712.2011.01236.x
+    range:
+    - 0.001
+    - 0.025
+    note: Loose range; value set inside it. The unadjusted single-site figure (0.023) is the ceiling because sicker patients board longer; the adjusted multi-hospital
+      figure is far smaller. US and France.
 variants:
   esi1:
     label: ESI level 1
@@ -238,39 +434,76 @@ variants:
         source: assumed
         citation: Placeholder set in Wave 0 so the simulator can run; placeholder nursing intensity
       treatment_min:
-        value: 180
+        value: 228
         unit: minutes
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder in-bay time after first contact excluding tests
+        source: measured
+        citation: CDC/NCHS NHAMCS Emergency Department public-use microdata, 2019+2021+2022 pooled (51,713 sampled visits; 2020 excluded), weighted
+          by PATWT; weighted least-squares of (LOV - WAITTIME - BOARDED) minutes on triage-level dummies + X-ray, CT, MRI, ultrasound, lab and admission
+          indicators, metropolitan hospitals with an emergency medicine residency (MSA==1 & EMEDRES==1; 19,992 sampled visits), n=10580 visits (189
+          at level 1); value = the level-1 coefficient = mean minutes from first provider contact to leaving the ED for a visit with no imaging and
+          no lab
         dist:
           kind: lognormal
-          mean: 180
-          cv: 0.7
+          mean: 228
+          cv: 0.96
+        url: https://ftp.cdc.gov/pub/Health_Statistics/NCHS/dataset_documentation/nhamcs/stata/
+        file: data/processed/nhamcs_ed_treatment_time_model.json
+        note: 'Model-derived, R2=0.167; outcome winsorized at the 99th percentile; cv is the raw coefficient of variation of the outcome at this level.
+          Test-attributable minutes in the same model: X-ray 21.1, CT 69.0, MRI 177.4, ultrasound 38.9, lab 83.1, admitted -27.2. Observed mean after
+          provider contact at this level incl. tests: 329.4 (median 224.0). The value includes provider re-evaluation and discharge processing, so if
+          the simulator adds those separately it should be recalibrated against the length-of-visit targets in catalog/validation_targets.yaml.'
       p_imaging:
-        value: 0.85
+        value: 0.698
         unit: probability
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder any imaging
+        source: measured
+        citation: CDC/NCHS NHAMCS Emergency Department public-use microdata, 2019+2021+2022 pooled (51,713 sampled visits; 2020 excluded), weighted
+          by PATWT; ANYIMAGE (any imaging ordered or provided); IMMEDR==1, metropolitan hospitals with an emergency medicine residency (MSA==1 & EMEDRES==1;
+          19,992 sampled visits), n=270
+        url: https://ftp.cdc.gov/pub/Health_Statistics/NCHS/dataset_documentation/nhamcs/stata/
+        file: data/processed/nhamcs_ed_by_acuity.csv
+        note: National estimate for triage level 1; all_hospitals value 0.709. Visits that left without being seen and DOA excluded.
       p_ct_given_imaging:
-        value: 0.7
+        value: 0.644
         unit: probability
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+        source: measured
+        citation: CDC/NCHS NHAMCS Emergency Department public-use microdata, 2019+2021+2022 pooled (51,713 sampled visits; 2020 excluded), weighted
+          by PATWT; CATSCAN==1 among visits with ANYIMAGE==1; IMMEDR==1, metropolitan hospitals with an emergency medicine residency (MSA==1 & EMEDRES==1;
+          19,992 sampled visits), n=160
+        url: https://ftp.cdc.gov/pub/Health_Statistics/NCHS/dataset_documentation/nhamcs/stata/
+        file: data/processed/nhamcs_ed_by_acuity.csv
+        note: National estimate for triage level 1; all_hospitals value 0.503. Visits that left without being seen and DOA excluded.
       p_lab:
-        value: 0.98
+        value: 0.778
         unit: probability
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+        source: measured
+        citation: CDC/NCHS NHAMCS Emergency Department public-use microdata, 2019+2021+2022 pooled (51,713 sampled visits; 2020 excluded), weighted
+          by PATWT; any of 22 blood/urine/culture/toxicology items (CBC, BMP, CMP, cardiac enzymes, urinalysis, cultures ...); rapid flu/COVID/pregnancy/HIV
+          tests not counted; IMMEDR==1, metropolitan hospitals with an emergency medicine residency (MSA==1 & EMEDRES==1; 19,992 sampled visits), n=270
+        url: https://ftp.cdc.gov/pub/Health_Statistics/NCHS/dataset_documentation/nhamcs/stata/
+        file: data/processed/nhamcs_ed_by_acuity.csv
+        note: National estimate for triage level 1; all_hospitals value 0.732. Visits that left without being seen and DOA excluded.
       p_admit:
-        value: 0.75
+        value: 0.401
         unit: probability
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+        source: measured
+        citation: CDC/NCHS NHAMCS Emergency Department public-use microdata, 2019+2021+2022 pooled (51,713 sampled visits; 2020 excluded), weighted
+          by PATWT; ADMITHOS==1 or OBSHOS==1 (admitted to this hospital, directly or via observation unit); IMMEDR==1, metropolitan hospitals with an
+          emergency medicine residency (MSA==1 & EMEDRES==1; 19,992 sampled visits), n=270
+        url: https://ftp.cdc.gov/pub/Health_Statistics/NCHS/dataset_documentation/nhamcs/stata/
+        file: data/processed/nhamcs_ed_by_acuity.csv
+        note: National estimate for triage level 1; all_hospitals value 0.289. Visits that left without being seen and DOA excluded. NHAMCS level 1
+          mixes true ESI 1 with rescaled 3-/4-level 'immediate' categories, so this is lower than single-site ESI 1 admission rates in the literature.
       revenue_ed_visit:
-        value: 1900
+        value: 982.0
         unit: usd/visit
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder ED visit level payment (Medicare-rate basis)
+        source: measured
+        citation: CMS OPPS Addendum B, July 2026 update (national unadjusted payment rate by HCPCS code), wage-adjusted for CCN 310038 as rate x (0.6
+          x wage index 1.2727 + 0.4) = x1.1636; HCPCS 99291 (APC 5041), national rate 843.92
+        url: https://www.cms.gov/medicare/payment/prospective-payment-systems/hospital-outpatient/addendum-a-b-updates
+        file: data/processed/opps_2026jul_selected_codes.csv
+        note: 'MAPPING ASSUMPTION: triage level 1 is billed as visit code 99291 (level 1 -> critical care first hour, levels 2-5 -> ED visit levels
+          5-2; the lowest visit level 99281 is not used). In practice the billed level follows documented resources, not the triage level. Hospital
+          facility payment on the Medicare basis only: no physician professional fee; many ancillaries are packaged into it.'
       supply_cost:
         value: 400
         unit: usd/visit
@@ -308,39 +541,75 @@ variants:
         source: assumed
         citation: Placeholder set in Wave 0 so the simulator can run; placeholder nursing intensity
       treatment_min:
-        value: 200
+        value: 218
         unit: minutes
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder in-bay time after first contact excluding tests
+        source: measured
+        citation: CDC/NCHS NHAMCS Emergency Department public-use microdata, 2019+2021+2022 pooled (51,713 sampled visits; 2020 excluded), weighted
+          by PATWT; weighted least-squares of (LOV - WAITTIME - BOARDED) minutes on triage-level dummies + X-ray, CT, MRI, ultrasound, lab and admission
+          indicators, metropolitan hospitals with an emergency medicine residency (MSA==1 & EMEDRES==1; 19,992 sampled visits), n=10580 visits (1708
+          at level 2); value = the level-2 coefficient = mean minutes from first provider contact to leaving the ED for a visit with no imaging and
+          no lab
         dist:
           kind: lognormal
-          mean: 200
-          cv: 0.7
+          mean: 218
+          cv: 0.9
+        url: https://ftp.cdc.gov/pub/Health_Statistics/NCHS/dataset_documentation/nhamcs/stata/
+        file: data/processed/nhamcs_ed_treatment_time_model.json
+        note: 'Model-derived, R2=0.167; outcome winsorized at the 99th percentile; cv is the raw coefficient of variation of the outcome at this level.
+          Test-attributable minutes in the same model: X-ray 21.1, CT 69.0, MRI 177.4, ultrasound 38.9, lab 83.1, admitted -27.2. Observed mean after
+          provider contact at this level incl. tests: 315.1 (median 226.0). The value includes provider re-evaluation and discharge processing, so if
+          the simulator adds those separately it should be recalibrated against the length-of-visit targets in catalog/validation_targets.yaml.'
       p_imaging:
-        value: 0.7
+        value: 0.663
         unit: probability
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder any imaging
+        source: measured
+        citation: CDC/NCHS NHAMCS Emergency Department public-use microdata, 2019+2021+2022 pooled (51,713 sampled visits; 2020 excluded), weighted
+          by PATWT; ANYIMAGE (any imaging ordered or provided); IMMEDR==2, metropolitan hospitals with an emergency medicine residency (MSA==1 & EMEDRES==1;
+          19,992 sampled visits), n=2326
+        url: https://ftp.cdc.gov/pub/Health_Statistics/NCHS/dataset_documentation/nhamcs/stata/
+        file: data/processed/nhamcs_ed_by_acuity.csv
+        note: National estimate for triage level 2; all_hospitals value 0.705. Visits that left without being seen and DOA excluded.
       p_ct_given_imaging:
-        value: 0.6
+        value: 0.513
         unit: probability
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+        source: measured
+        citation: CDC/NCHS NHAMCS Emergency Department public-use microdata, 2019+2021+2022 pooled (51,713 sampled visits; 2020 excluded), weighted
+          by PATWT; CATSCAN==1 among visits with ANYIMAGE==1; IMMEDR==2, metropolitan hospitals with an emergency medicine residency (MSA==1 & EMEDRES==1;
+          19,992 sampled visits), n=1442
+        url: https://ftp.cdc.gov/pub/Health_Statistics/NCHS/dataset_documentation/nhamcs/stata/
+        file: data/processed/nhamcs_ed_by_acuity.csv
+        note: National estimate for triage level 2; all_hospitals value 0.500. Visits that left without being seen and DOA excluded.
       p_lab:
-        value: 0.9
+        value: 0.787
         unit: probability
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+        source: measured
+        citation: CDC/NCHS NHAMCS Emergency Department public-use microdata, 2019+2021+2022 pooled (51,713 sampled visits; 2020 excluded), weighted
+          by PATWT; any of 22 blood/urine/culture/toxicology items (CBC, BMP, CMP, cardiac enzymes, urinalysis, cultures ...); rapid flu/COVID/pregnancy/HIV
+          tests not counted; IMMEDR==2, metropolitan hospitals with an emergency medicine residency (MSA==1 & EMEDRES==1; 19,992 sampled visits), n=2326
+        url: https://ftp.cdc.gov/pub/Health_Statistics/NCHS/dataset_documentation/nhamcs/stata/
+        file: data/processed/nhamcs_ed_by_acuity.csv
+        note: National estimate for triage level 2; all_hospitals value 0.843. Visits that left without being seen and DOA excluded.
       p_admit:
-        value: 0.45
+        value: 0.345
         unit: probability
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+        source: measured
+        citation: CDC/NCHS NHAMCS Emergency Department public-use microdata, 2019+2021+2022 pooled (51,713 sampled visits; 2020 excluded), weighted
+          by PATWT; ADMITHOS==1 or OBSHOS==1 (admitted to this hospital, directly or via observation unit); IMMEDR==2, metropolitan hospitals with an
+          emergency medicine residency (MSA==1 & EMEDRES==1; 19,992 sampled visits), n=2326
+        url: https://ftp.cdc.gov/pub/Health_Statistics/NCHS/dataset_documentation/nhamcs/stata/
+        file: data/processed/nhamcs_ed_by_acuity.csv
+        note: National estimate for triage level 2; all_hospitals value 0.326. Visits that left without being seen and DOA excluded.
       revenue_ed_visit:
-        value: 1200
+        value: 707.98
         unit: usd/visit
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder ED visit level payment (Medicare-rate basis)
+        source: measured
+        citation: CMS OPPS Addendum B, July 2026 update (national unadjusted payment rate by HCPCS code), wage-adjusted for CCN 310038 as rate x (0.6
+          x wage index 1.2727 + 0.4) = x1.1636; HCPCS 99285 (APC 5025), national rate 608.43
+        url: https://www.cms.gov/medicare/payment/prospective-payment-systems/hospital-outpatient/addendum-a-b-updates
+        file: data/processed/opps_2026jul_selected_codes.csv
+        note: 'MAPPING ASSUMPTION: triage level 2 is billed as visit code 99285 (level 1 -> critical care first hour, levels 2-5 -> ED visit levels
+          5-2; the lowest visit level 99281 is not used). In practice the billed level follows documented resources, not the triage level. Hospital
+          facility payment on the Medicare basis only: no physician professional fee; many ancillaries are packaged into it.'
       supply_cost:
         value: 180
         unit: usd/visit
@@ -378,39 +647,75 @@ variants:
         source: assumed
         citation: Placeholder set in Wave 0 so the simulator can run; placeholder nursing intensity
       treatment_min:
-        value: 170
+        value: 152
         unit: minutes
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder in-bay time after first contact excluding tests
+        source: measured
+        citation: CDC/NCHS NHAMCS Emergency Department public-use microdata, 2019+2021+2022 pooled (51,713 sampled visits; 2020 excluded), weighted
+          by PATWT; weighted least-squares of (LOV - WAITTIME - BOARDED) minutes on triage-level dummies + X-ray, CT, MRI, ultrasound, lab and admission
+          indicators, metropolitan hospitals with an emergency medicine residency (MSA==1 & EMEDRES==1; 19,992 sampled visits), n=10580 visits (5392
+          at level 3); value = the level-3 coefficient = mean minutes from first provider contact to leaving the ED for a visit with no imaging and
+          no lab
         dist:
           kind: lognormal
-          mean: 170
-          cv: 0.7
+          mean: 152
+          cv: 0.87
+        url: https://ftp.cdc.gov/pub/Health_Statistics/NCHS/dataset_documentation/nhamcs/stata/
+        file: data/processed/nhamcs_ed_treatment_time_model.json
+        note: 'Model-derived, R2=0.167; outcome winsorized at the 99th percentile; cv is the raw coefficient of variation of the outcome at this level.
+          Test-attributable minutes in the same model: X-ray 21.1, CT 69.0, MRI 177.4, ultrasound 38.9, lab 83.1, admitted -27.2. Observed mean after
+          provider contact at this level incl. tests: 233.2 (median 182.0). The value includes provider re-evaluation and discharge processing, so if
+          the simulator adds those separately it should be recalibrated against the length-of-visit targets in catalog/validation_targets.yaml.'
       p_imaging:
-        value: 0.5
+        value: 0.584
         unit: probability
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder any imaging
+        source: measured
+        citation: CDC/NCHS NHAMCS Emergency Department public-use microdata, 2019+2021+2022 pooled (51,713 sampled visits; 2020 excluded), weighted
+          by PATWT; ANYIMAGE (any imaging ordered or provided); IMMEDR==3, metropolitan hospitals with an emergency medicine residency (MSA==1 & EMEDRES==1;
+          19,992 sampled visits), n=6762
+        url: https://ftp.cdc.gov/pub/Health_Statistics/NCHS/dataset_documentation/nhamcs/stata/
+        file: data/processed/nhamcs_ed_by_acuity.csv
+        note: National estimate for triage level 3; all_hospitals value 0.632. Visits that left without being seen and DOA excluded.
       p_ct_given_imaging:
-        value: 0.45
+        value: 0.442
         unit: probability
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+        source: measured
+        citation: CDC/NCHS NHAMCS Emergency Department public-use microdata, 2019+2021+2022 pooled (51,713 sampled visits; 2020 excluded), weighted
+          by PATWT; CATSCAN==1 among visits with ANYIMAGE==1; IMMEDR==3, metropolitan hospitals with an emergency medicine residency (MSA==1 & EMEDRES==1;
+          19,992 sampled visits), n=3721
+        url: https://ftp.cdc.gov/pub/Health_Statistics/NCHS/dataset_documentation/nhamcs/stata/
+        file: data/processed/nhamcs_ed_by_acuity.csv
+        note: National estimate for triage level 3; all_hospitals value 0.470. Visits that left without being seen and DOA excluded.
       p_lab:
-        value: 0.7
+        value: 0.649
         unit: probability
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+        source: measured
+        citation: CDC/NCHS NHAMCS Emergency Department public-use microdata, 2019+2021+2022 pooled (51,713 sampled visits; 2020 excluded), weighted
+          by PATWT; any of 22 blood/urine/culture/toxicology items (CBC, BMP, CMP, cardiac enzymes, urinalysis, cultures ...); rapid flu/COVID/pregnancy/HIV
+          tests not counted; IMMEDR==3, metropolitan hospitals with an emergency medicine residency (MSA==1 & EMEDRES==1; 19,992 sampled visits), n=6762
+        url: https://ftp.cdc.gov/pub/Health_Statistics/NCHS/dataset_documentation/nhamcs/stata/
+        file: data/processed/nhamcs_ed_by_acuity.csv
+        note: National estimate for triage level 3; all_hospitals value 0.695. Visits that left without being seen and DOA excluded.
       p_admit:
-        value: 0.2
+        value: 0.116
         unit: probability
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+        source: measured
+        citation: CDC/NCHS NHAMCS Emergency Department public-use microdata, 2019+2021+2022 pooled (51,713 sampled visits; 2020 excluded), weighted
+          by PATWT; ADMITHOS==1 or OBSHOS==1 (admitted to this hospital, directly or via observation unit); IMMEDR==3, metropolitan hospitals with an
+          emergency medicine residency (MSA==1 & EMEDRES==1; 19,992 sampled visits), n=6762
+        url: https://ftp.cdc.gov/pub/Health_Statistics/NCHS/dataset_documentation/nhamcs/stata/
+        file: data/processed/nhamcs_ed_by_acuity.csv
+        note: National estimate for triage level 3; all_hospitals value 0.120. Visits that left without being seen and DOA excluded.
       revenue_ed_visit:
-        value: 650
+        value: 496.05
         unit: usd/visit
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder ED visit level payment (Medicare-rate basis)
+        source: measured
+        citation: CMS OPPS Addendum B, July 2026 update (national unadjusted payment rate by HCPCS code), wage-adjusted for CCN 310038 as rate x (0.6
+          x wage index 1.2727 + 0.4) = x1.1636; HCPCS 99284 (APC 5024), national rate 426.3
+        url: https://www.cms.gov/medicare/payment/prospective-payment-systems/hospital-outpatient/addendum-a-b-updates
+        file: data/processed/opps_2026jul_selected_codes.csv
+        note: 'MAPPING ASSUMPTION: triage level 3 is billed as visit code 99284 (level 1 -> critical care first hour, levels 2-5 -> ED visit levels
+          5-2; the lowest visit level 99281 is not used). In practice the billed level follows documented resources, not the triage level. Hospital
+          facility payment on the Medicare basis only: no physician professional fee; many ancillaries are packaged into it.'
       supply_cost:
         value: 80
         unit: usd/visit
@@ -448,39 +753,75 @@ variants:
         source: assumed
         citation: Placeholder set in Wave 0 so the simulator can run; placeholder nursing intensity
       treatment_min:
-        value: 70
+        value: 98
         unit: minutes
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder in-bay time after first contact excluding tests
+        source: measured
+        citation: CDC/NCHS NHAMCS Emergency Department public-use microdata, 2019+2021+2022 pooled (51,713 sampled visits; 2020 excluded), weighted
+          by PATWT; weighted least-squares of (LOV - WAITTIME - BOARDED) minutes on triage-level dummies + X-ray, CT, MRI, ultrasound, lab and admission
+          indicators, metropolitan hospitals with an emergency medicine residency (MSA==1 & EMEDRES==1; 19,992 sampled visits), n=10580 visits (2874
+          at level 4); value = the level-4 coefficient = mean minutes from first provider contact to leaving the ED for a visit with no imaging and
+          no lab
         dist:
           kind: lognormal
-          mean: 70
-          cv: 0.7
+          mean: 98
+          cv: 1.16
+        url: https://ftp.cdc.gov/pub/Health_Statistics/NCHS/dataset_documentation/nhamcs/stata/
+        file: data/processed/nhamcs_ed_treatment_time_model.json
+        note: 'Model-derived, R2=0.167; outcome winsorized at the 99th percentile; cv is the raw coefficient of variation of the outcome at this level.
+          Test-attributable minutes in the same model: X-ray 21.1, CT 69.0, MRI 177.4, ultrasound 38.9, lab 83.1, admitted -27.2. Observed mean after
+          provider contact at this level incl. tests: 128.1 (median 90.0). The value includes provider re-evaluation and discharge processing, so if
+          the simulator adds those separately it should be recalibrated against the length-of-visit targets in catalog/validation_targets.yaml.'
       p_imaging:
-        value: 0.25
+        value: 0.337
         unit: probability
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder any imaging
+        source: measured
+        citation: CDC/NCHS NHAMCS Emergency Department public-use microdata, 2019+2021+2022 pooled (51,713 sampled visits; 2020 excluded), weighted
+          by PATWT; ANYIMAGE (any imaging ordered or provided); IMMEDR==4, metropolitan hospitals with an emergency medicine residency (MSA==1 & EMEDRES==1;
+          19,992 sampled visits), n=3479
+        url: https://ftp.cdc.gov/pub/Health_Statistics/NCHS/dataset_documentation/nhamcs/stata/
+        file: data/processed/nhamcs_ed_by_acuity.csv
+        note: National estimate for triage level 4; all_hospitals value 0.383. Visits that left without being seen and DOA excluded.
       p_ct_given_imaging:
-        value: 0.15
-        unit: probability
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
-      p_lab:
         value: 0.2
         unit: probability
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
-      p_admit:
-        value: 0.03
+        source: measured
+        citation: CDC/NCHS NHAMCS Emergency Department public-use microdata, 2019+2021+2022 pooled (51,713 sampled visits; 2020 excluded), weighted
+          by PATWT; CATSCAN==1 among visits with ANYIMAGE==1; IMMEDR==4, metropolitan hospitals with an emergency medicine residency (MSA==1 & EMEDRES==1;
+          19,992 sampled visits), n=1108
+        url: https://ftp.cdc.gov/pub/Health_Statistics/NCHS/dataset_documentation/nhamcs/stata/
+        file: data/processed/nhamcs_ed_by_acuity.csv
+        note: National estimate for triage level 4; all_hospitals value 0.209. Visits that left without being seen and DOA excluded.
+      p_lab:
+        value: 0.234
         unit: probability
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+        source: measured
+        citation: CDC/NCHS NHAMCS Emergency Department public-use microdata, 2019+2021+2022 pooled (51,713 sampled visits; 2020 excluded), weighted
+          by PATWT; any of 22 blood/urine/culture/toxicology items (CBC, BMP, CMP, cardiac enzymes, urinalysis, cultures ...); rapid flu/COVID/pregnancy/HIV
+          tests not counted; IMMEDR==4, metropolitan hospitals with an emergency medicine residency (MSA==1 & EMEDRES==1; 19,992 sampled visits), n=3479
+        url: https://ftp.cdc.gov/pub/Health_Statistics/NCHS/dataset_documentation/nhamcs/stata/
+        file: data/processed/nhamcs_ed_by_acuity.csv
+        note: National estimate for triage level 4; all_hospitals value 0.226. Visits that left without being seen and DOA excluded.
+      p_admit:
+        value: 0.02
+        unit: probability
+        source: measured
+        citation: CDC/NCHS NHAMCS Emergency Department public-use microdata, 2019+2021+2022 pooled (51,713 sampled visits; 2020 excluded), weighted
+          by PATWT; ADMITHOS==1 or OBSHOS==1 (admitted to this hospital, directly or via observation unit); IMMEDR==4, metropolitan hospitals with an
+          emergency medicine residency (MSA==1 & EMEDRES==1; 19,992 sampled visits), n=3479
+        url: https://ftp.cdc.gov/pub/Health_Statistics/NCHS/dataset_documentation/nhamcs/stata/
+        file: data/processed/nhamcs_ed_by_acuity.csv
+        note: National estimate for triage level 4; all_hospitals value 0.014. Visits that left without being seen and DOA excluded.
       revenue_ed_visit:
-        value: 330
+        value: 324.52
         unit: usd/visit
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder ED visit level payment (Medicare-rate basis)
+        source: measured
+        citation: CMS OPPS Addendum B, July 2026 update (national unadjusted payment rate by HCPCS code), wage-adjusted for CCN 310038 as rate x (0.6
+          x wage index 1.2727 + 0.4) = x1.1636; HCPCS 99283 (APC 5023), national rate 278.89
+        url: https://www.cms.gov/medicare/payment/prospective-payment-systems/hospital-outpatient/addendum-a-b-updates
+        file: data/processed/opps_2026jul_selected_codes.csv
+        note: 'MAPPING ASSUMPTION: triage level 4 is billed as visit code 99283 (level 1 -> critical care first hour, levels 2-5 -> ED visit levels
+          5-2; the lowest visit level 99281 is not used). In practice the billed level follows documented resources, not the triage level. Hospital
+          facility payment on the Medicare basis only: no physician professional fee; many ancillaries are packaged into it.'
       supply_cost:
         value: 30
         unit: usd/visit
@@ -518,39 +859,75 @@ variants:
         source: assumed
         citation: Placeholder set in Wave 0 so the simulator can run; placeholder nursing intensity
       treatment_min:
-        value: 40
+        value: 96
         unit: minutes
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder in-bay time after first contact excluding tests
+        source: measured
+        citation: CDC/NCHS NHAMCS Emergency Department public-use microdata, 2019+2021+2022 pooled (51,713 sampled visits; 2020 excluded), weighted
+          by PATWT; weighted least-squares of (LOV - WAITTIME - BOARDED) minutes on triage-level dummies + X-ray, CT, MRI, ultrasound, lab and admission
+          indicators, metropolitan hospitals with an emergency medicine residency (MSA==1 & EMEDRES==1; 19,992 sampled visits), n=10580 visits (417
+          at level 5); value = the level-5 coefficient = mean minutes from first provider contact to leaving the ED for a visit with no imaging and
+          no lab
         dist:
           kind: lognormal
-          mean: 40
-          cv: 0.7
+          mean: 96
+          cv: 1.23
+        url: https://ftp.cdc.gov/pub/Health_Statistics/NCHS/dataset_documentation/nhamcs/stata/
+        file: data/processed/nhamcs_ed_treatment_time_model.json
+        note: 'Model-derived, R2=0.167; outcome winsorized at the 99th percentile; cv is the raw coefficient of variation of the outcome at this level.
+          Test-attributable minutes in the same model: X-ray 21.1, CT 69.0, MRI 177.4, ultrasound 38.9, lab 83.1, admitted -27.2. Observed mean after
+          provider contact at this level incl. tests: 117.5 (median 70.0). The value includes provider re-evaluation and discharge processing, so if
+          the simulator adds those separately it should be recalibrated against the length-of-visit targets in catalog/validation_targets.yaml.'
       p_imaging:
-        value: 0.05
+        value: 0.134
         unit: probability
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder any imaging
+        source: measured
+        citation: CDC/NCHS NHAMCS Emergency Department public-use microdata, 2019+2021+2022 pooled (51,713 sampled visits; 2020 excluded), weighted
+          by PATWT; ANYIMAGE (any imaging ordered or provided); IMMEDR==5, metropolitan hospitals with an emergency medicine residency (MSA==1 & EMEDRES==1;
+          19,992 sampled visits), n=516
+        url: https://ftp.cdc.gov/pub/Health_Statistics/NCHS/dataset_documentation/nhamcs/stata/
+        file: data/processed/nhamcs_ed_by_acuity.csv
+        note: National estimate for triage level 5; all_hospitals value 0.200. Visits that left without being seen and DOA excluded.
       p_ct_given_imaging:
-        value: 0.05
+        value: 0.351
         unit: probability
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+        source: measured
+        citation: CDC/NCHS NHAMCS Emergency Department public-use microdata, 2019+2021+2022 pooled (51,713 sampled visits; 2020 excluded), weighted
+          by PATWT; CATSCAN==1 among visits with ANYIMAGE==1; IMMEDR==5, all hospitals (teaching-metro cell under 100 visits), n=268
+        url: https://ftp.cdc.gov/pub/Health_Statistics/NCHS/dataset_documentation/nhamcs/stata/
+        file: data/processed/nhamcs_ed_by_acuity.csv
+        note: National estimate for triage level 5; metro_teaching value 0.448. Visits that left without being seen and DOA excluded.
       p_lab:
-        value: 0.03
+        value: 0.177
         unit: probability
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+        source: measured
+        citation: CDC/NCHS NHAMCS Emergency Department public-use microdata, 2019+2021+2022 pooled (51,713 sampled visits; 2020 excluded), weighted
+          by PATWT; any of 22 blood/urine/culture/toxicology items (CBC, BMP, CMP, cardiac enzymes, urinalysis, cultures ...); rapid flu/COVID/pregnancy/HIV
+          tests not counted; IMMEDR==5, metropolitan hospitals with an emergency medicine residency (MSA==1 & EMEDRES==1; 19,992 sampled visits), n=516
+        url: https://ftp.cdc.gov/pub/Health_Statistics/NCHS/dataset_documentation/nhamcs/stata/
+        file: data/processed/nhamcs_ed_by_acuity.csv
+        note: National estimate for triage level 5; all_hospitals value 0.191. Visits that left without being seen and DOA excluded.
       p_admit:
-        value: 0.01
+        value: 0.056
         unit: probability
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+        source: measured
+        citation: CDC/NCHS NHAMCS Emergency Department public-use microdata, 2019+2021+2022 pooled (51,713 sampled visits; 2020 excluded), weighted
+          by PATWT; ADMITHOS==1 or OBSHOS==1 (admitted to this hospital, directly or via observation unit); IMMEDR==5, metropolitan hospitals with an
+          emergency medicine residency (MSA==1 & EMEDRES==1; 19,992 sampled visits), n=516
+        url: https://ftp.cdc.gov/pub/Health_Statistics/NCHS/dataset_documentation/nhamcs/stata/
+        file: data/processed/nhamcs_ed_by_acuity.csv
+        note: National estimate for triage level 5; all_hospitals value 0.045. Visits that left without being seen and DOA excluded. Level 5 is not
+          lower than level 4 in the data (small, heterogeneous 'nonurgent' cell).
       revenue_ed_visit:
-        value: 190
+        value: 182.54
         unit: usd/visit
-        source: assumed
-        citation: Placeholder set in Wave 0 so the simulator can run; placeholder ED visit level payment (Medicare-rate basis)
+        source: measured
+        citation: CMS OPPS Addendum B, July 2026 update (national unadjusted payment rate by HCPCS code), wage-adjusted for CCN 310038 as rate x (0.6
+          x wage index 1.2727 + 0.4) = x1.1636; HCPCS 99282 (APC 5022), national rate 156.87
+        url: https://www.cms.gov/medicare/payment/prospective-payment-systems/hospital-outpatient/addendum-a-b-updates
+        file: data/processed/opps_2026jul_selected_codes.csv
+        note: 'MAPPING ASSUMPTION: triage level 5 is billed as visit code 99282 (level 1 -> critical care first hour, levels 2-5 -> ED visit levels
+          5-2; the lowest visit level 99281 is not used). In practice the billed level follows documented resources, not the triage level. Hospital
+          facility payment on the Medicare basis only: no physician professional fee; many ancillaries are packaged into it.'
       supply_cost:
         value: 15
         unit: usd/visit
