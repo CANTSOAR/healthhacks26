@@ -2,6 +2,20 @@
 
 Written at 09:45. Submission is Sunday noon.
 
+## Update, Saturday 15:30 — the language model is online
+
+Newest section; it supersedes what the sections below say about the model being offline and about the Studio description path.
+
+- **A Bedrock API key is in `.env`** (gitignored; verified absent from every commit). It is short-term and **expires around 01:00 EDT Sunday: a fresh key is needed before the demo.**
+- **Models:** the workshop role lists the Claude 5.x models but refuses them after a first call ("private marketplace eligibility"). Claude Sonnet 4.5 (main), Claude Haiku 4.5 (fast steps) and Amazon Nova Pro (last fallback) work. The provider now falls through models the account refuses instead of silently dropping to offline.
+- **The online patient works.** The model picks which approved facts a question is about and words the reply in the patient's voice; the disclosure engine still decides what is released, and a guard plus a verifier reject any reply that adds clinical content (the authored line is used instead and the reason is logged). Measured on a live 12-turn interview: median turn 1.7 s, max 2.8 s after the first turn; 2 of 12 replies fell back to authored wording.
+- **Studio "from a description" is now usable, with the model.** I ran two descriptions nobody had seen through the live server: both drafts were correct (identity including an accented, hyphenated name; every medication with dose; allergy; vitals; the hidden items with a cover answer taken from the text), and both interviews behaved as intended: the cover answer before rapport ("No, I haven't really noticed anything like that — I'm just really busy at work"), the truth after an empathic, non-judging question. Draft creation takes 15–18 s. Without a credential the regex path still applies, with the limits described below.
+- **Model-graded feedback** takes 6–13 s and is checked against the disclosure ledger (a "met" the ledger contradicts is discarded and flagged uncertain).
+- **Tests:** encounter + journey + server 365 passed (re-run by me). The suite never makes a real call, with or without `.env` loaded.
+- **Cost so far:** roughly 550 small Bedrock calls, mostly Haiku.
+- **Still weak:** the verifier can miss a short invented intensifier ("the constant stops"); replies must carry everything released that turn, so some run long; none of this has had an independent QA pass or a faculty read; the web pages were not re-checked in a browser against the online path (the API was exercised directly).
+- **Also since 11:55:** a static snapshot is published at https://cantsoar.github.io/healthhacks26/ (recorded runs only: Watch, Compare, Trade-off, inspector; no Play, Encounter, Studio or Journey there). Only the built site was pushed, as a `gh-pages` branch; `aryan` is still local.
+
 ## Update, Saturday 11:55
 
 After the report below was written, the work continued at your request. Read this section first; where it disagrees with the rest, this is newer.
