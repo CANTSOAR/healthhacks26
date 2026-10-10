@@ -29,7 +29,7 @@ def evaluate_population(theta: torch.Tensor, objective: str, scenarios: list[str
     N = theta.shape[0]
     B1 = N * n_seeds
     seeds = (seed0 + torch.arange(n_seeds)).repeat(N)                   # row = cand * n_seeds + seed
-    envs = [HospitalEnv(s, B1, device, seeds, days * 24, stage=stage, weights=objective if objective != CONSTRAINED else {"cost": 1.0},
+    envs = [HospitalEnv(s, B1, device, seeds, days * 24, stage=stage, weights=objective,
                         scales=scales, auto_reset=False) for s in scenarios]
     env = ConcatEnv(envs) if len(envs) > 1 else envs[0]
     th = theta.to(device).repeat_interleave(n_seeds, 0).repeat(len(scenarios), 1)

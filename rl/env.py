@@ -15,17 +15,18 @@ from .common import (FATIGUE_THRESHOLD, IMPULSE_HEADS, STAGES, TERMS, load_scale
 
 
 def reward_terms(m: dict, scale: torch.Tensor) -> torch.Tensor:
-    """[B, 7] baseline-normalised reward terms for one hour of metrics (order = common.TERMS).
+    """[B, 8] baseline-normalised reward terms for one hour of metrics (order = common.TERMS).
 
     wait: patient-minutes accrued this hour by everyone not yet seen: the simulator's
     `waiting_patient_minutes` when it emits it, else waiting_count (end of hour) x 60.
     staff: overtime hours + staff-hours of fatigue above the threshold.
     revenue: negative (a reward), normalised by the COST scale so cost+revenue weights give margin.
+    labor: cost_labor (wages, overtime, agency), the controllable part of cost.
     """
     staff = m["overtime_hours"] + torch.relu(m["fatigue_mean"] - FATIGUE_THRESHOLD) * m["staff_on_shift"]
     wait = m["waiting_patient_minutes"] if "waiting_patient_minutes" in m else m["waiting_count"] * 60.0
     raw = torch.stack([m["cost_total"], wait, m["lwbs"], m["adverse_events"],
-                       m["boarding_hours"], staff, -m["revenue"]], 1)
+                       m["boarding_hours"], staff, -m["revenue"], m["cost_labor"]], 1)
     return raw / scale
 
 

@@ -167,10 +167,20 @@ def main():
 
     def config(extra):
         rw = {k: float(presets[-1 if a.conditioned else 0][i]) for i, k in enumerate(TERMS)}
-        lab = "Learned (PPO, weight-conditioned)" if a.conditioned else f"Learned (PPO): {a.objective}"
+        how = (f"warm-started by behaviour cloning from {'the tuned heuristics of ' + ', '.join(objs) if a.conditioned else a.ref}"
+               if (a.bc and refs) else "trained from scratch (no behaviour cloning)")
+        note = (f"PPO, {how}, then {total_steps:,} PPO environment steps; acts greedily. "
+                + ("One network conditioned on the reward weights in its observation. " if a.conditioned else "")
+                + "All numbers simulated. Whether it beats, matches or loses to its tuned heuristic is stated in rl/results/RESULTS.md.")
+        if a.conditioned:
+            lab = "Learned (PPO, weight-conditioned; cloned from tuned heuristics, then fine-tuned)"
+        elif a.bc and refs:
+            lab = f"Learned (PPO, cloned from tuned heuristic then fine-tuned): {a.objective}"
+        else:
+            lab = f"Learned (PPO from scratch): {a.objective}"
         extra = dict(extra, **(dict(weight_presets={o: weights_dict(o) for o in objs}) if a.conditioned else {}))
         return dict(id=pid, kind="learned", label=lab, objective=None if a.conditioned else a.objective, reward_weights=rw, type="ppo",
-                    weight_conditioned=bool(a.conditioned),
+                    weight_conditioned=bool(a.conditioned), note=note, warm_start=(a.ref if (a.bc and refs) else None),
                     obs_dim=env.obs_dim, sim_obs_dim=env.sim_obs_dim, head_names=env.head_names, head_sizes=env.head_sizes,
                     enabled_heads=[n for n in env.head_names if env.enabled[n]], hidden=a.hidden, layers=a.layers, stage=a.stage,
                     obs_names=env.envs[0].sim.obs_names() + ["w_" + k for k in TERMS], sim_fingerprint=fp, sim_behaviour_fingerprint=bfp, synthetic=True,

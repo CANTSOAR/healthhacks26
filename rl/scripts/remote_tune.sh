@@ -6,8 +6,9 @@ PY=.venv/bin/python
 mkdir -p runs/scales
 if [ "${REMEASURE:-0}" = "1" ] || [ ! -f rl/reward_scales.json ]; then
   $PY -m rl.scripts.measure_scales --device cuda --seeds 64 --days 30 > runs/scales/log.txt 2>&1 || exit 1
+  cp rl/reward_scales.json runs/scales/reward_scales.json
 fi
-for o in min_cost min_wait balanced cost_s.t._p95_wait; do
+for o in min_cost min_wait max_margin balanced cost_s.t._p95_wait; do
   s=${o//cost_s.t._p95_wait/cost_p95}
   mkdir -p runs/tune_$s
   $PY -m rl.tune --objective $o --device cuda --run runs/tune_$s --out runs/tune_$s/best.json "$@" > runs/tune_$s/stdout.txt 2>&1 &

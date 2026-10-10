@@ -37,9 +37,13 @@ class Policy:
     def act(self, obs, mask, sim=None) -> dict:
         raise NotImplementedError
 
+    note: str | None = None
+
     def info(self) -> dict:
-        return dict(id=self.id, kind=self.kind, label=self.label, objective=self.objective,
-                    reward_weights=self.reward_weights)
+        d = dict(id=self.id, kind=self.kind, label=self.label, objective=self.objective, reward_weights=self.reward_weights)
+        if self.note:
+            d["note"] = self.note
+        return d
 
     def _full(self, v: int, B, device):
         return torch.full((B,), int(v), device=device, dtype=torch.long)
@@ -140,6 +144,9 @@ class RulePolicy(Policy):
         self.stage = stage
         self.active = {h["name"] for h in self.spec if h["cadence"] in STAGES[stage]}
         self.id, self.kind, self.label, self.objective, self.reward_weights = id, kind, label, objective, reward_weights
+        if kind == "tuned_heuristic":
+            self.note = ("Rule-based manager whose 21 parameters were tuned by evolutionary search (cross-entropy method) for this "
+                         "objective. A tuned heuristic, not a learned agent. All numbers simulated.")
         if params is None:
             params = RULE_DEFAULT
         self.theta = params.clone().float() if isinstance(params, torch.Tensor) else theta_from_dict(params)
@@ -201,6 +208,7 @@ class LearnedPolicy(Policy):
         from .net import ActorCritic
         self.config = config
         self.id, self.label, self.objective = config["id"], config["label"], config.get("objective")
+        self.note = config.get("note")
         self.reward_weights = config.get("reward_weights")
         self.net_heads = list(config["head_names"])
         self.enabled = set(config.get("enabled_heads", self.net_heads))
@@ -228,8 +236,15 @@ class LearnedPolicy(Policy):
         n_sim = self.config["sim_obs_dim"]
         if obs.shape[1] == n_sim:                     # raw sim.observe(): append this agent's own weights
             obs = torch.cat([obs, self.w.to(dev).unsqueeze(0).expand(B, -1)], 1)
-        elif self.config.get("weight_conditioned"):   # conditioned agent: its own weights override whatever the env appended
+        elif self.config.get("weight_conditioned") or obs.shape[1] != self.config["obs_dim"]:
+            # conditioned agent: its own weights override whatever the env appended (also used when the caller's
+            # weight vector has a different length than the one this network was trained with)
             obs = torch.cat([obs[:, :n_sim], self.w.to(dev).unsqueeze(0).expand(B, -1)], 1)
+        if obs.shape[1] != self.config["obs_dim"]:    # network trained with a different number of weight entries
+            nw = self.config["obs_dim"] - n_sim
+            wpad = torch.zeros((B, nw), device=dev)
+            wpad[:, :min(nw, obs.shape[1] - n_sim)] = obs[:, n_sim:n_sim + nw]
+            obs = torch.cat([obs[:, :n_sim], wpad], 1)
         acts, _ = self.net.act(obs, deterministic=self.deterministic)
         out = {}
         for n in self.head_names:
@@ -287,7 +302,7 @@ def _policy_files() -> dict:
 
 
 def expected_managers() -> list[dict]:
-    from .common import OBJ_SLUG
+    from .common import OBJ_SLUG, SCRATCH_OBJECTIVES
     rows = [dict(id="fixed", kind="fixed", label=FixedPolicy.label, objective=None, reward_weights=None),
             dict(id="rule_based", kind="rule_based", label="Rule-based manager (hand-written thresholds)", objective=None, reward_weights=None),
             dict(id="random", kind="random", label=RandomPolicy.label, objective=None, reward_weights=None)]
@@ -295,9 +310,29 @@ def expected_managers() -> list[dict]:
         rows.append(dict(id=f"tuned_{slug}", kind="tuned_heuristic", label=f"Tuned heuristic: {obj}", objective=obj,
                          reward_weights=weights_dict(obj)))
     for obj, slug in OBJ_SLUG.items():
-        rows.append(dict(id=f"ppo_{slug}", kind="learned", label=f"Learned (PPO): {obj}", objective=obj,
+        rows.append(dict(id=f"ppo_{slug}", kind="learned", label=f"Learned (PPO, cloned from tuned heuristic then fine-tuned): {obj}",
+                         objective=obj, reward_weights=weights_dict(obj)))
+    for obj in SCRATCH_OBJECTIVES:
+        rows.append(dict(id=f"ppo_scratch_{OBJ_SLUG[obj]}", kind="learned", label=f"Learned (PPO from scratch): {obj}", objective=obj,
                          reward_weights=weights_dict(obj)))
     return rows
+
+
+def heldout_verdicts() -> dict:
+    """manager id -> one line per scenario: held-out verdict against the tuned heuristic of its objective
+    (from rl/results/results.json; empty when there is no evaluation yet)."""
+    from .common import RESULTS_DIR
+    out = {}
+    try:
+        res = json.loads((RESULTS_DIR / "results.json").read_text())
+    except Exception:
+        return out
+    for c in res.get("comparisons", []):
+        if c["b"].startswith("tuned_") and not c["a"].startswith("tuned_"):
+            d = c["paired_diff"]
+            out.setdefault(c["a"], []).append(f"{c['scenario']}: {c['verdict']} {c['b']} on {c['objective']} score "
+                                              f"({d['mean']:+.4f} ± {d['ci95']:.4f}, paired, held-out seeds)")
+    return {k: "; ".join(v) for k, v in out.items()}
 
 
 def list_managers() -> list[dict]:
@@ -313,8 +348,9 @@ def list_managers() -> list[dict]:
             if ok and f[1]["type"] == "ppo":
                 ok = (f[0].parent / f[1]["checkpoint"]).exists()
             if ok:
-                for k in ("label", "objective", "reward_weights"):
-                    r[k] = f[1].get(k, r[k])
+                for k in ("label", "objective", "reward_weights", "note"):
+                    if f[1].get(k) is not None or k in r:
+                        r[k] = f[1].get(k, r.get(k))
             r["available"] = bool(ok)
         seen.add(r["id"])
         rows.append(r)
@@ -323,9 +359,15 @@ def list_managers() -> list[dict]:
     rows.append(dict(id="ppo_cond", kind="learned", label="Learned (PPO, weight-conditioned; balanced weights by default)",
                      objective=None, reward_weights=weights_dict("balanced"), available=bool(cond_ok), weight_conditioned=True))
     seen.add("ppo_cond")
-    for obj in ("min_cost", "min_wait", "balanced"):
+    if cond_ok and cond[1].get("note"):
+        rows[-1]["note"] = cond[1]["note"]
+    for obj in OBJECTIVES:
+        if obj == "cost_s.t._p95_wait":
+            continue
         rows.append(dict(id=f"ppo_cond_{obj}", kind="learned", label=f"Learned (PPO, weight-conditioned) at {obj} weights",
                          objective=obj, reward_weights=weights_dict(obj), available=bool(cond_ok), weight_conditioned=True))
+        if cond_ok and cond[1].get("note"):
+            rows[-1]["note"] = cond[1]["note"]
         seen.add(f"ppo_cond_{obj}")
     for mid, (f, d) in files.items():                 # anything else saved under rl/policies/
         if mid in seen:
@@ -333,6 +375,12 @@ def list_managers() -> list[dict]:
         ok = d["type"] != "ppo" or (f.parent / d["checkpoint"]).exists()
         rows.append(dict(id=mid, kind=d["kind"], label=d["label"], objective=d.get("objective"),
                          reward_weights=d.get("reward_weights"), available=bool(ok)))
+    verdicts = heldout_verdicts()
+    for r in rows:
+        if r["kind"] == "tuned_heuristic" and "note" not in r:
+            r["note"] = "Rule-based manager with parameters tuned by evolutionary search; a tuned heuristic, not a learned agent."
+        if r["kind"] == "learned":
+            r["heldout_verdict"] = verdicts.get(r["id"])
     return rows
 
 

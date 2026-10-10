@@ -1,7 +1,8 @@
 {
- "generated": "2026-10-10T02:32:40-0400",
+ "generated": "2026-10-10T03:52:51-0400",
  "synthetic": true,
- "sim_fingerprint": "8f9f6cc4b1a47804",
+ "sim_fingerprint": "9416552a261f921b",
+ "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
  "policy": "fixed",
  "scenario": "normal_week",
  "seeds": [
@@ -16,7 +17,8 @@
   "safety",
   "boarding",
   "staff",
-  "revenue"
+  "revenue",
+  "labor"
  ],
  "raw_per_hour": {
   "cost": 24154.14453125,
@@ -25,7 +27,8 @@
   "safety": 0.01825086772441864,
   "boarding": 0.40383028984069824,
   "staff": 0.00014081985864322633,
-  "revenue": -42643.09765625
+  "revenue": -42643.09765625,
+  "labor": 3206.138916015625
  },
  "floors": {
   "cost": 1.0,
@@ -34,7 +37,8 @@
   "safety": 0.02,
   "boarding": 0.1,
   "staff": 1.0,
-  "revenue": 1.0
+  "revenue": 1.0,
+  "labor": 1.0
  },
  "scales": {
   "cost": 24154.14453125,
@@ -43,22 +47,22 @@
   "safety": 0.02,
   "boarding": 0.40383028984069824,
   "staff": 1.0,
-  "revenue": 24154.14453125
+  "revenue": 24154.14453125,
+  "labor": 3206.138916015625
  },
  "baseline_summary": {
   "wait_mean_min": 22.341594696044922,
   "wait_p95_min": 60.546875,
   "ed_los_median_min": 194.453125,
   "lwbs_rate": 0.01438780315220356,
-  "cost_per_day": 579698.3125,
-  "margin_per_day": 443736.0625,
-  "cost_per_treated": 2678.9365234375,
+  "cost_per_day": 579699.5625,
+  "margin_per_day": 443734.78125,
+  "cost_per_treated": 2678.9423828125,
   "deaths_per_10k": 4.953396797180176,
   "boarding_hours_per_day": 9.691926956176758,
   "diversion_hours_per_day": 0.0,
   "overtime_hours_per_day": 0.0
  },
  "p95_wait_threshold_min": 60.0,
- "note": "scale = fixed-policy mean per hour (floored); wait = waiting_count*60 patient-minutes; revenue uses the cost scale; p95 threshold is a chosen service target (default 60 min door-to-provider at the 95th percentile), fixed baseline p95 here = 61 min",
- "sim_behaviour_fingerprint": "6ee020eaaf7eca57"
+ "note": "scale = fixed-policy mean per hour (floored); wait = waiting_count*60 patient-minutes; revenue uses the cost scale; p95 threshold is a chosen service target (default 60 min door-to-provider at the 95th percentile), fixed baseline p95 here = 61 min"
 }

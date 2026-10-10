@@ -33,23 +33,28 @@ SEED_VAL = 900_000
 SEED_EVAL = 9_000_000
 RECORD_SEED = 9_000_001
 
-# order of contracts/metrics.yaml reward_terms
-TERMS = ["cost", "wait", "lwbs", "safety", "boarding", "staff", "revenue"]
+# the 7 reward_terms of contracts/metrics.yaml in order, plus one rl-side extension, `labor`
+# (cost_labor: wages + overtime + agency, the part of cost a manager controls directly);
+# see rl/CONTRACT_REQUESTS.md. The reward-weight vector appended to the observation has these 8 entries.
+TERMS = ["cost", "wait", "lwbs", "safety", "boarding", "staff", "revenue", "labor"]
 FATIGUE_THRESHOLD = 0.5          # assumed: "fatigue above threshold" part of the staff term
-SCALE_FLOORS = {"cost": 1.0, "wait": 60.0, "lwbs": 0.05, "safety": 0.02, "boarding": 0.1, "staff": 1.0, "revenue": 1.0}
+SCALE_FLOORS = {"cost": 1.0, "wait": 60.0, "lwbs": 0.05, "safety": 0.02, "boarding": 0.1, "staff": 1.0, "revenue": 1.0, "labor": 1.0}
 
 # Objective presets. Weights multiply baseline-normalised terms (each term is ~1 at the
 # fixed-default baseline when its scale is not floored), reward = -sum_k w_k * term_k.
+# The presets are deliberately blunt: each manager does exactly what it is asked.
 OBJECTIVES = {
-    "min_cost": {"cost": 1.0, "safety": 0.02},          # essentially pure cost: it does what it is asked
-    "min_wait": {"wait": 1.0, "lwbs": 0.2, "safety": 0.2, "cost": 0.05},
+    "min_cost": {"labor": 1.0},                          # controllable (labour) cost only; no wait, LWBS or safety term
+    "min_wait": {"wait": 1.0, "lwbs": 0.25},             # waiting and walk-outs only; no cost term
+    "max_margin": {"cost": 1.0, "revenue": 1.0},         # revenue minus total cost (both on the cost scale)
     "balanced": {"cost": 1.0, "revenue": 1.0, "wait": 0.5, "lwbs": 0.25, "safety": 0.25, "boarding": 0.1, "staff": 0.1},
-    # constrained: cost only, plus a penalty on the episode p95 wait above the threshold
-    "cost_s.t._p95_wait": {"cost": 1.0},
+    # constrained: labour cost only, plus a penalty on the episode p95 wait above the threshold
+    "cost_s.t._p95_wait": {"labor": 1.0},
 }
 CONSTRAINED = "cost_s.t._p95_wait"
-CONSTRAINT_PENALTY = 5.0         # score = -cost_term - PENALTY * relu(p95 / threshold - 1)
-OBJ_SLUG = {"min_cost": "min_cost", "min_wait": "min_wait", "balanced": "balanced", CONSTRAINED: "cost_p95"}
+CONSTRAINT_PENALTY = 5.0         # score = -labor_term - PENALTY * relu(p95 / threshold - 1)
+OBJ_SLUG = {"min_cost": "min_cost", "min_wait": "min_wait", "max_margin": "max_margin", "balanced": "balanced", CONSTRAINED: "cost_p95"}
+SCRATCH_OBJECTIVES = ("min_cost", "min_wait")       # also trained from scratch (no behaviour cloning) for an honest comparison
 STAGES = {"stage_1": ("hourly", "daily"), "stage_2": ("hourly", "daily", "weekly"),
           "stage_3": ("hourly", "daily", "weekly", "monthly")}
 IMPULSE_HEADS = ("bays_delta", "ward_beds_delta", "equipment_buy", "relocate", "headcount", "call_in")
@@ -164,7 +169,7 @@ def objective_score(objective: str, terms_mean: torch.Tensor, p95: torch.Tensor,
     """Per-episode score (higher is better) for an objective.
 
     terms_mean: [..., 7] episode means of the baseline-normalised reward terms.
-    Weighted objectives: mean hourly reward. Constrained: -cost_term - PENALTY * relu(p95/threshold - 1).
+    Weighted objectives: mean hourly reward. Constrained: -labor_term - PENALTY * relu(p95/threshold - 1).
     """
     w = weights_vec(objective, terms_mean.device)
     s = -(terms_mean * w).sum(-1)

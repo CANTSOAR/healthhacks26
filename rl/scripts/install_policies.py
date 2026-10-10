@@ -17,6 +17,9 @@ def main():
     ap.add_argument("--runs", default="runs")
     a = ap.parse_args()
     POLICY_DIR.mkdir(parents=True, exist_ok=True)
+    backup = Path(a.runs) / "scales" / "reward_scales.json"      # the measured scales, safe from code syncs
+    if backup.exists():
+        shutil.copyfile(backup, POLICY_DIR.parent / "reward_scales.json")
     for f in sorted(Path(a.runs).glob("*/best.json")):
         try:
             d = json.loads(f.read_text())

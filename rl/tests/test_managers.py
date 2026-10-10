@@ -82,7 +82,7 @@ def test_heuristic_save_load_and_population_eval(tmp_path, scales, monkeypatch):
 
 def test_objective_score_constraint_penalty():
     tm = torch.zeros(2, len(TERMS))
-    tm[:, 0] = 1.0
+    tm[:, TERMS.index("labor")] = 1.0
     s = objective_score(CONSTRAINED, tm, torch.tensor([100.0, 240.0]), 120.0)
     assert torch.allclose(s, torch.tensor([-1.0, -6.0]))
 

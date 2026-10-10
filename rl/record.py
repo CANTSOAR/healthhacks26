@@ -6,8 +6,8 @@
 Every manager is recorded on the SAME held-out seed (common.RECORD_SEED), so by the simulator's
 common random numbers they face the same patients (arrivals + diverted is identical hour by
 hour). Each rollout holds hourly metrics for the whole episode, every decision with a readable
-label, and full snapshots (every tick) for two windows: day 1 08:00-20:00 and the busiest day
-(most exogenous arrivals) 10:00-22:00. Runs one hospital on CPU; --all fans out over processes.
+label, and full snapshots (every 2nd tick = 10 simulated minutes) for five whole days: days 1, 2, 3,
+the busiest day (most exogenous arrivals among days 4..n-2) and the last day. Runs one hospital on CPU; --all fans out over processes.
 """
 from __future__ import annotations
 
@@ -53,6 +53,11 @@ def decision_label(h: dict, prev: int, new: int) -> str:
     return f"{name}: {option_text(h, prev)} -> {option_text(h, new)}"
 
 
+def _busy_candidates(days: int):
+    """Days eligible as the 'busiest day' window: not already covered by days 1-3 or the last day."""
+    return range(4, days - 1) if days >= 7 else range(min(1, days - 1), days)
+
+
 def busiest_day(scenario: str, seed: int, days: int) -> int:
     """Day (>= 2) with the most exogenous arrivals on this seed; from the evaluation part file when
     it covers the seed, else from a hourly-only pass of the fixed manager."""
@@ -61,7 +66,7 @@ def busiest_day(scenario: str, seed: int, days: int) -> int:
         d = json.loads(part.read_text())
         if seed in d["seeds"] and d["days"] >= days and d.get("sim_behaviour_fingerprint") == behaviour_fingerprint():
             arr = d["daily_exogenous_arrivals"][d["seeds"].index(seed)][:days]
-            return max(range(min(2, days - 1), days), key=lambda i: arr[i])
+            return max(_busy_candidates(days), key=lambda i: arr[i])
     env = HospitalEnv(scenario, 1, "cpu", seed, days * 24, auto_reset=False, scales={"scales": {k: 1.0 for k in TERMS}})
     pol = load_manager("fixed")
     obs, arr = env.reset(), []
@@ -69,12 +74,12 @@ def busiest_day(scenario: str, seed: int, days: int) -> int:
         obs, r, d, info = env.step(pol.act(obs, env.action_mask()))
         arr.append(float(info["metrics"]["arrivals"][0] + info["metrics"]["diverted"][0]))
     daily = [sum(arr[i * 24:(i + 1) * 24]) for i in range(days)]
-    return max(range(min(2, days - 1), days), key=lambda i: daily[i])
+    return max(_busy_candidates(days), key=lambda i: daily[i])
 
 
 @torch.no_grad()
 def record(manager_id: str, scenario: str, seed: int = RECORD_SEED, days: int = 30, busy_day: int | None = None,
-           every_ticks: int = 1, out_dir: Path = ROLLOUT_DIR, validate: bool = True) -> dict:
+           every_ticks: int = 2, out_dir: Path = ROLLOUT_DIR, validate: bool = True) -> dict:
     pol = load_manager(manager_id, "cpu")
     scales = load_scales()
     w = torch.tensor([float((pol.reward_weights or {}).get(k, 0.0)) for k in TERMS])
@@ -85,10 +90,13 @@ def record(manager_id: str, scenario: str, seed: int = RECORD_SEED, days: int = 
     if busy_day is None:
         busy_day = busiest_day(scenario, seed, days)
     tph = 60 // sim.tick_minutes
-    windows = [("Day 1, 08:00-20:00", 1 * 24 + 8, 12)]
-    if days > 2:
-        windows.append((f"Busiest day (day {busy_day}), 10:00-22:00", busy_day * 24 + 10, 12))
-    windows = [(lab, h0, n) for lab, h0, n in windows if h0 + n <= days * 24]
+    dow = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+    seg_days, windows = [], []
+    for d, why in [(1, ""), (2, ""), (3, ""), (busy_day, "busiest day: most arrivals"), (days - 1, "last day")]:
+        if 0 <= d < days and d not in seg_days:
+            seg_days.append(d)
+            windows.append((f"Day {d} ({dow[d % 7]}), 00:00-24:00" + (f" — {why}" if why else ""), d * 24, 24))
+    windows.sort(key=lambda x: x[1])
     segs = [dict(label=lab, start_t=h0 * tph, every_ticks=every_ticks, snapshots=[]) for lab, h0, n in windows]
     pol.reset(1, "cpu")
     obs = env.reset()
@@ -136,6 +144,9 @@ def record(manager_id: str, scenario: str, seed: int = RECORD_SEED, days: int = 
     man = {k: v for k, v in pol.info().items() if v is not None}
     if getattr(pol, "config", None):
         man["checkpoint"] = str(pol.config.get("checkpoint"))
+    if pol.kind == "learned":
+        from .managers import heldout_verdicts
+        man["heldout_verdict"] = heldout_verdicts().get(manager_id) or "not evaluated yet"
     roll = dict(schema_version=1,
                 header=dict(rollout_id=rid, manager=man, scenario=scenario, hospital_id=str(getattr(sim.scn, "hospital_id", "rwjuh_nb")),
                             seed=int(seed), tick_minutes=int(sim.tick_minutes), days=int(days), created=now_iso(), synthetic=True,
@@ -193,7 +204,7 @@ def main():
     ap.add_argument("--scenario", nargs="+", default=["normal_week", "flu_surge"])
     ap.add_argument("--seed", type=int, default=RECORD_SEED)
     ap.add_argument("--days", type=int, default=30)
-    ap.add_argument("--every-ticks", type=int, default=1)
+    ap.add_argument("--every-ticks", type=int, default=2)
     ap.add_argument("--jobs", type=int, default=12)
     ap.add_argument("--threads", type=int, default=1)
     ap.add_argument("--out", default=str(ROLLOUT_DIR))

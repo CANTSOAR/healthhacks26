@@ -103,6 +103,7 @@ def merge(parts: list[dict]) -> dict:
             key = "score_" + slug
             sc = part["values"][key]
             pairs = [(f"ppo_{slug}", f"tuned_{slug}"), (f"ppo_{slug}", "rule_based"), (f"ppo_{slug}", "fixed"),
+                     (f"ppo_scratch_{slug}", f"tuned_{slug}"), (f"ppo_scratch_{slug}", "rule_based"), (f"ppo_scratch_{slug}", f"ppo_{slug}"),
                      (f"tuned_{slug}", "rule_based"), (f"tuned_{slug}", "fixed")]
             pairs += [(f"ppo_cond_{slug}", f"tuned_{slug}"), (f"ppo_cond_{slug}", "rule_based"), (f"ppo_cond_{slug}", f"ppo_{slug}")]
             for a, b in pairs:
@@ -111,6 +112,15 @@ def merge(parts: list[dict]) -> dict:
                     comps.append(dict(objective=obj, scenario=part["scenario"], a=a, b=b, score=key,
                                       a_mean=stat(sc[ids.index(a)])["mean"], b_mean=stat(sc[ids.index(b)])["mean"],
                                       paired_diff=d, verdict=verdict(d)))
+    for r in rows:                                   # plain-language provenance and verdict on every row
+        man = next(m for p in parts for m in p["managers"] if m["id"] == r["manager_id"])
+        if man.get("note"):
+            r["note"] = man["note"]
+        if r["kind"] == "learned":
+            c = next((c for c in comps if c["a"] == r["manager_id"] and c["scenario"] == r["scenario"] and c["b"].startswith("tuned_")), None)
+            if c:
+                r["verdict_vs_tuned_heuristic"] = (f"{c['verdict']} {c['b']} on the {c['objective']} score "
+                                                   f"({c['paired_diff']['mean']:+.4f} ± {c['paired_diff']['ci95']:.4f})")
     p0 = parts[0]
     return dict(generated=now_iso(), synthetic=True, sim_fingerprint=sim_fingerprint(),
                 sim_behaviour_fingerprint=p0["sim_behaviour_fingerprint"],
@@ -145,6 +155,23 @@ def write_markdown(res: dict, path: Path):
          f"Constrained objective: cheapest subject to episode p95 wait <= {res['protocol']['p95_wait_threshold_min']:.0f} min "
          "(a chosen service target; see rl/reward_scales.json). `labor cost/day` is the part of cost the manager controls directly "
          "(wages, overtime, agency); fixed and per-patient costs dominate `cost/day`.", ""]
+    L += ["## Objectives (exact weights on baseline-normalised reward terms; reward = -sum of weight x term)", "",
+          "| objective | weights | what it asks for |", "|---|---|---|"]
+    what = {"min_cost": "lowest controllable (labour: wages + overtime + agency) cost, nothing else",
+            "min_wait": "least waiting and fewest walk-outs, at any cost",
+            "max_margin": "revenue minus total cost",
+            "balanced": "margin, waiting, walk-outs, safety, boarding and staff strain together",
+            "cost_s.t._p95_wait": f"lowest labour cost subject to episode p95 wait <= {res['protocol']['p95_wait_threshold_min']:.0f} min "
+                                  "(score = -labour term - 5 x relative excess of p95 over the threshold)"}
+    for o, wts in res["protocol"]["objectives"].items():
+        L.append(f"| `{o}` | {', '.join(f'{k} {v:g}' for k, v in wts.items())} | {what.get(o, '')} |")
+    L += ["", "Term scales (fixed-default manager, per hour): " + ", ".join(f"{k} {v:,.3g}" for k, v in res["protocol"]["reward_scales"].items()) + ".", ""]
+    learned = [r for r in res["rows"] if r["kind"] == "learned"]
+    if learned:
+        L += ["## Learned agents: how each was produced and how it did against its tuned heuristic (held-out)", ""]
+        for r in learned:
+            L.append(f"- `{r['manager_id']}` ({r['scenario']}): {r.get('verdict_vs_tuned_heuristic', 'no tuned heuristic to compare with')}. {r.get('note', '')}")
+        L.append("")
     for scen in res["protocol"]["scenarios"]:
         L += [f"## Scenario `{scen}`", "",
               "| manager | kind | wait mean (min) | wait p95 (min) | LWBS % | cost/day ($k) | labor cost/day ($k) | margin/day ($k) | deaths/10k | boarding h/day | overtime h/day | diversion h/day |",
