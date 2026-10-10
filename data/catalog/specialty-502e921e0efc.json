@@ -1,0 +1,26 @@
+{
+  "dataset_id": "specialty-502e921e0efc",
+  "source_id": "specialty-502e921e0efc",
+  "title": "Shift-to-shift handoffs in the NICU: lessons learned from a large scale audit",
+  "source_url": "https://www.nature.com/articles/s41372-023-01724-2",
+  "scope": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+  "access": "public_primary_article_or_abstract",
+  "rights": {
+    "source_license": "not assessed for full-text redistribution",
+    "redistribution": "Short factual paraphrases; no full article copied"
+  },
+  "acquisition_status": "acquired",
+  "raw_paths": [],
+  "normalized_path": "data/normalized/specialty-502e921e0efc.jsonl",
+  "record_count": 1,
+  "limits": [
+    "Setting, period, applicability and endpoint are source-specific.",
+    "No original snapshot retained; human review should follow source URL and locator.",
+    "A role description or guideline does not establish local operational performance."
+  ],
+  "provenance": {
+    "doi": "10.1038/s41372-023-01724-2",
+    "retrieved_at": "2026-10-10T18:17:53Z",
+    "raw_artifact_kind": "no_raw_limited_paraphrase"
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "campaign": "hospital-specialty-gaps-2026-10-10",
+  "execution": "GPT-6 Luna specialty research; parent insurance research and Luna audit",
+  "jobs": [
+    {
+      "domain": "behavioral-health",
+      "agent_model": "gpt-6-luna",
+      "status": "completed",
+      "extract_path": "data/research/specialty-behavioral-health.json",
+      "extract_sha256": "5c47ac54ce9a679eaab3ba0269f4afa2d493d282f63d940b74ef9333ed9b0790",
+      "record_count": 6,
+      "pending_candidate_count": 0
+    },
+    {
+      "domain": "maternity-nicu",
+      "agent_model": "gpt-6-luna",
+      "status": "completed",
+      "extract_path": "data/research/specialty-maternity-nicu.json",
+      "extract_sha256": "e29585e55dd1c85932e99803629e0f912caba4eb11822593a0e2eab4f0338d2c",
+      "record_count": 9,
+      "pending_candidate_count": 0
+    },
+    {
+      "domain": "outpatient",
+      "agent_model": "gpt-6-luna",
+      "status": "completed",
+      "extract_path": "data/research/specialty-outpatient.json",
+      "extract_sha256": "5d8578e9d99f77c3919ccc40c87498ca9a5dd532654c1ee730f8584eafe37f14",
+      "record_count": 6,
+      "pending_candidate_count": 0
+    },
+    {
+      "domain": "rehab",
+      "agent_model": "gpt-6-luna",
+      "status": "completed",
+      "extract_path": "data/research/specialty-rehab.json",
+      "extract_sha256": "4788e320c6f21eee5f7d3b8c86358a1d6755fdd5410b0954cd024fdb282c5b9f",
+      "record_count": 6,
+      "pending_candidate_count": 0
+    },
+    {
+      "domain": "insurance",
+      "agent_model": "parent_agent",
+      "status": "completed",
+      "extract_path": "data/research/specialty-insurance.json",
+      "extract_sha256": "d2a5631a124478596ef92d5368ab3e0a3a883b1795ff2650d736d599b08f237d",
+      "record_count": 6,
+      "pending_candidate_count": 0
+    }
+  ],
+  "sources_added": 18,
+  "records_added": 33,
+  "status": "completed_extraction_not_human_approved",
+  "insurance_audit": {
+    "path": "data/workflows/specialty-insurance-audit.json",
+    "sha256": "ef7dd02d6fe233881e39dd787b2bf1f5969953e19b639c53f81a8d48aa12bd3f"
+  },
+  "next_step": "Human source comparison in data/review/index.html; priority review all operational parameters before adoption"
+}

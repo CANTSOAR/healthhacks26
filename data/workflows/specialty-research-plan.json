@@ -1,0 +1,12 @@
+{
+  "campaign": "hospital-specialty-gaps-2026-10-10",
+  "status": "finite_research_pass; receipt records completed extraction",
+  "execution": "GPT-6 Luna subagents; parent insurance research with Luna audit",
+  "max_parallel_agents": 3,
+  "future_rerun_status": "draft_not_scheduled",
+  "future_job_max_runtime_seconds": 600,
+  "domains": ["behavioral-health", "maternity-nicu", "outpatient", "rehab", "insurance"],
+  "source_policy": "Primary original studies, official hospital guidance and payer/regulatory documents; preserve exact endpoints, denominators, geography, period and access scope. Do not treat policy ceilings as observed timing, population shares as individual probabilities, or cohort summaries as fitted distributions. Uninspected indexed text remains pending.",
+  "integration_commands_from_data_directory": ["python3 scripts/build_specialty_evidence.py", "python3 scripts/build_specialty_transfers.py", "python3 scripts/build_citations.py", "python3 scripts/build_review_index.py", "bash scripts/run-verification.sh"],
+  "approval_state": "Source extraction pending human review; all local parameter transfers inactive"
+}

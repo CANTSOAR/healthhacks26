@@ -1,0 +1,23 @@
+# Behavioral-health flow references
+
+These external sources support candidate transitions for a hospital behavioral-health simulation. Every record is labeled `external_reference_not_RWJ`; none is a local RWJ observation. Sources span three empirical settings and one state guidance source: Alameda County regional psychiatric emergency services, two Illinois emergency departments, Greenville inpatient substance-use recovery trials, and California acute psychiatric hospital staffing guidance.
+
+## Flow signals
+
+- **Psychiatric ED assessment and placement:** In a 30-day Alameda County sample of 144 patients on involuntary holds, mean time from psychiatric stability for disposition to ED departure for regional PES transfer was 107.6 minutes. After PES evaluation and treatment, The article states 24.8% admitted and 75.2% discharged, but separately reports counts of 37/144 admitted and 107/144 discharged, which imply 25.7% and 74.3%. The record preserves the published percentages and flags the arithmetic conflict; exclude the percentages from calibration until resolved. This supports an assessment-and-stabilization branch before inpatient placement.
+- **Placement constraints:** In a retrospective cohort of 671 patients at two Illinois EDs (2010-2012) who required inpatient psychiatric treatment, boarding was defined as more than four hours after medical clearance. Boarding was observed in 95.4% of self-pay/uninsured cases, 71.8% of Medicare/Medicaid cases, and 78.3% of privately insured cases. The study also reported mean total ED stays of 1,661 minutes for transfers to publicly funded psychiatric facilities and 705 minutes for private facilities; this is total ED LOS, not a separately measured placement-search interval, and subgroup denominators were not available in the cited passage.
+- **Substance-use transition after inpatient care:** Two single-center randomized trials at Greenville Memorial Hospital reported six-month recovery-support engagement of 84% with peer recovery coaching versus 34% with usual care (193 randomized; 95 intervention, 98 control). This outcome is engagement, not readmission reduction or psychiatric boarding.
+- **Observation and staffing workflow:** California CDPH guidance describes admission nursing, physician and psychiatric evaluation, social-work/discharge planning, an RN acuity review before the end of each 8- or 12-hour shift, supervisor review of staffing needs, and primarily mental-health-worker rounding every 5 or 15 minutes around the clock. This is state guidance describing operating practice, not a measured outcome or universal protocol.
+
+## Modeling boundaries
+
+Treat sources as distinct context references. Preserve the stated endpoint, cohort, and period. Means and percentages above do not define probability distributions; do not convert a mean to a distribution or treat a regional service’s disposition mix as an individual-level local probability. Keep clinical assessment, medical clearance, psychiatric disposition, bed search/acceptance, transport, safety observation, addiction consultation, and post-discharge linkage as separate candidate states. Replace transferred values with local workflow confirmation and timestamped data when available. Do not infer RWJ-specific volumes, waiting times, staffing levels, or outcomes.
+
+## Source and access notes
+
+1. [Davis et al., Effects of a Dedicated Regional Psychiatric Emergency Service on Boarding of Psychiatric Patients in Area Emergency Departments](https://pmc.ncbi.nlm.nih.gov/articles/PMC3935777/) (DOI: 10.5811/westjem.2013.6.17848). Open full text inspected via NCBI PMC BioC JSON; CC BY-NC license stated in source.
+2. [Predictors of Psychiatric Boarding in the Emergency Department](https://pmc.ncbi.nlm.nih.gov/articles/PMC4307730/). Open full text inspected via NCBI PMC BioC JSON. The accessible source provides the cohort/table counts used here.
+3. [Acute Care Utilization After Recovery Coaching Linkage During Substance-Related Inpatient Admission](https://pmc.ncbi.nlm.nih.gov/articles/PMC8926086/) (DOI: 10.1007/s11606-021-07360-w). Open full text and abstract inspected via NCBI PMC BioC JSON.
+4. [California Department of Public Health, Acute Psychiatric Hospital staffing needs and patient observation](https://www.cdph.ca.gov/Programs/CHCQ/LCP/Pages/APH-Regulations-CHA-Letter-05-20-25-Attachment-01.aspx). Official state page inspected directly; policy/practice description, not an outcomes study.
+
+Retrieved 2026-10-10 UTC. The structured records in `specialty-behavioral-health.json` retain locators, denominators, evidence type, access method, limitations, and intended scenario use for each finding.

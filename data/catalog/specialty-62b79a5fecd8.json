@@ -1,0 +1,26 @@
+{
+  "dataset_id": "specialty-62b79a5fecd8",
+  "source_id": "specialty-62b79a5fecd8",
+  "title": "Acute Psychiatric Hospital Licensing and Certification: Staffing Needs and Patient Observation (California Department of Public Health guidance)",
+  "source_url": "https://www.cdph.ca.gov/Programs/CHCQ/LCP/Pages/APH-Regulations-CHA-Letter-05-20-25-Attachment-01.aspx",
+  "scope": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+  "access": "public_primary_article_or_abstract",
+  "rights": {
+    "source_license": "not assessed for full-text redistribution",
+    "redistribution": "Short factual paraphrases; no full article copied"
+  },
+  "acquisition_status": "acquired",
+  "raw_paths": [],
+  "normalized_path": "data/normalized/specialty-62b79a5fecd8.jsonl",
+  "record_count": 1,
+  "limits": [
+    "Setting, period, applicability and endpoint are source-specific.",
+    "No original snapshot retained; human review should follow source URL and locator.",
+    "A role description or guideline does not establish local operational performance."
+  ],
+  "provenance": {
+    "doi": null,
+    "retrieved_at": "2026-10-10T18:17:45Z",
+    "raw_artifact_kind": "no_raw_limited_paraphrase"
+  }
+}

@@ -1,0 +1,764 @@
+{
+  "status": "proposals_only",
+  "transfers": [
+    {
+      "id": "transfer-specialty-bh-alameda-boarding-time",
+      "source_record_ids": [
+        "specialty-bh-alameda-boarding-time"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Model psychiatric disposition as assessment/stabilization followed by a dedicated PES transfer option. Use the measured mean only as an external point reference; do not infer a distribution or RWJ-specific wait.",
+      "source_basis": "observed_operational_patient_level_tracking",
+      "quantitative_use_status": "not_approved",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-specialty-bh-alameda-pes-disposition",
+      "source_record_ids": [
+        "specialty-bh-alameda-pes-disposition"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Represent assessment/treatment as a disposition branch between inpatient placement and PES discharge, but exclude the conflicting numeric percentages from calibration until the discrepancy is resolved; calibrate branch rates from local audited outcomes.",
+      "source_basis": "observed_operational_disposition_counts",
+      "quantitative_use_status": "blocked_source_internal_inconsistency",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-specialty-bh-placement-insurance-boarding",
+      "source_record_ids": [
+        "specialty-bh-placement-insurance-boarding"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Use as evidence that psychiatric placement access can vary with payer/funding pathway; represent payer authorization and destination availability as potential parallel blockers, then replace with local data.",
+      "source_basis": "observed_retrospective_multicenter_patient_cohort",
+      "quantitative_use_status": "not_approved",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-specialty-bh-placement-destination-los",
+      "source_record_ids": [
+        "specialty-bh-placement-destination-los"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Keep ED clinical evaluation and post-disposition placement search as separate states; treat destination funding type as a candidate context factor for scenario sensitivity, not a causal multiplier.",
+      "source_basis": "observed_retrospective_cohort_group_comparison",
+      "quantitative_use_status": "not_approved",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-specialty-bh-inpatient-sud-recovery-linkage",
+      "source_record_ids": [
+        "specialty-bh-inpatient-sud-recovery-linkage"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Represent inpatient addiction consultation/recovery-coach contact and post-discharge linkage as explicit transitions, with follow-up engagement measured separately from readmission or symptom outcomes. Do not assume this effect size locally.",
+      "source_basis": "observed_randomized_trial_followup",
+      "quantitative_use_status": "not_approved",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-specialty-bh-observation-acuity-rounding",
+      "source_record_ids": [
+        "specialty-bh-observation-acuity-rounding"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Model psychiatric observation as acuity-dependent work with recurring rounds, escalation to nursing staff, supervisor-reviewed staffing adjustments, and scheduled therapeutic activity; confirm local policy and staffing before operational use.",
+      "source_basis": "official_operating_guidance",
+      "quantitative_use_status": "not_approved",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-specialty-ins-h0523-decisions",
+      "source_record_ids": [
+        "specialty-ins-h0523-decisions"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Retain product/contract/year/urgency strata; do not assign these as fracture-case or RWJ denial probabilities.",
+      "source_basis": "payer_reported_aggregate",
+      "quantitative_use_status": "not_approved",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-specialty-ins-h0523-time",
+      "source_record_ids": [
+        "specialty-ins-h0523-time"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Separate PA queue elapsed time from reviewer effort; require plan-specific distributions before quantitative adoption.",
+      "source_basis": "payer_reported_aggregate",
+      "quantitative_use_status": "not_approved",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-specialty-ins-notification-vs-review",
+      "source_record_ids": [
+        "specialty-ins-notification-vs-review"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Create separate notification, eligibility/benefit inquiry and coverage-review tasks; attach plan product, service and effective date.",
+      "source_basis": "payer_policy",
+      "quantitative_use_status": "not_approved",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-specialty-ins-cms-timeframes",
+      "source_record_ids": [
+        "specialty-ins-cms-timeframes"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Store policy deadlines separately from measured processing times and case urgency; validate plan/jurisdiction/effective date.",
+      "source_basis": "regulatory_policy_summary",
+      "quantitative_use_status": "not_approved",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-specialty-ins-emergency-screening",
+      "source_record_ids": [
+        "specialty-ins-emergency-screening"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Do not place insurance authorization as a gate before emergency screening/stabilization in the simulation; allow parallel administrative work.",
+      "source_basis": "official_rights_guidance",
+      "quantitative_use_status": "not_approved",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-specialty-ins-postacute-auth-delay-tbi",
+      "source_record_ids": [
+        "specialty-ins-postacute-auth-delay-tbi"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Represent post-acute placement authorization separately from acceptance/bed availability after clinical readiness. Use the 52% as a contextual blocker category among delayed TBI cases only, not as an individual probability or PA duration.",
+      "source_basis": "observed_retrospective_multicenter_patient_cohort_and_record_review",
+      "quantitative_use_status": "not_approved",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-specialty-mn-ob-triage-wait",
+      "source_record_ids": [
+        "specialty-mn-ob-triage-wait"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Model arrival, brief initial screen, acuity-based queue priority, assessment-room handoff, and onward disposition as distinct states; retain the reported before/after proportions only as external process context, never as RWJ performance targets.",
+      "source_basis": "observed_single_center_pre_post_quality_improvement_audit",
+      "quantitative_use_status": "not_approved",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-specialty-mn-ob-triage-stay",
+      "source_record_ids": [
+        "specialty-mn-ob-triage-stay"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Keep triage LOS distinct from the subsequent labor-and-delivery and postpartum unit stays; use as a workflow segmentation clue and external observed range only, not a fitted service-time distribution.",
+      "source_basis": "observed_single_center_pre_post_quality_improvement_audit",
+      "quantitative_use_status": "not_approved",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-specialty-mn-ob-triage-workflow",
+      "source_record_ids": [
+        "specialty-mn-ob-triage-workflow"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Use only as a candidate maternity pathway structure: triage can discharge, continue evaluation, admit to labor-and-delivery, or route to a procedural area; model separate staff roles and handoff events. Require local clinical governance for all decision rules.",
+      "source_basis": "observed_quality_improvement_process_and_audit",
+      "quantitative_use_status": "not_approved",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-specialty-mn-nicu-transfer-cycle",
+      "source_record_ids": [
+        "specialty-mn-nicu-transfer-cycle"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Represent destination readiness, pre-transport preparation, team allocation, movement, receiving handoff, post-arrival care, and team return as separate linked tasks; vary resource needs by locally approved acuity classes without encoding clinical thresholds.",
+      "source_basis": "prospective_quality_improvement_with_simulation_planning_and_observed_relocations",
+      "quantitative_use_status": "not_approved",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-specialty-mn-nicu-staffing-and-move",
+      "source_record_ids": [
+        "specialty-mn-nicu-staffing-and-move"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Model dedicated transport teams, bedside nurse accompaniment, parallel preparation, standby technical roles, equipment readiness, huddles, and extra-support contingencies as optional resources; do not infer staffing ratios from the survey.",
+      "source_basis": "observed_planned_relocation_and_voluntary_staff_survey",
+      "quantitative_use_status": "not_approved",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-specialty-mn-nicu-family-transfer",
+      "source_record_ids": [
+        "specialty-mn-nicu-family-transfer"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Include family notification, optional accompaniment, and alternate update channels as workflow needs that can compete with transport timing and route constraints; validate local policy and family preferences.",
+      "source_basis": "voluntary_parent_survey_after_planned_relocation",
+      "quantitative_use_status": "not_approved",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-specialty-mn-nicu-shift-handoff-family",
+      "source_record_ids": [
+        "specialty-mn-nicu-shift-handoff-family"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Represent shift handoff as a distinct transition and allow family presence/participation as an optional actor with locally defined access, consent, and timing; do not make the observed percentages target rates.",
+      "source_basis": "multicenter_observational_handoff_audit",
+      "quantitative_use_status": "not_approved",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-specialty-mn-nicu-operational-capacity",
+      "source_record_ids": [
+        "specialty-mn-nicu-operational-capacity"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Distinguish licensed/physical beds from operational staffed capacity and make capacity acuity-sensitive; only use this as an external model-design prompt, not as a numeric local calibration.",
+      "source_basis": "observed_self_reported_capacity_input_used_in_discrete_event_simulation",
+      "quantitative_use_status": "not_approved",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-specialty-mn-nicu-staff-pooling-scenario",
+      "source_record_ids": [
+        "specialty-mn-nicu-staff-pooling-scenario"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Use the model structure to test whether operational nurse capacity, acuity, referral acceptance, network transfers, and step-down/discharge transitions should interact; do not import its effect size or assumptions as a local prediction.",
+      "source_basis": "discrete_event_simulation_and_optimization_scenario",
+      "quantitative_use_status": "not_approved",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-specialty-op-peds-attended-4w",
+      "source_record_ids": [
+        "specialty-op-peds-attended-4w"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "External input for modeling referral-to-scheduled-to-attended states and time-window endpoints. Keep 4-week access distinct from eventual completion; do not use these percentages as local RWJ rates.",
+      "source_basis": "observed_administrative_pre_post_with_control_difference_in_differences",
+      "quantitative_use_status": "not_approved",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-specialty-op-peds-attended-12w",
+      "source_record_ids": [
+        "specialty-op-peds-attended-12w"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Represent longer referral follow-up windows separately from near-term access. Do not infer an appointment wait-time distribution or apply the observed change locally.",
+      "source_basis": "observed_administrative_pre_post_quality_improvement",
+      "quantitative_use_status": "not_approved",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-specialty-op-peds-scheduling-within-windows",
+      "source_record_ids": [
+        "specialty-op-peds-scheduling-within-windows"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Use as a reference for referral-processing and appointment-scheduled milestones; model referral receipt, family contact, slot availability, and attendance as distinct transitions requiring local calibration.",
+      "source_basis": "observed_administrative_pre_post_quality_improvement",
+      "quantitative_use_status": "not_approved",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-specialty-op-peds-nonattendance",
+      "source_record_ids": [
+        "specialty-op-peds-nonattendance"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Keep appointment scheduling and subsequent cancellation/no-show as separate model transitions. Use this only as an external balancing-measure example, not an RWJ attendance parameter.",
+      "source_basis": "observed_administrative_balancing_measure",
+      "quantitative_use_status": "not_approved",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-specialty-op-gi-no-show-share",
+      "source_record_ids": [
+        "specialty-op-gi-no-show-share"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "A bounded external example of a no-show endpoint for specialty scheduling models. Preserve its GI setting and denominator and do not assign it as a local probability.",
+      "source_basis": "observed_EHR_case_control_cohort",
+      "quantitative_use_status": "not_approved",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-specialty-op-gi-wait-no-show-association",
+      "source_record_ids": [
+        "specialty-op-gi-wait-no-show-association"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Use only as qualitative evidence that lead time may relate to attendance. Do not apply the odds ratio as a per-day sensitivity or convert it into a local event probability; first inspect the full methods and calibrate against local data.",
+      "source_basis": "observed_EHR_adjusted_association",
+      "quantitative_use_status": "not_approved",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-specialty-rehab-pres-screen-timing",
+      "source_record_ids": [
+        "specialty-rehab-pres-screen-timing"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Model screening due dates, weekend deferral, missed-record retry, and referral/physician assessment as separate steps. Treat the reported rate as a workflow signal pending denominator resolution, not a transferable local probability.",
+      "source_basis": "observed_service_redesign_process_measure",
+      "quantitative_use_status": "blocked_source_internal_inconsistency",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-specialty-rehab-pres-icu-screen-delay",
+      "source_record_ids": [
+        "specialty-rehab-pres-icu-screen-delay"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Allow ICU transfer and return-to-ward to reset screening eligibility, and distinguish screening delay from clinical assessment, acceptance, and first treatment.",
+      "source_basis": "observed_service_process_timing",
+      "quantitative_use_status": "not_approved",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-specialty-rehab-pres-screen-workload",
+      "source_record_ids": [
+        "specialty-rehab-pres-screen-workload"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Keep case-finding labor separate from rehabilitation physician/therapist assessment and treatment resources. Use only as an external screening-workload reference.",
+      "source_basis": "direct_observed_work_sampling",
+      "quantitative_use_status": "not_approved",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-specialty-rehab-stroke-evaluation-function",
+      "source_record_ids": [
+        "specialty-rehab-stroke-evaluation-function"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Represent assessment timing and function tracking as separate process and outcome fields; use the association to motivate local sensitivity analysis only, not to forecast a causal benefit from earlier therapy.",
+      "source_basis": "observed_retrospective_multihospital_adjusted_association",
+      "quantitative_use_status": "not_approved",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-specialty-rehab-stroke-outcomes-by-discipline",
+      "source_record_ids": [
+        "specialty-rehab-stroke-outcomes-by-discipline"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Track functional status and discharge destination as distinct outcomes and retain discipline-specific denominators. Require local clinical assessment data before estimating destination transitions.",
+      "source_basis": "observed_multihospital_cohort_descriptive_outcomes",
+      "quantitative_use_status": "not_approved",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "transfer-specialty-rehab-irf-function-discharge-destination",
+      "source_record_ids": [
+        "specialty-rehab-irf-function-discharge-destination"
+      ],
+      "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
+      "status": "inferred_candidate_not_activated",
+      "proposal": "Include admission/discharge function and placement destination as linked but separate state variables. Use the relation qualitatively or for external comparison, not as a local causal rule.",
+      "source_basis": "observed_national_IRF_cohort_association",
+      "quantitative_use_status": "not_approved",
+      "assumptions": [
+        "Comparable endpoint and patient population must be established.",
+        "Staffing, equipment, workflow and period differences may dominate transferability."
+      ],
+      "local_parameter_value": null,
+      "sensitivity_range": {
+        "lower": null,
+        "upper": null,
+        "status": "not_established; no distribution inferred from published summaries"
+      },
+      "replacement_criteria": "Replace with locally reviewed workflow and representative event-level data matching the endpoint, cohort, service and period.",
+      "human_review_status": "pending"
+    }
+  ]
+}

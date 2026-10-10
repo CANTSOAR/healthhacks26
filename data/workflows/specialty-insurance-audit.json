@@ -1,0 +1,70 @@
+{
+  "audit_id": "specialty-insurance-audit-2026-10-10",
+  "status": "completed",
+  "retrieved_at": "2026-10-10T18:19:40Z",
+  "scope": [
+    "data/research/specialty-insurance.json",
+    "data/research/specialty-insurance.md",
+    "data/workflows/specialty-insurance-audit.json"
+  ],
+  "sources": [
+    {
+      "source_id": "SRC-AETNA-H0523-2025-PDF",
+      "title": "Aetna 2025 Prior Authorization Metrics",
+      "url": "https://www.aetna.com/content/dam/aetna/pdfs/wwwaetnamedicarecomSSL/individual/website/2025_PA_Metric_Report.pdf",
+      "access": "Official PDF fully inspected through browser PDF extraction; physical pages 1-2 checked; physical page 1 is viewer P0, page 2 is P1.",
+      "finding": "H0523: standard approved 97.61%, denied 2.39%, approved after appeal 53.33%; expedited approved 97.06%, denied 2.94%; extension approval N/A. Mean elapsed receipt-to-determination 3.06 days standard / 0.54 expedited; median 0 days for each."
+    },
+    {
+      "source_id": "SRC-CMS-0057-F",
+      "title": "CMS Interoperability and Prior Authorization Final Rule CMS-0057-F",
+      "url": "https://www.cms.gov/newsroom/fact-sheets/cms-interoperability-prior-authorization-final-rule-cms-0057-f",
+      "access": "Official CMS fact sheet full page inspected.",
+      "finding": "Expedited 72-hour and standard 7-calendar-day PA decision deadlines generally begin Jan 1 2026 for impacted payers, with QHP issuers on FFEs excluded from these decision-timeframe requirements. PA policies under this rule exclude drug decisions. These are deadlines, not expected/observed processing durations."
+    },
+    {
+      "source_id": "SRC-CMS-EMTALA-RIGHTS",
+      "title": "You have rights in an emergency room under EMTALA",
+      "url": "https://www.cms.gov/priorities/your-patient-rights/emergency-room-rights",
+      "access": "Official CMS page full section inspected, lines on screening, insurance inquiry, stabilization and transfer.",
+      "finding": "Insurance may be asked at check-in only when it does not delay screening or treatment; uninsured patients must still be offered screening. CMS page states screening, stabilization and appropriate transfer protections."
+    },
+    {
+      "source_id": "SRC-AETNA-PRECERTIFICATION",
+      "title": "Aetna Precertification overview",
+      "url": "https://www.aetna.com/health-care-professionals/precertification.html",
+      "access": "Official Aetna provider page full overview inspected.",
+      "finding": "Aetna distinguishes notification (data entry without coverage judgment) from coverage determination (plan terms and, where applicable, clinical review); precertification is not a payment guarantee."
+    },
+    {
+      "source_id": "SRC-TBI-POSTACUTE-PA",
+      "title": "The effect of discharge destination and primary insurance provider on hospital discharge delays among patients with traumatic brain injury: a multicenter study of 1,543 patients",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6945617/",
+      "doi": "10.1186/s13037-019-0227-z",
+      "access": "Original open-access full text inspected via NCBI PMC BioC JSON.",
+      "finding": "Of 1,543 adult TBI patients, 210 had discharge delay >=24h after readiness was documented; among delayed cases, insurance authorization cited 109/210 (51.9%, published as 52%), overlapping with other barriers."
+    }
+  ],
+  "record_ids_reviewed": [
+    "specialty-ins-h0523-decisions",
+    "specialty-ins-h0523-time",
+    "specialty-ins-notification-vs-review",
+    "specialty-ins-cms-timeframes",
+    "specialty-ins-emergency-screening",
+    "specialty-ins-postacute-auth-delay-tbi"
+  ],
+  "corrections": [
+    "Added H0523 approved-after-appeal 53.33% and extension approval N/A; clarified no request/appeal denominators in table.",
+    "Corrected CMS setting, canonical source URL, operational compliance date scope, FFE QHP deadline exclusion, drug exclusion, and stated deadlines are policy limits rather than durations.",
+    "Sharpened EMTALA boundary to no delay of exam/treatment and screening even when uninsured.",
+    "Added measured post-acute insurance-authorization delay finding with exact denominator and overlapping-reason caveat.",
+    "Verified the earlier behavioral-health PES reported percentages conflict with article count totals; original published percentages are preserved and numeric calibration withheld pending resolution."
+  ],
+  "validation": {
+    "json_parse": "passed",
+    "required_record_fields": "passed",
+    "git_diff_check": "passed",
+    "commit": "none"
+  },
+  "luna_use_boundary": "Luna may explain sourced workflow rules, identify missing plan documents, and route administrative follow-up; do not infer member-specific coverage/payment or delay EMTALA emergency screening/treatment."
+}

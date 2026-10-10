@@ -2,9 +2,11 @@
 
 A first version of the whole-hospital knowledge system, grounded in New Brunswick, New Jersey. This repository contains the acquired data, provenance, ontology and reproducible research workflows. The database and live scenario engine are later work.
 
-**Snapshot: 2026-10-10. 108 source catalogs and 84,192 normalized record envelopes.** This includes the full 79,256-code CMS inpatient procedure reference and an overlapping earlier subset; it is not a count of unique hospital activities. Public evidence, terminology, synthetic profiles and analyst proposals remain separately labeled. See the [latest procedures, equipment and RWJ expansion](research/inventory-summary.md) and [human verification guide](review/README.md). Coverage remains partial for hospital operations and local assets.
+**Snapshot: 2026-10-10. 126 source catalogs and 84,225 normalized record envelopes.** This includes the full 79,256-code CMS inpatient procedure reference and an overlapping earlier subset; it is not a count of unique hospital activities. Public evidence, terminology, synthetic profiles and analyst proposals remain separately labeled. See the [latest procedures, equipment and RWJ expansion](research/inventory-summary.md) and [human verification guide](review/README.md). Coverage remains partial for hospital operations and local assets.
 
-Latest: [operational gap expansion](research/operations-gap-expansion.md) adds 33 cited external extracts for diagnostics, pharmacy, sterile supplies, patient flow and downtime, with separate inactive transfer proposals.
+Latest: [specialty and insurance expansion](research/specialty-gap-expansion.md) adds 33 cited records across five domains, with separate inactive transfer proposals and explicit source conflicts.
+
+Previous: [operational gap expansion](research/operations-gap-expansion.md) adds 33 cited external extracts for diagnostics, pharmacy, sterile supplies, patient flow and downtime, with separate inactive transfer proposals.
 
 ## Start here
 

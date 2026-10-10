@@ -20,10 +20,12 @@ for r in rows:
  assert r['_review']['record_sha256']==expected[r['record_id']]
  for k in ['catalog_path','normalized_path']:
   assert (D/'review'/r['_review'][k]).resolve().is_file()
-for name in ['expansion-receipt.json','breadth-receipt.json','inventory-receipt.json','gaps-receipt.json']:
+for name in ['expansion-receipt.json','breadth-receipt.json','inventory-receipt.json','gaps-receipt.json','specialty-receipt.json']:
  receipt=json.loads((D/'workflows'/name).read_text())
  for j in receipt['jobs']:
   assert hashlib.sha256((D.parent/j['extract_path']).read_bytes()).hexdigest()==j['extract_sha256']
+audit=json.loads((D/'workflows/specialty-receipt.json').read_text())['insurance_audit']
+assert hashlib.sha256((D.parent/audit['path']).read_bytes()).hexdigest()==audit['sha256']
 coverage=json.loads((D/'knowledge/encounter-coverage.json').read_text())
 for family in coverage['families']:
  assert family['local_validation']=='not_established'
@@ -31,11 +33,12 @@ for family in coverage['families']:
 assert all(rid in expected for rid in coverage['role_evidence_record_ids'])
 contract=json.loads((D/'specs/encounter-evidence-contract.json').read_text())
 assert all(rid in expected for rid in contract['fracture_example']['source_record_ids'])
-transfers=json.loads((D/'knowledge/gap-transfer-candidates.json').read_text())['transfers']
-for t in transfers:
- assert t['status']=='inferred_candidate_not_activated'
- assert t['local_parameter_value'] is None
- assert t['human_review_status']=='pending'
- assert all(rid in expected for rid in t['source_record_ids'])
- assert t['sensitivity_range']['lower'] is None and t['sensitivity_range']['upper'] is None
+for transfer_path in ['gap-transfer-candidates.json','specialty-transfer-candidates.json']:
+ transfers=json.loads((D/'knowledge'/transfer_path).read_text())['transfers']
+ for t in transfers:
+  assert t['status']=='inferred_candidate_not_activated'
+  assert t['local_parameter_value'] is None
+  assert t['human_review_status']=='pending'
+  assert all(rid in expected for rid in t['source_record_ids'])
+  assert t['sensitivity_range']['lower'] is None and t['sensitivity_range']['upper'] is None
 print(f'PASS: {len(rows)} embedded plus {len(external_ids)} on-demand review records match normalized evidence and file links; Luna extract receipt hashes match')

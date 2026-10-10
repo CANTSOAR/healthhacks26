@@ -541,6 +541,96 @@ documents:
     path: catalog/gaps-fd2096cfa767.json
     role: acquired_source_manifest
     refresh: manual
+  - id: catalog:specialty-01cd84918f3a
+    type: local_file
+    path: catalog/specialty-01cd84918f3a.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:specialty-059e7819770d
+    type: local_file
+    path: catalog/specialty-059e7819770d.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:specialty-0af3cf946560
+    type: local_file
+    path: catalog/specialty-0af3cf946560.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:specialty-29d989aeb8ed
+    type: local_file
+    path: catalog/specialty-29d989aeb8ed.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:specialty-2be7f94b4a36
+    type: local_file
+    path: catalog/specialty-2be7f94b4a36.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:specialty-42967c7d9769
+    type: local_file
+    path: catalog/specialty-42967c7d9769.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:specialty-476a9d323027
+    type: local_file
+    path: catalog/specialty-476a9d323027.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:specialty-502e921e0efc
+    type: local_file
+    path: catalog/specialty-502e921e0efc.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:specialty-525b10610d6a
+    type: local_file
+    path: catalog/specialty-525b10610d6a.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:specialty-5632162afb80
+    type: local_file
+    path: catalog/specialty-5632162afb80.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:specialty-62b79a5fecd8
+    type: local_file
+    path: catalog/specialty-62b79a5fecd8.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:specialty-6b96031db692
+    type: local_file
+    path: catalog/specialty-6b96031db692.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:specialty-761b8f40b97c
+    type: local_file
+    path: catalog/specialty-761b8f40b97c.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:specialty-b3ab4523bfc4
+    type: local_file
+    path: catalog/specialty-b3ab4523bfc4.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:specialty-b7e95f5aa42e
+    type: local_file
+    path: catalog/specialty-b7e95f5aa42e.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:specialty-c4c3bd171df9
+    type: local_file
+    path: catalog/specialty-c4c3bd171df9.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:specialty-e295c1eb9387
+    type: local_file
+    path: catalog/specialty-e295c1eb9387.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:specialty-f76a41d82351
+    type: local_file
+    path: catalog/specialty-f76a41d82351.json
+    role: acquired_source_manifest
+    refresh: manual
 - path: topics/brief.md
   depends_on:
   - id: local:research-question

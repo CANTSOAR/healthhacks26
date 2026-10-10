@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0.0",
   "generation": "Deterministic offline derivation; no source refetch and no inferred publication date or author",
-  "source_count": 108,
-  "record_count": 84192,
+  "source_count": 126,
+  "record_count": 84225,
   "sources": [
     {
       "source_id": "breadth-068cbcf1bb53",
@@ -4313,6 +4313,708 @@
         }
       ],
       "raw_availability": "available"
+    },
+    {
+      "source_id": "specialty-01cd84918f3a",
+      "bibtex_key": "specialty-01cd84918f3a",
+      "title": "Predictors of Psychiatric Boarding in the Emergency Department",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4307730/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T18:17:45Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T18:17:45Z"
+        }
+      ],
+      "catalog_path": "data/catalog/specialty-01cd84918f3a.json",
+      "catalog_sha256": "07c9446ea090a166a63a2e14508a2ad267bdbbb2393eda5fb8340940a6bc4f7a",
+      "normalized_path": "data/normalized/specialty-01cd84918f3a.jsonl",
+      "normalized_sha256": "ebb7652251f9a6ae5c421d0b87071cdfaa7305f1c0090e4aa1722763fd62927c",
+      "record_count": 2,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "specialty-059e7819770d",
+      "bibtex_key": "specialty-059e7819770d",
+      "title": "Aetna 2025 Prior Authorization Metrics",
+      "source_url": "https://www.aetna.com/content/dam/aetna/pdfs/wwwaetnamedicarecomSSL/individual/website/2025_PA_Metric_Report.pdf",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T18:19:40Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T18:19:40Z"
+        }
+      ],
+      "catalog_path": "data/catalog/specialty-059e7819770d.json",
+      "catalog_sha256": "e5e6a028d762929561708a24338586d23f6e67ba38c2f1a7a448b64b625274b7",
+      "normalized_path": "data/normalized/specialty-059e7819770d.jsonl",
+      "normalized_sha256": "a488c2509267a04d671df6971c2c5070c4b10c438aa4ca8e9ee85a63f3355835",
+      "record_count": 2,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "specialty-0af3cf946560",
+      "bibtex_key": "specialty-0af3cf946560",
+      "title": "Association of Functional Status and Discharge Destination for Patients Discharged from Inpatient Rehabilitation",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6239689/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1093/geroni/igy ด",
+        "retrieved_at": "2026-10-10T18:17:36Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T18:17:36Z"
+        }
+      ],
+      "catalog_path": "data/catalog/specialty-0af3cf946560.json",
+      "catalog_sha256": "bbb063a98b18150c7bf1444e99198fea7157bacadae599df499065d7c8a14a02",
+      "normalized_path": "data/normalized/specialty-0af3cf946560.jsonl",
+      "normalized_sha256": "af55e81907cd1922c30bf1cee1d22443bb152536194ff97d3ec44549a117f467",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "specialty-29d989aeb8ed",
+      "bibtex_key": "specialty-29d989aeb8ed",
+      "title": "Appointment Wait Time, Primary Care Provider Status, and Patient Demographics are Associated With Nonattendance at Outpatient Gastroenterology Clinic",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/27661970/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1097/MCG.0000000000000706",
+        "retrieved_at": "2026-10-10T18:17:36Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T18:17:36Z"
+        }
+      ],
+      "catalog_path": "data/catalog/specialty-29d989aeb8ed.json",
+      "catalog_sha256": "5f9afd2f4bb6e1a3e11c143c8b60b1749b4d43b2f67bb275127d741c3ef13d4f",
+      "normalized_path": "data/normalized/specialty-29d989aeb8ed.jsonl",
+      "normalized_sha256": "7f7f571cf42f41811f9c3f4736f2afbfeb3a26fafba0e09fbd68e3a0fe144720",
+      "record_count": 2,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "specialty-2be7f94b4a36",
+      "bibtex_key": "specialty-2be7f94b4a36",
+      "title": "CMS Interoperability and Prior Authorization Final Rule CMS-0057-F",
+      "source_url": "https://www.cms.gov/newsroom/fact-sheets/cms-interoperability-prior-authorization-final-rule-cms-0057-f",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T18:19:40Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T18:19:40Z"
+        }
+      ],
+      "catalog_path": "data/catalog/specialty-2be7f94b4a36.json",
+      "catalog_sha256": "1a8037b255b5892559a85cbd7eb5efd0f985b27a7d61df89234ca8936d987521",
+      "normalized_path": "data/normalized/specialty-2be7f94b4a36.jsonl",
+      "normalized_sha256": "53352335e6179a512016d77b943f82c4a27f07f5378ad05681c5fb758e3d84e8",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "specialty-42967c7d9769",
+      "bibtex_key": "specialty-42967c7d9769",
+      "title": "CMS Emergency room rights under EMTALA",
+      "source_url": "https://www.cms.gov/priorities/your-patient-rights/emergency-room-rights",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T18:19:40Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T18:19:40Z"
+        }
+      ],
+      "catalog_path": "data/catalog/specialty-42967c7d9769.json",
+      "catalog_sha256": "d5ea39f59a04fd3168bfcd50d978dd2e8f6e09114a0de1830f4051f8dcf22eaf",
+      "normalized_path": "data/normalized/specialty-42967c7d9769.jsonl",
+      "normalized_sha256": "d92bbda26fafd9783389ac7651280dd7f0a2da1d92c66de3ff3ddd1ff9ff8123",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "specialty-476a9d323027",
+      "bibtex_key": "specialty-476a9d323027",
+      "title": "Inter-organizational pooling of NICU nurses in the Dutch neonatal network: a simulation-optimization study",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11976774/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1007/s10729-025-09697-8",
+        "retrieved_at": "2026-10-10T18:17:53Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T18:17:53Z"
+        }
+      ],
+      "catalog_path": "data/catalog/specialty-476a9d323027.json",
+      "catalog_sha256": "74deb05775d495cf77df03ab1ec265c76b468e642407ce940b9c28ec4a6c28cd",
+      "normalized_path": "data/normalized/specialty-476a9d323027.jsonl",
+      "normalized_sha256": "935ea5f3f236ddc188b30164b6e974e1e1da8f69f6b9db7d755497a70feb29bc",
+      "record_count": 2,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "specialty-502e921e0efc",
+      "bibtex_key": "specialty-502e921e0efc",
+      "title": "Shift-to-shift handoffs in the NICU: lessons learned from a large scale audit",
+      "source_url": "https://www.nature.com/articles/s41372-023-01724-2",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1038/s41372-023-01724-2",
+        "retrieved_at": "2026-10-10T18:17:53Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T18:17:53Z"
+        }
+      ],
+      "catalog_path": "data/catalog/specialty-502e921e0efc.json",
+      "catalog_sha256": "5ea4e7357bf26bdf423b463a93290cf2ca779c7b60e19128f6c4f604b726383b",
+      "normalized_path": "data/normalized/specialty-502e921e0efc.jsonl",
+      "normalized_sha256": "84a126975c93bc01c17a5a6072ddb850f8a252176c3a946325ea5182f739cb10",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "specialty-525b10610d6a",
+      "bibtex_key": "specialty-525b10610d6a",
+      "title": "Timing and Intensity of Rehabilitation Services During Acute Stroke Hospitalization: Impacts on Functional Recovery and Community Discharge",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12955715/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.5014/ajot.2026.051362",
+        "retrieved_at": "2026-10-10T18:17:36Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T18:17:36Z"
+        }
+      ],
+      "catalog_path": "data/catalog/specialty-525b10610d6a.json",
+      "catalog_sha256": "12920e12d56d3c3686d614e5444737f387435509499cb9a22f6e344fca45cdc2",
+      "normalized_path": "data/normalized/specialty-525b10610d6a.jsonl",
+      "normalized_sha256": "cdabcff8cf188e80d3176b27e303109b6c1ad7c0b5adff8677f96e45762400da",
+      "record_count": 2,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "specialty-5632162afb80",
+      "bibtex_key": "specialty-5632162afb80",
+      "title": "Effects of a Dedicated Regional Psychiatric Emergency Service on Boarding of Psychiatric Patients in Area Emergency Departments",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3935777/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.5811/westjem.2013.6.17848",
+        "retrieved_at": "2026-10-10T18:17:45Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T18:17:45Z"
+        }
+      ],
+      "catalog_path": "data/catalog/specialty-5632162afb80.json",
+      "catalog_sha256": "91914c439be64048de5e72b486d43a0ca5b35603ec65f3bbee1d0c6a31d825b7",
+      "normalized_path": "data/normalized/specialty-5632162afb80.jsonl",
+      "normalized_sha256": "49219eef67f7df15731a2af8138ed9eeb0e350d1c573e6661e23791d10f4b86e",
+      "record_count": 2,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "specialty-62b79a5fecd8",
+      "bibtex_key": "specialty-62b79a5fecd8",
+      "title": "Acute Psychiatric Hospital Licensing and Certification: Staffing Needs and Patient Observation (California Department of Public Health guidance)",
+      "source_url": "https://www.cdph.ca.gov/Programs/CHCQ/LCP/Pages/APH-Regulations-CHA-Letter-05-20-25-Attachment-01.aspx",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T18:17:45Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T18:17:45Z"
+        }
+      ],
+      "catalog_path": "data/catalog/specialty-62b79a5fecd8.json",
+      "catalog_sha256": "620fcf37059dfdef4d552ac1f5d08715dc7c5da2cf187e83b63b06a6d8e35a2e",
+      "normalized_path": "data/normalized/specialty-62b79a5fecd8.jsonl",
+      "normalized_sha256": "952ad9301c71f1ecd5c9031cd129f3c2e09a3078bc796b2679376b56c0e36204",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "specialty-6b96031db692",
+      "bibtex_key": "specialty-6b96031db692",
+      "title": "Aetna Precertification overview",
+      "source_url": "https://www.aetna.com/health-care-professionals/precertification.html",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T18:19:40Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T18:19:40Z"
+        }
+      ],
+      "catalog_path": "data/catalog/specialty-6b96031db692.json",
+      "catalog_sha256": "b041a53d3508e4d1700d6ba6551396eefe0ea9533d616b6cf5f97526afd06974",
+      "normalized_path": "data/normalized/specialty-6b96031db692.jsonl",
+      "normalized_sha256": "10c92c66b529b328f31172a48d54698ae8ecf8b91999fc99db04ec96c2cc2fba",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "specialty-761b8f40b97c",
+      "bibtex_key": "specialty-761b8f40b97c",
+      "title": "Mass intrahospital transport of the neonatal intensive care unit: a systems-based approach to safety, efficiency, and family-centered care",
+      "source_url": "https://www.nature.com/articles/s41372-026-02721-x",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1038/s41372-026-02721-x",
+        "retrieved_at": "2026-10-10T18:17:53Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T18:17:53Z"
+        }
+      ],
+      "catalog_path": "data/catalog/specialty-761b8f40b97c.json",
+      "catalog_sha256": "c480ab3c5b3ca613aa197496e872d8f49f1d06bfb488d74d0f47be5d9252909d",
+      "normalized_path": "data/normalized/specialty-761b8f40b97c.jsonl",
+      "normalized_sha256": "f466e36337e1665630e6990ccd6390989f3903c468f9b1b78aaf91be8dc47bbf",
+      "record_count": 3,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "specialty-b3ab4523bfc4",
+      "bibtex_key": "specialty-b3ab4523bfc4",
+      "title": "Obstetric triage improvement process using the Donabedian model of quality care: a quality improvement initiative",
+      "source_url": "https://bmjopenquality.bmj.com/content/11/2/e001483",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1136/bmjoq-2021-001483",
+        "retrieved_at": "2026-10-10T18:17:53Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T18:17:53Z"
+        }
+      ],
+      "catalog_path": "data/catalog/specialty-b3ab4523bfc4.json",
+      "catalog_sha256": "164933b01977824d9bfc383ed2938c7303c64b39a3848f2b54b9d706afab8552",
+      "normalized_path": "data/normalized/specialty-b3ab4523bfc4.jsonl",
+      "normalized_sha256": "2dfa22d1eae3fccdafe70d3926f5f27a297ea35ea35f1d8a1dd426fb38d37f30",
+      "record_count": 3,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "specialty-b7e95f5aa42e",
+      "bibtex_key": "specialty-b7e95f5aa42e",
+      "title": "Impact of Implementation of Electronically Transmitted Referrals on Pediatric Subspecialty Visit Attendance",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5936662/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1016/j.acap.2017.12.008",
+        "retrieved_at": "2026-10-10T18:17:36Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T18:17:36Z"
+        }
+      ],
+      "catalog_path": "data/catalog/specialty-b7e95f5aa42e.json",
+      "catalog_sha256": "36dc072c32b0e9a1194fe246862fd0ef0ce8cf154e279bb6df684e1e050a777e",
+      "normalized_path": "data/normalized/specialty-b7e95f5aa42e.jsonl",
+      "normalized_sha256": "09c4fe8d777f1a43201384f82e1cb578a4a61176fe59a98de1bd25b4ee3df2c7",
+      "record_count": 4,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "specialty-c4c3bd171df9",
+      "bibtex_key": "specialty-c4c3bd171df9",
+      "title": "The effect of discharge destination and primary insurance provider on hospital discharge delays among patients with traumatic brain injury: a multicenter study of 1,543 patients",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6945617/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1186/s13037-019-0227-z",
+        "retrieved_at": "2026-10-10T18:19:40Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T18:19:40Z"
+        }
+      ],
+      "catalog_path": "data/catalog/specialty-c4c3bd171df9.json",
+      "catalog_sha256": "ef3b2c09f5ac9af9234f0f99804b773d2c40f15539d8ed1a59a35fb084b54dca",
+      "normalized_path": "data/normalized/specialty-c4c3bd171df9.jsonl",
+      "normalized_sha256": "accf24c248465f0b356c1cf3102ae990fd2c8e0cd2d2e68ea8edad174d6da515",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "specialty-e295c1eb9387",
+      "bibtex_key": "specialty-e295c1eb9387",
+      "title": "Targeted rehabilitation may improve patient flow and outcomes: development and implementation of a novel Proactive Rehabilitation Screening (PReS) service",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7942267/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1136/bmjoq-2020-001267",
+        "retrieved_at": "2026-10-10T18:17:36Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T18:17:36Z"
+        }
+      ],
+      "catalog_path": "data/catalog/specialty-e295c1eb9387.json",
+      "catalog_sha256": "1610d5e91fed5bae730bd77cf0cd5f6246e19918426e27a94dfa587200f078bf",
+      "normalized_path": "data/normalized/specialty-e295c1eb9387.jsonl",
+      "normalized_sha256": "29b52174cbca398eefeee50e46aad775c12320efb7ca35a840bbf18c5474c0ec",
+      "record_count": 3,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "specialty-f76a41d82351",
+      "bibtex_key": "specialty-f76a41d82351",
+      "title": "Acute Care Utilization After Recovery Coaching Linkage During Substance-Related Inpatient Admission: Results of Two Randomized Controlled Trials",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8926086/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1007/s11606-021-07360-w",
+        "retrieved_at": "2026-10-10T18:17:45Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T18:17:45Z"
+        }
+      ],
+      "catalog_path": "data/catalog/specialty-f76a41d82351.json",
+      "catalog_sha256": "fbfc8b2c52746cb415b4ecb7340ce389fd0a0b0a945d59936b485b97903e76f7",
+      "normalized_path": "data/normalized/specialty-f76a41d82351.jsonl",
+      "normalized_sha256": "09ccca73cec1456908acccfccfc66074ee1001ede016cac6f8f88593b2658d7c",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
     },
     {
       "source_id": "twinverse-patient-profiles",

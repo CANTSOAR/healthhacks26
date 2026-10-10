@@ -1,0 +1,160 @@
+[
+  {
+    "id": "specialty-rehab-pres-screen-timing",
+    "source_title": "Targeted rehabilitation may improve patient flow and outcomes: development and implementation of a novel Proactive Rehabilitation Screening (PReS) service",
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7942267/",
+    "doi": "10.1136/bmjoq-2020-001267",
+    "locator": "Methods, PReS screening timing; Results, screening time and cohort flow.",
+    "source_setting": "Adult acute medical/surgical wards at a large Australian tertiary hospital; weekday screen for rehabilitation needs, linked to physician assessment and potential acute in-reach or subacute inpatient rehabilitation.",
+    "source_period": "May 2017-February 2019.",
+    "source_n": "4,000 consecutive screening episodes; acute ward subgroup n=2,949; the article reports n=1,604 screened in the day 5-7 target window.",
+    "quantity": "Screening achieved in target window (days 5-7 after acute admission) among acute ward admissions",
+    "value": {
+      "reported_percent": 86.9,
+      "reported_n_in_window": 1604,
+      "acute_ward_screening_cohort_n": 2949
+    },
+    "unit": "percent and episodes",
+    "source_evidence_basis": "The article states that screening for acute-ward patients was achieved within days 5-7 in 86.9% of cases and gives n=1,604. The methods specify day 5, shifting to the next weekday when it falls on a weekend.",
+    "limitations": "The reported numerator and percentage do not arithmetically match the stated subgroup denominator (1,604/2,949 is not 86.9%); retain the published values as reported and resolve denominator from the source figure before quantitative calibration. Single Australian site, under-75 cohort; this was a screening service rather than universal multidisciplinary assessment.",
+    "inferred_scenario_use": "Model screening due dates, weekend deferral, missed-record retry, and referral/physician assessment as separate steps. Treat the reported rate as a workflow signal pending denominator resolution, not a transferable local probability.",
+    "retrieved_at": "2026-10-10T18:17:36Z",
+    "evidence_basis_type": "observed_service_redesign_process_measure",
+    "applicability_label": "external_reference_not_RWJ",
+    "source_access": "primary_full_text_inspected_via_NCBI_PMC_BioC_JSON",
+    "inspected_source_url": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC7942267/unicode",
+    "quantitative_use_status": "blocked_source_internal_inconsistency"
+  },
+  {
+    "id": "specialty-rehab-pres-icu-screen-delay",
+    "source_title": "Targeted rehabilitation may improve patient flow and outcomes: development and implementation of a novel Proactive Rehabilitation Screening (PReS) service",
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7942267/",
+    "doi": "10.1136/bmjoq-2020-001267",
+    "locator": "Results, screening timing among patients screened after ICU transfer.",
+    "source_setting": "Same Australian acute hospital PReS service; ICU survivors screened after return to acute ward.",
+    "source_period": "May 2017-February 2019.",
+    "source_n": "1,051 screening episodes after transfer from ICU.",
+    "quantity": "Median time from hospital admission to screening for patients screened after ICU transfer",
+    "value": 9.0,
+    "unit": "days (median; IQR 7.0-15.0)",
+    "source_evidence_basis": "The primary article reports a median of nine days from admission to screening for the ICU-transfer subgroup, with an interquartile range of seven to fifteen days.",
+    "limitations": "Conditional ICU subgroup at one hospital; this is time to a screening episode, not time to full rehabilitation assessment or treatment. Not a US or RWJ estimate.",
+    "inferred_scenario_use": "Allow ICU transfer and return-to-ward to reset screening eligibility, and distinguish screening delay from clinical assessment, acceptance, and first treatment.",
+    "retrieved_at": "2026-10-10T18:17:36Z",
+    "evidence_basis_type": "observed_service_process_timing",
+    "applicability_label": "external_reference_not_RWJ",
+    "source_access": "primary_full_text_inspected_via_NCBI_PMC_BioC_JSON",
+    "inspected_source_url": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC7942267/unicode"
+  },
+  {
+    "id": "specialty-rehab-pres-screen-workload",
+    "source_title": "Targeted rehabilitation may improve patient flow and outcomes: development and implementation of a novel Proactive Rehabilitation Screening (PReS) service",
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7942267/",
+    "doi": "10.1136/bmjoq-2020-001267",
+    "locator": "Results and Table 1, screening duration across ten consecutive weekdays.",
+    "source_setting": "Same Australian acute hospital; rehabilitation nurse performed weekday PReS case finding using medical records.",
+    "source_period": "Ten consecutive weekdays within the May 2017-February 2019 service period; exact dates not stated in the cited text.",
+    "source_n": "158 screening episodes observed across 10 weekdays; 561 total minutes.",
+    "quantity": "Mean staff time per screening episode",
+    "value": 3.6,
+    "unit": "minutes per screening episode (mean)",
+    "source_evidence_basis": "The observed total was 561 minutes for 158 screenings over ten weekdays, reported by the authors as an average of 3.6 minutes per screening.",
+    "limitations": "This is chart-screening workload, not multidisciplinary bedside assessment or therapy time. Single service, paper records, and only ten observed days; no distribution is reported.",
+    "inferred_scenario_use": "Keep case-finding labor separate from rehabilitation physician/therapist assessment and treatment resources. Use only as an external screening-workload reference.",
+    "retrieved_at": "2026-10-10T18:17:36Z",
+    "evidence_basis_type": "direct_observed_work_sampling",
+    "applicability_label": "external_reference_not_RWJ",
+    "source_access": "primary_full_text_inspected_via_NCBI_PMC_BioC_JSON",
+    "inspected_source_url": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC7942267/unicode"
+  },
+  {
+    "id": "specialty-rehab-stroke-evaluation-function",
+    "source_title": "Timing and Intensity of Rehabilitation Services During Acute Stroke Hospitalization: Impacts on Functional Recovery and Community Discharge",
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12955715/",
+    "doi": "10.5014/ajot.2026.051362",
+    "locator": "Methods, analytic sample and measures; Results, discharge function models (PT full model). Time to evaluation measured in days from admission to initial therapy evaluation.",
+    "source_setting": "Acute ischemic-stroke hospitalizations across a 13-hospital Colorado health system, including a 678-bed Level I trauma center; OT and PT analyzed separately.",
+    "source_period": "January 2018-December 2021.",
+    "source_n": "Final analytic samples: PT n=979 and OT n=713; cohorts overlap because many received both disciplines.",
+    "quantity": "Adjusted association of each additional day to PT evaluation with discharge mobility function",
+    "value": {
+      "unstandardized_B_per_day": -0.129,
+      "95_percent_CI": [
+        -0.22,
+        -0.04
+      ],
+      "p_value": 0.006
+    },
+    "unit": "AM-PAC 6-Clicks mobility score points per additional day",
+    "source_evidence_basis": "In the fully adjusted PT model, an additional day before the initial PT evaluation was associated with a 0.129-point lower discharge mobility score. The endpoint is acute-care discharge function, not an inpatient rehab-facility outcome.",
+    "limitations": "Retrospective observational association in acute stroke care; residual confounding and illness severity may influence timing and function. AM-PAC is not the IRF-PAI measure, and effect should not be interpreted causally or transferred as a rehab-hospital coefficient.",
+    "inferred_scenario_use": "Represent assessment timing and function tracking as separate process and outcome fields; use the association to motivate local sensitivity analysis only, not to forecast a causal benefit from earlier therapy.",
+    "retrieved_at": "2026-10-10T18:17:36Z",
+    "evidence_basis_type": "observed_retrospective_multihospital_adjusted_association",
+    "applicability_label": "external_reference_not_RWJ",
+    "source_access": "primary_full_text_inspected_via_NCBI_PMC_BioC_JSON",
+    "inspected_source_url": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC12955715/unicode"
+  },
+  {
+    "id": "specialty-rehab-stroke-outcomes-by-discipline",
+    "source_title": "Timing and Intensity of Rehabilitation Services During Acute Stroke Hospitalization: Impacts on Functional Recovery and Community Discharge",
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12955715/",
+    "doi": "10.5014/ajot.2026.051362",
+    "locator": "Results, Table 1; community discharge and admission/discharge AM-PAC function by OT/PT cohort.",
+    "source_setting": "Same acute stroke hospital system; patients receiving OT or PT during hospitalization.",
+    "source_period": "January 2018-December 2021.",
+    "source_n": "OT cohort n=713; PT cohort n=979; cohorts overlap and are not mutually exclusive.",
+    "quantity": "Community discharge share and mean function scores at admission and discharge, by therapy cohort",
+    "value": {
+      "OT": {
+        "community_discharge_percent": 38.3,
+        "admission_AM_PAC_daily_activity_mean": 14.27,
+        "discharge_AM_PAC_daily_activity_mean": 16.51
+      },
+      "PT": {
+        "community_discharge_percent": 47.1,
+        "admission_AM_PAC_mobility_mean": 15.39,
+        "discharge_AM_PAC_mobility_mean": 17.7
+      }
+    },
+    "unit": "percent; AM-PAC 6-Clicks score (range 6-24; higher indicates greater independence)",
+    "source_evidence_basis": "The cohort table reports separate community-discharge proportions and admission/discharge function means for OT and PT recipients. These are descriptive outcomes among selected service recipients.",
+    "limitations": "Acute stroke cohort rather than inpatient rehabilitation facility; OT/PT groups overlap and differ by patient mix. These descriptive comparisons cannot estimate discipline effects or serve as local placement probabilities.",
+    "inferred_scenario_use": "Track functional status and discharge destination as distinct outcomes and retain discipline-specific denominators. Require local clinical assessment data before estimating destination transitions.",
+    "retrieved_at": "2026-10-10T18:17:36Z",
+    "evidence_basis_type": "observed_multihospital_cohort_descriptive_outcomes",
+    "applicability_label": "external_reference_not_RWJ",
+    "source_access": "primary_full_text_inspected_via_NCBI_PMC_BioC_JSON",
+    "inspected_source_url": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC12955715/unicode"
+  },
+  {
+    "id": "specialty-rehab-irf-function-discharge-destination",
+    "source_title": "Association of Functional Status and Discharge Destination for Patients Discharged from Inpatient Rehabilitation",
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6239689/",
+    "doi": "10.1093/geroni/igy \u0e14",
+    "locator": "Abstract, national IRF dataset and results; discharge self-care and mobility scores associated with community destination.",
+    "source_setting": "US Medicare Inpatient Rehabilitation Facilities, national standardized functional assessment data.",
+    "source_period": "October 2016-September 2017.",
+    "source_n": "490,032 IRF patients in the first 12 months of national data collection.",
+    "quantity": "Adjusted association between one-unit higher discharge function score and odds of community discharge",
+    "value": {
+      "self_care_OR": 1.157,
+      "self_care_p_value": "<0.001",
+      "mobility_OR": 1.071,
+      "mobility_p_value": "<0.001",
+      "community_discharge_share_for_functionally_independent_patients_across_items_percent_range": [
+        85.9,
+        97.3
+      ]
+    },
+    "unit": "odds ratio per one score unit; percent range",
+    "source_evidence_basis": "The abstract reports that higher discharge self-care and mobility scores were associated with community rather than noncommunity destination, using national IRF assessment data. Functionally independent patients commonly went to a community setting.",
+    "limitations": "Observational association from one historical year of Medicare IRF data; scores and discharge destinations reflect case mix, policy, payer, family support, and facility context. Association is not a causal effect or a placement probability for an individual.",
+    "inferred_scenario_use": "Include admission/discharge function and placement destination as linked but separate state variables. Use the relation qualitatively or for external comparison, not as a local causal rule.",
+    "retrieved_at": "2026-10-10T18:17:36Z",
+    "evidence_basis_type": "observed_national_IRF_cohort_association",
+    "applicability_label": "external_reference_not_RWJ",
+    "source_access": "primary_abstract_and_bibliographic_record_inspected_via_NCBI_PMC",
+    "inspected_source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6239689/"
+  }
+]

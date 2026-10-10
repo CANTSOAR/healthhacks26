@@ -1,0 +1,10 @@
+{
+  "scope": "Selected source spot checks, not an exhaustive factual audit or human clinical approval",
+  "date": "2026-10-10",
+  "checks": [
+    {"record_ids":["specialty-op-gi-no-show-share","specialty-op-gi-wait-no-show-association"],"source_url":"https://pubmed.ncbi.nlm.nih.gov/27661970/","result":"Primary abstract confirms 195 of 2331 appointments missed and AOR 1.014. Unit increment and regression n are absent; requested and confirmed removal of per-day interpretation."},
+    {"record_ids":["specialty-rehab-pres-screen-timing"],"source_url":"https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7942267/fullTextXML","result":"Original full text itself states acute-ward n2949, in-window n1604 and86.9percent. Numerical inconsistency retained as source conflict, not silently corrected or usable for calibration."},
+    {"record_ids":["specialty-ins-h0523-decisions","specialty-ins-h0523-time"],"source_url":"https://www.aetna.com/content/dam/aetna/pdfs/wwwaetnamedicarecomSSL/individual/website/2025_PA_Metric_Report.pdf","result":"Inspected physical pages1-2; contract H0523,2025 Medicare Advantage only. Counts absent; zero-day median not assumed instantaneous."}
+  ],
+  "review_status": "agent_review_only; human review pending"
+}

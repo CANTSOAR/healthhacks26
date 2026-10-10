@@ -1,0 +1,26 @@
+{
+  "dataset_id": "specialty-e295c1eb9387",
+  "source_id": "specialty-e295c1eb9387",
+  "title": "Targeted rehabilitation may improve patient flow and outcomes: development and implementation of a novel Proactive Rehabilitation Screening (PReS) service",
+  "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7942267/",
+  "scope": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+  "access": "public_primary_article_or_abstract",
+  "rights": {
+    "source_license": "not assessed for full-text redistribution",
+    "redistribution": "Short factual paraphrases; no full article copied"
+  },
+  "acquisition_status": "acquired",
+  "raw_paths": [],
+  "normalized_path": "data/normalized/specialty-e295c1eb9387.jsonl",
+  "record_count": 3,
+  "limits": [
+    "Setting, period, applicability and endpoint are source-specific.",
+    "No original snapshot retained; human review should follow source URL and locator.",
+    "A role description or guideline does not establish local operational performance."
+  ],
+  "provenance": {
+    "doi": "10.1136/bmjoq-2020-001267",
+    "retrieved_at": "2026-10-10T18:17:36Z",
+    "raw_artifact_kind": "no_raw_limited_paraphrase"
+  }
+}

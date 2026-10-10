@@ -43,3 +43,7 @@ Choose `cms-icd10pcs-2027-full (load full reference)` in the Source selector. Th
 ## Operational gap expansion
 
 Search `gap-` for the new external literature and guidance extracts. The [expansion report](../research/operations-gap-expansion.md) explains coverage and remaining gaps. Each record retains access scope; the uninspected CT candidate appears only in the pending-source file. [Transfer proposals](../knowledge/gap-transfer-candidates.json) remain inactive and require local validation.
+
+## Specialty and insurance expansion
+
+Search `specialty-` for behavioral health, maternity/NICU, outpatient scheduling, rehab and insurance. Start with [the expansion report](../research/specialty-gap-expansion.md). Two conflicting published figures are blocked from quantitative adoption. Source extraction verification and review of an inferred simulation use are separate decisions.
