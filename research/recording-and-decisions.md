@@ -44,3 +44,20 @@ Earlier exploratory track ideas are superseded by the team's current TwinVerse c
 5. Assign the five workstream owners and freeze the case/event interface contract.
 
 The detailed [action plan](action-plan.md) owns milestones and cuts. Research is complete enough to begin the bounded prototype; implementation, clinical review and acceptance remain unverified execution work.
+
+## October 10 refinement from the original transcript
+
+The transcript supports a data-first hospital vision, not only a chatbot. Preserve that vision as a [domain acquisition manifest](data-acquisition-manifest.json) and [Luna workflow pack](luna-data-workflows.md), while completing one encounter for judging.
+
+| Recording time | Refined contract / acceptance |
+|---|---|
+| 00:00–00:20 | Catalog staff roles, wings, patients, procedures, equipment, geometry and insurance separately. Each record has origin, source/version, rights and coverage status; no public directory treated as a current shift roster |
+| 00:41–01:01 | Generate expression/personality from a bounded approved style; fix clinical history before the encounter. Personality cannot change medicines, diagnosis, symptoms or known results |
+| 01:01–01:33 | Use an original clinical-record-style interface and approved synthetic reports. A familiar chart is not Epic integration, and a plausible generated scan is not a validated diagnostic artifact |
+| 01:33–01:58; 05:11–05:34 | Inspect primary sources and preserve relationships across facts, artifacts and objectives. Citation presence alone does not prove coherence or clinical validity |
+| 02:26–03:04 | Map supervised learner actions with semantic alternatives; allow early escalation and chart access. Separate learner presentation from formal responsibility handoff |
+| 03:04–03:28 | Prepare the next reviewed case before use, cache its immutable approved version and load it instantly. Background generation produces drafts, never silently publishes a fresh clinical reality |
+| 03:28–03:59 | Represent nurse/patient viewpoints as later role permissions on shared entities. Do not add autonomous clinical actions without an approved contract |
+| 04:13–05:05 | Model staffing experiments with a DES controller and explicit constraints/delays. The spoken visit times are synthetic examples; they cannot calibrate throughput |
+
+Pre-generation can reduce latency but does not replace review. Patient queue order, case version and disclosure state should be saved so reset/replay is reproducible. Distinguish teaching time, simulated hospital time and actual response latency. The [project synthesis](project-research-synthesis.md) adds separate operational/educational validation and records conflicting draft cases and scoring scales.

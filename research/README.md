@@ -1,10 +1,14 @@
 # Research index
 
-Research snapshot prepared October 9, 2026 for the October 9–11 Rutgers Health Hack. Source dates and unresolved claims are recorded in the individual documents.
+Research snapshot prepared October 9 and expanded October 10, 2026 for the October 9–11 Rutgers Health Hack. Source dates and unresolved claims are recorded in the individual documents.
 
 | Document | Contents |
 |---|---|
 | [Action plan](action-plan.md) | Scope, five workstreams, first 45 minutes, architecture, acceptance gates, weekend schedule, four-minute pitch and submission checklist |
+| [Resource feasibility — October 10](resource-feasibility-2026-10-10.md) | Live workshop console checks, listed Bedrock quota, local capacity, sponsor activation gaps and encounter/operations/3-D execution boundaries |
+| [ChatGPT project synthesis](project-research-synthesis.md) | Fifteen research conversations, architecture, rubric/case conflicts, minimum hospital data request and primary-source leads |
+| [GPT-6 Luna workflows](luna-data-workflows.md) | Provider candidates, bounded job packets, ten reusable prompts, provenance and review gates |
+| [Data acquisition manifest](data-acquisition-manifest.json) | Sixteen domains with priorities, source leads, access status and explicit not-started execution state |
 | [Brainstorm and decisions](recording-and-decisions.md) | Research-backed interpretation of the original idea, transcription limitations, decisions and unresolved dependencies |
 | [Clinical research](clinical-research.md) | Original studies, educational evidence, competitors, clinical case sourcing, licensing and validation limits |
 | [Technical and data research](technical-and-data-research.md) | Proposed case contract, grounded replies, state/provenance, evaluation precedents, datasets and future operational simulation |
@@ -18,6 +22,6 @@ The plan recommends **TwinVerse Challenge 1: Virtual Patient Encounter**. Track 
 
 **Deadline: Sunday October 11, 2026 at noon EDT.** Internal readiness is 11 a.m.; submission verification is 11:30 a.m.
 
-These are research findings and implementation proposals. Suggested acceptance targets are not measured results. Provider offers are attributed to source guides/current official pages; redeemed account entitlements and availability remain unverified.
+These are research findings and implementation proposals. Suggested acceptance targets are not measured results. The October 10 live assessment establishes workshop console access and listed models/quota, but no successful inference or app deployment. Provider offers are attributed to source guides/current official pages; redeemed account entitlements and availability remain unverified.
 
 The public package includes derived findings and citations. Original recordings, full transcripts, private email correspondence, source attachments, workshop join links, OTPs, promo codes and credentials remain outside the repository. Do not infer permission to redistribute original source materials from their inclusion in the research.

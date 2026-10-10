@@ -1,0 +1,279 @@
+{
+  "schema_version": "1.0",
+  "prepared_date": "2026-10-10",
+  "purpose": "Broad data acquisition backlog for Encounter Studio, Operations Lab and Hospital World",
+  "execution_status": "planned_not_run",
+  "preferred_model": "gpt-6-luna",
+  "workflow_document": "luna-data-workflows.md",
+  "public_repository_policy": "Derived research and cleared artifacts only; private chats, original transcript, credentials and restricted records excluded",
+  "domains": [
+    {
+      "id": "evidence",
+      "priority": "P0",
+      "domain": "Educational evidence",
+      "seed_sources": "Original trials and reviews linked in clinical-research.md and project-research-synthesis.md",
+      "required_output": "Study design, population, comparator, outcome, limitations, applicability",
+      "workflows": [
+        "W1",
+        "W2",
+        "W3"
+      ],
+      "input_status": "source_leads",
+      "execution_status": "not_started",
+      "review_owner_role": "data/research owner",
+      "blocking_gaps": [],
+      "accepted_artifacts": []
+    },
+    {
+      "id": "workflow",
+      "priority": "P0",
+      "domain": "Clinical encounter workflow",
+      "seed_sources": "SAEM/CDEM; AAMC teaching references; mentor process review",
+      "required_output": "Observable supervised-student actions, sources, escalation and uncertainty",
+      "workflows": [
+        "W1",
+        "W2",
+        "W4"
+      ],
+      "input_status": "source_leads",
+      "execution_status": "not_started",
+      "review_owner_role": "clinical educator",
+      "blocking_gaps": [],
+      "accepted_artifacts": []
+    },
+    {
+      "id": "cases",
+      "priority": "P0",
+      "domain": "Patient scripts and cases",
+      "seed_sources": "Organizer promised TwinVerse personas/cases; original faculty cases; MedEdPORTAL leads",
+      "required_output": "Fixed facts, patient knowledge, explicit unknowns, objectives, disclosure and review",
+      "workflows": [
+        "W2",
+        "W5",
+        "W6"
+      ],
+      "input_status": "organizer_assets_missing",
+      "execution_status": "not_started",
+      "review_owner_role": "clinical educator",
+      "blocking_gaps": [],
+      "accepted_artifacts": []
+    },
+    {
+      "id": "rubrics",
+      "priority": "P0",
+      "domain": "Learning objectives and rubrics",
+      "seed_sources": "Organizer objectives; original instrument publications; faculty criteria",
+      "required_output": "Objective-level observable evidence, accepted alternatives, review flags",
+      "workflows": [
+        "W2",
+        "W4",
+        "W6"
+      ],
+      "input_status": "source_leads",
+      "execution_status": "not_started",
+      "review_owner_role": "clinical educator",
+      "blocking_gaps": [],
+      "accepted_artifacts": []
+    },
+    {
+      "id": "artifacts",
+      "priority": "P0",
+      "domain": "Labs, ECGs, imaging and prior notes",
+      "seed_sources": "Faculty-authored synthetic reports; individually licensed teaching assets",
+      "required_output": "Asset source/version/license, compatible interpretation, release condition, clinical approval",
+      "workflows": [
+        "W2",
+        "W5",
+        "W6"
+      ],
+      "input_status": "rights_and_clinical_review_needed",
+      "execution_status": "not_started",
+      "review_owner_role": "clinical educator",
+      "blocking_gaps": [],
+      "accepted_artifacts": []
+    },
+    {
+      "id": "longitudinal",
+      "priority": "P1",
+      "domain": "Synthetic medical histories",
+      "seed_sources": "Synthea repository/modules; faculty-authored background",
+      "required_output": "Timeline, conditions, medications, allergies, units, origin and acute-case fit",
+      "workflows": [
+        "W2",
+        "W5",
+        "W6"
+      ],
+      "input_status": "source_leads",
+      "execution_status": "not_started",
+      "review_owner_role": "clinical educator",
+      "blocking_gaps": [],
+      "accepted_artifacts": []
+    },
+    {
+      "id": "terminology",
+      "priority": "P1",
+      "domain": "Clinical codes and interoperability",
+      "seed_sources": "Official FHIR and terminology documentation",
+      "required_output": "Allowed code system/version, units, field mapping, missingness; not Epic integration",
+      "workflows": [
+        "W1",
+        "W2",
+        "W4"
+      ],
+      "input_status": "source_leads",
+      "execution_status": "not_started",
+      "review_owner_role": "data/research owner",
+      "blocking_gaps": [],
+      "accepted_artifacts": []
+    },
+    {
+      "id": "people",
+      "priority": "Later",
+      "domain": "Staff roles and specialties",
+      "seed_sources": "Official public specialties; authorized role/skill process review",
+      "required_output": "Fictional training profiles; scope, skill compatibility, action authority",
+      "workflows": [
+        "W1",
+        "W2",
+        "W7"
+      ],
+      "input_status": "local_staffing_data_missing",
+      "execution_status": "not_started",
+      "review_owner_role": "data/research owner",
+      "blocking_gaps": [],
+      "accepted_artifacts": []
+    },
+    {
+      "id": "geometry",
+      "priority": "P1",
+      "domain": "Units, rooms, floor plans and navigation",
+      "seed_sources": "Official public partial maps; authorized dimensions/CAD/BIM if later supplied",
+      "required_output": "Illustrative topology initially; completeness, scale, permissions, room IDs and routes",
+      "workflows": [
+        "W1",
+        "W2",
+        "W8"
+      ],
+      "input_status": "partial_public_sources",
+      "execution_status": "not_started",
+      "review_owner_role": "data/research owner",
+      "blocking_gaps": [],
+      "accepted_artifacts": []
+    },
+    {
+      "id": "resources",
+      "priority": "Later",
+      "domain": "Beds, equipment and support services",
+      "seed_sources": "Authorized institutional capacity/process dictionary",
+      "required_output": "Physical/staffed/available capacity, compatibility, schedules, downtime and cleaning",
+      "workflows": [
+        "W7",
+        "W9"
+      ],
+      "input_status": "institutional_inputs_missing",
+      "execution_status": "not_started",
+      "review_owner_role": "data/research owner",
+      "blocking_gaps": [],
+      "accepted_artifacts": []
+    },
+    {
+      "id": "demand",
+      "priority": "Later",
+      "domain": "Arrivals and patient routes",
+      "seed_sources": "Authorized aggregate arrival/triage/admission/transfer counts",
+      "required_output": "Counts by time/route, observation window, dependencies and limitations",
+      "workflows": [
+        "W7",
+        "W9"
+      ],
+      "input_status": "institutional_inputs_missing",
+      "execution_status": "not_started",
+      "review_owner_role": "data/research owner",
+      "blocking_gaps": [],
+      "accepted_artifacts": []
+    },
+    {
+      "id": "durations",
+      "priority": "Later",
+      "domain": "Service and delay distributions",
+      "seed_sources": "Authorized process timestamps/aggregate histograms; published DES as methods leads",
+      "required_output": "Stage definitions, distributions, quantiles, censoring and sample sizes",
+      "workflows": [
+        "W7",
+        "W9"
+      ],
+      "input_status": "institutional_inputs_missing",
+      "execution_status": "not_started",
+      "review_owner_role": "data/research owner",
+      "blocking_gaps": [],
+      "accepted_artifacts": []
+    },
+    {
+      "id": "staffing",
+      "priority": "Later",
+      "domain": "Rosters, skills and constraints",
+      "seed_sources": "Approved role/shift aggregates and local policies",
+      "required_output": "Planned versus actual shifts, skills, floating eligibility, shared services, prerequisites",
+      "workflows": [
+        "W7",
+        "W9"
+      ],
+      "input_status": "institutional_inputs_missing",
+      "execution_status": "not_started",
+      "review_owner_role": "data/research owner",
+      "blocking_gaps": [],
+      "accepted_artifacts": []
+    },
+    {
+      "id": "cost_access",
+      "priority": "P1",
+      "domain": "Insurance, cost, quality and access context",
+      "seed_sources": "Vlada catalog; appropriate official CMS/public sources",
+      "required_output": "Year/geography/denominator/suppression; aggregate teaching cards only",
+      "workflows": [
+        "W1",
+        "W2",
+        "W9"
+      ],
+      "input_status": "catalog_reviewed_account_unverified",
+      "execution_status": "not_started",
+      "review_owner_role": "data/research owner",
+      "blocking_gaps": [],
+      "accepted_artifacts": []
+    },
+    {
+      "id": "policies",
+      "priority": "Later",
+      "domain": "Operational policies and administrator curriculum",
+      "seed_sources": "AHRQ/TeamSTEPPS; institutional decision rules; project scenario leads",
+      "required_output": "Authority, action delay/prerequisites, tradeoffs, approved scenario objectives",
+      "workflows": [
+        "W1",
+        "W2",
+        "W7"
+      ],
+      "input_status": "source_leads",
+      "execution_status": "not_started",
+      "review_owner_role": "data/research owner",
+      "blocking_gaps": [],
+      "accepted_artifacts": []
+    },
+    {
+      "id": "validation",
+      "priority": "P0",
+      "domain": "Evaluation and reproducibility data",
+      "seed_sources": "Synthetic test transcripts; reviewer ratings; later authorized holdout observations",
+      "required_output": "Expected/observed fact IDs, disclosure and evidence checks, uncertainty, separate validity dossiers",
+      "workflows": [
+        "W6",
+        "W9",
+        "W10"
+      ],
+      "input_status": "planned_not_run",
+      "execution_status": "not_started",
+      "review_owner_role": "data/research owner",
+      "blocking_gaps": [],
+      "accepted_artifacts": []
+    }
+  ]
+}

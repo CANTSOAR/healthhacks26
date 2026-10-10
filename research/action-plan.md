@@ -1,8 +1,8 @@
 # TwinVerse: locked weekend action plan
 
-Prepared October 9, 2026, America/New_York. Team confirmed TwinVerse registration and five teammates; individual names/skills remain unassigned. **Submission: Sunday October 11 at noon EDT. Internal target: all materials ready at 11:00 a.m.; submit and verify by 11:30 a.m.** The [correct-year official brochure](https://www.ruhealthhack.com/brochure) supports noon, although it is preliminary. Ignore the conflicting 5 p.m. Devpost display for planning.
+Prepared October 9; refined October 10, 2026, America/New_York. Team confirmed TwinVerse registration and five teammates; individual names/skills remain unassigned. **Submission: Sunday October 11 at noon EDT. Internal target: all materials ready at 11:00 a.m.; submit and verify by 11:30 a.m.** The [correct-year official brochure](https://www.ruhealthhack.com/brochure) supports noon, although it is preliminary. Ignore the conflicting 5 p.m. Devpost display for planning.
 
-**This public research snapshot incorporates the sponsor guides, both TwinVerse challenge documents and architecture videos, the Vlada catalog/guide, hospital-context sources, and the team's AWS access steps.** Account access, credits and deployed services remain unverified. Requirements, evidence, proposed implementation and future validation are distinguished throughout. See the [source register](source-register.md) for provenance; original private material is not included.
+**This public research snapshot incorporates the sponsor guides, both TwinVerse challenge documents and architecture videos, the Vlada catalog/guide, hospital-context sources, and the team's AWS access steps.** Workshop console access and listed Nova models/quota have now been inspected; successful inference, credits and app deployment remain unverified. See the [live resource assessment](resource-feasibility-2026-10-10.md). Requirements, evidence, proposed implementation and future validation are distinguished throughout. See the [source register](source-register.md) for provenance; original private material is not included.
 
 ## Decision
 
@@ -15,6 +15,16 @@ This is a working product name and a recommended selection of **TwinVerse Challe
 The detailed Challenge 1 document now establishes required deliverables: **working prototype, code repository including infrastructure code if applicable, short demo video or live demonstration, and a four-minute pitch** covering solution, architecture, technical approach and educational value. It also supplies evaluation considerations: architecture/reusability, patient-profile quality/clinical validity, technical innovation, user experience, encounter quality and explainable feedback. Numeric weights and submission-form specifics remain unverified. [Package review](twinverse-requirements.md)
 
 The recording's broader hospital world remains the vision: doctors, nurses, procedures, equipment, patient histories, and eventually operational scenarios. For this weekend, the setting is a single ER encounter. A ward shell or patient queue can provide context after the core works. Staffing optimization, insurance, whole-hospital flow, and physiologically predictive treatment simulation require separate models and validation and belong after the hackathon.
+
+## October 10 research and execution refinement
+
+The [ChatGPT project synthesis](project-research-synthesis.md) consolidates fifteen research conversations. The [Luna workflow pack](luna-data-workflows.md) and [acquisition manifest](data-acquisition-manifest.json) preserve the whole-hospital data ambition across staged jobs. These are research contracts and prompts; no acquisition pipeline or Luna invocation has run.
+
+Use Encounter Studio for approved clinical state, a later Operations Lab for numerical DES consequences, and Hospital World for presentation of their shared entity IDs. Complete Challenge 1 first. Prepare/cache the next approved patient before use; newly generated profiles remain drafts until review. Keep teaching, simulated and wall-clock time distinct. Existing chart records and available urgent findings should not be locked behind interview keywords.
+
+Prefer a mentor-selected stable possible-ACS interview over a treatment simulator. The project's separate STEMI source pack cannot be combined with its unresolved possible-ACS draft without clinical review. Core feedback uses objective-level met/partly demonstrated/not observed/not assessable with source evidence and separate safety flags. Competing numerical rubric totals remain unvalidated proposals.
+
+For research jobs, GPT-6 Luna is preferred. Official documentation lists a possible Bedrock route in us-east-1, but workshop invocation permission and budget have not been proved. Attempt one bounded synthetic endpoint test before scaling. Use the existing authored-case/local fallback if provider access blocks progress. Do not allow the broad acquisition backlog to delay Sunday's authoring/encounter/debrief demo.
 
 ## Brainstorm findings and scope decisions
 

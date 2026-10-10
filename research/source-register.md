@@ -56,3 +56,15 @@ Team-confirmed facts include TwinVerse registration, the stated five teammates a
 This research does not establish a working prototype, faculty-approved cases, successful sponsor redemption, enabled cloud services, a deployed URL, clinical effectiveness, cost savings or final submission. No completed clinician interview is established by the planning evidence. Future clinical/educational claims need an appropriate supervised study.
 
 Original private correspondence, account identifiers, codes, join links, OTPs and credentials remain outside the repository. Sponsor setup instructions are documented as a teammate runbook; reading them is not evidence that their actions were performed. Selected primary-source checks do not verify every catalog product or every advertised entitlement.
+
+## October 10 consolidation and live checks
+
+| Source | Inspection / boundary | Owning document |
+|---|---|---|
+| User-designated [Health Hacks ChatGPT project](https://chatgpt.com/g/g-p-6ac9af36088081919db1ab7014b8df69-health-hacks/project) | Signed-in browser inventory of fifteen research chats; selected substantive sections inspected. Derived findings only; original-paper statistics and rights claims are leads until independently checked | [Project synthesis](project-research-synthesis.md) |
+| Workshop Studio / AWS console and local capacity | Allowed regions, active role, Nova model listing/quota and service lists inspected; no successful model response or app deployment | [Resource assessment](resource-feasibility-2026-10-10.md) |
+| Original meeting transcript | Timestamped ideas rechecked; case pre-generation, broad data domains and hypothetical flow times refined | [Recording and decisions](recording-and-decisions.md) |
+| [OpenAI Luna model](https://developers.openai.com/api/docs/models/gpt-6-luna), [Bedrock guide](https://developers.openai.com/api/docs/guides/amazon-bedrock), [AWS model cards](https://docs.aws.amazon.com/bedrock/latest/userguide/model-cards-openai.html) | Official documentation checked for model/API and regional route candidates; not account entitlements | [Luna workflows](luna-data-workflows.md) |
+| [MIMIC-IV-ED Demo 2.2](https://physionet.org/content/mimic-iv-ed-demo/2.2/), [SAEM curriculum](https://www.saem.org/about-saem/academies-interest-groups-affiliates2/cdem/for-students/online-education/m3-curriculum/group-approach-to-the-undifferentiated-patient/approach-to-the-undifferentiated-patient) | Primary page checks: open deidentified demo/schema and acuity-dependent encounter workflow. No patient records downloaded or clinical content approved | [Project synthesis](project-research-synthesis.md) |
+
+No actual clinical or operational dataset was acquired in this consolidation. The manifest records proposed jobs; it is not a completed coverage report. Private chat responses, the full meeting transcript, original sponsor attachments and access-bearing URLs remain excluded from publication.
