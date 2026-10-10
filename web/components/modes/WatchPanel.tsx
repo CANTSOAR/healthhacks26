@@ -13,6 +13,8 @@ const CADENCE_STYLE: Record<string, [string, string]> = {
   monthly: ["#FDEFD8", "#8A5A00"],
 };
 
+const ROUTINE = new Set(["lwbs", "deterioration", "callout", "info"]);
+
 export const rolloutLabel = (r: RolloutListItem) => `${r.manager.label} · ${titleCase(r.scenario)} · seed ${r.seed}`;
 
 export function RolloutPicker({ value, onChange, testid }: { value: string | null; onChange: (id: string) => void; testid?: string }) {
@@ -61,7 +63,9 @@ export function DecisionFeed({ f, limit = 40 }: { f: FeedState; limit?: number }
   const tm = f.header?.tick_minutes ?? 5;
   const past = f.decisions.filter((d) => d.t <= now);
   const upcoming = f.decisions.find((d) => d.t > now);
-  const events = f.events.filter((e) => e.t <= now).slice(-12);
+  const seen = f.events.filter((e) => e.t <= now);
+  // routine events (a patient leaving, a call-out) would bury the rest: keep only the latest few of those
+  const events = [...seen.filter((e) => !ROUTINE.has(e.kind)).slice(-30), ...seen.filter((e) => ROUTINE.has(e.kind)).slice(-4)];
   const items = [
     ...past.map((d) => ({ t: d.t, kind: "decision" as const, text: d.label, cadence: d.cadence })),
     ...events.map((e) => ({ t: e.t, kind: "event" as const, text: e.text, cadence: titleCase(e.kind) })),
@@ -79,7 +83,7 @@ export function DecisionFeed({ f, limit = 40 }: { f: FeedState; limit?: number }
       <ol className="space-y-1.5">
         {items.map((d, i) => {
           const fresh = now - d.t < 12;
-          const [bg, fg] = d.kind === "decision" ? (CADENCE_STYLE[d.cadence] ?? CADENCE_STYLE.hourly) : ["#FDE7E8", "#B4232A"];
+          const [bg, fg] = d.kind === "decision" ? (CADENCE_STYLE[d.cadence] ?? CADENCE_STYLE.hourly) : ROUTINE.has(d.cadence.toLowerCase().replace(/ /g, "_")) ? ["#ECEEF6", "#4A5275"] : ["#FDE7E8", "#B4232A"];
           return (
             <li key={`${d.t}-${i}`} className={`rounded-xl px-3 py-2 ${fresh ? "bg-accent-soft ring-1 ring-inset ring-accent/25" : "bg-white/60"} ${i === 0 ? "rise" : ""}`}>
               <div className="flex items-center gap-2">

@@ -30,6 +30,7 @@ write("metrics.json", metrics);
 const catalogFiles = ["patient", "staff", "space", "equipment", "event"];
 const entityTypes = [];
 const refs = {};
+const sharedKeys = {};
 const totals = { n_variants: 0, n_attributes: 0, by_source: { measured: 0, literature: 0, assumed: 0 } };
 const addCatalog = (file) => {
   let doc;
@@ -50,6 +51,7 @@ const addCatalog = (file) => {
     }
   };
   count(doc.shared);
+  sharedKeys[doc.entity_type] = Object.keys(doc.shared || {});
   for (const [variant, v] of Object.entries(doc.variants)) {
     count(v.attributes);
     refs[`${doc.entity_type}/${variant}`] = {
@@ -74,6 +76,7 @@ for (const dir of ["catalog/hospitals", "catalog/conditions"]) {
 }
 write("catalog.json", { entity_types: entityTypes, totals, fixture: true });
 write("catalog-refs.json", refs);
+write("catalog-shared.json", sharedKeys);
 
 // ---- a second rollout derived from the fixture so Compare has two managers on the same seed.
 // It is a mechanical edit of the fixture (fewer people in waiting states, scaled hourly series), NOT a simulator run.

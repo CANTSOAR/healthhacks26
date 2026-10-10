@@ -189,6 +189,8 @@ export interface CatalogAttribute {
   note?: string;
   range?: unknown[];
   validation_only?: boolean;
+  /** set when the elements of a list/map value do not all share the attribute's source tag */
+  mixed_provenance?: string;
 }
 export interface CatalogRef {
   entity_type: string;

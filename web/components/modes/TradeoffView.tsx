@@ -23,6 +23,8 @@ interface Pt {
   n?: number;
   metrics: Record<string, { mean: number; ci95?: number; std?: number }>;
   human?: boolean;
+  /** human run shorter than the evaluation protocol: drawn, but flagged */
+  caveat?: string;
 }
 
 const TABLE: [string, string, string][] = [
@@ -114,7 +116,7 @@ function nice(min: number, max: number, count: number): number[] {
   return out;
 }
 
-function Scatter({ pts, selected, onSelect }: { pts: Pt[]; selected: string | null; onSelect: (id: string | null) => void }) {
+function Scatter({ pts, selected, onSelect, xLabel }: { pts: Pt[]; selected: string | null; onSelect: (id: string | null) => void; xLabel: string }) {
   const [size, setSize] = useState({ w: 720, h: 460 });
   const [hover, setHover] = useState<string | null>(null);
   const box = useRef<HTMLDivElement | null>(null);
@@ -205,7 +207,7 @@ function Scatter({ pts, selected, onSelect }: { pts: Pt[]; selected: string | nu
           </g>
         ))}
         <text x={pad.l + iw} y={size.h - 8} textAnchor="end" fontSize={11} fontWeight={600} fill="#4A5275">
-          Cost per day →
+          {xLabel} →
         </text>
         <text x={4} y={14} fontSize={11} fontWeight={600} fill="#4A5275">
           ↑ Mean door-to-provider wait, minutes
@@ -244,6 +246,7 @@ function Scatter({ pts, selected, onSelect }: { pts: Pt[]; selected: string | nu
             >
               <circle r={16} fill="transparent" />
               {on && <circle r={13} fill="none" stroke="#2F55F5" strokeWidth={2} />}
+              {p.caveat && <circle r={11} fill="none" stroke="#141A33" strokeWidth={1.2} strokeDasharray="2 3" />}
               <Marker shape={k.shape} color={k.color} size={p.human ? 13 : 12} ring />
               {(l.show || on) && (
                 <text x={l.x - X(p.x)} y={l.y - Y(p.y)} textAnchor={l.a} fontSize={11} fontWeight={on ? 700 : 500} fill={on ? "#141A33" : "#4A5275"} stroke="#fff" strokeWidth={3} paintOrder="stroke" strokeLinejoin="round">
@@ -261,14 +264,14 @@ function Scatter({ pts, selected, onSelect }: { pts: Pt[]; selected: string | nu
             <KindChip kind={hp.kind} />
           </div>
           <div className="tnum flex justify-between text-ink-2">
-            <span>Cost / day</span>
+            <span>{xLabel.replace(" per day", " / day")}</span>
             <b className="text-ink">{money(hp.x)}{hp.ex ? ` ± ${money(hp.ex)}` : ""}</b>
           </div>
           <div className="tnum flex justify-between text-ink-2">
             <span>Mean wait</span>
             <b className="text-ink">{num(hp.y, 1)}{hp.ey ? ` ± ${num(hp.ey, 1)}` : ""} min</b>
           </div>
-          {hp.n ? <div className="mt-0.5 text-ink-3">{hp.n} seeds · bars show 95% interval</div> : <div className="mt-0.5 text-ink-3">single run</div>}
+          {hp.n ? <div className="mt-0.5 text-ink-3">{hp.n} seeds · bars show 95% interval</div> : <div className="mt-0.5 text-ink-3">{hp.caveat ? "single short run · not comparable" : "single run"}</div>}
         </div>
       )}
     </div>
@@ -279,7 +282,20 @@ export function TradeoffView({ narrow, top, onWatch, onCompare }: { narrow: bool
   const { data, source, loading } = useApi(() => api.results(), []);
   const rollouts = useUI((s) => s.rollouts);
   const globalScenario = useUI((s) => s.scenarioId);
-  const scenarios = useMemo(() => Array.from(new Set([...(data?.protocol?.scenarios ?? []), ...(data?.rows ?? []).map((r) => r.scenario), ...(data?.human_runs ?? []).map((r) => r.scenario)])), [data]);
+  const scenarios = useMemo(() => {
+    const evaluated = Array.from(new Set([...(data?.protocol?.scenarios ?? []), ...(data?.rows ?? []).map((r) => r.scenario)]));
+    // scenarios that only have a human run are offered only when nothing has been evaluated at all
+    return evaluated.length ? evaluated : Array.from(new Set((data?.human_runs ?? []).map((r) => r.scenario)));
+  }, [data]);
+  const managers = useUI((s) => s.managers);
+  // a staffing-cost metric is offered as an alternative x-axis only if the result rows actually carry one
+  const laborKey = useMemo(() => {
+    const keys = new Set((data?.rows ?? []).flatMap((r) => Object.keys(r.metrics)));
+    return [...keys].find((k) => /(labou?r|staffing).*cost|cost.*(labou?r|staffing)/i.test(k) && /per_day/i.test(k)) ?? [...keys].find((k) => /(labou?r|staffing).*cost|cost.*(labou?r|staffing)/i.test(k)) ?? null;
+  }, [data]);
+  const [xAxis, setXAxis] = useState<"total" | "labor">("total");
+  const xKey = xAxis === "labor" && laborKey ? laborKey : "cost_per_day";
+  const xLabel = xKey === "cost_per_day" ? "Cost per day" : "Staffing cost per day";
   const validation = useApi(() => api.validation(), []);
   const [scenario, setScenario] = useState<string | null>(null);
   const sc = scenario && scenarios.includes(scenario) ? scenario : scenarios.includes(globalScenario) ? globalScenario : (scenarios[0] ?? "");
@@ -291,16 +307,34 @@ export function TradeoffView({ narrow, top, onWatch, onCompare }: { narrow: bool
     const out: Pt[] = [];
     for (const r of data.rows) {
       if (r.scenario !== sc) continue;
-      const c = r.metrics.cost_per_day;
+      const c = r.metrics[xKey];
       const w = r.metrics.wait_mean_min;
       if (!c || !w) continue;
       out.push({ id: r.manager_id, label: r.label, kind: r.kind, objective: r.objective, x: c.mean, y: w.mean, ex: c.ci95 ?? 0, ey: w.ci95 ?? 0, n: r.n_seeds, metrics: r.metrics });
     }
-    const humans = (data.human_runs ?? []).filter((h) => h.scenario === sc && h.summary?.cost_per_day != null && h.summary?.wait_mean_min != null);
+    const humans = (data.human_runs ?? []).filter((h) => h.scenario === sc && h.summary?.[xKey] != null && h.summary?.wait_mean_min != null);
     const last = humans[humans.length - 1];
-    if (last) out.push({ id: "__human", label: last.label || "You", kind: "human", x: last.summary.cost_per_day, y: last.summary.wait_mean_min, ex: 0, ey: 0, human: true, metrics: Object.fromEntries(Object.entries(last.summary).map(([k, v]) => [k, { mean: v }])) });
+    if (last) {
+      const hours = Math.round((last.days ?? 0) * 24);
+      const len = hours >= 48 ? `${+(hours / 24).toFixed(1)} d` : `${hours} h`;
+      const need = data.protocol?.days ?? 0;
+      const short = need > 0 && (last.days ?? 0) < need;
+      out.push({
+        id: "__human",
+        label: `${last.label || "You"} · ${short ? `not comparable (${len} run)` : `${len} run`}`,
+        kind: "human",
+        x: last.summary[xKey],
+        y: last.summary.wait_mean_min,
+        ex: 0,
+        ey: 0,
+        human: true,
+        caveat: short ? `This run lasted ${len} on one seed; the managers were each evaluated over ${need} days${Array.isArray(data.protocol?.seeds) ? ` on ${data.protocol!.seeds!.length} seeds` : ""}. A short run misses the slow effects (nights, weekends, staffing changes), so the positions are not comparable.` : undefined,
+        metrics: Object.fromEntries(Object.entries(last.summary).map(([k, v]) => [k, { mean: v }])),
+      });
+    }
     return out;
-  }, [data, sc]);
+  }, [data, sc, xKey]);
+  const pendingKinds = (Object.keys(KIND) as ManagerKind[]).filter((k) => k !== "human" && managers.some((m) => m.kind === k) && !pts.some((p) => p.kind === k));
 
   const rolloutFor = (managerId: string): RolloutListItem | undefined => rollouts.find((r) => r.manager.id === managerId && r.scenario === sc) ?? rollouts.find((r) => r.manager.id === managerId);
   const sel = pts.find((p) => p.id === selected) ?? null;
@@ -320,7 +354,7 @@ export function TradeoffView({ narrow, top, onWatch, onCompare }: { narrow: bool
           <div className={`glass-solid flex min-w-0 flex-col p-4 ${narrow ? "flex-none" : "min-h-0 flex-1"}`} data-testid="tradeoff">
             <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
               <div className="min-w-0">
-                <div className="text-[17px] font-semibold tracking-[-0.01em] text-ink">Cost against wait</div>
+                <div className="text-[17px] font-semibold tracking-[-0.01em] text-ink">{xKey === "cost_per_day" ? "Cost against wait" : "Staffing cost against wait"}</div>
                 <div className="text-[12px] text-ink-3">
                   Every evaluated manager on the same scenario and seeds
                   {data?.protocol?.days ? ` · ${data.protocol.days}-day episodes` : ""}
@@ -329,6 +363,16 @@ export function TradeoffView({ narrow, top, onWatch, onCompare }: { narrow: bool
               </div>
               <div className="ml-auto flex items-center gap-2">
                 {source === "fixture" ? <SourceChip tag="fixture" /> : <SimTag />}
+                {laborKey && (
+                  <div className="seg" data-testid="xaxis-toggle" title={`Staffing cost is read from the results metric “${laborKey}”`}>
+                    <button data-on={xAxis === "total"} onClick={() => setXAxis("total")}>
+                      Total cost
+                    </button>
+                    <button data-on={xAxis === "labor"} onClick={() => setXAxis("labor")}>
+                      Staffing cost
+                    </button>
+                  </div>
+                )}
                 <div className="seg" data-testid="scenario-toggle">
                   {scenarios.map((s) => (
                     <button key={s} data-on={s === sc} data-scenario={s} onClick={() => { setScenario(s); setSelected(null); }}>
@@ -352,10 +396,18 @@ export function TradeoffView({ narrow, top, onWatch, onCompare }: { narrow: bool
                   {KIND[k].label}
                 </span>
               ))}
+              {pendingKinds.map((k) => (
+                <span key={k} className="flex items-center gap-1.5 text-ink-3" title="Managers of this kind are listed by the server but have no evaluation results yet">
+                  <svg width="14" height="14" viewBox="-8 -8 16 16" aria-hidden opacity={0.45}>
+                    <Marker shape={KIND[k].shape} color={KIND[k].color} size={10} />
+                  </svg>
+                  {KIND[k].label} (not evaluated yet)
+                </span>
+              ))}
               <span className="text-ink-3">· bars: 95% interval across seeds</span>
             </div>
             <div className={narrow ? "mt-2 h-[340px] flex-none" : "mt-2 min-h-0 flex-1"}>
-              {loading ? <div className="flex h-full items-center justify-center text-[12px] text-ink-3">Loading results…</div> : pts.length ? <Scatter pts={pts} selected={selected} onSelect={setSelected} /> : <div className="flex h-full flex-col items-center justify-center gap-1 px-6 text-center text-[12px] text-ink-3" data-testid="tradeoff-empty">
+              {loading ? <div className="flex h-full items-center justify-center text-[12px] text-ink-3">Loading results…</div> : pts.length ? <Scatter pts={pts} selected={selected} onSelect={setSelected} xLabel={xLabel} /> : <div className="flex h-full flex-col items-center justify-center gap-1 px-6 text-center text-[12px] text-ink-3" data-testid="tradeoff-empty">
                   <div className="text-[13px] font-semibold text-ink-2">No evaluated managers yet</div>
                   <div>{data?.note ?? "The results table is empty for this scenario."}</div>
                   <div>Points appear here as evaluations finish. Finish a run in Play to add your own.</div>
@@ -378,6 +430,7 @@ export function TradeoffView({ narrow, top, onWatch, onCompare }: { narrow: bool
                   {sel.objective && sel.objective !== "none" ? `Objective: ${titleCase(sel.objective)} · ` : ""}
                   {sel.human ? "your last run, single seed" : `${sel.n ?? "?"} seeds`}
                 </div>
+                {sel.caveat && <div className="mt-2 rounded-xl bg-[#FDF6E7] px-3 py-2 text-[11px] leading-snug text-[#8A5A00]" data-testid="human-caveat">{sel.caveat}</div>}
                 <div className="mt-2 grid grid-cols-2 gap-x-4 gap-y-1.5">
                   {TABLE.filter(([k]) => sel.metrics[k]).map(([k, label, unit]) => (
                     <div key={k}>
@@ -419,7 +472,7 @@ export function TradeoffView({ narrow, top, onWatch, onCompare }: { narrow: bool
                 <thead>
                   <tr className="text-left text-[10px] font-semibold uppercase tracking-[0.06em] text-ink-3">
                     <th className="pb-1.5 pl-1 font-semibold">Manager</th>
-                    <th className="pb-1.5 text-right font-semibold">Cost / day</th>
+                    <th className="pb-1.5 text-right font-semibold">{xKey === "cost_per_day" ? "Cost / day" : "Staffing / day"}</th>
                     <th className="pb-1.5 text-right font-semibold">Wait</th>
                     <th className="pb-1.5 pr-1 text-right font-semibold">LWBS</th>
                   </tr>

@@ -117,7 +117,7 @@ def test_same_seed_same_trajectory(device):
     assert not torch.equal(a, c)
     # reset() reproduces the run; hospital b under int seed s is hospital 0 under seed s + b
     sa.reset(5)
-    again = torch.stack([torch.stack([m[k] for k in sa.metric_names()], 1).cpu()
+    again = torch.stack([torch.stack([m[k] for k in m], 1).cpu()
                          for m in (sa.step(sa.default_actions()) for _ in range(6))])
     ref, _ = _trajectory(device, 5, hours=6)
     assert torch.equal(again, ref)

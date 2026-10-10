@@ -6,6 +6,11 @@ import type { Hospital, ManagerInfo, RolloutListItem, Scenario, Selection, Servi
 export type Mode = "play" | "watch" | "compare" | "tradeoff";
 export type ListTab = "beds" | "staff" | "patients";
 export type PlayState = "idle" | "connecting" | "live" | "fixture" | "ended";
+export interface Toast {
+  id: number;
+  text: string;
+  tone: "info" | "warn" | "error";
+}
 export type CamCmd = { type: "zoom" | "rotate" | "reset" | "tilt"; amount: number; n: number };
 
 export interface UIState {
@@ -41,6 +46,11 @@ export interface UIState {
     note: string | null;
   };
   drawer: null | "controls" | "list" | "inspector";
+  /** guided demo: which step is showing (null = not running) */
+  tour: null | { index: number; busy: boolean };
+  toasts: Toast[];
+  toast: (text: string, tone?: Toast["tone"]) => void;
+  dismissToast: (id: number) => void;
   camCmd: CamCmd | null;
   select: (s: Selection | null) => void;
   set: (p: Partial<UIState>) => void;
@@ -49,6 +59,7 @@ export interface UIState {
 }
 
 let camN = 0;
+let toastN = 0;
 export const useUI = create<UIState>((set) => ({
   mode: "watch",
   selection: null,
@@ -73,6 +84,14 @@ export const useUI = create<UIState>((set) => ({
   loading: null,
   play: { state: "idle", manager: "human", seed: 7, requested: {}, posted: null, note: null },
   drawer: null,
+  tour: null,
+  toasts: [],
+  toast: (text, tone = "info") => {
+    const id = ++toastN;
+    set((s) => ({ toasts: [...s.toasts.filter((t) => t.text !== text), { id, text, tone }].slice(-4) }));
+    if (typeof window !== "undefined") window.setTimeout(() => set((s) => ({ toasts: s.toasts.filter((t) => t.id !== id) })), 6500);
+  },
+  dismissToast: (id) => set((s) => ({ toasts: s.toasts.filter((t) => t.id !== id) })),
   camCmd: null,
   select: (selection) => set((s) => ({ selection, drawer: selection && s.drawer !== "inspector" ? "inspector" : s.drawer })),
   set: (p) => set(p),
@@ -80,4 +99,6 @@ export const useUI = create<UIState>((set) => ({
   cam: (type, amount) => set({ camCmd: { type, amount, n: ++camN } }),
 }));
 
-export const SPEEDS = [1, 4, 12, 48];
+/** Ticks per second. The last entry asks the server for as fast as it can go (it skips snapshots above ~30 per second). */
+export const SPEEDS = [1, 4, 12, 48, 600];
+export const speedLabel = (v: number) => (v >= 600 ? "Max" : `${v}×`);

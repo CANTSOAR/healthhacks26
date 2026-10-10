@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useMemo, useRef } from "react";
-import { enumsOf } from "@/lib/describe";
+import { enumsOf, roomState } from "@/lib/describe";
 import type { FeedState } from "@/lib/feed";
 import { duration, L, patientId } from "@/lib/format";
 import { ACUITY, roleColor } from "@/lib/palette";
@@ -55,14 +55,15 @@ function rows(f: FeedState, tab: ListTab): { rows: Row[]; total: number } {
         return;
       }
       const pi = occupant.get(i);
+      const rs = roomState(f, i);
       const p = snap?.patients;
       out.push({
         sel: { kind: "room", id: r.id, feed: f.key },
         title: r.label,
         dot: pi != null && p ? ACUITY[p.acuity[pi]] : undefined,
-        sub: pi != null && p ? L.patientState(e, p.state[pi]) : (r.zone ?? L.roomType(r.type)),
-        chip: L.roomStatus(e, snap?.rooms.status[i] ?? 1),
-        chipKey: st,
+        sub: pi != null && p ? L.patientState(e, p.state[pi]) : rs.held ? rs.text.replace(/^Held · /, "") : (r.zone ?? L.roomType(r.type)),
+        chip: rs.held ? "Held" : rs.text || L.roomStatus(e, 1),
+        chipKey: rs.held ? "cleaning" : st,
         bar: pi != null && p ? p.age_min[pi] / 360 : 0,
         barColor: pi != null && p && p.age_min[pi] > 360 ? "#E5484D" : undefined,
         right: pi != null && p ? duration(p.age_min[pi]) : "",

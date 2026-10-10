@@ -11,7 +11,7 @@ import { Icon, ICONS, KindChip, SimTag, SourceChip } from "../ui/atoms";
 import { CameraPill, Disclaimer, Legend } from "../ui/Chrome";
 import { Inspector } from "../ui/Inspector";
 import { LineChart } from "../ui/LineChart";
-import { CHART_METRICS, playheadHour } from "../ui/Timeline";
+import { chartView, CHART_METRICS, playheadHour, ZoomToggle, type ChartZoom } from "../ui/Timeline";
 import { RolloutPicker } from "./WatchPanel";
 
 const DIFF: [string, string, string, boolean][] = [
@@ -124,6 +124,7 @@ export function CompareView({ narrow, top }: { narrow: boolean; top: React.React
   const scenarioId = useUI((s) => s.scenarioId);
   const set = useUI((s) => s.set);
   const [source, setSource] = useState<"recorded" | "live">("recorded");
+  const [zoom, setZoom] = useState<ChartZoom>("all");
   const isLive = liveState === "live" || liveState === "connecting";
   const runnable = managers.filter((m) => m.kind !== "human" && m.available !== false);
   const sameSeed = a.header && b.header ? a.header.seed === b.header.seed && a.header.scenario === b.header.scenario : true;
@@ -132,7 +133,9 @@ export function CompareView({ narrow, top }: { narrow: boolean; top: React.React
 
   const charts = (
     <div className={`grid gap-3 ${narrow ? "grid-cols-1" : "grid-cols-2 min-[1500px]:grid-cols-4"}`} data-testid="compare-charts">
-      {CHART_METRICS.slice(0, narrow ? 2 : 4).map((m) => (
+      {CHART_METRICS.slice(0, narrow ? 2 : 4).map((m, mi) => {
+        const view = chartView([a.hourly[m.key]?.length ?? 0, b.hourly[m.key]?.length ?? 0], a.hour0, cur, zoom);
+        return (
         <div key={m.key} className="glass pointer-events-auto px-3 pb-1.5 pt-2.5">
           <div className="mb-0.5 flex items-center gap-2">
             <span className="text-[12px] font-semibold text-ink">{m.label}</span>
@@ -144,24 +147,28 @@ export function CompareView({ narrow, top }: { narrow: boolean; top: React.React
                 </span>
               ))}
             </span>
-            <span className="ml-auto">
+            <span className="ml-auto flex items-center gap-2">
+              {view.long && mi === 0 && <ZoomToggle zoom={zoom} onZoom={setZoom} />}
+              {view.long && mi !== 0 && <span className="text-[10px] text-ink-3">{view.step === 24 ? "daily mean · band = day’s range" : "72 h window"}</span>}
               <SimTag />
             </span>
           </div>
           <LineChart
             series={[
-              { name: `A · ${a.header?.manager.label ?? ""}`, color: SERIES[0], values: a.hourly[m.key] ?? [] },
-              { name: `B · ${b.header?.manager.label ?? ""}`, color: SERIES[1], values: b.hourly[m.key] ?? [] },
+              { name: `A · ${a.header?.manager.label ?? ""}`, color: SERIES[0], ...view.shape(a.hourly[m.key] ?? []) },
+              { name: `B · ${b.header?.manager.label ?? ""}`, color: SERIES[1], ...view.shape(b.hourly[m.key] ?? []) },
             ]}
             unit={m.unit}
             height={narrow ? 84 : 92}
-            cursor={cur}
-            hour0={a.hour0}
-            onScrub={transport.canSeek() ? (h) => transport.seekTick(Math.round((h + a.hour0) * 12)) : undefined}
-            bands={a.segments.map((s) => ({ start: s.start / 12 - a.hour0, end: s.end / 12 - a.hour0 }))}
+            cursor={view.cursor}
+            hour0={view.hour0}
+            step={view.step}
+            onScrub={transport.canSeek() ? (h) => transport.seekTick(Math.round((h + view.offset + a.hour0) * 12)) : undefined}
+            bands={a.segments.map((s) => ({ start: s.start / 12 - a.hour0 - view.offset, end: s.end / 12 - a.hour0 - view.offset }))}
           />
         </div>
-      ))}
+        );
+      })}
     </div>
   );
 

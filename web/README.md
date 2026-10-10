@@ -60,6 +60,26 @@ is read as "not yet applied" and current settings come from `snapshot.kpis.setti
 arrive between snapshots at high speed; `stop` is awaited through `summary.final`; unknown catalog refs (404) show as
 "no catalog entry" rather than a fixture; manager and rollout lists are re-read on every mode change.
 
+Round 2 checks against the real server (all through `scripts/screenshots.mjs --api http://localhost:8000`):
+`inject` for all four events (acknowledged, start at the next hour, appear in the feed and as toasts), manager
+hand-over and take-back mid-run (the panel shows who is in charge with the kind label, from the server's `hour`
+messages), 48x speed, and a structural change (`--only structural`, several minutes: the human queues "add bays" and
+"add ward beds", they apply at the 28-day boundary, and the building is redrawn when the `layout` message arrives).
+
+Other behaviour worth knowing:
+- A bay the simulator reports as occupied with nobody in it is shown as "Held": its patient is away for a test. The
+  inspector names that patient when the snapshots seen so far show which one it is.
+- Catalog definitions list a variant's own attributes first; attributes shared by the whole entity type are collapsed
+  below. Attributes carrying `mixed_provenance` get a "mixed" chip and the note.
+- Charts with more than 120 hourly points default to one point per day (mean, shaded from the day's lowest to highest
+  hour) with a "72 h" hourly window around the playhead as the alternative.
+- The trade-off chart offers a "Staffing cost" x-axis only when result rows carry a labour-cost metric (found by key
+  name), and marks a human run shorter than the evaluation protocol as not comparable.
+- "Demo tour" (top bar) walks the six demo steps as scripted states of the real app. Each step uses only managers and
+  rollouts that exist at that moment, prefers learned agents over tuned heuristics when both are available, and is
+  skipped with a stated reason otherwise. Captions contain no numbers. Arrow keys move, Escape leaves.
+- Speed "Max" asks the server for 600 ticks a second; it delivers what it can and skips snapshots above about 30 a second.
+
 Compare has two sources: recorded rollouts (one shared replay clock) or "Run live" (two live simulations; each runs
 on its own clock, so they can drift a few ticks apart).
 
@@ -75,7 +95,7 @@ components/
     People.tsx       patients and staff as two instanced meshes, interpolated by entity id
     Ambulances.tsx, SelectionBox.tsx (corner brackets + pill), CameraRig.tsx (orbit, drift, fly-to)
   modes/             OpsView (Play + Watch), PlayPanel, WatchPanel, CompareView, TradeoffView
-  ui/                TopBar, KPI cards, Inspector, EntityList, Journey stepper, Timeline, LineChart
+  ui/                TopBar, KPI cards, Inspector, EntityList, Journey stepper, Timeline, LineChart, Toasts, Tour
 lib/
   types.ts           the contracts as TypeScript
   api.ts             typed client + fixture fallback
@@ -83,7 +103,10 @@ lib/
   replay.ts          plays recorded rollouts into one or two feeds on a shared clock
   live.ts            WS /ws/sim client
   session.ts         owns the feeds and whichever writer is active; Play controls; human-run POST
-  ui.ts              interface state (mode, selection, speed, ...)
+  ui.ts              interface state (mode, selection, speed, toasts, tour, ...)
+  nav.ts             mode navigation (what each mode loads)
+  tour.ts            the guided demo's steps
+  describe.ts        titles, pill labels, room state ("Held") for a selection
 scripts/
   make-fixtures.mjs  builds public/fixtures
   mock-server.mjs    stand-in server for the live path

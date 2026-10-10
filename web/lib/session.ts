@@ -124,6 +124,12 @@ export const transport = {
   canSeek: () => !!player,
 };
 
+/** Events worth interrupting for. Routine ones (a patient leaving, a call-out) stay in the feed only. */
+const LOUD: Record<string, "info" | "warn"> = { scenario: "warn", arrival_surge: "warn", equipment_down: "warn", equipment_up: "info", structural_started: "info", structural_done: "info", diversion_on: "warn", diversion_off: "info", death: "warn" };
+function announce(events: import("./types").SimEvent[]) {
+  for (const e of events) if (LOUD[e.kind]) ui().toast(e.text, LOUD[e.kind]);
+}
+
 // ------------------------------------------------------------------ Play mode
 
 export async function startPlay() {
@@ -143,6 +149,16 @@ export async function startPlay() {
           ui().setPlay({ state: "ended", note: "The simulation connection closed." });
           void postHumanRun();
         }
+      },
+      events: announce,
+      error: (m) => ui().toast(m, "error"),
+      manager: (m) => {
+        if (gen !== generation) return;
+        // the server confirms who is in charge; a manager that fails hands control back to the human
+        const known = ui().managers.find((x) => x.id === m.id);
+        if (known && feeds.a.getState().header) feeds.a.setState((s) => (s.header ? { header: { ...s.header, manager: { ...m, kind: known.kind, label: known.label } } } : {}));
+        if (ui().play.manager !== m.id) ui().setPlay({ manager: m.id });
+        ui().toast(m.id === "human" ? "You are back in charge of the hospital." : `${known?.label ?? m.label} is now running the hospital.`, "info");
       },
     },
   );
@@ -171,8 +187,10 @@ export const playCtl = {
     s.setPlay({ requested: { ...s.play.requested, [head]: value } });
     liveSim?.send({ type: "action", actions: { [head]: value } });
   },
-  inject(event: string) {
-    liveSim?.send({ type: "inject", event });
+  inject(event: string, label?: string) {
+    if (!liveSim) return;
+    liveSim.send({ type: "inject", event });
+    ui().toast(`Injected: ${label ?? event}. It starts at the next simulated hour.`, "info");
   },
   manager(id: string) {
     ui().setPlay({ manager: id });
@@ -222,7 +240,8 @@ async function postHumanRun() {
     label: live ? "You" : "You (fixture playback, not a simulator run)",
     scenario: live ? f.header.scenario : s.scenarioId,
     seed: f.header.seed,
-    days: Math.max(1, Math.round((f.snap.t * (f.header.tick_minutes || 5)) / 1440)),
+    // fractional: the trade-off chart shows the run length and whether it is comparable to the evaluation protocol
+    days: Math.max(0.01, +((f.snap.t * (f.header.tick_minutes || 5)) / 1440).toFixed(3)),
     summary,
   };
   const where = await api.postHumanRun(run);

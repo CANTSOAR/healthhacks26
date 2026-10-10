@@ -1,7 +1,7 @@
 // Client for WS /ws/sim (contracts/api.md). Writes into a feed.
 import { wsBase } from "./api";
 import { pushSnapshot, resetFeed, setLayout, type Feed } from "./feed";
-import type { ServerMsg } from "./types";
+import type { ManagerInfo, ServerMsg, SimEvent } from "./types";
 
 export interface StartParams {
   scenario: string;
@@ -23,7 +23,13 @@ export class LiveSim {
   constructor(
     private feed: Feed,
     private params: StartParams,
-    private on: { state: (s: LiveState) => void; summary?: (s: Record<string, number>) => void },
+    private on: {
+      state: (s: LiveState) => void;
+      summary?: (s: Record<string, number>) => void;
+      events?: (e: SimEvent[]) => void;
+      manager?: (m: ManagerInfo) => void;
+      error?: (message: string) => void;
+    },
   ) {}
 
   /** Resolves true once the server has sent its header; false when the socket cannot be opened in time. */
@@ -121,9 +127,11 @@ export class LiveSim {
         const prev = feed.getState().snap;
         const jump = !prev || Math.abs(msg.snapshot.t - prev.t) > 6;
         pushSnapshot(feed, msg.snapshot, Math.max(16, Math.min(2000, this.ema)), { record: true, jump });
+        if (msg.snapshot.events?.length) this.on.events?.(msg.snapshot.events);
         break;
       }
       case "hour": {
+        this.syncManager(msg as unknown as { manager?: string; manager_info?: ManagerInfo });
         // The server also sends `hour` as an immediate acknowledgement of action / manager / inject, with empty
         // metrics: it only updates the queued knobs and the mask, and must not add a point to the charts.
         if (msg.ack || !msg.metrics || Object.keys(msg.metrics).length === 0) {
@@ -149,10 +157,21 @@ export class LiveSim {
         break;
       case "error":
         feed.setState({ error: msg.message });
+        this.on.error?.(msg.message);
         break;
       default:
         break;
     }
+  }
+
+  /** `hour` messages say who is in charge (server extra: `manager`, and `manager_info` after a hand-over). */
+  private syncManager(m: { manager?: string; manager_info?: ManagerInfo }) {
+    const h = this.feed.getState().header;
+    if (!h || !m.manager || (h.manager.id === m.manager && !m.manager_info)) return;
+    const info: ManagerInfo = m.manager_info ?? { id: m.manager, kind: m.manager === "human" ? "human" : h.manager.kind, label: m.manager === "human" ? "You" : m.manager };
+    if (info.id === h.manager.id && info.label === h.manager.label) return;
+    this.feed.setState({ header: { ...h, manager: info } });
+    this.on.manager?.(info);
   }
 
   send(msg: Record<string, unknown>) {

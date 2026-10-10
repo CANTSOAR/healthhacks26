@@ -90,9 +90,11 @@ export default function HospitalScene({ feed, sync = false, insets }: { feed: Fe
     >
       <color attach="background" args={[GROUND]} />
       <fog attach="fog" args={[GROUND, 220, 620]} />
-      {/* Lights and people are rebuilt with the layout. Re-fitting the shadow camera under materials compiled for the
-          previous layout left every person rendered black (seen when a live run replaced the first layout). */}
-      <Lights key={`l${layoutRev}:${built ? Math.round(built.bounds.r) : 0}`} built={built} />
+      {/* People are remounted whenever the layout (and so the building's instanced meshes) is rebuilt. Without this,
+          every person rendered black after a layout change. Narrowed down by experiment, root cause not found: it needs
+          shadows on, the body mesh both casting and receiving, and the people meshes outliving a rebuild of the
+          building's instanced meshes; remounting the lights instead does not help. */}
+      <Lights built={built} />
       {/* ground: flat colour that matches the page, plus a shadow-only plane */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.02, 0]} raycast={() => null}>
         <planeGeometry args={[6000, 6000]} />

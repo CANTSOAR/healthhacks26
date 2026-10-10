@@ -164,7 +164,22 @@ export function PlayPanel({ f, className = "" }: { f: FeedState; className?: str
             <input type="number" value={play.seed} disabled={running} onChange={(e) => setPlay({ seed: Math.max(0, Math.round(+e.target.value || 0)) })} className="tnum w-10 bg-transparent text-ink outline-none disabled:opacity-60" aria-label="Seed" />
           </label>
         </div>
-        {!human && <div className="flex items-center gap-2 text-[11px] text-ink-3"><KindChip kind={managers.find((m) => m.id === play.manager)?.kind ?? "learned"} /> is running the hospital. Pick “You” to take it back.</div>}
+        {running && (
+          <div className={`flex items-center gap-2 rounded-xl px-3 py-2 ${human ? "bg-[#141a33]/[0.035]" : "bg-accent-soft ring-1 ring-inset ring-accent/25"}`} data-testid="in-charge">
+            <span className="min-w-0 flex-1">
+              <span className="flex items-center gap-2">
+                <span className="eyebrow shrink-0">In charge</span>
+                <KindChip kind={human ? "human" : (managers.find((m) => m.id === play.manager)?.kind ?? f.header?.manager.kind ?? "learned")} />
+              </span>
+              <span className="mt-0.5 block truncate text-[12px] font-semibold text-ink">{human ? "You" : (managers.find((m) => m.id === play.manager)?.label ?? play.manager)}</span>
+            </span>
+            {!human && (
+              <button className="btn-quiet !h-7 shrink-0 !px-2.5 !text-[11px]" onClick={() => playCtl.manager("human")} data-testid="take-back">
+                Take back
+              </button>
+            )}
+          </div>
+        )}
         <div className="flex items-center gap-2">
           {!running ? (
             <button className="btn-primary flex-1" onClick={() => void startPlay()} disabled={play.state === "connecting"} data-testid="play-start">
@@ -246,7 +261,7 @@ export function PlayPanel({ f, className = "" }: { f: FeedState; className?: str
                   <div className="eyebrow mb-1.5">Throw something at it</div>
                   <div className="flex flex-wrap gap-1.5">
                     {INJECT.map(([id, label]) => (
-                      <button key={id} className="btn-quiet !h-7 !px-2.5 !text-[11px]" onClick={() => playCtl.inject(id)} disabled={play.state !== "live"} title={play.state !== "live" ? "Needs the live simulator" : `Inject ${label.toLowerCase()}`}>
+                      <button key={id} className="btn-quiet !h-7 !px-2.5 !text-[11px]" onClick={() => playCtl.inject(id, label)} data-inject={id} disabled={play.state !== "live"} title={play.state !== "live" ? "Needs the live simulator" : `Inject ${label.toLowerCase()}`}>
                         {label}
                       </button>
                     ))}

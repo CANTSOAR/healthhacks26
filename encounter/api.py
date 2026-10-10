@@ -346,3 +346,9 @@ def tts(body: dict = Body(...)):
 def encounter_status():
     """Convenience for the standalone app; the main server folds encounter.status() into /api/status."""
     return {"llm": get_provider().status(), "voice": voice_status()}
+
+
+# ---------------------------------------------------------------- care journey (encounter/journey/)
+from .journey.api import router as _journey_router  # noqa: E402  (imported last: it reaches back into this module lazily)
+
+router.include_router(_journey_router)

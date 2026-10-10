@@ -1,0 +1,323 @@
+{
+  "schema_version": 1,
+  "journey_id": "ed-to-ward",
+  "version": 1,
+  "title": "Emergency department to ward",
+  "description": "Four connected interactions around one patient: triage, physician assessment, medication reconciliation, and an SBAR handoff. Works with any published case. Play any stage in its role; the sampler resolves the rest.",
+  "base_case": {
+    "case_id": "*"
+  },
+  "stages": [
+    {
+      "stage_id": "triage",
+      "title": "Triage",
+      "interaction_type": "triage",
+      "learner_role": {
+        "staff_role": "rn",
+        "label": "Triage nurse"
+      },
+      "counterparts": [
+        {
+          "kind": "patient"
+        }
+      ],
+      "auto": {
+        "clinician_id": "rosa-delgado"
+      },
+      "brief": "You are the triage nurse. {name}, {age}, has just arrived. Find out why they came, check allergies and medicines, look at the vital signs, then assign an acuity (ESI 1 to 5) and write the triage note the physician will open with.",
+      "scope": {
+        "fact_categories": [
+          "identity",
+          "chief_complaint",
+          "hpi",
+          "ros",
+          "vitals",
+          "allergies",
+          "medications"
+        ],
+        "requests": [
+          "exam:general"
+        ]
+      },
+      "writes": {
+        "required": [
+          "acuity",
+          "note"
+        ],
+        "optional": [
+          "open_questions"
+        ]
+      },
+      "minutes": 5,
+      "objectives": [
+        {
+          "objective_id": "tri.complaint",
+          "criterion": "Establishes the presenting complaint and its key features",
+          "kind": "elicit",
+          "behavior": "contribute",
+          "categories": [
+            "chief_complaint",
+            "hpi"
+          ],
+          "min_fraction": 0.5
+        },
+        {
+          "objective_id": "tri.allergies_meds",
+          "criterion": "Checks allergies and current medicines",
+          "kind": "elicit",
+          "behavior": "contribute",
+          "categories": [
+            "allergies",
+            "medications"
+          ],
+          "critical_only": false,
+          "min_fraction": 0.5
+        },
+        {
+          "objective_id": "tri.acuity",
+          "criterion": "Assigns an acuity that fits the presentation",
+          "kind": "decision_match",
+          "behavior": "contribute",
+          "key": "acuity"
+        },
+        {
+          "objective_id": "tri.note",
+          "criterion": "Writes a triage note for the next clinician",
+          "kind": "write",
+          "behavior": "communicate",
+          "key": "note"
+        }
+      ]
+    },
+    {
+      "stage_id": "clinician",
+      "title": "Physician assessment",
+      "interaction_type": "clinician_encounter",
+      "learner_role": {
+        "staff_role": "resident",
+        "label": "Emergency physician"
+      },
+      "counterparts": [
+        {
+          "kind": "patient"
+        }
+      ],
+      "auto": {
+        "clinician_id": "jun-watanabe"
+      },
+      "brief": "You are the emergency physician. You open with the triage nurse's note and whatever triage recorded. Take the history, examine, order what you need, and decide on a disposition. Write a short assessment for the team.",
+      "scope": {
+        "fact_categories": "all",
+        "requests": [
+          "exam:*",
+          "order:*"
+        ]
+      },
+      "case_objectives": true,
+      "writes": {
+        "required": [
+          "disposition",
+          "note"
+        ],
+        "optional": [
+          "orders",
+          "plan",
+          "open_questions"
+        ]
+      },
+      "minutes": 15,
+      "objectives": [
+        {
+          "objective_id": "md.use_triage",
+          "criterion": "Builds on what triage recorded instead of starting over",
+          "kind": "use_prior",
+          "behavior": "use"
+        },
+        {
+          "objective_id": "md.disposition",
+          "criterion": "Reaches a disposition that fits the findings",
+          "kind": "decision_match",
+          "behavior": "contribute",
+          "key": "disposition"
+        },
+        {
+          "objective_id": "md.assessment",
+          "criterion": "Writes an assessment the rest of the team can act on",
+          "kind": "write",
+          "behavior": "communicate",
+          "key": "note"
+        },
+        {
+          "objective_id": "md.uncertainty",
+          "criterion": "Names what is still uncertain or pending",
+          "kind": "identify_open",
+          "behavior": "identify"
+        }
+      ]
+    },
+    {
+      "stage_id": "medrec",
+      "title": "Medication reconciliation",
+      "interaction_type": "nursing_assessment",
+      "learner_role": {
+        "staff_role": "pharmacist",
+        "label": "ED pharmacist"
+      },
+      "counterparts": [
+        {
+          "kind": "patient"
+        }
+      ],
+      "auto": {
+        "clinician_id": "samuel-adeyemi"
+      },
+      "brief": "You are the emergency department pharmacist. Reconcile what {name} is prescribed with what they actually take: ask the patient, pull the dispensing record, check allergies and anything bought over the counter. Record the reconciled list and anything that does not add up.",
+      "scope": {
+        "fact_categories": [
+          "medications",
+          "allergies",
+          "pmh",
+          "social",
+          "concealed"
+        ],
+        "requests": [
+          "order:medication_list",
+          "order:prior_records"
+        ]
+      },
+      "writes": {
+        "required": [
+          "med_list"
+        ],
+        "optional": [
+          "note",
+          "plan",
+          "open_questions"
+        ]
+      },
+      "minutes": 10,
+      "objectives": [
+        {
+          "objective_id": "rx.use_prior",
+          "criterion": "Starts from the medicines and allergies already on the record",
+          "kind": "use_prior",
+          "behavior": "use"
+        },
+        {
+          "objective_id": "rx.history",
+          "criterion": "Completes the medication and allergy history",
+          "kind": "elicit",
+          "behavior": "contribute",
+          "categories": [
+            "medications",
+            "allergies"
+          ],
+          "critical_only": false,
+          "min_fraction": 0.75
+        },
+        {
+          "objective_id": "rx.source",
+          "criterion": "Checks a second source (dispensing record or previous notes)",
+          "kind": "request",
+          "behavior": "contribute",
+          "requests": [
+            "order:medication_list",
+            "order:prior_records"
+          ],
+          "all": false
+        },
+        {
+          "objective_id": "rx.discrepancy",
+          "criterion": "Settles any conflict between what the patient says and what the record shows",
+          "kind": "resolve_discrepancy",
+          "behavior": "identify"
+        },
+        {
+          "objective_id": "rx.list",
+          "criterion": "Records a reconciled medication list",
+          "kind": "write",
+          "behavior": "communicate",
+          "key": "med_list"
+        }
+      ]
+    },
+    {
+      "stage_id": "handoff",
+      "title": "Handoff",
+      "interaction_type": "handoff",
+      "learner_role": {
+        "staff_role": "rn",
+        "label": "ED nurse"
+      },
+      "counterparts": [
+        {
+          "kind": "colleague",
+          "staff_role": "attending",
+          "clinician_id": "helen-brandt",
+          "label": "Admitting physician"
+        }
+      ],
+      "auto": {
+        "clinician_id": "rosa-delgado"
+      },
+      "brief": "You are the emergency department nurse handing {name} over. Give an SBAR from the shared record: what the team actually learned, what is still pending, and what you need the receiver to do. The receiver will ask about anything that is missing.",
+      "sbar": {
+        "max_questions": 3,
+        "critical": [
+          "allergies",
+          "pending_results",
+          "concealed",
+          "disposition",
+          "discrepancies",
+          "critical_facts"
+        ]
+      },
+      "writes": {
+        "required": [
+          "sbar"
+        ]
+      },
+      "minutes": 10,
+      "objectives": [
+        {
+          "objective_id": "sbar.situation",
+          "criterion": "Situation: says what is happening with the patient now",
+          "kind": "sbar",
+          "behavior": "communicate",
+          "element": "S"
+        },
+        {
+          "objective_id": "sbar.background",
+          "criterion": "Background: gives the history the receiver needs, including allergies and medicines",
+          "kind": "sbar",
+          "behavior": "communicate",
+          "element": "B"
+        },
+        {
+          "objective_id": "sbar.assessment",
+          "criterion": "Assessment: reports the findings and what remains uncertain",
+          "kind": "sbar",
+          "behavior": "communicate",
+          "element": "A"
+        },
+        {
+          "objective_id": "sbar.recommendation",
+          "criterion": "Recommendation: states the plan and what the receiver must do next",
+          "kind": "sbar",
+          "behavior": "communicate",
+          "element": "R"
+        },
+        {
+          "objective_id": "sbar.supported",
+          "criterion": "States only what the shared record supports",
+          "kind": "no_unsupported",
+          "behavior": "communicate"
+        }
+      ]
+    }
+  ],
+  "completion": {
+    "rule": "all_stages"
+  },
+  "notes": "Stage durations for sampled stages and handoffs are assumed values. Scopes and objectives are a first draft for faculty review."
+}

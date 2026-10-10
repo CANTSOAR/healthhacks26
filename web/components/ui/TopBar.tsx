@@ -5,9 +5,10 @@ import { apiBase } from "@/lib/api";
 import { DOW_LONG, hhmm, patientId, titleCase } from "@/lib/format";
 import { useClickAway, useFeedState } from "@/lib/hooks";
 import { feeds, refreshStatus, transport } from "@/lib/session";
-import { SPEEDS, useUI, type Mode } from "@/lib/ui";
+import { speedLabel, SPEEDS, useUI, type Mode } from "@/lib/ui";
 import type { Selection } from "@/lib/types";
 import { Icon, ICONS } from "./atoms";
+import { TourButton } from "./Tour";
 
 const MODES: { id: Mode; label: string }[] = [
   { id: "play", label: "Play" },
@@ -76,12 +77,12 @@ export function SpeedControl({ compact = false }: { compact?: boolean }) {
       )}
       {compact ? (
         <button data-on={!paused} onClick={() => set({ speed: SPEEDS[(SPEEDS.indexOf(speed) + 1) % SPEEDS.length], paused: false })} className="tnum !px-2.5" aria-label="Change speed" title="Tap to change speed">
-          {speed}×
+          {speedLabel(speed)}
         </button>
       ) : (
         SPEEDS.map((v) => (
           <button key={v} data-on={!paused && speed === v} onClick={() => set({ speed: v, paused: false })} className="tnum !px-2.5">
-            {v}×
+            {speedLabel(v)}
           </button>
         ))
       )}
@@ -174,7 +175,7 @@ export function SearchBox() {
     return out;
   }, [q, f.layout, f.snap, f.header]);
   return (
-    <div className="relative min-w-0 flex-1" ref={ref} style={{ maxWidth: 300 }}>
+    <div className="relative min-w-[132px] flex-1" ref={ref} style={{ maxWidth: 300 }}>
       <div className="flex h-8 items-center gap-2 rounded-full border border-line bg-white/60 px-3 text-ink-3 focus-within:border-accent/50 focus-within:bg-white">
         <Icon d={ICONS.search} size={14} />
         <input
@@ -235,7 +236,7 @@ export function Switchers() {
           </option>
         ))}
       </select>
-      <select className="select max-w-[170px]" value={hospitalId} onChange={(e) => set({ hospitalId: e.target.value })} aria-label="Hospital" data-testid="hospital">
+      <select className="select max-w-[170px] max-[1599px]:hidden" value={hospitalId} onChange={(e) => set({ hospitalId: e.target.value })} aria-label="Hospital" data-testid="hospital">
         {hospitals.map((h) => (
           <option key={h.id} value={h.id}>
             {h.name.replace(/\s*\(.*\)$/, "").replace("Robert Wood Johnson University Hospital", "RWJUH")}
@@ -254,6 +255,7 @@ export function TopBar({ narrow, onMode }: { narrow: boolean; onMode: (m: Mode) 
         <div className="glass flex h-12 items-center gap-2 px-2.5">
           <Logo />
           <div className="ml-auto">{!clockless && <Clock compact />}</div>
+          <TourButton compact />
           <StatusIndicator />
         </div>
         <div className="flex items-center gap-2">
@@ -280,6 +282,7 @@ export function TopBar({ narrow, onMode }: { narrow: boolean; onMode: (m: Mode) 
         <span className="mx-1 h-5 w-px bg-line" />
         {!clockless && <Clock />}
         {!clockless && <SpeedControl />}
+        <TourButton />
         <StatusIndicator />
       </div>
     </div>

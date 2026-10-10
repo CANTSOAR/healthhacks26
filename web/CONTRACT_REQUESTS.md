@@ -31,3 +31,15 @@ Nothing here blocks the web app; each item says what the app assumes today.
    with `ack: true` and empty `metrics` (ignored for charts), `summary.final` after `stop` (awaited before the human run is
    posted), `action_spec[].implemented` (shown as "not modelled yet" when false), `/api/validation.status`, `.baseline`
    and `.stale`, and per-target `unit`, `variant_label`, `attribute`, `citation`.
+
+7. **More server extras the app reads** (round 2): `hour.manager` and `hour.manager_info` (who is in charge, shown in Play
+   and used to confirm a hand-over), and the `scenario`, `structural_started` and `structural_done` event kinds (shown as
+   toasts). Worth documenting in `api.md`.
+
+8. **Which patient holds a bay.** `rooms.status` reports a bay as occupied while its patient is away at imaging, and
+   `rooms.occupancy` counts only people physically present, so the two disagree for held bays. The app shows "Held" and
+   infers the patient from the journey it has observed. A `patients.bay` column (room index of the held bay, -1 if none)
+   would make that exact.
+
+9. **Human run length.** The app posts `days` as a fraction (for example 0.375 for a nine-hour run) so the trade-off chart
+   can flag runs shorter than the evaluation protocol.

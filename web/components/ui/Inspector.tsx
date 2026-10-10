@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useEffect, useState, type ReactNode } from "react";
 import { api } from "@/lib/api";
-import { describe, enumsOf } from "@/lib/describe";
+import { describe, enumsOf, roomState } from "@/lib/describe";
 import type { FeedState } from "@/lib/feed";
 import { duration, formatValue, L, patientId, titleCase } from "@/lib/format";
 import { useApi } from "@/lib/hooks";
@@ -94,12 +94,25 @@ function LiveState({ sel, f }: { sel: Selection; f: FeedState }) {
     if (!r) return null;
     const occupants: number[] = [];
     if (snap) snap.patients.room.forEach((ri, k) => ri === i && e.patient_state[snap.patients.state[k]] !== "exited" && occupants.push(k));
+    const rs = roomState(f, i);
     const staffHere: string[] = [];
     if (snap) snap.staff.room.forEach((ri, k) => ri === i && staffHere.push(snap.staff.id[k]));
     return (
       <>
-        {snap ? <Row k="Status">{L.roomStatus(e, snap.rooms.status[i])}</Row> : null}
-        <Row k="Occupancy">{`${snap?.rooms.occupancy[i] ?? 0} of ${r.capacity}`}</Row>
+        {snap ? (
+          <Row k="Status">
+            {rs.held && rs.holder ? (
+              <>
+                Held ·{" "}
+                <EntityLink sel={{ kind: "patient", id: snap.patients.id[rs.holder.patientIdx], feed: f.key }}>{patientId(snap.patients.id[rs.holder.patientIdx])}</EntityLink> at {rs.holder.where}
+              </>
+            ) : (
+              rs.text
+            )}
+          </Row>
+        ) : null}
+        <Row k={rs.held ? "In the room now" : "Occupancy"}>{`${snap?.rooms.occupancy[i] ?? 0} of ${r.capacity}`}</Row>
+        {rs.held && <div className="pb-1 text-right text-[10.5px] text-ink-3">The bay stays assigned while its patient is away for a test.</div>}
         {snap?.rooms.queue?.[i] ? <Row k="Queue">{snap.rooms.queue[i]}</Row> : null}
         <Row k="Size">{`${+r.w.toFixed(1)} × ${+r.d.toFixed(1)} m`}</Row>
         {occupants.length > 0 && snap ? (
@@ -181,7 +194,14 @@ function Attribute({ name, a }: { name: string; a: CatalogAttribute }) {
     <div className="border-t border-line py-2 first:border-t-0">
       <div className="flex items-start justify-between gap-2">
         <span className="min-w-0 break-words text-[12px] font-semibold text-ink">{titleCase(name)}</span>
-        <SourceChip tag={a.source} />
+        <span className="flex shrink-0 items-center gap-1">
+          {a.mixed_provenance && (
+            <span className="chip bg-[#FDE7E8] text-[#B4232A]" title={a.mixed_provenance}>
+              mixed
+            </span>
+          )}
+          <SourceChip tag={a.source} />
+        </span>
       </div>
       <div className="mt-0.5 flex items-baseline gap-1.5">
         <span className="tnum min-w-0 break-words text-[12px] text-ink">{formatValue(a.value)}</span>
@@ -190,6 +210,7 @@ function Attribute({ name, a }: { name: string; a: CatalogAttribute }) {
       {dist && <div className="tnum mt-0.5 text-[11px] text-ink-2">Distribution: {dist}</div>}
       {a.index && <div className="mt-0.5 text-[11px] text-ink-3">Indexed by {a.index.replace(/_/g, " ")}</div>}
       {a.range && <div className="tnum mt-0.5 text-[11px] text-ink-3">Plausible range {formatValue(a.range)}</div>}
+      {a.mixed_provenance && <div className="mt-1 rounded-lg bg-[#FDF6E7] px-2 py-1.5 text-[11px] leading-snug text-[#8A5A00]">Mixed provenance: {a.mixed_provenance.replace(/^PER-ELEMENT PROVENANCE[^:]*:\s*/i, "")}</div>}
       {a.validation_only && <div className="mt-0.5 text-[11px] text-ink-3">Validation target only, never a simulator input.</div>}
       {(a.citation || a.url || a.note || a.file) && (
         <div className={`mt-1 text-[11px] leading-snug text-ink-3 ${open ? "" : "line-clamp-2"}`} onClick={() => setOpen((o) => !o)} role="button" title="Click to expand">
@@ -208,9 +229,18 @@ function Attribute({ name, a }: { name: string; a: CatalogAttribute }) {
   );
 }
 
+const SHARED_LABEL: Record<string, string> = { space: "all spaces", staff: "all staff", patient: "all patients", equipment: "all equipment", event: "all events" };
+
 function Catalog({ refPath }: { refPath: string }) {
   const { data, source, loading } = useApi(() => api.catalogRef(refPath), [refPath]);
+  const entityType = data?.entity_type ?? refPath.split("/")[0];
+  const shared = useApi(async () => ({ data: await api.catalogSharedKeys(entityType), source: "live" as const }), [entityType]);
+  const [open, setOpen] = useState(false);
+  const sharedSet = new Set(shared.data ?? []);
   const attrs = data ? Object.entries(data.attributes ?? {}) : [];
+  // the variant's own attributes first; parameters shared by every variant of the entity type go in a collapsed group
+  const own = attrs.filter(([k]) => !sharedSet.has(k));
+  const common = attrs.filter(([k]) => sharedSet.has(k));
   const counts = attrs.reduce<Record<string, number>>((m, [, a]) => ((m[a.source] = (m[a.source] ?? 0) + 1), m), {});
   return (
     <div data-testid="catalog">
@@ -227,11 +257,30 @@ function Catalog({ refPath }: { refPath: string }) {
             {data.label} · {attrs.length} attributes
             {(["measured", "literature", "assumed"] as const).map((k) => (counts[k] ? ` · ${counts[k]} ${k}` : "")).join("")}
           </div>
-          <div>
-            {attrs.map(([k, a]) => (
+          <div data-testid="catalog-own">
+            {own.map(([k, a]) => (
               <Attribute key={k} name={k} a={a} />
             ))}
+            {own.length === 0 && <div className="py-1 text-[11px] text-ink-3">This variant has no attributes of its own.</div>}
           </div>
+          {common.length > 0 && (
+            <div className="mt-1 border-t border-line">
+              <button className="flex w-full items-center gap-2 py-2 text-left" onClick={() => setOpen((o) => !o)} aria-expanded={open} data-testid="catalog-shared-toggle">
+                <span className={`text-ink-3 transition-transform ${open ? "rotate-90" : ""}`}>
+                  <Icon d={ICONS.chevron} size={12} stroke={2.4} />
+                </span>
+                <span className="text-[12px] font-semibold text-ink">Shared parameters ({SHARED_LABEL[entityType] ?? `all ${entityType} variants`})</span>
+                <span className="tnum ml-auto text-[10.5px] text-ink-3">{common.length}</span>
+              </button>
+              {open && (
+                <div data-testid="catalog-shared">
+                  {common.map(([k, a]) => (
+                    <Attribute key={k} name={k} a={a} />
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
         </>
       )}
     </div>

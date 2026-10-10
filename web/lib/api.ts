@@ -115,6 +115,18 @@ export const api = {
       return { data: all[ref] ?? null, source: "fixture" };
     }
   },
+  /** Keys of the attributes an entity type shares across all its variants (so the inspector can list a variant's own first). */
+  catalogSharedKeys: (entityType: string): Promise<string[]> => {
+    const key = `shared:${entityType}:${Date.now() < downUntil ? "fx" : "live"}`;
+    let p = cache.get(key) as Promise<string[]> | undefined;
+    if (!p) {
+      p = live<{ shared?: Record<string, unknown> }>(`/api/catalog/${encodeURIComponent(entityType)}`)
+        .then((d) => Object.keys(d.shared ?? {}))
+        .catch(async () => (await fixture<Record<string, string[]>>("catalog-shared.json").catch(() => ({}) as Record<string, string[]>))[entityType] ?? []);
+      cache.set(key, p);
+    }
+    return p;
+  },
   /** Baseline simulator outputs against published benchmarks. Offline there is nothing honest to show. */
   validation: () => get<Validation>("/api/validation", async () => ({ status: "offline", targets: [], simulated: {}, within: {} }), 6000),
   scenarios: () => get<Scenario[]>("/api/scenarios", () => fixture("scenarios.json")),

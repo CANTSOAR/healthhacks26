@@ -12,6 +12,54 @@ const EMPTY: Enums = {
 } as unknown as Enums;
 export const enumsOf = (f: FeedState): Enums => f.header?.enums ?? enumsFallback ?? EMPTY;
 
+const AWAY = new Set(["waiting_test", "in_test", "walking"]);
+const HOLDING_TYPES = new Set(["treatment_bay", "resus_bay", "fast_track", "peds_ed"]);
+
+/**
+ * A bay the simulator reports as occupied while nobody is physically in it is being held for a patient who is away
+ * (at imaging, or walking). The snapshot does not say which patient, so this looks for one who is away now and whose
+ * last recorded bed space was this room. Returns null when that cannot be told from what has been observed.
+ */
+export function bayHolder(f: FeedState, roomIdx: number): { patientIdx: number; where: string } | null {
+  const snap = f.snap;
+  const layout = f.layout;
+  if (!snap || !layout) return null;
+  const e = enumsOf(f);
+  const p = snap.patients;
+  for (let i = 0; i < p.id.length; i++) {
+    if (!AWAY.has(e.patient_state[p.state[i]] ?? "")) continue;
+    const hist = f.journeys.get(p.id[i]);
+    if (!hist) continue;
+    for (let k = hist.length - 1; k >= 0; k--) {
+      if (hist[k].t > snap.t) continue;
+      const r = layout.rooms[hist[k].room];
+      if (r && HOLDING_TYPES.has(r.type)) {
+        if (hist[k].room === roomIdx) {
+          const now = layout.rooms[p.room[i]];
+          return { patientIdx: i, where: now && p.room[i] !== roomIdx ? now.label : "in transit" };
+        }
+        break;
+      }
+    }
+  }
+  return null;
+}
+
+/** Room status in words, from the same snapshot fields everywhere: `rooms.status` and `rooms.occupancy`. */
+export function roomState(f: FeedState, roomIdx: number): { text: string; key: string; held: boolean; holder: ReturnType<typeof bayHolder> } {
+  const snap = f.snap;
+  const e = enumsOf(f);
+  const r = f.layout?.rooms[roomIdx];
+  if (!snap || !r) return { text: "", key: "open_empty", held: false, holder: null };
+  const key = e.room_status[snap.rooms.status[roomIdx]] ?? "open_empty";
+  const occ = snap.rooms.occupancy[roomIdx] ?? 0;
+  if (key === "occupied" && occ === 0 && r.capacity <= 1) {
+    const holder = bayHolder(f, roomIdx);
+    return { text: holder ? `Held · patient at ${holder.where}` : "Held · patient away", key: "held", held: true, holder };
+  }
+  return { text: L.roomStatus(e, snap.rooms.status[roomIdx]), key, held: false, holder: null };
+}
+
 export interface Described {
   title: string;
   sub: string;
@@ -49,10 +97,11 @@ export function describe(sel: Selection, f: FeedState): Described | null {
       const i = roomIndex(layout).get(String(sel.id)) ?? -1;
       const r = layout.rooms[i];
       if (!r) return null;
-      let status = snap ? L.roomStatus(e, snap.rooms.status[i]) : "";
-      if (snap && r.capacity === 1) {
+      const rs = roomState(f, i);
+      let status = rs.text;
+      if (snap && r.capacity === 1 && !rs.held) {
         const pi = snap.patients.room.indexOf(i);
-        if (pi >= 0 && e.patient_state[snap.patients.state[pi]] !== "walking") status = L.patientState(e, snap.patients.state[pi]);
+        if (pi >= 0 && e.patient_state[snap.patients.state[pi]] !== "walking" && e.patient_state[snap.patients.state[pi]] !== "exited") status = L.patientState(e, snap.patients.state[pi]);
       } else if (snap && r.capacity > 1) status = `${snap.rooms.occupancy[i] ?? 0} of ${r.capacity}`;
       return { title: r.label, sub: `${L.roomType(r.type)}${r.zone ? ` · ${r.zone}` : ""}`, pill: status ? `${r.label} · ${status}` : r.label, catalogRef: r.catalog_ref ?? `space/${r.type}`, index: i };
     }
