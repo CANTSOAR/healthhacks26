@@ -388,6 +388,19 @@ class Run:
                     self._release(pid)
 
     # ---------------------------------------------------------------- playability
+    def _case_ok(self, pid: int) -> tuple[bool, str]:
+        """Whether the encounter engine can build a case for this patient (e.g. its template supports the age).
+        Cached per patient so the playable list and the 409 rule agree."""
+        cache = self.__dict__.setdefault("_case_ok_cache", {})
+        if pid not in cache:
+            try:
+                from encounter.resolver import playability
+                r = playability(self.sim.latent_truth(self.b, pid))
+                cache[pid] = (bool(r.get("playable")), str(r.get("reason") or ""))
+            except Exception:  # noqa: BLE001  (engine missing or truth unavailable: do not block)
+                cache[pid] = (True, "")
+        return cache[pid]
+
     def playable(self, patient_id: int, live: dict | None = None) -> tuple[bool, str, str]:
         """(playable, code, reason). Playable = before the provider or with the provider, not played, not held."""
         pid = int(patient_id)
@@ -398,6 +411,9 @@ class Run:
                 except Exception:  # noqa: BLE001
                     return False, "not_in_hospital", "This patient is not in the hospital at this moment."
             state = live.get("state")
+            ok_case, why = self._case_ok(pid)
+            if not ok_case:
+                return False, "no_case", "This patient cannot be played: " + why
             if "played" in (live.get("flag_names") or []) or int(live.get("flags") or 0) & 8:
                 return False, "already_played", "This patient's clinician encounter has already been played."
             if pid in self.queued or pid in self.deferred:
@@ -426,7 +442,8 @@ class Run:
                 if fl & 8 or pid in self.hold_times or pid in self.queued or pid in self.deferred:
                     continue
                 if st in pre or (st in maybe and self._try(lambda: self.sim.pending_interaction(self.b, pid), None)):
-                    out.append(pid)
+                    if self._case_ok(int(pid))[0]:
+                        out.append(pid)
             return out
 
     def _apply_deferred(self, errors: list) -> None:
