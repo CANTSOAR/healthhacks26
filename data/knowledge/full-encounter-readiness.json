@@ -1,0 +1,498 @@
+{
+  "version": 1,
+  "status": "proposed_encounter_coverage_not_runnable_or_clinically_approved",
+  "scope": "General hospital encounter research scaffold, with adult distal-radius/wrist example; not all diagnoses or age groups.",
+  "stages": [
+    {
+      "stage_id": "arrival_identity",
+      "title": "Arrival, identity and handoff",
+      "proposed_roles": [
+        "registration",
+        "EMS crew",
+        "triage nurse"
+      ],
+      "proposed_state_fields": [
+        "arrival mode",
+        "patient identifier or temporary identity",
+        "handoff owner",
+        "arrival timestamp"
+      ],
+      "existing_source_record_ids": [],
+      "new_source_candidate_ids": [
+        "encounter-arrival-route-mix-sweden",
+        "encounter-arrival-registration-to-vitals",
+        "encounter-arrival-waiting-reassessment",
+        "encounter-arrival-lwbs-pretriage-and-crowding",
+        "encounter-arrival-official-ems-handover-15min",
+        "encounter-arrival-official-ems-handoff-branching",
+        "encounter-arrival-waiting-area-monitoring-feasibility"
+      ],
+      "evidence_mapping_scope": "Stage-level discovery only; not every cited source supports every proposed role or field. Review each source claim before adoption.",
+      "source_record_ids": [
+        "encounter-arrival-route-mix-sweden",
+        "encounter-arrival-registration-to-vitals",
+        "encounter-arrival-waiting-reassessment",
+        "encounter-arrival-lwbs-pretriage-and-crowding",
+        "encounter-arrival-official-ems-handover-15min",
+        "encounter-arrival-official-ems-handoff-branching",
+        "encounter-arrival-waiting-area-monitoring-feasibility"
+      ],
+      "design_status": "authored_proposal_not_executable_protocol",
+      "local_validation": "not_established",
+      "duration_distribution": null,
+      "remaining_requirement": "Local identity-match/duplicate-record/unknown-patient policy; EMS handoff timestamps"
+    },
+    {
+      "stage_id": "urgency_waiting",
+      "title": "Urgency assessment and waiting reassessment",
+      "proposed_roles": [
+        "triage nurse",
+        "emergency clinician"
+      ],
+      "proposed_state_fields": [
+        "presenting concern",
+        "acuity decision",
+        "observations",
+        "next reassessment owner",
+        "waiting location"
+      ],
+      "existing_source_record_ids": [
+        "admin-emtala-screening"
+      ],
+      "new_source_candidate_ids": [
+        "encounter-arrival-route-mix-sweden",
+        "encounter-arrival-registration-to-vitals",
+        "encounter-arrival-waiting-reassessment",
+        "encounter-arrival-lwbs-pretriage-and-crowding",
+        "encounter-arrival-official-ems-handover-15min",
+        "encounter-arrival-official-ems-handoff-branching",
+        "encounter-arrival-waiting-area-monitoring-feasibility"
+      ],
+      "evidence_mapping_scope": "Stage-level discovery only; not every cited source supports every proposed role or field. Review each source claim before adoption.",
+      "source_record_ids": [
+        "admin-emtala-screening",
+        "encounter-arrival-route-mix-sweden",
+        "encounter-arrival-registration-to-vitals",
+        "encounter-arrival-waiting-reassessment",
+        "encounter-arrival-lwbs-pretriage-and-crowding",
+        "encounter-arrival-official-ems-handover-15min",
+        "encounter-arrival-official-ems-handoff-branching",
+        "encounter-arrival-waiting-area-monitoring-feasibility"
+      ],
+      "design_status": "authored_proposal_not_executable_protocol",
+      "local_validation": "not_established",
+      "duration_distribution": null,
+      "remaining_requirement": "Reviewed local acuity logic, reassessment/escalation policy and staffed coverage"
+    },
+    {
+      "stage_id": "history_assessment",
+      "title": "History, examination and communication needs",
+      "proposed_roles": [
+        "patient",
+        "clinician",
+        "nurse",
+        "interpreter"
+      ],
+      "proposed_state_fields": [
+        "authored findings",
+        "allergies and medicines",
+        "communication needs",
+        "decision capacity",
+        "assessment completeness"
+      ],
+      "existing_source_record_ids": [],
+      "new_source_candidate_ids": [
+        "encounter-treatment-neurovascular-initial",
+        "encounter-treatment-urgent-escalation",
+        "encounter-treatment-post-reduction-reassessment-proxy",
+        "encounter-treatment-fracture-decision-factors",
+        "encounter-treatment-aaos-postreduction-thresholds",
+        "encounter-treatment-aaos-age-outcome-context",
+        "encounter-treatment-boast-followup",
+        "encounter-treatment-rct-reduced-followup-imaging",
+        "encounter-communication-teachback-medication",
+        "encounter-communication-teachback-followup",
+        "encounter-communication-teachback-selfcare",
+        "encounter-communication-interpreter-consent",
+        "encounter-communication-pending-tests-documentation",
+        "encounter-communication-microbiology-alert-followup",
+        "encounter-communication-radiology-acknowledgement",
+        "encounter-communication-emteba-comprehension-deficit",
+        "encounter-communication-jointcommission-closedloop"
+      ],
+      "evidence_mapping_scope": "Stage-level discovery only; not every cited source supports every proposed role or field. Review each source claim before adoption.",
+      "source_record_ids": [
+        "encounter-treatment-neurovascular-initial",
+        "encounter-treatment-urgent-escalation",
+        "encounter-treatment-post-reduction-reassessment-proxy",
+        "encounter-treatment-fracture-decision-factors",
+        "encounter-treatment-aaos-postreduction-thresholds",
+        "encounter-treatment-aaos-age-outcome-context",
+        "encounter-treatment-boast-followup",
+        "encounter-treatment-rct-reduced-followup-imaging",
+        "encounter-communication-teachback-medication",
+        "encounter-communication-teachback-followup",
+        "encounter-communication-teachback-selfcare",
+        "encounter-communication-interpreter-consent",
+        "encounter-communication-pending-tests-documentation",
+        "encounter-communication-microbiology-alert-followup",
+        "encounter-communication-radiology-acknowledgement",
+        "encounter-communication-emteba-comprehension-deficit",
+        "encounter-communication-jointcommission-closedloop"
+      ],
+      "design_status": "authored_proposal_not_executable_protocol",
+      "local_validation": "not_established",
+      "duration_distribution": null,
+      "remaining_requirement": "Clinician-authored findings and differential/decision rules; interpreter availability"
+    },
+    {
+      "stage_id": "orders_execution",
+      "title": "Order entry, acceptance and performance",
+      "proposed_roles": [
+        "clinician",
+        "nurse",
+        "pharmacist",
+        "diagnostic staff"
+      ],
+      "proposed_state_fields": [
+        "order status",
+        "accepting actor",
+        "dependencies",
+        "resource reservation",
+        "performance time"
+      ],
+      "existing_source_record_ids": [
+        "gap-medication-cpoe-verification-time",
+        "gap-diagnostics-lab-error-rejection-criteria"
+      ],
+      "new_source_candidate_ids": [],
+      "evidence_mapping_scope": "Stage-level discovery only; not every cited source supports every proposed role or field. Review each source claim before adoption.",
+      "source_record_ids": [
+        "gap-medication-cpoe-verification-time",
+        "gap-diagnostics-lab-error-rejection-criteria"
+      ],
+      "design_status": "authored_proposal_not_executable_protocol",
+      "local_validation": "not_established",
+      "duration_distribution": null,
+      "remaining_requirement": "Local order routing, queue priorities, equipment/staff compatibility and service distributions"
+    },
+    {
+      "stage_id": "results_review",
+      "title": "Result availability and clinical review",
+      "proposed_roles": [
+        "diagnostic staff",
+        "ordering clinician"
+      ],
+      "proposed_state_fields": [
+        "result status",
+        "result reviewer",
+        "acknowledgment",
+        "change to assessment"
+      ],
+      "existing_source_record_ids": [
+        "acr-acute-wrist-trauma-imaging-pathway"
+      ],
+      "new_source_candidate_ids": [
+        "encounter-treatment-neurovascular-initial",
+        "encounter-treatment-urgent-escalation",
+        "encounter-treatment-post-reduction-reassessment-proxy",
+        "encounter-treatment-fracture-decision-factors",
+        "encounter-treatment-aaos-postreduction-thresholds",
+        "encounter-treatment-aaos-age-outcome-context",
+        "encounter-treatment-boast-followup",
+        "encounter-treatment-rct-reduced-followup-imaging",
+        "encounter-communication-teachback-medication",
+        "encounter-communication-teachback-followup",
+        "encounter-communication-teachback-selfcare",
+        "encounter-communication-interpreter-consent",
+        "encounter-communication-pending-tests-documentation",
+        "encounter-communication-microbiology-alert-followup",
+        "encounter-communication-radiology-acknowledgement",
+        "encounter-communication-emteba-comprehension-deficit",
+        "encounter-communication-jointcommission-closedloop"
+      ],
+      "evidence_mapping_scope": "Stage-level discovery only; not every cited source supports every proposed role or field. Review each source claim before adoption.",
+      "source_record_ids": [
+        "acr-acute-wrist-trauma-imaging-pathway",
+        "encounter-treatment-neurovascular-initial",
+        "encounter-treatment-urgent-escalation",
+        "encounter-treatment-post-reduction-reassessment-proxy",
+        "encounter-treatment-fracture-decision-factors",
+        "encounter-treatment-aaos-postreduction-thresholds",
+        "encounter-treatment-aaos-age-outcome-context",
+        "encounter-treatment-boast-followup",
+        "encounter-treatment-rct-reduced-followup-imaging",
+        "encounter-communication-teachback-medication",
+        "encounter-communication-teachback-followup",
+        "encounter-communication-teachback-selfcare",
+        "encounter-communication-interpreter-consent",
+        "encounter-communication-pending-tests-documentation",
+        "encounter-communication-microbiology-alert-followup",
+        "encounter-communication-radiology-acknowledgement",
+        "encounter-communication-emteba-comprehension-deficit",
+        "encounter-communication-jointcommission-closedloop"
+      ],
+      "design_status": "authored_proposal_not_executable_protocol",
+      "local_validation": "not_established",
+      "duration_distribution": null,
+      "remaining_requirement": "Separate ordered/performed/preliminary/final/acknowledged states; authored clinical interpretation"
+    },
+    {
+      "stage_id": "treatment_reassessment",
+      "title": "Treatment choice, execution and reassessment",
+      "proposed_roles": [
+        "patient",
+        "clinician",
+        "nurse",
+        "consultant"
+      ],
+      "proposed_state_fields": [
+        "reviewed treatment choice",
+        "consent",
+        "intervention event",
+        "reassessment findings",
+        "complication/escalation branch"
+      ],
+      "existing_source_record_ids": [],
+      "new_source_candidate_ids": [
+        "encounter-treatment-neurovascular-initial",
+        "encounter-treatment-urgent-escalation",
+        "encounter-treatment-post-reduction-reassessment-proxy",
+        "encounter-treatment-fracture-decision-factors",
+        "encounter-treatment-aaos-postreduction-thresholds",
+        "encounter-treatment-aaos-age-outcome-context",
+        "encounter-treatment-boast-followup",
+        "encounter-treatment-rct-reduced-followup-imaging",
+        "encounter-communication-teachback-medication",
+        "encounter-communication-teachback-followup",
+        "encounter-communication-teachback-selfcare",
+        "encounter-communication-interpreter-consent",
+        "encounter-communication-pending-tests-documentation",
+        "encounter-communication-microbiology-alert-followup",
+        "encounter-communication-radiology-acknowledgement",
+        "encounter-communication-emteba-comprehension-deficit",
+        "encounter-communication-jointcommission-closedloop"
+      ],
+      "evidence_mapping_scope": "Stage-level discovery only; not every cited source supports every proposed role or field. Review each source claim before adoption.",
+      "source_record_ids": [
+        "encounter-treatment-neurovascular-initial",
+        "encounter-treatment-urgent-escalation",
+        "encounter-treatment-post-reduction-reassessment-proxy",
+        "encounter-treatment-fracture-decision-factors",
+        "encounter-treatment-aaos-postreduction-thresholds",
+        "encounter-treatment-aaos-age-outcome-context",
+        "encounter-treatment-boast-followup",
+        "encounter-treatment-rct-reduced-followup-imaging",
+        "encounter-communication-teachback-medication",
+        "encounter-communication-teachback-followup",
+        "encounter-communication-teachback-selfcare",
+        "encounter-communication-interpreter-consent",
+        "encounter-communication-pending-tests-documentation",
+        "encounter-communication-microbiology-alert-followup",
+        "encounter-communication-radiology-acknowledgement",
+        "encounter-communication-emteba-comprehension-deficit",
+        "encounter-communication-jointcommission-closedloop"
+      ],
+      "design_status": "authored_proposal_not_executable_protocol",
+      "local_validation": "not_established",
+      "duration_distribution": null,
+      "remaining_requirement": "Reviewed injury-specific protocol, prerequisites, actor permissions and response logic"
+    },
+    {
+      "stage_id": "disposition_handoff",
+      "title": "Disposition and receiving-team acceptance",
+      "proposed_roles": [
+        "ED clinician",
+        "consultant",
+        "bed manager",
+        "receiving nurse"
+      ],
+      "proposed_state_fields": [
+        "disposition decision",
+        "accepting service",
+        "bed readiness",
+        "handoff acceptance",
+        "transport"
+      ],
+      "existing_source_record_ids": [
+        "gap-flow-room-turnover-isolation"
+      ],
+      "new_source_candidate_ids": [
+        "encounter-treatment-neurovascular-initial",
+        "encounter-treatment-urgent-escalation",
+        "encounter-treatment-post-reduction-reassessment-proxy",
+        "encounter-treatment-fracture-decision-factors",
+        "encounter-treatment-aaos-postreduction-thresholds",
+        "encounter-treatment-aaos-age-outcome-context",
+        "encounter-treatment-boast-followup",
+        "encounter-treatment-rct-reduced-followup-imaging"
+      ],
+      "evidence_mapping_scope": "Stage-level discovery only; not every cited source supports every proposed role or field. Review each source claim before adoption.",
+      "source_record_ids": [
+        "gap-flow-room-turnover-isolation",
+        "encounter-treatment-neurovascular-initial",
+        "encounter-treatment-urgent-escalation",
+        "encounter-treatment-post-reduction-reassessment-proxy",
+        "encounter-treatment-fracture-decision-factors",
+        "encounter-treatment-aaos-postreduction-thresholds",
+        "encounter-treatment-aaos-age-outcome-context",
+        "encounter-treatment-boast-followup",
+        "encounter-treatment-rct-reduced-followup-imaging"
+      ],
+      "design_status": "authored_proposal_not_executable_protocol",
+      "local_validation": "not_established",
+      "duration_distribution": null,
+      "remaining_requirement": "Local discharge/admission/transfer criteria and receiving-service acceptance policy"
+    },
+    {
+      "stage_id": "discharge_communication",
+      "title": "Discharge plan and patient understanding",
+      "proposed_roles": [
+        "patient",
+        "caregiver",
+        "nurse",
+        "clinician",
+        "interpreter"
+      ],
+      "proposed_state_fields": [
+        "instructions",
+        "understanding check",
+        "return precautions",
+        "appointment or referral",
+        "practical barriers"
+      ],
+      "existing_source_record_ids": [],
+      "new_source_candidate_ids": [
+        "encounter-communication-teachback-medication",
+        "encounter-communication-teachback-followup",
+        "encounter-communication-teachback-selfcare",
+        "encounter-communication-interpreter-consent",
+        "encounter-communication-pending-tests-documentation",
+        "encounter-communication-microbiology-alert-followup",
+        "encounter-communication-radiology-acknowledgement",
+        "encounter-communication-emteba-comprehension-deficit",
+        "encounter-communication-jointcommission-closedloop",
+        "encounter-treatment-neurovascular-initial",
+        "encounter-treatment-urgent-escalation",
+        "encounter-treatment-post-reduction-reassessment-proxy",
+        "encounter-treatment-fracture-decision-factors",
+        "encounter-treatment-aaos-postreduction-thresholds",
+        "encounter-treatment-aaos-age-outcome-context",
+        "encounter-treatment-boast-followup",
+        "encounter-treatment-rct-reduced-followup-imaging"
+      ],
+      "evidence_mapping_scope": "Stage-level discovery only; not every cited source supports every proposed role or field. Review each source claim before adoption.",
+      "source_record_ids": [
+        "encounter-communication-teachback-medication",
+        "encounter-communication-teachback-followup",
+        "encounter-communication-teachback-selfcare",
+        "encounter-communication-interpreter-consent",
+        "encounter-communication-pending-tests-documentation",
+        "encounter-communication-microbiology-alert-followup",
+        "encounter-communication-radiology-acknowledgement",
+        "encounter-communication-emteba-comprehension-deficit",
+        "encounter-communication-jointcommission-closedloop",
+        "encounter-treatment-neurovascular-initial",
+        "encounter-treatment-urgent-escalation",
+        "encounter-treatment-post-reduction-reassessment-proxy",
+        "encounter-treatment-fracture-decision-factors",
+        "encounter-treatment-aaos-postreduction-thresholds",
+        "encounter-treatment-aaos-age-outcome-context",
+        "encounter-treatment-boast-followup",
+        "encounter-treatment-rct-reduced-followup-imaging"
+      ],
+      "design_status": "authored_proposal_not_executable_protocol",
+      "local_validation": "not_established",
+      "duration_distribution": null,
+      "remaining_requirement": "Accessible authored instructions, escalation wording, appointment access and patient goals"
+    },
+    {
+      "stage_id": "pending_results_followup",
+      "title": "Pending results, callbacks and follow-up",
+      "proposed_roles": [
+        "responsible clinician",
+        "follow-up team",
+        "patient"
+      ],
+      "proposed_state_fields": [
+        "pending result owner",
+        "due event",
+        "contact attempt",
+        "acknowledgment",
+        "closed-loop resolution"
+      ],
+      "existing_source_record_ids": [],
+      "new_source_candidate_ids": [
+        "encounter-communication-teachback-medication",
+        "encounter-communication-teachback-followup",
+        "encounter-communication-teachback-selfcare",
+        "encounter-communication-interpreter-consent",
+        "encounter-communication-pending-tests-documentation",
+        "encounter-communication-microbiology-alert-followup",
+        "encounter-communication-radiology-acknowledgement",
+        "encounter-communication-emteba-comprehension-deficit",
+        "encounter-communication-jointcommission-closedloop"
+      ],
+      "evidence_mapping_scope": "Stage-level discovery only; not every cited source supports every proposed role or field. Review each source claim before adoption.",
+      "source_record_ids": [
+        "encounter-communication-teachback-medication",
+        "encounter-communication-teachback-followup",
+        "encounter-communication-teachback-selfcare",
+        "encounter-communication-interpreter-consent",
+        "encounter-communication-pending-tests-documentation",
+        "encounter-communication-microbiology-alert-followup",
+        "encounter-communication-radiology-acknowledgement",
+        "encounter-communication-emteba-comprehension-deficit",
+        "encounter-communication-jointcommission-closedloop"
+      ],
+      "design_status": "authored_proposal_not_executable_protocol",
+      "local_validation": "not_established",
+      "duration_distribution": null,
+      "remaining_requirement": "Local results-routing and escalation policy; failed contact/uncompleted referral branches"
+    },
+    {
+      "stage_id": "administration_parallel",
+      "title": "Parallel benefit and payment workflow",
+      "proposed_roles": [
+        "registration",
+        "financial counselor",
+        "payer reviewer"
+      ],
+      "proposed_state_fields": [
+        "plan/product snapshot",
+        "eligibility",
+        "notification",
+        "authorization status",
+        "claim/payment status"
+      ],
+      "existing_source_record_ids": [
+        "specialty-ins-notification-vs-review",
+        "specialty-ins-emergency-screening"
+      ],
+      "new_source_candidate_ids": [],
+      "evidence_mapping_scope": "Stage-level discovery only; not every cited source supports every proposed role or field. Review each source claim before adoption.",
+      "source_record_ids": [
+        "specialty-ins-notification-vs-review",
+        "specialty-ins-emergency-screening"
+      ],
+      "design_status": "authored_proposal_not_executable_protocol",
+      "local_validation": "not_established",
+      "duration_distribution": null,
+      "remaining_requirement": "Actual plan/service/network/benefit evidence; avoid administrative gates on emergency care"
+    }
+  ],
+  "invariants": [
+    "Patient condition is separate from documented chart state.",
+    "An order does not imply performance, a result does not imply review, and a referral does not imply attendance.",
+    "Clinical and administrative tasks may run concurrently; emergency care must not wait for invented payer approval.",
+    "Responsibility for pending results survives encounter discharge until explicitly reassigned and accepted.",
+    "External outcomes never supply a local probability or patient response without reviewed adoption."
+  ],
+  "completion_gates": [
+    "Clinician-reviewed case truth and treatment/disposition branches",
+    "Local role permissions and task/state semantics",
+    "Explicitly calibrated or declared synthetic timing/resource model",
+    "Reviewed communication, consent and escalation content",
+    "End-to-end scenario verification including exceptions and follow-up"
+  ]
+}

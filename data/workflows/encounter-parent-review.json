@@ -1,0 +1,41 @@
+{
+  "scope": "Selected parent source spot checks, not exhaustive claim verification or human clinical review",
+  "date": "2026-10-10",
+  "checks": [
+    {
+      "record_ids": [
+        "encounter-communication-teachback-medication",
+        "encounter-communication-teachback-followup",
+        "encounter-communication-teachback-selfcare"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/26617669/",
+      "result": "Primary abstract confirms higher post-discharge comprehension in selected domains; it does not establish reduced adverse events or provide a universal effect size."
+    },
+    {
+      "record_ids": [
+        "encounter-communication-radiology-acknowledgement"
+      ],
+      "source_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7268495/fullTextXML",
+      "result": "Original text reports 70.6% before, all 1423 reports after, and a 30.4% increase. Arithmetic implies 29.4 percentage points; preserve reported figures and block quantitative adoption until resolved."
+    },
+    {
+      "record_ids": [
+        "encounter-arrival-waiting-area-monitoring-feasibility"
+      ],
+      "source_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC4697987/fullTextXML",
+      "result": "Original text confirms median 178 minutes per patient (IQR118-258), versus 684 total monitoring hours. Parent caught hours/minutes extraction error and requested correction before normalization."
+    },
+    {
+      "record_ids": [
+        "encounter-treatment-urgent-escalation",
+        "encounter-treatment-boast-followup"
+      ],
+      "source_urls": [
+        "https://aci.health.nsw.gov.au/networks/eci/clinical/tools/colles-fracture",
+        "https://www.boa.ac.uk/resource/boast-16-pdf.html"
+      ],
+      "result": "Inspected official pages. Preserved NSW distinction between selected orthopedic review criteria and reduction-plus-review criteria. NSW approximately one-week stable fracture follow-up and BOASt72-hour assessment are separate source recommendations, not interchangeable local appointments."
+    }
+  ],
+  "review_status": "agent_spot_checks; human review pending"
+}

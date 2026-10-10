@@ -1,0 +1,26 @@
+{
+  "dataset_id": "encounter-961a4a566173",
+  "source_id": "encounter-961a4a566173",
+  "title": "The effect of emergency department crowding on reassessment of children with critically abnormal vital signs",
+  "source_url": "https://pubmed.ncbi.nlm.nih.gov/25308134/",
+  "scope": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+  "access": "public_primary_article_or_abstract",
+  "rights": {
+    "source_license": "not assessed for full-text redistribution",
+    "redistribution": "Short factual paraphrases; no full article copied"
+  },
+  "acquisition_status": "acquired",
+  "raw_paths": [],
+  "normalized_path": "data/normalized/encounter-961a4a566173.jsonl",
+  "record_count": 1,
+  "limits": [
+    "Setting, period, applicability and endpoint are source-specific.",
+    "No original snapshot retained; human review should follow source URL and locator.",
+    "A role description or guideline does not establish local operational performance."
+  ],
+  "provenance": {
+    "doi": "10.1111/acem.12478",
+    "retrieved_at": "2026-10-10T20:39:57Z",
+    "raw_artifact_kind": "no_raw_limited_paraphrase"
+  }
+}

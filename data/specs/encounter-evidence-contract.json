@@ -37,7 +37,15 @@
       "acr-acute-wrist-trauma-imaging-pathway",
       "admin-emtala-screening",
       "admin-aetna-emergency-authorization",
-      "admin-aetna-plan-specific-priorauth"
+      "admin-aetna-plan-specific-priorauth",
+      "encounter-treatment-neurovascular-initial",
+      "encounter-treatment-urgent-escalation",
+      "encounter-treatment-post-reduction-reassessment-proxy",
+      "encounter-treatment-fracture-decision-factors",
+      "encounter-treatment-aaos-postreduction-thresholds",
+      "encounter-treatment-aaos-age-outcome-context",
+      "encounter-treatment-boast-followup",
+      "encounter-treatment-rct-reduced-followup-imaging"
     ],
     "authored_skeleton": [
       "arrival and urgency assessment",
@@ -48,12 +56,13 @@
       "disposition, handoff and follow-up (missing complete protocol)"
     ],
     "missing_before_complete": [
-      "Neurovascular/open-injury escalation and full injury-specific care source pack",
+      "Clinician review and reconciliation of the new adult distal-radius assessment, treatment and reassessment sources; full injury-specific protocol still not established",
       "Reviewed treatment and disposition branches",
       "Local orthopedic access and staffing",
       "Specific Aetna plan/service/network/benefit snapshot",
       "Calibrated or explicitly adopted duration models"
     ],
-    "status": "partial_example_not_runnable_or_clinically_approved"
+    "status": "partial_example_not_runnable_or_clinically_approved",
+    "new_evidence_scope": "Adult wrist/distal-radius focus; selected guidelines, one trial and an explicit deployed-care reassessment proxy. Not all arm injuries or age groups."
   }
 }

@@ -1,0 +1,37 @@
+{
+  "campaign": "full-patient-encounter-gaps-2026-10-10",
+  "execution": "Three GPT-6 Luna source research agents; parent integration and source spot checks",
+  "jobs": [
+    {
+      "domain": "arrival",
+      "agent_model": "gpt-6-luna",
+      "status": "completed",
+      "extract_path": "data/research/encounter-arrival.json",
+      "extract_sha256": "a42887308ea30a0b00d740cc58aa707368ec1156a64946bed5ec352bfb18c1aa",
+      "record_count": 7,
+      "pending_candidate_count": 0
+    },
+    {
+      "domain": "treatment",
+      "agent_model": "gpt-6-luna",
+      "status": "completed",
+      "extract_path": "data/research/encounter-treatment.json",
+      "extract_sha256": "e53f20fcb921e0ec99a4f94e88d3753ea0767d8accd0a867520c28eeabe30d1f",
+      "record_count": 8,
+      "pending_candidate_count": 0
+    },
+    {
+      "domain": "communication",
+      "agent_model": "gpt-6-luna",
+      "status": "completed",
+      "extract_path": "data/research/encounter-communication.json",
+      "extract_sha256": "ec5a360e8ff1a74f008f9cd2245077216c9badc90c14954b935a9c65080c342c",
+      "record_count": 9,
+      "pending_candidate_count": 0
+    }
+  ],
+  "sources_added": 19,
+  "records_added": 24,
+  "status": "completed_extraction_not_human_approved",
+  "next_step": "Human source comparison in data/review/index.html; priority review all operational parameters before adoption"
+}

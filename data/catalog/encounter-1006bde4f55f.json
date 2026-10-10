@@ -1,0 +1,26 @@
+{
+  "dataset_id": "encounter-1006bde4f55f",
+  "source_id": "encounter-1006bde4f55f",
+  "title": "Management of Distal Radius Fractures: Evidence-Based Clinical Practice Guideline",
+  "source_url": "https://www.aaos.org/globalassets/quality-and-practice-resources/distal-radius/distal-radius-fractures-10-13-2020.pdf",
+  "scope": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+  "access": "public_primary_article_or_abstract",
+  "rights": {
+    "source_license": "not assessed for full-text redistribution",
+    "redistribution": "Short factual paraphrases; no full article copied"
+  },
+  "acquisition_status": "acquired",
+  "raw_paths": [],
+  "normalized_path": "data/normalized/encounter-1006bde4f55f.jsonl",
+  "record_count": 2,
+  "limits": [
+    "Setting, period, applicability and endpoint are source-specific.",
+    "No original snapshot retained; human review should follow source URL and locator.",
+    "A role description or guideline does not establish local operational performance."
+  ],
+  "provenance": {
+    "doi": null,
+    "retrieved_at": "2026-10-10T20:40:01Z",
+    "raw_artifact_kind": "no_raw_limited_paraphrase"
+  }
+}

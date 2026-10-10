@@ -20,7 +20,7 @@ for r in rows:
  assert r['_review']['record_sha256']==expected[r['record_id']]
  for k in ['catalog_path','normalized_path']:
   assert (D/'review'/r['_review'][k]).resolve().is_file()
-for name in ['expansion-receipt.json','breadth-receipt.json','inventory-receipt.json','gaps-receipt.json','specialty-receipt.json']:
+for name in ['expansion-receipt.json','breadth-receipt.json','inventory-receipt.json','gaps-receipt.json','specialty-receipt.json','encounter-receipt.json']:
  receipt=json.loads((D/'workflows'/name).read_text())
  for j in receipt['jobs']:
   assert hashlib.sha256((D.parent/j['extract_path']).read_bytes()).hexdigest()==j['extract_sha256']
@@ -33,7 +33,7 @@ for family in coverage['families']:
 assert all(rid in expected for rid in coverage['role_evidence_record_ids'])
 contract=json.loads((D/'specs/encounter-evidence-contract.json').read_text())
 assert all(rid in expected for rid in contract['fracture_example']['source_record_ids'])
-for transfer_path in ['gap-transfer-candidates.json','specialty-transfer-candidates.json']:
+for transfer_path in ['gap-transfer-candidates.json','specialty-transfer-candidates.json','encounter-transfer-candidates.json']:
  transfers=json.loads((D/'knowledge'/transfer_path).read_text())['transfers']
  for t in transfers:
   assert t['status']=='inferred_candidate_not_activated'
@@ -41,4 +41,18 @@ for transfer_path in ['gap-transfer-candidates.json','specialty-transfer-candida
   assert t['human_review_status']=='pending'
   assert all(rid in expected for rid in t['source_record_ids'])
   assert t['sensitivity_range']['lower'] is None and t['sensitivity_range']['upper'] is None
+readiness=json.loads((D/'knowledge/full-encounter-readiness.json').read_text())
+assert readiness['status']=='proposed_encounter_coverage_not_runnable_or_clinically_approved'
+assert len(readiness['stages'])==10
+for stage in readiness['stages']:
+ assert stage['duration_distribution'] is None
+ assert stage['local_validation']=='not_established'
+ assert all(rid in expected for rid in stage['source_record_ids'])
+encounter_transfers=json.loads((D/'knowledge/encounter-transfer-candidates.json').read_text())['transfers']
+conflict=next(t for t in encounter_transfers if t['source_record_ids']==['encounter-communication-radiology-acknowledgement'])
+assert conflict['quantitative_use_status'].startswith('blocked_source_internal_inconsistency')
+arrival=json.loads((D/'research/encounter-arrival.json').read_text())
+monitor=next(r for r in arrival if r['id']=='encounter-arrival-waiting-area-monitoring-feasibility')
+assert monitor['value']['median_monitoring_minutes_per_patient']==178
+assert 'median_monitoring_hours_per_patient' not in monitor['value']
 print(f'PASS: {len(rows)} embedded plus {len(external_ids)} on-demand review records match normalized evidence and file links; Luna extract receipt hashes match')

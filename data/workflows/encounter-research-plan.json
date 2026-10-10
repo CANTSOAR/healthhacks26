@@ -1,0 +1,16 @@
+{
+  "campaign":"full-patient-encounter-gaps-2026-10-10",
+  "status":"finite_research_pass; outcomes in encounter-receipt.json",
+  "model":"gpt-6-luna",
+  "max_parallel_agents":3,
+  "future_rerun_status":"draft_not_scheduled",
+  "future_job_max_runtime_seconds":600,
+  "priorities":[
+    {"domain":"arrival","reason":"An encounter needs identity, arrival/handoff, urgency assessment and ownership while waiting."},
+    {"domain":"treatment","reason":"The earlier suspected arm-fracture example lacks injury-specific treatment/reassessment/disposition evidence; narrow adult distal-radius scope before broad extrapolation."},
+    {"domain":"communication","reason":"An encounter can fail through misunderstood decisions or unowned pending results even when orders are complete."}
+  ],
+  "integration_commands_from_data_directory":["python3 scripts/build_encounter_evidence.py","python3 scripts/build_encounter_transfers.py","python3 scripts/build_encounter_readiness.py","python3 scripts/build_citations.py","python3 scripts/build_review_index.py","bash scripts/run-verification.sh"],
+  "evidence_policy":"Original studies and official guidelines or hospital documents. Retain population, period, endpoint, denominator, units, access scope and applicability. Policy targets are not measured service times. Unknown clinical values remain unknown. No full proprietary triage instruments or treatment algorithms copied.",
+  "publication_boundary":"Only extracted public facts, proposals, source links and bounded receipts; no restricted patient records, credentials or correspondence."
+}

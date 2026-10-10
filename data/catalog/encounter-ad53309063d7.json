@@ -1,0 +1,26 @@
+{
+  "dataset_id": "encounter-ad53309063d7",
+  "source_id": "encounter-ad53309063d7",
+  "title": "Protocol for the handover of ambulance patients in the Emergency Department process map",
+  "source_url": "https://www.health.vic.gov.au/sites/default/files/2025-09/protocol-handover-ambulance-patients-ed-process-map_0.pdf",
+  "scope": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+  "access": "public_primary_article_or_abstract",
+  "rights": {
+    "source_license": "not assessed for full-text redistribution",
+    "redistribution": "Short factual paraphrases; no full article copied"
+  },
+  "acquisition_status": "acquired",
+  "raw_paths": [],
+  "normalized_path": "data/normalized/encounter-ad53309063d7.jsonl",
+  "record_count": 1,
+  "limits": [
+    "Setting, period, applicability and endpoint are source-specific.",
+    "No original snapshot retained; human review should follow source URL and locator.",
+    "A role description or guideline does not establish local operational performance."
+  ],
+  "provenance": {
+    "doi": null,
+    "retrieved_at": "2026-10-10T20:39:57Z",
+    "raw_artifact_kind": "no_raw_limited_paraphrase"
+  }
+}

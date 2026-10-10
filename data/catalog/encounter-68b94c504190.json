@@ -1,0 +1,26 @@
+{
+  "dataset_id": "encounter-68b94c504190",
+  "source_id": "encounter-68b94c504190",
+  "title": "The impact of teach-back on comprehension of discharge instructions and satisfaction among emergency patients with limited health literacy: A randomized, controlled study",
+  "source_url": "https://pubmed.ncbi.nlm.nih.gov/26617669/",
+  "scope": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+  "access": "public_primary_article_or_abstract",
+  "rights": {
+    "source_license": "not assessed for full-text redistribution",
+    "redistribution": "Short factual paraphrases; no full article copied"
+  },
+  "acquisition_status": "acquired",
+  "raw_paths": [],
+  "normalized_path": "data/normalized/encounter-68b94c504190.jsonl",
+  "record_count": 3,
+  "limits": [
+    "Setting, period, applicability and endpoint are source-specific.",
+    "No original snapshot retained; human review should follow source URL and locator.",
+    "A role description or guideline does not establish local operational performance."
+  ],
+  "provenance": {
+    "doi": "10.1179/1753807615Y.0000000001",
+    "retrieved_at": "2026-10-10T20:41:45Z",
+    "raw_artifact_kind": "no_raw_limited_paraphrase"
+  }
+}

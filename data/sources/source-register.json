@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0.0",
   "generation": "Deterministic offline derivation; no source refetch and no inferred publication date or author",
-  "source_count": 126,
-  "record_count": 84225,
+  "source_count": 145,
+  "record_count": 84249,
   "sources": [
     {
       "source_id": "breadth-068cbcf1bb53",
@@ -1746,6 +1746,747 @@
         }
       ],
       "raw_availability": "available"
+    },
+    {
+      "source_id": "encounter-066596becf97",
+      "bibtex_key": "encounter-066596becf97",
+      "title": "Surveillance of Patients in the Waiting Area of the Department of Emergency Medicine",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4697987/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1097/MD.0000000000002211",
+        "retrieved_at": "2026-10-10T20:39:57Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T20:39:57Z"
+        }
+      ],
+      "catalog_path": "data/catalog/encounter-066596becf97.json",
+      "catalog_sha256": "8d07c4479ba72347ebc6de851f779ed6fce32905ff86e568c98056ad87f21ff2",
+      "normalized_path": "data/normalized/encounter-066596becf97.jsonl",
+      "normalized_sha256": "bb49fe6d39cbe63a68c6f3e625d335809578d2ac42359d22b7059d9795b15692",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "encounter-0ac04ed8d765",
+      "bibtex_key": "encounter-0ac04ed8d765",
+      "title": "Guidance for emergency departments: initial assessment",
+      "source_url": "https://www.england.nhs.uk/guidance-for-emergency-departments-initial-assessment/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T20:39:57Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T20:39:57Z"
+        }
+      ],
+      "catalog_path": "data/catalog/encounter-0ac04ed8d765.json",
+      "catalog_sha256": "376c3aa0b0dd0a83f0bb650ead83d9e65fae4e829122da21d13d356373a8a423",
+      "normalized_path": "data/normalized/encounter-0ac04ed8d765.jsonl",
+      "normalized_sha256": "56f6f7b2d6c23f26ab9889e2e953e26865956f3e6e4ab1df92271c2ed7aa011c",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "encounter-0b5ead4761d6",
+      "bibtex_key": "encounter-0b5ead4761d6",
+      "title": "Increased Access to Professional Interpreters in the Hospital Improves Informed Consent for Patients with Limited English Proficiency",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5515780/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1007/s11606-017-3983-4",
+        "retrieved_at": "2026-10-10T20:41:45Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T20:41:45Z"
+        }
+      ],
+      "catalog_path": "data/catalog/encounter-0b5ead4761d6.json",
+      "catalog_sha256": "48da12d971639037cd519468ebfc174c9d43b609ea84a1d3e8098918bfc6597d",
+      "normalized_path": "data/normalized/encounter-0b5ead4761d6.jsonl",
+      "normalized_sha256": "7d69a726eec7f51d06912416571325d0e00f67b4a4a08b4e3537b56e3c5a6733",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "encounter-1006bde4f55f",
+      "bibtex_key": "encounter-1006bde4f55f",
+      "title": "Management of Distal Radius Fractures: Evidence-Based Clinical Practice Guideline",
+      "source_url": "https://www.aaos.org/globalassets/quality-and-practice-resources/distal-radius/distal-radius-fractures-10-13-2020.pdf",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T20:40:01Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T20:40:01Z"
+        }
+      ],
+      "catalog_path": "data/catalog/encounter-1006bde4f55f.json",
+      "catalog_sha256": "44d1600d0adf62362f1150a6909132ce04b06d48afaab1ee74a8bf4b26cab675",
+      "normalized_path": "data/normalized/encounter-1006bde4f55f.jsonl",
+      "normalized_sha256": "308c02c526d243137a08572a54ff8d28f883df8092b8d4bd1531b6ead7280b22",
+      "record_count": 2,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "encounter-22e52551c34d",
+      "bibtex_key": "encounter-22e52551c34d",
+      "title": "Pathways to the emergency department - a national, cross-sectional study in Sweden",
+      "source_url": "https://bmcemergmed.biomedcentral.com/articles/10.1186/s12873-022-00619-3",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1186/s12873-022-00619-3",
+        "retrieved_at": "2026-10-10T20:39:57Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T20:39:57Z"
+        }
+      ],
+      "catalog_path": "data/catalog/encounter-22e52551c34d.json",
+      "catalog_sha256": "3f8a04905f345d105c04e065843831e9c3d53156397f58334108cfa697e80ab0",
+      "normalized_path": "data/normalized/encounter-22e52551c34d.jsonl",
+      "normalized_sha256": "f375c01118a92835d9f4a719d6062d5e42caf2a531bd70291ed9678339af05cb",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "encounter-2606b9e933d9",
+      "bibtex_key": "encounter-2606b9e933d9",
+      "title": "Factors Associated with Patients Leaving Without Being Seen in a Canadian Emergency Department",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12815564/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.5811/westjem.47302",
+        "retrieved_at": "2026-10-10T20:39:57Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T20:39:57Z"
+        }
+      ],
+      "catalog_path": "data/catalog/encounter-2606b9e933d9.json",
+      "catalog_sha256": "4dd6b672ef06a1f21405bad7ce5de9d53ab7311257a5e506e5855a0d38f0c2ed",
+      "normalized_path": "data/normalized/encounter-2606b9e933d9.jsonl",
+      "normalized_sha256": "8e924339e2f09db72a87fb06707601a85063e1bfa9fc3af4cf2c7c047286a888",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "encounter-3532167e27f1",
+      "bibtex_key": "encounter-3532167e27f1",
+      "title": "The impact of teach-back on patient recall and understanding of discharge information in the emergency department: the Emergency Teach-Back (EM-TeBa) study",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/32972361/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1186/s12245-020-00306-9",
+        "retrieved_at": "2026-10-10T20:41:11Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T20:41:11Z"
+        }
+      ],
+      "catalog_path": "data/catalog/encounter-3532167e27f1.json",
+      "catalog_sha256": "a5e5cb13a738e70604299d5cd3c7ae34b63d5c416508df2e43e9233995cd7b92",
+      "normalized_path": "data/normalized/encounter-3532167e27f1.jsonl",
+      "normalized_sha256": "fa3249914d5f96d4d221b28cad92227915473a65604eee6397fffb7838244394",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "encounter-48d338da1135",
+      "bibtex_key": "encounter-48d338da1135",
+      "title": "BOASt - The Management of Distal Radial Fractures",
+      "source_url": "https://www.boa.ac.uk/resource/boast-16-pdf.html",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T20:40:01Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T20:40:01Z"
+        }
+      ],
+      "catalog_path": "data/catalog/encounter-48d338da1135.json",
+      "catalog_sha256": "9701633d9b2362cbd2f4b6171e0de6f4b2adbe5b201ed3417a3ed0e635ddc6e4",
+      "normalized_path": "data/normalized/encounter-48d338da1135.jsonl",
+      "normalized_sha256": "a0638493e8135eb4cf944eb2f3306bfd5d0ace70e81a52b6ed46b858d902cc11",
+      "record_count": 2,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "encounter-4d29a48b58af",
+      "bibtex_key": "encounter-4d29a48b58af",
+      "title": "Adequacy of Hospital Discharge Summaries in Documenting Tests with Pending Results and Outpatient Follow-up Providers",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2726888/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1007/s11606-009-1024-6",
+        "retrieved_at": "2026-10-10T20:41:11Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T20:41:11Z"
+        }
+      ],
+      "catalog_path": "data/catalog/encounter-4d29a48b58af.json",
+      "catalog_sha256": "53b26e7b4d46999a3fe261467fc0f4c80b2ac60d1a07b19fa5bf56d131505a52",
+      "normalized_path": "data/normalized/encounter-4d29a48b58af.jsonl",
+      "normalized_sha256": "7bdff803a5413ffe34e7f2e13c75f1b7d50e574809cd142d869baea15a0dcc20",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "encounter-4f15b129059d",
+      "bibtex_key": "encounter-4f15b129059d",
+      "title": "A Novel Approach to Addressing an Unintended Consequence of Direct to Room: The Delay of Initial Vital Signs",
+      "source_url": "https://westjem.com/articles/a-novel-approach-to-addressing-an-unintended-consequence-of-direct-to-room-the-delay-of-initial-vital-signs.html",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.5811/westjem.2017.12.35068",
+        "retrieved_at": "2026-10-10T20:39:57Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T20:39:57Z"
+        }
+      ],
+      "catalog_path": "data/catalog/encounter-4f15b129059d.json",
+      "catalog_sha256": "5f2a3078f019938447f44a4d94b45c674719922951510a8d752884297802bfa1",
+      "normalized_path": "data/normalized/encounter-4f15b129059d.jsonl",
+      "normalized_sha256": "ca258545af35f4bd0d27bff63237c044f3545aeeaec806e50610d66456c5cb8c",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "encounter-53b97223dc77",
+      "bibtex_key": "encounter-53b97223dc77",
+      "title": "Quick Safety 52: Advancing Safety with Closed-loop Communication of Test Results",
+      "source_url": "https://digitalassets.jointcommission.org/api/public/content/77c6421712dc463eae4b2398f9bf01a5?v=e9bc1e0f",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "",
+        "retrieved_at": "2026-10-10T20:41:45Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T20:41:45Z"
+        }
+      ],
+      "catalog_path": "data/catalog/encounter-53b97223dc77.json",
+      "catalog_sha256": "3bc6fa11a8917b59c11197fb4dee4399f6f3c3cf6ac53d90fb4bd7ec7a1992e1",
+      "normalized_path": "data/normalized/encounter-53b97223dc77.jsonl",
+      "normalized_sha256": "83b21a3037a103ddd158d73ea63c0583759ba9d26f4e5ed9f699968d5938630c",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "encounter-68b94c504190",
+      "bibtex_key": "encounter-68b94c504190",
+      "title": "The impact of teach-back on comprehension of discharge instructions and satisfaction among emergency patients with limited health literacy: A randomized, controlled study",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/26617669/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1179/1753807615Y.0000000001",
+        "retrieved_at": "2026-10-10T20:41:45Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T20:41:45Z"
+        }
+      ],
+      "catalog_path": "data/catalog/encounter-68b94c504190.json",
+      "catalog_sha256": "819ec5440814c16cb0e554675fda40db6b7315c5942ce7b17049e87e0bd49588",
+      "normalized_path": "data/normalized/encounter-68b94c504190.jsonl",
+      "normalized_sha256": "35979713d9b2735842f266bca2978c7b7713edc7444b8cb25569912de171c9fe",
+      "record_count": 3,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "encounter-814099413868",
+      "bibtex_key": "encounter-814099413868",
+      "title": "Impact of Automated Alerts on Follow-Up of Post-Discharge Microbiology Results: A Cluster Randomized Controlled Trial",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3445692/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1007/s11606-012-1986-8",
+        "retrieved_at": "2026-10-10T20:41:45Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T20:41:45Z"
+        }
+      ],
+      "catalog_path": "data/catalog/encounter-814099413868.json",
+      "catalog_sha256": "45ad8a225c579fb570831505c4c7029bf7a683613281344dcc34c10d4a811968",
+      "normalized_path": "data/normalized/encounter-814099413868.jsonl",
+      "normalized_sha256": "6cc89673deaaf6ce0b91cee90331aeb80cca2d5090785911e715b4d5724bd5f2",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "encounter-961a4a566173",
+      "bibtex_key": "encounter-961a4a566173",
+      "title": "The effect of emergency department crowding on reassessment of children with critically abnormal vital signs",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/25308134/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1111/acem.12478",
+        "retrieved_at": "2026-10-10T20:39:57Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T20:39:57Z"
+        }
+      ],
+      "catalog_path": "data/catalog/encounter-961a4a566173.json",
+      "catalog_sha256": "99ab954511a9c4608f9c2e66d72a75dfc2d7df983ef75cf135507b2910466151",
+      "normalized_path": "data/normalized/encounter-961a4a566173.jsonl",
+      "normalized_sha256": "92b8c5028b7ed527659ec97576b7215c60cb2c1f7227f7ce9ec607635d4a5410",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "encounter-ab4f692fff97",
+      "bibtex_key": "encounter-ab4f692fff97",
+      "title": "Colles fracture clinical tool",
+      "source_url": "https://aci.health.nsw.gov.au/networks/eci/clinical/tools/colles-fracture",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T20:40:01Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T20:40:01Z"
+        }
+      ],
+      "catalog_path": "data/catalog/encounter-ab4f692fff97.json",
+      "catalog_sha256": "2a3d8a72e992d63d15d0374f0041f58773f0a60d485ecd83344c0c8d2aaab697",
+      "normalized_path": "data/normalized/encounter-ab4f692fff97.jsonl",
+      "normalized_sha256": "ec825c4f514530fb71cbbacfffcd41e9e90363a6815114e9a6f1f2d059c8a1dd",
+      "record_count": 2,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "encounter-ad53309063d7",
+      "bibtex_key": "encounter-ad53309063d7",
+      "title": "Protocol for the handover of ambulance patients in the Emergency Department process map",
+      "source_url": "https://www.health.vic.gov.au/sites/default/files/2025-09/protocol-handover-ambulance-patients-ed-process-map_0.pdf",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T20:39:57Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T20:39:57Z"
+        }
+      ],
+      "catalog_path": "data/catalog/encounter-ad53309063d7.json",
+      "catalog_sha256": "a6fbb243d869ed74f6874f67abad6f6289a766edf3784c0456d699ffa37da1d9",
+      "normalized_path": "data/normalized/encounter-ad53309063d7.jsonl",
+      "normalized_sha256": "c8e8e7f1f685314d0e8648f34c809a536e48f14a6381906a01214010ca5c58f5",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "encounter-bb35f2bbd9be",
+      "bibtex_key": "encounter-bb35f2bbd9be",
+      "title": "Upper Limb Fractures",
+      "source_url": "https://cgo.mod.uk/clinical-guidelines-for-operations/treatment-guidelines/musculoskeletal/upper-limb-fractures/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T20:40:01Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T20:40:01Z"
+        }
+      ],
+      "catalog_path": "data/catalog/encounter-bb35f2bbd9be.json",
+      "catalog_sha256": "091b6ab88fd9366cd9d03d8fe4f987613e776946191d697a85b9ec47e35975c7",
+      "normalized_path": "data/normalized/encounter-bb35f2bbd9be.jsonl",
+      "normalized_sha256": "3f23c19c4896441a0c24e8e3a3aec2565dbb3e93a2c1312867c5b816d35aca56",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "encounter-c3a2ba60d646",
+      "bibtex_key": "encounter-c3a2ba60d646",
+      "title": "Omitting Routine Radiography of Traumatic Distal Radial Fractures After Initial 2-Week Follow-up Does Not Affect Outcomes",
+      "source_url": "https://doi.org/10.2106/JBJS.18.01160",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.2106/JBJS.18.01160",
+        "retrieved_at": "2026-10-10T20:40:01Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T20:40:01Z"
+        }
+      ],
+      "catalog_path": "data/catalog/encounter-c3a2ba60d646.json",
+      "catalog_sha256": "31801ed21b58501cf66885244ffa4f2e0afeb8f43e960440738c18e12e1f530f",
+      "normalized_path": "data/normalized/encounter-c3a2ba60d646.jsonl",
+      "normalized_sha256": "0dce1858e2dbbcf4b29a775a1f2b6238ca218939c00343d68f80f3194b527057",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "encounter-d5f69324ddce",
+      "bibtex_key": "encounter-d5f69324ddce",
+      "title": "Does health information technology improve acknowledgement of radiology results for discharged Emergency Department patients? A before and after study",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7268495/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1186/s12911-020-01135-9",
+        "retrieved_at": "2026-10-10T20:41:11Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T20:41:11Z"
+        }
+      ],
+      "catalog_path": "data/catalog/encounter-d5f69324ddce.json",
+      "catalog_sha256": "a8de5631f62f2aa1a941768251ce611baef6b49befaa7f68c27992d8867e4e91",
+      "normalized_path": "data/normalized/encounter-d5f69324ddce.jsonl",
+      "normalized_sha256": "a69ca59f7300f7a0dd21ae737d910871ff6431df93caea8843b0dfe85b8d8d58",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
     },
     {
       "source_id": "expansion-0f611f38f779",

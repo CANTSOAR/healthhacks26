@@ -47,3 +47,7 @@ Search `gap-` for the new external literature and guidance extracts. The [expans
 ## Specialty and insurance expansion
 
 Search `specialty-` for behavioral health, maternity/NICU, outpatient scheduling, rehab and insurance. Start with [the expansion report](../research/specialty-gap-expansion.md). Two conflicting published figures are blocked from quantitative adoption. Source extraction verification and review of an inferred simulation use are separate decisions.
+
+## Full encounter expansion
+
+Search `encounter-` for arrival, treatment/reassessment, discharge communication and pending-result evidence. See [the report](../research/full-encounter-gap-expansion.md) and [ten-stage readiness map](../knowledge/full-encounter-readiness.json). Each stage lists proposed fields, evidence candidates and unresolved local requirements; it is not an approved protocol.

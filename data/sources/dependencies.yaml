@@ -631,6 +631,101 @@ documents:
     path: catalog/specialty-f76a41d82351.json
     role: acquired_source_manifest
     refresh: manual
+  - id: catalog:encounter-066596becf97
+    type: local_file
+    path: catalog/encounter-066596becf97.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:encounter-0ac04ed8d765
+    type: local_file
+    path: catalog/encounter-0ac04ed8d765.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:encounter-0b5ead4761d6
+    type: local_file
+    path: catalog/encounter-0b5ead4761d6.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:encounter-1006bde4f55f
+    type: local_file
+    path: catalog/encounter-1006bde4f55f.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:encounter-22e52551c34d
+    type: local_file
+    path: catalog/encounter-22e52551c34d.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:encounter-2606b9e933d9
+    type: local_file
+    path: catalog/encounter-2606b9e933d9.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:encounter-3532167e27f1
+    type: local_file
+    path: catalog/encounter-3532167e27f1.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:encounter-48d338da1135
+    type: local_file
+    path: catalog/encounter-48d338da1135.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:encounter-4d29a48b58af
+    type: local_file
+    path: catalog/encounter-4d29a48b58af.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:encounter-4f15b129059d
+    type: local_file
+    path: catalog/encounter-4f15b129059d.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:encounter-53b97223dc77
+    type: local_file
+    path: catalog/encounter-53b97223dc77.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:encounter-68b94c504190
+    type: local_file
+    path: catalog/encounter-68b94c504190.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:encounter-814099413868
+    type: local_file
+    path: catalog/encounter-814099413868.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:encounter-961a4a566173
+    type: local_file
+    path: catalog/encounter-961a4a566173.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:encounter-ab4f692fff97
+    type: local_file
+    path: catalog/encounter-ab4f692fff97.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:encounter-ad53309063d7
+    type: local_file
+    path: catalog/encounter-ad53309063d7.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:encounter-bb35f2bbd9be
+    type: local_file
+    path: catalog/encounter-bb35f2bbd9be.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:encounter-c3a2ba60d646
+    type: local_file
+    path: catalog/encounter-c3a2ba60d646.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:encounter-d5f69324ddce
+    type: local_file
+    path: catalog/encounter-d5f69324ddce.json
+    role: acquired_source_manifest
+    refresh: manual
 - path: topics/brief.md
   depends_on:
   - id: local:research-question
