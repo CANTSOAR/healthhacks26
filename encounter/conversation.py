@@ -29,7 +29,7 @@ PROBE_HIDDEN = ["afraid to tell", "scared to tell", "worried to tell", "embarras
                 "anything else you want to tell me", "anything youd like to tell me", "something youre not", "something you are not", "left out",
                 "anything you are worried about telling", "hard to say out loud", "anything else i should know", "anything i should know"]
 GENERIC_PAIN = ["pain anywhere", "any pain", "in pain", "in any pain", "hurt anywhere", "hurting anywhere", "anything hurt", "anywhere hurt", "where does it hurt",
-                "does anything hurt", "are you hurting", "any aches", "sore anywhere", "the pain", "your pain"]
+                "does anything hurt", "are you hurting", "which part hurts", "which part hurt", "what hurts", "where is the pain", "where is it sore", "where are you sore", "any aches", "sore anywhere", "the pain", "your pain"]
 PAIN_WORDS = {"pain", "hurt", "ache", "ach", "sore", "tender", "painful", "cramp", "discomfort", "burn", "sting", "throb"}
 # body regions a student names loosely ("the leg") -> words a case may use for it
 BODY_SYNONYMS = {

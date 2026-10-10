@@ -1808,3 +1808,14 @@ Body `{"text": "...", "voice"?: "<elevenlabs voice id>"}`. `200 audio/mpeg` with
 - `review.missing` may contain entries starting "wording to review:" from the reader's own wording check (`encounter.describe.wording_problems(case)`).
 - A greeting or agenda-setting turn that happens to be a question ("Hello, I'm Dr. Lee. Is it okay if I ask some questions?") now has result `no_fact_requested`
   and a greeting reply instead of the off-topic line. "Do you have pain anywhere?" when the only pain fact is concealed returns that fact's cover answer.
+
+## Round 5 changes (additive)
+
+- "Like I said:" now needs the same fact AND the same way of asking (the matched phrase recorded in `matched_intents[].via`). A different question that reaches
+  an already-voiced fact gets the answer plainly; such turns still have `result: "repeat"` and list the fact under `restated_fact_ids` instead of `repeated_fact_ids`.
+- Description drafts: concealment is recognised when stated after the content ("... but is not mentioning it because ...", "hasn't told anyone", "keeps it to himself",
+  "is embarrassed to say", "denies X but in fact Y", "only admits ... if pressed", "plays it down", "will not volunteer it"). The cover answer for a hidden symptom or
+  event is a deflection ("I'm fine. It's just my wrist." / "I'm fine, really. Nothing worth mentioning."), not a specific denial.
+- A complaint given as a mechanism ("came in after falling off his bicycle an hour ago") is worded "I fell off my bicycle about an hour ago", joined with a following
+  "has pain in ..." sentence, and titled "Fall from a bicycle in a ...". Facts that name where it hurts carry the `location` topic.
+- Off-topic questions on description drafts always get the in-character deflection (`deflected_off_topic`), whatever the draft's default-negative mode.

@@ -2,6 +2,18 @@
 
 Written at 09:45. Submission is Sunday noon.
 
+## Update, Saturday 11:55
+
+After the report below was written, the work continued at your request. Read this section first; where it disagrees with the rest, this is newer.
+
+- **Second QA pass** ([QA_REPORT_2.md](QA_REPORT_2.md)): all four original demo-breaking defects are fixed on their original repro steps. The one-tab path (pick a patient in the hospital, play the encounter, write-back applied or queued, return to the same run) works; I re-ran the live check script afterwards and it passed.
+- **People rendering black: root cause found and fixed.** The scene refreshed shadows on alternate frames and three.js then skipped uploading per-person colours on the other frames. Repro script: 0 of 3 live-Compare runs clean before, 3 of 3 after. Not re-tested after a structural rebuild.
+- **Fixed from the second QA pass:** abandoned encounters can be resumed or handed back; learned managers are described with their margin and what it cost ("beats its tuned heuristic on staffing cost alone ... mean wait 695 min, 31% leaving unseen", or "effectively the same as" when the difference is tiny); manager names are distinguishable; Compare defaults to the cost-tuned vs wait-tuned heuristics; care-journey colleagues are always invented stand-ins; the care plan no longer contradicts its stages; approval is now a hard gate (warnings must be acknowledged; no chief complaint is an error).
+- **Tests now:** encounter + journey + server 334 passed (re-run by me); web type-check clean. The production build and the clean-virtualenv run were not repeated after these changes.
+- **Studio "from a description", offline: still not demo-safe.** It went through three fix rounds and I tested it three times with descriptions nobody had seen. Extraction is now mostly faithful (right patient, medications, allergies, vitals, and concealed items in many phrasings, with nothing imported from another illness and dropped text listed under "Missing"). But each blind test surfaced new faults. In the third: the name was missed when it came after the age ("A 29-year-old graduate student, Aisha Rahman, presents"); "Does light bother you?" got "I don't think so" although the case says she has sensitivity to light; "Have you been sick?" missed the nausea; "Where exactly is the headache?" returned three facts run together. It is regex, and it does not converge by patching. Treat the offline output as a draft for faculty to edit, and for the judged demo create the patient from a template or the structured form unless a model credential is in place.
+- **Not done:** easier clicking on people in 3D; a third QA pass on the latest fixes; anything needing credentials.
+- **Running now:** API on :8000 and the web dev server on :3000 (left up for you). Nothing on deepstack.
+
 ## What happened overnight
 
 The build ran from 00:59 to about 04:10 and then stopped: the account's usage limit was hit, which ended three working agents and the orchestrator. Nothing ran on the Mac between 04:10 and 09:08. Training on deepstack kept going and finished at 05:44. You restarted the session at 09:08 and the interrupted work was finished between 09:10 and 09:45. So this is about three and a half hours of orchestrated work, not seven, and the wrap-up happened after you woke rather than before.

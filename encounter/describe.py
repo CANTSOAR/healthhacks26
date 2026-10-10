@@ -77,9 +77,24 @@ _HIDE = re.compile(
     r"\b(?:is hiding|am hiding|hides|hiding|conceals|concealing|is concealing|will deny|denies(?= that\b)|won'?t (?:admit|mention|say|tell (?:you|anyone))|"
     r"(?:doesn'?t|does not|don'?t|do not|did not|didn'?t) (?:admit|mention|want to (?:say|admit|talk about|mention|tell (?:anyone|anybody|you|the doctor|(?:his|her|my) \w+)))|"
     r"(?:doesn'?t|does not|don'?t|do not) want (?:his|her|my|the) \w+ to (?:know|find out)|is reluctant to (?:admit|discuss|talk about|mention)|reluctant to (?:admit|discuss|talk about|mention)|"
+    r"(?:is|am) (?:too )?(?:embarrassed|ashamed|afraid|scared) to (?:say|admit|mention|tell (?:anyone|anybody|us|staff|the staff|(?:his|her|my) \w+))|"
+    r"(?:is|am|was)(?: not|n'?t) (?:mentioning|saying|admitting|volunteering)|(?:has|have)(?: not|n'?t) (?:mentioned|admitted|said)|"
+    r"(?:has not|have not|hasn'?t|haven'?t) told (?:us|staff|the staff|the team)|(?:will not|won'?t|does not|doesn'?t) volunteer|plays? down|keeps (?:it )?to (?:himself|herself|myself)|"
     r"is embarrassed (?:about|to admit|by)|embarrassed (?:about|to admit|by)|ashamed (?:of|to admit)|secretly|"
     r"avoids? (?:talking about|mentioning|discussing)|minimi[sz]es|downplays|under-?reports|not forthcoming about|"
     r"(?:has not|have not|hasn'?t|haven'?t) told (?:anyone|anybody|(?:his|her|my|the) \w+)|keeps quiet about)\b\s*(?:that\s+|to\s+|about\s+|the fact that\s+)?(.+?)" + _END, re.I | re.S)
+_WHOM = r"(?:anyone|anybody|us|staff|the staff|the team|the nurses?|the doctors?|(?:his|her|my) \w+)"
+_MARK = (r"(?:(?:is|am|was)(?: not|n'?t) (?:mentioning|saying|telling " + _WHOM + r"|admitting|volunteering|disclosing|reporting)|"
+         r"(?:has|have)(?: not|n'?t) (?:mentioned|told " + _WHOM + r"|said|admitted|disclosed|reported)|"
+         r"(?:won'?t|will not|doesn'?t|does not|don'?t|do not|did not|didn'?t) (?:mention|say|admit|volunteer|disclose|tell " + _WHOM + r"|want to (?:say|admit|mention|talk about|tell " + _WHOM + r"))|"
+         r"(?:is|am) (?:hiding|concealing|keeping quiet about|keeping)|hides|conceals|keeps quiet about|keeps (?:it|this|that) to (?:himself|herself|myself)|"
+         r"(?:is|am) (?:too )?(?:embarrassed|ashamed|afraid|scared|frightened|reluctant) to (?:say|admit|mention|talk about|tell " + _WHOM + r")(?: so)?|"
+         r"only admits?(?: to)?(?: it| this| that)? (?:if|when) (?:pressed|asked directly|confronted)|plays? (?:it |this |that )?down|minimi[sz]es|downplays|denies|under-?reports)")
+_HIDE_POST = re.compile(
+    r"(?:^|(?<=[.;]\s))\s*([^.;]{6,220}?),?\s+(?:but|and|though|although|yet|which (?:he|she|i))\s+(?:(?:she|he|i)\s+)?" + _MARK +
+    r"(?:\s+(?:it|this|that|any of (?:it|this|that)|about (?:it|this|that)))?(?:\s+(?:to|from)\s+" + _WHOM + r")?(\s+because\s+[^.;]+?)?" + _END, re.I | re.S | re.M)
+_HIDE_DENIES_BUT = re.compile(r"\bdenies\s+[^.;]{2,80}?,?\s+but\s+(?:actually|in fact|in truth|really|in reality)\s+(.+?)" + _END, re.I | re.S)
+_HIDE_ONLY_IF = re.compile(r"\bonly admits?(?: to)?\s+((?!if\b|when\b)[^.;]{4,160}?)\s+(?:if|when) (?:pressed|asked directly|confronted)" + _END, re.I | re.S)
 _HIDE_DENIES = re.compile(r"\bdenies\s+((?:[a-z]+ing)\s+(?:[^\s.;]+\s+){2,}?[^\s.;]+?)" + _END, re.I | re.S)
 _HIDE_AFTER = re.compile(
     r"(?:^|(?<=[.;]\s))\s*(?:" + _SUBJ + r"\s+)?((?:has|have|had|is|am|was|takes?|uses?|drinks?|smokes?|stopped|started)\b[^.;]{3,160}?),?\s+(?:but|and|though|although)\s+"
@@ -201,7 +216,7 @@ COVERS = {"alcohol": "I drink socially, like anyone.", "drugs": "No, nothing lik
           "adherence": "I take what I'm supposed to.", "sexual_history": "I'd rather not get into that.", "mood": "I'm fine. Just tired.",
           "diet": "I eat okay, I guess.", "bowel": "Everything's fine there.", "safety_at_home": "Everything is fine at home.",
           "pregnancy": "No, I don't think so.", "injury_mechanism": "I just slipped. It was nothing."}
-COVER_SYMPTOM = "No... not really. Nothing worth mentioning."
+COVER_SYMPTOM = "I'm fine, really. Nothing worth mentioning."
 COVER_CHILD = "Um... no."
 COVER_GENERIC = "I'd rather not get into that."
 # what a student might actually say when asking about a hidden thing: (pattern on the concealed sentence, trigger phrases)
@@ -220,7 +235,10 @@ _CONCEAL_SYNONYMS = [
     (r"chest pain", ["chest pain", "pain in your chest"]),
     (r"urinat|\bpee|passing (?:urine|water)|urine", ["burning when you pee", "pee", "peeing", "urinate", "passing urine", "passing water", "waterworks", "urine", "sting"]),
     (r"harm\w* (?:her|him|my)self|hurt\w* (?:her|him|my)self", ["harm yourself", "hurt yourself", "hurting yourself", "suicide", "self harm", "end your life"]),
-    (r"faint|pass(?:ed|ing)? out|black(?:ed|ing)? out|collaps", ["faint", "fainted", "passed out", "blacked out", "collapse", "collapsed"]),
+    (r"faint|pass(?:ed|ing)? out|black(?:ed|ing)? out|collaps|knocked out|lost consciousness", ["faint", "fainted", "passed out", "pass out", "blacked out", "black out",
+                                                                                             "collapse", "collapsed", "knocked out", "lose consciousness", "lost consciousness"]),
+    (r"\b(?:hit|hits|banged|bumped|struck|knocked) (?:his|her|my) head|head injury", ["hit your head", "bang your head", "banged your head", "bump your head", "head injury",
+                                                                                     "hurt your head", "your head", "head"]),
     (r"weight", ["weight", "lost weight", "losing weight"]),
     (r"\bsex\b|sexual|unprotected", ["sex", "sexually active", "partners", "condoms", "protection"]),
 ]
@@ -232,7 +250,7 @@ _AUX = {"is": "am", "was": "was", "has": "have", "does": "do", "isn't": "am not"
         "doesn't": "don't", "doesnt": "don't", "wasn't": "wasn't", "were": "was"}
 _V3 = set("has is takes drinks smokes uses feels works lives gets needs wants vapes eats sleeps walks does denies reports says thinks keeps gives finds wakes coughs vomits "
           "goes stands sits lies tries stops starts was describes notices complains struggles avoids worries misses skips plays attends sees hears wears runs".split())
-_BASE_VERBS = set("smoke drink take live work use vape have am feel get need want eat sleep walk cough stopped started noticed used tried took had got".split())
+_BASE_VERBS = set("hit fell cut drank ate lost swallowed banged bumped blacked passed fainted collapsed injured hurt smoke drink take live work use vape have am feel get need want eat sleep walk cough stopped started noticed used tried took had got".split())
 _ADJ_ED = set("worried embarrassed retired married divorced widowed scared frightened concerned stressed depressed tired exhausted terrified confused ashamed "
               "constipated nauseated bloated winded".split())
 _ADJ = set("allergic anxious afraid unable short lightheaded light-headed dizzy nauseous breathless diabetic asthmatic unwell weak sick sore hungry thirsty sleepy "
@@ -356,6 +374,23 @@ def first_person(clause: str, name: str = "", past: bool = False) -> str:
     return lay(s[0].upper() + s[1:] + ".")
 
 
+_PAST = {"falling": "fell", "tripping": "tripped", "slipping": "slipped", "lifting": "lifted", "twisting": "twisted", "hitting": "hit", "crashing": "crashed",
+         "cutting": "cut", "burning": "burned", "eating": "ate", "drinking": "drank", "taking": "took", "running": "ran", "playing": "was playing", "jumping": "jumped",
+         "landing": "landed", "bending": "bent", "being": "was", "getting": "got", "coming": "came", "banging": "banged", "rolling": "rolled", "catching": "caught",
+         "dropping": "dropped", "stepping": "stepped", "spilling": "spilled", "swallowing": "swallowed", "colliding": "collided", "diving": "dived", "riding": "was riding"}
+
+
+def _mechanism(raw: str, name: str) -> str:
+    """ "falling off his bicycle an hour ago" -> "I fell off my bicycle about an hour ago." (the event that brought the patient in) """
+    s = _pronouns(re.sub(r"^(?:the)\s+", "", raw.strip()), name)
+    first = s.split(" ", 1)[0].lower()
+    if first not in _PAST:
+        return ""
+    s = "I " + _PAST[first] + s[len(first):]
+    s = re.sub(r"(?<!about )(?<!around )\b((?:an?|\d+|one|two|three|four|five|six|a few|several) (?:minutes?|hours?|days?|weeks?) ago)", r"about \1", s)
+    return s.rstrip(".") + "."
+
+
 def _smoking_voice(p: str, name: str) -> tuple[str, str]:
     low = p.lower()
     if re.match(r"non[- ]?smoker|never[- ]smoker", low):
@@ -467,10 +502,20 @@ def extract(text: str) -> dict:
     low = t.lower()
 
     # ---- 1. concealed elements first, so their text is not re-read as ordinary history
-    for rx in (_HIDE_AFTER, _HIDE, _HIDE_DENIES):
+    for rx in (_HIDE_DENIES_BUT, _HIDE_ONLY_IF, _HIDE_POST, _HIDE_AFTER, _HIDE, _HIDE_DENIES):
         for m in rx.finditer(T.work):
             phrase = re.sub(r"\s+", " ", m.group(1)).strip().rstrip(".")
-            if len(phrase) < 4 or not re.search(r"[a-z]{3}", phrase):
+            if len(phrase) < 4 or not re.search(r"[a-z]{3}", phrase) or not T.work[m.start():m.end()].strip():
+                continue
+            if rx is _HIDE_POST:
+                if re.search(r"\b(?:presents?|comes? in|came in|brought in|year[- ]old)\b", phrase, re.I) and "," not in phrase:
+                    continue            # the whole opening sentence is not the secret
+                lead_cut = re.search(r"^.*\b(?:presents? with|comes? in with|came in with|year[- ]old [a-z ]{0,30}?with)\s+[^,]+,\s*(?:and\s+)?", phrase, re.I)
+                if lead_cut:
+                    phrase = phrase[lead_cut.end():]
+                out["concealed"].append({"phrase": phrase, "reason": re.sub(r"^\s*because\s+", "", re.sub(r"\s+", " ", m.group(2) or ""), flags=re.I).strip(),
+                                         "source": re.sub(r"\s+", " ", m.group(0)).strip()})
+                T.claim(m.end() - len(m.group(0).lstrip()) + (len(m.group(0).lstrip()) - len(phrase)) if False else m.start(1) + (len(m.group(1)) - len(m.group(1).lstrip())), m.end())
                 continue
             reason = ""
             r = re.search(r"\s+because\s+(.+)$", phrase, re.I)
@@ -783,7 +828,8 @@ def extract(text: str) -> dict:
                     out["unplaced"].append(p)
                 continue
             if len(words) >= 2 or (len(words) == 1 and len(words[0]) >= 6):
-                (out["leftover"] if (whole or len(words) >= 3) and not demo.search(p) else out["unplaced"]).append(p)
+                finding = re.match(r"^(?:an?|some|several|two|three|multiple)\s+[a-z\- ]{3,40}?\s+(?:on|in|over|to|of|across|above|below|behind)\s+(?:his|her|my|the|both)\s+[a-z ]{3,30}$", p, re.I)
+                (out["leftover"] if (whole or len(words) >= 3 or finding) and not demo.search(p) else out["unplaced"]).append(p)
     # ---- 8. nothing leaves here with a dangling article or conjunction where a neighbour was lifted out
     out["pmh"] = list(dict.fromkeys(x for x in (_tidy(p) for p in out["pmh"]) if x))
     out["meds"] = [x for x in (_tidy(p) for p in out["meds"]) if x]
@@ -978,7 +1024,13 @@ def build_case(text: str, ex: dict, template: dict, model_extra: list[dict] | No
                 nps.append(fp)
             else:
                 sents.append(_cap(voiced) + ".")
-        if lead == "after" and not sents:
+        mech = lead == "after" and _mechanism(raw, nm)
+        if mech:
+            ans, sents = mech, []
+            hurt = next((re.search(r"\bpain in (?:his|her|my|the) ([a-z ]{3,30})$", x, re.I) for x in ex.get("leftover", []) if re.search(r"\bpain in (?:his|her|my|the) [a-z ]{3,30}$", x, re.I)), None)
+            if hurt:                    # "came in after X. He has pain in Y" is one presenting story
+                ans = ans.rstrip(".") + f" and my {hurt.group(1).strip()} hurts."
+        elif lead == "after" and not sents:
             ans = f"I had {_pronouns(re.sub(r'^(?:the)\s+', '', raw), nm)}."
         elif nps:
             first_np = " and ".join(nps) if len(nps) <= 2 else ", ".join(nps[:-1]) + " and " + nps[-1]
@@ -1183,7 +1235,10 @@ def build_case(text: str, ex: dict, template: dict, model_extra: list[dict] | No
                 syn += [k for k in _topic_keys(phrase, 2) if k not in syn]
             f["topics"] += [s for s in syn if s not in f["topics"]]
             symptomish = bool(syn) and not keys and not drugs_named
-            f["cover_answer"] = COVER_CHILD if young else (COVERS[keys[0]] if keys else ("No, nothing like that." if drugs_named else (COVER_SYMPTOM if symptomish else COVER_GENERIC)))
+            # a deflection, not an invented flat lie: "I'm fine. It's just my wrist."
+            part = re.search(rf"\b(?:left |right )?(?:{_BODY})\b", " ".join(x for x in ([ex.get("complaint") or ""] + list(ex.get("leftover") or [])) if re.search(r"pain|hurt|ache|sore|swollen|swelling", x)), re.I)
+            deflect = f"I'm fine. It's just my {part.group(0).lower().replace('left ', '').replace('right ', '')}." if part and part.group(0).lower() not in phrase.lower() else COVER_SYMPTOM
+            f["cover_answer"] = COVER_CHILD if young else (COVERS[keys[0]] if keys else ("No, nothing like that." if drugs_named else (deflect if symptomish else COVER_GENERIC)))
             # an introduction, an agenda and one open question already make rapport 3: a secret also needs one turn of real
             # empathy or normalising before it opens (QA: it came out on the first direct ask)
             f["disclosure"] = {"rule": "after_rapport", "rapport_needed": 3, "empathy_needed": 1}
@@ -1276,11 +1331,14 @@ def build_case(text: str, ex: dict, template: dict, model_extra: list[dict] | No
             "pmh" if set(keys) & {"vaccination", "psh", "hospitalizations", "pmh", "pregnancy"} else (
                 "social" if set(keys) & {"occupation", "living_situation", "diet", "exercise", "sleep", "travel", "smoking", "alcohol", "drugs", "insurance_access"} else "hpi"))
         ans = first_person(s, nm)
+        ans = re.sub(r"^I've had (an? )", r"I've got \1", ans)
         if cat in ("pmh",):
             ans = told(ans)
         # the family category already answers to "any family history?"; the companion's own word ("mother") must not pull this fact into
         # "is your mum here with you?"
         topics = [w for w in content_words(s, 6) if rel_rx.fullmatch(w) and w not in (who or "")] if cat == "family" else topics_for(s, 3)
+        if cat == "hpi" and re.search(rf"\b(?:{_BODY})\b", s, re.I) and re.search(r"pain|hurts?|ache|sore|tender", s, re.I):
+            topics = ["location"] + topics
         f = {"fact_id": fid(cat, " ".join(content_words(s, 3)) or "detail"), "category": cat, "statement": s if s[0].isupper() else _cap(s), "patient_knows": True,
              "patient_answer": ans, "topics": topics, "disclosure": {"rule": "if_asked"}, "chart_section": tx.CATEGORY_SECTION.get(cat, ("hpi", ""))[0],
              "patient_answer_auto": True}
@@ -1363,6 +1421,10 @@ def build_case(text: str, ex: dict, template: dict, model_extra: list[dict] | No
         short = (nps[0] if len(nps) == 1 else ", ".join(nps[:-1]) + " and " + nps[-1]) if nps else re.split(r",|\s+and\s+(?:he|she|i)\b", comp)[0]
         short = re.sub(r"^(?:he|she|i)\s+(?:was|is|has|had)\s+", "", short, flags=re.I)
         tc = _cap(re.sub(r"^(?:a|an|the)\s+", "", _tidy(short) or comp, flags=re.I))
+        if ex.get("complaint_lead") == "after":
+            tc = re.sub(r",?\s*(?:about |around )?(?:an?|\d+|one|two|three|four|five|six|a few|several) (?:minutes?|hours?|days?|weeks?) (?:ago|earlier|before)$", "", tc, flags=re.I)
+            tc = re.sub(r"^Falling (?:off|from|down|out of) (?:his|her|my|the|an?) ", "Fall from a ", tc)
+            tc = re.sub(r"^Falling\b", "Fall", tc)
         title = f"{tc} in {art_a} {who_text}" if age_text else tc
     else:
         title = f"{_cap(who_text)} (presenting complaint not stated)"

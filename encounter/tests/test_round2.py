@@ -86,7 +86,8 @@ def test_d4_ruth_details_and_interview(manager):
     r = say("The pharmacy record shows your blood-pressure pills were not refilled. Did you stop taking them?")
     assert [d["fact_id"] for d in r["disclosed"]] == ["f.concealed.adherence_stopped"]
     again = say("Did you stop the pills?")["reply"]
-    assert again.startswith("Like I said: I stopped taking my blood-pressure pills")
+    assert "I stopped taking my blood-pressure pills" in again and not again.startswith("Like I said")       # a different question: restated plainly
+    assert say("Did you stop the pills?")["reply"].startswith("Like I said")                                  # the same question again
 
 
 def test_d4_text_without_a_complaint_is_flagged_not_invented():

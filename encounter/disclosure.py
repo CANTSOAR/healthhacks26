@@ -173,17 +173,31 @@ class Engine:
         d = f.get("disclosure") or {}
         return state["rapport"] >= int(d.get("rapport_needed") or 1) and state.get("empathic_turns", 0) >= int(d.get("empathy_needed") or 0)
 
-    def pain_facts(self) -> list[str]:
-        """What "do you have pain anywhere?" should be answered from: the complaint first, then any other fact about pain."""
+    def pain_facts(self, norm: str = "") -> list[str]:
+        """What "do you have pain anywhere?" should be answered from: the complaint first, then any other fact about pain.
+        "Where does it hurt?" prefers a fact that names a body part; a severity score is never the answer to "where"."""
         from . import conversation as conv
         out = []
+        where = bool(tx.phrase_in(norm, tx.TOPICS["location"])) or norm.startswith(("where", "which part", "what hurts", "what part"))
+        body = {tx.stem(w) for v in conv.BODY_SYNONYMS.values() for w in v} | {tx.stem(w) for w in ("wrist", "hand", "knee", "hip", "jaw", "neck", "side", "flank", "groin", "face", "eye", "ear")}
+        if where:
+            cands = []
+            for f in self.facts:
+                if self.rule(f) in ("volunteered", "if_asked") and f.get("patient_knows") is not False and f.get("polarity") != "negative" \
+                        and f.get("category") in ("chief_complaint", "hpi"):
+                    toks = set(tx.tokens(" ".join(str(f.get(k) or "") for k in ("statement", "patient_answer"))))
+                    if toks & body and toks & conv.PAIN_WORDS:
+                        cands.append(f)
+            cands.sort(key=lambda f: "location" not in [str(t) for t in f.get("topics") or []])
+            if cands:
+                return [cands[0]["fact_id"]]
         for cats in (("chief_complaint",), ("hpi",), ("ros", "pmh", "medications", "social")):
             for f in self.facts:
                 if f.get("category") in cats and self.rule(f) in ("volunteered", "if_asked") and f.get("patient_knows") is not False \
                         and f.get("polarity") != "negative":
                     blob = " ".join(str(f.get(k) or "") for k in ("statement", "patient_answer")) + " " + f["fact_id"].replace(".", " ").replace("_", " ") \
                         + " " + " ".join(str(t).replace("_", " ") for t in f.get("topics") or [])
-                    if set(tx.tokens(blob)) & conv.PAIN_WORDS and f["fact_id"] not in out:
+                    if set(tx.tokens(blob)) & conv.PAIN_WORDS and f["fact_id"] not in out and not (where and [str(t) for t in f.get("topics") or []] == ["severity"]):
                         out.append(f["fact_id"])
         if not out:                     # the only pain in the case is one the patient is hiding: it answers by its own rule (cover answer)
             for f in self.facts:
@@ -406,7 +420,7 @@ class Engine:
         off_topic = bool(getattr(intent, "off_topic", False)) and not (src_toks and self._distinctive(norm) & src_toks)
         if not matched and intent.is_question and not blocked and "ice" not in conv and not intent.requests and not off_topic:
             if "generic_pain" in conv and not getattr(intent, "topics_asked", None):
-                matched = self.pain_facts()
+                matched = self.pain_facts(norm)
                 via_extra = "pain, asked in general"
             if not matched:
                 cands, in_source = self.case_text_match(norm, list(getattr(intent, "topics_asked", []) or []) + (["progression"] if "progression" in conv else []))
@@ -424,6 +438,15 @@ class Engine:
                          for fid in list(e.get("disclosed_fact_ids") or []) + list(e.get("restated_fact_ids") or [])
                          if (e.get("rule_fired") or {}).get(fid) not in ("on_request", "chart_initial")}
         outcome["restated"], outcome["noncommittal"] = [], False
+        # "Like I said" needs the same fact AND the same way of asking: a different question that reaches an already-voiced fact gets it plainly
+        via_now = {m["fact_id"]: m.get("via") for m in ev["matched_intents"]}
+        prior_vias: dict[str, set] = {}
+        for e in state["ledger"][:-1]:
+            if e.get("kind") == "turn":
+                said = set(e.get("disclosed_fact_ids") or []) | set(e.get("restated_fact_ids") or []) | set(e.get("repeated_fact_ids") or [])
+                for m in e.get("matched_intents") or []:
+                    if m["fact_id"] in said:
+                        prior_vias.setdefault(m["fact_id"], set()).add(m.get("via"))
         statement_only = (not intent.is_question) or bool({"summarising", "closing"} & set(intent.cues))
         for fid in matched:
             f = self.by_id[fid]
@@ -435,7 +458,7 @@ class Engine:
                     continue
                 if f.get("patient_knows") is False:
                     outcome["patient_unknown"].append(fid)
-                elif fid in voiced_before or fid in ev["disclosed_fact_ids"]:
+                elif (fid in voiced_before and via_now.get(fid) in prior_vias.get(fid, ())) or fid in ev["disclosed_fact_ids"]:
                     outcome["repeated"].append(fid)
                 else:
                     # known to the care team (chart, an earlier stage) but never said to THIS listener: no "Like I said"
@@ -556,7 +579,7 @@ class Engine:
                 ev["result"] = "answered_negative_by_default"
                 ev["default_negative_topics"] = free or ["unspecified"]
                 outcome["default_negative"] = free or ["unspecified"]
-            elif not topics and not getattr(intent, "clinical_words", False) and self.case.get("default_negatives", True):
+            elif not topics and not getattr(intent, "clinical_words", False) and (self.case.get("default_negatives", True) or (self.case.get("soft_negatives") and off_topic)):
                 ev["result"] = "deflected_off_topic"
                 outcome["social"] = "off_topic"
             elif self.case.get("soft_negatives") and (free or (not topics and getattr(intent, "clinical_yes_no", False))):

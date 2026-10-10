@@ -141,3 +141,85 @@ def test_infant_and_toddler_are_answered_by_the_adult_with_them():
     assert t["profile"]["name"] == "Leo" and t["profile"]["age"] == 2 and t["title"].endswith("in a 2-year-old boy")
     assert of(t, "chief_complaint")[0]["patient_answer"].startswith("He's had diarrhoea and vomiting since yesterday.")
     assert all(not re.search(r"\b(?:I|my|me)\b", f["patient_answer"]) for f in t["facts"] if f.get("patient_answer_auto") and f["fact_id"] != "f.social.accompanied_by")
+
+
+# ------------------------------------------------------------------ second blind description (orchestrator): concealment phrasings, mechanism, location
+
+JAMES = ("James Whitfield, 34, a bike courier, came in after falling off his bicycle an hour ago. He has pain in his right wrist rated 7/10 and a graze on his knee. "
+         "No medical problems and no regular medications. He is allergic to penicillin (hives). He hit his head and briefly blacked out but is not mentioning it because "
+         "he wants to get back to work. BP 128/78, pulse 92. He smokes about five cigarettes a day and does not drink.")
+_BASE = "Tom Reed is a 40-year-old builder who presents with a sore shoulder for two days. {} He lives alone."
+CONCEALMENT_PHRASINGS = [
+    "He hit his head and blacked out but is not mentioning it because he wants to get back to work.",
+    "He hit his head and blacked out but hasn't mentioned it.",
+    "He hit his head and blacked out but won't mention it because he is embarrassed.",
+    "He hit his head and blacked out but hasn't told anyone.",
+    "He hit his head and blacked out but has not told staff because he fears losing his job.",
+    "He hit his head and blacked out but doesn't want to say because he is embarrassed.",
+    "He hit his head and blacked out but does not want to admit it.",
+    "He is hiding that he hit his head and blacked out.",
+    "He conceals that he hit his head and blacked out.",
+    "He hit his head and blacked out but keeps quiet about it.",
+    "He hit his head and blacked out but keeps it to himself.",
+    "He hit his head and blacked out but is embarrassed to say.",
+    "He hit his head and blacked out but is ashamed to admit it.",
+    "He hit his head and blacked out but is afraid to say because he wants to keep working.",
+    "He denies any head injury but in fact he hit his head and blacked out.",
+    "He hit his head and blacked out but will not volunteer it.",
+    "He only admits that he hit his head and blacked out if pressed.",
+    "He hit his head and blacked out but plays it down.",
+    "He hit his head and blacked out but minimises it.",
+    "He secretly hit his head and blacked out.",
+    "He has not told us that he hit his head and blacked out.",
+]
+_META = re.compile(r"mention|hiding|conceal|keeps? (?:quiet|it to)|embarrassed to|ashamed to|afraid to say|volunteer|if pressed|plays? (?:it )?down|minimi[sz]|secretly|told (?:anyone|staff|us)|denies", re.I)
+
+
+@pytest.mark.parametrize("sentence", CONCEALMENT_PHRASINGS)
+def test_every_way_of_saying_it_is_concealed(sentence):
+    c = tpl.from_description(_BASE.format(sentence))["case"]
+    hidden = of(c, "concealed")
+    assert len(hidden) == 1, [f["statement"] for f in c["facts"]]
+    h = hidden[0]
+    assert "hit his head" in h["statement"].lower() and h["disclosure"]["rule"] == "after_rapport" and h["cover_answer"]
+    assert "I hit my head and blacked out" in h["patient_answer"]
+    for f in c["facts"]:                                  # the author's note about the concealment never reaches the patient's mouth
+        assert not _META.search((f.get("patient_answer") or "").replace("I didn't say because", "")), (f["fact_id"], f.get("patient_answer"))
+    assert not _META.search(h["cover_answer"]) and not re.match(r"^No,? I didn'?t", h["cover_answer"])        # a deflection, not an invented flat lie
+    assert wording_problems(c) == [] and of(c, "chief_complaint")[0]["patient_answer"] == "I've had a sore shoulder for two days."
+    eng, st, say = play(c)
+    r = say("Did you hit your head?")
+    assert r["reply"] == h["cover_answer"] and r["event"]["result"] == "withheld"
+
+
+def test_james_mechanism_location_severity_concealment_and_off_topic():
+    c = tpl.from_description(JAMES)["case"]
+    assert c["title"] == "Fall from a bicycle in a 34-year-old man" and wording_problems(c) == [] and not c["review"]["coverage"]["uncovered"]
+    assert of(c, "chief_complaint")[0]["patient_answer"] == "I fell off my bicycle about an hour ago and my right wrist hurts."
+    said = {f["statement"]: f.get("patient_answer") for f in c["facts"]}
+    assert said["A graze on his knee"] == "I've got a graze on my knee." and said["He has pain in his right wrist"] == "I have pain in my right wrist."
+    h = of(c, "concealed")[0]
+    assert h["patient_answer"] == "All right. I hit my head and briefly blacked out. I didn't say because I want to get back to work."
+    assert h["cover_answer"] == "I'm fine. It's just my wrist."
+    eng, st, say = play(c)
+    say("What brings you in?")
+    r = say("Did you hit your head?")
+    assert r["reply"] == h["cover_answer"] and "Like I said" not in r["reply"]
+    assert say("Did you black out at all?")["reply"] == h["cover_answer"]
+    assert say("Where does it hurt?")["reply"] == "I have pain in my right wrist."            # location, not the severity score
+    assert say("How bad is the pain?")["reply"] == "It's about a 7 out of 10."
+    assert say("Which part hurts?")["reply"] == "I have pain in my right wrist."               # same fact, different question: said plainly
+    r = say("Who's the president?")
+    assert r["event"]["result"] == "deflected_off_topic" and "not sure" not in r["reply"]
+    say("That sounds painful, I'm sorry. Take your time.")
+    assert h["fact_id"] in eng.disclosed(st)
+    assert say("Do you smoke?")["reply"] == "I smoke about five cigarettes a day."
+    assert say("Do you smoke?")["reply"].startswith("Like I said")                              # the same question again
+
+
+def test_like_i_said_needs_the_same_question_topic():
+    from .conftest import seed_case
+    eng, st, say = play(seed_case("chest-pain-line-cook"))
+    first = say("What brings you in today?")["reply"]
+    assert say("Do you have any chest pain?")["reply"] == first                                 # a different question reaching the same fact: no "Like I said"
+    assert say("What brings you in today?")["reply"].startswith("Like I said")
