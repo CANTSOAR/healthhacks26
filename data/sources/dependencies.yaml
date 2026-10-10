@@ -191,6 +191,56 @@ documents:
     path: catalog/lit-weigl-2017.json
     role: acquired_source_manifest
     refresh: manual
+  - id: catalog:expansion-0f611f38f779
+    type: local_file
+    path: catalog/expansion-0f611f38f779.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:expansion-15ee9857d3c3
+    type: local_file
+    path: catalog/expansion-15ee9857d3c3.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:expansion-1fdabfe9fd55
+    type: local_file
+    path: catalog/expansion-1fdabfe9fd55.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:expansion-21e13a5e2389
+    type: local_file
+    path: catalog/expansion-21e13a5e2389.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:expansion-4aa6d0005b44
+    type: local_file
+    path: catalog/expansion-4aa6d0005b44.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:expansion-5e15a264dbb0
+    type: local_file
+    path: catalog/expansion-5e15a264dbb0.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:expansion-7f29df0c978e
+    type: local_file
+    path: catalog/expansion-7f29df0c978e.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:expansion-a5cf059b1a25
+    type: local_file
+    path: catalog/expansion-a5cf059b1a25.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:expansion-ebff2b80b309
+    type: local_file
+    path: catalog/expansion-ebff2b80b309.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:expansion-f9433cd5b3f0
+    type: local_file
+    path: catalog/expansion-f9433cd5b3f0.json
+    role: acquired_source_manifest
+    refresh: manual
 - path: topics/brief.md
   depends_on:
   - id: local:research-question

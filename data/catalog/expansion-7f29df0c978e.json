@@ -1,0 +1,26 @@
+{
+  "dataset_id": "expansion-7f29df0c978e",
+  "source_id": "expansion-7f29df0c978e",
+  "title": "A work systems analysis of sterile processing: sterilization and case cart preparation",
+  "source_url": "https://qualitysafety.bmj.com/content/30/4/271",
+  "scope": "External primary hospital study; limited numeric findings, not local calibration",
+  "access": "public_primary_article_or_abstract",
+  "rights": {
+    "source_license": "not assessed for full-text redistribution",
+    "redistribution": "Short factual paraphrases; no full article copied"
+  },
+  "acquisition_status": "acquired",
+  "raw_paths": [],
+  "normalized_path": "data/normalized/expansion-7f29df0c978e.jsonl",
+  "record_count": 2,
+  "limits": [
+    "Hospital setting, period, endpoint and denominator are source-specific.",
+    "No original snapshot retained; human review should follow source URL and locator.",
+    "Quantiles and means alone do not define a fitted sampling distribution."
+  ],
+  "provenance": {
+    "doi": "10.1136/bmjqs-2019-010442",
+    "retrieved_at": "2026-10-10T16:55:25Z",
+    "raw_artifact_kind": "no_raw_limited_paraphrase"
+  }
+}

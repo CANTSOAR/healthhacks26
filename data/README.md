@@ -70,3 +70,7 @@ Preserve missing/suppressed source values. Promote a source record into a typed 
 ## Literature-derived provisional inputs
 
 The literature extension brings the catalog to **38 datasets and 4,819 records**. Eight papers contribute 39 records, with three explicitly inferred process parameters. See [how external evidence fills local gaps](docs/literature-proxies.md). These extend the earlier acquisition counts above; they do not establish local calibration.
+
+## Hospital-wide expansion and human review
+
+Current totals: **48 catalogs / 4,844 records** after a three-agent Luna pass added 25 findings from 10 papers. See [expansion and remaining gaps](research/expansion-summary.md). **[Start human verification here](review/README.md)** or open `review/index.html` in your browser. Source links, locators, evidence, and exportable review decisions are provided for every record.

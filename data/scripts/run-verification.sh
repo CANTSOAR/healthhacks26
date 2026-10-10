@@ -7,3 +7,5 @@ cd "$(dirname "$0")/.."
 ./scripts/python scripts/test_acquisition_invariants.py
 
 ./scripts/python scripts/validate_proxies.py
+
+./scripts/python scripts/validate_review_index.py

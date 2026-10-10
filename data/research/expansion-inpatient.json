@@ -1,0 +1,139 @@
+[
+  {
+    "id": "harhay-2017-micu-immutable-time",
+    "source_title": "Measurement Error Due to Patient Flow in Estimates of Intensive Care Unit Length of Stay",
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5860585/",
+    "doi": "10.1093/aje/kwx222",
+    "locator": "Results, paragraph beginning 'From the administrative data'; Web Table 2",
+    "source_setting": "Medical ICU, Hospital of the University of Pennsylvania, Philadelphia, Pennsylvania, United States.",
+    "source_period": "Calendar years 2010–2012 for administrative MICU discharges; separate SUNSET-ICU trial-participant analysis, trial period not specified in this extract.",
+    "source_n": "3,851 MICU discharges for administrative analysis; Web Table 2 reports 1,149 MICU discharges among SUNSET-ICU trial participants.",
+    "quantity": "Median time from observed discharge readiness to actual MICU discharge (immutable time), administrative cohort",
+    "value": {
+      "median": 7.0,
+      "q1": 4.3,
+      "q3": 11.1,
+      "p90": 21.6,
+      "p95": 29.5
+    },
+    "unit": "hours",
+    "source_evidence_basis": "Observed administrative timestamps summarized by the authors; median and quartiles are measured site distributions, not modeled values.",
+    "limitations": "Single academic MICU, historical 2010–2012 period, and endpoint is readiness-to-actual-departure interval rather than environmental bed-cleaning time alone. The paper calls this interval immutable time and cautions that ICU length of stay can incorporate post-readiness flow delays.",
+    "inferred_scenario_use": "External proxy only: a scenario may vary a post-readiness ICU bed-occupancy delay around this reported distribution, with a separate local-calibration parameter. Do not transfer as a target-site estimate or assume all delay is caused by ward-bed unavailability.",
+    "retrieved_at": "2026-10-10T16:55:11Z",
+    "source_verification_url": "https://academic.oup.com/aje/article/186/12/1389/3865636"
+  },
+  {
+    "id": "harhay-2017-micu-trial-immutable-time",
+    "source_title": "Measurement Error Due to Patient Flow in Estimates of Intensive Care Unit Length of Stay",
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5860585/",
+    "doi": "10.1093/aje/kwx222",
+    "locator": "Results, Secondary data analysis, paragraph reporting the 1,149 SUNSET-ICU discharges; the text reports the 5.1-hour median and IQR and points to Web Table 2 for percentiles. Article period is specified in Methods, Secondary data analysis.",
+    "source_setting": "Medical ICU, Hospital of the University of Pennsylvania, Philadelphia, Pennsylvania, United States; trial-participant subset.",
+    "source_period": "SUNSET-ICU MICU cohort, September 12, 2011 to September 11, 2012; ICU readmissions excluded.",
+    "source_n": "1,149 MICU discharges to another hospital unit or ward among SUNSET-ICU trial participants.",
+    "quantity": "Median time from discharge readiness to actual discharge in SUNSET-ICU subset",
+    "value": {
+      "median": 5.1,
+      "q1": 2.7,
+      "q3": 8.9,
+      "p90": 14.2,
+      "p95": 21.7
+    },
+    "unit": "hours",
+    "source_evidence_basis": "Observed readiness and discharge timestamps among trial participants; author-reported distribution.",
+    "limitations": "Single academic MICU and trial cohort. The main Results text directly reports median 5.1 h, IQR 2.7–8.9 h, 90th percentile 14.2 h, and 95th percentile 21.7 h, citing Web Table 2; the supplementary table itself was not separately opened. Keep this cohort separate from the 2010–2012 administrative series.",
+    "inferred_scenario_use": "Use only as a lower/alternate external scenario for post-readiness transfer delay; preserve separate from the 2010–2012 administrative distribution and calibrate to local timestamp definitions.",
+    "retrieved_at": "2026-10-10T16:55:11Z",
+    "source_verification_url": "https://academic.oup.com/aje/article/186/12/1389/3865636"
+  },
+  {
+    "id": "harhay-2017-micu-morning-requests",
+    "source_title": "Measurement Error Due to Patient Flow in Estimates of Intensive Care Unit Length of Stay",
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5860585/",
+    "doi": "10.1093/aje/kwx222",
+    "locator": "Results and Figure 3 caption",
+    "source_setting": "Medical ICU, Hospital of the University of Pennsylvania, Philadelphia, Pennsylvania, United States.",
+    "source_period": "Calendar years 2010–2012; 156 weeks.",
+    "source_n": "3,851 MICU discharges.",
+    "quantity": "Discharge requests placed between 08:00 and 08:59",
+    "value": {
+      "share": "more than 50"
+    },
+    "unit": "percent of discharge requests",
+    "source_evidence_basis": "Observed timestamp distribution summarized by authors; request times concentrated in the hour of morning bed-management rounds.",
+    "limitations": "Single MICU workflow; reported as more than half, without an exact percentage in the article text. This is request timing, not completed transfer timing or a universal discharge schedule.",
+    "inferred_scenario_use": "Can motivate a sensitivity scenario with clustered morning ICU transfer requests, while keeping local request timing unknown until measured.",
+    "retrieved_at": "2026-10-10T16:55:11Z",
+    "source_verification_url": "https://academic.oup.com/aje/article/186/12/1389/3865636"
+  },
+  {
+    "id": "jennings-2013-turnover-events-medical",
+    "source_title": "Turning Over Patient Turnover: An Ethnographic Study of Admissions, Discharges, and Transfers",
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3968944/",
+    "doi": "10.1002/nur.21565",
+    "locator": "Results, Table 1 and paragraph beginning 'There were 3562 events on the medical unit'",
+    "source_setting": "One medical and one surgical inpatient unit at a U.S. hospital; institution name is not identified in the article text reviewed.",
+    "source_period": "Turnover records for 2009; one year of admission/discharge records. Ethnographic fieldwork and observation took place on the two units; the paper reports 21 formal interviews among 58 nurses featured in the analysis.",
+    "source_n": "Medical unit: 1,657 admissions and 1,905 discharges in 2009; 3,562 total events. Surgical unit separately had 1,893 admissions and 1,948 discharges. The source table reports events/day, but does not state the number of daily observations used for its mean.",
+    "quantity": "Mean daily medical-unit turnover events (admissions plus discharges, including transfers-in/out)",
+    "value": {
+      "mean": 9.95,
+      "sd": 4.19,
+      "median": 10,
+      "min": 1,
+      "max": 25
+    },
+    "unit": "events per day",
+    "source_evidence_basis": "Author summary of unit-level 2009 admission and discharge records; daily event counts are observed administrative records.",
+    "limitations": "One medical unit at a U.S. hospital whose name is not given in the article text reviewed; old single-year data. The table reports 9.95 events/day, but does not state the number of observed unit-days in that mean; dividing 3,562 by 365 gives about 9.76, so do not recompute or assume a 365-day denominator. Event counts do not measure duration or acuity-adjusted workload. Transfers-in are grouped with admissions and transfers-out with discharges.",
+    "inferred_scenario_use": "A workload scenario may represent admissions/discharges/transfers as separate events and sample medical-unit daily event volume around this source-specific distribution; do not use as local throughput or as service minutes.",
+    "retrieved_at": "2026-10-10T16:55:11Z",
+    "source_verification_url": "https://pubmed.ncbi.nlm.nih.gov/24242196/"
+  },
+  {
+    "id": "jennings-2013-turnover-shift-change",
+    "source_title": "Turning Over Patient Turnover: An Ethnographic Study of Admissions, Discharges, and Transfers",
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3968944/",
+    "doi": "10.1002/nur.21565",
+    "locator": "Results, Turnover timing; Table 3, day-to-night shift change (17:30–21:00)",
+    "source_setting": "One medical and one surgical inpatient unit at a U.S. hospital; institution name is not identified in the article text reviewed.",
+    "source_period": "2009 administrative turnover records.",
+    "source_n": "Surgical unit: 487 of 3,841 turnover events in this interval; medical unit: 678 of 3,562 events.",
+    "quantity": "Share of all unit turnover events occurring during 17:30–21:00 day-to-night shift change",
+    "value": {
+      "surgical_percent": 13,
+      "medical_percent": 19
+    },
+    "unit": "percent of unit turnover events",
+    "source_evidence_basis": "Observed administrative event timestamps tabulated by unit and time window; table shows 13% surgical and 19% medical for this interval.",
+    "limitations": "Two units in one hospital and one historical year; the table percentages are rounded. Turnover events include admissions and discharges, with transfers included in those categories.",
+    "inferred_scenario_use": "Can test shift-change clustering as a workload sensitivity case, preserving distinct medical and surgical profiles and requiring local event-time data for calibration.",
+    "retrieved_at": "2026-10-10T16:55:11Z",
+    "source_verification_url": "https://pubmed.ncbi.nlm.nih.gov/24242196/"
+  },
+  {
+    "id": "needleman-2011-shift-turnover",
+    "source_title": "Nurse Staffing and Inpatient Hospital Mortality",
+    "source_url": "https://www.nejm.org/doi/full/10.1056/NEJMsa1001025",
+    "doi": "10.1056/NEJMsa1001025",
+    "locator": "Methods, Data and Population and Patient Turnover definition; Results, Characteristics of Patients, Units, and Staffing; Table 1",
+    "source_setting": "43 units at a tertiary academic medical center in the United States; adult general-care, step-down, and intensive-care units were included, with specified unit exclusions.",
+    "source_period": "Electronic hospital records from 2003 through 2006.",
+    "source_n": "197,961 admissions; 176,696 staffed unit-shifts, of 3,227,457 total patient-unit-shift records.",
+    "quantity": "Observed patient turnover per staffed unit-shift; high-turnover classification frequency",
+    "value": {
+      "mean_percent": 10.4,
+      "sd_percentage_points": 13.5,
+      "high_turnover_shifts": 12242,
+      "high_turnover_shift_share_percent": 6.9,
+      "high_turnover_rule": "unit shift turnover rate >= that unit day-shift mean + 1 SD"
+    },
+    "unit": "percent of shift census for turnover rate; SD in percentage points; high-turnover count and percent of staffed shifts",
+    "source_evidence_basis": "Observed shift-level admissions, transfers, discharges, census, and staffing from hospital electronic systems. The article defines turnover as admissions + transfers + discharges (deaths excluded) divided by adjusted/start-of-shift census, so complete turnover equals 100%. High turnover is a shift rate >= the unit-specific day-shift mean + 1 SD; Table 1 reports 12,242 (6.9%) of 176,696 staffed shifts.",
+    "limitations": "Single high-quality academic center with relatively high average staffing and lower-than-predicted mortality; historical 2003–2006. The high-turnover threshold is relative to each unit day-shift mean, not a portable absolute rate. Do not import 6.9% as a local threshold or benchmark without local calibration.",
+    "inferred_scenario_use": "For sensitivity analysis only, a simulation may define high-turnover shifts using the paper’s relative rule (unit day-shift mean plus one SD) and compare the study’s observed 6.9% frequency; do not make this the target-hospital rule or infer patient outcome effects locally.",
+    "retrieved_at": "2026-10-10T16:55:11Z",
+    "source_verification_url": "https://www.nejm.org/doi/pdf/10.1056/NEJMsa1001025?articleTools=true"
+  }
+]

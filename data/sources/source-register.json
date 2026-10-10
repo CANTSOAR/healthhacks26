@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0.0",
   "generation": "Deterministic offline derivation; no source refetch and no inferred publication date or author",
-  "source_count": 38,
-  "record_count": 4819,
+  "source_count": 48,
+  "record_count": 4844,
   "sources": [
     {
       "source_id": "cms-complications-deaths",
@@ -679,6 +679,396 @@
         }
       ],
       "raw_availability": "available"
+    },
+    {
+      "source_id": "expansion-0f611f38f779",
+      "bibtex_key": "expansion-0f611f38f779",
+      "title": "The impact of a multimodal intervention on emergency department crowding and patient flow",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6712614/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "External primary hospital study; limited numeric findings, not local calibration",
+      "limits_as_recorded": [
+        "Hospital setting, period, endpoint and denominator are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "Quantiles and means alone do not define a fitted sampling distribution."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1186/s12245-019-0238-7",
+        "retrieved_at": "2026-10-10T16:55:23Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T16:55:23Z"
+        }
+      ],
+      "catalog_path": "data/catalog/expansion-0f611f38f779.json",
+      "catalog_sha256": "09560da731bc986c1e45d07a7da5897fdc0471e32e98a7feb36cda5beda9f778",
+      "normalized_path": "data/normalized/expansion-0f611f38f779.jsonl",
+      "normalized_sha256": "7aec6f123d316c58664e7a65a06c76548de3bc1779eb2af599a18e64f022a8f0",
+      "record_count": 3,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "expansion-15ee9857d3c3",
+      "bibtex_key": "expansion-15ee9857d3c3",
+      "title": "Role of Point-of-Care Testing in Reducing Time to Treatment Decision-Making in Urgency Patients: A Randomized Controlled Trial",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7081845/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "External primary hospital study; limited numeric findings, not local calibration",
+      "limits_as_recorded": [
+        "Hospital setting, period, endpoint and denominator are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "Quantiles and means alone do not define a fitted sampling distribution."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.5811/westjem.2019.10.43655",
+        "retrieved_at": "2026-10-10T16:55:23Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T16:55:23Z"
+        }
+      ],
+      "catalog_path": "data/catalog/expansion-15ee9857d3c3.json",
+      "catalog_sha256": "e0648ade333b8d77c8b09804d3b81e6e1d9020279fd9ec66c875ddcec414e5e9",
+      "normalized_path": "data/normalized/expansion-15ee9857d3c3.jsonl",
+      "normalized_sha256": "96114c72b7a58d5209548ee162f41bf254e99eac9791e9eaed197d4eda02803d",
+      "record_count": 3,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "expansion-1fdabfe9fd55",
+      "bibtex_key": "expansion-1fdabfe9fd55",
+      "title": "Measurement Error Due to Patient Flow in Estimates of Intensive Care Unit Length of Stay",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5860585/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "External primary hospital study; limited numeric findings, not local calibration",
+      "limits_as_recorded": [
+        "Hospital setting, period, endpoint and denominator are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "Quantiles and means alone do not define a fitted sampling distribution."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1093/aje/kwx222",
+        "retrieved_at": "2026-10-10T16:55:11Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T16:55:11Z"
+        }
+      ],
+      "catalog_path": "data/catalog/expansion-1fdabfe9fd55.json",
+      "catalog_sha256": "40581b53f0f9b55de3a533b637cd242acbfa1ec75681f25fa688fab8f3215d2d",
+      "normalized_path": "data/normalized/expansion-1fdabfe9fd55.jsonl",
+      "normalized_sha256": "b8e3ce3d4f7756333bc40776a536b9aaa01dd4b5df2173c2295fa8be5f4ab7eb",
+      "record_count": 3,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "expansion-21e13a5e2389",
+      "bibtex_key": "expansion-21e13a5e2389",
+      "title": "Turning Over Patient Turnover: An Ethnographic Study of Admissions, Discharges, and Transfers",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3968944/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "External primary hospital study; limited numeric findings, not local calibration",
+      "limits_as_recorded": [
+        "Hospital setting, period, endpoint and denominator are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "Quantiles and means alone do not define a fitted sampling distribution."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1002/nur.21565",
+        "retrieved_at": "2026-10-10T16:55:11Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T16:55:11Z"
+        }
+      ],
+      "catalog_path": "data/catalog/expansion-21e13a5e2389.json",
+      "catalog_sha256": "b0292c869688072dc71b2eade45313456012ce1e966d6e8865a872d52d39af4e",
+      "normalized_path": "data/normalized/expansion-21e13a5e2389.jsonl",
+      "normalized_sha256": "7054edc44cc59aa53a501a1928c17fe668e8000235df61774aad736121f2b332",
+      "record_count": 2,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "expansion-4aa6d0005b44",
+      "bibtex_key": "expansion-4aa6d0005b44",
+      "title": "Nurse Staffing and Inpatient Hospital Mortality",
+      "source_url": "https://www.nejm.org/doi/full/10.1056/NEJMsa1001025",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "External primary hospital study; limited numeric findings, not local calibration",
+      "limits_as_recorded": [
+        "Hospital setting, period, endpoint and denominator are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "Quantiles and means alone do not define a fitted sampling distribution."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1056/NEJMsa1001025",
+        "retrieved_at": "2026-10-10T16:55:11Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T16:55:11Z"
+        }
+      ],
+      "catalog_path": "data/catalog/expansion-4aa6d0005b44.json",
+      "catalog_sha256": "95e1de3d71126c3f98ec412948aa6b551cfae8996529579c18ab94acf7086924",
+      "normalized_path": "data/normalized/expansion-4aa6d0005b44.jsonl",
+      "normalized_sha256": "ed40463c9ba5bd94e0d6c6424602a04664523d502fe11e49ba5ff035d18b9bd9",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "expansion-5e15a264dbb0",
+      "bibtex_key": "expansion-5e15a264dbb0",
+      "title": "Measuring quality indicators in the operating room: cleaning and turnover time",
+      "source_url": "https://revistas.usp.br/rlae/en/article/download/4436/5850/6729",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "External primary hospital study; limited numeric findings, not local calibration",
+      "limits_as_recorded": [
+        "Hospital setting, period, endpoint and denominator are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "Quantiles and means alone do not define a fitted sampling distribution."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1590/s0104-11692011000500023",
+        "retrieved_at": "2026-10-10T16:55:25Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T16:55:25Z"
+        }
+      ],
+      "catalog_path": "data/catalog/expansion-5e15a264dbb0.json",
+      "catalog_sha256": "b03d20ebbb6acf3146dc756ff49bb3b7f1fb7f46cbfef9b3c0dac99d6745abbd",
+      "normalized_path": "data/normalized/expansion-5e15a264dbb0.jsonl",
+      "normalized_sha256": "d2c08955267bb1fdfe034ec6aa783f4156b482c04679a91429150ea7a1377163",
+      "record_count": 2,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "expansion-7f29df0c978e",
+      "bibtex_key": "expansion-7f29df0c978e",
+      "title": "A work systems analysis of sterile processing: sterilization and case cart preparation",
+      "source_url": "https://qualitysafety.bmj.com/content/30/4/271",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "External primary hospital study; limited numeric findings, not local calibration",
+      "limits_as_recorded": [
+        "Hospital setting, period, endpoint and denominator are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "Quantiles and means alone do not define a fitted sampling distribution."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1136/bmjqs-2019-010442",
+        "retrieved_at": "2026-10-10T16:55:25Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T16:55:25Z"
+        }
+      ],
+      "catalog_path": "data/catalog/expansion-7f29df0c978e.json",
+      "catalog_sha256": "3a35f31c210ae3616b05cd859583eed0b5c2beb3d786b230d08975aab5a288f2",
+      "normalized_path": "data/normalized/expansion-7f29df0c978e.jsonl",
+      "normalized_sha256": "508a57c479307cca84a880e279eedc08578ef4d0150935fd8c593bd82a58f8d0",
+      "record_count": 2,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "expansion-a5cf059b1a25",
+      "bibtex_key": "expansion-a5cf059b1a25",
+      "title": "Retrospective Audit of Medication Order Turnaround Time after Implementation of Standardized Definitions",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3203827/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "External primary hospital study; limited numeric findings, not local calibration",
+      "limits_as_recorded": [
+        "Hospital setting, period, endpoint and denominator are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "Quantiles and means alone do not define a fitted sampling distribution."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.4212/cjhp.v64i5.1070",
+        "retrieved_at": "2026-10-10T16:55:23Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T16:55:23Z"
+        }
+      ],
+      "catalog_path": "data/catalog/expansion-a5cf059b1a25.json",
+      "catalog_sha256": "7fe1c4163277fde4327720f68b24bddab77d8ed9038617a90daa9a4063147eac",
+      "normalized_path": "data/normalized/expansion-a5cf059b1a25.jsonl",
+      "normalized_sha256": "e42cd4f41cc922d785f3758220ba66860a688b209ea18310f450b73fcb5a48ab",
+      "record_count": 3,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "expansion-ebff2b80b309",
+      "bibtex_key": "expansion-ebff2b80b309",
+      "title": "Effect of a newly designed observation, response and discharge chart in the Post Anaesthesia Care Unit on patient outcomes: a quasi-experimental study in Australia",
+      "source_url": "https://bmjopen.bmj.com/content/7/12/e015149",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "External primary hospital study; limited numeric findings, not local calibration",
+      "limits_as_recorded": [
+        "Hospital setting, period, endpoint and denominator are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "Quantiles and means alone do not define a fitted sampling distribution."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1136/bmjopen-2016-015149",
+        "retrieved_at": "2026-10-10T16:55:25Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T16:55:25Z"
+        }
+      ],
+      "catalog_path": "data/catalog/expansion-ebff2b80b309.json",
+      "catalog_sha256": "6c8f1ecad9294bc5df6a67c24c2afc049e3bce3a4310f8513361383ce733e445",
+      "normalized_path": "data/normalized/expansion-ebff2b80b309.jsonl",
+      "normalized_sha256": "7f35cd73bf70ff49dfc5120bdf3ee006fbe3f31ee802dd526b679866d81d9924",
+      "record_count": 3,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "expansion-f9433cd5b3f0",
+      "bibtex_key": "expansion-f9433cd5b3f0",
+      "title": "Improving Operating Room Turnover in Robotic Surgery: A Human Factors Approach",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/35220451/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "External primary hospital study; limited numeric findings, not local calibration",
+      "limits_as_recorded": [
+        "Hospital setting, period, endpoint and denominator are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "Quantiles and means alone do not define a fitted sampling distribution."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1007/s11701-022-01357-1",
+        "retrieved_at": "2026-10-10T16:55:25Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T16:55:25Z"
+        }
+      ],
+      "catalog_path": "data/catalog/expansion-f9433cd5b3f0.json",
+      "catalog_sha256": "a96c74d5d02a4be7987a0805841a5cad1dec2e8d0dd492d330a33463c5f226f3",
+      "normalized_path": "data/normalized/expansion-f9433cd5b3f0.jsonl",
+      "normalized_sha256": "7a1b729734f7ef892ec69638c6a8e9b1118f4c90537d68eb56d520acdbdca6b3",
+      "record_count": 3,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
     },
     {
       "source_id": "lit-aranguri-2006",

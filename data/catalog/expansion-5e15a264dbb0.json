@@ -1,0 +1,26 @@
+{
+  "dataset_id": "expansion-5e15a264dbb0",
+  "source_id": "expansion-5e15a264dbb0",
+  "title": "Measuring quality indicators in the operating room: cleaning and turnover time",
+  "source_url": "https://revistas.usp.br/rlae/en/article/download/4436/5850/6729",
+  "scope": "External primary hospital study; limited numeric findings, not local calibration",
+  "access": "public_primary_article_or_abstract",
+  "rights": {
+    "source_license": "not assessed for full-text redistribution",
+    "redistribution": "Short factual paraphrases; no full article copied"
+  },
+  "acquisition_status": "acquired",
+  "raw_paths": [],
+  "normalized_path": "data/normalized/expansion-5e15a264dbb0.jsonl",
+  "record_count": 2,
+  "limits": [
+    "Hospital setting, period, endpoint and denominator are source-specific.",
+    "No original snapshot retained; human review should follow source URL and locator.",
+    "Quantiles and means alone do not define a fitted sampling distribution."
+  ],
+  "provenance": {
+    "doi": "10.1590/s0104-11692011000500023",
+    "retrieved_at": "2026-10-10T16:55:25Z",
+    "raw_artifact_kind": "no_raw_limited_paraphrase"
+  }
+}

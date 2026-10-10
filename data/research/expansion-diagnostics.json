@@ -1,0 +1,263 @@
+[
+  {
+    "id": "chaisirin-2020-lab-tat-poct-clt",
+    "source_title": "Role of Point-of-Care Testing in Reducing Time to Treatment Decision-Making in Urgency Patients: A Randomized Controlled Trial",
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7081845/",
+    "doi": "10.5811/westjem.2019.10.43655",
+    "locator": "Table 3, Blood draw to complete laboratory time row and its footnote; Methods, Outcomes",
+    "source_setting": "Siriraj Hospital Urgency Room, tertiary university hospital, Bangkok, Thailand; adults triage level 3/4 requiring electrolyte tests (Na, K, Cl, bicarbonate); single-center RCT.",
+    "source_period": "April–October 2017.",
+    "source_n": "248 randomized patients: 124 point-of-care testing (POCT), 124 central-laboratory testing (CLT); 12 of 260 eligible declined.",
+    "quantity": "Blood draw to all laboratory results reported, median (IQR)",
+    "value": {
+      "POCT": {
+        "median": 72,
+        "q1": 54.5,
+        "q3": 90
+      },
+      "CLT": {
+        "median": 87.5,
+        "q1": 70,
+        "q3": 103
+      }
+    },
+    "unit": "minutes",
+    "source_evidence_basis": "Table 3 separates two endpoints: the row “Blood draw to complete laboratory time” reports 72 min (POCT) and 87.5 min (CLT), medians (IQR), defined in the table footnote as blood draw until all results were reported. The separate “Laboratory turnaround time” rows report POCT 5 min (IQR 4–6) and CLT 87.5 min (IQR 70–103); the Methods defines lab TAT as sample accessing to results reporting.",
+    "limitations": "Do not conflate Table 3’s distinct rows: POCT instrument/lab TAT is 5 min (IQR 4–6), while POCT blood-draw-to-all-results is 72 min (IQR 54.5–90). The CLT median is 87.5 in both rows, with IQR 70–103 in both rows. Selected adult urgency cohort at one Thai hospital.",
+    "inferred_scenario_use": "Use as an external sensitivity range for a defined blood-draw-to-results event in comparable lower-acuity ED scenarios. Do not treat as local or universal; model POCT vs central lab as distinct branches and calibrate to local workflow.",
+    "retrieved_at": "2026-10-10T16:55:23Z",
+    "source_verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7081845/fullTextXML"
+  },
+  {
+    "id": "chaisirin-2020-lab-instrument-tat",
+    "source_title": "Role of Point-of-Care Testing in Reducing Time to Treatment Decision-Making in Urgency Patients: A Randomized Controlled Trial",
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7081845/",
+    "doi": "10.5811/westjem.2019.10.43655",
+    "locator": "Table 3, “Laboratory turnaround time”; Results, Primary outcomes",
+    "source_setting": "Siriraj Hospital Urgency Room, tertiary university hospital, Bangkok, Thailand; adults triage level 3/4 requiring electrolyte tests (Na, K, Cl, bicarbonate); single-center RCT.",
+    "source_period": "April–October 2017.",
+    "source_n": "248 randomized patients: 124 point-of-care testing (POCT), 124 central-laboratory testing (CLT); 12 of 260 eligible declined.",
+    "quantity": "Laboratory turnaround time by method, median (IQR)",
+    "value": {
+      "POCT": {
+        "median": 5,
+        "q1": 4,
+        "q3": 6
+      },
+      "CLT": {
+        "median": 87.5,
+        "q1": 70,
+        "q3": 103
+      }
+    },
+    "unit": "minutes",
+    "source_evidence_basis": "Table 3, “Laboratory turnaround time” rows report POCT 5 min (IQR 4–6) and CLT 87.5 min (IQR 70–103); Methods defines general lab TAT as sample accessing to results reporting. The table separately reports a blood-draw-to-all-results interval of 72 min (IQR 54.5–90) for POCT and 87.5 min (IQR 70–103) for CLT.",
+    "limitations": "The POCT analytical/lab TAT endpoint (5 min) differs from the separately reported POCT draw-to-all-results interval (72 min); do not combine them. Single-center selected cohort.",
+    "inferred_scenario_use": "For an explicitly method-level modeling assumption only: vary a rapid point-of-care path around the reported 5-minute analytical interval versus central testing around 70–103-minute IQR. Keep collection, reporting and clinician review as separate modeled intervals.",
+    "retrieved_at": "2026-10-10T16:55:23Z",
+    "source_verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7081845/fullTextXML"
+  },
+  {
+    "id": "chaisirin-2020-lab-decision",
+    "source_title": "Role of Point-of-Care Testing in Reducing Time to Treatment Decision-Making in Urgency Patients: A Randomized Controlled Trial",
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7081845/",
+    "doi": "10.5811/westjem.2019.10.43655",
+    "locator": "Table 3, “Arrival to time of decision-making”; Methods, Outcomes",
+    "source_setting": "Siriraj Hospital Urgency Room, tertiary university hospital, Bangkok, Thailand; adults triage level 3/4 requiring electrolyte tests (Na, K, Cl, bicarbonate); single-center RCT.",
+    "source_period": "April–October 2017.",
+    "source_n": "248 randomized patients: 124 point-of-care testing (POCT), 124 central-laboratory testing (CLT); 12 of 260 eligible declined.",
+    "quantity": "ED arrival to physician decision, median (IQR)",
+    "value": {
+      "POCT": {
+        "median": 106.5,
+        "q1": 78.25,
+        "q3": 140
+      },
+      "CLT": {
+        "median": 204.5,
+        "q1": 165,
+        "q3": 244
+      }
+    },
+    "unit": "minutes",
+    "source_evidence_basis": "Table 3, “Laboratory turnaround time” rows report POCT 5 min (IQR 4–6) and CLT 87.5 min (IQR 70–103); Methods defines general lab TAT as sample accessing to results reporting. The table separately reports a blood-draw-to-all-results interval of 72 min (IQR 54.5–90) for POCT and 87.5 min (IQR 70–103) for CLT.",
+    "limitations": "The POCT analytical/lab TAT endpoint (5 min) differs from the separately reported POCT draw-to-all-results interval (72 min); do not combine them. Single-center selected cohort.",
+    "inferred_scenario_use": "May bound an end-to-end scenario outcome for a similar cohort; do not use as a component service-time parameter or isolate a lab causal effect.",
+    "retrieved_at": "2026-10-10T16:55:23Z",
+    "source_verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7081845/fullTextXML"
+  },
+  {
+    "id": "tact-2019-radiology-overall-tat",
+    "source_title": "The impact of a multimodal intervention on emergency department crowding and patient flow",
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6712614/",
+    "doi": "10.1186/s12245-019-0238-7",
+    "locator": "Table 8, “Overall (24/7) radiology report turnaround times”; Methods, Study design and intervention; Results.",
+    "source_setting": "Haaglanden Medical Center Westeinde, inner-city 380-bed acute neurovascular/level 1 trauma center, Netherlands; annual ED census 54,000; GP-cooperative referrals excluded.",
+    "source_period": "9-month pre-intervention period Dec 2016–Sep 2017 and 9-month intervention period Dec 2017–Sep 2018, as stated by authors; 18 months total.",
+    "source_n": "Table 8 period counts sum to 40,769 radiology orders (20,082 pre + 20,687 intervention); the paper states turnaround values were missing for 99 orders, leaving 40,670 nonmissing turnaround observations. Included ED presentations: 64,012 (31,891 pre, 32,121 intervention).",
+    "quantity": "All radiology report turnaround time, median (IQR), before and during multimodal intervention",
+    "value": {
+      "pre_intervention": {
+        "median": 91,
+        "q1": 45,
+        "q3": 256
+      },
+      "intervention": {
+        "median": 50,
+        "q1": 30,
+        "q3": 106
+      }
+    },
+    "unit": "minutes",
+    "source_evidence_basis": "Observed order-level hospital information-system intervals, reported as median (IQR); Table 8 explicitly says overall 24/7 and is based on orders with missing values excluded.",
+    "limitations": "Single site; nonrandomized before/after comparison with four simultaneous workflow changes (including radiology Lean work), so change cannot be attributed to any one intervention. Patient population and construction conditions differed over time.",
+    "inferred_scenario_use": "External benchmark for overall order-to-radiology-report interval and sensitivity scenario; intervention contrast is descriptive and not a guaranteed treatment effect. Keep ED LOS separate from report turnaround.",
+    "retrieved_at": "2026-10-10T16:55:23Z",
+    "source_verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC6712614/fullTextXML"
+  },
+  {
+    "id": "tact-2019-ct-report-tat",
+    "source_title": "The impact of a multimodal intervention on emergency department crowding and patient flow",
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6712614/",
+    "doi": "10.1186/s12245-019-0238-7",
+    "locator": "Table 8, CT row; Methods, Study design and intervention",
+    "source_setting": "Haaglanden Medical Center Westeinde, inner-city 380-bed acute neurovascular/level 1 trauma center, Netherlands; annual ED census 54,000; GP-cooperative referrals excluded.",
+    "source_period": "9-month pre-intervention period Dec 2016–Sep 2017 and 9-month intervention period Dec 2017–Sep 2018, as stated by authors; 18 months total.",
+    "source_n": "Table 8 period counts sum to 40,769 radiology orders (20,082 pre + 20,687 intervention); the paper states turnaround values were missing for 99 orders, leaving 40,670 nonmissing turnaround observations. Included ED presentations: 64,012 (31,891 pre, 32,121 intervention).",
+    "quantity": "CT radiology report turnaround time, median (IQR), before and during multimodal intervention",
+    "value": {
+      "pre_intervention": {
+        "median": 122,
+        "q1": 61,
+        "q3": 413
+      },
+      "intervention": {
+        "median": 67,
+        "q1": 42,
+        "q3": 142
+      }
+    },
+    "unit": "minutes",
+    "source_evidence_basis": "Observed order-level medians and IQRs from overall 24/7 radiology reporting; CT order type identified in Table 8.",
+    "limitations": "Single-hospital, observational, multi-component intervention; wide pre-period IQR shows skew/variation. Not a CT acquisition time; interval concerns report turnaround.",
+    "inferred_scenario_use": "Use as a CT-specific external comparator distribution summary; preserve long-tail uncertainty and do not use as local rate.",
+    "retrieved_at": "2026-10-10T16:55:23Z",
+    "source_verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC6712614/fullTextXML"
+  },
+  {
+    "id": "tact-2019-xray-report-tat",
+    "source_title": "The impact of a multimodal intervention on emergency department crowding and patient flow",
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6712614/",
+    "doi": "10.1186/s12245-019-0238-7",
+    "locator": "Table 8, Plain radiograph row; Methods, Study design and intervention",
+    "source_setting": "Haaglanden Medical Center Westeinde, inner-city 380-bed acute neurovascular/level 1 trauma center, Netherlands; annual ED census 54,000; GP-cooperative referrals excluded.",
+    "source_period": "9-month pre-intervention period Dec 2016–Sep 2017 and 9-month intervention period Dec 2017–Sep 2018, as stated by authors; 18 months total.",
+    "source_n": "Table 8 period counts sum to 40,769 radiology orders (20,082 pre + 20,687 intervention); the paper states turnaround values were missing for 99 orders, leaving 40,670 nonmissing turnaround observations. Included ED presentations: 64,012 (31,891 pre, 32,121 intervention).",
+    "quantity": "Plain radiograph report turnaround time, median (IQR), before and during multimodal intervention",
+    "value": {
+      "pre_intervention": {
+        "median": 69,
+        "q1": 36,
+        "q3": 195
+      },
+      "intervention": {
+        "median": 41,
+        "q1": 25,
+        "q3": 83
+      }
+    },
+    "unit": "minutes",
+    "source_evidence_basis": "Observed order-level medians and IQRs from overall 24/7 radiology reporting; Table 8 category is plain radiograph.",
+    "limitations": "Single-hospital observational data and bundled intervention; excludes redirected GP patients; report turnaround is not time from arrival to image or physician disposition.",
+    "inferred_scenario_use": "External comparator for plain-film report event in scenario sensitivity analyses; do not combine with CT as one imaging service-time distribution.",
+    "retrieved_at": "2026-10-10T16:55:23Z",
+    "source_verification_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC6712614/fullTextXML"
+  },
+  {
+    "id": "naylor-2011-pharmacy-stat-dispensary-tat",
+    "source_title": "Retrospective Audit of Medication Order Turnaround Time after Implementation of Standardized Definitions",
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3203827/",
+    "doi": "10.4212/cjhp.v64i5.1070",
+    "locator": "Table 2, “Turnaround Times for Medication Orders”; Methods, audit periods/turnaround definitions; Results.",
+    "source_setting": "231-bed community hospital, Winnipeg, Manitoba, Canada; acute medical-surgical, mental health and family-medicine inpatients; pharmacy orders processed 07:00–21:00.",
+    "source_period": "Baseline: May 2009. Post-intervention: 28 randomly selected days, Aug 17–Oct 9, 2009.",
+    "source_n": "7,787 baseline prescriptions and 5,365 post-intervention prescriptions audited; eligible urgent-designation subsets: stat/emergent n=30 and 37; urgent/now n=54 and 105.",
+    "quantity": "Stat/emergent order prescribing-to-dispensary-departure turnaround, median before/after definitions",
+    "value": {
+      "baseline": 10,
+      "post_intervention": 9
+    },
+    "unit": "minutes",
+    "source_evidence_basis": "Retrospective audit; Table 2 median dispensary turnaround time for 30 baseline and 37 post-intervention stat/emergent orders. DTAT endpoint is order leaving dispensary, distinguished from total time until administration. The table prints 28 (90%) for 28/30; arithmetic on the printed count gives 93.3%, so retain both the paper-reported percentage and the count discrepancy explicitly.",
+    "limitations": "One Canadian inpatient pharmacy; restricted to orders received in normal operating hours; before/after education study with small urgent subsets; no significant change observed (p=0.27). Table 2 has a count/percentage discrepancy for baseline stat/emergent orders: 28/30 calculates to 93.3%, while the article prints 90%. Preserve the reported text and raw numerator/denominator; do not silently substitute the recalculated value.",
+    "inferred_scenario_use": "Use only as an external urgent medication dispensing-stage comparator for inpatient-style pharmacy workflow; not a medication administration or ED prescription-to-bed endpoint.",
+    "retrieved_at": "2026-10-10T16:55:23Z",
+    "source_verification_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3203827/?report=xml"
+  },
+  {
+    "id": "naylor-2011-pharmacy-urgent-dispensary-tat",
+    "source_title": "Retrospective Audit of Medication Order Turnaround Time after Implementation of Standardized Definitions",
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3203827/",
+    "doi": "10.4212/cjhp.v64i5.1070",
+    "locator": "Table 2, “Turnaround Times for Medication Orders”; Methods, audit periods/turnaround definitions",
+    "source_setting": "231-bed community hospital, Winnipeg, Manitoba, Canada; acute medical-surgical, mental health and family-medicine inpatients; pharmacy orders processed 07:00–21:00.",
+    "source_period": "Baseline: May 2009. Post-intervention: 28 randomly selected days, Aug 17–Oct 9, 2009.",
+    "source_n": "7,787 baseline prescriptions and 5,365 post-intervention prescriptions audited; eligible urgent-designation subsets: stat/emergent n=30 and 37; urgent/now n=54 and 105.",
+    "quantity": "Urgent/now order prescribing-to-dispensary-departure turnaround, median before/after definitions",
+    "value": {
+      "baseline": 10,
+      "post_intervention": 12
+    },
+    "unit": "minutes",
+    "source_evidence_basis": "Retrospective audit; Table 2 median dispensary turnaround for 54 baseline and 105 post-intervention urgent/now orders. DTAT ends when medication leaves dispensary. The table prints 28 (90%) for 28/30; arithmetic on the printed count gives 93.3%, so retain both the paper-reported percentage and the count discrepancy explicitly.",
+    "limitations": "Single hospital; restricted operating hours and eligible urgency labels; education intervention did not significantly change DTAT (p=0.09); downstream delivery/administration is not included. Table 2 has a count/percentage discrepancy for baseline stat/emergent orders: 28/30 calculates to 93.3%, while the article prints 90%. Preserve the reported text and raw numerator/denominator; do not silently substitute the recalculated value.",
+    "inferred_scenario_use": "External comparator for the pharmacy processing/dispatch segment of urgent medication orders; keep order arrival and ward delivery separate and vary locally.",
+    "retrieved_at": "2026-10-10T16:55:23Z",
+    "source_verification_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3203827/?report=xml"
+  },
+  {
+    "id": "naylor-2011-pharmacy-under15-share",
+    "source_title": "Retrospective Audit of Medication Order Turnaround Time after Implementation of Standardized Definitions",
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3203827/",
+    "doi": "10.4212/cjhp.v64i5.1070",
+    "locator": "Table 2, rows “No. (%) with dispensary turnaround time < 15 min”; Results",
+    "source_setting": "231-bed community hospital, Winnipeg, Manitoba, Canada; acute medical-surgical, mental health and family-medicine inpatients; pharmacy orders processed 07:00–21:00.",
+    "source_period": "Baseline: May 2009. Post-intervention: 28 randomly selected days, Aug 17–Oct 9, 2009.",
+    "source_n": "7,787 baseline prescriptions and 5,365 post-intervention prescriptions audited; eligible urgent-designation subsets: stat/emergent n=30 and 37; urgent/now n=54 and 105.",
+    "quantity": "Urgent-designation orders with dispensary turnaround under 15 minutes, before/after definitions",
+    "value": {
+      "stat_emergent": {
+        "baseline": {
+          "n": 30,
+          "within_15_min": 28,
+          "percent": 90,
+          "calculated_percent_from_count": 93.3,
+          "paper_printed_percent": 90
+        },
+        "post_intervention": {
+          "n": 37,
+          "within_15_min": 35,
+          "percent": 95
+        }
+      },
+      "urgent_now": {
+        "baseline": {
+          "n": 54,
+          "within_15_min": 48,
+          "percent": 89
+        },
+        "post_intervention": {
+          "n": 105,
+          "within_15_min": 94,
+          "percent": 89
+        }
+      }
+    },
+    "unit": "percent and count of orders",
+    "source_evidence_basis": "Observed audit counts and percentages reported in Table 2; full urgency-group denominators shown. The table prints 28 (90%) for 28/30; arithmetic on the printed count gives 93.3%, so retain both the paper-reported percentage and the count discrepancy explicitly.",
+    "limitations": "Not a universal service-level target and reflects dispensary departure, not bedside availability; single-site workload and business hours. Authors report at least 90% combined urgent orders met the <15-min metric at baseline/post, but group-specific rounding differs. Table 2 has a count/percentage discrepancy for baseline stat/emergent orders: 28/30 calculates to 93.3%, while the article prints 90%. Preserve the reported text and raw numerator/denominator; do not silently substitute the recalculated value.",
+    "inferred_scenario_use": "Could inform a candidate pharmacy-stage service-level scenario, with explicit uncertainty and local replacement criteria; do not treat as a promised target or whole medication turnaround.",
+    "retrieved_at": "2026-10-10T16:55:23Z",
+    "source_verification_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3203827/?report=xml"
+  }
+]

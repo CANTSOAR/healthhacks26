@@ -1,0 +1,34 @@
+{
+  "campaign": "hospital-literature-expansion-2026-10-10",
+  "execution": "Three explicitly requested Luna collaboration agents; finite research pass",
+  "jobs": [
+    {
+      "domain": "diagnostics",
+      "agent_model": "gpt-6-luna",
+      "status": "completed",
+      "extract_path": "data/research/expansion-diagnostics.json",
+      "extract_sha256": "3dc368cef26e7a6d9f563b056c2e46d8bd7e8e5a2ff7229f6bb75a01a61f9f9b",
+      "record_count": 9
+    },
+    {
+      "domain": "inpatient",
+      "agent_model": "gpt-6-luna",
+      "status": "completed",
+      "extract_path": "data/research/expansion-inpatient.json",
+      "extract_sha256": "99a7185e76d7ebca07a0c1064af3ed44dede10bb727a88826d10371bc40a3201",
+      "record_count": 6
+    },
+    {
+      "domain": "perioperative",
+      "agent_model": "gpt-6-luna",
+      "status": "completed",
+      "extract_path": "data/research/expansion-perioperative.json",
+      "extract_sha256": "cee5b612c83c399e7d946b9dd11d4d090e6f4ef30b2da42498f66c6a77b527ba",
+      "record_count": 10
+    }
+  ],
+  "sources_added": 10,
+  "records_added": 25,
+  "status": "completed_extraction_not_human_approved",
+  "next_step": "Human source comparison in data/review/index.html; priority review all operational parameters before adoption"
+}
