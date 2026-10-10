@@ -25,7 +25,7 @@
       "agent_model": "gpt-6-luna",
       "status": "completed",
       "extract_path": "data/research/model-timing.json",
-      "extract_sha256": "c54c9ad1a50458b4265e459e7cfb39d0c1836b70025497f2d1ce563e7922a492",
+      "extract_sha256": "a5bbaffd95c762de6ad50a7a5e9e224fc21b7376c2b7464de0287df2116f50e1",
       "record_count": 9,
       "pending_candidate_count": 0
     }

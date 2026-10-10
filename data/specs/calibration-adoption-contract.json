@@ -1,0 +1,24 @@
+{
+  "status": "proposed_project_review_contract_not_clinical_guidance",
+  "purpose": "Prevent source summaries and external frequencies from silently becoming local simulation parameters",
+  "probability": {
+    "required_fields": ["event_definition", "conditioning_population", "numerator", "denominator", "unit_of_analysis", "time_horizon", "inclusion_exclusion", "missing_followup", "competing_events", "source_record_ids", "review_status"],
+    "checks": ["Preserve reported and calculated percentages separately", "Only calculate n/N when n is a subset of that exact N", "Do not add overlapping diagnoses as exclusive branches", "Diagnostic yield after selected referral is not prevalence among all ED arrivals", "Observed treatment-arm differences do not establish the effect for a new hospital"],
+    "local_probability": null
+  },
+  "availability": {
+    "required_fields": ["resource_type", "facility_unit", "capacity_basis", "interval_start_end_timezone", "skill_eligibility", "available_count", "occupied_or_reserved_count", "closure_reason", "source_record_ids"],
+    "checks": ["Separate licensed, physical, staffed, open and free capacity", "Availability may vary with shift, breaks, acuity and competing duties", "A published simulation roster is an assumption unless its observed basis is documented", "Do not compute joint availability by multiplying marginal availability without dependence evidence"],
+    "local_available_capacity": null
+  },
+  "turnaround": {
+    "required_fields": ["start_event", "end_event", "population", "sample_size", "period", "unit", "summary_or_distribution", "censoring", "staff_touch_time_or_elapsed", "source_record_ids"],
+    "checks": ["Patient departure to room ready can include queues and cleaning", "Cleaning service time is not the same as bed assignment or next-patient arrival", "Before/after cohorts require workflow and case-mix context", "Do not sum overlapping intervals or treat mean confidence limits as patient quantiles"],
+    "local_duration_distribution": null
+  },
+  "conflict_resolution": {
+    "allowed_states": ["unresolved", "definition_selected_with_documented_basis", "notation_resolved_fit_unvalidated", "resolved_by_primary_correction"],
+    "checks": ["Record both conflicting statements and exact locators", "No author intent inferred from whichever value fits expectations", "Resolved notation does not establish fit quality or transportability", "Keep original evidence and add a linked correction or interpretation"]
+  },
+  "activation": "Requires separate human extraction review, clinical or operational applicability review, and explicit scenario adoption; this contract grants none"
+}

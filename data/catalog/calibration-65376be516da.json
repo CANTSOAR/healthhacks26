@@ -1,0 +1,26 @@
+{
+  "dataset_id": "calibration-65376be516da",
+  "source_id": "calibration-65376be516da",
+  "title": "Prospective comparison of magnetic resonance imaging and computed tomography in diagnosing occult scaphoid fractures",
+  "source_url": "https://pubmed.ncbi.nlm.nih.gov/34918571/",
+  "scope": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+  "access": "public_primary_article_or_abstract",
+  "rights": {
+    "source_license": "not assessed for full-text redistribution",
+    "redistribution": "Short factual paraphrases; no full article copied"
+  },
+  "acquisition_status": "acquired",
+  "raw_paths": [],
+  "normalized_path": "data/normalized/calibration-65376be516da.jsonl",
+  "record_count": 1,
+  "limits": [
+    "Setting, period, applicability and endpoint are source-specific.",
+    "No original snapshot retained; human review should follow source URL and locator.",
+    "A role description or guideline does not establish local operational performance."
+  ],
+  "provenance": {
+    "doi": "10.1177/02841851211064595",
+    "retrieved_at": "2026-10-10T21:04:07.075037+00:00",
+    "raw_artifact_kind": "no_raw_limited_paraphrase"
+  }
+}

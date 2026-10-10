@@ -1,0 +1,37 @@
+{
+  "campaign": "calibration-gap-resolution-2026-10-10",
+  "execution": "Three GPT-6 Luna source research agents; parent integration and source spot checks",
+  "jobs": [
+    {
+      "domain": "branches",
+      "agent_model": "gpt-6-luna",
+      "status": "completed",
+      "extract_path": "data/research/calibration-branches.json",
+      "extract_sha256": "540469d407b8687c9d5d549b8c7d720d551f60db59cc992d04f8d3a7b35bde49",
+      "record_count": 7,
+      "pending_candidate_count": 0
+    },
+    {
+      "domain": "capacity",
+      "agent_model": "gpt-6-luna",
+      "status": "completed",
+      "extract_path": "data/research/calibration-capacity.json",
+      "extract_sha256": "c89fa4b68fd42a1167db6b7a6be0e6f425deb3072ee1f507b7e7be2447ce39ca",
+      "record_count": 9,
+      "pending_candidate_count": 0
+    },
+    {
+      "domain": "timing",
+      "agent_model": "gpt-6-luna",
+      "status": "completed",
+      "extract_path": "data/research/calibration-timing.json",
+      "extract_sha256": "4a46a8e30ea5d9b2163edc52f56af68a58ed4d516a3cf3b77f2fa4d6377bc104",
+      "record_count": 4,
+      "pending_candidate_count": 0
+    }
+  ],
+  "sources_added": 14,
+  "records_added": 20,
+  "status": "completed_extraction_not_human_approved",
+  "next_step": "Human source comparison in data/review/index.html; priority review all operational parameters before adoption"
+}

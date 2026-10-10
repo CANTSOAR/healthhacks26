@@ -20,7 +20,7 @@ for r in rows:
  assert r['_review']['record_sha256']==expected[r['record_id']]
  for k in ['catalog_path','normalized_path']:
   assert (D/'review'/r['_review'][k]).resolve().is_file()
-for name in ['expansion-receipt.json','breadth-receipt.json','inventory-receipt.json','gaps-receipt.json','specialty-receipt.json','encounter-receipt.json','model-receipt.json']:
+for name in ['expansion-receipt.json','breadth-receipt.json','inventory-receipt.json','gaps-receipt.json','specialty-receipt.json','encounter-receipt.json','model-receipt.json','calibration-receipt.json']:
  receipt=json.loads((D/'workflows'/name).read_text())
  for j in receipt['jobs']:
   assert hashlib.sha256((D.parent/j['extract_path']).read_bytes()).hexdigest()==j['extract_sha256']
@@ -33,7 +33,7 @@ for family in coverage['families']:
 assert all(rid in expected for rid in coverage['role_evidence_record_ids'])
 contract=json.loads((D/'specs/encounter-evidence-contract.json').read_text())
 assert all(rid in expected for rid in contract['fracture_example']['source_record_ids'])
-for transfer_path in ['gap-transfer-candidates.json','specialty-transfer-candidates.json','encounter-transfer-candidates.json','model-transfer-candidates.json']:
+for transfer_path in ['gap-transfer-candidates.json','specialty-transfer-candidates.json','encounter-transfer-candidates.json','model-transfer-candidates.json','calibration-transfer-candidates.json']:
  transfers=json.loads((D/'knowledge'/transfer_path).read_text())['transfers']
  for t in transfers:
   assert t['status']=='inferred_candidate_not_activated'
@@ -68,3 +68,32 @@ for rid in ['model-timing-rio-simulation-triage-fit','model-timing-rio-simulatio
  assert next(t for t in model_transfers if t['source_record_ids']==[rid])['quantitative_use_status'].startswith('blocked_')
 assert 'model-branches-capable-adult-declines-recommendation' not in expected
 print('PASS: inactive model requirements, source links, unresolved timing blocks and pending-source exclusion')
+
+calibration=[]
+for p in (D/'research').glob('calibration-*.json'):
+ calibration.extend(json.loads(p.read_text()))
+byid={r['id']:r for r in calibration}
+assert all(r['applicability_label']=='external_reference_not_RWJ' for r in calibration)
+assert all('index' not in r['source_access'].lower() or r['source_access']=='search_index_only_pending_primary_inspection' for r in calibration)
+def validate_counts(value):
+ if isinstance(value,dict):
+  n,N=value.get('numerator'),value.get('denominator')
+  if isinstance(n,(int,float)) and isinstance(N,(int,float)):assert 0 <= n <= N and N > 0
+  for x in value.values():validate_counts(x)
+ elif isinstance(value,list):
+  for x in value:validate_counts(x)
+for r in calibration:validate_counts(r['value'])
+completion=byid['calibration-branches-mri-completion']['value']
+assert sum(x['numerator'] for x in completion.values())==258
+assert all(x['denominator']==258 for x in completion.values())
+assert byid['calibration-branches-negative-xray-ct-negative-mri-yield']['quantitative_use_status'].startswith('blocked_')
+assert byid['calibration-timing-rio-triage-expression-conflict']['quantitative_use_status'].startswith('blocked_')
+for r in json.loads((D/'research/model-timing.json').read_text()):
+ for rid in r.get('correction_record_ids',[]):assert rid in expected
+print('PASS: calibration count bounds, access status, source corrections and unresolved quantitative blocks')
+
+transfers=json.loads((D/'knowledge/calibration-transfer-candidates.json').read_text())['transfers']
+for r in calibration:
+ if r.get('quantitative_use_status','').startswith('blocked_'):
+  assert next(t for t in transfers if t['source_record_ids']==[r['id']])['quantitative_use_status']==r['quantitative_use_status']
+print('PASS: all calibration quantitative blocks propagate into transfer proposals')

@@ -52,5 +52,6 @@
       "locator": "PMC article header and abstract",
       "outcome": "Corrected DOI assignment; removed misplaced article DOI from NHS handover guidance"
     }
-  ]
+  ],
+  "correction_note": "2026-10-10: earlier fit-conclusion conflict language is superseded by calibration-parent-review.json. The claimed body p>0.05 passage was not substantiated; Table7/Appendix2 triage-input conflict remains."
 }

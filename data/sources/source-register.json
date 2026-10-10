@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0.0",
   "generation": "Deterministic offline derivation; no source refetch and no inferred publication date or author",
-  "source_count": 155,
-  "record_count": 84271,
+  "source_count": 169,
+  "record_count": 84291,
   "sources": [
     {
       "source_id": "breadth-068cbcf1bb53",
@@ -1015,6 +1015,552 @@
       "normalized_path": "data/normalized/breadth-f2ce81064374.jsonl",
       "normalized_sha256": "f80c74819ca3170b2ded008edad421ebef5623e3bd7e93aa9c091e3f40d5170c",
       "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "calibration-05b2b9e7fe54",
+      "bibtex_key": "calibration-05b2b9e7fe54",
+      "title": "Cost and clinical effectiveness of MRI in occult scaphoid fractures: a randomised controlled trial",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/22505295/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1136/emermed-2011-200676",
+        "retrieved_at": "2026-10-10T21:03:32Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T21:03:32Z"
+        }
+      ],
+      "catalog_path": "data/catalog/calibration-05b2b9e7fe54.json",
+      "catalog_sha256": "b9761fa4cd2be6e89f34cd4093302b5d10af60eb4842b5e2f1c74e4c592db332",
+      "normalized_path": "data/normalized/calibration-05b2b9e7fe54.jsonl",
+      "normalized_sha256": "0017e06b698f777307cee1173aad8fedb964da8db0ffc814cde71146eae5420c",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "calibration-4951089494b9",
+      "bibtex_key": "calibration-4951089494b9",
+      "title": "An Objective Method to Determine Nurse Staffing for an Acute Care for Elders (ACE) Hospital Unit: Discrete Event Simulation",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12303744/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1111/jgs.19507",
+        "retrieved_at": "2026-10-10T21:02:21Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T21:02:21Z"
+        }
+      ],
+      "catalog_path": "data/catalog/calibration-4951089494b9.json",
+      "catalog_sha256": "b16048db2aef2fcff2135205fccc390652ad2610d0605aafdcc4bbb958505902",
+      "normalized_path": "data/normalized/calibration-4951089494b9.jsonl",
+      "normalized_sha256": "32f1d9609a3b2fdca4f57b6fadd8741b27ecd55ecc12afb300ff7bff59a53d32",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "calibration-5911811b6e16",
+      "bibtex_key": "calibration-5911811b6e16",
+      "title": "Performance evaluation of an emergency department in Rio de Janeiro: a hybrid approach using Discrete Events Simulation and Data Envelopment Analysis",
+      "source_url": "https://doi.org/10.1590/1806-9649-2024v31e1024",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1590/1806-9649-2024v31e1024",
+        "retrieved_at": "2026-10-10T21:03:04Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T21:03:04Z"
+        }
+      ],
+      "catalog_path": "data/catalog/calibration-5911811b6e16.json",
+      "catalog_sha256": "c3425d167eddb684ce773cf71b98b0433bbd2b92efa4d5b774e5603ca06f29a3",
+      "normalized_path": "data/normalized/calibration-5911811b6e16.jsonl",
+      "normalized_sha256": "0e7b96b52892c1964acc5b7bf04551b5e054e78d5f1cf01724bc1f07bd76251d",
+      "record_count": 2,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "calibration-61fd57dd9889",
+      "bibtex_key": "calibration-61fd57dd9889",
+      "title": "Arena User’s Guide",
+      "source_url": "https://medarbejdere.au.dk/fileadmin/www.medarbejdere.au.dk/it/BSS_Analysevaerktoejer/Arena/Arena_User_s_Guide_EN.pdf",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T21:03:04Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T21:03:04Z"
+        }
+      ],
+      "catalog_path": "data/catalog/calibration-61fd57dd9889.json",
+      "catalog_sha256": "5a4cb76a8224311b514847fb0bf6a69afa424a0d6b0bd4d8d6cf71f0b603c10f",
+      "normalized_path": "data/normalized/calibration-61fd57dd9889.jsonl",
+      "normalized_sha256": "54030cd1289f8c8ec7da82057d34e54f16cc2327738adccfdf1a2b5a57b0f3c3",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "calibration-63773ac4d182",
+      "bibtex_key": "calibration-63773ac4d182",
+      "title": "Improving daily patient room cleaning: an observational study using a human factors and systems engineering approach",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6760906/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1080/24725838.2018.1487348",
+        "retrieved_at": "2026-10-10T21:02:21Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T21:02:21Z"
+        }
+      ],
+      "catalog_path": "data/catalog/calibration-63773ac4d182.json",
+      "catalog_sha256": "7d1a017cfef5e6f3960b106437f0363a15627ea52103baeac2c273b8b3ce4ddb",
+      "normalized_path": "data/normalized/calibration-63773ac4d182.jsonl",
+      "normalized_sha256": "f704d0a50637e4bdb63b348fe30b3a7677992d812f24a70e95efcfcfd477df73",
+      "record_count": 2,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "calibration-65376be516da",
+      "bibtex_key": "calibration-65376be516da",
+      "title": "Prospective comparison of magnetic resonance imaging and computed tomography in diagnosing occult scaphoid fractures",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/34918571/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1177/02841851211064595",
+        "retrieved_at": "2026-10-10T21:04:07.075037+00:00",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T21:04:07.075037+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/calibration-65376be516da.json",
+      "catalog_sha256": "ebe909999bc555a06bcc82dcf412502561decddfcf579f0a99367267c6a6f250",
+      "normalized_path": "data/normalized/calibration-65376be516da.jsonl",
+      "normalized_sha256": "e2f78b39db2de06d13a7c6c8c25dc21ae8dac0d7af5f4f2ec8fefb2c0ca10891",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "calibration-76d2ff32b09b",
+      "bibtex_key": "calibration-76d2ff32b09b",
+      "title": "The management of suspected scaphoid fractures in the UK: a national cross-sectional study",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8636302/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1302/2633-1462.211.BJO-2021-0146",
+        "retrieved_at": "2026-10-10T21:03:45Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T21:03:45Z"
+        }
+      ],
+      "catalog_path": "data/catalog/calibration-76d2ff32b09b.json",
+      "catalog_sha256": "8d8053d292486bf6a95a299e342869064539a76806daa8fed293f7f3c2b2510d",
+      "normalized_path": "data/normalized/calibration-76d2ff32b09b.jsonl",
+      "normalized_sha256": "6e16bdd5b2fa8dcf1fada594b30b79e0f54f7b62f3373a8c62081c63233564a5",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "calibration-af60aaff7a62",
+      "bibtex_key": "calibration-af60aaff7a62",
+      "title": "Stopping Hospital Infections With Environmental Services (SHINE): A Cluster-randomized Trial of Intensive Monitoring Methods for Terminal Room Cleaning on Rates of Multidrug-resistant Organisms in the Intensive Care Unit",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9525084/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1093/cid/ciac070",
+        "retrieved_at": "2026-10-10T21:02:21Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T21:02:21Z"
+        }
+      ],
+      "catalog_path": "data/catalog/calibration-af60aaff7a62.json",
+      "catalog_sha256": "d01c58d8e4bf41645ab4e612b926c290744e904095f81ca5e1a16160a08c861c",
+      "normalized_path": "data/normalized/calibration-af60aaff7a62.jsonl",
+      "normalized_sha256": "bd35c47f361ce0f774d30f306a879f3eddf4741ebc3dc35b2e083273b5136245",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "calibration-b67c10611859",
+      "bibtex_key": "calibration-b67c10611859",
+      "title": "Efficiency in the Endoscopy Unit: Can We “Turn Around” Room Turnover? An Observational Quality Improvement Study",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9340627/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1093/jcag/gwac005",
+        "retrieved_at": "2026-10-10T21:03:45Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T21:03:45Z"
+        }
+      ],
+      "catalog_path": "data/catalog/calibration-b67c10611859.json",
+      "catalog_sha256": "bb5d9f958bf564bccc46ff9d2fbf272d28b42168f3638e9517b45ea6c881dd0b",
+      "normalized_path": "data/normalized/calibration-b67c10611859.jsonl",
+      "normalized_sha256": "d7591e18323ab4bbdcc1cf8d95755a526891d86cee6ea3640956200696f3d3cf",
+      "record_count": 2,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "calibration-b738c01e9033",
+      "bibtex_key": "calibration-b738c01e9033",
+      "title": "Improving Emergency Department radiology transportation time: a successful implementation of lean methodology",
+      "source_url": "https://doi.org/10.1186/s12913-017-2488-5",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1186/s12913-017-2488-5",
+        "retrieved_at": "2026-10-10T21:03:04Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T21:03:04Z"
+        }
+      ],
+      "catalog_path": "data/catalog/calibration-b738c01e9033.json",
+      "catalog_sha256": "c556d953795d5b5e8ff05bb6a6a1aa1aad2463125565f986b1056e21b6352fdd",
+      "normalized_path": "data/normalized/calibration-b738c01e9033.jsonl",
+      "normalized_sha256": "e5a6baea7b8ea58b3efce3666d09625a8164faf83e178bbd1d16bcc0a0196563",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "calibration-e86fc3cbf893",
+      "bibtex_key": "calibration-e86fc3cbf893",
+      "title": "Clinical and cost implications of using immediate MRI in the management of patients with a suspected scaphoid fracture and negative radiographs: results from the SMaRT trial",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6681676/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1302/0301-620X.101B8.BJJ-2018-1590.R1",
+        "retrieved_at": "2026-10-10T21:03:32Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T21:03:32Z"
+        }
+      ],
+      "catalog_path": "data/catalog/calibration-e86fc3cbf893.json",
+      "catalog_sha256": "948ae452cd4f268c311a1112a0651dbba1347a960a4bc58002b335022e81da3b",
+      "normalized_path": "data/normalized/calibration-e86fc3cbf893.jsonl",
+      "normalized_sha256": "ac6245595ec59c685a0b8fe02e3df307a65b2d8f676b4ab93329f7927aef83cc",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "calibration-e8a9d45f61a7",
+      "bibtex_key": "calibration-e8a9d45f61a7",
+      "title": "What was considered a staffed bed in reporting facility metrics?",
+      "source_url": "https://www.hrsa.gov/about/faqs/non-financial-data-what-was-considered-staffed-bed-reporting-facility-metrics",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T21:02:21Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T21:02:21Z"
+        }
+      ],
+      "catalog_path": "data/catalog/calibration-e8a9d45f61a7.json",
+      "catalog_sha256": "7ba79eecc669340bb25482e4d802bd7df575e72ca2dce2132af111ecda748e14",
+      "normalized_path": "data/normalized/calibration-e8a9d45f61a7.jsonl",
+      "normalized_sha256": "1c4e9438d7d899ef138b9e517a075150694774881631162de43689c67d2023a5",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "calibration-ef7ee0e965c0",
+      "bibtex_key": "calibration-ef7ee0e965c0",
+      "title": "Streamlining the discharge process with a dedicated discharge nurse",
+      "source_url": "https://researchconnect.suny.edu/en/publications/streamlining-the-discharge-process-with-a-dedicated-discharge-nur/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T21:02:21Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T21:02:21Z"
+        }
+      ],
+      "catalog_path": "data/catalog/calibration-ef7ee0e965c0.json",
+      "catalog_sha256": "5ebf15e1b8e2e07d103ed3c0625bc7d6ac677c2b93196905c169c90ec24d66c7",
+      "normalized_path": "data/normalized/calibration-ef7ee0e965c0.jsonl",
+      "normalized_sha256": "dd87eaa72c72e0a18522d4c25fd83abd41fc8f41b0efcdb7469b3590e36fedd1",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "calibration-f81d5913dd3c",
+      "bibtex_key": "calibration-f81d5913dd3c",
+      "title": "Suspected scaphoid injuries managed by MRI direct from the emergency department: a single-centre prospective cohort study",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8244792/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": "10.1302/2633-1462.26.BJO-2021-0054.R1",
+        "retrieved_at": "2026-10-10T21:03:32Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T21:03:32Z"
+        }
+      ],
+      "catalog_path": "data/catalog/calibration-f81d5913dd3c.json",
+      "catalog_sha256": "ae251cda3057e650f5bfe66552ae233641322bb014b4d0319f8a4c4b53e73da5",
+      "normalized_path": "data/normalized/calibration-f81d5913dd3c.jsonl",
+      "normalized_sha256": "2876e7407e12b5eba5c616b88b7d2e1363a81889fce42c20c43a2b17b91a974c",
+      "record_count": 4,
       "stored_artifacts": [],
       "raw_availability": "no_raw_source_available"
     },
@@ -5101,7 +5647,7 @@
       "catalog_path": "data/catalog/model-96fb82eef13a.json",
       "catalog_sha256": "369ef6bd67f7ec653a167a29e8400d6ab6bf2466c24a4d9c076d29953b29aee2",
       "normalized_path": "data/normalized/model-96fb82eef13a.jsonl",
-      "normalized_sha256": "f6c33818eafdd6ed422ca8d5c92c91fd75c108bd4b0bef211d596501fde95267",
+      "normalized_sha256": "511ee90cd1f648003df706c0ab2e1a32e1c93f9706c901f0f7d4351d97fe131d",
       "record_count": 5,
       "stored_artifacts": [],
       "raw_availability": "no_raw_source_available"

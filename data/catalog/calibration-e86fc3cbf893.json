@@ -1,0 +1,26 @@
+{
+  "dataset_id": "calibration-e86fc3cbf893",
+  "source_id": "calibration-e86fc3cbf893",
+  "title": "Clinical and cost implications of using immediate MRI in the management of patients with a suspected scaphoid fracture and negative radiographs: results from the SMaRT trial",
+  "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6681676/",
+  "scope": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+  "access": "public_primary_article_or_abstract",
+  "rights": {
+    "source_license": "not assessed for full-text redistribution",
+    "redistribution": "Short factual paraphrases; no full article copied"
+  },
+  "acquisition_status": "acquired",
+  "raw_paths": [],
+  "normalized_path": "data/normalized/calibration-e86fc3cbf893.jsonl",
+  "record_count": 1,
+  "limits": [
+    "Setting, period, applicability and endpoint are source-specific.",
+    "No original snapshot retained; human review should follow source URL and locator.",
+    "A role description or guideline does not establish local operational performance."
+  ],
+  "provenance": {
+    "doi": "10.1302/0301-620X.101B8.BJJ-2018-1590.R1",
+    "retrieved_at": "2026-10-10T21:03:32Z",
+    "raw_artifact_kind": "no_raw_limited_paraphrase"
+  }
+}

@@ -376,7 +376,7 @@
       ],
       "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
       "status": "inferred_candidate_not_activated",
-      "proposal": "Preserve both reported T1 expressions for traceability, but block quantitative use pending source-resolution; do not assume correlations or RWJ applicability.",
+      "proposal": "Keep blocked until fit validity and source ambiguities are resolved; see calibration timing audit. Do not transfer to RWJ.",
       "source_basis": "hospital_record_informed_simulation_input_fit_details_limited",
       "quantitative_use_status": "blocked_source_internal_inconsistency_pending_resolution",
       "assumptions": [
@@ -399,9 +399,9 @@
       ],
       "target_scope": "Proposed RWJUH New Brunswick hospital simulation; not observed RWJ practice",
       "status": "inferred_candidate_not_activated",
-      "proposal": "Retain expressions as reported, but block quantitative use pending review of the conflicting goodness-of-fit conclusions and parameterization; do not infer dependence or RWJ applicability.",
+      "proposal": "Keep blocked until fit validity and source ambiguities are resolved; see calibration timing audit. Do not transfer to RWJ.",
       "source_basis": "hospital_record_informed_simulation_input_fit_details_limited",
-      "quantitative_use_status": "blocked_fit_diagnostics_and_parameterization_pending_review",
+      "quantitative_use_status": "blocked_fit_validity_pending_review",
       "assumptions": [
         "Comparable endpoint and patient population must be established.",
         "Staffing, equipment, workflow and period differences may dominate transferability."

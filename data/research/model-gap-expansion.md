@@ -15,7 +15,7 @@ This pass used three GPT-6 Luna agents and added **22 acquired evidence records 
 ## Corrections from parent source checks
 
 - The Beirut transport interval follows the Methods definition, cashier processing to radiographer study initiation. The Discussion describes a different endpoint; the discrepancy is retained. It is not total imaging completion time or staff labor time.
-- Rio's Table 7 and appendix disagree on a triage expression, and its body and appendix disagree about goodness-of-fit results. Both distribution candidates remain blocked from quantitative adoption.
+- Rio's Table 7 and appendix disagree on a triage expression, and its fit validity is unestablished. The earlier claim of body/appendix disagreement over fit p-values was withdrawn after full PDF review; see the calibration audit. Both distribution candidates remain blocked from quantitative adoption.
 - The Canadian expansion model's Table 2 huddle uses five listed roles, excluding porter. Its charting task lists ED nurse and admin; it does not establish a laboratory role for that task.
 - NICE recommendations 1.1.9 and 1.2.3 were checked against the original page. NHS initial injury warnings and recovery/cast concerns have different routes and are kept separate.
 - The ACEP refusal-policy candidate was available only as indexed text in this pass. It is saved in [pending sources](../workflows/model-pending-sources.json), excluded from acquired records and the review index. This leaves a primary-source verification gap for the proposed refusal branch.

@@ -776,6 +776,76 @@ documents:
     path: catalog/model-f6f1f05ce962.json
     role: acquired_source_manifest
     refresh: manual
+  - id: catalog:calibration-05b2b9e7fe54
+    type: local_file
+    path: catalog/calibration-05b2b9e7fe54.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:calibration-4951089494b9
+    type: local_file
+    path: catalog/calibration-4951089494b9.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:calibration-5911811b6e16
+    type: local_file
+    path: catalog/calibration-5911811b6e16.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:calibration-61fd57dd9889
+    type: local_file
+    path: catalog/calibration-61fd57dd9889.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:calibration-63773ac4d182
+    type: local_file
+    path: catalog/calibration-63773ac4d182.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:calibration-65376be516da
+    type: local_file
+    path: catalog/calibration-65376be516da.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:calibration-76d2ff32b09b
+    type: local_file
+    path: catalog/calibration-76d2ff32b09b.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:calibration-af60aaff7a62
+    type: local_file
+    path: catalog/calibration-af60aaff7a62.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:calibration-b67c10611859
+    type: local_file
+    path: catalog/calibration-b67c10611859.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:calibration-b738c01e9033
+    type: local_file
+    path: catalog/calibration-b738c01e9033.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:calibration-e86fc3cbf893
+    type: local_file
+    path: catalog/calibration-e86fc3cbf893.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:calibration-e8a9d45f61a7
+    type: local_file
+    path: catalog/calibration-e8a9d45f61a7.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:calibration-ef7ee0e965c0
+    type: local_file
+    path: catalog/calibration-ef7ee0e965c0.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:calibration-f81d5913dd3c
+    type: local_file
+    path: catalog/calibration-f81d5913dd3c.json
+    role: acquired_source_manifest
+    refresh: manual
 - path: topics/brief.md
   depends_on:
   - id: local:research-question

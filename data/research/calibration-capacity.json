@@ -1,0 +1,244 @@
+[
+  {
+    "id": "calibration-capacity-daily-room-cleaning",
+    "source_title": "Improving daily patient room cleaning: an observational study using a human factors and systems engineering approach",
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6760906/",
+    "doi": "10.1080/24725838.2018.1487348",
+    "locator": "Methods: unit of observation and observation period; Results, Table 6",
+    "source_setting": "Eight adult medicine inpatient units at a 1,059-bed urban academic medical center in Baltimore, Maryland; daily room cleaning by day-shift environmental care associates",
+    "source_period": "Direct observations April–December 2016; paper published 2018",
+    "source_n": "89 observed room-cleaning episodes; 10 day-shift environmental care associates",
+    "quantity": "Observed room cleans with at least one interruption",
+    "value": {
+      "median": 14,
+      "iqr": [
+        12,
+        19
+      ],
+      "reported_percent": 56,
+      "calculated_percent": 56.2
+    },
+    "unit": "minutes",
+    "source_evidence_basis": "At least one interruption occurred in 50 of 89 observed cleans; the paper reports 56% (50/89; calculated 56.2%). Interruptions included patients/families, EVS colleagues, other healthcare workers, missing supplies and environmental events. The paper does not quantify extra elapsed time caused by each interruption.",
+    "limitations": "Single academic center, convenience sample, adult medicine units and daytime observations; isolation status, patient presence, interruptions and unit type varied. This entry-to-exit elapsed time can include interruptions and is not a pure hands-on labor measure or microbial efficacy measure. Do not treat it as total post-discharge unavailability.",
+    "inferred_scenario_use": "Use only as an external sensitivity anchor for an occupied-room cleaning task. Model post-discharge notification, EVS response/wait, cleaning, inspection and bed-ready signal as separate events requiring local calibration.",
+    "retrieved_at": "2026-10-10T21:02:21Z",
+    "evidence_basis_type": "prospective_direct_observation_time_motion_cohort",
+    "applicability_label": "external_reference_not_RWJ",
+    "source_access": "primary_full_text_inspected",
+    "inspected_source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6760906/"
+  },
+  {
+    "id": "calibration-capacity-cleaning-interruption-rate",
+    "source_title": "Improving daily patient room cleaning: an observational study using a human factors and systems engineering approach",
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6760906/",
+    "doi": "10.1080/24725838.2018.1487348",
+    "locator": "Results, Table 3; interruption categories",
+    "source_setting": "Eight adult medicine inpatient units at one urban academic medical center, Baltimore, Maryland",
+    "source_period": "Direct observations April–December 2016; paper published 2018",
+    "source_n": "89 observed daily room-cleaning episodes; 10 day-shift environmental care associates",
+    "quantity": "Room cleans with at least one interruption",
+    "value": {
+      "episodes_interrupted": 50,
+      "episodes_observed": 89,
+      "percent": 56.2
+    },
+    "unit": "percent of observed cleaning episodes",
+    "source_evidence_basis": "At least one interruption occurred in 50 of 89 observed cleans (reported as 56%). Interruptions included patients/families, EVS colleagues, other healthcare workers, missing supplies and environmental events. The paper separately reports median active cleaning time; it does not quantify extra elapsed time caused by each interruption.",
+    "limitations": "Single-site convenience sample and direct observation; categories can co-occur. This is a daily occupied-room cohort, not a discharge-clean or turnover distribution, and the percentage is not a target-site probability.",
+    "inferred_scenario_use": "Represent interruption as an optional pause or task switch in an external EVS workflow sensitivity scenario; do not add a duration or transfer the cohort probability without local timestamp data.",
+    "retrieved_at": "2026-10-10T21:02:21Z",
+    "evidence_basis_type": "prospective_direct_observation_time_motion_cohort",
+    "applicability_label": "external_reference_not_RWJ",
+    "source_access": "primary_full_text_inspected",
+    "inspected_source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6760906/"
+  },
+  {
+    "id": "calibration-capacity-terminal-room-turnaround",
+    "source_title": "Stopping Hospital Infections With Environmental Services (SHINE): A Cluster-randomized Trial of Intensive Monitoring Methods for Terminal Room Cleaning on Rates of Multidrug-resistant Organisms in the Intensive Care Unit",
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9525084/",
+    "doi": "10.1093/cid/ciac070",
+    "locator": "Methods, Study Design and Room Turnaround Time; Results, Room Turnaround Time (section heading in full text)",
+    "source_setting": "Six ICUs at three US medical centers; median turnaround-time data available from two hospitals (A and B)",
+    "source_period": "12-month retrospective baseline followed by two sequential 6-month intervention periods separated by 2-month washout; published 2022",
+    "source_n": "All terminal-cleaning events during the measured periods at hospitals A and B; event denominator not reported in inspected paper sections. Trial had 6 ICU clusters at 3 centers.",
+    "quantity": "Terminal-cleaning elapsed time, defined by the paper as time from cleaning process start to cleaning process end",
+    "value": {
+      "baseline_median": 42.0,
+      "baseline_iqr": [
+        26.0,
+        60.5
+      ],
+      "uv_f_median": 46.5,
+      "uv_f_iqr": [
+        27.0,
+        76.0
+      ],
+      "atp_median": 43.0,
+      "atp_iqr": [
+        28.5,
+        73.5
+      ]
+    },
+    "unit": "minutes; medians and IQR by study period",
+    "source_evidence_basis": "The paper explicitly defines its average room turnaround-time measure as elapsed time from start of the cleaning process to end of the cleaning process for all terminally cleaned rooms. At the two hospitals with baseline data, median TAT was 42.0 minutes (IQR 26.0–60.5) at baseline, 46.5 (27.0–76.0) during UV/F, and 43.0 (28.5–73.5) during ATP. This measure excludes departure-to-clean-start and clean-end-to-ready delay.",
+    "limitations": "ICU terminal cleaning only; TAT denominator is not stated in the inspected report, and data came from two of three centers. Feedback and recleaning interventions may add cleaning time. It is a cleaning-process interval, not general inpatient vacancy-to-ready time.",
+    "inferred_scenario_use": "Use as an external anchor for the terminal-cleaning-process interval only, with separate EVS response and post-clean release waits. Do not transfer to routine rooms or RWJ.",
+    "retrieved_at": "2026-10-10T21:02:21Z",
+    "evidence_basis_type": "multicenter_cluster_randomized_crossover_trial_secondary_operational_measure",
+    "applicability_label": "external_reference_not_RWJ",
+    "source_access": "primary_full_text_inspected",
+    "inspected_source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9525084/"
+  },
+  {
+    "id": "calibration-capacity-dedicated-discharge-nurse-bed-turnaround",
+    "source_title": "Streamlining the discharge process with a dedicated discharge nurse",
+    "source_url": "https://researchconnect.suny.edu/en/publications/streamlining-the-discharge-process-with-a-dedicated-discharge-nur/",
+    "doi": null,
+    "locator": "Abstract; bed turnaround definition and reported intervention result",
+    "source_setting": "High-turnover telemetry unit at one 300-bed hospital",
+    "source_period": "Before/after operational study; exact study dates not stated; conference paper presented 2010-06-05 to 2010-06-09",
+    "source_n": "Underlying episode count not stated in accessible abstract",
+    "quantity": "Change in bed turnaround after deployment of a dedicated discharge nurse",
+    "value": {
+      "reported_approximate_relative_reduction_percent": 18
+    },
+    "unit": "percent reduction in bed turnaround time",
+    "source_evidence_basis": "The abstract reports approximately 18% lower bed turnaround after a dedicated discharge nurse. It says turnaround runs from patient escort out until the same bed is ready, yet also says the measure includes discharge duration (which precedes escort-out). The endpoint description is internally inconsistent; retain the reported effect only as a flagged abstract claim, not a quantitative calibration value.",
+    "limitations": "Single-unit conference abstract; episode count, exact study dates, absolute baseline/post values and uncertainty unavailable in inspected abstract. Endpoint timing is internally inconsistent (escort-out-to-ready interval versus inclusion of pre-exit discharge duration); quantitative use is blocked pending the full paper.",
+    "inferred_scenario_use": "Use only as qualitative evidence that discharge coordination, housekeeping wait and cleaning may contribute to bed-readiness workflow. Do not encode the 18% claim or infer minutes.",
+    "retrieved_at": "2026-10-10T21:02:21Z",
+    "evidence_basis_type": "single_site_before_after_operational_study_abstract_endpoint_ambiguous",
+    "applicability_label": "external_reference_not_RWJ",
+    "source_access": "primary_abstract_inspected",
+    "inspected_source_url": "https://researchconnect.suny.edu/en/publications/streamlining-the-discharge-process-with-a-dedicated-discharge-nur/",
+    "quantitative_use_status": "blocked_endpoint_definition_conflict"
+  },
+  {
+    "id": "calibration-capacity-staffed-bed-definition",
+    "source_title": "What was considered a staffed bed in reporting facility metrics?",
+    "source_url": "https://www.hrsa.gov/about/faqs/non-financial-data-what-was-considered-staffed-bed-reporting-facility-metrics",
+    "doi": null,
+    "locator": "FAQ answer, definition of staffed bed",
+    "source_setting": "HRSA facility-metric reporting definition",
+    "source_period": "Current web FAQ inspected 2026-10-10; underlying reporting period not specified on page",
+    "source_n": "Not applicable; administrative definition",
+    "quantity": "Definition of staffed bed versus physical/licensed bed",
+    "value": "A staffed bed is licensed and physically available with staff on hand to attend to patients; the count includes occupied and available beds.",
+    "unit": "categorical definition",
+    "source_evidence_basis": "HRSA's reporting FAQ defines staffed beds using three conjunctive conditions: licensed, physically available, and staff on hand; occupied and unoccupied beds count. This is a reporting definition, not a measure of current open beds, role-specific staffing, or encounter-level availability.",
+    "limitations": "Definition does not quantify staffing by shift, skill, acuity, maintenance state or whether a specific bed is open now. Licensed/physical inventory and staffed beds remain distinct from immediately unoccupied, clean, appropriate beds.",
+    "inferred_scenario_use": "Keep physical inventory, licensed capacity, staffed capacity, occupied beds, cleaning/maintenance holds and patient-compatible availability as separate fields/states. Never infer simultaneous capacity from licensed counts alone.",
+    "retrieved_at": "2026-10-10T21:02:21Z",
+    "evidence_basis_type": "official_federal_reporting_definition",
+    "applicability_label": "external_reference_not_RWJ",
+    "source_access": "official_definition_page_inspected",
+    "inspected_source_url": "https://www.hrsa.gov/about/faqs/non-financial-data-what-was-considered-staffed-bed-reporting-facility-metrics"
+  },
+  {
+    "id": "calibration-capacity-nurse-breaks-modeled",
+    "source_title": "An Objective Method to Determine Nurse Staffing for an Acute Care for Elders (ACE) Hospital Unit: Discrete Event Simulation",
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12303744/",
+    "doi": "10.1111/jgs.19507",
+    "locator": "Methods, unit workflow; staff huddles and breaks; published 2025",
+    "source_setting": "22-bed acute care for elders unit, Vanderbilt University Medical Center, Nashville, Tennessee",
+    "source_period": "Publication 2025-05-09; exact direct-observation dates not stated in inspected abstract/sections",
+    "source_n": "22-bed unit; mean census 19 patients/day; staff sample and break observations not stated in accessible inspected sections",
+    "quantity": "Scheduled non-care time per modeled staff shift",
+    "value": {
+      "meal_break_minutes": 30,
+      "other_breaks_minutes_each": 15,
+      "other_breaks_per_shift": 2,
+      "huddles_minutes_each": 15,
+      "huddles_per_shift": 2
+    },
+    "unit": "minutes per simulated 12-hour shift; model inputs",
+    "source_evidence_basis": "The study's DES specification scheduled a 7am–7pm day shift, two 15-minute shift huddles, a 30-minute meal break and two 15-minute breaks per staff member. These are model schedule assumptions informed by local clinical input, not measured break-taking or universal entitlement/compliance data.",
+    "limitations": "ACE inpatient unit, not ED; scenario schedule inputs do not establish breaks actually taken, coverage availability, local law, union agreement or RWJ roster. Authors' simulated staffing outputs are not observed staffing results.",
+    "inferred_scenario_use": "If a scenario includes breaks, make them explicit scheduled availability intervals and model coverage/overlap as local assumptions; distinguish scheduled break from verified absence and do not silently treat the entire roster as continuously available.",
+    "retrieved_at": "2026-10-10T21:02:21Z",
+    "evidence_basis_type": "single_site_des_with_observed_task_inputs_and_expert_validated_schedule_assumptions",
+    "applicability_label": "external_reference_not_RWJ",
+    "source_access": "primary_full_text_inspected",
+    "inspected_source_url": "https://agsjournals.onlinelibrary.wiley.com/doi/10.1111/jgs.19507"
+  },
+  {
+    "id": "calibration-capacity-endoscopy-nonprocedure-time",
+    "source_title": "Efficiency in the Endoscopy Unit: Can We “Turn Around” Room Turnover? An Observational Quality Improvement Study",
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9340627/",
+    "doi": "10.1093/jcag/gwac005",
+    "locator": "Methods, Definitions—Outcomes; Results, Table 4 (All procedures); cohort dates in Participants",
+    "source_setting": "Single tertiary referral center in Toronto, Canada; outpatient endoscopy unit, two standard rooms plus a third used almost exclusively for advanced procedures",
+    "source_period": "2018-04-01 to 2019-03-31",
+    "source_n": "750 routine outpatient endoscopic procedures included in Table 4 (all procedures); 803 cases met initial criteria before exclusions for pairwise analysis",
+    "quantity": "Non-procedure interval: patient 1 scope-out to patient 2 scope-in",
+    "value": {
+      "median": 19,
+      "iqr": [
+        16,
+        22
+      ]
+    },
+    "unit": "minutes",
+    "source_evidence_basis": "The authors define non-procedure time (NPT) from patient 1 scope-out to patient 2 scope-in, encompassing processes outside the procedure. Across all 750 included procedures, median NPT was 19 minutes (IQR 16–22). The endpoint is not cleaning-only and may include setup, paperwork or delays.",
+    "limitations": "Single outpatient endoscopy center; selection excluded inpatient, advanced and anesthesia cases, cases affected by patient/transport delays, and turnovers over 25 minutes (often scheduled breaks). Not hospital bed turnover or a general room-cleaning duration.",
+    "inferred_scenario_use": "Use as an external procedure-room between-case elapsed-time benchmark only when modeling a comparable outpatient endoscopy workflow. Do not assign all 19 minutes to EVS or use it for inpatient/ED room readiness.",
+    "retrieved_at": "2026-10-10T21:03:45Z",
+    "evidence_basis_type": "single_site_routinely_collected_operational_cohort",
+    "applicability_label": "external_reference_not_RWJ",
+    "source_access": "primary_full_text_inspected",
+    "inspected_source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9340627/"
+  },
+  {
+    "id": "calibration-capacity-endoscopy-patient-turnover-time",
+    "source_title": "Efficiency in the Endoscopy Unit: Can We “Turn Around” Room Turnover? An Observational Quality Improvement Study",
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9340627/",
+    "doi": "10.1093/jcag/gwac005",
+    "locator": "Methods, Definitions—Outcomes; Results, Table 4 (All procedures); cohort dates in Participants",
+    "source_setting": "Single tertiary referral center in Toronto, Canada; routine outpatient endoscopy",
+    "source_period": "2018-04-01 to 2019-03-31",
+    "source_n": "750 routine outpatient endoscopic procedures included in Table 4 (all procedures)",
+    "quantity": "Turnover time: patient 1 out of room to patient 2 into room",
+    "value": {
+      "median": 6,
+      "iqr": [
+        4,
+        9
+      ]
+    },
+    "unit": "minutes",
+    "source_evidence_basis": "The authors separately define turnover time (TT) as patient 1 out to patient 2 in. For all 750 included outpatient procedures, median TT was 6 minutes (IQR 4–9), compared with 19 minutes for the broader scope-out-to-scope-in NPT interval. The distinct endpoints show why TT should not stand in for all between-procedure elapsed time.",
+    "limitations": "Same single-site outpatient endoscopy cohort and exclusions as the paired NPT record. TT is not a cleaning-only interval or inpatient bed-readiness measure; scheduled breaks and delay-related exclusions may affect observed values.",
+    "inferred_scenario_use": "For comparable outpatient procedure-room scenarios, preserve TT and NPT as separate event intervals; do not infer room-cleaning duration or general hospital turnaround from either value.",
+    "retrieved_at": "2026-10-10T21:03:45Z",
+    "evidence_basis_type": "single_site_routinely_collected_operational_cohort",
+    "applicability_label": "external_reference_not_RWJ",
+    "source_access": "primary_full_text_inspected",
+    "inspected_source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9340627/"
+  },
+  {
+    "id": "calibration-capacity-mri-direct-ed-capability-survey",
+    "source_title": "The management of suspected scaphoid fractures in the UK: a national cross-sectional study",
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8636302/",
+    "doi": "10.1302/2633-1462.211.BJO-2021-0146",
+    "locator": "Methods, Outcomes; Results, Primary outcome: MRI availability directly from ED",
+    "source_setting": "87 UK centers treating acute wrist trauma; clinician surveys across ED, minor injury and orthopaedic services",
+    "source_period": "Multicentre survey November 2020–April 2021; published 2021",
+    "source_n": "87 participating centers; 11 reported MRI directly available from ED",
+    "quantity": "Centers reporting direct-from-ED MRI imaging capability for suspected scaphoid fracture",
+    "value": {
+      "centers_with_direct_ed_mri": 11,
+      "centers_surveyed": 87,
+      "percent": 13
+    },
+    "unit": "percent of surveyed centers (reported 11/87; rounded 13%)",
+    "source_evidence_basis": "In a clinician-survey cross-sectional study, 11 of 87 centers (13%) reported MRI directly available from the ED for suspected scaphoid fracture. This measures service/pathway capability reported by centers, not whether a scanner or slot was free at a given time or whether a patient received imaging promptly.",
+    "limitations": "UK suspected-scaphoid pathway, clinician self-report and possible sampling bias; no timestamped scanner utilization, queue, staffing or case-level access measurement. Not an estimate of MRI availability in New Brunswick or elsewhere in the US.",
+    "inferred_scenario_use": "Represent modality/service capability separately from scheduled operating hours, staffing, queue state, occupied slot and patient-specific eligibility. Do not convert capability percentage into a free-slot probability.",
+    "retrieved_at": "2026-10-10T21:03:45Z",
+    "evidence_basis_type": "multicentre_clinician_survey_cross_sectional",
+    "applicability_label": "external_reference_not_RWJ",
+    "source_access": "primary_full_text_inspected",
+    "inspected_source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8636302/"
+  }
+]

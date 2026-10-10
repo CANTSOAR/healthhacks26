@@ -1,0 +1,41 @@
+{
+  "status": "parent_spot_checks_not_human_approval",
+  "date": "2026-10-10",
+  "checks": [
+    {
+      "source": "Rio publisher English PDF",
+      "locator": "Methods pp.9-10; Table7; Appendices2,6",
+      "outcome": "Confirmed source period, conflicting T1 input, and distinct validation comparison; withdrew unsupported body p>0.05 assertion."
+    },
+    {
+      "source": "Europe PMC fullTextXML PMC8244792",
+      "locator": "Abstract and Tables I-III",
+      "outcome": "Verified MRI denominators/categories and nonattendance counts; associated injuries remain distinct."
+    },
+    {
+      "source": "Europe PMC core API PMID34918571",
+      "locator": "Abstract Results",
+      "outcome": "15 patients/16% conflict confirmed; ambiguous subgroup denominators not converted to counts."
+    },
+    {
+      "source": "Europe PMC fullTextXML PMC9340627",
+      "locator": "Abstract, Methods and Table4",
+      "outcome": "Verified distinct NPT and patient turnover measures and DOI."
+    },
+    {
+      "source": "Europe PMC fullTextXML PMC8636302",
+      "locator": "Abstract",
+      "outcome": "Verified 11/87 direct ED MRI capability, not free-slot rate, and DOI."
+    },
+    {
+      "source": "PMC9525084 original HTML",
+      "locator": "Secondary Outcomes; Room Turnaround Time",
+      "outcome": "Verified cleaning-start to cleaning-end definition and period medians/IQRs."
+    },
+    {
+      "source": "PubMed22505295",
+      "locator": "Abstract",
+      "outcome": "Verified clinic-appointment means and DOI at abstract scope."
+    }
+  ]
+}

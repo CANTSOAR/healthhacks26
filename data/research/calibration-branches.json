@@ -1,0 +1,239 @@
+[
+  {
+    "id": "calibration-branches-suspected-scaphoid-mri-fracture",
+    "source_title": "Suspected scaphoid injuries managed by MRI direct from the emergency department: a single-centre prospective cohort study",
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8244792/",
+    "doi": "10.1302/2633-1462.26.BJO-2021-0054.R1",
+    "locator": "Results; MRI findings among patients who completed MRI (n=208).",
+    "source_setting": "Single-centre UK emergency department MRI pathway; patients aged 12+ with suspected scaphoid fracture and normal scaphoid-series radiographs after clinical assessment.",
+    "source_period": "Prospective cohort enrollment: end September 2018 through end September 2019; minimum one-year outcome follow-up, EHR searched January 2021; article published 2021.",
+    "source_n": "208 completed MRI scans; 258 referred from 337 assessed.",
+    "quantity": "MRI-detected occult scaphoid fracture among completed scans",
+    "value": {
+      "numerator": 27,
+      "denominator": 208,
+      "reported_rate": "13%",
+      "calculated_rate": "12.98%"
+    },
+    "unit": "patients; source-reported percent and separately calculated percent",
+    "source_evidence_basis": "Prospective service evaluation reports 27 scaphoid fractures among 208 completed scans (reported 13%).",
+    "limitations": "Selected patients referred based on examination and radiograph review; single centre; ages 12+ (not adult-only); MRI completion denominator differs from 258 referred. This is not an unconditional probability for all wrist injuries or all negative radiographs.",
+    "inferred_scenario_use": "Calibration comparator only for a clinician-selected suspected-scaphoid subgroup sent for MRI; do not transfer to all negative wrist films or treat as an RWJ estimate.",
+    "retrieved_at": "2026-10-10T21:03:32Z",
+    "evidence_basis_type": "prospective_cohort_observed",
+    "applicability_label": "external_reference_not_RWJ",
+    "source_access": "primary_full_text_XML_inspected_via_Europe_PMC",
+    "inspected_source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8244792/"
+  },
+  {
+    "id": "calibration-branches-suspected-scaphoid-alternative-mri-findings",
+    "source_title": "Suspected scaphoid injuries managed by MRI direct from the emergency department: a single-centre prospective cohort study",
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8244792/",
+    "doi": "10.1302/2633-1462.26.BJO-2021-0054.R1",
+    "locator": "Results; MRI findings among 208 completed scans.",
+    "source_setting": "Single-centre UK emergency department MRI pathway; selected suspected scaphoid injuries with negative radiographs.",
+    "source_period": "Prospective cohort enrollment: end September 2018 through end September 2019; minimum one-year outcome follow-up, EHR searched January 2021; article published 2021.",
+    "source_n": "208 completed MRI scans.",
+    "quantity": "Alternative or no abnormality MRI findings",
+    "value": {
+      "scaphoid_fracture": {
+        "numerator": 27,
+        "denominator": 208,
+        "reported_rate": "13%"
+      },
+      "other_bone_fracture": {
+        "numerator": 45,
+        "denominator": 208,
+        "reported_rate": "22%"
+      },
+      "scaphoid_contusion": {
+        "numerator": 13,
+        "denominator": 208,
+        "reported_rate": "6%"
+      },
+      "other_contusion_or_ligament_injury": {
+        "numerator": 42,
+        "denominator": 208,
+        "reported_rate": "20%"
+      },
+      "solely_degenerative": {
+        "numerator": 21,
+        "denominator": 208,
+        "reported_rate": "10%"
+      },
+      "normal": {
+        "numerator": 60,
+        "denominator": 208,
+        "reported_rate": "29%"
+      }
+    },
+    "unit": "patients; source-reported percentages",
+    "source_evidence_basis": "Full-text Results gives six MRI outcome categories among 208: scaphoid fracture 27, other fracture 45, scaphoid contusion 13, other contusion/ligament injury 42, degenerative only 21, normal 60. Counts sum to 208; the 27 scaphoid fractures were omitted from the earlier value list.",
+    "limitations": "Mutually exclusive MRI outcome categories reported in the Results sum to 208; separate Table III describes concurrent associated injuries, so these category counts should not be conflated with that table. Selected pathway referrals, patients aged 12+, and single-centre setting limit transfer.",
+    "inferred_scenario_use": "Use as a distributional external comparator for MRI-result branches after clinician-selected imaging; retain separate occult fracture, other injury, and normal outcomes.",
+    "retrieved_at": "2026-10-10T21:03:32Z",
+    "evidence_basis_type": "prospective_cohort_observed",
+    "applicability_label": "external_reference_not_RWJ",
+    "source_access": "primary_full_text_XML_inspected_via_Europe_PMC",
+    "inspected_source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8244792/"
+  },
+  {
+    "id": "calibration-branches-mri-discharge-representation",
+    "source_title": "Suspected scaphoid injuries managed by MRI direct from the emergency department: a single-centre prospective cohort study",
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8244792/",
+    "doi": "10.1302/2633-1462.26.BJO-2021-0054.R1",
+    "locator": "Results; ED discharge and re-presentation after MRI.",
+    "source_setting": "Single-centre UK emergency department MRI pathway; selected patients with suspected scaphoid injury.",
+    "source_period": "Prospective enrollment end September 2018 through end September 2019; minimum one-year outcomes; EHR searched January 2021.",
+    "source_n": "100 of 208 completed-MRI patients discharged by ED with advice; at least one year outcome follow-up and EHR search in January 2021.",
+    "quantity": "Re-presentation after MRI-based ED discharge",
+    "value": {
+      "numerator": 1,
+      "denominator": 100,
+      "reported": "one re-presentation among 100 discharged patients"
+    },
+    "unit": "patients; reported count, not a time-standardized probability",
+    "source_evidence_basis": "Full-text Methods state outcomes/complications were recorded at minimum one year and electronic patient records searched January 2021; Results report 100 MRI patients discharged by ED with advice and one re-presentation.",
+    "limitations": "Single-centre selected cohort; return ascertainment used hospital electronic records, and exact index date for the 100 discharges is not specified. Re-presentation is not equivalent to missed fracture or failed follow-up.",
+    "inferred_scenario_use": "May inform a qualitative return branch only; do not encode as a calibrated unplanned-return probability without defined follow-up horizon and comparable ascertainment.",
+    "retrieved_at": "2026-10-10T21:03:32Z",
+    "evidence_basis_type": "prospective_cohort_observed",
+    "applicability_label": "external_reference_not_RWJ",
+    "source_access": "primary_full_text_XML_inspected_via_Europe_PMC",
+    "inspected_source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8244792/"
+  },
+  {
+    "id": "calibration-branches-early-mri-scaphoid-rct",
+    "source_title": "Clinical and cost implications of using immediate MRI in the management of patients with a suspected scaphoid fracture and negative radiographs: results from the SMaRT trial",
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6681676/",
+    "doi": "10.1302/0301-620X.101B8.BJJ-2018-1590.R1",
+    "locator": "Abstract and Methods; randomized trial, initial MRI versus control follow-up.",
+    "source_setting": "UK ED randomized trial; age at least 16, clinical history/exam consistent with suspected scaphoid fracture, negative initial four-view radiographs; exclusions included confirmed injury and out-of-catchment patients.",
+    "source_period": "Published 2019; enrollment dates not stated in inspected abstract excerpt.",
+    "source_n": "136 randomized (68 per arm); 4 participants were lost to follow-up; analysis denominators at three months were 65 control and 67 intervention. Five intervention participants did not receive MRI.",
+    "quantity": "Scaphoid fracture diagnosis by 3 months, MRI arm versus control",
+    "value": {
+      "intervention": {
+        "numerator": 7,
+        "denominator": 67,
+        "reported_rate": "10.4%"
+      },
+      "control": {
+        "numerator": 4,
+        "denominator": 65,
+        "reported_rate": "6.2%"
+      }
+    },
+    "unit": "patients; reported percentages",
+    "source_evidence_basis": "Full-text Results report scaphoid fractures diagnosed up to three months: 4/65 control and 7/67 intervention (reported 6.2% and 10.4%). Five intervention participants did not undergo MRI; four participants withdrew and were lost to follow-up.",
+    "limitations": "Randomized workflow comparison, not an untreated natural-history estimate. MRI-arm denominator requires caution because five randomized participants did not receive MRI; follow-up imaging differed by arm. Adult-only age threshold was 16, so population includes older adolescents.",
+    "inferred_scenario_use": "Use only to compare trial pathway outcomes under its eligibility and follow-up process; do not interpret arm difference as causal probability for an individual or as local prevalence.",
+    "retrieved_at": "2026-10-10T21:03:32Z",
+    "evidence_basis_type": "randomized_trial_observed",
+    "applicability_label": "external_reference_not_RWJ",
+    "source_access": "primary_full_text_XML_inspected_via_Europe_PMC",
+    "inspected_source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6681676/"
+  },
+  {
+    "id": "calibration-branches-rct-clinic-follow-up-burden",
+    "source_title": "Cost and clinical effectiveness of MRI in occult scaphoid fractures: a randomised controlled trial",
+    "source_url": "https://pubmed.ncbi.nlm.nih.gov/22505295/",
+    "doi": "10.1136/emermed-2011-200676",
+    "locator": "PubMed abstract; 84 ED patients randomized to early MRI or clinic reassessment.",
+    "source_setting": "UK district general hospital ED; suspected occult scaphoid fracture; MRI arm early wrist MRI and discharge if no injury, control clinic reassessment.",
+    "source_period": "Published 2013 (online 2012); recruitment dates not stated in abstract.",
+    "source_n": "84 randomized: MRI n=45, control n=39.",
+    "quantity": "Mean clinic appointments during study follow-up",
+    "value": {
+      "mri_mean": 1.1,
+      "mri_sd": 0.5,
+      "control_mean": 2.3,
+      "control_sd": 0.8,
+      "reported_p": 0.001
+    },
+    "unit": "clinic appointments per participant; mean ± SD",
+    "source_evidence_basis": "Inspected PubMed abstract reports fewer mean clinic appointments in MRI group; it also reports scaphoid fracture 3/45 (6.7%) versus 4/39 (10.3%).",
+    "limitations": "Small single-centre RCT; abstract does not supply a detailed follow-up duration for appointment count. Appointment burden is not probability of referral, failed follow-up, or return visit.",
+    "inferred_scenario_use": "Use as an external pathway utilization comparator only. Do not infer that MRI causes fewer ED returns or that this rate transfers to local practice.",
+    "retrieved_at": "2026-10-10T21:03:32Z",
+    "evidence_basis_type": "randomized_trial_observed",
+    "applicability_label": "external_reference_not_RWJ",
+    "source_access": "primary_PubMed_abstract_inspected",
+    "inspected_source_url": "https://pubmed.ncbi.nlm.nih.gov/22505295/"
+  },
+  {
+    "id": "calibration-branches-negative-xray-ct-negative-mri-yield",
+    "source_title": "Prospective comparison of magnetic resonance imaging and computed tomography in diagnosing occult scaphoid fractures",
+    "source_url": "https://pubmed.ncbi.nlm.nih.gov/34918571/",
+    "doi": "10.1177/02841851211064595",
+    "locator": "PubMed abstract; patients with negative radiographs and negative CT underwent MRI.",
+    "source_setting": "Prospective diagnostic cohort; suspected scaphoid fracture after wrist trauma; CT after two negative radiographs at 7-10 days, followed by MRI for eligible CT-negative patients.",
+    "source_period": "Published 2023; recruitment dates not stated in abstract.",
+    "source_n": "100 included patients with negative radiographs and CT.",
+    "quantity": "MRI findings after negative radiographs and CT",
+    "value": {
+      "any_fracture": {
+        "numerator": 15,
+        "denominator": 100,
+        "source_wording": "16% (15 patients)"
+      },
+      "scaphoid_fracture": {
+        "reported_rate": "8%",
+        "numerator": null,
+        "denominator": null,
+        "denominator_status": "Abstract says of these fractures; intended denominator is ambiguous."
+      },
+      "bone_bruise": {
+        "reported_rate": "10%"
+      },
+      "fracture_or_bruise_referred_hand_surgery": {
+        "reported_rate": "25% of patients with fractures and bone bruising; numerator and denominator not given"
+      }
+    },
+    "unit": "patients; reported percentages",
+    "source_evidence_basis": "Abstract reports MRI fractures in 16% of 100 patients (15 patients), scaphoid fracture 8%, bone bruising 10%, and hand-surgery referral for 25% of patients with fracture/bone bruising. The 15/100 count calculates to 15%, inconsistent with the abstract’s 16%; both source wording and count are preserved without resolving the discrepancy.",
+    "limitations": "Selected CT-negative second-line cohort. Abstract percentage/count conflict for any fracture (16% versus 15/100); hand-surgery referral numerator and denominator are not specified. Keep those quantities uncalibrated pending full paper. Scaphoid percentage wording does not establish an 8/100 count. Do not infer subgroup numerators from rounded percentages.",
+    "inferred_scenario_use": "Calibration only for a second-line CT-negative pathway; keep separate from initial negative-radiograph scenarios and do not infer universal hand-surgery referral.",
+    "retrieved_at": "2026-10-10T21:04:07.075037+00:00",
+    "evidence_basis_type": "prospective_diagnostic_cohort_observed",
+    "applicability_label": "external_reference_not_RWJ",
+    "source_access": "primary_article_abstract_inspected_via_Europe_PMC",
+    "inspected_source_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:34918571%20AND%20SRC:MED&format=json&resultType=core",
+    "quantitative_use_status": "blocked_source_rate_conflict_and_ambiguous_subgroup_denominators"
+  },
+  {
+    "id": "calibration-branches-mri-completion",
+    "source_title": "Suspected scaphoid injuries managed by MRI direct from the emergency department: a single-centre prospective cohort study",
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8244792/",
+    "doi": "10.1302/2633-1462.26.BJO-2021-0054.R1",
+    "locator": "Abstract Results; Table I, referred for MRI columns",
+    "source_setting": "Single-centre UK emergency department MRI pathway; patients aged 12+ with suspected scaphoid fracture and normal scaphoid-series radiographs after clinical assessment.",
+    "source_period": "Prospective cohort enrollment: end September 2018 through end September 2019; minimum one-year outcome follow-up, EHR searched January 2021; article published 2021.",
+    "source_n": "258 referred for MRI; 208 completed, 45 did not attend, 5 did not tolerate the scan",
+    "quantity": "MRI completion and reasons for noncompletion among referred patients",
+    "value": {
+      "completed": {
+        "numerator": 208,
+        "denominator": 258
+      },
+      "did_not_attend": {
+        "numerator": 45,
+        "denominator": 258
+      },
+      "did_not_tolerate": {
+        "numerator": 5,
+        "denominator": 258
+      }
+    },
+    "unit": "patients; counts",
+    "source_evidence_basis": "Original cohort reports 208 completed scans among 258 referrals, with 45 nonattendances and five patients unable to tolerate MRI.",
+    "limitations": "Single selected UK referral pathway, ages 12 and older. MRI nonattendance is not failure of all subsequent follow-up or an RWJ scheduling probability. No common referral-to-scan censoring window is established here.",
+    "inferred_scenario_use": "Separate completed, not attended and not tolerated imaging branches for scenario authoring; do not silently omit the 50 noncompleters when interpreting MRI yield.",
+    "retrieved_at": "2026-10-10T21:04:33.622401+00:00",
+    "evidence_basis_type": "prospective_cohort_observed",
+    "applicability_label": "external_reference_not_RWJ",
+    "source_access": "primary_full_text_XML_inspected_via_Europe_PMC",
+    "inspected_source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8244792/",
+    "quantitative_use_status": "external_conditional_counts_pending_applicability_review"
+  }
+]
