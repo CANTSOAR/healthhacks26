@@ -108,7 +108,7 @@ Nothing is running. GPU idle, tmux session `hospitalgym` has only a bash window.
 
 ## Decisions made on your behalf
 
-- **Rewrote local history once.** A test file hard-coded the organizers' sample-patient and clinician names and went into two early local commits. I fixed the file, squashed tonight's unpushed commits from that point, and checked that no commit reachable from `aryan` contains those names. The old objects still exist in this Mac's reflog; they are not pushed by a normal `git push`.
+- **Rewrote unpushed local history twice, both times to remove organizer names.** First, a test file hard-coded the organizers' sample-patient and clinician names and went into two early local commits: I fixed the file and squashed tonight's commits from that point. Second, the QA report quoted a clinician profile name: I redacted it and rewrote the nine commits that contained the file. After each, I checked that no commit reachable from `aryan` contains any of those names (0 of 24 commits ahead of `origin/main`). The old objects still exist in this Mac's reflog; a normal `git push` of the branch does not send them.
 - Tracked cases and screenshots use only our own synthetic patients. Organizer material is read from `.private/` at run time.
 - Froze simulator dynamics at 02:50 so training had a stable target; later simulator work was held to a golden-trajectory test.
 - Redefined the manager objectives after QA found them indistinguishable: `min_cost` is staffing cost only, `min_wait` has no cost term, added `max_margin`; the constrained threshold is p95 wait ≤ 60 minutes. Added a `labor` reward term to the contract.
