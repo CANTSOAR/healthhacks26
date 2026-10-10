@@ -1,0 +1,128 @@
+# Catalog file. Shape: contracts/catalog.schema.json. Every attribute carries a source tag
+# (measured | literature | assumed). Wave 0 skeleton: all values are ASSUMED placeholders until the
+# data workstream replaces them. Keys are read by the simulator; do not rename, only add.
+schema_version: 1
+entity_type: hospital
+description: Robert Wood Johnson University Hospital, New Brunswick NJ - a MODEL built from public information. Not affiliated with or endorsed
+  by the hospital. Patient flows, staffing and outcomes are simulated, not the hospital's operational data. Staff are fictional.
+layout_file: catalog/hospitals/rwjuh_nb.layout.json
+variants:
+  rwjuh_nb:
+    label: RWJUH New Brunswick (model)
+    attributes:
+      ed_visits_per_year:
+        value: 95000
+        unit: visits/year
+        source: literature
+        citation: 'Hospital''s published ED expansion description: ''more than 95,000 emergency and trauma patients a year'' (see research/data-sources-and-hospital-context.md);
+          to re-verify URL'
+        note: calibration anchor
+      ed_area_sqft:
+        value: 60000
+        unit: sq ft
+        source: literature
+        citation: Hospital's published ED expansion description (40,000 -> 60,000 sq ft); to re-verify URL
+      ed_treatment_spaces:
+        value: 100
+        unit: spaces
+        source: literature
+        citation: '''more than 100 private treatment areas'' (hospital ED expansion page); split across zones is assumed'
+      resus_bays:
+        value: 6
+        unit: bays
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; 3 added in phase one per the hospital; total assumed
+      fast_track_spaces:
+        value: 10
+        unit: spaces
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; zone published, count assumed
+      peds_ed_spaces:
+        value: 16
+        unit: spaces
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; separate pediatric ED published, count assumed; pediatric stream not simulated
+          in v1
+      adult_main_bays:
+        value: 68
+        unit: bays
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; remainder of ~100 after resus, fast track, peds
+      hallway_overflow_spaces:
+        value:
+        - 0
+        - 8
+        - 16
+        unit: spaces
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; overflow_bays action levels
+        index: level
+      triage_rooms:
+        value: 3
+        unit: rooms
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; assumed
+      ambulance_bay_slots:
+        value: 8
+        unit: ambulances
+        source: literature
+        citation: 'hospital ED expansion page: ambulance bay for eight ambulances'
+      ct_scanners_ed:
+        value: 2
+        unit: units
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; radiology inside the department is published; count assumed
+      xray_rooms_ed:
+        value: 2
+        unit: units
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; assumed
+      ultrasound_units:
+        value: 2
+        unit: units
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; assumed
+      mri_units:
+        value: 1
+        unit: units
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; assumed, main radiology
+      licensed_beds:
+        value: 700
+        unit: beds
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; public description '700+ bed adult hospital'; replace with CMS POS/HCRIS
+          count
+      ward_beds_for_ed_admissions:
+        value: 120
+        unit: beds
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; modelled downstream ward pool visible to the ED (subset of inpatient beds
+          turning over to ED admissions)
+      ward_beds_delta_step:
+        value: 8
+        unit: beds
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; structural action step
+      bays_delta_step:
+        value: 4
+        unit: bays
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; structural action step
+      trauma_level:
+        value: Level I
+        unit: designation
+        source: literature
+        citation: hospital public description
+      validation_median_ed_time_min:
+        value: null
+        unit: minutes
+        source: assumed
+        citation: to be filled from CMS Care Compare OP-18b for this hospital and peer group
+        validation_only: true
+      validation_lwbs_rate:
+        value: null
+        unit: fraction
+        source: assumed
+        citation: to be filled from CMS Care Compare OP-22
+        validation_only: true

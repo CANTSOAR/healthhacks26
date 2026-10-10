@@ -1,0 +1,246 @@
+# Catalog file. Shape: contracts/catalog.schema.json. Every attribute carries a source tag
+# (measured | literature | assumed). Wave 0 skeleton: all values are ASSUMED placeholders until the
+# data workstream replaces them. Keys are read by the simulator; do not rename, only add.
+schema_version: 1
+entity_type: staff
+description: 'Staff roles. Named individuals are fictional (organizer clinician profiles when present in .private/, built-in stand-ins otherwise).
+  Target sources: BLS OEWS wages, state nurse-ratio regulations, BLS absence rates, literature for productivity and fatigue.'
+shared:
+  overtime_multiplier:
+    value: 1.5
+    unit: x wage
+    source: assumed
+    citation: Placeholder set in Wave 0 so the simulator can run; standard time-and-a-half
+  agency_premium_multiplier:
+    value: 2.0
+    unit: x wage
+    source: assumed
+    citation: Placeholder set in Wave 0 so the simulator can run; placeholder agency bill-rate premium
+  benefits_load:
+    value: 1.28
+    unit: x wage
+    source: assumed
+    citation: Placeholder set in Wave 0 so the simulator can run; placeholder benefits loading
+  shift_hours:
+    value: 8
+    unit: hours
+    source: assumed
+    citation: Placeholder set in Wave 0 so the simulator can run; three 8-hour shifts 07-15, 15-23, 23-07 (many EDs run 12s; simplified)
+  absence_rate:
+    value: 0.035
+    unit: fraction of scheduled shifts
+    source: assumed
+    citation: Placeholder set in Wave 0 so the simulator can run; placeholder unplanned absence rate
+  fatigue_gain_per_busy_hour:
+    value: 0.06
+    unit: index/hour
+    source: assumed
+    citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+  fatigue_recovery_per_idle_hour:
+    value: 0.1
+    unit: index/hour
+    source: assumed
+    citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+  fatigue_speed_penalty:
+    value: 0.25
+    unit: fraction slower at fatigue=1
+    source: assumed
+    citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+  fatigue_error_multiplier:
+    value: 2.0
+    unit: x error rate at fatigue=1
+    source: assumed
+    citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+  annual_turnover:
+    value: 0.18
+    unit: fraction/year
+    source: assumed
+    citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+  callin_delay_min:
+    value: 60
+    unit: minutes
+    source: assumed
+    citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+  rn_patients_per_nurse_max:
+    value: 4
+    unit: patients/nurse
+    source: assumed
+    citation: Placeholder set in Wave 0 so the simulator can run; placeholder ED ratio (California regulation is 1:4 ED; NJ has no mandated ratio)
+      - to verify
+  provider_levels:
+    value:
+    - 3
+    - 5
+    - 7
+    - 9
+    - 11
+    unit: providers on shift
+    source: assumed
+    citation: Placeholder set in Wave 0 so the simulator can run; action levels lvl0..lvl4 for md_* heads (day); evening/night scale 1.0/0.6
+    index: level
+  rn_levels:
+    value:
+    - 12
+    - 17
+    - 22
+    - 27
+    - 32
+    unit: nurses on shift
+    source: assumed
+    citation: Placeholder set in Wave 0 so the simulator can run; action levels lvl0..lvl4 for rn_* heads
+    index: level
+variants:
+  attending:
+    label: Emergency medicine attending
+    attributes:
+      wage_per_hour:
+        value: 165
+        unit: usd/hour
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder until BLS OEWS NJ extract
+      productivity:
+        value: 1.0
+        unit: relative to attending/RN
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      patients_per_hour_by_acuity:
+        value:
+        - 0.5
+        - 0.9
+        - 1.6
+        - 2.6
+        - 3.2
+        unit: new patients/hour
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+        index: acuity_1_to_5
+  resident:
+    label: Emergency medicine resident
+    attributes:
+      wage_per_hour:
+        value: 35
+        unit: usd/hour
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder until BLS OEWS NJ extract
+      productivity:
+        value: 0.65
+        unit: relative to attending/RN
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+  app:
+    label: Nurse practitioner / PA
+    attributes:
+      wage_per_hour:
+        value: 65
+        unit: usd/hour
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder until BLS OEWS NJ extract
+      productivity:
+        value: 0.8
+        unit: relative to attending/RN
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+  rn:
+    label: Registered nurse
+    attributes:
+      wage_per_hour:
+        value: 48
+        unit: usd/hour
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder until BLS OEWS NJ extract
+      productivity:
+        value: 1.0
+        unit: relative to attending/RN
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+  charge_rn:
+    label: Charge nurse
+    attributes:
+      wage_per_hour:
+        value: 55
+        unit: usd/hour
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder until BLS OEWS NJ extract
+      productivity:
+        value: 1.0
+        unit: relative to attending/RN
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+  tech:
+    label: ED technician
+    attributes:
+      wage_per_hour:
+        value: 22
+        unit: usd/hour
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder until BLS OEWS NJ extract
+      productivity:
+        value: 1.0
+        unit: relative to attending/RN
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+  registration:
+    label: Registration clerk
+    attributes:
+      wage_per_hour:
+        value: 21
+        unit: usd/hour
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder until BLS OEWS NJ extract
+      productivity:
+        value: 1.0
+        unit: relative to attending/RN
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+  pharmacist:
+    label: Pharmacist
+    attributes:
+      wage_per_hour:
+        value: 68
+        unit: usd/hour
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder until BLS OEWS NJ extract
+      productivity:
+        value: 1.0
+        unit: relative to attending/RN
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+  imaging_tech:
+    label: Imaging technologist
+    attributes:
+      wage_per_hour:
+        value: 40
+        unit: usd/hour
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder until BLS OEWS NJ extract
+      productivity:
+        value: 1.0
+        unit: relative to attending/RN
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+  transport:
+    label: Transporter
+    attributes:
+      wage_per_hour:
+        value: 18
+        unit: usd/hour
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder until BLS OEWS NJ extract
+      productivity:
+        value: 1.0
+        unit: relative to attending/RN
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+  evs:
+    label: Environmental services
+    attributes:
+      wage_per_hour:
+        value: 18
+        unit: usd/hour
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder until BLS OEWS NJ extract
+      productivity:
+        value: 1.0
+        unit: relative to attending/RN
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder

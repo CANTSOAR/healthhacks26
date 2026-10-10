@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rollout.schema.json",
+  "title": "Recorded rollout of one manager on one seed",
+  "type": "object",
+  "required": ["schema_version", "header", "hourly", "decisions", "segments"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "header": {
+      "type": "object",
+      "required": ["rollout_id", "manager", "scenario", "hospital_id", "seed", "tick_minutes", "days", "enums", "layout", "action_spec"],
+      "properties": {
+        "rollout_id": {"type": "string"},
+        "manager": {
+          "type": "object",
+          "required": ["id", "kind", "label"],
+          "properties": {
+            "id": {"type": "string"},
+            "kind": {"enum": ["learned", "tuned_heuristic", "rule_based", "fixed", "random", "human"]},
+            "label": {"type": "string"},
+            "objective": {"type": "string", "description": "e.g. min_cost, min_wait, balanced, cost_s.t._p95_wait"},
+            "reward_weights": {"type": "object", "additionalProperties": {"type": "number"}},
+            "checkpoint": {"type": "string"}
+          }
+        },
+        "scenario": {"type": "string"},
+        "hospital_id": {"type": "string"},
+        "seed": {"type": "integer"},
+        "tick_minutes": {"type": "integer"},
+        "days": {"type": "integer"},
+        "created": {"type": "string"},
+        "synthetic": {"const": true, "description": "Always true: every number in a rollout is simulated"},
+        "enums": {"type": "object", "description": "copy of contracts/enums.yaml"},
+        "layout": {"$ref": "layout.schema.json"},
+        "action_spec": {"type": "array", "description": "see sim_api.md action_spec()", "items": {"type": "object", "required": ["name", "cadence", "options", "default"]}},
+        "summary": {"type": "object", "description": "episode_summary metrics from metrics.yaml", "additionalProperties": {"type": "number"}}
+      }
+    },
+    "hourly": {
+      "type": "object",
+      "description": "metric name -> array with one value per simulated hour for the whole episode",
+      "additionalProperties": {"type": "array", "items": {"type": "number"}}
+    },
+    "decisions": {
+      "type": "array",
+      "description": "Every setting change over the whole episode (same item shape as snapshot.decisions)",
+      "items": {"type": "object", "required": ["t", "head", "value", "label", "cadence"]}
+    },
+    "structural_changes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["t_decided", "t_effective", "kind", "label"],
+        "properties": {
+          "t_decided": {"type": "integer"},
+          "t_effective": {"type": "integer"},
+          "kind": {"type": "string"},
+          "label": {"type": "string"},
+          "cost": {"type": "number"},
+          "layout": {"$ref": "layout.schema.json", "description": "full layout after the change takes effect"}
+        }
+      }
+    },
+    "segments": {
+      "type": "array",
+      "description": "Full-snapshot windows for chosen days (a whole long episode of snapshots is too large)",
+      "items": {
+        "type": "object",
+        "required": ["start_t", "every_ticks", "snapshots"],
+        "properties": {
+          "label": {"type": "string"},
+          "start_t": {"type": "integer"},
+          "every_ticks": {"type": "integer", "minimum": 1},
+          "snapshots": {"type": "array", "items": {"$ref": "snapshot.schema.json"}}
+        }
+      }
+    }
+  }
+}

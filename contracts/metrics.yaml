@@ -1,0 +1,71 @@
+# Every metric is defined once, here. The simulator emits these keys per
+# environment step (1 hour) for each hospital in the batch; rollouts store them
+# as `hourly[<key>]`. Episode summaries aggregate as stated in `episode`.
+schema_version: 1
+step_minutes: 60
+
+metrics:
+  # ---- access
+  arrivals:            {unit: patients, window: step, denominator: none, episode: sum, desc: "Patients arriving at the ED this hour (excludes diverted)"}
+  first_seen:          {unit: patients, window: step, denominator: none, episode: sum, desc: "Patients with first provider contact this hour"}
+  door_to_provider_sum_min: {unit: minutes, window: step, denominator: none, episode: sum, desc: "Sum of arrival-to-first-provider minutes over patients first seen this hour (divide by first_seen for the mean)"}
+  wait_mean_min:       {unit: minutes, window: step, denominator: first_seen, episode: "sum(door_to_provider_sum_min)/sum(first_seen)", desc: "Mean arrival-to-first-provider time of patients first seen this hour; 0 when none"}
+  wait_p95_min:        {unit: minutes, window: trailing_24h, denominator: first_seen, episode: "p95 over all patients", desc: "95th percentile arrival-to-first-provider time, trailing 24 h (histogram estimate, 5-minute bins)"}
+  lwbs:                {unit: patients, window: step, denominator: none, episode: sum, desc: "Left without being seen this hour"}
+  lwbs_rate:           {unit: fraction, window: trailing_24h, denominator: arrivals, episode: "sum(lwbs)/sum(arrivals)", desc: "LWBS as a share of arrivals"}
+  diverted:            {unit: patients, window: step, denominator: none, episode: sum, desc: "Ambulance arrivals turned away while on diversion"}
+  diversion_hours:     {unit: hours, window: step, denominator: none, episode: sum, desc: "Fraction of this hour spent on ambulance diversion"}
+  # ---- flow
+  ed_census:           {unit: patients, window: instant, denominator: none, episode: mean, desc: "Patients in the ED at the end of the hour (all pre-ward states)"}
+  waiting_count:       {unit: patients, window: instant, denominator: none, episode: mean, desc: "Patients not yet seen by a provider (waiting_triage..waiting_provider)"}
+  ed_departures:       {unit: patients, window: step, denominator: none, episode: sum, desc: "Patients leaving the ED this hour (discharged, admitted to a ward bed, transferred, died)"}
+  ed_los_sum_min:      {unit: minutes, window: step, denominator: none, episode: sum, desc: "Sum of ED length of stay over ed_departures"}
+  ed_los_median_min:   {unit: minutes, window: trailing_24h, denominator: ed_departures, episode: "median over all ED departures", desc: "Median arrival-to-ED-departure time (histogram estimate)"}
+  boarding_count:      {unit: patients, window: instant, denominator: none, episode: mean, desc: "Admitted patients holding in ED bays"}
+  boarding_hours:      {unit: patient_hours, window: step, denominator: none, episode: sum, desc: "Patient-hours spent boarding this hour"}
+  bay_occupancy:       {unit: fraction, window: instant, denominator: staffed_bays, episode: mean, desc: "Occupied treatment spaces / staffed treatment spaces"}
+  ward_occupancy:      {unit: fraction, window: instant, denominator: staffed_ward_beds, episode: mean, desc: "Occupied / staffed inpatient beds available to ED admissions"}
+  admissions:          {unit: patients, window: step, denominator: none, episode: sum, desc: "ED patients given an admit decision this hour"}
+  treated:             {unit: patients, window: step, denominator: none, episode: sum, desc: "Patients exiting as discharged_ed, discharged_ward or transferred"}
+  # ---- safety
+  deteriorations:      {unit: patients, window: step, denominator: none, episode: sum, desc: "Patients whose acuity worsened while waiting"}
+  deaths:              {unit: patients, window: step, denominator: none, episode: sum, desc: "Deaths (simulated; hazard is assumed/literature, see catalog)"}
+  adverse_events:      {unit: events, window: step, denominator: none, episode: sum, desc: "Deteriorations + deaths + error events attributable to fatigue/overload"}
+  # ---- staff
+  md_utilization:      {unit: fraction, window: step, denominator: provider_hours_on_shift, episode: mean, desc: "Busy provider-hours / on-shift provider-hours (attending+resident+app)"}
+  rn_utilization:      {unit: fraction, window: step, denominator: rn_hours_on_shift, episode: mean, desc: "Busy nurse-hours / on-shift nurse-hours"}
+  staff_on_shift:      {unit: people, window: instant, denominator: none, episode: mean, desc: "All staff on shift"}
+  overtime_hours:      {unit: hours, window: step, denominator: none, episode: sum, desc: "Called-in and held-over staff hours paid at overtime rate"}
+  fatigue_mean:        {unit: index_0_1, window: instant, denominator: staff_on_shift, episode: mean, desc: "Mean fatigue index of on-shift staff"}
+  # ---- money (all labelled simulated)
+  revenue:             {unit: usd, window: step, denominator: none, episode: sum, desc: "Revenue booked for patients completing care this hour"}
+  cost_labor:          {unit: usd, window: step, denominator: none, episode: sum, desc: "Wages, overtime and agency premium this hour"}
+  cost_fixed:          {unit: usd, window: step, denominator: none, episode: sum, desc: "Fixed cost of staffed spaces and equipment this hour"}
+  cost_variable:       {unit: usd, window: step, denominator: none, episode: sum, desc: "Supplies and per-test costs this hour"}
+  cost_structural:     {unit: usd, window: step, denominator: none, episode: sum, desc: "One-off build / relocation / purchase cost booked this hour"}
+  cost_total:          {unit: usd, window: step, denominator: none, episode: sum, desc: "cost_labor + cost_fixed + cost_variable + cost_structural"}
+  margin:              {unit: usd, window: step, denominator: none, episode: sum, desc: "revenue - cost_total"}
+
+# Headline numbers shown on the trade-off chart and results table (computed over an episode).
+episode_summary:
+  wait_mean_min: "sum(door_to_provider_sum_min)/sum(first_seen)"
+  wait_p95_min: "p95 over all patients first seen"
+  ed_los_median_min: "median over all ED departures"
+  lwbs_rate: "sum(lwbs)/sum(arrivals)"
+  cost_per_day: "sum(cost_total)/days"
+  margin_per_day: "sum(margin)/days"
+  cost_per_treated: "sum(cost_total)/sum(treated)"
+  deaths_per_10k: "10000*sum(deaths)/sum(arrivals)"
+  boarding_hours_per_day: "sum(boarding_hours)/days"
+  diversion_hours_per_day: "sum(diversion_hours)/days"
+  overtime_hours_per_day: "sum(overtime_hours)/days"
+
+# Reward = -sum_k weights[k] * normalised_term[k]. Weights are part of the observation.
+reward_terms:
+  cost:     {metric: cost_total,      scale_note: "per-hour cost / baseline per-hour cost"}
+  wait:     {metric: door_to_provider_sum_min, scale_note: "patient-minutes waited this hour (all not-yet-seen patients accrue), / baseline"}
+  lwbs:     {metric: lwbs,            scale_note: "per patient"}
+  safety:   {metric: adverse_events,  scale_note: "per event"}
+  boarding: {metric: boarding_hours,  scale_note: "per patient-hour"}
+  staff:    {metric: overtime_hours,  scale_note: "per overtime hour, plus fatigue above threshold"}
+  revenue:  {metric: revenue,         scale_note: "negative cost: rewards revenue (so cost+revenue weights give margin)"}

@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "catalog.schema.json",
+  "title": "Shape of every catalog/<entity>.yaml file (catalog/conditions/* and catalog/hospitals/* have extra keys but the same attribute shape)",
+  "type": "object",
+  "required": ["schema_version", "entity_type", "description", "variants"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "entity_type": {"type": "string"},
+    "description": {"type": "string"},
+    "shared": {"$ref": "#/$defs/attributes", "description": "attributes common to all variants"},
+    "variants": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["label", "attributes"],
+        "properties": {
+          "label": {"type": "string"},
+          "attributes": {"$ref": "#/$defs/attributes"}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "attributes": {
+      "type": "object",
+      "additionalProperties": {"$ref": "#/$defs/attribute"}
+    },
+    "attribute": {
+      "type": "object",
+      "required": ["value", "unit", "source"],
+      "properties": {
+        "value": {"description": "scalar, list, or map. For a distribution give `dist` and put the central value here."},
+        "unit": {"type": "string"},
+        "dist": {
+          "type": "object",
+          "required": ["kind"],
+          "properties": {
+            "kind": {"enum": ["lognormal", "exponential", "gamma", "normal", "bernoulli", "categorical", "poisson", "uniform", "fixed"]},
+            "mean": {"type": "number"},
+            "cv": {"type": "number", "description": "coefficient of variation"},
+            "p": {},
+            "low": {"type": "number"},
+            "high": {"type": "number"}
+          }
+        },
+        "index": {"type": "string", "description": "what a list/map value is indexed by, e.g. 'hour_of_day', 'acuity', 'condition_group'"},
+        "source": {"enum": ["measured", "literature", "assumed"]},
+        "citation": {"type": "string", "description": "dataset + year + table, or paper; for assumed, the reasoning"},
+        "url": {"type": "string"},
+        "file": {"type": "string", "description": "repo path of the extract it was computed from"},
+        "note": {"type": "string"},
+        "range": {"type": "array", "description": "plausible [low, high] from literature, for sensitivity"},
+        "validation_only": {"type": "boolean", "description": "true = a target to compare outputs with, never a simulator input"}
+      }
+    }
+  }
+}

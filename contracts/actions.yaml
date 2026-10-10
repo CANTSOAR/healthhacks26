@@ -1,0 +1,56 @@
+# Factored action heads. One environment step = 1 hour. Every step the manager
+# supplies one integer per head; heads whose cadence boundary is not this step are
+# masked (their value is ignored and the previous setting persists).
+# Boundaries: hourly = every step; daily = hour 0 of each day (sets the plan for
+# the day that is starting); weekly = Monday hour 0; monthly = day % 28 == 0, hour 0.
+# `options` are labels; the simulator maps each to a concrete quantity using the
+# scenario config (catalog-derived). `default` is the fixed-staffing baseline.
+# The simulator exposes this list at run time via `action_spec()`, with the
+# concrete quantity for each option filled in (`values`), so UIs and policies
+# never hard-code sizes.
+schema_version: 1
+
+heads:
+  # ---------------- hourly
+  - {name: priority_rule, cadence: hourly, default: 1,
+     options: [fcfs, acuity_first, acuity_with_aging, shortest_first],
+     desc: "Who is taken next from the waiting queue into a bay / by a provider"}
+  - {name: overflow_bays, cadence: hourly, default: 0,
+     options: [none, hallway_low, hallway_high],
+     desc: "Open hallway/overflow treatment spaces (needs nurses; lower quality, extra fixed cost)"}
+  - {name: divert, cadence: hourly, default: 0,
+     options: ["off", "on"],
+     desc: "Ambulance diversion: ambulance arrivals below ESI 2 severity are turned away"}
+  - {name: call_in, cadence: hourly, default: 0,
+     options: [none, one_rn, two_rn, one_provider, provider_and_rn],
+     desc: "Call in extra staff at overtime rate; arrive after a delay, stay to end of shift"}
+  - {name: fast_track, cadence: hourly, default: 1,
+     options: [closed, open],
+     desc: "Run the fast-track stream for ESI 4-5 (uses an APP and a nurse)"}
+  - {name: provider_split, cadence: hourly, default: 1,
+     options: [favor_new, balanced, favor_dispositions],
+     desc: "How providers divide time between new patients and re-evaluations/dispositions"}
+  # ---------------- daily (next 24 h plan, set at 00:00)
+  - {name: md_day, cadence: daily, default: 2, options: [lvl0, lvl1, lvl2, lvl3, lvl4], desc: "Providers on the day shift (07-15)"}
+  - {name: md_evening, cadence: daily, default: 2, options: [lvl0, lvl1, lvl2, lvl3, lvl4], desc: "Providers on the evening shift (15-23)"}
+  - {name: md_night, cadence: daily, default: 2, options: [lvl0, lvl1, lvl2, lvl3, lvl4], desc: "Providers on the night shift (23-07)"}
+  - {name: rn_day, cadence: daily, default: 2, options: [lvl0, lvl1, lvl2, lvl3, lvl4], desc: "Nurses on the day shift"}
+  - {name: rn_evening, cadence: daily, default: 2, options: [lvl0, lvl1, lvl2, lvl3, lvl4], desc: "Nurses on the evening shift"}
+  - {name: rn_night, cadence: daily, default: 2, options: [lvl0, lvl1, lvl2, lvl3, lvl4], desc: "Nurses on the night shift"}
+  - {name: triage_nurses, cadence: daily, default: 1, options: [one, two, three], desc: "Triage stations staffed"}
+  - {name: admission_cap, cadence: daily, default: 0, options: [none, soft, hard], desc: "Cap on ED admissions per day once the ward is nearly full (transfers out instead)"}
+  - {name: discharge_push, cadence: daily, default: 0, options: [standard, early_rounds], desc: "Early ward discharge rounds: frees beds sooner, costs staff time"}
+  # ---------------- weekly (set Monday 00:00)
+  - {name: agency_contract, cadence: weekly, default: 0, options: [none, small, large], desc: "Agency nurses for the week at a premium rate (adds to every shift)"}
+  - {name: imaging_hours, cadence: weekly, default: 1, options: [day_only, extended, round_the_clock], desc: "Hours the second CT and MRI are staffed"}
+  # ---------------- monthly / structural (set day%28==0 00:00; build delay + switching cost)
+  - {name: bays_delta, cadence: monthly, default: 1, options: [remove_4, hold, add_4], desc: "Close or build treatment bays (physical capacity)"}
+  - {name: ward_beds_delta, cadence: monthly, default: 1, options: [remove_8, hold, add_8], desc: "Close or open inpatient beds available to the ED"}
+  - {name: equipment_buy, cadence: monthly, default: 0, options: [none, ct, xray], desc: "Buy and install a scanner"}
+  - {name: relocate, cadence: monthly, default: 0, options: [none, triage_next_to_imaging, fast_track_by_entrance], desc: "Move a zone (changes walking times; zone closed during the move)"}
+  - {name: headcount, cadence: monthly, default: 1, options: [reduce, hold, grow], desc: "Hire or reduce permanent staff (shifts the level->people mapping; hiring delay)"}
+
+curriculum:
+  stage_1: [hourly, daily]
+  stage_2: [hourly, daily, weekly]
+  stage_3: [hourly, daily, weekly, monthly]

@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "layout.schema.json",
+  "title": "Hospital layout. A data file: a surveyed plan can replace inferred rooms without code changes.",
+  "type": "object",
+  "required": ["schema_version", "hospital_id", "name", "disclaimer", "site", "rooms", "equipment"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "hospital_id": {"type": "string"},
+    "name": {"type": "string"},
+    "disclaimer": {"type": "string", "description": "Shown in the app: model built from public information, not affiliated, flows simulated"},
+    "version": {"type": "integer", "description": "layout_version; increments on structural change"},
+    "site": {
+      "type": "object",
+      "required": ["w", "d"],
+      "properties": {
+        "w": {"type": "number", "description": "site extent along x, metres"},
+        "d": {"type": "number", "description": "site extent along z, metres"},
+        "roads": {"type": "array", "items": {"type": "object", "required": ["id", "points"], "properties": {"id": {"type": "string"}, "label": {"type": "string"}, "width": {"type": "number"}, "points": {"type": "array", "items": {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2}}, "provenance": {"enum": ["surveyed", "published", "inferred"]}}}},
+        "buildings": {"type": "array", "description": "Exterior footprints of other campus buildings (context only)", "items": {"type": "object", "required": ["id", "polygon"], "properties": {"id": {"type": "string"}, "label": {"type": "string"}, "height": {"type": "number"}, "polygon": {"type": "array", "items": {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2}}, "provenance": {"enum": ["surveyed", "published", "inferred"]}, "source": {"type": "string"}}}}
+      }
+    },
+    "rooms": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "type", "label", "x", "z", "w", "d", "capacity", "provenance"],
+        "properties": {
+          "id": {"type": "string"},
+          "type": {"type": "string", "description": "one of enums.room_type"},
+          "label": {"type": "string"},
+          "zone": {"type": "string", "description": "named zone, e.g. 'ED main', 'Fast track', 'Pediatric ED', 'Ward 4 West'"},
+          "x": {"type": "number"}, "z": {"type": "number"},
+          "w": {"type": "number"}, "d": {"type": "number"},
+          "floor": {"type": "integer", "default": 0},
+          "capacity": {"type": "integer", "minimum": 0, "description": "patients it can hold (beds, chairs, tables)"},
+          "physical": {"type": "boolean", "default": true, "description": "false = planned/not yet built"},
+          "slots": {"type": "array", "description": "optional explicit patient positions; otherwise a grid inside the rectangle", "items": {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2}},
+          "catalog_ref": {"type": "string", "description": "catalog path, e.g. 'space/treatment_bay'"},
+          "provenance": {"enum": ["surveyed", "published", "inferred"]},
+          "source": {"type": "string", "description": "URL or citation for surveyed/published; reasoning for inferred"},
+          "note": {"type": "string"}
+        }
+      }
+    },
+    "equipment": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "type", "room", "provenance"],
+        "properties": {
+          "id": {"type": "string"},
+          "type": {"type": "string", "description": "one of enums.equipment_type"},
+          "label": {"type": "string"},
+          "room": {"type": "string", "description": "room id"},
+          "catalog_ref": {"type": "string"},
+          "provenance": {"enum": ["surveyed", "published", "inferred"]},
+          "source": {"type": "string"}
+        }
+      }
+    },
+    "walk_speed_m_per_min": {"type": "number"},
+    "sources": {"type": "array", "items": {"type": "object", "required": ["title", "url"], "properties": {"title": {"type": "string"}, "url": {"type": "string"}, "used_for": {"type": "string"}, "accessed": {"type": "string"}}}}
+  }
+}

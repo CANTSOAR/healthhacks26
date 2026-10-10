@@ -1,0 +1,499 @@
+# Catalog file. Shape: contracts/catalog.schema.json. Every attribute carries a source tag
+# (measured | literature | assumed). Wave 0 skeleton: all values are ASSUMED placeholders until the
+# data workstream replaces them. Keys are read by the simulator; do not rename, only add.
+schema_version: 1
+entity_type: space
+description: 'Spaces. Counts for a specific hospital live in catalog/hospitals/<id>.yaml; positions in the layout file. Target sources: CMS Provider
+  of Services, HCRIS cost reports, FGI design guidelines, literature for turnaround.'
+shared:
+  walk_speed_m_per_min:
+    value: 70
+    unit: m/min
+    source: assumed
+    citation: Placeholder set in Wave 0 so the simulator can run; about 1.2 m/s unhurried walking
+  patient_transport_speed_m_per_min:
+    value: 45
+    unit: m/min
+    source: assumed
+    citation: Placeholder set in Wave 0 so the simulator can run; stretcher transport slower than walking
+  hallway_quality_penalty:
+    value: 0.1
+    unit: quality points
+    source: assumed
+    citation: 'Placeholder set in Wave 0 so the simulator can run; placeholder: care in hallway spaces is lower quality'
+  build_delay_days:
+    value: 42
+    unit: days
+    source: assumed
+    citation: Placeholder set in Wave 0 so the simulator can run; placeholder for adding bays
+  relocate_delay_days:
+    value: 21
+    unit: days
+    source: assumed
+    citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+  relocate_cost:
+    value: 900000
+    unit: usd
+    source: assumed
+    citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+variants:
+  waiting_room:
+    label: Waiting Room
+    attributes:
+      capacity:
+        value: 40
+        unit: patients
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      fixed_cost_per_hour:
+        value: 0.0
+        unit: usd/hour when staffed
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder (value/24 of a daily figure)
+      turnaround_min:
+        value: 0
+        unit: minutes
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder cleaning/turnover
+      build_cost:
+        value: 0
+        unit: usd
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+  triage:
+    label: Triage
+    attributes:
+      capacity:
+        value: 1
+        unit: patients
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      fixed_cost_per_hour:
+        value: 1.0416666666666667
+        unit: usd/hour when staffed
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder (value/24 of a daily figure)
+      turnaround_min:
+        value: 3
+        unit: minutes
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder cleaning/turnover
+      build_cost:
+        value: 60000
+        unit: usd
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+  treatment_bay:
+    label: Treatment Bay
+    attributes:
+      capacity:
+        value: 1
+        unit: patients
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      fixed_cost_per_hour:
+        value: 2.5
+        unit: usd/hour when staffed
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder (value/24 of a daily figure)
+      turnaround_min:
+        value: 25
+        unit: minutes
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder cleaning/turnover
+      build_cost:
+        value: 250000
+        unit: usd
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+  resus_bay:
+    label: Resus Bay
+    attributes:
+      capacity:
+        value: 1
+        unit: patients
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      fixed_cost_per_hour:
+        value: 6.666666666666667
+        unit: usd/hour when staffed
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder (value/24 of a daily figure)
+      turnaround_min:
+        value: 35
+        unit: minutes
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder cleaning/turnover
+      build_cost:
+        value: 600000
+        unit: usd
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+  fast_track:
+    label: Fast Track
+    attributes:
+      capacity:
+        value: 1
+        unit: patients
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      fixed_cost_per_hour:
+        value: 1.4583333333333333
+        unit: usd/hour when staffed
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder (value/24 of a daily figure)
+      turnaround_min:
+        value: 10
+        unit: minutes
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder cleaning/turnover
+      build_cost:
+        value: 120000
+        unit: usd
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+  results_waiting:
+    label: Results Waiting
+    attributes:
+      capacity:
+        value: 12
+        unit: patients
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      fixed_cost_per_hour:
+        value: 0.4166666666666667
+        unit: usd/hour when staffed
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder (value/24 of a daily figure)
+      turnaround_min:
+        value: 0
+        unit: minutes
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder cleaning/turnover
+      build_cost:
+        value: 80000
+        unit: usd
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+  xray:
+    label: Xray
+    attributes:
+      capacity:
+        value: 1
+        unit: patients
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      fixed_cost_per_hour:
+        value: 1.875
+        unit: usd/hour when staffed
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder (value/24 of a daily figure)
+      turnaround_min:
+        value: 5
+        unit: minutes
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder cleaning/turnover
+      build_cost:
+        value: 400000
+        unit: usd
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+  ct:
+    label: Ct
+    attributes:
+      capacity:
+        value: 1
+        unit: patients
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      fixed_cost_per_hour:
+        value: 5.0
+        unit: usd/hour when staffed
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder (value/24 of a daily figure)
+      turnaround_min:
+        value: 8
+        unit: minutes
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder cleaning/turnover
+      build_cost:
+        value: 1500000
+        unit: usd
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+  mri:
+    label: Mri
+    attributes:
+      capacity:
+        value: 1
+        unit: patients
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      fixed_cost_per_hour:
+        value: 6.25
+        unit: usd/hour when staffed
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder (value/24 of a daily figure)
+      turnaround_min:
+        value: 10
+        unit: minutes
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder cleaning/turnover
+      build_cost:
+        value: 2500000
+        unit: usd
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+  ultrasound:
+    label: Ultrasound
+    attributes:
+      capacity:
+        value: 1
+        unit: patients
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      fixed_cost_per_hour:
+        value: 1.25
+        unit: usd/hour when staffed
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder (value/24 of a daily figure)
+      turnaround_min:
+        value: 5
+        unit: minutes
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder cleaning/turnover
+      build_cost:
+        value: 150000
+        unit: usd
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+  lab:
+    label: Lab
+    attributes:
+      capacity:
+        value: 0
+        unit: patients
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      fixed_cost_per_hour:
+        value: 8.333333333333334
+        unit: usd/hour when staffed
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder (value/24 of a daily figure)
+      turnaround_min:
+        value: 0
+        unit: minutes
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder cleaning/turnover
+      build_cost:
+        value: 0
+        unit: usd
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+  pharmacy:
+    label: Pharmacy
+    attributes:
+      capacity:
+        value: 0
+        unit: patients
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      fixed_cost_per_hour:
+        value: 5.0
+        unit: usd/hour when staffed
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder (value/24 of a daily figure)
+      turnaround_min:
+        value: 0
+        unit: minutes
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder cleaning/turnover
+      build_cost:
+        value: 0
+        unit: usd
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+  operating_room:
+    label: Operating Room
+    attributes:
+      capacity:
+        value: 1
+        unit: patients
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      fixed_cost_per_hour:
+        value: 37.5
+        unit: usd/hour when staffed
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder (value/24 of a daily figure)
+      turnaround_min:
+        value: 35
+        unit: minutes
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder cleaning/turnover
+      build_cost:
+        value: 3000000
+        unit: usd
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+  recovery:
+    label: Recovery
+    attributes:
+      capacity:
+        value: 1
+        unit: patients
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      fixed_cost_per_hour:
+        value: 3.75
+        unit: usd/hour when staffed
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder (value/24 of a daily figure)
+      turnaround_min:
+        value: 20
+        unit: minutes
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder cleaning/turnover
+      build_cost:
+        value: 300000
+        unit: usd
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+  icu_bed:
+    label: Icu Bed
+    attributes:
+      capacity:
+        value: 1
+        unit: patients
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      fixed_cost_per_hour:
+        value: 7.5
+        unit: usd/hour when staffed
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder (value/24 of a daily figure)
+      turnaround_min:
+        value: 60
+        unit: minutes
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder cleaning/turnover
+      build_cost:
+        value: 900000
+        unit: usd
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+  stepdown_bed:
+    label: Stepdown Bed
+    attributes:
+      capacity:
+        value: 1
+        unit: patients
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      fixed_cost_per_hour:
+        value: 4.583333333333333
+        unit: usd/hour when staffed
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder (value/24 of a daily figure)
+      turnaround_min:
+        value: 45
+        unit: minutes
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder cleaning/turnover
+      build_cost:
+        value: 600000
+        unit: usd
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+  ward_unit:
+    label: Ward Unit
+    attributes:
+      capacity:
+        value: 24
+        unit: patients
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      fixed_cost_per_hour:
+        value: 58.333333333333336
+        unit: usd/hour when staffed
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder (value/24 of a daily figure)
+      turnaround_min:
+        value: 45
+        unit: minutes
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder cleaning/turnover
+      build_cost:
+        value: 6000000
+        unit: usd
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+  ambulance_bay:
+    label: Ambulance Bay
+    attributes:
+      capacity:
+        value: 8
+        unit: patients
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      fixed_cost_per_hour:
+        value: 0.0
+        unit: usd/hour when staffed
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder (value/24 of a daily figure)
+      turnaround_min:
+        value: 0
+        unit: minutes
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder cleaning/turnover
+      build_cost:
+        value: 0
+        unit: usd
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+  hallway_overflow:
+    label: Hallway Overflow
+    attributes:
+      capacity:
+        value: 1
+        unit: patients
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      fixed_cost_per_hour:
+        value: 0.8333333333333334
+        unit: usd/hour when staffed
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder (value/24 of a daily figure)
+      turnaround_min:
+        value: 15
+        unit: minutes
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder cleaning/turnover
+      build_cost:
+        value: 5000
+        unit: usd
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+  peds_ed:
+    label: Peds Ed
+    attributes:
+      capacity:
+        value: 1
+        unit: patients
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      fixed_cost_per_hour:
+        value: 2.5
+        unit: usd/hour when staffed
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder (value/24 of a daily figure)
+      turnaround_min:
+        value: 25
+        unit: minutes
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder cleaning/turnover
+      build_cost:
+        value: 250000
+        unit: usd
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder

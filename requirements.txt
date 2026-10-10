@@ -1,0 +1,11 @@
+torch==2.2.2
+numpy<2
+pyyaml
+pytest
+fastapi
+uvicorn[standard]
+pydantic
+jsonschema
+httpx
+pypdf
+websockets

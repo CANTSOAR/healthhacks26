@@ -1,0 +1,108 @@
+# Catalog file. Shape: contracts/catalog.schema.json. Every attribute carries a source tag
+# (measured | literature | assumed). Wave 0 skeleton: all values are ASSUMED placeholders until the
+# data workstream replaces them. Keys are read by the simulator; do not rename, only add.
+schema_version: 1
+entity_type: event
+description: 'Exogenous events. Target sources: CDC FluView for flu waves; literature otherwise.'
+variants:
+  flu_wave:
+    label: Influenza wave
+    attributes:
+      arrival_multiplier:
+        value: 1.25
+        unit: x arrivals
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder peak uplift
+      respiratory_share_uplift:
+        value: 0.12
+        unit: absolute share
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      duration_days:
+        value: 42
+        unit: days
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      staff_absence_multiplier:
+        value: 1.6
+        unit: x absence
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      frequency_per_year:
+        value: 1
+        unit: per year
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; seasonal
+  mass_casualty:
+    label: Mass-casualty incident
+    attributes:
+      extra_patients:
+        value: 35
+        unit: patients
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      window_min:
+        value: 90
+        unit: minutes
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      acuity_mix:
+        value:
+        - 0.12
+        - 0.33
+        - 0.35
+        - 0.15
+        - 0.05
+        unit: fraction
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+        index: acuity_1_to_5
+      frequency_per_year:
+        value: 0.5
+        unit: per year
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+  staff_callouts:
+    label: Nursing call-outs
+    attributes:
+      absence_multiplier:
+        value: 3.0
+        unit: x absence
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      duration_days:
+        value: 7
+        unit: days
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+  equipment_outage:
+    label: CT outage
+    attributes:
+      equipment:
+        value: ct
+        unit: type
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; scenario choice
+      units_down:
+        value: 1
+        unit: units
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      duration_hours:
+        value: 36
+        unit: hours
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+  discharge_delay:
+    label: Ward discharge delays
+    attributes:
+      inpatient_los_multiplier:
+        value: 1.25
+        unit: x LOS
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      duration_days:
+        value: 14
+        unit: days
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder

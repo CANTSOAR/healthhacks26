@@ -1,3 +1,26 @@
 .private/
 tmp/
 .DS_Store
+
+# organizer and sponsor material: this repository is public, keep these out
+docs/
+*.zip
+
+# secrets and local environments
+.env
+.venv/
+node_modules/
+.next/
+__pycache__/
+*.pyc
+
+# large or regenerable data
+data/raw/
+
+# build and run output
+web/.next/
+web/out/
+*.log
+.pytest_cache/
+data/encounters/
+*.pt.tmp

@@ -1,0 +1,323 @@
+# Catalog file. Shape: contracts/catalog.schema.json. Every attribute carries a source tag
+# (measured | literature | assumed). Wave 0 skeleton: all values are ASSUMED placeholders until the
+# data workstream replaces them. Keys are read by the simulator; do not rename, only add.
+schema_version: 1
+entity_type: equipment
+description: 'Equipment. Target sources: CMS OPPS payment rates for revenue per use; literature and manufacturer figures otherwise (many remain
+  assumed).'
+variants:
+  ct:
+    label: CT
+    attributes:
+      procedure_min:
+        value: 22
+        unit: minutes
+        source: assumed
+        citation: 'Placeholder set in Wave 0 so the simulator can run; placeholder exam slot incl. positioning (lab: turnaround)'
+        dist:
+          kind: lognormal
+          mean: 22
+          cv: 0.4
+      failure_prob_per_hour:
+        value: 0.004
+        unit: probability/hour
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      repair_min:
+        value: 240
+        unit: minutes
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder mean repair
+        dist:
+          kind: exponential
+          mean: 240
+      purchase_cost:
+        value: 1300000
+        unit: usd
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      maintenance_cost_per_year:
+        value: 120000
+        unit: usd/year
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      revenue_per_use:
+        value: 330
+        unit: usd
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder until OPPS extract
+      result_delay_min:
+        value: 40
+        unit: minutes
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder read/report delay
+  mri:
+    label: MRI
+    attributes:
+      procedure_min:
+        value: 40
+        unit: minutes
+        source: assumed
+        citation: 'Placeholder set in Wave 0 so the simulator can run; placeholder exam slot incl. positioning (lab: turnaround)'
+        dist:
+          kind: lognormal
+          mean: 40
+          cv: 0.4
+      failure_prob_per_hour:
+        value: 0.003
+        unit: probability/hour
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      repair_min:
+        value: 360
+        unit: minutes
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder mean repair
+        dist:
+          kind: exponential
+          mean: 360
+      purchase_cost:
+        value: 2000000
+        unit: usd
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      maintenance_cost_per_year:
+        value: 150000
+        unit: usd/year
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      revenue_per_use:
+        value: 480
+        unit: usd
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder until OPPS extract
+      result_delay_min:
+        value: 60
+        unit: minutes
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder read/report delay
+  xray:
+    label: Xray
+    attributes:
+      procedure_min:
+        value: 12
+        unit: minutes
+        source: assumed
+        citation: 'Placeholder set in Wave 0 so the simulator can run; placeholder exam slot incl. positioning (lab: turnaround)'
+        dist:
+          kind: lognormal
+          mean: 12
+          cv: 0.4
+      failure_prob_per_hour:
+        value: 0.002
+        unit: probability/hour
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      repair_min:
+        value: 120
+        unit: minutes
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder mean repair
+        dist:
+          kind: exponential
+          mean: 120
+      purchase_cost:
+        value: 250000
+        unit: usd
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      maintenance_cost_per_year:
+        value: 20000
+        unit: usd/year
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      revenue_per_use:
+        value: 95
+        unit: usd
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder until OPPS extract
+      result_delay_min:
+        value: 25
+        unit: minutes
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder read/report delay
+  ultrasound:
+    label: Ultrasound
+    attributes:
+      procedure_min:
+        value: 20
+        unit: minutes
+        source: assumed
+        citation: 'Placeholder set in Wave 0 so the simulator can run; placeholder exam slot incl. positioning (lab: turnaround)'
+        dist:
+          kind: lognormal
+          mean: 20
+          cv: 0.4
+      failure_prob_per_hour:
+        value: 0.001
+        unit: probability/hour
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      repair_min:
+        value: 120
+        unit: minutes
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder mean repair
+        dist:
+          kind: exponential
+          mean: 120
+      purchase_cost:
+        value: 120000
+        unit: usd
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      maintenance_cost_per_year:
+        value: 8000
+        unit: usd/year
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      revenue_per_use:
+        value: 150
+        unit: usd
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder until OPPS extract
+      result_delay_min:
+        value: 20
+        unit: minutes
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder read/report delay
+  monitor:
+    label: Monitor
+    attributes:
+      procedure_min:
+        value: 0
+        unit: minutes
+        source: assumed
+        citation: 'Placeholder set in Wave 0 so the simulator can run; placeholder exam slot incl. positioning (lab: turnaround)'
+        dist:
+          kind: lognormal
+          mean: 1
+          cv: 0.4
+      failure_prob_per_hour:
+        value: 0.0005
+        unit: probability/hour
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      repair_min:
+        value: 60
+        unit: minutes
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder mean repair
+        dist:
+          kind: exponential
+          mean: 60
+      purchase_cost:
+        value: 9000
+        unit: usd
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      maintenance_cost_per_year:
+        value: 400
+        unit: usd/year
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      revenue_per_use:
+        value: 0
+        unit: usd
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder until OPPS extract
+      result_delay_min:
+        value: 0
+        unit: minutes
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder read/report delay
+  ventilator:
+    label: Ventilator
+    attributes:
+      procedure_min:
+        value: 0
+        unit: minutes
+        source: assumed
+        citation: 'Placeholder set in Wave 0 so the simulator can run; placeholder exam slot incl. positioning (lab: turnaround)'
+        dist:
+          kind: lognormal
+          mean: 1
+          cv: 0.4
+      failure_prob_per_hour:
+        value: 0.0008
+        unit: probability/hour
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      repair_min:
+        value: 120
+        unit: minutes
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder mean repair
+        dist:
+          kind: exponential
+          mean: 120
+      purchase_cost:
+        value: 35000
+        unit: usd
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      maintenance_cost_per_year:
+        value: 2500
+        unit: usd/year
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      revenue_per_use:
+        value: 0
+        unit: usd
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder until OPPS extract
+      result_delay_min:
+        value: 0
+        unit: minutes
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder read/report delay
+  lab_analyzer:
+    label: Lab Analyzer
+    attributes:
+      procedure_min:
+        value: 45
+        unit: minutes
+        source: assumed
+        citation: 'Placeholder set in Wave 0 so the simulator can run; placeholder exam slot incl. positioning (lab: turnaround)'
+        dist:
+          kind: lognormal
+          mean: 45
+          cv: 0.4
+      failure_prob_per_hour:
+        value: 0.002
+        unit: probability/hour
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      repair_min:
+        value: 180
+        unit: minutes
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder mean repair
+        dist:
+          kind: exponential
+          mean: 180
+      purchase_cost:
+        value: 300000
+        unit: usd
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      maintenance_cost_per_year:
+        value: 40000
+        unit: usd/year
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder
+      revenue_per_use:
+        value: 60
+        unit: usd
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder until OPPS extract
+      result_delay_min:
+        value: 0
+        unit: minutes
+        source: assumed
+        citation: Placeholder set in Wave 0 so the simulator can run; placeholder read/report delay

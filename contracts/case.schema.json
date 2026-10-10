@@ -1,0 +1,176 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "case.schema.json",
+  "title": "Encounter case. Faculty truth, patient-known, learner-visible and rubric are kept separate (teammate's vocabulary). A case is authored by faculty or instantiated from a simulated patient's latent truth + condition template. No case-specific code.",
+  "type": "object",
+  "required": ["schema_version", "case_id", "version", "status", "title", "origin", "profile", "facts", "chart", "objectives", "rubric_id", "sources"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "case_id": {"type": "string"},
+    "version": {"type": "integer", "minimum": 1},
+    "status": {"enum": ["draft", "approved", "published"], "description": "published versions are immutable; an edit creates a new draft version"},
+    "title": {"type": "string"},
+    "origin": {
+      "type": "object",
+      "required": ["kind"],
+      "properties": {
+        "kind": {"enum": ["authored", "from_sim_patient", "from_template", "from_sample_patient"]},
+        "condition_template": {"type": "string"},
+        "sim_patient_id": {"type": "integer"},
+        "sim_seed": {"type": "integer"},
+        "sample_patient_uuid": {"type": "string"}
+      }
+    },
+    "review": {
+      "type": "object",
+      "properties": {
+        "author": {"type": "string"},
+        "reviewer": {"type": "string"},
+        "reviewed_at": {"type": "string"},
+        "needs_faculty_review": {"type": "boolean", "description": "true for everything authored tonight"},
+        "synthetic": {"const": true}
+      }
+    },
+    "intended_learner": {"type": "string"},
+    "learner_role": {"type": "string", "description": "who the student plays, e.g. 'Emergency medicine resident'"},
+    "setting": {"type": "string"},
+    "prebrief": {"type": "string", "description": "what the learner is told before starting (learner-visible)"},
+    "profile": {
+      "type": "object",
+      "description": "Patient identity and persona (drives how the patient speaks; never a source of clinical facts)",
+      "required": ["name", "age", "gender"],
+      "properties": {
+        "name": {"type": "string"},
+        "age": {"type": "integer"},
+        "gender": {"type": "string"},
+        "race_ethnicity": {"type": "string"},
+        "background": {"type": "string"},
+        "personality": {"type": "string"},
+        "speech_style": {"type": "string"},
+        "image": {"type": "string", "description": "path under .private/ or a URL; optional, the app works without it"},
+        "voice": {"type": "string"}
+      }
+    },
+    "faculty_truth": {
+      "type": "object",
+      "description": "FACULTY ONLY. Never sent to the student's browser or to the patient role-play prompt.",
+      "properties": {
+        "diagnosis": {"type": "string"},
+        "differential": {"type": "array", "items": {"type": "string"}},
+        "teaching_points": {"type": "array", "items": {"type": "string"}},
+        "expected_disposition": {"enum": ["discharge", "admit", "transfer"]},
+        "expected_orders": {"type": "array", "items": {"type": "string"}},
+        "severity": {"type": "number"},
+        "acuity": {"type": "integer"}
+      }
+    },
+    "facts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["fact_id", "category", "statement", "patient_knows", "disclosure"],
+        "properties": {
+          "fact_id": {"type": "string", "pattern": "^f\\."},
+          "category": {"enum": ["identity", "chief_complaint", "hpi", "pmh", "medications", "allergies", "social", "family", "ros", "exam", "vitals", "lab", "imaging", "diagnosis", "risk", "concealed"]},
+          "statement": {"type": "string", "description": "the fact in clinical wording (faculty truth)"},
+          "value": {},
+          "unit": {"type": "string"},
+          "polarity": {"enum": ["positive", "negative", "unknown"], "description": "a known negative is distinct from the patient not knowing and from the author not specifying"},
+          "patient_knows": {"type": "boolean"},
+          "patient_answer": {"type": "string", "description": "approved first-person wording the patient uses when the fact is disclosed"},
+          "cover_answer": {"type": "string", "description": "what the patient says while the fact is still withheld or denied (the authored misreport); absent = a neutral deflection"},
+          "topics": {"type": "array", "items": {"type": "string"}, "description": "topic keys and trigger phrases that count as asking about this fact (used by the offline matcher and as hints to the model)"},
+          "disclosure": {
+            "type": "object",
+            "required": ["rule"],
+            "properties": {
+              "rule": {"enum": ["volunteered", "if_asked", "after_rapport", "denied_until_confronted", "chart_initial", "on_request"]},
+              "rapport_needed": {"type": "integer", "description": "after_rapport: rapport points needed (empathy statements, open questions, normalising)"},
+              "confront_with": {"type": "array", "items": {"type": "string"}, "description": "denied_until_confronted: fact_ids or artifact_ids the learner must have seen and cite"},
+              "request": {"type": "string", "description": "on_request: the order/test/exam whose request releases it, e.g. 'order:troponin', 'exam:abdomen'"}
+            }
+          },
+          "critical": {"type": "boolean"},
+          "chart_section": {"type": "string", "description": "chart section id it appears under once learner-visible"},
+          "source_ids": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    },
+    "chart": {
+      "type": "object",
+      "required": ["sections"],
+      "properties": {
+        "sections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["section_id", "title", "release"],
+            "properties": {
+              "section_id": {"type": "string"},
+              "title": {"type": "string"},
+              "release": {"enum": ["initial", "on_fact", "on_request"], "description": "initial = visible at start (triage note, vitals, prior notes are not locked behind keywords)"},
+              "static_text": {"type": "string"}
+            }
+          }
+        },
+        "artifacts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["artifact_id", "kind", "title", "release"],
+            "properties": {
+              "artifact_id": {"type": "string"},
+              "kind": {"enum": ["lab_report", "ecg", "xray", "ct", "prior_note", "medication_list", "image", "document"]},
+              "title": {"type": "string"},
+              "section_id": {"type": "string"},
+              "content": {"description": "structured content, e.g. lab rows [{test,value,unit,ref_range,flag}] or note text"},
+              "asset": {"type": "string", "description": "optional file path/URL"},
+              "interpretation": {"type": "string"},
+              "linked_fact_ids": {"type": "array", "items": {"type": "string"}},
+              "release": {"type": "object", "required": ["rule"], "properties": {"rule": {"enum": ["initial", "on_request", "on_fact"]}, "request": {"type": "string"}, "fact_id": {"type": "string"}, "delay_turns": {"type": "integer"}}},
+              "synthetic": {"type": "boolean"},
+              "source_ids": {"type": "array", "items": {"type": "string"}}
+            }
+          }
+        }
+      }
+    },
+    "objectives": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["objective_id", "criterion", "kind"],
+        "properties": {
+          "objective_id": {"type": "string", "pattern": "^obj\\."},
+          "criterion": {"type": "string"},
+          "kind": {"enum": ["elicit_fact", "action", "communication", "sequencing", "reasoning", "safety"]},
+          "linked_fact_ids": {"type": "array", "items": {"type": "string"}},
+          "linked_requests": {"type": "array", "items": {"type": "string"}},
+          "evidence_rule": {"type": "string", "description": "what counts as met / partly demonstrated"},
+          "critical": {"type": "boolean"},
+          "rubric_domain": {"type": "string", "description": "key of the rubric domain this feeds"},
+          "feedback_met": {"type": "string"},
+          "feedback_missed": {"type": "string"}
+        }
+      }
+    },
+    "rubric_id": {"type": "string", "description": "encounter/rubrics/<id>.json; default is the organizers' Patient Encounter Performance Rubric"},
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source_id", "title", "role"],
+        "properties": {
+          "source_id": {"type": "string"},
+          "title": {"type": "string"},
+          "url": {"type": "string"},
+          "date": {"type": "string"},
+          "role": {"enum": ["evidence_for_fact", "objective_rationale", "teaching_artifact", "organizer_sample", "template"]},
+          "license": {"type": "string"},
+          "supports": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    },
+    "unknown_response": {"type": "string", "description": "what the patient says when asked about something the case does not specify"}
+  }
+}

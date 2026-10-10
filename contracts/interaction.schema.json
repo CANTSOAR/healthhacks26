@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "interaction.schema.json",
+  "title": "The interaction contract: one declaration per interaction type, one result shape for sampled and played resolution",
+  "$defs": {
+    "declaration": {
+      "type": "object",
+      "description": "Declared once per interaction type (catalog/interactions.yaml).",
+      "required": ["type", "participants", "inputs", "outputs", "sampler", "played"],
+      "properties": {
+        "type": {"type": "string", "description": "one of enums.interaction_type"},
+        "label": {"type": "string"},
+        "participants": {"type": "array", "items": {"type": "object", "required": ["role"], "properties": {"role": {"type": "string", "description": "patient or a staff_role"}, "playable": {"type": "boolean"}}}},
+        "inputs": {"type": "object", "properties": {"truth": {"type": "array", "items": {"type": "string"}}, "known": {"type": "array", "items": {"type": "string"}}}},
+        "outputs": {"type": "array", "items": {"enum": ["duration_min", "information_gained", "decision", "quality"]}},
+        "sampler": {"type": "object", "description": "catalog references the sampler draws from", "properties": {"duration": {"type": "string"}, "decision": {"type": "string"}, "quality": {"type": "string"}}},
+        "played": {"type": "object", "required": ["available"], "properties": {"available": {"type": "boolean"}, "resolver": {"type": "string", "description": "e.g. encounter.resolver:ClinicianEncounterResolver"}, "learner_role": {"type": "string"}}}
+      }
+    },
+    "latent_truth": {
+      "type": "object",
+      "description": "What is true about a simulated patient, generated at arrival from the condition template and the patient's own seed. The sampler draws outcomes from it; the played resolver turns it into an encounter case.",
+      "required": ["patient_id", "seed", "condition_group", "condition_template", "severity", "acuity", "true_disposition", "facts"],
+      "properties": {
+        "patient_id": {"type": "integer"},
+        "seed": {"type": "integer", "description": "per-patient seed; with the template it regenerates the same truth"},
+        "condition_group": {"type": "string"},
+        "condition_template": {"type": "string", "description": "catalog/conditions/<id>.yaml"},
+        "diagnosis": {"type": "string"},
+        "severity": {"type": "number", "minimum": 0, "maximum": 1},
+        "acuity": {"type": "integer", "minimum": 1, "maximum": 5},
+        "age": {"type": "integer"},
+        "sex": {"type": "string"},
+        "arrival_mode": {"type": "string"},
+        "payer": {"type": "string"},
+        "true_disposition": {"enum": ["discharge", "admit", "transfer"]},
+        "needs": {"type": "array", "items": {"type": "string"}, "description": "tests this patient truly needs, e.g. ['ct', 'lab']"},
+        "facts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["fact_id", "category", "value"],
+            "properties": {
+              "fact_id": {"type": "string", "pattern": "^f\\."},
+              "category": {"enum": ["identity", "chief_complaint", "hpi", "pmh", "medications", "allergies", "social", "family", "ros", "exam", "vitals", "lab", "imaging", "diagnosis", "risk", "concealed"]},
+              "value": {},
+              "unit": {"type": "string"},
+              "critical": {"type": "boolean", "description": "missing it degrades decision quality"},
+              "discoverable_by": {"type": "array", "items": {"type": "string"}, "description": "interaction types that can surface it"}
+            }
+          }
+        }
+      }
+    },
+    "known_state": {
+      "type": "object",
+      "description": "What the care team knows so far about the patient (the learner-visible side).",
+      "required": ["patient_id", "known_fact_ids"],
+      "properties": {
+        "patient_id": {"type": "integer"},
+        "known_fact_ids": {"type": "array", "items": {"type": "string"}},
+        "triage_note": {"type": "string"},
+        "orders": {"type": "array", "items": {"type": "string"}},
+        "results_ready": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "result": {
+      "type": "object",
+      "description": "The fixed outputs. A sampler fills them from catalog distributions; a played resolver fills the same fields from a human-and-AI session. The simulator consumes them identically.",
+      "required": ["interaction_type", "patient_id", "resolver", "duration_min", "information_gained", "decision", "quality"],
+      "properties": {
+        "interaction_id": {"type": "string"},
+        "interaction_type": {"type": "string"},
+        "patient_id": {"type": "integer"},
+        "participants": {"type": "array", "items": {"type": "object", "required": ["entity_id", "role"], "properties": {"entity_id": {"type": ["string", "integer"]}, "role": {"type": "string"}, "played_by": {"enum": ["sim", "human", "ai"]}}}},
+        "resolver": {"enum": ["sampled", "played"]},
+        "t_start": {"type": "integer"},
+        "duration_min": {"type": "number", "minimum": 0, "description": "simulated minutes the interaction occupies the participants"},
+        "information_gained": {"type": "array", "items": {"type": "string"}, "description": "fact_ids moved from truth to known"},
+        "decision": {
+          "type": "object",
+          "required": ["kind"],
+          "properties": {
+            "kind": {"enum": ["acuity_assigned", "orders", "disposition", "handoff_complete", "none"]},
+            "acuity": {"type": "integer"},
+            "orders": {"type": "array", "items": {"type": "string"}},
+            "disposition": {"enum": ["discharge", "admit", "transfer", "undecided"]},
+            "detail": {"type": "string"}
+          }
+        },
+        "quality": {"type": "number", "minimum": 0, "maximum": 1, "description": "0..1. Sampled: drawn from staff skill and fatigue. Played: critical facts found and rubric result. Drives downstream error/return risk in the simulator."},
+        "session_ref": {"type": "string", "description": "played only: encounter session id"},
+        "objective_results": {"type": "array", "description": "played only", "items": {"type": "object", "required": ["objective_id", "result"], "properties": {"objective_id": {"type": "string"}, "result": {"enum": ["met", "partly_demonstrated", "not_observed", "not_assessable"]}}}}
+      }
+    }
+  }
+}
