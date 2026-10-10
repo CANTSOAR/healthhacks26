@@ -1,0 +1,26 @@
+{
+  "campaign": "hospital-equipment-rwj-inventory-2026-10-10",
+  "execution": "Two Luna source-extraction agents; separate Luna full-PCS reference acquisition",
+  "jobs": [
+    {
+      "domain": "rwj",
+      "agent_model": "gpt-6-luna",
+      "status": "completed",
+      "extract_path": "data/research/inventory-rwj.json",
+      "extract_sha256": "83125f46908ae138545dc3a334e328a8ef1ef9479d3a6fb8676ffa66364ecade",
+      "record_count": 18
+    },
+    {
+      "domain": "equipment",
+      "agent_model": "gpt-6-luna",
+      "status": "completed",
+      "extract_path": "data/research/inventory-equipment.json",
+      "extract_sha256": "a47aaaecf7d6e4b33b606a2eaa9da0f4941e581a5944620682c8774d9eb05e80",
+      "record_count": 13
+    }
+  ],
+  "sources_added": 14,
+  "records_added": 31,
+  "status": "completed_extraction_not_human_approved",
+  "next_step": "Human source comparison in data/review/index.html; priority review all operational parameters before adoption"
+}

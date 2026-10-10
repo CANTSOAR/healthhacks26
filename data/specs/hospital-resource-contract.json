@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "status": "proposed_simulation_data_contract_not_observed_inventory",
+  "entity_distinctions": {
+    "procedure_code": "A versioned terminology entry; not evidence that a site offers or performed it.",
+    "procedure_definition": "Reviewed indications, prerequisites, steps, roles, resources and endpoints; not supplied by a code title.",
+    "procedure_event": "An occurrence with order, acceptance, performance and documentation timestamps; each may differ.",
+    "equipment_family": "General class of equipment.",
+    "device_model": "Manufacturer/model capabilities and validated instructions; not proof of local ownership.",
+    "physical_asset": "A specific device owned/used by a facility, with location, state and maintenance history.",
+    "site_capability_assertion": "A sourced statement that a facility offers a service or technology during a stated or unknown period."
+  },
+  "asset_fields_needed": ["asset_id", "facility_id", "campus", "unit", "equipment_family", "manufacturer", "model", "udi_if_available", "quantity_or_individual_asset", "source_record_ids", "observed_or_reported_period", "operational_status", "location", "maintenance_due", "calibration_status", "cleaning_status", "consumables", "accessories", "operator_qualification", "reservation", "power_gas_water_network_dependencies", "compatibility", "downtime_and_repair_history"],
+  "procedure_fields_needed": ["terminology_system_and_version", "code", "scope_and_population", "site_capability_evidence", "clinical_protocol_version", "eligibility_and_exclusions", "consent_and_preparation", "required_roles", "required_asset_capabilities", "consumables", "task_precedence_and_parallelism", "duration_distribution_and_definition", "monitoring_and_reassessment", "exception_and_escalation", "recovery_and_disposition", "documentation", "plan_specific_administrative_rules"],
+  "proposed_asset_states": ["unknown", "available", "reserved", "in_use", "awaiting_cleaning", "cleaning", "maintenance", "quarantined", "out_of_service", "retired"],
+  "transition_semantics": "Authored model proposal: transitions require role ownership and evidence or a labeled assumption. Public availability of a model never sets an RWJ asset to available.",
+  "invariants": ["Missing quantity is null/unknown, never zero or one by default.", "A listed room or device count is not a staffed concurrent capacity.", "Shared equipment cannot serve conflicting tasks simultaneously unless its validated capabilities permit it.", "Maintenance, cleaning and stock replenishment use their own resources and time.", "Site, campus and department scope must match before joining sources.", "Conflicting source counts are retained separately pending reconciliation."]
+}

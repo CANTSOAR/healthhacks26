@@ -371,6 +371,81 @@ documents:
     path: catalog/breadth-f2ce81064374.json
     role: acquired_source_manifest
     refresh: manual
+  - id: catalog:cms-icd10pcs-2027-full
+    type: local_file
+    path: catalog/cms-icd10pcs-2027-full.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:inventory-0b6491cd84e7
+    type: local_file
+    path: catalog/inventory-0b6491cd84e7.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:inventory-13eaf093c21f
+    type: local_file
+    path: catalog/inventory-13eaf093c21f.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:inventory-1bfbe4a45d3d
+    type: local_file
+    path: catalog/inventory-1bfbe4a45d3d.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:inventory-2eea0045bcb8
+    type: local_file
+    path: catalog/inventory-2eea0045bcb8.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:inventory-561884d943ac
+    type: local_file
+    path: catalog/inventory-561884d943ac.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:inventory-62091090ba38
+    type: local_file
+    path: catalog/inventory-62091090ba38.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:inventory-699cfca14d68
+    type: local_file
+    path: catalog/inventory-699cfca14d68.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:inventory-6f778a9b4f8d
+    type: local_file
+    path: catalog/inventory-6f778a9b4f8d.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:inventory-99087d968790
+    type: local_file
+    path: catalog/inventory-99087d968790.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:inventory-b2daf2d1ee57
+    type: local_file
+    path: catalog/inventory-b2daf2d1ee57.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:inventory-be22ccccced2
+    type: local_file
+    path: catalog/inventory-be22ccccced2.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:inventory-e4471fb2ecfa
+    type: local_file
+    path: catalog/inventory-e4471fb2ecfa.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:inventory-efc7e9b90d83
+    type: local_file
+    path: catalog/inventory-efc7e9b90d83.json
+    role: acquired_source_manifest
+    refresh: manual
+  - id: catalog:inventory-fdcfe1276409
+    type: local_file
+    path: catalog/inventory-fdcfe1276409.json
+    role: acquired_source_manifest
+    refresh: manual
 - path: topics/brief.md
   depends_on:
   - id: local:research-question

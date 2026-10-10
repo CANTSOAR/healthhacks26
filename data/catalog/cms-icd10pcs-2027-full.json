@@ -1,0 +1,40 @@
+{
+  "dataset_id": "cms-icd10pcs-2027-full",
+  "source_id": "cms-icd10pcs-2027-full",
+  "title": "FY2027 ICD-10-PCS complete code and title reference",
+  "source_url": "https://www.cms.gov/files/zip/2027-icd-10-pcs-codes-file.zip",
+  "source_urls": [
+    "https://www.cms.gov/files/zip/2027-icd-10-pcs-codes-file.zip"
+  ],
+  "record_count": 79256,
+  "raw_paths": [
+    "raw/w2-clinical-icd10pcs-proc-2027/source.zip"
+  ],
+  "raw_sha256": {
+    "raw/w2-clinical-icd10pcs-proc-2027/source.zip": "8db2465fe7a65f53bf21d840fce825d7d107dbd603b7fcb66358c8321919809d"
+  },
+  "normalized_path": "normalized/cms-icd10pcs-2027-full.jsonl",
+  "scope": "All 79,256 unique seven-character ICD-10-PCS code/title entries in icd10pcs_codes_2027.txt within the retained CMS FY2027 release ZIP; CMS lists this file for discharges October 1, 2026 through March 31, 2027. Terminology catalog only: count is not procedures performed and does not describe RWJ offerings or capabilities.",
+  "access": "public",
+  "rights": {
+    "license": "U.S. federal government work; CMS-published ICD-10-PCS code file",
+    "terms_url": "https://www.cms.gov/about-cms/agency-information/aboutwebsite/website-policies/copyright-permissions",
+    "scope": "Official public code-and-title reference; preserve CMS attribution; not a clinical guideline."
+  },
+  "acquisition_status": "acquired",
+  "retrieved_at": "2026-10-10T15:31:30.745337+00:00",
+  "limits": [
+    "Code/title reference only; not procedures performed, RWJ offerings, recommendations, protocols, utilization, outcomes, or patient records.",
+    "CMS lists this code file for discharges October 1, 2026 through March 31, 2027; check CMS for later FY2027 updates."
+  ],
+  "provenance": {
+    "method": "Deterministic normalization of retained original CMS ZIP download",
+    "script": "scripts/acquire_full_pcs.py",
+    "raw_artifact_kind": "original_downloaded_response_bytes",
+    "source_member": "icd10pcs_codes_2027.txt",
+    "source_dataset_manifest": "catalog/w2-clinical-icd10pcs-proc-2027.json",
+    "validated_source_sha256": "8db2465fe7a65f53bf21d840fce825d7d107dbd603b7fcb66358c8321919809d",
+    "official_release_index": "https://www.cms.gov/medicare/coding-billing/ICD-10-codes",
+    "official_release_period": "Discharges October 1, 2026 through March 31, 2027, per CMS ICD-10 files page checked 2026-10-10."
+  }
+}

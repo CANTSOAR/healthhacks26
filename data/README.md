@@ -2,7 +2,7 @@
 
 A first version of the whole-hospital knowledge system, grounded in New Brunswick, New Jersey. This repository contains the acquired data, provenance, ontology and reproducible research workflows. The database and live scenario engine are later work.
 
-**Snapshot: 2026-10-10. 30 datasets, 4,780 normalized records, 70 source files.** These are selected public sources and partial samples, not a complete hospital digital twin. Thirty-five records are limited, located factual paraphrases with no redistributed source document. Eight teaching profiles are explicitly synthetic.
+**Snapshot: 2026-10-10. 89 source catalogs and 84,159 normalized record envelopes.** This includes the full 79,256-code CMS inpatient procedure reference and an overlapping earlier subset; it is not a count of unique hospital activities. Public evidence, terminology, synthetic profiles and analyst proposals remain separately labeled. See the [latest procedures, equipment and RWJ expansion](research/inventory-summary.md) and [human verification guide](review/README.md). Coverage remains partial for hospital operations and local assets.
 
 ## Start here
 

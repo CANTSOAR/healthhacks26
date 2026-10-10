@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Check acquired evidence, source integrity and candidate citation closure offline."""
+import gzip
 import hashlib,json
 from pathlib import Path
 from datetime import datetime
@@ -41,6 +42,10 @@ def main():
     citations=BASE/'sources/record-citations.jsonl'
     if citations.exists():
         indexed={r['record_id'] for r in rows(citations)}
+        large=BASE/'sources/record-citations-large.jsonl.gz'
+        if large.exists():
+            for line in gzip.decompress(large.read_bytes()).decode().splitlines():
+                rid=json.loads(line)['record_id'];check(rid not in indexed,'Duplicate citation ID');indexed.add(rid)
         check(indexed==ids,'Citation index stale or incomplete')
     runs=0
     for p in (BASE/'runs').glob('*/receipt.json'):

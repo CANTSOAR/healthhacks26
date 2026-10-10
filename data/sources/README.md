@@ -1,10 +1,10 @@
 # Source and record citation index
 
-Generated offline by `python3 data/scripts/build_citations.py` from **74 catalogs and 4,872 records**. All paths in the index are repository-relative. The builder accepts both `data/...` and data-root-relative catalog paths and rejects paths outside the workspace.
+Generated offline by `python3 data/scripts/build_citations.py` from **89 catalogs and 84,159 records**. All paths in the index are repository-relative. The builder accepts both `data/...` and data-root-relative catalog paths and rejects paths outside the workspace.
 
 - `bibliography.bib`: one stable citation key per dataset/source. Retrieval dates are not publication years. Authors and publication years are omitted when no explicit suitable metadata exists.
 - `source-register.json`: source URLs, exact API requests, acquisition status, rights, source dates/versions, catalog and normalized hashes, and stored source artifact hashes.
-- `record-citations.jsonl`: one citation per record ID, its source record identifier, exact retrieval URL, available source field locators/periods, normalized line, matching source hash and review status. The source ID joins to rights and other dataset-level details in the register.
+- `record-citations.jsonl` plus `record-citations-large.jsonl.gz` (when present, catalogs with more than 5,000 records): one citation per record ID across the two indexes, its source record identifier, exact retrieval URL, available source field locators/periods, normalized line, matching source hash and review status. The source ID joins to rights and other dataset-level details in the register.
 
 ## Interpretation
 

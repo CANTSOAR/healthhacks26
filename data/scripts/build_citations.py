@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Build deterministic offline source/record citation indexes from catalog + JSONL evidence."""
+import gzip
 import hashlib
 import json
 from pathlib import Path
@@ -110,7 +111,11 @@ def main():
         bib.append('\n'.join(parts))
     register={'schema_version':'1.0.0','generation':'Deterministic offline derivation; no source refetch and no inferred publication date or author','source_count':len(sources),'record_count':len(citations),'sources':sources}
     (OUT/'source-register.json').write_text(json.dumps(register,indent=2,ensure_ascii=False)+'\n')
-    (OUT/'record-citations.jsonl').write_text(''.join(json.dumps(c,ensure_ascii=False)+'\n' for c in citations))
+    large_ids={s['source_id'] for s in sources if s['record_count']>5000}
+    (OUT/'record-citations.jsonl').write_text(''.join(json.dumps(c,ensure_ascii=False)+'\n' for c in citations if c['source_id'] not in large_ids))
+    large=[c for c in citations if c['source_id'] in large_ids]
+    if large:
+        (OUT/'record-citations-large.jsonl.gz').write_bytes(gzip.compress((''.join(json.dumps(c,ensure_ascii=False)+'\n' for c in large)).encode(),mtime=0))
     (OUT/'bibliography.bib').write_text('\n\n'.join(bib)+'\n')
     (OUT/'README.md').write_text(f'''# Source and record citation index
 
@@ -118,7 +123,7 @@ Generated offline by `python3 data/scripts/build_citations.py` from **{len(sourc
 
 - `bibliography.bib`: one stable citation key per dataset/source. Retrieval dates are not publication years. Authors and publication years are omitted when no explicit suitable metadata exists.
 - `source-register.json`: source URLs, exact API requests, acquisition status, rights, source dates/versions, catalog and normalized hashes, and stored source artifact hashes.
-- `record-citations.jsonl`: one citation per record ID, its source record identifier, exact retrieval URL, available source field locators/periods, normalized line, matching source hash and review status. The source ID joins to rights and other dataset-level details in the register.
+- `record-citations.jsonl` plus `record-citations-large.jsonl.gz` (when present, catalogs with more than 5,000 records): one citation per record ID across the two indexes, its source record identifier, exact retrieval URL, available source field locators/periods, normalized line, matching source hash and review status. The source ID joins to rights and other dataset-level details in the register.
 
 ## Interpretation
 

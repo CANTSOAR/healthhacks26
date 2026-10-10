@@ -1,6 +1,6 @@
 # Verify the extraction yourself
 
-Open **[the review page](index.html)** in a browser. GitHub displays HTML source; use a local checkout for the interactive page. It contains the full catalog offline, with no external scripts or model calls.
+Open **[the review page](index.html)** in a browser. GitHub displays HTML source; use a local checkout for the interactive page. It embeds smaller catalogs and loads the large procedure reference from the local checkout on demand, with no external scripts or model calls.
 
 From the repository root:
 
@@ -8,7 +8,7 @@ From the repository root:
 python3 -m http.server 8767 --bind 127.0.0.1
 ```
 
-Visit http://127.0.0.1:8767/data/review/index.html . You can also open `data/review/index.html` directly in a browser; relative artifact links require the surrounding checkout.
+Visit http://127.0.0.1:8767/data/review/index.html . Use the local server for full-reference loading. Opening the HTML directly supports embedded records only; relative artifact links require the surrounding checkout.
 
 1. Search for a record or choose its source. Start with `harhay`, `chaisirin`, `jerico`, or `w2-ops-nj-staffing`.
 2. Click **Open primary source** and use **Find the source location** to locate the table/section. Open any verification copy when supplied. DOI links are retained in the extracted data/catalog. Publisher access may differ; select `source_unavailable` if you cannot inspect it.
@@ -35,3 +35,7 @@ Run `python3 data/scripts/build_expansion_evidence.py`, `python3 data/scripts/bu
 ### Encounter/role expansion
 
 New records are in `data/research/breadth-*.json`. Rebuild with `python3 data/scripts/build_breadth_evidence.py` and `python3 data/scripts/build_encounter_coverage.py`, followed by the citation and review-index builders above. Search `rwjuh-ed-`, `acr-`, `aarc-`, `ehrgym-`, or `admin-aetna-`. Export any current browser decisions before reloading to see newly added records.
+
+### Full procedure reference
+
+Choose `cms-icd10pcs-2027-full (load full reference)` in the Source selector. This 79,256-code reference loads on demand from its normalized JSONL; use the localhost server above (direct file opening cannot fetch it). Search applies to currently loaded records. Loading verifies the full file checksum; exported decisions contain the exact reviewed line checksum. Large-catalog citations are stored in `data/sources/record-citations-large.jsonl.gz`; the ordinary JSONL retains other sources. The full reference overlaps the older 444-code subset and is not a count of unique clinical facts or performed procedures.

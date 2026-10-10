@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0.0",
   "generation": "Deterministic offline derivation; no source refetch and no inferred publication date or author",
-  "source_count": 74,
-  "record_count": 4872,
+  "source_count": 89,
+  "record_count": 84159,
   "sources": [
     {
       "source_id": "breadth-068cbcf1bb53",
@@ -1367,6 +1367,59 @@
       "raw_availability": "available"
     },
     {
+      "source_id": "cms-icd10pcs-2027-full",
+      "bibtex_key": "cms-icd10pcs-2027-full",
+      "title": "FY2027 ICD-10-PCS complete code and title reference",
+      "source_url": "https://www.cms.gov/files/zip/2027-icd-10-pcs-codes-file.zip",
+      "source_urls": [
+        "https://www.cms.gov/files/zip/2027-icd-10-pcs-codes-file.zip"
+      ],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "license": "U.S. federal government work; CMS-published ICD-10-PCS code file",
+        "terms_url": "https://www.cms.gov/about-cms/agency-information/aboutwebsite/website-policies/copyright-permissions",
+        "scope": "Official public code-and-title reference; preserve CMS attribution; not a clinical guideline."
+      },
+      "scope_as_recorded": "All 79,256 unique seven-character ICD-10-PCS code/title entries in icd10pcs_codes_2027.txt within the retained CMS FY2027 release ZIP; CMS lists this file for discharges October 1, 2026 through March 31, 2027. Terminology catalog only: count is not procedures performed and does not describe RWJ offerings or capabilities.",
+      "limits_as_recorded": [
+        "Code/title reference only; not procedures performed, RWJ offerings, recommendations, protocols, utilization, outcomes, or patient records.",
+        "CMS lists this code file for discharges October 1, 2026 through March 31, 2027; check CMS for later FY2027 updates."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "method": "Deterministic normalization of retained original CMS ZIP download",
+        "script": "scripts/acquire_full_pcs.py",
+        "raw_artifact_kind": "original_downloaded_response_bytes",
+        "source_member": "icd10pcs_codes_2027.txt",
+        "source_dataset_manifest": "catalog/w2-clinical-icd10pcs-proc-2027.json",
+        "validated_source_sha256": "8db2465fe7a65f53bf21d840fce825d7d107dbd603b7fcb66358c8321919809d",
+        "official_release_index": "https://www.cms.gov/medicare/coding-billing/ICD-10-codes",
+        "official_release_period": "Discharges October 1, 2026 through March 31, 2027, per CMS ICD-10 files page checked 2026-10-10."
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/retrieved_at",
+          "value": "2026-10-10T15:31:30.745337+00:00"
+        }
+      ],
+      "catalog_path": "data/catalog/cms-icd10pcs-2027-full.json",
+      "catalog_sha256": "8fb626e6e2ca1d6b387d158e26f7462e1bef18f2e3147734cd04e5352b57ca21",
+      "normalized_path": "data/normalized/cms-icd10pcs-2027-full.jsonl",
+      "normalized_sha256": "3378189d2244237bce6f8796ef28f48952cdedb086a04d53d2bba8cb4e8692da",
+      "record_count": 79256,
+      "stored_artifacts": [
+        {
+          "path": "data/raw/w2-clinical-icd10pcs-proc-2027/source.zip",
+          "sha256": "8db2465fe7a65f53bf21d840fce825d7d107dbd603b7fcb66358c8321919809d",
+          "bytes": 664342,
+          "storage_kind": "original_downloaded_response_bytes"
+        }
+      ],
+      "raw_availability": "available"
+    },
+    {
       "source_id": "cms-infections",
       "bibtex_key": "cms-infections",
       "title": "Healthcare Associated Infections - Hospital",
@@ -2081,6 +2134,552 @@
       "normalized_path": "data/normalized/expansion-f9433cd5b3f0.jsonl",
       "normalized_sha256": "7a1b729734f7ef892ec69638c6a8e9b1118f4c90537d68eb56d520acdbdca6b3",
       "record_count": 3,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "inventory-0b6491cd84e7",
+      "bibtex_key": "inventory-0b6491cd84e7",
+      "title": "Transplant Services at RWJ University Hospital New Brunswick",
+      "source_url": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/transplant-services/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T17:20:23Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:20:23Z"
+        }
+      ],
+      "catalog_path": "data/catalog/inventory-0b6491cd84e7.json",
+      "catalog_sha256": "2fa3c68c7988e97f871a75e958d7f5c1ce2bca6d6af03abee1e2df58fc42e9a9",
+      "normalized_path": "data/normalized/inventory-0b6491cd84e7.jsonl",
+      "normalized_sha256": "82b8d470f1c118446c9568d2fb9a4004c26f889ce6f53bdd828d2c2e391e2116",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "inventory-13eaf093c21f",
+      "bibtex_key": "inventory-13eaf093c21f",
+      "title": "Sterilizing Practices",
+      "source_url": "https://www.cdc.gov/infection-control/hcp/disinfection-sterilization/sterilizing-practices.html",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T17:20:39Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:20:39Z"
+        }
+      ],
+      "catalog_path": "data/catalog/inventory-13eaf093c21f.json",
+      "catalog_sha256": "c61ac27a2694b2881299575c99714313360dc460fb1db4d161781fcc111db727",
+      "normalized_path": "data/normalized/inventory-13eaf093c21f.jsonl",
+      "normalized_sha256": "18d6a615c5b7938dc7517a29dfe2a6b8329c36ee09b97228b62fde646e44370c",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "inventory-1bfbe4a45d3d",
+      "bibtex_key": "inventory-1bfbe4a45d3d",
+      "title": "About the Level I Trauma Center",
+      "source_url": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/trauma-center/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T17:20:23Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:20:23Z"
+        }
+      ],
+      "catalog_path": "data/catalog/inventory-1bfbe4a45d3d.json",
+      "catalog_sha256": "8f130ba5191ad4f9dfe2c16be9671117811500ba19490595374be8ceb6aebefe",
+      "normalized_path": "data/normalized/inventory-1bfbe4a45d3d.jsonl",
+      "normalized_sha256": "8eb17beb7e7bd5948911d8b2fa1f78b2d0114f30bf43570196a016c79ac9237c",
+      "record_count": 2,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "inventory-2eea0045bcb8",
+      "bibtex_key": "inventory-2eea0045bcb8",
+      "title": "Brachytherapy: Treatment of Prostate Cancer",
+      "source_url": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/radiation-oncology/brachytherapy/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T17:20:23Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:20:23Z"
+        }
+      ],
+      "catalog_path": "data/catalog/inventory-2eea0045bcb8.json",
+      "catalog_sha256": "5cdc9b6ec550473b9eba65299a4ca694086e5e03e498e428a864f1f853524665",
+      "normalized_path": "data/normalized/inventory-2eea0045bcb8.jsonl",
+      "normalized_sha256": "229d9e6c2968c354e4d0691188dc64c020208dd9b47b1c29b50551b9f4290407",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "inventory-561884d943ac",
+      "bibtex_key": "inventory-561884d943ac",
+      "title": "Environmental Cleaning Procedures",
+      "source_url": "https://www.cdc.gov/healthcare-associated-infections/hcp/cleaning-global/procedures.html",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T17:20:39Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:20:39Z"
+        }
+      ],
+      "catalog_path": "data/catalog/inventory-561884d943ac.json",
+      "catalog_sha256": "9748ad6d3912146d18b18fe07b235853643ed4c8e2f7b442b88f5f2e68dabc41",
+      "normalized_path": "data/normalized/inventory-561884d943ac.jsonl",
+      "normalized_sha256": "d2226fc5944ef404193d31e9a0392ea45398b4d9f7f7091ecd9624ebe0f0cc32",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "inventory-62091090ba38",
+      "bibtex_key": "inventory-62091090ba38",
+      "title": "Robotic Surgical Services",
+      "source_url": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/robotic-surgery/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T17:20:23Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:20:23Z"
+        }
+      ],
+      "catalog_path": "data/catalog/inventory-62091090ba38.json",
+      "catalog_sha256": "a8dc1d033c337fc6468000f6182023d4bc49b5f9032f6c3287129bb78f9341da",
+      "normalized_path": "data/normalized/inventory-62091090ba38.jsonl",
+      "normalized_sha256": "9ef7737293ad49fcc6106cb959a4ab2391566e6470e473bbdacc9832c89eea03",
+      "record_count": 4,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "inventory-699cfca14d68",
+      "bibtex_key": "inventory-699cfca14d68",
+      "title": "Medical equipment maintenance programme overview",
+      "source_url": "https://www.who.int/publications/i/item/9789241501538",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T17:20:39Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:20:39Z"
+        }
+      ],
+      "catalog_path": "data/catalog/inventory-699cfca14d68.json",
+      "catalog_sha256": "be44044f01d19195b023245cd2cf44bcbea4c5523f4bbe9bfa1f128acd9b6d6b",
+      "normalized_path": "data/normalized/inventory-699cfca14d68.jsonl",
+      "normalized_sha256": "54024645d51faac68b7bcf0b48a4b80bc3c583329fe39f6d63a4a8d7915e4cb3",
+      "record_count": 4,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "inventory-6f778a9b4f8d",
+      "bibtex_key": "inventory-6f778a9b4f8d",
+      "title": "Cardiac Services at Robert Wood Johnson University Hospital",
+      "source_url": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/heart-and-vascular-care/cardiac-services/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T17:20:23Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:20:23Z"
+        }
+      ],
+      "catalog_path": "data/catalog/inventory-6f778a9b4f8d.json",
+      "catalog_sha256": "cd3e8d825f6ddb1fd71d2bf9adc26d4dffe35d69104f7d9754104ef6606841c3",
+      "normalized_path": "data/normalized/inventory-6f778a9b4f8d.jsonl",
+      "normalized_sha256": "222b9e0e4985451813f18430d9f76488c395828c05834d48999cd8bc56b10164",
+      "record_count": 4,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "inventory-99087d968790",
+      "bibtex_key": "inventory-99087d968790",
+      "title": "Pediatric Intensive Care Unit (PICU)",
+      "source_url": "https://www.rwjbh.org/bristol-myers-squibb-childrens-hospital-at-rwjuh/treatment-care/critical-care/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T17:20:23Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:20:23Z"
+        }
+      ],
+      "catalog_path": "data/catalog/inventory-99087d968790.json",
+      "catalog_sha256": "a445fa58b7a14098051b7b56349e348cba83409516c9ab6d67c07f3425a18002",
+      "normalized_path": "data/normalized/inventory-99087d968790.jsonl",
+      "normalized_sha256": "e91b136d48f425efda7efaa0c47f7cedd9ae701d8eb50035a22d314f9f897c4b",
+      "record_count": 2,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "inventory-b2daf2d1ee57",
+      "bibtex_key": "inventory-b2daf2d1ee57",
+      "title": "Introduction to medical equipment inventory management",
+      "source_url": "https://www.who.int/publications-detail-redirect/9789241501392",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T17:20:39Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:20:39Z"
+        }
+      ],
+      "catalog_path": "data/catalog/inventory-b2daf2d1ee57.json",
+      "catalog_sha256": "44ca4772e8d800ac69fb4ffae80e1fcf3bceecca1038ce92a915605733064e00",
+      "normalized_path": "data/normalized/inventory-b2daf2d1ee57.jsonl",
+      "normalized_sha256": "c57019ab7c23f4532d2f7055970a59fcfc84842ac29ccb40f983665ab2da2ae1",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "inventory-be22ccccced2",
+      "bibtex_key": "inventory-be22ccccced2",
+      "title": "Inventory and maintenance management information system for medical device",
+      "source_url": "https://www.who.int/publications/b/74278",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T17:20:39Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:20:39Z"
+        }
+      ],
+      "catalog_path": "data/catalog/inventory-be22ccccced2.json",
+      "catalog_sha256": "34df8455fb6aa494d6a362af3a79ef189d52fcd1484e47c0efc3b73e10269164",
+      "normalized_path": "data/normalized/inventory-be22ccccced2.jsonl",
+      "normalized_sha256": "102052fc325108c639924fd5745a4b9765af58d49d155e687bcf4c3237a7f17e",
+      "record_count": 6,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "inventory-e4471fb2ecfa",
+      "bibtex_key": "inventory-e4471fb2ecfa",
+      "title": "RWJUH Kidney and Pancreas Transplant Center",
+      "source_url": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/transplant-services/kidney-pancreas-transplants/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T17:20:23Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:20:23Z"
+        }
+      ],
+      "catalog_path": "data/catalog/inventory-e4471fb2ecfa.json",
+      "catalog_sha256": "d684bcff6f00c2d72046ae2698ae07c5dc412b77f1aa76367faf9f622e99846a",
+      "normalized_path": "data/normalized/inventory-e4471fb2ecfa.jsonl",
+      "normalized_sha256": "bda742ab7cfb613072a9b929e7d210d0725d1a5496ba5edc91758d2fe5031274",
+      "record_count": 1,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "inventory-efc7e9b90d83",
+      "bibtex_key": "inventory-efc7e9b90d83",
+      "title": "The Laurie Proton Therapy Center",
+      "source_url": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/radiation-oncology/proton-therapy/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T17:20:23Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:20:23Z"
+        }
+      ],
+      "catalog_path": "data/catalog/inventory-efc7e9b90d83.json",
+      "catalog_sha256": "acfee05caf792665102fa4ad1d5fbae92b5e9687e100f4c30a96a87051555718",
+      "normalized_path": "data/normalized/inventory-efc7e9b90d83.jsonl",
+      "normalized_sha256": "e60b0494a6a86a8c7b70bc39069ebffc5ee0d1483f2bdcfb05a9ff00d3ad8412",
+      "record_count": 2,
+      "stored_artifacts": [],
+      "raw_availability": "no_raw_source_available"
+    },
+    {
+      "source_id": "inventory-fdcfe1276409",
+      "bibtex_key": "inventory-fdcfe1276409",
+      "title": "Radiology & Diagnostic Imaging at New Brunswick Campus",
+      "source_url": "https://www.rwjbh.org/rwj-university-hospital-new-brunswick/treatment-care/radiology-and-diagnostic-imaging/",
+      "source_urls": [],
+      "query_requests": [],
+      "landing_url": null,
+      "upstream_dataset_id": null,
+      "rights_as_recorded": {
+        "source_license": "not assessed for full-text redistribution",
+        "redistribution": "Short factual paraphrases; no full article copied"
+      },
+      "scope_as_recorded": "Primary guidance, workflow, source-code documentation or study; limited factual extracts, not a complete validated pathway",
+      "limits_as_recorded": [
+        "Setting, period, applicability and endpoint are source-specific.",
+        "No original snapshot retained; human review should follow source URL and locator.",
+        "A role description or guideline does not establish local operational performance."
+      ],
+      "acquisition_status": "acquired",
+      "provenance_as_recorded": {
+        "doi": null,
+        "retrieved_at": "2026-10-10T17:20:23Z",
+        "raw_artifact_kind": "no_raw_limited_paraphrase"
+      },
+      "reported_temporal_fields": [
+        {
+          "pointer": "/provenance/retrieved_at",
+          "value": "2026-10-10T17:20:23Z"
+        }
+      ],
+      "catalog_path": "data/catalog/inventory-fdcfe1276409.json",
+      "catalog_sha256": "e3593459f0d9a81d2daf62141938d3a05227d706bb694db1b804f16bf76e1236",
+      "normalized_path": "data/normalized/inventory-fdcfe1276409.jsonl",
+      "normalized_sha256": "f775813bd6c713db1a060961943f3781493288827531873af37e233b08a990c7",
+      "record_count": 1,
       "stored_artifacts": [],
       "raw_availability": "no_raw_source_available"
     },
