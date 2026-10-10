@@ -63,6 +63,7 @@ function Lights({ built }: { built: Built | null }) {
 export default function HospitalScene({ feed, sync = false, insets }: { feed: Feed; sync?: boolean; insets?: Insets }) {
   const feedKey = useStore(feed, (s) => s.key);
   const layout = useStore(feed, (s) => s.layout);
+  const layoutRev = useStore(feed, (s) => s.layoutRev);
   const selection = useUI((s) => s.selection);
   const hover = useUI((s) => s.hover);
   const [built, setBuilt] = useState<Built | null>(null);
@@ -89,7 +90,9 @@ export default function HospitalScene({ feed, sync = false, insets }: { feed: Fe
     >
       <color attach="background" args={[GROUND]} />
       <fog attach="fog" args={[GROUND, 220, 620]} />
-      <Lights built={built} />
+      {/* Lights and people are rebuilt with the layout. Re-fitting the shadow camera under materials compiled for the
+          previous layout left every person rendered black (seen when a live run replaced the first layout). */}
+      <Lights key={`l${layoutRev}:${built ? Math.round(built.bounds.r) : 0}`} built={built} />
       {/* ground: flat colour that matches the page, plus a shadow-only plane */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.02, 0]} raycast={() => null}>
         <planeGeometry args={[6000, 6000]} />
@@ -100,8 +103,8 @@ export default function HospitalScene({ feed, sync = false, insets }: { feed: Fe
         <shadowMaterial color="#5B6BB5" opacity={0.16} />
       </mesh>
       {layout ? <Building layout={layout} feed={feed} feedKey={feedKey} onBuilt={onBuilt} /> : null}
-      <People feed={feed} feedKey={feedKey} positions={positions} />
-      <Ambulances feed={feed} feedKey={feedKey} positions={positions} />
+      <People key={`p${layoutRev}:${built ? Math.round(built.bounds.r) : 0}`} feed={feed} feedKey={feedKey} positions={positions} />
+      <Ambulances key={`a${layoutRev}`} feed={feed} feedKey={feedKey} positions={positions} />
       {sel ? <SelectionBox key={`${sel.kind}:${sel.id}`} sel={sel} feed={feed} positions={positions} /> : null}
       {hov && !(sel && sel.kind === hov.kind && sel.id === hov.id) ? <SelectionBox key={`h${hov.kind}:${hov.id}`} sel={hov} feed={feed} positions={positions} variant="hover" /> : null}
       <CameraRig built={built} feed={feed} feedKey={feedKey} positions={positions} sync={sync} insets={insets} />

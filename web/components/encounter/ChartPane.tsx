@@ -60,7 +60,7 @@ function sourceWord(f: ChartFact): string {
 
 function FactRow({ f, fresh }: { f: ChartFact; fresh: boolean }) {
   return (
-    <li className={`flex items-start gap-2 rounded-lg px-2 py-1.5 ${freshCls(fresh)}`} data-testid="chart-fact" data-fact-id={f.fact_id}>
+    <li className={`flex items-start gap-2 rounded-lg px-2 py-1.5 ${freshCls(fresh)}`} data-testid="chart-fact" data-fact-id={f.fact_id} data-fresh={fresh}>
       <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-ink-3" />
       <span className="min-w-0 flex-1 text-[13px] leading-snug text-ink">{f.text}</span>
       {fresh && <NewTag />}
@@ -144,13 +144,13 @@ function LabTable({ rows }: { rows: LabRow[] }) {
             const name = r.test ?? (r as any).name;
             return (
               <tr key={`${name}-${i}`} className={t ? "font-semibold" : ""} data-testid="lab-row">
-                <td className="border-b border-line/70 py-1.5 pr-3 text-ink">{name}</td>
-                <td className="tnum border-b border-line/70 py-1.5 pr-3 text-right" style={{ color: t ? t.fg : undefined }}>
+                <td className="border-b border-line py-1.5 pr-3 text-ink">{name}</td>
+                <td className="tnum border-b border-line py-1.5 pr-3 text-right" style={{ color: t ? t.fg : undefined }}>
                   {String(r.value ?? "")}
                 </td>
-                <td className="border-b border-line/70 py-1.5 pr-3 font-normal text-ink-2">{r.unit}</td>
-                <td className="tnum border-b border-line/70 py-1.5 pr-3 font-normal text-ink-2">{r.ref_range}</td>
-                <td className="border-b border-line/70 py-1.5">
+                <td className="border-b border-line py-1.5 pr-3 font-normal text-ink-2">{r.unit}</td>
+                <td className="tnum border-b border-line py-1.5 pr-3 font-normal text-ink-2">{r.ref_range}</td>
+                <td className="border-b border-line py-1.5">
                   {t ? (
                     <Tone bg={t.bg} fg={t.fg} title={t.word === "H" ? "Above the reference range" : t.word === "L" ? "Below the reference range" : "Flagged"}>
                       {t.word}
@@ -203,7 +203,7 @@ function ArtifactCard({ a, fresh }: { a: ChartArtifact; fresh: boolean }) {
   const img = a.asset && /\.(png|jpe?g|webp|gif|svg)$/i.test(a.asset) ? assetUrl(a.asset) : null;
   const report = ["ecg", "xray", "ct", "image"].includes(a.kind);
   return (
-    <div className={`rounded-xl border border-line p-3 ${fresh ? "bg-[#FFF6D6] shadow-[0_0_0_2px_#F4D675]" : "bg-white/75"} transition-[background-color,box-shadow] duration-[1400ms]`} data-testid="artifact" data-kind={a.kind} data-artifact-id={a.artifact_id}>
+    <div className={`rounded-xl border border-line p-3 ${fresh ? "bg-[#FFF6D6] shadow-[0_0_0_2px_#F4D675]" : "bg-white/75"} transition-[background-color,box-shadow] duration-[1400ms]`} data-testid="artifact" data-fresh={fresh} data-kind={a.kind} data-artifact-id={a.artifact_id}>
       <div className="mb-2 flex flex-wrap items-center gap-2">
         <span className="text-[12.5px] font-semibold text-ink">{a.title}</span>
         <span className="sim-tag">{KIND_LABEL[a.kind] ?? a.kind}</span>
@@ -232,7 +232,7 @@ function Section({ s, artifacts, fresh }: { s: ChartSection; artifacts: ChartArt
   const cards = shownArts.filter((a) => !plainDocs.includes(a));
   const empty = !text && !s.facts.length && !s.notes.length && !shownArts.length;
   return (
-    <section className={`rounded-2xl border border-line/80 bg-white/55 p-3 ${isNew ? "rise" : ""}`} data-testid="chart-section" data-section-id={s.section_id}>
+    <section className={`rounded-2xl border border-line bg-white/55 p-3 ${isNew ? "rise" : ""}`} data-testid="chart-section" data-section-id={s.section_id}>
       <div className="mb-1.5 flex items-center gap-2">
         <h3 className="text-[11px] font-semibold uppercase tracking-[0.07em] text-ink-2">{s.title}</h3>
         {isNew && <NewTag />}
@@ -318,7 +318,7 @@ function Ledger({ ledger, chart }: { ledger: LedgerEvent[]; chart: Chart }) {
           const w = resultWord(e);
           const what = e.kind === "start" ? "Encounter started" : e.kind === "request" ? `Requested: ${requestLabel(e.request || "")}` : e.kind === "finish" ? "Encounter finished" : e.text;
           return (
-            <li key={e.seq} className="rounded-xl border border-line/80 bg-white/60 p-2.5" data-testid="ledger-row" data-kind={e.kind}>
+            <li key={e.seq} className="rounded-xl border border-line bg-white/60 p-2.5" data-testid="ledger-row" data-kind={e.kind}>
               <div className="flex items-start gap-2">
                 <span className="tnum mt-px inline-flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full bg-[#141a33]/[0.06] px-1 text-[10.5px] font-semibold text-ink-2" title={`Turn ${e.turn}`}>
                   {e.turn}
@@ -370,6 +370,14 @@ function Ledger({ ledger, chart }: { ledger: LedgerEvent[]; chart: Chart }) {
 export function ChartPane({ kase, patient, chart, ledger, simLine }: { kase: LearnerCase; patient: PatientView; chart: Chart; ledger: LedgerEvent[]; simLine?: string | null }) {
   const [tab, setTab] = useState<"chart" | "ledger">("chart");
   const fresh = useFresh(chart);
+  const scroller = useRef<HTMLDivElement | null>(null);
+  // bring the first newly released item into view so the reveal is seen
+  useEffect(() => {
+    if (!fresh.size || tab !== "chart") return;
+    const el = scroller.current?.querySelector('[data-fresh="true"]');
+    el?.scrollIntoView({ block: "center", behavior: "smooth" });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fresh.size]);
   const visible = chart.sections.filter((s) => s.visible);
   const hidden = chart.hidden_section_count ?? chart.sections.filter((s) => !s.visible).length;
   const pending = (chart.pending_results ?? []) as unknown[];
@@ -410,7 +418,7 @@ export function ChartPane({ kase, patient, chart, ledger, simLine }: { kase: Lea
           </span>
         </div>
       </div>
-      <div className="scroll-thin min-h-0 flex-1 overflow-y-auto p-3">
+      <div ref={scroller} className="scroll-thin min-h-0 flex-1 overflow-y-auto p-3">
         {tab === "chart" ? (
           <div className="space-y-2.5">
             {visible.map((s) => (

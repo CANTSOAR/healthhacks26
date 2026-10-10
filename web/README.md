@@ -50,6 +50,19 @@ run is kept in this browser's localStorage instead of being POSTed.
 `contracts/api.md` with a toy patient flow. It exists to exercise the client; it is not the simulator.
 Open `http://localhost:3000/?mode=play&api=http://localhost:8010`.
 
+## What was checked against the real server
+
+With `server/` running on :8000 the screenshot script was run with `--api http://localhost:8000`: status, lists,
+layout, catalog refs, the fixture rollout, a live Play run over the websocket (knob queued, stop, final summary, human
+run POSTed and shown on the trade-off chart), the validation card, and a live Compare (two sockets, same scenario and
+seed, two managers). Server behaviours handled: `hour` acknowledgements with empty metrics are not plotted; `pending`
+is read as "not yet applied" and current settings come from `snapshot.kpis.settings`; several `hour` messages may
+arrive between snapshots at high speed; `stop` is awaited through `summary.final`; unknown catalog refs (404) show as
+"no catalog entry" rather than a fixture; manager and rollout lists are re-read on every mode change.
+
+Compare has two sources: recorded rollouts (one shared replay clock) or "Run live" (two live simulations; each runs
+on its own clock, so they can drift a few ticks apart).
+
 ## Structure
 
 ```
@@ -93,7 +106,8 @@ PLAYWRIGHT_BROWSERS_PATH=.playwright pnpm exec playwright install chromium   # o
 pnpm dev                                    # or pnpm start
 node scripts/screenshots.mjs http://localhost:3000            # software GL (SwiftShader), slow
 node scripts/screenshots.mjs http://localhost:3000 --gpu      # the machine's GPU, fast
-node scripts/screenshots.mjs --gpu --api http://localhost:8010 --only live   # live path against a server
+node scripts/screenshots.mjs --gpu --offline                  # force the fixture fallback (files web-*.png)
+node scripts/screenshots.mjs --gpu --api http://localhost:8000   # against a running server (files web-live-*.png)
 ```
 
 The script also checks behaviour and prints problems: search selection, list selection, a click in the 3D scene,

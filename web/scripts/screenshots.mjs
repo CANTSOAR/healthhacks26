@@ -123,6 +123,7 @@ await step("play", async () => {
   await shot(page, "play");
   await page.click('[data-testid="play-stop"]');
   await page.waitForSelector('[data-testid="play-result"]', { timeout: 15000 });
+  await page.waitForTimeout(600); // panels read the feed at most four times a second
   await shot(page, "play-ended");
   await page.close();
 });
@@ -207,6 +208,7 @@ await step("live", async () => {
   await shot(page, "live-patient");
   await page.click('[data-testid="play-stop"]');
   await page.waitForSelector('[data-testid="play-result"]', { timeout: 15000 });
+  await page.waitForTimeout(600);
   console.log("live run result:", (await page.locator('[data-testid="play-result"]').textContent())?.replace(/\s+/g, " ").slice(0, 200));
   await shot(page, "live-ended");
   await page.goto(base + "/?mode=tradeoff&api=" + encodeURIComponent(apiUrl));

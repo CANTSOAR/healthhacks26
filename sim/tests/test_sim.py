@@ -102,7 +102,7 @@ def _trajectory(device, seed, hours=20, B=2, actions_seed=None):
     out = []
     for _ in range(hours):
         m = sim.step(random_actions(sim, gen, ("hourly", "daily")) if gen is not None else sim.default_actions())
-        out.append(torch.stack([m[k] for k in sim.metric_names()], 1).cpu())
+        out.append(torch.stack([m[k] for k in m], 1).cpu())
     return torch.stack(out), sim
 
 
@@ -251,7 +251,7 @@ def test_snapshot_layout_metrics_conform(device):
         lay_v.validate(lay)
         for hour in range(34 if sid == "imaging_outage" else 14):
             m = sim.step(sim.default_actions())
-            assert list(m.keys()) == metric_keys
+            assert list(m.keys())[:len(metric_keys)] == metric_keys and "waiting_patient_minutes" in m
             for k, v in m.items():
                 assert v.shape == (2,) and bool(torch.isfinite(v).all()), k
         for _ in range(3):

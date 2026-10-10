@@ -42,16 +42,19 @@ def run_scenario(scenario: str, manager_ids: list[str], n_seeds: int, days: int,
     mp.reset(env.B, env.device)
     obs = env.reset()
     exo = []
+    labor = torch.zeros(env.B, device=env.device)
     t0 = time.time()
     for h in range(days * 24):
         obs, r, d, info = env.step(mp.act(obs, env.action_mask()))
         m = info["metrics"]
         exo.append((m["arrivals"] + m["diverted"])[:n_seeds].cpu())
+        labor += m["cost_labor"]
     per = lambda x: x.reshape(M, n_seeds).cpu()      # noqa: E731
     vals = {k: per(v) for k, v in info["summary"].items()}
     if hasattr(env.sim, "episode_means"):
         for k, v in env.sim.episode_means().items():
             vals[k + "_mean"] = per(v)
+    vals["labor_cost_per_day"] = per(labor / days)       # the controllable part of cost (wages, overtime, agency)
     tm = info["terms_mean"]
     for i, k in enumerate(TERMS):
         vals["term_" + k] = per(tm[:, i])
@@ -132,11 +135,12 @@ def write_markdown(res: dict, path: Path):
          "Kinds: `fixed`, `rule_based` and `random` are baselines; `tuned_heuristic` is the rule-based manager with parameters found by "
          "evolutionary search (NOT a learned agent); `learned` is a PPO network acting greedily.", "",
          f"Constrained objective: cheapest subject to episode p95 wait <= {res['protocol']['p95_wait_threshold_min']:.0f} min "
-         "(threshold = 0.75 x the fixed baseline's p95).", ""]
+         "(a chosen service target; see rl/reward_scales.json). `labor cost/day` is the part of cost the manager controls directly "
+         "(wages, overtime, agency); fixed and per-patient costs dominate `cost/day`.", ""]
     for scen in res["protocol"]["scenarios"]:
         L += [f"## Scenario `{scen}`", "",
-              "| manager | kind | wait mean (min) | wait p95 (min) | LWBS % | cost/day ($k) | margin/day ($k) | deaths/10k | boarding h/day | overtime h/day | diversion h/day |",
-              "|---|---|---|---|---|---|---|---|---|---|---|"]
+              "| manager | kind | wait mean (min) | wait p95 (min) | LWBS % | cost/day ($k) | labor cost/day ($k) | margin/day ($k) | deaths/10k | boarding h/day | overtime h/day | diversion h/day |",
+              "|---|---|---|---|---|---|---|---|---|---|---|---|"]
         for r in res["rows"]:
             if r["scenario"] != scen:
                 continue
@@ -144,7 +148,7 @@ def write_markdown(res: dict, path: Path):
             k = lambda s: dict(mean=s["mean"] / 1000, ci95=s["ci95"] / 1000)       # noqa: E731
             pc = lambda s: dict(mean=s["mean"] * 100, ci95=s["ci95"] * 100)        # noqa: E731
             L.append(f"| `{r['manager_id']}` | {r['kind']} | {fmt(m['wait_mean_min'])} | {fmt(m['wait_p95_min'])} | {fmt(pc(m['lwbs_rate']), 2)} | "
-                     f"{fmt(k(m['cost_per_day']))} | {fmt(k(m['margin_per_day']))} | {fmt(m['deaths_per_10k'])} | {fmt(m['boarding_hours_per_day'])} | "
+                     f"{fmt(k(m['cost_per_day']))} | {fmt(k(m['labor_cost_per_day']))} | {fmt(k(m['margin_per_day']))} | {fmt(m['deaths_per_10k'])} | {fmt(m['boarding_hours_per_day'])} | "
                      f"{fmt(m['overtime_hours_per_day'])} | {fmt(m['diversion_hours_per_day'], 2)} |")
         L += ["", "Objective scores (higher is better; each column is that objective's own score):", "",
               "| manager | kind | " + " | ".join(OBJ_SLUG) + " | p95 within threshold (share of seeds) |", "|---|---|" + "---|" * (len(OBJ_SLUG) + 1)]

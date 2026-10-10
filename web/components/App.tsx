@@ -12,9 +12,11 @@ const MODES: Mode[] = ["play", "watch", "compare", "tradeoff"];
 
 function pickPair(): [string, string] | null {
   const { rollouts, compareIds } = useUI.getState();
+  const { scenarioId } = useUI.getState();
   const usable = rollouts.filter((r) => r.has_segments);
   if (!usable.length) return null;
-  const a = usable.find((r) => r.rollout_id === compareIds[0]) ?? usable[0];
+  // start from the scenario chosen in the top bar when a rollout exists for it
+  const a = usable.find((r) => r.rollout_id === compareIds[0]) ?? usable.find((r) => r.scenario === scenarioId) ?? usable[0];
   // prefer a second manager on the same scenario and seed
   const b = usable.find((r) => r.rollout_id === compareIds[1]) ?? usable.find((r) => r.rollout_id !== a.rollout_id && r.scenario === a.scenario && r.seed === a.seed) ?? usable.find((r) => r.rollout_id !== a.rollout_id) ?? a;
   return [a.rollout_id, b.rollout_id];
@@ -30,7 +32,9 @@ async function enter(mode: Mode) {
   // the server re-reads managers and rollouts from disk as training lands: refresh the lists on every mode change
   await loadLists().catch(() => undefined);
   if (mode === "watch") {
-    const id = s.watchId ?? s.rollouts.find((r) => r.has_segments)?.rollout_id ?? s.rollouts[0]?.rollout_id ?? "fixture";
+    const now = useUI.getState();
+    const known = now.rollouts.some((r) => r.rollout_id === now.watchId) ? now.watchId : null;
+    const id = known ?? now.rollouts.find((r) => r.has_segments && r.scenario === now.scenarioId)?.rollout_id ?? now.rollouts.find((r) => r.has_segments)?.rollout_id ?? now.rollouts[0]?.rollout_id ?? "fixture";
     await openWatch(id);
   } else if (mode === "compare") {
     const pair = pickPair() ?? ["fixture", "fixture_b"];

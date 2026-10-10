@@ -131,6 +131,7 @@ def record(manager_id: str, scenario: str, seed: int = RECORD_SEED, days: int = 
             hourly[k].append(round(float(m[k][0]), 4))
         obs = env.observe()
     summary = {k: float(v[0]) for k, v in sim.episode_summary().items()}
+    summary["labor_cost_per_day"] = sum(hourly["cost_labor"]) / days          # extra key: controllable cost
     rid = f"{manager_id}__{scenario}__s{seed}"
     man = {k: v for k, v in pol.info().items() if v is not None}
     if getattr(pol, "config", None):

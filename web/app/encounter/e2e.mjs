@@ -171,12 +171,227 @@ if (want("narrow")) {
   await shot(page, "encounter-09-narrow-chart");
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
   ok(overflow <= 1, `narrow: no horizontal overflow (${overflow}px)`);
+  await page.goto(url("/studio?case=chest-pain-line-cook"));
+  await page.waitForSelector('[data-testid="case-editor"]');
+  await page.getByTestId("tab-facts").click();
+  await page.getByTestId("fact-toggle").nth(1).click();
+  const o2 = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+  ok(o2 <= 1, `narrow: studio editor has no horizontal overflow (${o2}px)`);
+  await shot(page, "studio-10-narrow-editor");
   await page.context().close();
 }
 
-/*STUDIO*/
+// ------------------------------------------------------------------ Patient Studio: create -> edit -> validate -> approve -> publish -> encounter
+if (want("studio")) {
+  console.log("studio (new patient from a template)");
+  const NAME = "Priya Raman"; // made up for this run
+  const page = await newPage();
+  await page.goto(url("/studio"));
+  await page.waitForSelector('[data-testid="studio-row"]');
+  ok((await page.locator('[data-testid="studio-row"][data-status="published"]').count()) >= 3, "studio lists the cases with status chips");
+  await shot(page, "studio-01-list");
 
-/*SIM*/
+  await page.getByTestId("new-patient-btn").click();
+  await page.waitForSelector('[data-testid="template-card"]');
+  ok((await page.getByTestId("template-card").count()) >= 3, "condition templates are offered");
+  await page.locator('[data-testid="template-card"][data-template-id="infection_fever"]').click();
+  await page.getByTestId("tpl-severity").selectOption("moderate");
+  await page.getByTestId("tpl-name").fill(NAME);
+  await page.getByTestId("tpl-age").fill("34");
+  await page.getByTestId("tpl-sex").selectOption("female");
+  await shot(page, "studio-02-new-from-template");
+  // the other two creation paths are present
+  await page.getByTestId("new-path-description").click();
+  ok(await page.getByTestId("desc-text").isVisible(), "free-text description path is present");
+  await page.getByTestId("new-path-form").click();
+  ok(await page.getByTestId("form-complaint").isVisible(), "structured form path is present");
+  await page.getByTestId("new-path-template").click();
+  await page.getByTestId("new-create").click();
+  await page.waitForSelector('[data-testid="case-editor"]');
+  const caseId = await page.getByTestId("case-editor").getAttribute("data-case-id");
+  console.log("    created", caseId);
+  ok((await page.getByTestId("case-editor").getAttribute("data-status")) === "draft", "a new patient starts as a draft");
+  ok((await page.getByTestId("editor-title").innerText()).includes(NAME), "the editor opens on the new patient");
+  ok(await page.getByTestId("creation-notes").isVisible(), "the editor says how the draft was made");
+  await shot(page, "studio-03-editor-overview");
+
+  // facts: edit the wording of one, and guard another behind rapport
+  await page.getByTestId("tab-facts").click();
+  await page.waitForSelector('[data-testid="fact-row"]');
+  const nFacts = await page.getByTestId("fact-row").count();
+  ok(nFacts >= 10, `facts table shows the template's facts (${nFacts})`);
+  const first = page.locator('[data-testid="fact-row"]').filter({ has: page.locator('[data-category="chief_complaint"]') }).first();
+  await first.getByTestId("fact-toggle").click();
+  await first.getByTestId("fact-answer").fill("I've been burning up since yesterday and it stings every time I pee.");
+  await first.getByTestId("fact-toggle").click();
+  const second = page.locator('[data-testid="fact-row"]').filter({ has: page.locator('[data-category="social"]') }).first();
+  await second.getByTestId("fact-toggle").click();
+  const secondId = await second.getAttribute("data-fact-id");
+  await second.getByTestId("fact-rule").selectOption("after_rapport");
+  await second.getByTestId("fact-rapport").fill("");
+  await page.getByTestId("btn-validate").click();
+  await second.locator('[data-testid="issue"][data-level="error"]').first().waitFor({ timeout: 10000 }).catch(() => {});
+  const inlineErr = await second.locator('[data-testid="issue"][data-level="error"]').count();
+  ok(inlineErr >= 1, "validate shows an error inline, next to the offending field (rapport points missing)");
+  ok((await page.getByTestId("validation-summary").getAttribute("data-ok")) === "false", "validation summary says the case cannot be approved yet");
+  await shot(page, "studio-04-validate-summary");
+  await second.scrollIntoViewIfNeeded();
+  await page.mouse.wheel(0, 260);
+  await page.waitForTimeout(300);
+  await shot(page, "studio-04-validate-inline-error");
+  // approving now is refused with the same findings
+  await page.getByTestId("btn-approve").click();
+  await page.waitForSelector('[data-testid="editor-error"]');
+  ok((await page.getByTestId("case-editor").getAttribute("data-status")) === "draft", "approve is refused while there are errors");
+  await second.getByTestId("fact-rapport").fill("3");
+  await second.getByTestId("fact-cover").fill("Oh, nothing worth mentioning.");
+  console.log("    guarded fact:", secondId);
+
+  // an objective
+  await page.getByTestId("tab-objectives").click();
+  const obj = page.getByTestId("objective-editor").first();
+  await obj.getByTestId("objective-criterion").fill("Characterises the urinary symptoms and the fever: onset, severity and associated symptoms");
+  await obj.getByTestId("objective-missed").fill("Ask when it started, how bad it is, and what else has come with it.");
+  await shot(page, "studio-05-objectives");
+
+  // a lab report with rows, released on request
+  await page.getByTestId("tab-chart").click();
+  const before = await page.getByTestId("artifact-editor").count();
+  await page.getByTestId("add-lab").click();
+  const lab = page.getByTestId("artifact-editor").nth(before);
+  await lab.getByTestId("artifact-title").fill("Renal function (added in the Studio)");
+  await lab.getByTestId("artifact-request").fill("order:bmp");
+  const row = lab.getByTestId("lab-edit-row").first();
+  await row.getByTestId("lab-test").fill("Creatinine");
+  await row.getByTestId("lab-value").fill("1.4");
+  await row.getByTestId("lab-unit").fill("mg/dL");
+  await row.getByTestId("lab-ref").fill("0.6-1.1");
+  await row.getByTestId("lab-flag").selectOption("H");
+  await lab.scrollIntoViewIfNeeded();
+  await shot(page, "studio-06-chart-lab-report");
+
+  // a source
+  await page.getByTestId("tab-sources").click();
+  ok(await page.getByTestId("sources-panel").isVisible(), "knowledge sources tab is present");
+  await page.getByTestId("tab-json").click();
+  ok((await page.getByTestId("json-text").inputValue()).includes('"facts"'), "raw JSON tab shows the whole case");
+
+  // validate -> approve -> publish
+  await page.getByTestId("tab-facts").click();
+  await page.getByTestId("btn-validate").click();
+  await page.waitForFunction(() => document.querySelector('[data-testid="validation-summary"]')?.getAttribute("data-ok") === "true", null, { timeout: 15000 }).catch(() => {});
+  const okNow = (await page.getByTestId("validation-summary").getAttribute("data-ok")) === "true";
+  if (!okNow) console.log("    findings:", await page.$$eval('[data-testid="issue"]', (els) => els.map((e) => `${e.getAttribute("data-path")}: ${e.textContent}`)));
+  ok(okNow, "after the fixes the case validates");
+  await shot(page, "studio-07-validated");
+  await page.getByTestId("btn-approve").click();
+  await page.waitForFunction(() => document.querySelector('[data-testid="case-editor"]')?.getAttribute("data-status") === "approved");
+  ok(true, "approve: draft -> approved");
+  await page.getByTestId("btn-publish").click();
+  await page.waitForSelector('[data-testid="start-encounter"]');
+  ok((await page.getByTestId("case-editor").getAttribute("data-status")) === "published", "publish: approved -> published");
+  await shot(page, "studio-08-published");
+
+  // editing a published version starts a new draft version and leaves v1 alone
+  await page.getByTestId("tab-overview").click();
+  const title = await page.getByTestId("f-title").inputValue();
+  await page.getByTestId("f-title").fill(title + " (edited)");
+  ok(await page.getByTestId("new-version-warning").isVisible(), "editing a published case explains that a new draft version will be created");
+  await page.getByTestId("f-title").fill(title);
+
+  // start the encounter with the new patient
+  await page.getByTestId("start-encounter").click();
+  await page.waitForSelector('[data-testid="encounter"]');
+  ok((await page.getByTestId("chart-patient-name").innerText()).includes(NAME), "the encounter opens with the patient that was just published");
+  const reply = await say(page, "Hello, I'm the resident on today. What brought you in?");
+  ok(reply.includes("burning up since yesterday"), "the patient uses the wording edited in the Studio");
+  await request(page, "order", "order:bmp");
+  ok((await page.locator('[data-testid="lab-row"]').filter({ hasText: "Creatinine" }).count()) === 1, "the lab report added in the Studio is released on its request, with its row");
+  await shot(page, "studio-09-encounter-with-new-patient");
+  await page.getByTestId("finish-open").click();
+  await page.getByTestId("disposition-discharge").click();
+  await page.getByTestId("finish-summary").fill("Likely urinary infection; short encounter for the Studio check.");
+  await page.getByTestId("finish-submit").click();
+  await page.waitForSelector('[data-testid="feedback"]');
+  ok((await page.getByTestId("objective").count()) >= 1, "feedback is produced for the new patient");
+  const crit = await page.getByTestId("objective").first().innerText();
+  ok(crit.includes("Characterises the urinary symptoms"), "feedback uses the objective edited in the Studio");
+
+  // preview of a draft, and the description path
+  const d = await j("/api/cases", { from_description: "A 52-year-old electrician named Tomas Varga with crushing chest pain for an hour. He is hiding that he used cocaine last night." });
+  if (d.status === 201) {
+    await page.goto(url(`/studio?case=${encodeURIComponent(d.data.case_id)}`));
+    await page.waitForSelector('[data-testid="case-editor"]');
+    ok((await page.getByTestId("editor-title").innerText()).includes("Tomas Varga"), "a draft made from a description opens in the editor");
+    const [popup] = await Promise.all([page.context().waitForEvent("page"), page.getByTestId("btn-preview").click()]);
+    await popup.waitForSelector('[data-testid="encounter"]', { timeout: 30000 });
+    ok(/preview/i.test(await popup.locator("header").innerText()), "preview starts an encounter against the draft and labels it as a preview");
+    await popup.close();
+  } else problems.push(`POST /api/cases from_description -> ${d.status}`);
+  await page.context().close();
+}
+
+
+// ------------------------------------------------------------------ a simulated patient from a running hospital
+if (want("sim")) {
+  console.log("sim patient (ws run, played encounter, write-back)");
+  const ws = new WebSocket(api.replace(/^http/, "ws") + "/ws/sim");
+  const got = await new Promise((resolve, reject) => {
+    let run = null, enums = null, n = 0;
+    const timer = setTimeout(() => reject(new Error("no playable patient within 90 s")), 90000);
+    ws.onopen = () => ws.send(JSON.stringify({ type: "start", scenario: "normal_week", seed: 7, manager: "fixed", speed: 30 }));
+    ws.onerror = () => reject(new Error("websocket error"));
+    ws.onmessage = (m) => {
+      const d = JSON.parse(m.data);
+      if (d.type === "header") { run = d.run_id; enums = d.enums; }
+      if (d.type === "snapshot" && run && ++n > 30) {
+        const P = d.snapshot.patients, st = enums.patient_state;
+        const c = P.id.map((id, i) => ({ id, state: st[P.state[i]] })).filter((p) => p.state === "with_provider" || p.state === "waiting_provider");
+        c.sort((a, b) => (a.state === "with_provider" ? 0 : 1) - (b.state === "with_provider" ? 0 : 1));
+        if (c.length) { clearTimeout(timer); ws.send(JSON.stringify({ type: "pause" })); ws.onmessage = null; resolve({ run, candidates: c, t: d.snapshot.t }); }
+      }
+    };
+  }).catch((e) => { problems.push(`sim: ${e.message}`); return null; });
+  if (got) {
+    console.log(`    run ${got.run} at tick ${got.t}; candidates ${got.candidates.slice(0, 4).map((c) => `${c.id}:${c.state}`).join(", ")}`);
+    const page = await newPage();
+    let opened = false;
+    for (const c of got.candidates.slice(0, 5)) {
+      await page.goto(url(`/encounter?run_id=${got.run}&patient_id=${c.id}`));
+      const which = await Promise.race([page.waitForSelector('[data-testid="encounter"]').then(() => "ok"), page.waitForSelector('[data-testid="error-card"]').then(() => "err")]);
+      if (which === "ok") { opened = true; console.log(`    playing patient ${c.id} (${c.state})`); break; }
+      console.log(`    patient ${c.id}: ${(await page.getByTestId("error-card").innerText()).replace(/\s+/g, " ").slice(0, 160)}`);
+    }
+    ok(opened, "a simulated patient opens as an encounter");
+    if (opened) {
+      const ctx = await page.getByTestId("sim-context").innerText();
+      console.log("    header:", ctx);
+      ok(/Bay \d+/.test(ctx) && /Day \d+ \d\d:\d\d/.test(ctx) && /occupying a bed/.test(ctx), "header shows bay, hospital model, simulated time and the occupying-a-bed line");
+      await say(page, "Hello, I'm Dr Shah, the resident. What brought you in today?");
+      await say(page, "When did it start?");
+      await say(page, "I'm sorry, that sounds really uncomfortable. Do you take any medicines, and do you have any allergies?");
+      await request(page, "order", "order:cbc");
+      await shot(page, "encounter-10-sim-patient");
+      await page.getByTestId("finish-open").click();
+      await page.getByTestId("disposition-admit").click();
+      await page.getByTestId("finish-summary").fill("Played from the running hospital for the write-back check.");
+      await page.getByTestId("finish-submit").click();
+      await page.waitForSelector('[data-testid="writeback-card"]');
+      const flag = await page.getByTestId("written-back-flag").innerText();
+      ok(flag.trim() === "written_back: true", `write-back card shows ${flag.trim()}`);
+      await page.waitForSelector('[data-testid="wb-confirmed"]', { timeout: 8000 }).catch(() => {});
+      ok((await page.getByTestId("wb-confirmed").count()) === 1, "the run's own record of the patient lists the played interaction");
+      ok((await page.getByTestId("contract-row").count()) === 4, "the four contract outputs are shown, sampled next to played");
+      ok(await page.getByTestId("return-hospital").isVisible(), "a Return to hospital link is offered");
+      await page.getByTestId("writeback-card").scrollIntoViewIfNeeded();
+      await shot(page, "encounter-11-sim-writeback");
+      await shot(page, "encounter-11-sim-writeback-card", { clip: await page.getByTestId("writeback-card").boundingBox() });
+    }
+    await page.context().close();
+  }
+  try { ws.send(JSON.stringify({ type: "stop" })); ws.close(); } catch {}
+}
+
 
 await browser.close();
 console.log(`\n${passed.length} checks passed, ${problems.length} problem(s)`);

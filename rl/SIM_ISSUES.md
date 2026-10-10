@@ -31,3 +31,7 @@ Observed against simulator fingerprint `b4fd91bc587860a4` (01:50, milestone 1) u
    decision list (with readable labels) by diffing `sim.settings`.
 8. **`invalid_actions` counts call-in requests above the per-shift cap** (a rule rejection, not a programming
    error); the rule-based managers trigger it when a queue stays above the call-in threshold. Harmless.
+
+Status 02:20: the orchestrator reports the simulator agent is addressing 1, 4 and 5. `rl/env.py` uses
+`waiting_patient_minutes` automatically once `sim.step()` returns it. The whole RL pipeline is regenerated
+(scales, tuning, training, evaluation, rollouts) after `sim/M2_READY`.

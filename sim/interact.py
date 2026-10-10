@@ -110,11 +110,22 @@ class InteractMixin:
         facts = []
         diagnosis = group.replace("_", " ")
         if tpl:
+            # preferred: the encounter engine's own sampler, so the case a student plays has exactly these values
+            try:
+                from encounter.templates import sample_fact_values
+                got = sample_fact_values(group, sev, seed, age, sex)
+                facts = [f for f in got if isinstance(f, dict) and str(f.get("fact_id", "")).startswith("f.") and f.get("category") in CAT_OK]
+            except Exception:
+                facts = []
             dx = tpl.get("diagnoses") or tpl.get("diagnosis_options")
-            if isinstance(dx, list) and dx:
+            band = "mild" if sev < 1 / 3 else ("moderate" if sev < 2 / 3 else "severe")
+            banded = [d for d in dx if isinstance(d, dict) and d.get("band") == band] if isinstance(dx, list) else []
+            if banded:
+                diagnosis = str(banded[0].get("diagnosis") or banded[0].get("label") or diagnosis)
+            elif isinstance(dx, list) and dx:
                 d = dx[min(len(dx) - 1, int(sev * len(dx)))] if tpl.get("diagnoses_ordered_by_severity") else dx[int(_u(seed, "dx") * len(dx)) % len(dx)]
                 diagnosis = d.get("label", d.get("name", d.get("id", diagnosis))) if isinstance(d, dict) else str(d)
-            for item in _find_facts(tpl):
+            for item in ([] if facts else _find_facts(tpl)):
                 fid = str(item.get("fact_id") or item.get("id") or "")
                 if not fid:
                     continue
@@ -149,7 +160,7 @@ class InteractMixin:
         have = {f["fact_id"] for f in facts}
         facts = facts + [f for f in base if f["fact_id"] not in have]
         return dict(patient_id=int(patient_id), seed=seed, condition_group=group,
-                    condition_template=f"catalog/conditions/{group}.yaml" if tpl else "generic (no condition template found)",
+                    condition_template=group if tpl else "generic",
                     diagnosis=diagnosis, severity=sev, acuity=acu, age=age, sex=sex,
                     arrival_mode=E["arrival_mode"][int(g("mode"))], payer=E["payer"][int(g("payer"))],
                     true_disposition=tdisp, needs=needs, facts=facts)

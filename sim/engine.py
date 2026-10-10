@@ -50,6 +50,11 @@ SUM_METRICS = ["arrivals", "first_seen", "door_to_provider_sum_min", "lwbs", "di
                "cost_structural"]
 
 
+# returned by step() after the contract metrics (additive; not in contracts/metrics.yaml):
+#   waiting_patient_minutes = patient-minutes accrued this hour by patients not yet seen by a provider
+EXTRA_METRICS = ["waiting_patient_minutes"]
+
+
 class DistTable:
     """Inverse-CDF sampler for fixed / lognormal / exponential durations indexed by a small table."""
 
@@ -347,7 +352,8 @@ class HospitalSim(ViewerMixin, InteractMixin):
         # metrics
         self.acc = {k: zfb() for k in SUM_METRICS}
         self.acc["md_busy"], self.acc["md_on"], self.acc["rn_load"] = zfb(), zfb(), zfb()
-        self.ep = {k: zfb() for k in SUM_METRICS}
+        self.acc["waiting_patient_minutes"] = zfb()
+        self.ep = {k: zfb() for k in SUM_METRICS + EXTRA_METRICS}
         for k in ["ed_census", "waiting_count", "boarding_count", "bay_occupancy", "ward_occupancy", "md_utilization",
                   "rn_utilization", "staff_on_shift", "fatigue_mean"]:
             self.ep[k] = zfb()
@@ -364,7 +370,7 @@ class HospitalSim(ViewerMixin, InteractMixin):
         self.ring_arr = torch.zeros((B, 24), device=dev, dtype=torch.float32)
         self.ring_lwbs = torch.zeros((B, 24), device=dev, dtype=torch.float32)
         self.ring_margin = torch.zeros((B, 24), device=dev, dtype=torch.float32)
-        self._last = {k: zfb() for k in self._metric_names}
+        self._last = {k: zfb() for k in self._metric_names + EXTRA_METRICS}
         self._arr_cdf = torch.zeros((self.K,), device=dev, dtype=torch.float32)
         self._ev = dict(arr=1.0, resp=0.0, abs_rn=1.0, abs_md=1.0, los=1.0, mci_share=0.0)
         self._mci_cdf = None
@@ -765,6 +771,7 @@ class HospitalSim(ViewerMixin, InteractMixin):
         self._divert_h = self.divert_on.float() / self.tph
         self._rate[:, S_WARD] = self.dt * self.ward_speed
         self._fatigue_rates()
+        self._pregen_arrivals()
         rule = s["priority_rule"]
         self.k_ac, self.k_age, self.k_sh = self.rule_ac[rule].unsqueeze(1), self.rule_age[rule].unsqueeze(1), self.rule_sh[rule].unsqueeze(1)
         # ---- hourly costs known at the start of the hour
@@ -831,19 +838,32 @@ class HospitalSim(ViewerMixin, InteractMixin):
         mis = (u(C_MIS) < c["p_mistriage"]) & (mode == 0)
         acu_q = torch.where(mis, torch.where(u(C_MISDIR) < 0.5, acu - 1, acu + 1).clamp(1, 5), acu)
         a_int = torch.stack([ords.expand_as(acu), pk, cond, mode, torch.bucketize(u(C_AGE).contiguous(), self.age_cdf),
-                             torch.bucketize(u(C_PAYER).contiguous(), self.payer_cdf), tdisp, torch.full_like(acu, t), needs], 2)
+                             torch.bucketize(u(C_PAYER).contiguous(), self.payer_cdf), tdisp,
+                             (t.expand_as(acu) if isinstance(t, torch.Tensor) else torch.full_like(acu, t)), needs], -1)
         a_flt = torch.stack([
             sev, self.d_patience.sample(u(C_PAT), acu), self.d_triage.sample(u(C_TRI_D), acu_q),
             self.d_enc.sample(u(C_ENC_D), acu), self.d_treat.sample(u(C_TREAT_D), acu), self.d_lab.sample(u(C_LAB_D)),
             self.d_proc.sample(u(C_PROC_D), (needs & N_CT > 0).long()), self.d_reeval.sample(u(C_REEVAL_D), acu),
             self.d_los.sample(u(C_LOS_D)), c["encounter_quality_sd"] * rng.normal_from_unit(u(C_QUAL)),
-            u(C_DERR), u(C_WADV), -torch.log1p(-u(C_HAZ)), -torch.log1p(-u(C_HAZ + 1))], 2)
+            u(C_DERR), u(C_WADV), -torch.log1p(-u(C_HAZ)), -torch.log1p(-u(C_HAZ + 1))], -1)
         return a_int, a_flt, acu, acu_q
+
+    def _pregen_arrivals(self):
+        """Draw this hour's arrivals (counts per tick and every arriving patient's attributes) in one
+        pass. They depend only on (seed, tick, arrival ordinal), so drawing them ahead changes nothing."""
+        t0, n = self._tick, self.tph
+        ticks = t0 + torch.arange(n, device=self.device)
+        tk = rng.key(self.seedkey.unsqueeze(1), ST_ARR, ticks.unsqueeze(0))
+        n_arr = (rng.unit(tk, 0).unsqueeze(2) > self._arr_cdf.view(1, 1, -1)).sum(2)
+        start = self.next_ord.unsqueeze(1) + torch.cumsum(n_arr, 1) - n_arr
+        ords = start.unsqueeze(2) + self.arK
+        a_int, a_flt, acu, acu_q = self._attrs(rng.key(self.seedkey.view(-1, 1, 1), ST_PAT, ords), ords, ticks.view(1, n, 1))
+        self._pre = dict(t0=t0, tk=tk, n=n_arr, a_int=a_int, a_flt=a_flt, acu=acu, acu_q=acu_q)
 
     def _select(self, cand, n):
         """Top-n candidates per hospital in the current priority order. Returns (mask, rank)."""
         cs = cand.gather(1, self._order)
-        r = torch.cumsum(cs.long(), 1) - 1
+        r = torch.cumsum(cs, 1) - 1
         ss = cs & (r < n.unsqueeze(1))
         sel = torch.zeros_like(cand).scatter_(1, self._order, ss)
         rank = torch.zeros_like(r).scatter_(1, self._order, r)
@@ -934,17 +954,18 @@ class HospitalSim(ViewerMixin, InteractMixin):
         active = p["active"] & (state != S_EXIT)
 
         # ---------------- 2. arrivals (exogenous stream)
-        tk = rng.key(self.seedkey, ST_ARR, t)
-        n_arr = (rng.unit(tk, 0).unsqueeze(1) > self._arr_cdf.unsqueeze(0)).sum(1)
-        ords = self.next_ord.unsqueeze(1) + self.arK
+        pre = self._pre                       # this hour's arrivals were drawn at the hour start (exogenous)
+        hi = t - pre["t0"]
+        tk = pre["tk"][:, hi]
+        n_arr = pre["n"][:, hi]
         valid = self.arK.unsqueeze(0) < n_arr.unsqueeze(1)
-        a_int, a_flt, a_acu, a_acuq = self._attrs(rng.key(self.seedkey.unsqueeze(1), ST_PAT, ords), ords, t)
+        a_int, a_flt, a_acu, a_acuq = pre["a_int"][:, hi], pre["a_flt"][:, hi], pre["acu"][:, hi], pre["acu_q"][:, hi]
         a_mode = a_int[:, :, I_MODE]
         divert = valid & self.divert_on.unsqueeze(1) & (a_mode == 1) & (a_acu >= 3)
         enter = valid & ~divert
         free = ~active
         n_free = free.sum(1)
-        e_rank = torch.cumsum(enter.long(), 1) - 1
+        e_rank = torch.cumsum(enter, 1) - 1
         over = enter & (e_rank >= n_free.unsqueeze(1))
         enter = enter & ~over
         n_enter = enter.sum(1)
@@ -954,13 +975,14 @@ class HospitalSim(ViewerMixin, InteractMixin):
         self.entered = self.entered + n_enter
         self.pool_overflow = self.pool_overflow + n_over
         self.exits[:, X_DIVERTED] += n_div
-        acc["arrivals"] += n_enter.float()
-        acc["diverted"] += n_div.float()
+        acc["arrivals"] += n_enter
+        acc["diverted"] += n_div
         # k-th entering arrival goes to the k-th free slot
         src = torch.topk(enter.long() * self.kdesc, self.K, dim=1).indices
         slot = torch.topk(free.float() * self.pdesc, self.K, dim=1).indices
         putm = self.arK.unsqueeze(0) < n_enter.unsqueeze(1)
         slot3, putm3 = slot.unsqueeze(2), putm.unsqueeze(2)
+        ords = a_int[:, :, I_PID]
         s_i = slot3.expand(-1, -1, ps.shape[2])
         ps.scatter_(1, s_i, torch.where(putm3, a_int.gather(1, src.unsqueeze(2).expand(-1, -1, ps.shape[2])), ps.gather(1, s_i)))
         s_f = slot3.expand(-1, -1, pd.shape[2])
@@ -1086,9 +1108,9 @@ class HospitalSim(ViewerMixin, InteractMixin):
             timer = timer.masked_fill(m_tro, c["transfer_wait_min"])
             flags = torch.where(m_adm, flags | F_ADMIT, flags)
             p["t_board"] = p["t_board"].masked_fill(m_brd, t)
-            acc["admissions"] += m_adm.sum(1).float()
+            acc["admissions"] += m_adm.sum(1)
             wrong_dc = m_dc & (tdisp == D_ADMIT) & (pd[:, :, F_WADV] < c["wrong_discharge_adverse_prob"])
-            acc["adverse_events"] += wrong_dc.sum(1).float()
+            acc["adverse_events"] += wrong_dc.sum(1)
             acc["cost_variable"] += m_tro.sum(1).float() * c["transfer_out_cost"]
             # transfer leaves / ward stay finished
             ex = ex.masked_fill(m_trn, X_TRANSFER)
@@ -1105,7 +1127,7 @@ class HospitalSim(ViewerMixin, InteractMixin):
         if fl["abandonment"]:
             m_lwbs = live & self.tab_leave[state] & (mode == 0) & (wait_min >= pd[:, :, F_PATIENCE])
             ex = ex.masked_fill(m_lwbs, X_LWBS)
-            acc["lwbs"] += m_lwbs.sum(1).float()
+            acc["lwbs"] += m_lwbs.sum(1)
             if rec and bool(m_lwbs.any()):
                 self._log_patient_events(m_lwbs, "lwbs", "Patient {} left without being seen")
         if fl["hazards"]:
@@ -1115,11 +1137,12 @@ class HospitalSim(ViewerMixin, InteractMixin):
             m_det = live & (h_det >= pd[:, :, F_THR_DET]) & (acu > 1)
             m_die = live & (h_die >= pd[:, :, F_THR_DIE])
             h_det = h_det.masked_fill(m_det, 0.0)
-            acu = acu - m_det.long()
-            aq = (aq - m_det.long()).clamp(min=1)
+            dl = m_det.long()
+            acu = acu - dl
+            aq = (aq - dl).clamp(min=1)
             flags = torch.where(m_det, flags | F_DET, flags)
             ex = ex.masked_fill(m_die, X_DIED)
-            nd, ndie = m_det.sum(1).float(), m_die.sum(1).float()
+            nd, ndie = m_det.sum(1), m_die.sum(1)
             acc["deteriorations"] += nd
             acc["deaths"] += ndie
             acc["adverse_events"] += nd + ndie
@@ -1140,7 +1163,7 @@ class HospitalSim(ViewerMixin, InteractMixin):
         t_state = t_state.masked_fill(m_ex, t)
         hold = hold & ~m_ex
         self.exits.scatter_add_(1, ex, m_ex.long())
-        acc["treated"] += (m_ex & ((ex == X_DISCH) | (ex == X_WARD) | (ex == X_TRANSFER))).sum(1).float()
+        acc["treated"] += (m_ex & ((ex == X_DISCH) | (ex == X_WARD) | (ex == X_TRANSFER))).sum(1)
 
         # ---------------- 6. assignments
         prio = self.k_ac * (aq * 60).float() - self.k_age * wait_min + self.k_sh * self.exp_service[aq]
@@ -1181,7 +1204,7 @@ class HospitalSim(ViewerMixin, InteractMixin):
                 freeb = freeb_all & self.bay_is[k]
                 n = torch.minimum(freeb.sum(1), budget)
                 sel, rank = self._select(cand, n)
-                br = torch.cumsum(freeb.long(), 1) - 1
+                br = torch.cumsum(freeb, 1) - 1
                 by_rank = self._c_nb_row.scatter(1, torch.where(freeb, br, self._c_nb_row), self._arNB_row)
                 pb = by_rank.gather(1, rank.clamp(0, NB - 1))
                 bay = torch.where(sel, pb, bay)
@@ -1247,7 +1270,7 @@ class HospitalSim(ViewerMixin, InteractMixin):
         enc_q = torch.where(seen_new, qual, enc_q)
         t_seen = t_seen.masked_fill(seen_new, t)
         phase = phase.masked_fill(seen_new, 1)
-        acc["first_seen"] += seen_new.sum(1).float()
+        acc["first_seen"] += seen_new.sum(1)
         acc["door_to_provider_sum_min"] += (wait_min * seen_new).sum(1)
         acc["cost_variable"] += (self.supply[acu] * seen_new).sum(1)
         self.wait_hist_cur.scatter_add_(1, wait_ticks.clamp(0, self.wait_bins - 1), seen_new.to(torch.int32))
@@ -1311,14 +1334,15 @@ class HospitalSim(ViewerMixin, InteractMixin):
         p["next_state"], p["eq"], p["timer2"], p["walk_total"], p["treat_left"], p["res_left"], p["enc_q"] = nxt, eq, timer2, walk_total, treat_left, res_left, enc_q
 
         # ---------------- 7. accounting
-        acc["ed_departures"] += m_dep.sum(1).float()
+        acc["ed_departures"] += m_dep.sum(1)
         acc["ed_los_sum_min"] += (wait_min * m_dep).sum(1)
         self.los_hist_cur.scatter_add_(1, wait_ticks.clamp(0, self.los_bins - 1), m_dep.to(torch.int32))
         acc["revenue"] += (self.rev_ed[acu] * paym * m_rev).sum(1)
         n_prov = (state == S_PROV).sum(1).float()
         acc["md_busy"] += n_prov
-        acc["md_on"] += self.md_eff.float()
+        acc["md_on"] += self.md_eff
         acc["diversion_hours"] += self._divert_h
+        acc["waiting_patient_minutes"] += self.tab_pre[state].sum(1) * dt
         if post:
             acc["boarding_hours"] += (state == S_BOARD).sum(1).float() / self.tph
             acc["cost_variable"] += n_ward.float() * (c["inpatient_cost_per_day"] / self.tpd)
@@ -1399,7 +1423,8 @@ class HospitalSim(ViewerMixin, InteractMixin):
         n_staff = (self.md_eff + self.rn_eff + self.tri_n).float() + self.support_n
         m["staff_on_shift"] = n_staff
         m["fatigue_mean"] = (self.fat_md * self.md_eff.float() + self.fat_rn * self.rn_eff.float()) / (self.md_eff + self.rn_eff).float().clamp(min=1.0)
-        self._last = {k: m[k] for k in self._metric_names}
+        m["waiting_patient_minutes"] = acc["waiting_patient_minutes"].clone()
+        self._last = {k: m[k] for k in self._metric_names + EXTRA_METRICS}
         for k, v in self.ep.items():
             v += m[k]
         self.ep_hours += 1

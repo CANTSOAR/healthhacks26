@@ -41,7 +41,7 @@ SCALE_FLOORS = {"cost": 1.0, "wait": 60.0, "lwbs": 0.05, "safety": 0.02, "boardi
 # Objective presets. Weights multiply baseline-normalised terms (each term is ~1 at the
 # fixed-default baseline when its scale is not floored), reward = -sum_k w_k * term_k.
 OBJECTIVES = {
-    "min_cost": {"cost": 1.0, "wait": 0.05, "lwbs": 0.05, "safety": 0.05},
+    "min_cost": {"cost": 1.0, "safety": 0.02},          # essentially pure cost: it does what it is asked
     "min_wait": {"wait": 1.0, "lwbs": 0.2, "safety": 0.2, "cost": 0.05},
     "balanced": {"cost": 1.0, "revenue": 1.0, "wait": 0.5, "lwbs": 0.25, "safety": 0.25, "boarding": 0.1, "staff": 0.1},
     # constrained: cost only, plus a penalty on the episode p95 wait above the threshold

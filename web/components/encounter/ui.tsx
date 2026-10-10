@@ -94,7 +94,7 @@ export function LoadingCard({ label }: { label: string }) {
 export function ErrorCard({ title, message, children }: { title: string; message?: string; children?: ReactNode }) {
   return (
     <div className="flex min-h-[40vh] items-center justify-center p-6">
-      <div className="glass max-w-lg p-6" role="alert">
+      <div className="glass max-w-lg p-6" role="alert" data-testid="error-card">
         <div className="eyebrow" style={{ color: "#B4232C" }}>
           Something went wrong
         </div>

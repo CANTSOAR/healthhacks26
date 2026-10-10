@@ -15,7 +15,7 @@ function Quote({ e }: { e: Evidence }) {
       <span className="tnum mt-px inline-flex h-[18px] shrink-0 items-center rounded bg-[#141a33]/[0.06] px-1.5 text-[10px] font-semibold text-ink-2">{e.turn != null ? `turn ${e.turn}` : "–"}</span>
       {bracket ? (
         <span className="text-ink-2">
-          <span className="font-semibold capitalize">{bracket[1]}:</span> {/^(order|exam|artifact):/.test(bracket[2]) ? requestLabel(bracket[2]) : bracket[2]}
+          <span className="font-semibold">{bracket[1].charAt(0).toUpperCase() + bracket[1].slice(1)}:</span> {/^(order|exam|artifact):/.test(bracket[2]) ? requestLabel(bracket[2]) : bracket[2]}
         </span>
       ) : isReq ? (
         <span className="text-ink-2">
@@ -80,7 +80,7 @@ const dispWord = (d?: string | null) => (d && d !== "undecided" ? titleCase(d) :
 // ---------------------------------------------------------------- write-back
 function ContractRow({ label, hint, sampled, played }: { label: string; hint: string; sampled: ReactNode; played: ReactNode }) {
   return (
-    <div className="grid grid-cols-1 gap-x-3 gap-y-1.5 border-t border-line/80 py-3 first:border-t-0 sm:grid-cols-[150px_1fr_22px_1fr] sm:items-start" data-testid="contract-row">
+    <div className="grid grid-cols-1 gap-x-3 gap-y-1.5 border-t border-line py-3 first:border-t-0 sm:grid-cols-[150px_1fr_22px_1fr] sm:items-start" data-testid="contract-row">
       <div>
         <div className="text-[12.5px] font-semibold text-ink">{label}</div>
         <div className="text-[11px] leading-snug text-ink-3">{hint}</div>
@@ -361,7 +361,7 @@ export function FeedbackView({
                   {o.suggestion && o.result !== "met" && (
                     <p className="mt-1.5 text-[12.5px] leading-snug text-ink-2">
                       <span className="font-semibold text-ink">Next time: </span>
-                      {o.suggestion}
+                      {o.suggestion.replace(/^next time:\s*/i, "").replace(/^./, (c) => c.toUpperCase())}
                     </p>
                   )}
                 </div>
@@ -435,7 +435,7 @@ export function FeedbackView({
         <Card title={`Elicited (${feedback.elicited?.length ?? 0})`} eyebrow="Findings you reached" testid="elicited">
           <ul className="space-y-1.5">
             {(feedback.elicited ?? []).map((f) => (
-              <li key={f.fact_id} className="rounded-lg border border-line/80 bg-white/60 px-2.5 py-2 text-[12.5px] leading-snug" data-testid="elicited-item">
+              <li key={f.fact_id} className="rounded-lg border border-line bg-white/60 px-2.5 py-2 text-[12.5px] leading-snug" data-testid="elicited-item">
                 <div className="flex items-start gap-2">
                   <span className="min-w-0 flex-1 text-ink">{f.text}</span>
                   {f.critical && (
@@ -462,7 +462,7 @@ export function FeedbackView({
         <Card title={`Missed (${feedback.missed?.length ?? 0})`} eyebrow="Findings you did not reach" testid="missed">
           <ul className="space-y-1.5">
             {[...missedCritical, ...missedOther].map((f) => (
-              <li key={f.fact_id} className="rounded-lg border border-line/80 bg-white/60 px-2.5 py-2 text-[12.5px] leading-snug" data-testid="missed-item">
+              <li key={f.fact_id} className="rounded-lg border border-line bg-white/60 px-2.5 py-2 text-[12.5px] leading-snug" data-testid="missed-item">
                 <div className="flex items-start gap-2">
                   <span className="min-w-0 flex-1 text-ink">{f.text}</span>
                   {f.critical && (
