@@ -386,6 +386,8 @@ class HospitalSim(ViewerMixin, InteractMixin):
         self._decisions = [[] for _ in range(B)] if self.record else None
         self._played = [dict() for _ in range(B)]
         self._viz_staff = [dict() for _ in range(min(B, 64))]
+        self._viz_ward = [dict() for _ in range(min(B, 64))]
+        self._viz_scan = [dict() for _ in range(min(B, 64))]
         self._ev_started = set()
         self._rate = torch.full((B, 12), self.dt, device=dev)
         self._treat_dec = self.dt

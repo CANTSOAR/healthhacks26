@@ -1,0 +1,550 @@
+{
+ "args": {
+  "days": 1000,
+  "batch": 64,
+  "device": "cpu",
+  "scenario": "normal_week",
+  "seed": 7,
+  "threads": 8,
+  "start_day": 0,
+  "out": "sim/_scratch/long_run_1000.json"
+ },
+ "torch": "2.8.0+cu128",
+ "progress": [
+  {
+   "day": 50,
+   "wall_s": 365.6,
+   "hospital_days_per_s": 8.75,
+   "main_bays": [
+    60.0,
+    66.6875,
+    72.0
+   ],
+   "ward_beds": [
+    152,
+    168.875,
+    184
+   ],
+   "ct_units": 2.25,
+   "xray_units": 2.28125,
+   "layout_version_mean": 5.953125,
+   "lwbs_rate_24h": 0.03644878789782524,
+   "ward_occupancy": 0.8404027819633484,
+   "wait_p95_24h": 173.046875,
+   "generated": 718992,
+   "in_system": 14582,
+   "pool_overflow": 0,
+   "invalid_actions": 17,
+   "conservation_residual_max": 0
+  },
+  {
+   "day": 100,
+   "wall_s": 595.7,
+   "hospital_days_per_s": 10.74,
+   "main_bays": [
+    52.0,
+    66.9375,
+    80.0
+   ],
+   "ward_beds": [
+    136,
+    169.75,
+    200
+   ],
+   "ct_units": 2.84375,
+   "xray_units": 2.984375,
+   "layout_version_mean": 10.296875,
+   "lwbs_rate_24h": 0.12886489927768707,
+   "ward_occupancy": 0.8902641534805298,
+   "wait_p95_24h": 457.1875,
+   "generated": 1449583,
+   "in_system": 17140,
+   "pool_overflow": 2085,
+   "invalid_actions": 72,
+   "conservation_residual_max": 0
+  },
+  {
+   "day": 150,
+   "wall_s": 838.0,
+   "hospital_days_per_s": 11.46,
+   "main_bays": [
+    48.0,
+    65.1875,
+    80.0
+   ],
+   "ward_beds": [
+    120,
+    166.125,
+    208
+   ],
+   "ct_units": 3.4375,
+   "xray_units": 3.828125,
+   "layout_version_mean": 14.671875,
+   "lwbs_rate_24h": 0.18661175668239594,
+   "ward_occupancy": 0.895114541053772,
+   "wait_p95_24h": 582.734375,
+   "generated": 2197524,
+   "in_system": 18223,
+   "pool_overflow": 12463,
+   "invalid_actions": 135,
+   "conservation_residual_max": 0
+  },
+  {
+   "day": 200,
+   "wall_s": 1074.6,
+   "hospital_days_per_s": 11.91,
+   "main_bays": [
+    52.0,
+    65.8125,
+    80.0
+   ],
+   "ward_beds": [
+    112,
+    166.625,
+    200
+   ],
+   "ct_units": 4.1875,
+   "xray_units": 4.484375,
+   "layout_version_mean": 19.453125,
+   "lwbs_rate_24h": 0.16111542284488678,
+   "ward_occupancy": 0.8806251287460327,
+   "wait_p95_24h": 502.8125,
+   "generated": 2916481,
+   "in_system": 17496,
+   "pool_overflow": 30710,
+   "invalid_actions": 218,
+   "conservation_residual_max": 0
+  },
+  {
+   "day": 250,
+   "wall_s": 1294.1,
+   "hospital_days_per_s": 12.36,
+   "main_bays": [
+    52.0,
+    67.625,
+    84.0
+   ],
+   "ward_beds": [
+    120,
+    168.875,
+    216
+   ],
+   "ct_units": 4.546875,
+   "xray_units": 4.765625,
+   "layout_version_mean": 22.703125,
+   "lwbs_rate_24h": 0.16357192397117615,
+   "ward_occupancy": 0.8621842265129089,
+   "wait_p95_24h": 539.609375,
+   "generated": 3615236,
+   "in_system": 17409,
+   "pool_overflow": 52264,
+   "invalid_actions": 250,
+   "conservation_residual_max": 0
+  },
+  {
+   "day": 300,
+   "wall_s": 1516.6,
+   "hospital_days_per_s": 12.66,
+   "main_bays": [
+    48.0,
+    68.0625,
+    88.0
+   ],
+   "ward_beds": [
+    120,
+    167.625,
+    216
+   ],
+   "ct_units": 5.203125,
+   "xray_units": 5.4375,
+   "layout_version_mean": 27.078125,
+   "lwbs_rate_24h": 0.19846904277801514,
+   "ward_occupancy": 0.8549239635467529,
+   "wait_p95_24h": 618.203125,
+   "generated": 4303006,
+   "in_system": 18042,
+   "pool_overflow": 82026,
+   "invalid_actions": 318,
+   "conservation_residual_max": 0
+  },
+  {
+   "day": 350,
+   "wall_s": 1726.6,
+   "hospital_days_per_s": 12.97,
+   "main_bays": [
+    48.0,
+    67.5625,
+    92.0
+   ],
+   "ward_beds": [
+    112,
+    164.625,
+    216
+   ],
+   "ct_units": 5.875,
+   "xray_units": 6.046875,
+   "layout_version_mean": 31.109375,
+   "lwbs_rate_24h": 0.18776732683181763,
+   "ward_occupancy": 0.8657704591751099,
+   "wait_p95_24h": 609.140625,
+   "generated": 4992450,
+   "in_system": 18218,
+   "pool_overflow": 122929,
+   "invalid_actions": 387,
+   "conservation_residual_max": 0
+  },
+  {
+   "day": 400,
+   "wall_s": 1990.0,
+   "hospital_days_per_s": 12.86,
+   "main_bays": [
+    44.0,
+    68.4375,
+    92.0
+   ],
+   "ward_beds": [
+    112,
+    163.875,
+    216
+   ],
+   "ct_units": 6.53125,
+   "xray_units": 6.46875,
+   "layout_version_mean": 35.5625,
+   "lwbs_rate_24h": 0.19110994040966034,
+   "ward_occupancy": 0.8726290464401245,
+   "wait_p95_24h": 661.25,
+   "generated": 5696259,
+   "in_system": 20110,
+   "pool_overflow": 180580,
+   "invalid_actions": 479,
+   "conservation_residual_max": 0
+  },
+  {
+   "day": 450,
+   "wall_s": 2254.8,
+   "hospital_days_per_s": 12.77,
+   "main_bays": [
+    44.0,
+    68.625,
+    92.0
+   ],
+   "ward_beds": [
+    104,
+    162.5,
+    216
+   ],
+   "ct_units": 6.765625,
+   "xray_units": 6.65625,
+   "layout_version_mean": 39.3125,
+   "lwbs_rate_24h": 0.2468760460615158,
+   "ward_occupancy": 0.8985992670059204,
+   "wait_p95_24h": 752.890625,
+   "generated": 6411356,
+   "in_system": 20804,
+   "pool_overflow": 244736,
+   "invalid_actions": 573,
+   "conservation_residual_max": 0
+  },
+  {
+   "day": 500,
+   "wall_s": 2519.6,
+   "hospital_days_per_s": 12.7,
+   "main_bays": [
+    40.0,
+    69.5,
+    92.0
+   ],
+   "ward_beds": [
+    104,
+    165.5,
+    216
+   ],
+   "ct_units": 7.203125,
+   "xray_units": 6.953125,
+   "layout_version_mean": 42.625,
+   "lwbs_rate_24h": 0.23728647828102112,
+   "ward_occupancy": 0.9052906036376953,
+   "wait_p95_24h": 767.1875,
+   "generated": 7160255,
+   "in_system": 20928,
+   "pool_overflow": 324890,
+   "invalid_actions": 633,
+   "conservation_residual_max": 0
+  },
+  {
+   "day": 550,
+   "wall_s": 2753.5,
+   "hospital_days_per_s": 12.78,
+   "main_bays": [
+    40.0,
+    68.8125,
+    92.0
+   ],
+   "ward_beds": [
+    112,
+    167.875,
+    216
+   ],
+   "ct_units": 7.53125,
+   "xray_units": 7.34375,
+   "layout_version_mean": 46.46875,
+   "lwbs_rate_24h": 0.22210414707660675,
+   "ward_occupancy": 0.8934695720672607,
+   "wait_p95_24h": 753.75,
+   "generated": 7892107,
+   "in_system": 20265,
+   "pool_overflow": 404662,
+   "invalid_actions": 737,
+   "conservation_residual_max": 0
+  },
+  {
+   "day": 600,
+   "wall_s": 2953.2,
+   "hospital_days_per_s": 13.0,
+   "main_bays": [
+    32.0,
+    67.125,
+    92.0
+   ],
+   "ward_beds": [
+    96,
+    165.625,
+    216
+   ],
+   "ct_units": 7.765625,
+   "xray_units": 7.5625,
+   "layout_version_mean": 49.8125,
+   "lwbs_rate_24h": 0.20849990844726562,
+   "ward_occupancy": 0.8834810256958008,
+   "wait_p95_24h": 661.484375,
+   "generated": 8592251,
+   "in_system": 19266,
+   "pool_overflow": 476574,
+   "invalid_actions": 870,
+   "conservation_residual_max": 0
+  },
+  {
+   "day": 650,
+   "wall_s": 3179.9,
+   "hospital_days_per_s": 13.08,
+   "main_bays": [
+    32.0,
+    66.3125,
+    92.0
+   ],
+   "ward_beds": [
+    80,
+    166.125,
+    216
+   ],
+   "ct_units": 7.890625,
+   "xray_units": 7.734375,
+   "layout_version_mean": 53.453125,
+   "lwbs_rate_24h": 0.18344396352767944,
+   "ward_occupancy": 0.8660430908203125,
+   "wait_p95_24h": 594.21875,
+   "generated": 9280728,
+   "in_system": 18120,
+   "pool_overflow": 550133,
+   "invalid_actions": 1010,
+   "conservation_residual_max": 0
+  },
+  {
+   "day": 700,
+   "wall_s": 3488.9,
+   "hospital_days_per_s": 12.84,
+   "main_bays": [
+    36.0,
+    67.75,
+    92.0
+   ],
+   "ward_beds": [
+    80,
+    168.375,
+    216
+   ],
+   "ct_units": 7.9375,
+   "xray_units": 7.765625,
+   "layout_version_mean": 55.8125,
+   "lwbs_rate_24h": 0.18408823013305664,
+   "ward_occupancy": 0.8388656377792358,
+   "wait_p95_24h": 617.1875,
+   "generated": 9969147,
+   "in_system": 17951,
+   "pool_overflow": 622501,
+   "invalid_actions": 1083,
+   "conservation_residual_max": 0
+  },
+  {
+   "day": 750,
+   "wall_s": 3926.5,
+   "hospital_days_per_s": 12.22,
+   "main_bays": [
+    36.0,
+    67.5,
+    92.0
+   ],
+   "ward_beds": [
+    72,
+    169.125,
+    216
+   ],
+   "ct_units": 7.96875,
+   "xray_units": 7.890625,
+   "layout_version_mean": 59.46875,
+   "lwbs_rate_24h": 0.19823898375034332,
+   "ward_occupancy": 0.837774932384491,
+   "wait_p95_24h": 609.53125,
+   "generated": 10670006,
+   "in_system": 20223,
+   "pool_overflow": 700110,
+   "invalid_actions": 1233,
+   "conservation_residual_max": 0
+  },
+  {
+   "day": 800,
+   "wall_s": 4206.1,
+   "hospital_days_per_s": 12.17,
+   "main_bays": [
+    32.0,
+    68.4375,
+    92.0
+   ],
+   "ward_beds": [
+    88,
+    169.875,
+    216
+   ],
+   "ct_units": 8.0,
+   "xray_units": 7.9375,
+   "layout_version_mean": 62.6875,
+   "lwbs_rate_24h": 0.22275131940841675,
+   "ward_occupancy": 0.8652184009552002,
+   "wait_p95_24h": 697.421875,
+   "generated": 11381669,
+   "in_system": 20444,
+   "pool_overflow": 782347,
+   "invalid_actions": 1379,
+   "conservation_residual_max": 0
+  },
+  {
+   "day": 850,
+   "wall_s": 4479.1,
+   "hospital_days_per_s": 12.15,
+   "main_bays": [
+    32.0,
+    66.875,
+    92.0
+   ],
+   "ward_beds": [
+    80,
+    167.875,
+    216
+   ],
+   "ct_units": 8.0,
+   "xray_units": 7.96875,
+   "layout_version_mean": 65.75,
+   "lwbs_rate_24h": 0.2383802831172943,
+   "ward_occupancy": 0.8864900469779968,
+   "wait_p95_24h": 749.609375,
+   "generated": 12122781,
+   "in_system": 20538,
+   "pool_overflow": 877317,
+   "invalid_actions": 1530,
+   "conservation_residual_max": 0
+  },
+  {
+   "day": 900,
+   "wall_s": 4750.3,
+   "hospital_days_per_s": 12.13,
+   "main_bays": [
+    28.0,
+    66.75,
+    92.0
+   ],
+   "ward_beds": [
+    88,
+    167.0,
+    216
+   ],
+   "ct_units": 8.0,
+   "xray_units": 8.0,
+   "layout_version_mean": 69.0,
+   "lwbs_rate_24h": 0.21379147469997406,
+   "ward_occupancy": 0.8677542209625244,
+   "wait_p95_24h": 655.390625,
+   "generated": 12864316,
+   "in_system": 19907,
+   "pool_overflow": 972303,
+   "invalid_actions": 1681,
+   "conservation_residual_max": 0
+  },
+  {
+   "day": 950,
+   "wall_s": 4992.1,
+   "hospital_days_per_s": 12.18,
+   "main_bays": [
+    28.0,
+    67.75,
+    92.0
+   ],
+   "ward_beds": [
+    80,
+    167.625,
+    216
+   ],
+   "ct_units": 8.0,
+   "xray_units": 8.0,
+   "layout_version_mean": 71.28125,
+   "lwbs_rate_24h": 0.20516489446163177,
+   "ward_occupancy": 0.8532435894012451,
+   "wait_p95_24h": 668.125,
+   "generated": 13572845,
+   "in_system": 19359,
+   "pool_overflow": 1056841,
+   "invalid_actions": 1747,
+   "conservation_residual_max": 0
+  },
+  {
+   "day": 1000,
+   "wall_s": 5224.0,
+   "hospital_days_per_s": 12.25,
+   "main_bays": [
+    28.0,
+    67.875,
+    92.0
+   ],
+   "ward_beds": [
+    88,
+    167.5,
+    216
+   ],
+   "ct_units": 8.0,
+   "xray_units": 8.0,
+   "layout_version_mean": 74.28125,
+   "lwbs_rate_24h": 0.21173426508903503,
+   "ward_occupancy": 0.8444193005561829,
+   "wait_p95_24h": 628.828125,
+   "generated": 14262628,
+   "in_system": 18528,
+   "pool_overflow": 1142781,
+   "invalid_actions": 1900,
+   "conservation_residual_max": 0
+  }
+ ],
+ "structural_cost_total": 2386240000.0,
+ "finished": true,
+ "summary": {
+  "wait_mean_min": 687.0548095703125,
+  "wait_p95_min": 833.984375,
+  "ed_los_median_min": 334.21875,
+  "lwbs_rate": 0.1717706173658371,
+  "cost_per_day": 614113.8125,
+  "margin_per_day": 239893.25,
+  "cost_per_treated": 3901.01806640625,
+  "deaths_per_10k": 45.449012756347656,
+  "boarding_hours_per_day": 575.03125,
+  "diversion_hours_per_day": 0.0,
+  "overtime_hours_per_day": 0.0
+ }
+}

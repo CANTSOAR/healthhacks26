@@ -594,3 +594,54 @@ def test_structural_actions_120_days(device):
     print("\nboarding patient-hours, days 30-83 [hold, build, close]:", [round(x) for x in board], " fixed cost:", [round(x) for x in fixed])
     assert board[1] < board[0] < board[2]
     assert fixed[1] > fixed[0] > fixed[2]
+
+
+@pytest.mark.parametrize("device", DEVICES)
+def test_room_occupancy_within_capacity_and_hold_release(device):
+    sim = HospitalSim(load_scenario("normal_week"), batch_size=1, device=device, seed=31)
+    lay = sim.layout(0)
+    ward_idx = [i for i, r in enumerate(lay["rooms"]) if r["type"] in ("ward_unit", "icu_bed", "stepdown_bed")]
+    assert sum(lay["rooms"][i]["capacity"] for i in ward_idx) == int(sim.ward_cap[0])      # layout beds == modelled pool
+    beds = {}
+    for h in range(30):
+        sim.step()
+        snap = sim.snapshot(0)
+        for i, (occ, r) in enumerate(zip(snap["rooms"]["occupancy"], lay["rooms"])):
+            if r["type"] in ("ward_unit", "icu_bed", "stepdown_bed", "treatment_bay", "resus_bay", "fast_track", "peds_ed", "triage", "ct", "xray"):
+                assert occ <= max(1, r["capacity"]), (h, r["id"], occ, r["capacity"])
+        P = snap["patients"]
+        for pid, st, room, x, z in zip(P["id"], P["state"], P["room"], P["x"], P["z"]):
+            if st == 9:
+                assert beds.setdefault(pid, (room, x, z)) == (room, x, z)                   # ward patients keep their bed
+        assert 8 not in [s for s, r in zip(P["state"], P["room"]) if r in ward_idx]         # boarders are in ED bays, state boarding
+    # hold on a waiting patient, then abandon it: the sampler resumes and the patient is not stuck
+    pid = None
+    for _ in range(200):
+        sim.tick()
+        snap = sim.snapshot(0)
+        cand = [p for p, s in zip(snap["patients"]["id"], snap["patients"]["state"]) if s in (0, 2, 3)]
+        if cand:
+            pid = cand[0]
+            break
+    res = dict(interaction_type="clinician_encounter", patient_id=pid, resolver="played", duration_min=20.0, information_gained=[],
+               decision=dict(kind="none"), quality=0.8)
+    with pytest.raises(ValueError):
+        sim.apply_interaction_result(0, res)               # not in the encounter yet and defer not requested
+    sim.apply_interaction_result(0, res, defer=True)       # accepted in any pre-provider state
+    assert sim.patient_detail(0, pid)["held_for_play"] and pid in sim._deferred[0]
+    assert sim.cancel_deferred_result(0, pid) is True and pid not in sim._deferred[0] and sim._deferred_n == 0
+    assert sim.cancel_deferred_result(0, pid) is False and not sim.patient_detail(0, pid)["held_for_play"]
+    left = False
+    for _ in range(12 * 30):
+        sim.tick()
+        d = sim.patient_detail(0, pid)
+        assert not d["held_for_play"]
+        if d["state"] not in ("waiting_triage", "in_triage", "waiting_bay", "waiting_provider", "walking", "with_provider"):
+            left = True
+            break
+    assert left and "played" not in d["flag_names"]
+    done = [q for q, s in zip(snap["patients"]["id"], snap["patients"]["state"]) if s == 9][0]
+    with pytest.raises(ValueError):
+        sim.apply_interaction_result(0, dict(res, patient_id=done), defer=True)      # past the encounter: rejected
+    with pytest.raises(KeyError):
+        sim.apply_interaction_result(0, dict(res, patient_id=10 ** 9), defer=True)

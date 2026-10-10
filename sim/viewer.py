@@ -152,16 +152,61 @@ class ViewerMixin:
             bd = lm.bays[bj]
             return at_room(bd["room"], bd["slot"], max(1, lay_rooms[bd["room"]]["capacity"]))
 
+        # scanner rooms: sticky pid -> room, one patient per room while rooms are free
+        scan_sticky = self._viz_scan[b] if b < len(self._viz_scan) else {}
+        at_scan = [i for i in range(n) if cols["eq"][i] >= 0 and (cols["state"][i] == S_TEST or (
+            cols["state"][i] == S_WALK and cols["next_state"][i] in (S_TEST, S_WRES)))]
+        here_s = {cols["pid"][i] for i in at_scan}
+        for pid in [q for q in scan_sticky if q not in here_s]:
+            del scan_sticky[pid]
+        for i in sorted(at_scan, key=lambda i: (cols["state"][i] != S_TEST, cols["t_state"][i], cols["pid"][i])):
+            pid = cols["pid"][i]
+            if pid in scan_sticky:
+                continue
+            rooms_t = lm.scan_rooms[SCAN_TYPES[cols["eq"][i]]] or lm.scan_rooms["xray"] or lm.scan_rooms["ct"]
+            if rooms_t:
+                taken = set(scan_sticky.values())
+                free_r = [r_ for r_ in rooms_t if r_ not in taken]
+                scan_sticky[pid] = free_r[0] if free_r else rooms_t[pid % len(rooms_t)]
+
         def scan_spot(i):
-            t = SCAN_TYPES[max(0, cols["eq"][i])]
-            rooms = lm.scan_rooms[t] or lm.scan_rooms["xray"] or lm.scan_rooms["ct"]
-            if not rooms:
+            ri = scan_sticky.get(cols["pid"][i])
+            if ri is None:
                 return bay_spot(i)
-            return at_room(rooms[cols["pid"][i] % len(rooms)], 0, 1)
+            return at_room(ri, 0, 1)
+
+        # ward beds: sticky pid -> bed number, so a room never shows more patients than its capacity
+        beds = []                                   # bed number -> (room index, slot, room capacity)
+        for ri in lm.ward_rooms:
+            cap = int(lay_rooms[ri]["capacity"])
+            beds += [(ri, k, cap) for k in range(cap)]
+        sticky = self._viz_ward[b] if b < len(self._viz_ward) else {}
+        wardish = [i for i in range(n) if cols["state"][i] == S_WARD or (cols["state"][i] == S_WALK and cols["next_state"][i] == S_WARD)
+                   or (cols["state"][i] == S_EXIT and cols["exit"][i] == X_WARD)]
+        here = {cols["pid"][i] for i in wardish}
+        for pid in [q for q in sticky if q not in here or sticky[q] >= len(beds)]:
+            del sticky[pid]
+        used = set(sticky.values())
+        free_beds = (k for k in range(len(beds)) if k not in used)
+        over = 0
+        for i in sorted(wardish, key=lambda i: cols["pid"][i]):
+            pid = cols["pid"][i]
+            if pid not in sticky:
+                k = next(free_beds, None)
+                if k is None:                       # census above the staffed beds (after beds were closed)
+                    over += 1
+                    continue
+                sticky[pid] = k
 
         def ward_spot(i):
-            ri, k, cap = self._ward_room(lay_rooms, cols["pid"][i], ward_cap)
-            return at_room(ri, k, cap)
+            k = sticky.get(cols["pid"][i])
+            if k is None:
+                if not beds:
+                    return -1, 0.0, 0.0
+                ri, _, cap = beds[-1]
+                return at_room(ri, cols["pid"][i], cap)
+            ri, slot, cap = beds[k]
+            return at_room(ri, slot, cap)
 
         for i in range(n):
             st = cols["state"][i]

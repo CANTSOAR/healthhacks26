@@ -260,6 +260,8 @@ class InteractMixin:
         if s is None:
             return False
         self.p["hold"][b, s] = False
+        if self._deferred[b].pop(int(patient_id), None) is not None:      # a stored early result is discarded with the hold
+            self._deferred_n = sum(len(d) for d in self._deferred)
         return True
 
     def _apply_deferred(self):
@@ -276,7 +278,21 @@ class InteractMixin:
                     self.apply_interaction_result(b, res, defer=False)
         self._deferred_n = sum(len(d) for d in self._deferred)
 
+    def cancel_deferred_result(self, b: int, patient_id: int) -> bool:
+        """Drop a played result queued with defer=True and give the patient back to the sampler.
+        Returns True if a queued result existed."""
+        had = int(patient_id) in self._deferred[b]
+        self.release_hold(b, patient_id)
+        if had and int(patient_id) in self._deferred[b]:      # patient already gone: release_hold found no slot
+            self._deferred[b].pop(int(patient_id), None)
+            self._deferred_n = sum(len(d) for d in self._deferred)
+        return had
+
     def apply_interaction_result(self, b: int, result: dict, defer: bool = False) -> None:
+        """Write a played clinician-encounter result. With defer=True a result for a patient who has not yet
+        started the encounter (any pre-provider state) is stored and applied on the tick the encounter starts;
+        the patient is held meanwhile. A patient who is past the encounter is rejected with ValueError, a patient
+        who has left with KeyError. release_hold() cancels a hold and any stored result; the sampler then resumes."""
         from .engine import S_PROV, F_PLAYED, N_XRAY, N_CT, N_LAB
         if result.get("resolver") != "played":
             raise ValueError("apply_interaction_result expects resolver='played'")

@@ -61,4 +61,6 @@ These are assumed calibrations of a model, not statements about the real hospita
 - 90th-percentile wait too short (above).
 - By acuity, low-acuity discharged visits run long and high-acuity ones short relative to the survey medians (table above).
 - Cost is insensitive to staffing because measured overhead dominates. That is what the cost report says, but it leaves a cost-minimising manager little room.
+- Long stays in a bay are real model output, not a reporting error: boarding patients are reported as `boarding`, never as `waiting_results`. `waiting_results` covers the whole in-bay treatment period after the clinician encounter, and the measured `treatment_min` distributions are heavy-tailed (lognormal, cv 0.87-1.23), so with a median discharged stay near 190 min the 90th percentile is 460 min and a few patients sit in `waiting_results` for 5-9 hours (the survey's 90th percentiles by acuity are 292-721 min).
+- The layout's results-waiting room is drawn but not used by the model (no vertical-flow step), so it always shows 0 occupants; its capacity is whatever the layout file says.
 - `community_small` and `midsize` layouts run (arrivals and rosters scaled by bay count) but are not calibrated.
