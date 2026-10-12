@@ -9,38 +9,30 @@ from server import catalog, managers, status as status_mod, validation
 
 
 def test_status_offline(client, monkeypatch):
-    for k in ("VLADA_API_KEY", "ELEVENLABS_API_KEY"):
-        monkeypatch.delenv(k, raising=False)
-    monkeypatch.setattr("encounter.status", lambda: {"llm": {"live": False, "provider": "offline", "model": None},
-                                                     "voice": {"live": False, "provider": "browser"}}, raising=False)
+    monkeypatch.delenv("VLADA_API_KEY", raising=False)
     d = client.get("/api/status").json()
     s = d["services"]
-    assert s["sim"]["live"] is True
-    assert s["llm"] == {"live": False, "provider": "offline", "model": None}
-    assert s["voice"] == {"live": False, "provider": "browser"}
+    assert set(s) == {"sim", "rl", "data"} and set(d) == {"services", "torch", "device", "version"}
+    assert s["sim"]["live"] is True and s["sim"]["active_runs"] == 0 and s["rl"]["live"] is True
     assert s["data"] == {"live": False, "provider": "public_extracts"}
     assert d["device"] == "cpu" and d["torch"] and d["version"]
-    assert d["encounter"] in ("available", "unavailable")
 
 
 def test_status_with_credentials(client, monkeypatch):
     monkeypatch.setenv("VLADA_API_KEY", "k")
-    monkeypatch.setattr("encounter.status", lambda: {"llm": {"live": True, "provider": "bedrock", "model": "some-model", "last_error": "boom"},
-                                                     "voice": {"live": True, "provider": "elevenlabs"}}, raising=False)
-    s = client.get("/api/status").json()["services"]
-    assert s["data"] == {"live": True, "provider": "vlada"}
-    assert s["llm"]["provider"] == "bedrock" and s["llm"]["live"] is True and s["llm"]["model"] == "some-model" and s["llm"]["last_error"] == "boom"
-    assert s["voice"] == {"live": True, "provider": "elevenlabs"}
+    assert client.get("/api/status").json()["services"]["data"] == {"live": True, "provider": "vlada"}
 
 
-def test_status_survives_broken_encounter(monkeypatch):
-    def boom():
-        raise RuntimeError("no provider")
-    monkeypatch.setattr("encounter.status", boom, raising=False)
-    monkeypatch.setenv("ELEVENLABS_API_KEY", "x")
-    d = status_mod.status()
-    assert d["services"]["llm"]["provider"] == "offline" and d["services"]["voice"]["provider"] == "elevenlabs"
-    assert "no provider" in d["services"]["encounter"]["last_error"]
+def test_status_reports_missing_rl(monkeypatch):
+    monkeypatch.setattr(managers, "rl_module", lambda: None)
+    monkeypatch.setattr(managers, "last_rl_error", "ImportError: no rl", raising=False)
+    assert status_mod.status()["services"]["rl"] == {"live": False, "last_error": "ImportError: no rl"}
+
+
+def test_played_encounter_routes_are_gone(client):
+    for path in ("/api/cases", "/api/encounters/x", "/api/journeys", "/api/runs/run-x/playable"):
+        assert client.get(path).status_code == 404
+    assert client.delete("/api/runs/run-x/patients/1/hold").status_code in (404, 405)
 
 
 def test_enums_metrics(client):

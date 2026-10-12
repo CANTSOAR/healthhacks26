@@ -6,13 +6,15 @@ import { loadLists, openCompare, openWatch, refreshStatus, runIsLive, savedRun, 
 import { useUI, type Mode } from "@/lib/ui";
 import { CompareView } from "./modes/CompareView";
 import { OpsView } from "./modes/OpsView";
+import { HomeView } from "./modes/HomeView";
+import { OptimizeView } from "./modes/OptimizeView";
 import { TradeoffView } from "./modes/TradeoffView";
 import { FixtureBanner } from "./ui/FixtureBanner";
 import { Toasts } from "./ui/Toasts";
 import { TourCard } from "./ui/Tour";
 import { TopBar } from "./ui/TopBar";
 
-const MODES: Mode[] = ["play", "watch", "compare", "tradeoff"];
+const MODES: Mode[] = ["play", "watch", "compare", "tradeoff", "optimize"];
 
 export default function App() {
   const narrow = useNarrow();
@@ -25,7 +27,7 @@ export default function App() {
     booted.current = true;
     const q = new URLSearchParams(window.location.search);
     const m = q.get("mode") as Mode | null;
-    // coming back from an encounter: /?run_id=..&patient_id=.. lands in Play on that run with that patient selected
+    // /?run_id=..&patient_id=.. lands in Play on that run with that patient selected
     const backRun = q.get("run_id");
     const backPatient = q.get("patient_id");
     if (backRun) {
@@ -36,8 +38,8 @@ export default function App() {
       window.history.replaceState(null, "", u);
     }
     useUI.setState({ hasSavedRun: !!savedRun() });
-    // a remembered live run wins over the default mode, so a reload never drops it silently
-    const initial: Mode = backRun ? "play" : m && MODES.includes(m) ? m : savedRun() ? "play" : "watch";
+    // the bare address is the landing page; every ?mode= deep link opens that mode
+    const initial: Mode = backRun ? "play" : m && MODES.includes(m) ? m : "home";
     useUI.setState({ mode: initial });
     const w = q.get("rollout");
     if (w) useUI.setState({ watchId: w });
@@ -100,17 +102,26 @@ export default function App() {
   }, [scenarioId]);
 
   const onMode = useCallback((m: Mode) => void enter(m), []);
+  const tourOn = useUI((s) => !!s.tour);
+  // The tour card floats over the 3D modes. On the Optimize page, which is a scrolling document, it sits in the flow
+  // above the content so it never covers a control. The landing page has no tour card.
+  const inlineTour = mode === "optimize";
   const top = (
     <>
       <TopBar narrow={narrow} onMode={onMode} />
       <FixtureBanner />
+      {inlineTour && tourOn && (
+        <div className="pointer-events-auto mx-auto w-full max-w-[1240px]" data-testid="tour-inline">
+          <TourCard />
+        </div>
+      )}
       <div className={`pointer-events-none fixed left-1/2 z-[60] flex w-[min(92vw,460px)] -translate-x-1/2 flex-col gap-2 ${mode === "compare" && !narrow ? "top-[196px]" : "top-[118px] max-[900px]:top-[120px]"}`} data-testid="toast-stack">
-        {narrow && <TourCard />}
+        {narrow && !inlineTour && mode !== "home" && <TourCard />}
         <Toasts />
       </div>
       {/* On a desktop the tour card is docked bottom-right, over the lower part of the side column, so it never covers
           a pane title, the scenario toggle or the building. */}
-      {!narrow && (
+      {!narrow && !inlineTour && mode !== "home" && (
         <div className="pointer-events-none fixed bottom-3 right-3 z-[60] flex max-h-[62vh] w-[360px] flex-col justify-end" data-testid="tour-dock">
           <TourCard />
         </div>
@@ -118,6 +129,8 @@ export default function App() {
     </>
   );
 
+  if (mode === "home") return <HomeView narrow={narrow} top={top} onMode={onMode} />;
+  if (mode === "optimize") return <OptimizeView narrow={narrow} top={top} />;
   if (mode === "compare") return <CompareView narrow={narrow} top={top} />;
   if (mode === "tradeoff")
     return (

@@ -210,8 +210,6 @@ export interface CatalogSummary {
 export interface ServiceStatus {
   services: {
     sim: { live: boolean };
-    llm: { live: boolean; provider: string; model?: string | null; last_error?: string };
-    voice: { live: boolean; provider: string };
     data: { live: boolean; provider: string };
   };
   torch?: string | null;

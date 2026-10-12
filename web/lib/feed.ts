@@ -46,8 +46,7 @@ export interface FeedState {
   journeys: Map<number, JourneyEntry[]>;
   /** the headline numbers about once a simulated hour, so a card can say how its own number moved */
   kpiHist: { t: number; wait: number; waiting: number }[];
-  /** ids the server says can be played right now (null until it sends such a list) */
-  playable: Set<number> | null;
+
   pending: Record<string, number>;
   mask: Record<string, boolean>;
   summary: Record<string, number> | null;
@@ -73,7 +72,6 @@ const empty = (key: string): FeedState => ({
   events: [],
   journeys: new Map(),
   kpiHist: [],
-  playable: null,
   pending: {},
   mask: {},
   summary: null,

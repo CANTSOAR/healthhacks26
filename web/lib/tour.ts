@@ -1,149 +1,133 @@
-// The guided demo: the six steps of the README's demo, each one a scripted state of the real app.
-// A step only runs with managers and rollouts that exist right now; otherwise it is skipped and says why.
-// Captions describe what to look at. The only numbers in them are the held-out comparison of a learned manager, which
-// lib/story.ts composes from the results table (margin, interval, and the wait, walk-outs and deaths that came with it).
+// The guided demo: a short walk through the product, each step a scripted state of the real app.
+// A step runs only with the plans and recordings the API lists right now; a step that cannot run is left out
+// altogether, so the card never talks about something that is not there.
 import { enter } from "./nav";
-import { loadLists, startLiveCompare, startPlay, transport } from "./session";
-import { useUI } from "./ui";
-import type { ManagerInfo, RolloutListItem } from "./types";
-import { heldOutVerdict, namedManager } from "./story";
+import { loadLists, transport } from "./session";
+import { useUI, type Mode } from "./ui";
+import type { RolloutListItem } from "./types";
 
 export interface TourStep {
   title: string;
   caption: string;
-  /** set when the step cannot run right now */
-  skip?: string;
+  /** the mode this step shows: leaving it by hand ends the tour */
+  mode: Mode;
   run: () => Promise<void>;
 }
 
 const ui = () => useUI.getState();
-const named = namedManager;
-/** The held-out verdict of a learned manager, with its margin and what came with it (nothing when there is no comparison). */
-const story = (m: ManagerInfo | null | undefined, scenario: string) => (m ? heldOutVerdict(m.id, scenario) : "");
-const sp = (s: string) => (s ? ` ${s}` : "");
 
-/** A manager for an objective: a learned agent if one is available, otherwise a tuned heuristic. */
-function managerFor(test: RegExp): ManagerInfo | null {
-  const ok = ui().managers.filter((m) => m.kind !== "human" && m.available !== false && test.test(`${m.objective ?? ""} ${m.id}`));
-  return ok.find((m) => m.kind === "learned") ?? ok.find((m) => m.kind === "tuned_heuristic") ?? ok[0] ?? null;
-}
-const rolloutOf = (managerId: string | undefined, scenario: string): RolloutListItem | undefined =>
-  managerId ? ui().rollouts.find((r) => r.has_segments && r.manager.id === managerId && r.scenario === scenario) : undefined;
-const COST = /min_cost/;
-const WAIT = /min_wait/;
-const CONSTRAINED = /p95|s\.t\./;
+/** Plans to show as "the better plan", best first: the recommended one, then the other tuned plans. */
+const PLAN_ORDER = ["tuned_same_budget", "tuned_min_wait", "tuned_balanced", "tuned_max_margin", "tuned_min_cost"];
+const PLAN_WORDS: Record<string, string> = {
+  tuned_same_budget: "the recommended plan (same budget, better flow)",
+  tuned_min_wait: "the plan tuned for the shortest waits",
+  tuned_balanced: "the balanced plan",
+  tuned_max_margin: "the plan tuned for the best margin",
+  tuned_min_cost: "the plan tuned for the lowest cost",
+};
 
-function normalScenario(): string {
+function scenarioIds() {
   const s = ui().scenarios;
-  return (s.find((x) => x.id === "normal_week") ?? s.find((x) => /normal/i.test(x.id)) ?? s[0])?.id ?? "normal_week";
+  const normal = (s.find((x) => x.id === "normal_week") ?? s.find((x) => /normal/i.test(x.id)) ?? s[0])?.id ?? "normal_week";
+  const surge = s.find((x) => /flu|surge/i.test(x.id))?.id ?? "flu_surge";
+  return { normal, surge };
 }
-function surgeScenario(): string | null {
-  return ui().scenarios.find((x) => /flu|surge/i.test(x.id))?.id ?? null;
+
+/** Current practice and a better plan, recorded on the same scenario and the same patients. */
+function pair(scenario: string): { base: RolloutListItem; plan: RolloutListItem } | null {
+  const usable = ui().rollouts.filter((r) => r.has_segments && r.scenario === scenario);
+  const base = usable.find((r) => r.manager.id === "fixed") ?? usable.find((r) => r.manager.kind === "fixed");
+  if (!base) return null;
+  for (const id of PLAN_ORDER) {
+    const plan = usable.find((r) => r.manager.id === id && r.seed === base.seed);
+    if (plan) return { base, plan };
+  }
+  return null;
 }
+const words = (r: RolloutListItem) => PLAN_WORDS[r.manager.id] ?? "a tuned plan";
 
 export function buildTour(): TourStep[] {
   const s = ui();
-  const online = s.online === true;
-  const normal = normalScenario();
-  const surge = surgeScenario();
-  const cost = managerFor(COST);
-  const wait = managerFor(WAIT);
-  const con = managerFor(CONSTRAINED);
-  const baseline = s.rollouts.find((r) => r.has_segments && r.scenario === normal && (r.manager.kind === "fixed" || r.manager.kind === "rule_based")) ?? s.rollouts.find((r) => r.has_segments && r.scenario === normal) ?? s.rollouts.find((r) => r.has_segments);
-  const costR = rolloutOf(cost?.id, normal);
-  const waitR = rolloutOf(wait?.id, normal);
-  const conR = rolloutOf(con?.id, normal);
-  const surgeA = surge ? rolloutOf(cost?.id, surge) : undefined;
-  const surgeB = surge ? (rolloutOf(wait?.id, surge) ?? rolloutOf(con?.id, surge)) : undefined;
-  const surgeBManager = surge && rolloutOf(wait?.id, surge) ? wait : con;
-
-  return [
-    {
-      title: "A normal day",
-      caption: baseline
-        ? `The hospital on an ordinary weekday, run by ${named(baseline.manager)}. Patients are coloured by acuity, staff by role. Click anyone, or any bed, to see their state and where every number behind them comes from.`
-        : "The hospital on an ordinary weekday.",
-      skip: baseline ? undefined : "no recorded rollout is available",
-      run: async () => {
-        useUI.setState({ scenarioId: normal, speed: 4, paused: false, watchId: baseline!.rollout_id });
-        await enter("watch");
-        // a Tuesday mid-morning, or the nearest recorded moment to it
-        transport.seekTick(288 + 120, true);
-      },
-    },
-    {
-      title: "Hand it to a cost-tuned manager",
-      caption: cost
-        ? online
-          ? `${named(cost)} now runs the hospital live, at full speed. Its objective is cost.${sp(story(cost, normal))} Its decisions appear in the feed as it makes them; the cards show the wait and cost that result.`
-          : `A recorded run of ${named(cost)}, whose objective is cost.${sp(story(cost, normal))} Its decisions are in the feed; the cards show the wait and cost that result.`
-        : "",
-      skip: !cost ? "no cost-tuned manager is available yet" : !online && !costR ? "the simulator is offline and no recording of a cost-tuned manager exists" : undefined,
-      run: async () => {
-        if (online) {
-          useUI.setState({ scenarioId: normal, speed: 600, paused: false });
-          await enter("play");
-          ui().setPlay({ manager: cost!.id });
-          await startPlay();
-        } else {
-          useUI.setState({ scenarioId: normal, speed: 12, paused: false, watchId: costR!.rollout_id });
-          await enter("watch");
+  const { normal, surge } = scenarioIds();
+  const usable = s.rollouts.filter((r) => r.has_segments);
+  const baseline = usable.find((r) => r.scenario === normal && r.manager.id === "fixed") ?? usable.find((r) => r.scenario === normal && r.manager.kind === "fixed") ?? usable.find((r) => r.scenario === normal) ?? usable[0];
+  const isCurrent = baseline?.manager.kind === "fixed";
+  const day = pair(normal);
+  const flu = pair(surge);
+  const steps: (TourStep | null)[] = [
+    baseline
+      ? {
+          title: isCurrent ? "A normal day under current practice" : "A normal day in the hospital",
+          mode: "watch",
+          caption: `This is the twin on an ordinary weekday${isCurrent ? ", staffed the way the hospital runs today as far as public data can tell" : ""}. Patients are colored by how urgent they are, staff by role. Click anyone, or any bed, to see their state and where every number behind them comes from.`,
+          run: async () => {
+            useUI.setState({ scenarioId: baseline.scenario, speed: 4, paused: false, watchId: baseline.rollout_id });
+            await enter("watch");
+            // a Tuesday mid-morning, or the nearest recorded moment to it
+            transport.seekTick(288 + 120, true);
+          },
         }
+      : null,
+    {
+      title: "Pick a goal and let it search",
+      mode: "optimize",
+      caption: "This is where you tell the system what matters. Start from an example or mark any measure to maximize or minimize, put them in order, and press Find a plan. A search takes four to five minutes; earlier searches are listed at the bottom of the page and open straight away.",
+      run: async () => {
+        await enter("optimize");
       },
     },
-    {
-      title: "Same patients, wait-tuned manager",
-      caption: cost && wait ? `Side by side on the same seed, so both face the same arrivals: A is ${named(cost)}, B is ${named(wait)}. The table gives each side's totals for the episode and the difference; rows that are close mean the two did not differ much on that measure. What each manager is, and how it did against its tuned heuristic on held-out seeds, is in the panel on the right.` : "",
-      skip: !cost || !wait ? "needs both a cost-tuned and a wait-tuned manager" : !(costR && waitR) && !online ? "no recordings of both managers, and the simulator is offline" : undefined,
-      run: async () => {
-        useUI.setState({ scenarioId: normal, speed: 12, paused: false });
-        if (costR && waitR) {
-          useUI.setState({ compareIds: [costR.rollout_id, waitR.rollout_id] });
-          await enter("compare");
-        } else {
-          useUI.setState({ compareManagers: [cost!.id, wait!.id], speed: 48 });
-          await enter("compare");
-          await startLiveCompare(cost!.id, wait!.id);
+    day
+      ? {
+          title: "The plan at work",
+          mode: "watch",
+          caption: `The same hospital and the same kind of week, now run by ${words(day.plan)}. Each staffing and capacity decision appears in the feed as it is made; the cards show the waits and costs that follow. No clinical decision is part of it.`,
+          run: async () => {
+            useUI.setState({ scenarioId: normal, speed: 12, paused: false, watchId: day.plan.rollout_id });
+            await enter("watch");
+          },
         }
-      },
-    },
+      : null,
+    day
+      ? {
+          title: "Same patients, two plans",
+          mode: "compare",
+          caption: `Side by side, facing exactly the same arrivals: A is current practice, B is ${words(day.plan)}. The table gives each side's totals and the difference. Rows that are close mean the two did not differ much on that measure.`,
+          run: async () => {
+            useUI.setState({ scenarioId: normal, speed: 12, paused: false, compareIds: [day.base.rollout_id, day.plan.rollout_id] });
+            await enter("compare");
+          },
+        }
+      : null,
+    flu
+      ? {
+          title: "Now a flu surge",
+          mode: "compare",
+          caption: `The same comparison in a flu surge: A is current practice, B is ${words(flu.plan)}. A good plan should hold up when the week is not ordinary. The table shows how each side's waits and costs did.`,
+          run: async () => {
+            useUI.setState({ scenarioId: surge, speed: 12, paused: false, compareIds: [flu.base.rollout_id, flu.plan.rollout_id] });
+            await enter("compare");
+          },
+        }
+      : null,
     {
-      title: "A constrained manager",
-      caption: con ? `${named(con)}: its objective is the lowest cost that still keeps the 95th-percentile wait under a limit.${sp(story(con, normal))} Its decisions are listed as they happen.` : "",
-      skip: !con ? "no constrained manager is available yet" : !conR ? "no recording of the constrained manager exists yet" : undefined,
-      run: async () => {
-        useUI.setState({ scenarioId: normal, speed: 12, paused: false, watchId: conR!.rollout_id });
-        await enter("watch");
-      },
-    },
-    {
-      title: "Throw a flu surge at them",
-      caption: surgeA && surgeB && cost && surgeBManager ? `The same comparison under a flu surge: A is ${named(cost)}, B is ${named(surgeBManager)}. The table shows how each one's waits and costs held up.` : "",
-      skip: !surge ? "no flu-surge scenario is defined" : !(surgeA && surgeB) ? "no flu-surge recordings of two managers exist yet" : undefined,
-      run: async () => {
-        useUI.setState({ scenarioId: surge!, speed: 12, paused: false, compareIds: [surgeA!.rollout_id, surgeB!.rollout_id] });
-        await enter("compare");
-      },
-    },
-    {
-      title: "The trade-off",
-      caption: "Every evaluated manager, cost against wait, with intervals across held-out seeds. Marks that sit on top of each other did not differ: a numbered badge says how many share a spot, and clicking it steps through them. Click one for its details and its held-out comparison. Your own Play run appears here too, flagged if it was too short to compare.",
+      title: "Every plan on one chart",
+      mode: "tradeoff",
+      caption: "Each mark is one plan, cost against wait, tested on fresh simulated patients. Marks that sit on top of each other did not differ. Click one for its details, or switch to Resources to see what one more provider, nurse, bay or scanner is worth.",
       run: async () => {
         useUI.setState({ scenarioId: normal });
         await enter("tradeoff");
       },
     },
   ];
+  return steps.filter((x): x is TourStep => !!x);
 }
 
 let steps: TourStep[] = [];
 export const tourSteps = () => steps;
 
 async function go(index: number) {
-  await loadLists().catch(() => undefined);
-  steps = buildTour();
   const step = steps[index];
-  if (!step || step.skip) return;
+  if (!step) return;
   useUI.setState({ tour: { index, busy: true }, selection: null });
   try {
     await step.run();
@@ -154,30 +138,34 @@ async function go(index: number) {
   }
 }
 
+// The tour belongs to the step it is showing: going somewhere else by hand ends it, so its card never lingers over
+// a page it is not describing.
+if (typeof window !== "undefined") {
+  useUI.subscribe((s, prev) => {
+    if (!s.tour || s.tour.busy || s.mode === prev.mode) return;
+    if (steps[s.tour.index]?.mode !== s.mode) useUI.setState({ tour: null });
+  });
+}
+
 export const tour = {
+  /** Only ever started by the visitor pressing "Demo tour". */
   async start() {
     await loadLists().catch(() => undefined);
     steps = buildTour();
-    const first = steps.findIndex((s) => !s.skip);
-    if (first < 0) return ui().toast("Nothing to show yet: no rollouts or managers are available.", "warn");
-    await go(first);
+    await go(0);
   },
   async next() {
     const t = ui().tour;
-    if (!t) return;
-    steps = buildTour();
-    for (let i = t.index + 1; i < steps.length; i++) if (!steps[i].skip) return go(i);
+    if (t && t.index + 1 < steps.length) await go(t.index + 1);
   },
   async back() {
     const t = ui().tour;
-    if (!t) return;
-    steps = buildTour();
-    for (let i = t.index - 1; i >= 0; i--) if (!steps[i].skip) return go(i);
+    if (t && t.index > 0) await go(t.index - 1);
   },
   /** Leave the app where it is, at a calm speed. */
   exit() {
     useUI.setState({ tour: null, speed: Math.min(ui().speed, 12) });
   },
-  hasNext: () => steps.some((s, i) => i > (ui().tour?.index ?? 0) && !s.skip),
-  hasBack: () => steps.some((s, i) => i < (ui().tour?.index ?? 0) && !s.skip),
+  hasNext: () => (ui().tour?.index ?? 0) + 1 < steps.length,
+  hasBack: () => (ui().tour?.index ?? 0) > 0,
 };

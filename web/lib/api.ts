@@ -1,6 +1,7 @@
 // Typed client for contracts/api.md, with a fixture fallback.
 // Every call resolves to {data, source}: "live" when the server answered, "fixture" when it did not and
 // the bundled file under /fixtures was used instead. Screens label fixture data as such.
+import type { AttributionReport } from "./attribution";
 import type { CatalogRef, CatalogSummary, Enums, Hospital, HumanRun, Layout, ManagerInfo, Results, Rollout, RolloutListItem, Scenario, ServiceStatus, Validation } from "./types";
 
 export type Source = "live" | "fixture";
@@ -189,7 +190,10 @@ export const api = {
       return "fixture";
     }
   },
-  runPlayable: (runId: string) => live<{ playable: number[] }>(`/api/runs/${encodeURIComponent(runId)}/playable`),
+  /** Marginal value of every resource unit (simulated). No fixture: offline or not computed yet there is nothing honest to show. */
+  attribution: (hospitalId: string) => get<AttributionReport | null>(`/api/attribution/${encodeURIComponent(hospitalId)}?view=summary`, async () => null, 8000),
+  runRoom: (runId: string, roomId: string) => live<Record<string, unknown>>(`/api/runs/${encodeURIComponent(runId)}/rooms/${encodeURIComponent(roomId)}`),
+  runEquipment: (runId: string, equipmentId: string) => live<Record<string, unknown>>(`/api/runs/${encodeURIComponent(runId)}/equipment/${encodeURIComponent(equipmentId)}`),
   runPatient: (runId: string, patientId: number) => live<Record<string, unknown>>(`/api/runs/${encodeURIComponent(runId)}/patients/${patientId}`),
   runStaff: (runId: string, staffId: string) => live<Record<string, unknown>>(`/api/runs/${encodeURIComponent(runId)}/staff/${encodeURIComponent(staffId)}`),
 };

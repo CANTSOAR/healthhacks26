@@ -1,0 +1,21 @@
+{
+ "hospital_id": "rwjuh_nb",
+ "ccn": "310038",
+ "mode": "augmented",
+ "hospital": {
+  "measured": 62,
+  "literature": 6,
+  "assumed": 21
+ },
+ "overrides": {
+  "measured": 27,
+  "literature": 0,
+  "assumed": 13
+ },
+ "total": {
+  "measured": 89,
+  "literature": 6,
+  "assumed": 34
+ },
+ "n_attributes": 129
+}

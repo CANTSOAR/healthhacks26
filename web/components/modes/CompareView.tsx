@@ -106,8 +106,8 @@ function DiffTable({ a, b }: { a: FeedState; b: FeedState }) {
           })}
         </tbody>
       </table>
-      {rows.length === 0 && <div className="py-3 text-[12px] text-ink-3">These rollouts carry no episode summary.</div>}
-      <div className="mt-2 text-[10.5px] leading-snug text-ink-3">Green means B is better on that row (lower wait and cost, higher margin). One seed: differences are not significance-tested here; see the trade-off chart for multi-seed results.</div>
+      {rows.length === 0 && <div className="py-3 text-[12px] text-ink-3">These recordings carry no summary.</div>}
+      <div className="mt-2 text-[10.5px] leading-snug text-ink-3">Green means B is better on that row (lower wait and cost, higher margin). This is one run: for differences tested over many runs, see the Trade-off chart.</div>
     </div>
   );
 }
@@ -179,14 +179,14 @@ export function CompareView({ narrow, top }: { narrow: boolean; top: React.React
     <div className={`glass pointer-events-auto flex min-h-0 flex-col ${narrow ? "" : "w-[360px] shrink-0"}`} data-testid="compare-panel">
       <div className="space-y-2 px-3.5 pb-3 pt-3.5">
         <div className="flex items-center gap-2">
-          <span className="eyebrow">Same seed, two managers</span>
+          <span className="eyebrow">Same patients, two plans</span>
           <span className="ml-auto">
             <SimTag />
           </span>
         </div>
         <div className="seg w-full [&>button]:flex-1" data-testid="compare-source">
           <button data-on={source === "recorded" && !isLive} disabled={isLive} onClick={() => setSource("recorded")}>
-            Recorded rollouts
+            Recorded runs
           </button>
           <button data-on={source === "live" || isLive} onClick={() => setSource("live")} data-testid="compare-live-tab">
             Run live
@@ -233,7 +233,7 @@ export function CompareView({ narrow, top }: { narrow: boolean; top: React.React
           <div className="text-[11px] leading-snug text-ink-3">
             {titleCase(a.header.scenario)} · seed {a.header.seed} ·{" "}
             {a.origin === "live" ? "two live simulations with the same arrivals; each runs on its own clock, so they can drift a few ticks apart." : "clocks locked together."}
-            {!sameSeed && <span className="font-semibold text-[#B4232A]"> These two runs differ in scenario or seed, so patients are not the same.</span>}
+            {!sameSeed && <span className="font-semibold text-[#B4232A]"> These two runs differ in scenario or seed, so the patients are not the same.</span>}
             {a.origin !== "live" && ids[0] && ids[0] === ids[1] && <span className="font-semibold text-[#8A5A00]"> Both sides show the same recording. Pick a different one for B, or use “Run live”.</span>}
           </div>
         )}

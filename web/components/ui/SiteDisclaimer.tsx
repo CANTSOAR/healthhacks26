@@ -2,8 +2,8 @@
 import { useEffect, useState } from "react";
 import { apiBase } from "@/lib/api";
 
-// The hospital's own disclaimer (from /api/hospitals, i.e. the layout file) for pages that have no 3D scene: the
-// encounter and the Patient Studio name the hospital model, so they carry the same notice as the hospital view.
+// The hospital's own disclaimer (from /api/hospitals, i.e. the layout file) for pages that have no 3D scene (the
+// landing page): they name the hospital model, so they carry the same notice as the hospital view.
 const FALLBACK = "A model built from public information. Not affiliated with or endorsed by Robert Wood Johnson University Hospital. Patient flows, staffing and outcomes are simulated, not the hospital's operational data. Staff are fictional.";
 let cached: string | null = null;
 
@@ -28,7 +28,7 @@ export function SiteDisclaimer({ className = "" }: { className?: string }) {
   }, []);
   return (
     <footer className={`mx-auto w-full max-w-[1080px] px-4 text-center text-[10.5px] leading-snug text-ink-3 ${className}`} data-testid="site-disclaimer">
-      <span className="font-semibold text-ink-2">HospitalGym.</span> {text} All numbers are simulated. Patients here are synthetic, written for teaching, and need faculty review before use with learners.
+      <span className="font-semibold text-ink-2">HospitalGym.</span> {text} All numbers are simulated.
     </footer>
   );
 }

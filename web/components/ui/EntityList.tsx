@@ -4,7 +4,6 @@ import { enumsOf, roomState } from "@/lib/describe";
 import type { FeedState } from "@/lib/feed";
 import { duration, L, patientId } from "@/lib/format";
 import { ACUITY, roleColor } from "@/lib/palette";
-import { isPlayable } from "@/lib/session";
 import { useUI, type ListTab } from "@/lib/ui";
 import type { Selection } from "@/lib/types";
 import { BED_TYPES } from "../scene/build";
@@ -34,9 +33,8 @@ interface Row {
   bar: number;
   barColor?: string;
   right: string;
-  /** sort key (lower first) and a marker for patients whose encounter can be played now */
+  /** sort key (lower first) */
   rank?: number;
-  playable?: boolean;
 }
 const MAX_ROWS = 160;
 const natural = (a: string, b: string) => a.localeCompare(b, undefined, { numeric: true });
@@ -108,9 +106,8 @@ function rows(f: FeedState, tab: ListTab): { rows: Row[]; total: number } {
         bar: p.state_min[i] / 120,
         barColor: WAIT_STATES.has(st) && p.state_min[i] > 60 ? "#E5484D" : undefined,
         right: duration(p.state_min[i]),
-        playable: isPlayable(f, i),
-        // playable first, then everyone else in the department, ward patients last; most urgent first within each
-        rank: (isPlayable(f, i) ? 0 : st === "in_ward" ? 200 : 100) + p.acuity[i],
+        // everyone in the department first, ward patients last; most urgent first within each
+        rank: (st === "in_ward" ? 200 : 100) + p.acuity[i],
       });
     });
     out.sort((a, b) => (a.rank ?? 0) - (b.rank ?? 0) || b.bar - a.bar);
@@ -185,11 +182,6 @@ export function EntityList({ f, className = "" }: { f: FeedState; className?: st
               <span className="min-w-0 flex-1">
                 <span className="flex items-center gap-2">
                   <span className="truncate text-[12px] font-semibold text-ink">{r.title}</span>
-                  {r.playable && (
-                    <span className="chip bg-accent text-white" title="This patient's encounter with the provider can be played by you">
-                      playable
-                    </span>
-                  )}
                   <span className="chip ml-auto" style={{ background: bg, color: fg }}>
                     {r.chip}
                   </span>

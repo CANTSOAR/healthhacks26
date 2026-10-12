@@ -17,7 +17,8 @@ const write = (name, data) => {
 };
 
 // ---- straight copies of the contract fixtures
-for (const f of ["layout.fixture.json", "rollout.fixture.json", "snapshot.fixture.json"]) {
+// the two optimize files are a real optimise-for-your-goals job (status and result), shown when the server cannot be asked
+for (const f of ["layout.fixture.json", "rollout.fixture.json", "snapshot.fixture.json", "optimize_status.fixture.json", "optimize_result.fixture.json"]) {
   fs.copyFileSync(path.join(root, "contracts/fixtures", f), path.join(out, f));
   console.log("copied", f);
 }
@@ -124,8 +125,6 @@ write("rollouts.json", [sm(base), sm(variant)]);
 write("status.json", {
   services: {
     sim: { live: false },
-    llm: { live: false, provider: "offline", model: null },
-    voice: { live: false, provider: "browser" },
     data: { live: false, provider: "public_extracts" },
   },
   torch: null,
@@ -152,7 +151,7 @@ write("hospitals.json", hospitals);
 
 const W = (cost, wait, lwbs, safety) => ({ cost, wait, lwbs, safety, boarding: 0.2, staff: 0.1, revenue: 0 });
 const managers = [
-  { id: "fixture_fixed", kind: "fixed", label: "Fixed staffing, FCFS", objective: "none", reward_weights: null, available: true, rollout_id: "fixture" },
+  { id: "fixture_fixed", kind: "fixed", label: "Current practice", objective: "none", reward_weights: null, available: true, rollout_id: "fixture" },
   { id: "fixture_variant", kind: "rule_based", label: "Rule-based manager", objective: "none", reward_weights: null, available: true, rollout_id: "fixture_b" },
   { id: "fx_random", kind: "random", label: "Random actions", objective: "none", reward_weights: null, available: false },
   { id: "fx_tuned_cost", kind: "tuned_heuristic", label: "Tuned heuristic (cost)", objective: "min_cost", reward_weights: W(1, 0.1, 0.2, 0.5), available: false },

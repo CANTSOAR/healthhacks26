@@ -1,1 +1,1 @@
-{"services":{"sim":{"live":false},"llm":{"live":false,"provider":"offline","model":null},"voice":{"live":false,"provider":"browser"},"data":{"live":false,"provider":"public_extracts"}},"torch":null,"device":null,"version":"fixture","fixture":true}
+{"services":{"sim":{"live":false},"data":{"live":false,"provider":"public_extracts"}},"torch":null,"device":null,"version":"fixture","fixture":true}

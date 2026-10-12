@@ -72,7 +72,7 @@ function Knob({ h, f, disabled }: { h: ActionHead; f: FeedState; disabled: boole
         )}
         {h.implemented === false && (
           <span className="chip bg-[#141a33]/[0.05] text-ink-3" title="The simulator accepts this setting but does not model its effect yet">
-            not modelled yet
+            not modeled yet
           </span>
         )}
       </div>
@@ -188,9 +188,6 @@ export function PlayPanel({ f, className = "" }: { f: FeedState; className?: str
             <>
               <button className="btn-quiet flex-1" onClick={() => void playCtl.stop()} data-testid="play-stop">
                 End run and save
-              </button>
-              <button className="btn-quiet flex-1" onClick={() => void playCtl.findPlayable()} disabled={play.state !== "live"} data-testid="find-playable" title="Select a patient who is waiting for, or with, a provider: you can play their encounter yourself">
-                Find a patient to play
               </button>
             </>
           )}

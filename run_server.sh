@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Starts the HospitalGym server (FastAPI + websocket) on port 8000. Usage: ./run_server.sh [port]
-# Loads .env when present; every outside service goes online only because its credential is set there.
+# Loads .env when present (see .env.example: VLADA_API_KEY, HG_CORS_ORIGINS, HG_OPT_WORKERS, HOSPITAL_ID).
 set -euo pipefail
 cd "$(dirname "$0")"
 if [ -f .env ]; then

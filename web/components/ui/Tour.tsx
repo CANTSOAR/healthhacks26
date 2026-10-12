@@ -7,7 +7,7 @@ import { Icon, ICONS } from "./atoms";
 export function TourButton({ compact = false }: { compact?: boolean }) {
   const active = useUI((s) => !!s.tour);
   return (
-    <button className={active ? "btn-primary" : "btn-quiet"} onClick={() => (active ? tour.exit() : void tour.start())} data-testid="tour-button" title="A guided walk through the demo, using only the managers and recordings that exist right now">
+    <button className={active ? "btn-primary" : "btn-quiet"} onClick={() => (active ? tour.exit() : void tour.start())} data-testid="tour-button" title="A short guided walk through the product">
       <Icon d={ICONS.play} size={11} stroke={2.4} />
       {compact ? (
         "Tour"
@@ -37,7 +37,6 @@ export function TourCard() {
   const steps = tourSteps();
   const step = steps[t.index];
   if (!step) return null;
-  const skipped = steps.map((s, i) => ({ s, i })).filter((x) => x.s.skip);
   return (
     <div className="glass-solid rise scroll-thin pointer-events-auto max-h-full overflow-y-auto px-4 pb-3 pt-3.5 shadow-card ring-1 ring-accent/30" data-testid="tour-card" role="dialog" aria-label="Demo tour">
       <div className="flex items-center gap-2">
@@ -46,7 +45,7 @@ export function TourCard() {
         </span>
         <span className="ml-auto flex items-center gap-1">
           {steps.map((s, i) => (
-            <span key={i} title={s.skip ? `${s.title}: skipped, ${s.skip}` : s.title} className="h-1.5 rounded-full" style={{ width: i === t.index ? 18 : 8, background: i === t.index ? "#2F55F5" : s.skip ? "transparent" : "rgba(20,26,51,0.16)", border: s.skip ? "1px dashed rgba(20,26,51,0.25)" : undefined }} />
+            <span key={i} title={s.title} className="h-1.5 rounded-full" style={{ width: i === t.index ? 18 : 8, background: i === t.index ? "#2F55F5" : "rgba(20,26,51,0.16)" }} />
           ))}
         </span>
         <button aria-label="End tour" className="-mr-1.5 flex h-6 w-6 items-center justify-center rounded-full text-ink-3 hover:bg-accent-soft hover:text-accent-dark" onClick={() => tour.exit()}>
@@ -55,11 +54,6 @@ export function TourCard() {
       </div>
       <div className="mt-1.5 text-[15px] font-semibold tracking-[-0.01em] text-ink">{step.title}</div>
       <div className="mt-1 text-[12px] leading-relaxed text-ink-2">{step.caption}</div>
-      {skipped.length > 0 && (
-        <div className="mt-2 text-[10.5px] leading-snug text-ink-3">
-          Skipped for now: {skipped.map((x) => `step ${x.i + 1} (${x.s.skip})`).join("; ")}.
-        </div>
-      )}
       <div className="mt-2.5 flex items-center gap-2">
         <button className="btn-quiet !h-7" onClick={() => void tour.back()} disabled={!tour.hasBack() || t.busy} data-testid="tour-back">
           Back

@@ -1,0 +1,272 @@
+{
+ "source": {
+  "dataset": "CDC ILINet weighted percent of outpatient visits for influenza-like illness (wILI), via the Delphi Epidata fluview endpoint",
+  "dataset_id": "delphi-epidata/fluview",
+  "release": "issue of 2026-10-09, epiweeks 201440-202639",
+  "url": "https://api.delphi.cmu.edu/epidata/fluview/?regions=nat,hhs5&epiweeks=201440-202639",
+  "landing": "https://www.cdc.gov/fluview/",
+  "raw_file": "data/raw/fluview/delphi_fluview_nat_hhs5.json",
+  "bytes": 343989,
+  "sha256": "b5165ea7cdf6e3da3ee891fe4a94639ea53e342f76fcb6fb14221afac7877bea",
+  "fetched_utc": "2026-10-10T19:46:49+00:00",
+  "filter": "regions nat and hhs5 (HHS Region 5: IL IN MI MN OH WI); seasons ['2019-20', '2020-21', '2021-22'] excluded from the summary",
+  "definitions": "season = MMWR week 40 to week 39; baseline = mean wILI of weeks 21-39 of that season; wave = weeks with wILI at or above baseline + half the peak excess"
+ },
+ "ccn": "240010",
+ "state": "MN",
+ "hhs_region": 5,
+ "hhs_region_states": "IL IN MI MN OH WI",
+ "region_key": "hhs5",
+ "seasons": [
+  {
+   "region": "hhs5",
+   "season": "2014-15",
+   "offseason_baseline_wili": 0.631,
+   "peak_wili": 6.618,
+   "peak_epiweek": 201452,
+   "peak_over_baseline": 10.5,
+   "peak_excess_pp": 5.988,
+   "weeks_above_threshold": 33,
+   "weeks_above_half_peak_excess": 4,
+   "mean_excess_pp_weeks_above_half_peak": 4.418,
+   "pandemic_affected": false
+  },
+  {
+   "region": "hhs5",
+   "season": "2015-16",
+   "offseason_baseline_wili": 0.674,
+   "peak_wili": 3.412,
+   "peak_epiweek": 201610,
+   "peak_over_baseline": 5.06,
+   "peak_excess_pp": 2.738,
+   "weeks_above_threshold": 34,
+   "weeks_above_half_peak_excess": 6,
+   "mean_excess_pp_weeks_above_half_peak": 2.061,
+   "pandemic_affected": false
+  },
+  {
+   "region": "hhs5",
+   "season": "2016-17",
+   "offseason_baseline_wili": 0.73,
+   "peak_wili": 4.318,
+   "peak_epiweek": 201707,
+   "peak_over_baseline": 5.92,
+   "peak_excess_pp": 3.588,
+   "weeks_above_threshold": 27,
+   "weeks_above_half_peak_excess": 9,
+   "mean_excess_pp_weeks_above_half_peak": 2.672,
+   "pandemic_affected": false
+  },
+  {
+   "region": "hhs5",
+   "season": "2017-18",
+   "offseason_baseline_wili": 0.684,
+   "peak_wili": 5.808,
+   "peak_epiweek": 201806,
+   "peak_over_baseline": 8.49,
+   "peak_excess_pp": 5.123,
+   "weeks_above_threshold": 31,
+   "weeks_above_half_peak_excess": 9,
+   "mean_excess_pp_weeks_above_half_peak": 4.225,
+   "pandemic_affected": false
+  },
+  {
+   "region": "hhs5",
+   "season": "2018-19",
+   "offseason_baseline_wili": 0.759,
+   "peak_wili": 3.566,
+   "peak_epiweek": 201911,
+   "peak_over_baseline": 4.7,
+   "peak_excess_pp": 2.807,
+   "weeks_above_threshold": 27,
+   "weeks_above_half_peak_excess": 15,
+   "mean_excess_pp_weeks_above_half_peak": 1.932,
+   "pandemic_affected": false
+  },
+  {
+   "region": "hhs5",
+   "season": "2019-20",
+   "offseason_baseline_wili": 0.714,
+   "peak_wili": 5.529,
+   "peak_epiweek": 202006,
+   "peak_over_baseline": 7.74,
+   "peak_excess_pp": 4.815,
+   "weeks_above_threshold": 33,
+   "weeks_above_half_peak_excess": 12,
+   "mean_excess_pp_weeks_above_half_peak": 3.766,
+   "pandemic_affected": true
+  },
+  {
+   "region": "hhs5",
+   "season": "2020-21",
+   "offseason_baseline_wili": 1.016,
+   "peak_wili": 1.501,
+   "peak_epiweek": 202137,
+   "peak_over_baseline": 1.48,
+   "peak_excess_pp": 0.485,
+   "weeks_above_threshold": 0,
+   "weeks_above_half_peak_excess": 6,
+   "mean_excess_pp_weeks_above_half_peak": 0.324,
+   "pandemic_affected": true
+  },
+  {
+   "region": "hhs5",
+   "season": "2021-22",
+   "offseason_baseline_wili": 1.364,
+   "peak_wili": 3.961,
+   "peak_epiweek": 202152,
+   "peak_over_baseline": 2.9,
+   "peak_excess_pp": 2.597,
+   "weeks_above_threshold": 24,
+   "weeks_above_half_peak_excess": 4,
+   "mean_excess_pp_weeks_above_half_peak": 2.053,
+   "pandemic_affected": true
+  },
+  {
+   "region": "hhs5",
+   "season": "2022-23",
+   "offseason_baseline_wili": 0.927,
+   "peak_wili": 6.231,
+   "peak_epiweek": 202247,
+   "peak_over_baseline": 6.72,
+   "peak_excess_pp": 5.303,
+   "weeks_above_threshold": 27,
+   "weeks_above_half_peak_excess": 9,
+   "mean_excess_pp_weeks_above_half_peak": 4.165,
+   "pandemic_affected": false
+  },
+  {
+   "region": "hhs5",
+   "season": "2023-24",
+   "offseason_baseline_wili": 0.995,
+   "peak_wili": 4.639,
+   "peak_epiweek": 202408,
+   "peak_over_baseline": 4.66,
+   "peak_excess_pp": 3.644,
+   "weeks_above_threshold": 30,
+   "weeks_above_half_peak_excess": 16,
+   "mean_excess_pp_weeks_above_half_peak": 2.694,
+   "pandemic_affected": false
+  },
+  {
+   "region": "hhs5",
+   "season": "2024-25",
+   "offseason_baseline_wili": 0.907,
+   "peak_wili": 8.117,
+   "peak_epiweek": 202506,
+   "peak_over_baseline": 8.95,
+   "peak_excess_pp": 7.21,
+   "weeks_above_threshold": 29,
+   "weeks_above_half_peak_excess": 9,
+   "mean_excess_pp_weeks_above_half_peak": 5.243,
+   "pandemic_affected": false
+  },
+  {
+   "region": "hhs5",
+   "season": "2025-26",
+   "offseason_baseline_wili": 0.721,
+   "peak_wili": 7.422,
+   "peak_epiweek": 202552,
+   "peak_over_baseline": 10.3,
+   "peak_excess_pp": 6.702,
+   "weeks_above_threshold": 28,
+   "weeks_above_half_peak_excess": 4,
+   "mean_excess_pp_weeks_above_half_peak": 5.111,
+   "pandemic_affected": false
+  }
+ ],
+ "region": {
+  "seasons_used": [
+   "2014-15",
+   "2015-16",
+   "2016-17",
+   "2017-18",
+   "2018-19",
+   "2022-23",
+   "2023-24",
+   "2024-25",
+   "2025-26"
+  ],
+  "n_seasons": 9,
+  "wave_duration_days_median": 63.0,
+  "wave_duration_days_range": [
+   28,
+   112
+  ],
+  "weeks_above_baseline_plus_2sd_median": 29.0,
+  "peak_over_baseline_median": 6.72,
+  "peak_over_baseline_range": [
+   4.66,
+   10.5
+  ],
+  "peak_excess_share_median": 0.0512,
+  "mean_wave_excess_share_median": 0.0416,
+  "mean_wave_excess_share_range": [
+   0.0193,
+   0.0524
+  ],
+  "seasons_with_wave_share": 1.0,
+  "peak_week_mode": 6,
+  "monthly_mean_wili_jan0": [
+   3.193,
+   3.589,
+   2.695,
+   1.54,
+   1.063,
+   0.719,
+   0.596,
+   0.685,
+   1.056,
+   1.334,
+   1.919,
+   3.275
+  ]
+ },
+ "nat": {
+  "seasons_used": [
+   "2014-15",
+   "2015-16",
+   "2016-17",
+   "2017-18",
+   "2018-19",
+   "2022-23",
+   "2023-24",
+   "2024-25",
+   "2025-26"
+  ],
+  "n_seasons": 9,
+  "wave_duration_days_median": 77.0,
+  "wave_duration_days_range": [
+   28,
+   105
+  ],
+  "weeks_above_baseline_plus_2sd_median": 30.0,
+  "peak_over_baseline_median": 5.47,
+  "peak_over_baseline_range": [
+   3.92,
+   8.25
+  ],
+  "peak_excess_share_median": 0.0512,
+  "mean_wave_excess_share_median": 0.0355,
+  "mean_wave_excess_share_range": [
+   0.019,
+   0.0545
+  ],
+  "seasons_with_wave_share": 1.0,
+  "peak_week_mode": 52,
+  "monthly_mean_wili_jan0": [
+   4.323,
+   4.459,
+   3.077,
+   1.994,
+   1.549,
+   1.139,
+   0.932,
+   1.071,
+   1.449,
+   1.812,
+   2.727,
+   4.212
+  ]
+ }
+}

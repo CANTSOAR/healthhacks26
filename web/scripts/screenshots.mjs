@@ -46,7 +46,7 @@ async function open(url, viewport = { width: 1440, height: 900 }) {
 }
 // overnight/screenshots is kept small: a curated set against the live server, and four fixture views.
 // Every step still runs its checks; `--all` saves every view.
-const KEEP_LIVE = new Set(["watch", "selection-bay-inspector", "play", "live-inject", "live-handover", "play-ended", "live-structural", "compare", "live-compare-two-managers", "tradeoff", "live-demo-tour", "narrow-watch", "narrow-inspector", "narrow-tradeoff", "hospital-layout", "live-tradeoff-human", "live-rejoin", "live-playable", "topbar-1280", "watch-window-end", "live-p0-writeback", "live-p0-returned"]);
+const KEEP_LIVE = new Set(["watch", "selection-bay-inspector", "play", "live-inject", "live-handover", "play-ended", "live-structural", "compare", "live-compare-two-managers", "tradeoff", "live-demo-tour", "narrow-watch", "narrow-inspector", "narrow-tradeoff", "hospital-layout", "live-tradeoff-human", "live-rejoin", "topbar-1280", "watch-window-end"]);
 const KEEP_OFFLINE = new Set(["watch", "play", "compare", "tradeoff"]);
 async function shot(page, name) {
   if (!flag("--all") && !(liveRun ? KEEP_LIVE : KEEP_OFFLINE).has(name)) return;
@@ -123,13 +123,11 @@ await step("watch", async () => {
   console.log("provenance links:", JSON.stringify(hrefs));
   if (hrefs.some((h) => /%20|\s|\(/.test(h ?? ""))) problems.push("provenance: a link still has prose glued to the URL");
   await shot(page, "selection-bay-inspector");
-  // a patient picked from the list: journey stepper + "Play this encounter"
+  // a patient picked from the list: journey stepper
   await page.click('[data-tab="patients"]');
   await page.locator('[data-row^="patient:"]').nth(3).click();
   await page.waitForSelector('[data-testid="inspector"]');
   await page.waitForTimeout(settle);
-  console.log("recorded run: play button", await page.locator('[data-testid="play-encounter"]').count(), "| not-playable note", await page.locator('[data-testid="not-playable"]').count());
-  if (await page.locator('[data-testid="play-encounter"]').count()) problems.push("a recorded run offers Play this encounter");
   await shot(page, "selection-patient-journey");
   // picking in the 3D scene itself: click around the middle of the canvas until something is hit
   await page.keyboard.press("Escape");
@@ -243,11 +241,6 @@ await step("narrow", async () => {
   const vp = { width: 390, height: 844 };
   let page = await open("/?mode=watch", vp);
   await shot(page, "narrow-watch");
-  await page.click('[data-testid="nav-more"]');
-  const navs = await page.locator('nav [data-nav]').evaluateAll((as) => as.map((a) => { const r = a.getBoundingClientRect(); return [a.getAttribute("data-nav"), r.left >= 0 && r.right <= innerWidth && r.width > 0]; }));
-  console.log("phone nav links reachable:", JSON.stringify(navs));
-  if (navs.length < 3 || navs.some(([, ok]) => !ok)) problems.push("phone: Encounter / Studio / Journey links are not all reachable");
-  await page.keyboard.press("Escape");
   await page.mouse.click(195, 500);
   await page.click('[data-drawer="list"]');
   await page.waitForSelector('[data-testid="entity-list"]');
@@ -330,20 +323,9 @@ await step("live", async () => {
   } else problems.push("hand-over: no manager available to hand over to");
 
   await page.click('[data-testid="play-panel"] .seg button:has-text("Controls")');
-  // playable patients: marked in the list, findable in one click, and the button only where it can work
-  await page.click('[data-testid="find-playable"]');
-  await page.waitForSelector('[data-testid="play-encounter"]', { timeout: 15000 });
-  const firstRow = await page.locator('[data-row^="patient:"]').first().innerText();
-  console.log("playable: chips in list =", await page.locator('[data-row^="patient:"] .chip:has-text("playable")').count(), "| first row:", firstRow.replace(/\s+/g, " ").slice(0, 60));
-  await page.waitForTimeout(settle);
-  await shot(page, "live-playable");
-  const encHref = await page.locator('[data-testid="play-encounter"]').getAttribute("href");
-  const picked = await page.evaluate(() => window.__hg.ui.getState().selection?.id);
-  await page.locator('[data-row^="patient:"]').last().click();
-  await page.waitForTimeout(700);
-  console.log("ward patient: play button", await page.locator('[data-testid="play-encounter"]').count(), "| note:", (await page.locator('[data-testid="not-playable"]').innerText().catch(() => "")).slice(0, 80));
+  const picked = await page.evaluate(() => window.__hg.feeds.a.getState().snap?.patients.id[0]);
 
-  // rejoin: reload, a mode switch, and the link an encounter returns with must all land back in the same run
+  // rejoin: reload, a mode switch, and a /?run_id=..&patient_id=.. link must all land back in the same run
   const runId = await page.evaluate(() => window.__hg.feeds.a.getState().header.id);
   const tBefore = await tick();
   await page.reload({ waitUntil: "domcontentloaded" });
@@ -365,7 +347,7 @@ await step("live", async () => {
     await page.waitForSelector("canvas");
     await page.waitForTimeout(settle + 3000);
     const ret = await page.evaluate(() => ({ mode: window.__hg.ui.getState().mode, run: window.__hg.feeds.a.getState().header?.id, sel: window.__hg.ui.getState().selection, url: location.search }));
-    console.log("return from encounter link:", JSON.stringify(ret), "| encounter href was", encHref);
+    console.log("return by run link:", JSON.stringify(ret));
     if (ret.run !== runId || ret.mode !== "play") problems.push("return link did not land in Play on the same run");
     await shot(page, "live-rejoin");
     // changing scenario mid-run asks first; declining keeps both the run and the menu as they were
@@ -406,54 +388,6 @@ await step("live", async () => {
   await cmp.click('[data-testid="compare-live-stop"]');
   await cmp.waitForTimeout(1500);
   await cmp.close();
-});
-
-await step("p0", async () => {
-  // The whole encounter round trip in ONE tab: Play -> a playable patient -> Play this encounter -> finish ->
-  // Return to hospital -> the same run, attached, with that patient selected, and the write-back shown.
-  if (!liveRun) return;
-  const page = await open("/?mode=play");
-  await page.click('[data-testid="play-start"]');
-  await page.waitForSelector('[data-cadence="hourly"]', { timeout: 20000 });
-  await page.click('[aria-label="Simulation speed"] button:has-text("48×")');
-  await page.waitForTimeout(9000);
-  await page.click('[data-testid="find-playable"]');
-  await page.waitForSelector('[data-testid="play-encounter"]', { timeout: 15000 });
-  const before = await page.evaluate(() => { const f = window.__hg.feeds.a.getState(); const sel = window.__hg.ui.getState().selection; const i = f.snap.patients.id.indexOf(sel.id); return { run: f.header.id, patient: sel.id, t: f.snap.t, state: f.header.enums.patient_state[f.snap.patients.state[i]], paused: window.__hg.ui.getState().paused }; });
-  console.log("p0: picked", JSON.stringify(before));
-  await page.click('[data-testid="play-encounter"]');
-  const which = await Promise.race([page.waitForSelector('[data-testid="encounter"]', { timeout: 60000 }).then(() => "ok"), page.waitForSelector('[data-testid="error-card"]', { timeout: 60000 }).then(() => "err")]);
-  if (which !== "ok") {
-    problems.push("p0: the encounter did not open: " + (await page.getByTestId("error-card").innerText()).replace(/\s+/g, " ").slice(0, 160));
-    await page.close();
-    return;
-  }
-  console.log("p0: encounter header:", (await page.getByTestId("sim-context").innerText()).replace(/\s+/g, " "));
-  await page.getByTestId("finish-open").click();
-  await page.getByTestId("disposition-admit").click();
-  await page.getByTestId("finish-summary").fill("Round-trip check from the hospital view.");
-  await page.getByTestId("finish-submit").click();
-  await page.waitForSelector('[data-testid="writeback-card"]', { timeout: 120000 });
-  const flag = (await page.getByTestId("written-back-flag").innerText()).trim();
-  console.log("p0: write-back card:", flag, "|", (await page.locator('[data-testid="writeback-card"] h2').innerText()).trim());
-  if (!/^(Applied|Queued)$/.test(flag)) problems.push(`p0: write-back shows "${flag}"`);
-  await page.getByTestId("writeback-card").scrollIntoViewIfNeeded();
-  await shot(page, "live-p0-writeback");
-  const href = await page.getByTestId("return-hospital").getAttribute("href");
-  await page.getByTestId("return-hospital").click();
-  await page.waitForSelector("canvas", { timeout: 60000 });
-  await page.waitForTimeout(settle + 4000);
-  const after = await page.evaluate(() => { const f = window.__hg.feeds.a.getState(); const u = window.__hg.ui.getState(); const sel = u.selection; const i = sel && f.snap ? f.snap.patients.id.indexOf(sel.id) : -1; return { mode: u.mode, play: u.play.state, run: f.header?.id, t: f.snap?.t, sel, state: i >= 0 ? f.header.enums.patient_state[f.snap.patients.state[i]] : null, played: i >= 0 ? (f.snap.patients.flags[i] & 8) !== 0 : null, note: u.play.note }; });
-  console.log("p0: return link", href, "->", JSON.stringify(after));
-  if (after.run !== before.run || after.play !== "live") problems.push(`p0: not attached to the same run after returning (${after.note ?? after.play})`);
-  if (after.sel?.id !== before.patient) problems.push("p0: the played patient is not selected after returning");
-  await page.waitForTimeout(3000);
-  const later = await page.evaluate(() => { const f = window.__hg.feeds.a.getState(); const sel = window.__hg.ui.getState().selection; const i = sel && f.snap ? f.snap.patients.id.indexOf(sel.id) : -1; return { t: f.snap?.t, state: i >= 0 ? f.header.enums.patient_state[f.snap.patients.state[i]] : "gone", played: i >= 0 ? (f.snap.patients.flags[i] & 8) !== 0 : null }; });
-  console.log("p0: a few seconds on:", JSON.stringify(later), "| clock advancing:", later.t > after.t);
-  await shot(page, "live-p0-returned");
-  await page.click('[data-testid="play-stop"]').catch(() => {});
-  await page.waitForTimeout(1200);
-  await page.close();
 });
 
 await step("structural", async () => {
@@ -511,8 +445,6 @@ await step("tour", async () => {
     await page.waitForTimeout(600);
   }
   console.log("tour:", seen.join(" -> "));
-  const skipped = (await page.locator('[data-testid="tour-card"]').innerText()).match(/Skipped for now:[^\n]*/)?.[0];
-  if (skipped) console.log("tour", skipped);
   await page.keyboard.press("ArrowLeft");
   await page.waitForTimeout(1500);
   await page.keyboard.press("Escape");

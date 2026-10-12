@@ -1,0 +1,29 @@
+# Mayo Clinic Hospital, Rochester (Saint Marys Campus ED). Read 2026-10-10.
+attributes:
+  ed_treatment_spaces:
+    value: 75
+    unit: spaces
+    source: literature
+    citation: "'The department encompasses 75 patient care rooms' - Mayo Clinic College of Medicine and Science, Emergency Medicine Residency (Minnesota), Facilities page (read 2026-10-10)"
+    url: https://college.mayo.edu/academics/residencies-and-fellowships/emergency-medicine-residency-minnesota/meet-the-faculty/facilities/
+    note: Published by the hospital's residency programme; how the 75 rooms divide into zones is not published (the split below is by rule). Another Mayo page says 72 beds and Wikipedia 'more than 76'.
+  resus_bays:
+    value: 4
+    unit: bays
+    source: literature
+    citation: "'Three dedicated adult resuscitation rooms capable of accommodating two patients simultaneously' and 'one dedicated pediatric resuscitation room' - same Facilities page (read 2026-10-10)"
+    url: https://college.mayo.edu/academics/residencies-and-fellowships/emergency-medicine-residency-minnesota/meet-the-faculty/facilities/
+    note: Four rooms; the three adult rooms can each take two patients, which the model does not represent.
+  trauma_level:
+    value: Level I
+    unit: designation
+    source: literature
+    citation: "'A modern and advanced Level I Trauma Center' - same Facilities page (read 2026-10-10)"
+    url: https://college.mayo.edu/academics/residencies-and-fellowships/emergency-medicine-residency-minnesota/meet-the-faculty/facilities/
+  ed_visits_per_year_published:
+    value: 80000
+    unit: visits/year
+    source: literature
+    citation: "'accommodates more than 80,000 annual patient visits' - same Facilities page (read 2026-10-10); 'Of the annual emergency department visits, 20% on average are pediatric patients'"
+    url: https://college.mayo.edu/academics/residencies-and-fellowships/emergency-medicine-residency-minnesota/meet-the-faculty/facilities/
+    note: Rounded figure with no year. Consistent with the CMS count (ed_visits_per_year_cms) and the HHS series. The model uses the CMS count.

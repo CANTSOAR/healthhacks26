@@ -11,6 +11,7 @@ import type { ManagerKind, RolloutListItem, Validation } from "@/lib/types";
 import HospitalScene from "../scene/HospitalScene";
 import { KindChip, Marker, SimTag, SourceChip } from "../ui/atoms";
 import { Disclaimer } from "../ui/Chrome";
+import { ResourceTable } from "../ui/ResourceValue";
 
 interface Pt {
   id: string;
@@ -34,7 +35,7 @@ const TABLE: [string, string, string][] = [
   ["cost_per_day", "Cost / day", "usd"],
   ["wait_mean_min", "Mean wait", "minutes"],
   ["wait_p95_min", "95th pct wait", "minutes"],
-  ["lwbs_rate", "LWBS", "fraction"],
+  ["lwbs_rate", "Left without being seen", "fraction"],
   ["margin_per_day", "Margin / day", "usd"],
 ];
 
@@ -53,7 +54,7 @@ function ValidationCard({ v }: { v: Validation | null }) {
   return (
     <div className="mb-3 rounded-xl bg-[#141a33]/[0.035] p-3" data-testid="validation">
       <div className="flex flex-wrap items-center gap-2">
-        <span className="eyebrow">Validation against public benchmarks</span>
+        <span className="eyebrow">The twin against public benchmarks</span>
         {v.status === "pending" && <span className="chip bg-[#FDEFD8] text-[#8A5A00]">{v.stale ? "recomputing · showing previous" : "computing"}</span>}
         {v.status === "error" && <span className="chip bg-[#FDE7E8] text-[#B4232A]">error</span>}
       </div>
@@ -62,9 +63,9 @@ function ValidationCard({ v }: { v: Validation | null }) {
       ) : (
         <>
           <div className="mt-1 text-[11px] leading-snug text-ink-3">
-            Baseline: {v.baseline?.policy ?? "default settings"}, {v.baseline?.scenario?.replace(/_/g, " ") ?? "normal week"}
+            Baseline: {(v.baseline?.policy ?? "default settings").replace("fixed staffing", "current practice")}, {v.baseline?.scenario?.replace(/_/g, " ") ?? "normal week"}
             {v.baseline?.days ? `, ${v.baseline.days} days` : ""}
-            {v.baseline?.seeds?.length ? `, ${v.baseline.seeds.length} seeds` : ""}. {inside} of {judged} comparisons fall inside the published range.
+            {v.baseline?.seeds?.length ? `, ${v.baseline.seeds.length} runs` : ""}. {inside} of {judged} comparisons fall inside the published range.
           </div>
           <div className="mt-2 space-y-1.5">
             {rows.map((t) => {
@@ -253,7 +254,7 @@ function Scatter({ pts, selected, onSelect, xLabel }: { pts: Pt[]; selected: str
       ref={box}
       className="relative h-full min-h-[280px] w-full overflow-hidden"
     >
-      <svg className="absolute inset-0" width={size.w} height={size.h} role="img" aria-label={`${xLabel} against mean wait for every evaluated manager`} onClick={() => onSelect(null)}>
+      <svg className="absolute inset-0" width={size.w} height={size.h} role="img" aria-label={`${xLabel} against mean wait for every plan`} onClick={() => onSelect(null)}>
         {yt.map((v) => (
           <g key={`y${v}`}>
             <line x1={pad.l} x2={pad.l + iw} y1={Y(v)} y2={Y(v)} stroke="rgba(20,26,51,0.07)" />
@@ -342,7 +343,7 @@ function Scatter({ pts, selected, onSelect, xLabel }: { pts: Pt[]; selected: str
       </svg>
       {hc && (
         <div className="pointer-events-none absolute z-10 w-[250px] rounded-xl border border-line bg-white/95 px-3 py-2 text-[11px] shadow-card" style={{ left: Math.max(4, Math.min(hc.cx + 18, size.w - 258)), top: Math.max(4, Math.min(hc.cy - 30, size.h - 80 - hc.members.length * 46)) }} data-testid="tradeoff-tip">
-          {hc.members.length > 1 && <div className="mb-1 font-semibold text-ink">{hc.members.length} managers at this spot · click to step through them</div>}
+          {hc.members.length > 1 && <div className="mb-1 font-semibold text-ink">{hc.members.length} plans at this spot · click to step through them</div>}
           {hc.members.map((i) => {
             const hp = pts[i];
             const k = kindInfo(hp.kind);
@@ -362,7 +363,7 @@ function Scatter({ pts, selected, onSelect, xLabel }: { pts: Pt[]; selected: str
                   <span>Mean wait</span>
                   <b className="text-ink">{num(hp.y, 1)}{hp.ey ? ` ± ${num(hp.ey, 1)}` : ""} min</b>
                 </div>
-                {hc.members.length === 1 && (hp.n ? <div className="mt-0.5 text-ink-3">{hp.n} seeds · bars show 95% interval</div> : <div className="mt-0.5 text-ink-3">{hp.caveat ? "single short run · not comparable" : "single run"}</div>)}
+                {hc.members.length === 1 && (hp.n ? <div className="mt-0.5 text-ink-3">{hp.n} runs · bars show the 95% interval</div> : <div className="mt-0.5 text-ink-3">{hp.caveat ? "single short run · not comparable" : "single run"}</div>)}
               </div>
             );
           })}
@@ -397,6 +398,8 @@ export function TradeoffView({ narrow, top, onWatch, onCompare }: { narrow: bool
   const sc = scenario && scenarios.includes(scenario) ? scenario : scenarios.includes(globalScenario) ? globalScenario : (scenarios[0] ?? "");
   const [selected, setSelected] = useState<string | null>(null);
   const [other, setOther] = useState<string>("");
+  // the same page answers two questions: which manager, and which resource
+  const [view, setView] = useState<"managers" | "resources">("managers");
 
   const pts: Pt[] = useMemo(() => {
     if (!data) return [];
@@ -424,7 +427,7 @@ export function TradeoffView({ narrow, top, onWatch, onCompare }: { narrow: bool
         ex: 0,
         ey: 0,
         human: true,
-        caveat: short ? `This run lasted ${len} on one seed; the managers were each evaluated over ${need} days${Array.isArray(data.protocol?.seeds) ? ` on ${data.protocol!.seeds!.length} seeds` : ""}. A short run misses the slow effects (nights, weekends, staffing changes), so the positions are not comparable.` : undefined,
+        caveat: short ? `This run lasted ${len} on one set of patients; the plans were each tested over ${need} days${Array.isArray(data.protocol?.seeds) ? `, ${data.protocol!.seeds!.length} times over` : ""}. A short run misses the slow effects (nights, weekends, staffing changes), so the positions are not comparable.` : undefined,
         metrics: Object.fromEntries(Object.entries(last.summary).map(([k, v]) => [k, { mean: v }])),
       });
     }
@@ -450,16 +453,30 @@ export function TradeoffView({ narrow, top, onWatch, onCompare }: { narrow: bool
           <div className={`glass-solid flex min-w-0 flex-col p-4 ${narrow ? "flex-none" : "min-h-0 flex-1"}`} data-testid="tradeoff">
             <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
               <div className="min-w-0">
-                <div className="text-[17px] font-semibold tracking-[-0.01em] text-ink">{xKey === "cost_per_day" ? "Cost against wait" : "Staffing cost against wait"}</div>
+                <div className="text-[17px] font-semibold tracking-[-0.01em] text-ink">{view === "resources" ? "What each resource is worth" : xKey === "cost_per_day" ? "Cost against wait" : "Staffing cost against wait"}</div>
                 <div className="text-[12px] text-ink-3">
-                  Every evaluated manager on the same scenario and seeds
-                  {data?.protocol?.days ? ` · ${data.protocol.days}-day episodes` : ""}
-                  {Array.isArray(data?.protocol?.seeds) && data!.protocol!.seeds!.length ? ` · ${data!.protocol!.seeds!.length} held-out seeds` : ""}
+                  {view === "resources" ? (
+                    "One provider, nurse, bay, bed or scanner at a time: the hospital with it and without it, on the same patients"
+                  ) : (
+                    <>
+                      Every plan, tested on the same fresh simulated patients
+                      {data?.protocol?.days ? ` · ${data.protocol.days}-day runs` : ""}
+                      {Array.isArray(data?.protocol?.seeds) && data!.protocol!.seeds!.length ? ` · ${data!.protocol!.seeds!.length} runs each` : ""}
+                    </>
+                  )}
                 </div>
               </div>
               <div className="ml-auto flex max-w-full flex-wrap items-center justify-end gap-2">
-                {source === "fixture" ? <SourceChip tag="fixture" /> : <SimTag />}
-                {laborKey && (
+                {view === "resources" ? <SimTag>simulated</SimTag> : source === "fixture" ? <SourceChip tag="fixture" /> : <SimTag />}
+                <div className="seg" data-testid="tradeoff-view-toggle">
+                  <button data-on={view === "managers"} onClick={() => setView("managers")}>
+                    Plans
+                  </button>
+                  <button data-on={view === "resources"} onClick={() => setView("resources")} >
+                    Resources
+                  </button>
+                </div>
+                {view === "managers" && laborKey && (
                   <div className="seg" data-testid="xaxis-toggle" title={`Staffing cost is read from the results metric “${laborKey}”`}>
                     <button data-on={xAxis === "labor"} onClick={() => setXAxis("labor")}>
                       Staffing cost
@@ -478,12 +495,17 @@ export function TradeoffView({ narrow, top, onWatch, onCompare }: { narrow: bool
                 </div>
               </div>
             </div>
-            {source === "fixture" && (
-              <div className="mt-3 rounded-xl bg-[#FDF6E7] px-3 py-2 text-[11.5px] leading-snug text-[#8A5A00]" data-testid="fixture-banner">
-                Placeholder points. The server is unreachable, so this chart is drawn from a hand-typed fixture file to show the layout. These are not evaluation results and say nothing about which manager is better.
+            {view === "resources" && (
+              <div className={narrow ? "mt-3 h-[640px] flex-none" : "mt-3 min-h-0 flex-1"}>
+                <ResourceTable scenario={sc} narrow={narrow} />
               </div>
             )}
-            <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] font-medium text-ink-2">
+            {view === "managers" && source === "fixture" && (
+              <div className="mt-3 rounded-xl bg-[#FDF6E7] px-3 py-2 text-[11.5px] leading-snug text-[#8A5A00]" data-testid="fixture-banner">
+                Placeholder points. The server is unreachable, so this chart is drawn from a hand-typed sample file to show the layout. These are not results and say nothing about which plan is better.
+              </div>
+            )}
+            <div className={`mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] font-medium text-ink-2 ${view === "resources" ? "hidden" : ""}`}>
               {kindsShown.map((k) => (
                 <span key={k} className="flex items-center gap-1.5">
                   <svg width="14" height="14" viewBox="-8 -8 16 16" aria-hidden>
@@ -493,23 +515,23 @@ export function TradeoffView({ narrow, top, onWatch, onCompare }: { narrow: bool
                 </span>
               ))}
               {pendingKinds.map((k) => (
-                <span key={k} className="flex items-center gap-1.5 text-ink-3" title="Managers of this kind are listed by the server but have no evaluation results yet">
+                <span key={k} className="flex items-center gap-1.5 text-ink-3" >
                   <svg width="14" height="14" viewBox="-8 -8 16 16" aria-hidden opacity={0.45}>
                     <Marker shape={KIND[k].shape} color={KIND[k].color} size={10} />
                   </svg>
                   {KIND[k].label} (not evaluated yet)
                 </span>
               ))}
-              <span className="text-ink-3">· bars: 95% interval across seeds</span>
+              <span className="text-ink-3">· bars: 95% interval across runs</span>
               {xKey !== "cost_per_day" && (data?.human_runs ?? []).some((h) => h.scenario === sc && h.summary?.[xKey] == null) && (
                 <span className="text-ink-3" data-testid="human-axis-note">
                   · your own run has no staffing-cost figure, so it appears on the Total cost axis only
                 </span>
               )}
             </div>
-            <div className={narrow ? "mt-2 h-[340px] flex-none" : "mt-2 min-h-0 flex-1"}>
+            <div className={view === "resources" ? "hidden" : narrow ? "mt-2 h-[340px] flex-none" : "mt-2 min-h-0 flex-1"}>
               {loading ? <div className="flex h-full items-center justify-center text-[12px] text-ink-3">Loading results…</div> : pts.length ? <Scatter pts={pts} selected={selected} onSelect={setSelected} xLabel={xLabel} /> : <div className="flex h-full flex-col items-center justify-center gap-1 px-6 text-center text-[12px] text-ink-3" data-testid="tradeoff-empty">
-                  <div className="text-[13px] font-semibold text-ink-2">No evaluated managers yet</div>
+                  <div className="text-[13px] font-semibold text-ink-2">No plans evaluated yet</div>
                   <div>{data?.note ?? "The results table is empty for this scenario."}</div>
                   <div>Points appear here as evaluations finish. Finish a run in Play to add your own.</div>
                 </div>}
@@ -522,15 +544,15 @@ export function TradeoffView({ narrow, top, onWatch, onCompare }: { narrow: bool
               <div className="border-b border-line p-4">
                 <div className="flex items-start gap-2">
                   <div className="min-w-0 flex-1">
-                    <div className="eyebrow">Selected manager</div>
+                    <div className="eyebrow">Selected plan</div>
                     <div className="text-[15px] font-semibold leading-snug text-ink" title={sel.full} data-testid="selected-name">{sel.label}</div>
                     {sel.full && <div className="text-[10.5px] leading-snug text-ink-3">{sel.full}</div>}
                   </div>
                   <KindChip kind={sel.kind} />
                 </div>
                 <div className="mt-1 text-[11px] text-ink-3">
-                  {objectiveWords(managers.find((m) => m.id === sel.id), data) ? `Objective: ${objectiveWords(managers.find((m) => m.id === sel.id), data)} · ` : ""}
-                  {sel.human ? "your last run, single seed" : `${sel.n ?? "?"} seeds`}
+                  {objectiveWords(managers.find((m) => m.id === sel.id), data) ? `Aims for: ${objectiveWords(managers.find((m) => m.id === sel.id), data)} · ` : ""}
+                  {sel.human ? "your last run, one set of patients" : `${sel.n ?? "?"} runs`}
                 </div>
                 {!sel.human && managerStory(sel.id, sc) && (
                   <div className="mt-2 rounded-xl bg-[#141a33]/[0.035] px-3 py-2 text-[11px] leading-snug text-ink-2" data-testid="manager-story">
@@ -550,14 +572,14 @@ export function TradeoffView({ narrow, top, onWatch, onCompare }: { narrow: bool
                   ))}
                 </div>
                 <div className="mt-3 flex flex-wrap items-center gap-2">
-                  <button className="btn-primary" disabled={!selRollout?.has_segments} onClick={() => selRollout && onWatch(selRollout.rollout_id)} data-testid="tradeoff-watch" title={selRollout ? "Replay this manager's recorded rollout" : "No recorded rollout for this manager"}>
+                  <button className="btn-primary" disabled={!selRollout?.has_segments} onClick={() => selRollout && onWatch(selRollout.rollout_id)} data-testid="tradeoff-watch" title={selRollout ? "Replay this plan's recorded run" : "No recorded run for this plan"}>
                     Watch
                   </button>
                   <button className="btn-quiet" disabled={!selRollout || !otherId} onClick={() => selRollout && otherId && onCompare(selRollout.rollout_id, otherId)} data-testid="tradeoff-compare">
                     Compare with
                   </button>
-                  <select className="select min-w-0 flex-1" value={otherId} onChange={(e) => setOther(e.target.value)} disabled={!others.length} aria-label="Manager to compare with">
-                    {others.length === 0 && <option value="">no other rollout</option>}
+                  <select className="select min-w-0 flex-1" value={otherId} onChange={(e) => setOther(e.target.value)} disabled={!others.length} aria-label="Plan to compare with">
+                    {others.length === 0 && <option value="">no other recording</option>}
                     {others.map((o) => (
                       <option key={o.r!.rollout_id} value={o.r!.rollout_id} title={o.p.full}>
                         {o.p.label}
@@ -565,12 +587,12 @@ export function TradeoffView({ narrow, top, onWatch, onCompare }: { narrow: bool
                     ))}
                   </select>
                 </div>
-                {!selRollout && <div className="mt-2 text-[11px] text-ink-3">No recorded rollout is available for this manager, so it cannot be replayed.</div>}
+                {!selRollout && <div className="mt-2 text-[11px] text-ink-3">No recording is available for this plan, so it cannot be replayed.</div>}
               </div>
             ) : (
               <div className="border-b border-line p-4 text-[12px] leading-relaxed text-ink-3">
                 <div className="eyebrow mb-1">How to read this</div>
-                Each mark is one manager, averaged over held-out seeds; the bars are 95% intervals. Marks that overlap did not differ on these two measures; a numbered badge says how many managers share a spot, and clicking it steps through them. Click a mark for its details, to replay it, or to put two side by side.
+                Each mark is one plan, averaged over runs on fresh simulated patients. The bars are 95% intervals. Marks that overlap did not differ on these two measures; a numbered badge says how many plans share a spot, and clicking it steps through them. Click a mark for its details, to replay it, or to put two side by side.
               </div>
             )}
             <div className="scroll-thin min-h-0 flex-1 overflow-auto p-3">
@@ -578,10 +600,10 @@ export function TradeoffView({ narrow, top, onWatch, onCompare }: { narrow: bool
               <table className="w-full border-separate border-spacing-0 text-[11.5px]" data-testid="tradeoff-table">
                 <thead>
                   <tr className="text-left text-[10px] font-semibold uppercase tracking-[0.06em] text-ink-3">
-                    <th className="pb-1.5 pl-1 font-semibold">Manager</th>
+                    <th className="pb-1.5 pl-1 font-semibold">Plan</th>
                     <th className="pb-1.5 text-right font-semibold">{xKey === "cost_per_day" ? "Cost / day" : "Staffing / day"}</th>
                     <th className="pb-1.5 text-right font-semibold">Wait</th>
-                    <th className="pb-1.5 pr-1 text-right font-semibold">LWBS</th>
+                    <th className="pb-1.5 pr-1 text-right font-semibold">Left unseen</th>
                   </tr>
                 </thead>
                 <tbody>

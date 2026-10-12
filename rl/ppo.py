@@ -15,6 +15,24 @@ zero log-prob and zero entropy. Episode ends are time limits, so the value of th
 observation is bootstrapped. `--bc` behaviour-clones the reference manager before PPO starts.
 The constrained objective uses a Lagrangian-style weight on the wait term that rises while the
 p95-wait constraint is violated on the training rows; the weight is part of the observation.
+
+Operator objectives (rl.objectives: same_budget_better_flow, same_service_lower_cost), per hospital:
+
+    python -m rl.ppo --hospital rwjuh_nb --objective same_budget_better_flow --ref tuned_same_budget --bc \
+        --scenarios normal_week flu_surge nursing_absences --members 2 --episode-hours 480
+
+  * a third block of fixed rows per sub-environment runs the hospital's calibrated BASELINE on the same seeds,
+    so every finished episode gives the constrained operator score of the greedy network and of the tuned
+    heuristic against the baseline (group means, penalty on violated constraints);
+  * one Lagrange multiplier PER CONSTRAINT (labour cost, operating cost, safety, overtime, or the flow terms
+    for the cost objective) is added to the reward weight of that constraint's hourly term every rollout and
+    rises while the training rows exceed the baseline rows on it. The multipliers act on the reward only: the
+    observation carries the objective's constant weights (a first version put the moving multipliers in the
+    observation; with the observation normaliser fitted while they were constant, the exported network behaved
+    differently from its in-training validation rows);
+  * `divert` and `admission_cap` are locked at the baseline by the environment;
+  * domain randomisation: one sub-environment per scenario x `--members` ensemble members; the members of all
+    but the first slot are redrawn from the hospital's calibration ensemble at every episode.
 """
 from __future__ import annotations
 
@@ -27,11 +45,13 @@ from pathlib import Path
 import torch
 import torch.nn.functional as F
 
-from .common import (CONSTRAINED, OBJ_SLUG, OBJECTIVES, POLICY_DIR, SEED_TRAIN, SEED_VAL, STAGES, TERMS, load_scales, now_iso,
-                     objective_score, behaviour_fingerprint, sim_fingerprint, weights_dict, weights_vec, write_json)
+from .common import (CONSTRAINED, OBJ_SLUG, OBJECTIVES, SEED_TRAIN, SEED_VAL, TERMS, fingerprints, hospital_id, load_ensemble, load_scales,
+                     now_iso, objective_score, weights_dict, weights_vec, write_json)
 from .env import ConcatEnv, HospitalEnv
-from .managers import load_manager
+from .managers import all_objectives, load_manager
 from .net import ActorCritic
+from .objectives import (EPISODE_METRICS, LOCKED_HEADS, OPERATOR_OBJECTIVES, OPERATOR_STAGE, OVERTIME_SHARE, is_operator, operator_score,
+                         violations)
 
 
 def export_policy(net: ActorCritic, cfg: dict, stem: Path):
@@ -46,7 +66,14 @@ def export_policy(net: ActorCritic, cfg: dict, stem: Path):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--objective", default="balanced", choices=list(OBJECTIVES))
+    ap.add_argument("--objective", default="balanced", choices=list(OBJECTIVES) + list(OPERATOR_OBJECTIVES))
+    ap.add_argument("--hospital", default=None)
+    ap.add_argument("--members", type=int, default=1, help="ensemble members per scenario in the batch (domain randomisation)")
+    ap.add_argument("--lag-max", type=float, default=5.0)
+    ap.add_argument("--op-lag-init", type=float, default=1.0, help="operator objectives: initial multiplier of every constraint term")
+    ap.add_argument("--op-lag-lr", type=float, default=1.5, help="operator objectives: multiplier step per unit of relative violation, per rollout")
+    ap.add_argument("--op-lag-max", type=float, default=20.0)
+    ap.add_argument("--lag-margin", type=float, default=0.01, help="operator objectives: relative head-room demanded on each constraint")
     ap.add_argument("--id", default=None)
     ap.add_argument("--device", default="cpu")
     ap.add_argument("--run", default=None)
@@ -55,7 +82,7 @@ def main():
     ap.add_argument("--nv", type=int, default=32, help="validation rows per scenario (and reference rows)")
     ap.add_argument("--episode-hours", type=int, default=336)
     ap.add_argument("--T", type=int, default=48, help="rollout length in hours; must divide episode-hours")
-    ap.add_argument("--stage", default="stage_1")
+    ap.add_argument("--stage", default=None)
     ap.add_argument("--hours", type=float, default=2.0, help="wall-clock budget")
     ap.add_argument("--max-iters", type=int, default=10 ** 9)
     ap.add_argument("--ref", default=None, help="manager id for the reference rows and for --bc")
@@ -87,9 +114,13 @@ def main():
     assert a.episode_hours % a.T == 0
     torch.manual_seed(a.seed)
     dev = torch.device(a.device)
-    slug = OBJ_SLUG[a.objective]
+    hosp = hospital_id(a.hospital)
+    op = is_operator(a.objective) and not a.conditioned
+    a.stage = a.stage or (OPERATOR_STAGE if op else "stage_1")
+    locked = LOCKED_HEADS if op else ()
+    slug = all_objectives()[a.objective]
     pid = a.id or ("ppo_cond" if a.conditioned else f"ppo_{slug}")
-    run = Path(a.run or f"runs/{pid}")
+    run = Path(a.run or f"runs/{hosp}/{pid}")
     run.mkdir(parents=True, exist_ok=True)
     log = open(run / "log.txt", "a")
 
@@ -98,8 +129,8 @@ def main():
         log.write(s + "\n")
         log.flush()
 
-    scales = load_scales()
-    thr = float(scales["p95_wait_threshold_min"])
+    scales = load_scales(hospital=hosp)
+    thr = float(scales.get("p95_wait_threshold_min", 60.0))
     constrained = a.objective == CONSTRAINED and not a.conditioned
     lag = a.lag_init if constrained else 0.0
     WAIT = TERMS.index("wait")
@@ -108,34 +139,64 @@ def main():
     objs = [o for o in OBJECTIVES if o != CONSTRAINED] if a.conditioned else [a.objective]
     NG = len(objs)
     if a.conditioned:
-        refs = [load_manager(f"tuned_{OBJ_SLUG[o]}", dev) for o in objs]
+        refs = [load_manager(f"tuned_{OBJ_SLUG[o]}", dev, hospital=hosp) for o in objs]
     else:
-        refs = [load_manager(a.ref, dev)] if a.ref else None
+        refs = [load_manager(a.ref, dev, hospital=hosp)] if a.ref else None
     ref = refs
     presets = torch.stack([weights_vec(o, dev) for o in objs])
     if constrained:
         presets[0, WAIT] = lag
-    nS = len(a.scenarios)
+    # operator objectives: one multiplier per constraint term, added to that term's reward weight
+    base_w = presets[0].clone()
+    lam = {t: float(a.op_lag_init) for t in OPERATOR_OBJECTIVES[a.objective]["lagrange"]} if op else {}
+    for t, v in lam.items():
+        presets[0, TERMS.index(t)] = base_w[TERMS.index(t)] + v
+    ens = load_ensemble(hosp)
+    n_mem = len(ens["members"])
+    K = max(1, min(a.members, n_mem)) if ens["exists"] else 1
+    gen_m = torch.Generator().manual_seed(a.seed + 77)
+    slots = [(s, j) for s in a.scenarios for j in range(K)]             # sub-environments: scenario x member slot
+    nS = len(slots)
     per = a.envs // nS
     nv = a.nv
-    blk = nv * (2 if refs else 1)
+    n_roles = 1 + (1 if refs else 0) + (1 if op else 0)                 # greedy validation, reference, baseline
+    blk = nv * n_roles
     n_fix = blk * NG
-    envs = [HospitalEnv(s, per, dev, 0, a.episode_hours, stage=a.stage, weights=presets[0], scales=scales, auto_reset=False) for s in a.scenarios]
+
+    def draw_member(j):
+        if not ens["exists"]:
+            return None
+        return 0 if j == 0 else int(torch.randint(0, n_mem, (1,), generator=gen_m))
+
+    def make_env(s, j):
+        e = HospitalEnv(s, per, dev, 0, a.episode_hours, stage=a.stage, weights=presets[0], scales=scales, auto_reset=False,
+                        hospital=hosp, member=draw_member(j), locked_heads=locked)
+        if op:
+            e.set_obs_weights(base_w)        # the policy sees the objective's constant weights; multipliers act on the reward only
+        return e
+
+    envs = [make_env(s, j) for s, j in slots]
     env = ConcatEnv(envs)
     B, H = env.B, len(env.head_names)
     row = torch.arange(B, device=dev) % per
+    sub = torch.arange(B, device=dev) // per
     is_train = row >= n_fix
     gid = torch.where(is_train, (row - n_fix) % NG, (row // blk).clamp(max=NG - 1))
-    is_val = ~is_train & (row % blk < nv)
-    is_ref = ~is_train & ~is_val
+    role = (row % blk) // nv
+    is_val = ~is_train & (role == 0)
+    is_ref = ~is_train & (role == 1) & bool(refs)
+    is_base = ~is_train & (role == n_roles - 1) & bool(op)
+    base_act = torch.stack([env.default_actions()[n] for n in env.head_names], 1)
     mix = (is_train & ((row - n_fix) >= (per - n_fix) // 2)) if a.conditioned else torch.zeros(B, dtype=torch.bool, device=dev)
     W = presets[gid].clone()
     n_train = int(is_train.sum())
     enabled = torch.tensor([env.enabled[n] for n in env.head_names], device=dev)
     net = ActorCritic(env.obs_dim, env.head_sizes, a.hidden, a.layers, env.defaults).to(dev)
     opt = torch.optim.Adam(net.parameters(), lr=a.lr, eps=1e-5)
-    fp, bfp = sim_fingerprint(), behaviour_fingerprint()
-    say(f"[{now_iso()}] ppo {pid} objective={a.objective} B={B} (train rows {n_train}, val {int(is_val.sum())}, ref {int(is_ref.sum())}) "
+    fps = fingerprints(hosp)
+    fp = fps["sim_fingerprint"]
+    say(f"[{now_iso()}] ppo {pid} hospital={hosp} objective={a.objective} B={B} (train rows {n_train}, val {int(is_val.sum())}, "
+        f"ref {int(is_ref.sum())}, baseline {int(is_base.sum())}) sub-envs={slots} ensemble members={n_mem} "
         f"T={a.T} ep={a.episode_hours}h scen={a.scenarios} stage={a.stage} ref={a.ref} bc={a.bc} fp={fp} args={vars(a)}")
 
     def seeds_for(ep):
@@ -147,6 +208,12 @@ def main():
         return out
 
     def reset(ep):
+        nonlocal base_act
+        if op and K > 1 and ep > 0:                     # domain randomisation: new ensemble members in all but the first slot
+            for i, (s, j) in enumerate(slots):
+                if j > 0:
+                    env.replace(i, make_env(s, j))
+            base_act = torch.stack([env.default_actions()[n] for n in env.head_names], 1)
         W.copy_(presets[gid])
         if a.conditioned:                               # random convex mixtures of the presets, resampled per episode
             d = torch.distributions.Dirichlet(torch.ones(NG, device=dev)).sample((int(mix.sum()),))
@@ -166,7 +233,7 @@ def main():
         return out[rows]
 
     def config(extra):
-        rw = {k: float(presets[-1 if a.conditioned else 0][i]) for i, k in enumerate(TERMS)}
+        rw = {k: float((base_w if op else presets[-1 if a.conditioned else 0])[i]) for i, k in enumerate(TERMS)}
         how = (f"warm-started by behaviour cloning from {'the tuned heuristics of ' + ', '.join(objs) if a.conditioned else a.ref}"
                if (a.bc and refs) else "trained from scratch (no behaviour cloning)")
         note = (f"PPO, {how}, then {total_steps:,} PPO environment steps; acts greedily. "
@@ -179,11 +246,16 @@ def main():
         else:
             lab = f"Learned (PPO from scratch): {a.objective}"
         extra = dict(extra, **(dict(weight_presets={o: weights_dict(o) for o in objs}) if a.conditioned else {}))
+        if op:
+            lab = lab.replace(a.objective, OPERATOR_OBJECTIVES[a.objective]["label"])
+            note = note.replace("rl/results/RESULTS.md", f"rl/hospitals/{hosp}/HEADLINE.md") + \
+                " Trained on the constrained operator objective with one Lagrange multiplier per constraint; diversion and the admission cap are locked at baseline."
         return dict(id=pid, kind="learned", label=lab, objective=None if a.conditioned else a.objective, reward_weights=rw, type="ppo",
+                    locked_heads=list(locked), **{k: v for k, v in fps.items() if k != "sim_fingerprint"},
                     weight_conditioned=bool(a.conditioned), note=note, warm_start=(a.ref if (a.bc and refs) else None),
                     obs_dim=env.obs_dim, sim_obs_dim=env.sim_obs_dim, head_names=env.head_names, head_sizes=env.head_sizes,
                     enabled_heads=[n for n in env.head_names if env.enabled[n]], hidden=a.hidden, layers=a.layers, stage=a.stage,
-                    obs_names=env.envs[0].sim.obs_names() + ["w_" + k for k in TERMS], sim_fingerprint=fp, sim_behaviour_fingerprint=bfp, synthetic=True,
+                    obs_names=env.envs[0].sim.obs_names() + ["w_" + k for k in TERMS], sim_fingerprint=fp, synthetic=True,
                     training=dict(algorithm="PPO (rl/ppo.py)", args=vars(a), **extra))
 
     ep, t_start = 0, time.time()
@@ -253,6 +325,7 @@ def main():
     mask_buf = torch.zeros((T, H), device=dev, dtype=torch.bool)
     done_buf = torch.zeros((T,), device=dev)
     p95_acc, p95_n = 0.0, 0
+    lag_tr, lag_b, lag_staff = torch.zeros(len(TERMS), device=dev), torch.zeros(len(TERMS), device=dev), 0.0
     it = 0
     budget = a.hours * 3600
     while it < a.max_iters and time.time() - t_start < budget:
@@ -277,9 +350,15 @@ def main():
                 lp = (torch.stack(lps, 1) * mv).sum(1)
                 if refs:
                     act[is_ref] = ref_actions(obs, is_ref)
+                if op:
+                    act[is_base] = base_act[is_base]
                 v = net.value(obs)
             obs_buf[t], act_buf[t], lp_buf[t], val_buf[t], mask_buf[t] = obs, act, lp, v, mv
             obs, r, done, info = env.step(act)
+            if op:                                       # hourly constraint terms of the training rows against the baseline rows
+                lag_tr += info["terms"][is_train].mean(0)
+                lag_b += info["terms"][is_base].mean(0)
+                lag_staff += float(info["metrics"]["staff_on_shift"][is_base].mean())
             if constrained:
                 p95_acc += float(info["metrics"]["wait_p95_min"][is_train].mean())
                 p95_n += 1
@@ -290,12 +369,30 @@ def main():
                 done_buf[t] = 1.0
                 p95 = info["summary"]["wait_p95_min"]
                 sc = torch.zeros(B, device=dev)
-                for g, o in enumerate(objs):
-                    sc = torch.where(gid == g, objective_score(o, info["terms_mean"], p95, thr), sc)
+                if op:                                   # constrained score on group means against the baseline rows of each sub-env
+                    epm = info["episode"]
+                    for i in range(nS):
+                        in_i = sub == i
+                        bm = epm[in_i & is_base].mean(0)
+                        for rows_ in (is_val, is_ref, is_train):
+                            if bool((in_i & rows_).any()):
+                                sc[in_i & rows_] = operator_score(a.objective, epm[in_i & rows_].mean(0), bm, margin=True)
+                    vv = violations(a.objective, epm[is_val].mean(0), epm[is_base].mean(0), margin=False)
+                else:
+                    for g, o in enumerate(objs):
+                        sc = torch.where(gid == g, objective_score(o, info["terms_mean"], p95, thr), sc)
                 rec = dict(ep=ep, it=it, steps=total_steps, minutes=(time.time() - t_start) / 60, val=float(sc[is_val].mean()),
                            train=float((info["return_mean"] if a.conditioned else sc)[is_train].mean()), val_wait=float(info["summary"]["wait_mean_min"][is_val].mean()),
                            val_p95=float(p95[is_val].mean()), val_cost=float(info["summary"]["cost_per_day"][is_val].mean()),
                            val_lwbs=float(info["summary"]["lwbs_rate"][is_val].mean()), lag=float(lag))
+                if op:
+                    g_ = lambda rows_, k: float(epm[rows_][:, EPISODE_METRICS.index(k)].mean())      # noqa: E731
+                    rec.update(lam={tk: round(v, 3) for tk, v in lam.items()}, members=[e.member for e in env.envs],
+                               val_feasible=bool(all(float(x) <= 1e-9 for x in vv.values())),
+                               val_violated=[k for k, x in vv.items() if float(x) > 1e-9],
+                               val_labor=g_(is_val, "labor_cost_per_day"), base_labor=g_(is_base, "labor_cost_per_day"),
+                               val_los=g_(is_val, "ed_los_median_min"), base_los=g_(is_base, "ed_los_median_min"),
+                               base_wait=g_(is_base, "wait_mean_min"), base_lwbs=g_(is_base, "lwbs_rate"))
                 if refs:
                     d = sc[is_val] - sc[is_ref]
                     rec.update(ref=float(sc[is_ref].mean()), diff=float(d.mean()), diff_ci95=float(1.96 * d.std() / math.sqrt(d.numel())),
@@ -311,7 +408,8 @@ def main():
                     best = dict(sel=sel, **rec)
                     if not a.no_export:
                         export_policy(net, config(dict(selected=rec, history=hist[-200:], finished=None, steps=total_steps,
-                                                       reference=a.ref, p95_wait_threshold_min=thr, lagrange_weight=float(lag))),
+                                                       reference=a.ref, p95_wait_threshold_min=thr, lagrange_weight=float(lag),
+                                                       lagrange_multipliers=dict(lam))),
                                       Path(a.export) if a.export else run / "best")
                         say(f"exported best (selection {sel:.4f})")
                 if constrained:
@@ -323,6 +421,26 @@ def main():
                 obs = reset(ep)
             rew_buf[t] = r
             total_steps += n_train
+        if op:
+            # One multiplier per constraint, updated every rollout: it rises while the sampled policy's hourly term exceeds
+            # the baseline rows' (same scenarios, same members) by more than the head-room, and decays otherwise.
+            for tk in lam:
+                j = TERMS.index(tk)
+                tr_, b_ = float(lag_tr[j]) / T, float(lag_b[j]) / T
+                if tk == "staff":                        # overtime may exceed baseline by OVERTIME_SHARE of staff-hours
+                    allow = max(OVERTIME_SHARE * lag_staff / T / float(env.envs[0].scale[j]), 1e-6)
+                    x = (tr_ - b_ - allow) / allow
+                    x = max(-1.0, min(1.0, x)) * 0.05
+                else:
+                    x = (tr_ - b_) / max(abs(b_), 1e-6) + a.lag_margin
+                    x = max(-0.25, min(0.25, x))         # a 48-hour window of a rare or heavy-tailed term is noisy: bounded steps
+                lam[tk] = float(min(a.op_lag_max, max(0.0, lam[tk] + a.op_lag_lr * x)))
+                presets[0, j] = base_w[j] + lam[tk]
+            lag_tr.zero_(), lag_b.zero_()
+            lag_staff = 0.0
+            W.copy_(presets[gid])
+            for e, sl in zip(env.envs, env.slices):
+                e.set_weights(W[sl])
         # ---- GAE on raw rewards with de-normalised values
         with torch.no_grad():
             last_v = net.value(obs)

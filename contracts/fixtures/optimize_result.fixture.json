@@ -1,0 +1,2215 @@
+{
+ "hospital_id": "rwjuh_nb",
+ "sim_fingerprint": "cd2ee380e9679724",
+ "sim_behaviour_fingerprint": "ed6420bf3cdf4b16",
+ "calibration_fingerprint": "13559aa34001a108",
+ "synthetic": true,
+ "generated": "2026-10-11T03:56:26+0000",
+ "seconds": 261.32812571525574,
+ "objective": {
+  "signed_weights": {
+   "margin_per_day": -0.5714285714285714,
+   "wait_mean_min": 0.34285714285714286,
+   "ed_los_median_min": 0.04285714285714285,
+   "lwbs_rate": 0.04285714285714285
+  },
+  "goals": [
+   {
+    "metric": "profit",
+    "direction": "max",
+    "rank": 1,
+    "weight": 0.5714285714285714,
+    "label": "Profit (operating margin)",
+    "against_the_grain": false,
+    "outcome": [
+     {
+      "metric": "margin_per_day",
+      "pct": 1.8086862014280138,
+      "diff": 7541.513346354128,
+      "achieved": true,
+      "went_against": false
+     }
+    ]
+   },
+   {
+    "metric": "wait",
+    "direction": "min",
+    "rank": 2,
+    "weight": 0.2857142857142857,
+    "label": "Door-to-provider wait (mean)",
+    "against_the_grain": false,
+    "outcome": [
+     {
+      "metric": "wait_mean_min",
+      "pct": -29.002684203972834,
+      "diff": -5.736545026302339,
+      "achieved": true,
+      "went_against": false
+     }
+    ]
+   },
+   {
+    "metric": "patient_experience",
+    "direction": "max",
+    "rank": 3,
+    "weight": 0.14285714285714285,
+    "label": "Patient experience (proxy: shorter wait and stay, fewer walk-outs)",
+    "against_the_grain": false,
+    "outcome": [
+     {
+      "metric": "wait_mean_min",
+      "pct": -29.002684203972834,
+      "diff": -5.736545026302339,
+      "achieved": true,
+      "went_against": false
+     },
+     {
+      "metric": "ed_los_median_min",
+      "pct": -4.189944134078212,
+      "diff": -8.59375,
+      "achieved": true,
+      "went_against": false
+     },
+     {
+      "metric": "lwbs_rate",
+      "pct": -24.450923619327963,
+      "diff": -0.0023510854589403616,
+      "achieved": true,
+      "went_against": false
+     }
+    ]
+   }
+  ],
+  "guardrails": true
+ },
+ "calibration": {
+  "hospital_id": "rwjuh_nb",
+  "hospital_file": true,
+  "calibration_file": true,
+  "ensemble_file": true,
+  "n_members": 24,
+  "calibration_fingerprint": "13559aa34001a108",
+  "calibration_mtime": "2026-10-11T01:01:24+0000"
+ },
+ "picked": "elite 1",
+ "picked_baseline": false,
+ "headline": "Against current practice in the simulated twin, the plan optimised for your reward gives: Profit (operating margin) +1.8% (rank 1, asked to maximise: moved the way you asked); Door-to-provider wait (mean) -29.0% (rank 2, asked to minimise: moved the way you asked); Patient experience (proxy: shorter wait and stay, fewer walk-outs) +20.2% (rank 3, asked to maximise: moved the way you asked). Better on your reward in 6 of 6 twins consistent with the public record.",
+ "goal_scales": {
+  "margin_per_day": 11269.37255859375,
+  "wait_mean_min": 5.013616383075714,
+  "ed_los_median_min": 9.1552734375,
+  "lwbs_rate": 0.0022745713067706674
+ },
+ "scenarios": {
+  "normal_week": {
+   "index": 0.1407761126756668,
+   "index_change_pct": -85.92238873243332,
+   "index_by_twin": [
+    0.36885130405426025,
+    0.5919878482818604,
+    -0.11944522708654404,
+    0.5606284141540527,
+    0.24868518114089966,
+    -0.8060509562492371
+   ],
+   "twins_improved": 6,
+   "n_twins": 6,
+   "metrics": {
+    "wait_mean_min": {
+     "baseline": 19.779358992973965,
+     "policy": 14.042813966671625,
+     "diff": -5.736545026302339,
+     "diff_ci95": [
+      -11.951762940486274,
+      -0.6293796566625433
+     ],
+     "pct": -29.002684203972834,
+     "pct_ci95": [
+      -46.561591108161934,
+      -4.230992230136573
+     ],
+     "reading": "better",
+     "chosen_weight": 0.34285714285714286
+    },
+    "wait_p95_min": {
+     "baseline": 55.625,
+     "policy": 28.020833333333332,
+     "diff": -27.604166666666668,
+     "diff_ci95": [
+      -56.72265625000001,
+      -1.6640625000000153
+     ],
+     "pct": -49.625468164794015,
+     "pct_ci95": [
+      -68.25781805259417,
+      -5.257207088072006
+     ],
+     "reading": "better",
+     "chosen_weight": 0.0
+    },
+    "ed_los_median_min": {
+     "baseline": 205.10416666666666,
+     "policy": 196.51041666666666,
+     "diff": -8.59375,
+     "diff_ci95": [
+      -15.365885416666648,
+      -2.5507812499999334
+     ],
+     "pct": -4.189944134078212,
+     "pct_ci95": [
+      -7.354646370581445,
+      -1.2605013613369298
+     ],
+     "reading": "better",
+     "chosen_weight": 0.04285714285714285
+    },
+    "lwbs_rate": {
+     "baseline": 0.009615528212937837,
+     "policy": 0.007264442753997476,
+     "diff": -0.0023510854589403616,
+     "diff_ci95": [
+      -0.004688536436333379,
+      -0.0003975496677109433
+     ],
+     "pct": -24.450923619327963,
+     "pct_ci95": [
+      -43.75201880327288,
+      -4.650422985850087
+     ],
+     "reading": "better",
+     "chosen_weight": 0.04285714285714285
+    },
+    "cost_per_day": {
+     "baseline": 610104.3821614584,
+     "policy": 606961.7721354166,
+     "diff": -3142.6100260417443,
+     "diff_ci95": [
+      -5194.498567708448,
+      -1171.9822916667106
+     ],
+     "pct": -0.5150938295031099,
+     "pct_ci95": [
+      -0.8500780911466274,
+      -0.1924265153241346
+     ],
+     "reading": "better",
+     "chosen_weight": 0.0
+    },
+    "margin_per_day": {
+     "baseline": 416960.8492838542,
+     "policy": 424502.3626302083,
+     "diff": 7541.513346354128,
+     "diff_ci95": [
+      3454.9189453124372,
+      11612.585017903757
+     ],
+     "pct": 1.8086862014280138,
+     "pct_ci95": [
+      0.8171542560942678,
+      2.826619510489718
+     ],
+     "reading": "better",
+     "chosen_weight": -0.5714285714285714
+    },
+    "cost_per_treated": {
+     "baseline": 2812.3213551839194,
+     "policy": 2784.929285685221,
+     "diff": -27.39206949869822,
+     "diff_ci95": [
+      -33.560837999979654,
+      -21.096163558960555
+     ],
+     "pct": -0.9740021156617374,
+     "pct_ci95": [
+      -1.1849309517465103,
+      -0.7614755298486976
+     ],
+     "reading": "changed",
+     "chosen_weight": 0.0
+    },
+    "deaths_per_10k": {
+     "baseline": 5.766890839984019,
+     "policy": 5.315934816996257,
+     "diff": -0.4509560229877625,
+     "diff_ci95": [
+      -0.8949350403621802,
+      -0.1092065252363676
+     ],
+     "pct": -7.819742656842315,
+     "pct_ci95": [
+      -15.171307156922198,
+      -2.0427781465957193
+     ],
+     "reading": "better",
+     "chosen_weight": 0.0
+    },
+    "boarding_hours_per_day": {
+     "baseline": 18.290798395872116,
+     "policy": 5.173784404993057,
+     "diff": -13.117013990879059,
+     "diff_ci95": [
+      -31.08837661575525,
+      -2.6512695660193786
+     ],
+     "pct": -71.71373117227796,
+     "pct_ci95": [
+      -83.25722475068513,
+      -37.02845741385017
+     ],
+     "reading": "better",
+     "chosen_weight": 0.0
+    },
+    "diversion_hours_per_day": {
+     "baseline": 0.0,
+     "policy": 0.0,
+     "diff": 0.0,
+     "diff_ci95": [
+      0.0,
+      0.0
+     ],
+     "pct": null,
+     "pct_ci95": null,
+     "reading": "no significant change",
+     "chosen_weight": 0.0
+    },
+    "overtime_hours_per_day": {
+     "baseline": 0.0,
+     "policy": 0.10208332305774093,
+     "diff": 0.10208332305774093,
+     "diff_ci95": [
+      0.0003472221627210577,
+      0.3104253168625291
+     ],
+     "pct": null,
+     "pct_ci95": null,
+     "reading": "worse",
+     "chosen_weight": 0.0
+    },
+    "labor_cost_per_day": {
+     "baseline": 104486.49527994792,
+     "policy": 106336.22102864583,
+     "diff": 1849.725748697907,
+     "diff_ci95": [
+      -411.38526204426597,
+      3787.971706136066
+     ],
+     "pct": 1.770301265959764,
+     "pct_ci95": [
+      -0.39998792805897604,
+      3.6379385854929556
+     ],
+     "reading": "no significant change",
+     "chosen_weight": 0.0
+    },
+    "fixed_cost_per_day": {
+     "baseline": 392644.3229166667,
+     "policy": 392710.71875,
+     "diff": 66.39583333331393,
+     "diff_ci95": [
+      0.0,
+      199.1875
+     ],
+     "pct": 0.016909918075500997,
+     "pct_ci95": [
+      0.0,
+      0.050746916750614574
+     ],
+     "reading": "no significant change",
+     "chosen_weight": 0.0
+    },
+    "operating_cost_per_day": {
+     "baseline": 497130.8297526042,
+     "policy": 499046.9537760417,
+     "diff": 1916.1240234375,
+     "diff_ci95": [
+      -393.1234700520639,
+      3928.9639241537175
+     ],
+     "pct": 0.3854365709708758,
+     "pct_ci95": [
+      -0.0791351910505001,
+      0.7875101756778136
+     ],
+     "reading": "no significant change",
+     "chosen_weight": 0.0
+    },
+    "adverse_events_per_day": {
+     "baseline": 0.43298612038294476,
+     "policy": 0.3812500066123903,
+     "diff": -0.05173611377055448,
+     "diff_ci95": [
+      -0.08888889233736913,
+      -0.0187413180363365
+     ],
+     "pct": -11.948677182723005,
+     "pct_ci95": [
+      -19.703411791896464,
+      -4.515756326574715
+     ],
+     "reading": "better",
+     "chosen_weight": 0.0
+    },
+    "deaths_per_day": {
+     "baseline": 0.12777778145391494,
+     "policy": 0.11770833698877443,
+     "diff": -0.010069444465140506,
+     "diff_ci95": [
+      -0.020138888247311096,
+      -0.002430555488293379
+     ],
+     "pct": -7.8804345720873314,
+     "pct_ci95": [
+      -15.297527673051803,
+      -2.0548101426909136
+     ],
+     "reading": "better",
+     "chosen_weight": 0.0
+    },
+    "lwbs_per_day": {
+     "baseline": 2.1263888850808144,
+     "policy": 1.606597223629554,
+     "diff": -0.5197916614512603,
+     "diff_ci95": [
+      -1.0378732571844012,
+      -0.0875000082266828
+     ],
+     "pct": -24.444807113986837,
+     "pct_ci95": [
+      -43.727472591564734,
+      -4.632858344950329
+     ],
+     "reading": "better",
+     "chosen_weight": 0.0
+    },
+    "arrivals_per_day": {
+     "baseline": 221.08958435058594,
+     "policy": 221.08958435058594,
+     "diff": 0.0,
+     "diff_ci95": [
+      0.0,
+      0.0
+     ],
+     "pct": 0.0,
+     "pct_ci95": [
+      0.0,
+      0.0
+     ],
+     "reading": "no significant change",
+     "chosen_weight": 0.0
+    },
+    "diverted_per_day": {
+     "baseline": 0.0,
+     "policy": 0.0,
+     "diff": 0.0,
+     "diff_ci95": [
+      0.0,
+      0.0
+     ],
+     "pct": null,
+     "pct_ci95": null,
+     "reading": "no significant change",
+     "chosen_weight": 0.0
+    },
+    "treated_per_day": {
+     "baseline": 216.98333326975504,
+     "policy": 217.982985496521,
+     "diff": 0.99965222676596,
+     "diff_ci95": [
+      0.5069170753161785,
+      1.516737409432775
+     ],
+     "pct": 0.46070461343829855,
+     "pct_ci95": [
+      0.23311785659958184,
+      0.7013398871320434
+     ],
+     "reading": "better",
+     "chosen_weight": 0.0
+    },
+    "admissions_per_day": {
+     "baseline": 31.305902739365894,
+     "policy": 31.121875007947285,
+     "diff": -0.18402773141860962,
+     "diff_ci95": [
+      -0.272230997184917,
+      -0.10451380262772672
+     ],
+     "pct": -0.5878371658875764,
+     "pct_ci95": [
+      -0.863696427431248,
+      -0.3344150380275807
+     ],
+     "reading": "changed",
+     "chosen_weight": 0.0
+    },
+    "transfers_per_day": {
+     "baseline": 2.213541674117247,
+     "policy": 2.2218750144044557,
+     "diff": 0.008333340287208557,
+     "diff_ci95": [
+      -0.0003472218910851588,
+      0.019791669088105212
+     ],
+     "pct": 0.37647090111966675,
+     "pct_ci95": [
+      -0.015865539377096095,
+      0.8910691541979097
+     ],
+     "reading": "no significant change",
+     "chosen_weight": 0.0
+    },
+    "ed_los_mean_min": {
+     "baseline": 253.7555389404297,
+     "policy": 238.01119502385458,
+     "diff": -15.744343916575104,
+     "diff_ci95": [
+      -29.443430499235763,
+      -4.379720115661608
+     ],
+     "pct": -6.2045321187141305,
+     "pct_ci95": [
+      -10.964462957797238,
+      -1.7906973294860684
+     ],
+     "reading": "better",
+     "chosen_weight": 0.0
+    },
+    "wait_patient_hours_per_day": {
+     "baseline": 55.17161444822947,
+     "policy": 33.40908569097519,
+     "diff": -21.76252875725428,
+     "diff_ci95": [
+      -45.26375007778405,
+      -2.4084267566601434
+     ],
+     "pct": -39.445154858890795,
+     "pct_ci95": [
+      -58.46155205018507,
+      -6.5449563535111235
+     ],
+     "reading": "better",
+     "chosen_weight": 0.0
+    },
+    "ed_patient_hours_per_day": {
+     "baseline": 927.7055581410726,
+     "policy": 870.8406244913737,
+     "diff": -56.86493364969897,
+     "diff_ci95": [
+      -107.64912989934271,
+      -14.92778778076165
+     ],
+     "pct": -6.129631664991247,
+     "pct_ci95": [
+      -10.971313060688551,
+      -1.6871546529849397
+     ],
+     "reading": "better",
+     "chosen_weight": 0.0
+    },
+    "hi_acuity_wait_hours_per_day": {
+     "baseline": 5.04930554330349,
+     "policy": 4.035763872166474,
+     "diff": -1.0135416711370153,
+     "diff_ci95": [
+      -2.0361458672831465,
+      -0.17047741009543232
+     ],
+     "pct": -20.07289244916459,
+     "pct_ci95": [
+      -34.11013012991565,
+      -3.935360467084354
+     ],
+     "reading": "better",
+     "chosen_weight": 0.0
+    },
+    "staff_hours_per_day": {
+     "baseline": 1556.3354110717773,
+     "policy": 1514.4718780517578,
+     "diff": -41.86353302001953,
+     "diff_ci95": [
+      -68.58685560226456,
+      -16.114598496754965
+     ],
+     "pct": -2.6898785905790077,
+     "pct_ci95": [
+      -4.433405352612402,
+      -1.0656337304784453
+     ],
+     "reading": "changed",
+     "chosen_weight": 0.0
+    },
+    "revenue_per_day": {
+     "baseline": 1027065.2337239584,
+     "policy": 1031464.1399739584,
+     "diff": 4398.90625,
+     "diff_ci95": [
+      625.0434244792443,
+      8209.774283854062
+     ],
+     "pct": 0.4282986226736872,
+     "pct_ci95": [
+      0.06047685068711417,
+      0.8036181265190712
+     ],
+     "reading": "better",
+     "chosen_weight": 0.0
+    }
+   },
+   "guardrails": {
+    "all_met": true,
+    "rows": [
+     {
+      "metric": "deaths_per_10k",
+      "label": "deaths per 10,000 arrivals",
+      "kind": "safety",
+      "candidate": 5.315934658050537,
+      "baseline": 5.7668914794921875,
+      "limit": 5.7668914794921875,
+      "met": true,
+      "status": "better",
+      "relative_excess": -0.07819755635168639,
+      "diff_ci95": [
+       -0.8949350403621802,
+       -0.1092065252363676
+      ]
+     },
+     {
+      "metric": "adverse_events_per_day",
+      "label": "adverse events per day",
+      "kind": "safety",
+      "candidate": 0.3812500238418579,
+      "baseline": 0.4329861104488373,
+      "limit": 0.4329861104488373,
+      "met": true,
+      "status": "better",
+      "relative_excess": -0.1194867118332024,
+      "diff_ci95": [
+       -0.08888889233736913,
+       -0.0187413180363365
+      ]
+     },
+     {
+      "metric": "hi_acuity_wait_hours_per_day",
+      "label": "hours ESI 1-2 patients spend waiting, per day",
+      "kind": "safety",
+      "candidate": 4.035763740539551,
+      "baseline": 5.049305438995361,
+      "limit": 5.049305438995361,
+      "met": true,
+      "status": "better",
+      "relative_excess": -0.20072893404869374,
+      "diff_ci95": [
+       -2.0361458672831465,
+       -0.17047741009543232
+      ]
+     },
+     {
+      "metric": "diversion_hours_per_day",
+      "label": "ambulance diversion hours per day",
+      "kind": "hard",
+      "candidate": 0.0,
+      "baseline": 0.0,
+      "limit": 0.0,
+      "met": true,
+      "status": "no worse",
+      "relative_excess": 0.0,
+      "diff_ci95": [
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "metric": "overtime_hours_per_day",
+      "label": "overtime hours per day (cap: baseline + 1% of staff-hours)",
+      "kind": "hard",
+      "candidate": 0.10208332538604736,
+      "baseline": 0.0,
+      "limit": 15.563355712890626,
+      "met": true,
+      "status": "no worse",
+      "relative_excess": -15.461272387504579,
+      "diff_ci95": [
+       0.0003472221627210577,
+       0.3104253168625291
+      ]
+     },
+     {
+      "metric": "transfers_per_day",
+      "label": "transfers out per day",
+      "kind": "hard",
+      "candidate": 2.221874952316284,
+      "baseline": 2.2135417461395264,
+      "limit": 2.257812581062317,
+      "met": true,
+      "status": "no worse",
+      "relative_excess": -0.016235351697662277,
+      "diff_ci95": [
+       -0.0003472218910851588,
+       0.019791669088105212
+      ]
+     }
+    ]
+   }
+  },
+  "flu_surge": {
+   "index": -3.7883827686309814,
+   "index_change_pct": -478.83827686309814,
+   "index_by_twin": [
+    -1.461470127105713,
+    -7.434830188751221,
+    -4.290241718292236,
+    -0.5758755803108215,
+    -4.74782657623291,
+    -4.220057487487793
+   ],
+   "twins_improved": 6,
+   "n_twins": 6,
+   "metrics": {
+    "wait_mean_min": {
+     "baseline": 49.40077784657478,
+     "policy": 16.12796304623286,
+     "diff": -33.27281480034192,
+     "diff_ci95": [
+      -60.250596084694074,
+      -13.151149006684623
+     ],
+     "pct": -67.35281558456047,
+     "pct_ci95": [
+      -79.08615148561213,
+      -43.684805888547565
+     ],
+     "reading": "better",
+     "chosen_weight": 0.34285714285714286
+    },
+    "wait_p95_min": {
+     "baseline": 210.20833333333334,
+     "policy": 34.479166666666664,
+     "diff": -175.72916666666669,
+     "diff_ci95": [
+      -331.09375000000006,
+      -63.54036458333335
+     ],
+     "pct": -83.597621407334,
+     "pct_ci95": [
+      -91.06453543904935,
+      -63.176041065360955
+     ],
+     "reading": "better",
+     "chosen_weight": 0.0
+    },
+    "ed_los_median_min": {
+     "baseline": 250.625,
+     "policy": 210.41666666666666,
+     "diff": -40.20833333333334,
+     "diff_ci95": [
+      -73.49218750000001,
+      -14.009114583333387
+     ],
+     "pct": -16.043225270157944,
+     "pct_ci95": [
+      -26.388904586138178,
+      -6.287790065469796
+     ],
+     "reading": "better",
+     "chosen_weight": 0.04285714285714285
+    },
+    "lwbs_rate": {
+     "baseline": 0.028198077372508124,
+     "policy": 0.008220682269893587,
+     "diff": -0.019977395102614537,
+     "diff_ci95": [
+      -0.03734074700041674,
+      -0.007305379401805114
+     ],
+     "pct": -70.84665680821067,
+     "pct_ci95": [
+      -83.43470313153922,
+      -45.38399661737199
+     ],
+     "reading": "better",
+     "chosen_weight": 0.04285714285714285
+    },
+    "cost_per_day": {
+     "baseline": 617368.84375,
+     "policy": 614639.4563802084,
+     "diff": -2729.387369791628,
+     "diff_ci95": [
+      -5228.7713053383895,
+      -570.9390136719919
+     ],
+     "pct": -0.4420999532812313,
+     "pct_ci95": [
+      -0.8493274154491837,
+      -0.09330803851217544
+     ],
+     "reading": "better",
+     "chosen_weight": 0.0
+    },
+    "margin_per_day": {
+     "baseline": 462303.5071614583,
+     "policy": 500728.3597005208,
+     "diff": 38424.8525390625,
+     "diff_ci95": [
+      20600.519864908892,
+      61307.58592936203
+     ],
+     "pct": 8.311607405920613,
+     "pct_ci95": [
+      4.317419420779936,
+      13.822457265745733
+     ],
+     "reading": "better",
+     "chosen_weight": -0.5714285714285714
+    },
+    "cost_per_treated": {
+     "baseline": 2691.65340423584,
+     "policy": 2594.527442932129,
+     "diff": -97.12596130371094,
+     "diff_ci95": [
+      -162.34219417572154,
+      -52.11023960113439
+     ],
+     "pct": -3.608412626635523,
+     "pct_ci95": [
+      -5.913563663012783,
+      -1.9793845515075477
+     ],
+     "reading": "changed",
+     "chosen_weight": 0.0
+    },
+    "deaths_per_10k": {
+     "baseline": 9.260797768831253,
+     "policy": 5.526951851944129,
+     "diff": -3.733845916887124,
+     "diff_ci95": [
+      -6.928511236142372,
+      -1.332460629194977
+     ],
+     "pct": -40.31883656345461,
+     "pct_ci95": [
+      -56.014488804091634,
+      -19.76234022118711
+     ],
+     "reading": "better",
+     "chosen_weight": 0.0
+    },
+    "boarding_hours_per_day": {
+     "baseline": 197.59858318169913,
+     "policy": 22.754281980295975,
+     "diff": -174.84430120140314,
+     "diff_ci95": [
+      -303.6549426157027,
+      -68.45558924165866
+     ],
+     "pct": -88.48459254418206,
+     "pct_ci95": [
+      -93.73779573496306,
+      -80.4321210046136
+     ],
+     "reading": "better",
+     "chosen_weight": 0.0
+    },
+    "diversion_hours_per_day": {
+     "baseline": 0.0,
+     "policy": 0.0,
+     "diff": 0.0,
+     "diff_ci95": [
+      0.0,
+      0.0
+     ],
+     "pct": null,
+     "pct_ci95": null,
+     "reading": "no significant change",
+     "chosen_weight": 0.0
+    },
+    "overtime_hours_per_day": {
+     "baseline": 0.0,
+     "policy": 0.42152773328901577,
+     "diff": 0.42152773328901577,
+     "diff_ci95": [
+      0.07743054603536922,
+      0.8767446978987813
+     ],
+     "pct": null,
+     "pct_ci95": null,
+     "reading": "worse",
+     "chosen_weight": 0.0
+    },
+    "labor_cost_per_day": {
+     "baseline": 103158.38753255208,
+     "policy": 105749.89591471355,
+     "diff": 2591.508382161468,
+     "diff_ci95": [
+      418.63613281249167,
+      4461.949283854195
+     ],
+     "pct": 2.5121644920474413,
+     "pct_ci95": [
+      0.40745232396618314,
+      4.368841727518445
+     ],
+     "reading": "worse",
+     "chosen_weight": 0.0
+    },
+    "fixed_cost_per_day": {
+     "baseline": 392644.3229166667,
+     "policy": 392710.71875,
+     "diff": 66.39583333331393,
+     "diff_ci95": [
+      0.0,
+      199.1875
+     ],
+     "pct": 0.016909918075500997,
+     "pct_ci95": [
+      0.0,
+      0.050746916750614574
+     ],
+     "reading": "no significant change",
+     "chosen_weight": 0.0
+    },
+    "operating_cost_per_day": {
+     "baseline": 495802.7213541667,
+     "policy": 498460.6298828125,
+     "diff": 2657.908528645814,
+     "diff_ci95": [
+      466.0790201822165,
+      4571.189640299481
+     ],
+     "pct": 0.5360818757481548,
+     "pct_ci95": [
+      0.09385061241129583,
+      0.9258007536067776
+     ],
+     "reading": "worse",
+     "chosen_weight": 0.0
+    },
+    "adverse_events_per_day": {
+     "baseline": 0.9357638955116272,
+     "policy": 0.4881944521330297,
+     "diff": -0.4475694433785975,
+     "diff_ci95": [
+      -0.8309288212447423,
+      -0.1728819399645242
+     ],
+     "pct": -47.8293130911927,
+     "pct_ci95": [
+      -63.35612430475837,
+      -26.609140996187946
+     ],
+     "reading": "better",
+     "chosen_weight": 0.0
+    },
+    "deaths_per_day": {
+     "baseline": 0.22395833783472577,
+     "policy": 0.13368055984998742,
+     "diff": -0.09027777798473835,
+     "diff_ci95": [
+      -0.16771701532998126,
+      -0.03228298663452737
+     ],
+     "pct": -40.31007680158821,
+     "pct_ci95": [
+      -55.911020500871146,
+      -19.730562545571733
+     ],
+     "reading": "better",
+     "chosen_weight": 0.0
+    },
+    "lwbs_per_day": {
+     "baseline": 6.830902772645156,
+     "policy": 1.9840277781089146,
+     "diff": -4.8468749945362415,
+     "diff_ci95": [
+      -9.06327248122543,
+      -1.7631250383953236
+     ],
+     "pct": -70.9551161223653,
+     "pct_ci95": [
+      -83.48330052406541,
+      -45.39807373793966
+     ],
+     "reading": "better",
+     "chosen_weight": 0.0
+    },
+    "arrivals_per_day": {
+     "baseline": 241.2517344156901,
+     "policy": 241.34374809265137,
+     "diff": 0.0920136769612725,
+     "diff_ci95": [
+      0.0,
+      0.36041609446206735
+     ],
+     "pct": 0.03814011003242274,
+     "pct_ci95": [
+      0.0,
+      0.14854607206983686
+     ],
+     "reading": "no significant change",
+     "chosen_weight": 0.0
+    },
+    "diverted_per_day": {
+     "baseline": 0.09201388557751973,
+     "policy": 0.0,
+     "diff": -0.09201388557751973,
+     "diff_ci95": [
+      -0.36041665325562156,
+      0.0
+     ],
+     "pct": -99.99999999999999,
+     "pct_ci95": [
+      -100.0,
+      0.0
+     ],
+     "reading": "no significant change",
+     "chosen_weight": 0.0
+    },
+    "treated_per_day": {
+     "baseline": 229.82256889343262,
+     "policy": 236.94062519073486,
+     "diff": 7.118056297302246,
+     "diff_ci95": [
+      2.9678143223125977,
+      12.759052793184884
+     ],
+     "pct": 3.0971963857052036,
+     "pct_ci95": [
+      1.2680627834335905,
+      5.670764244099363
+     ],
+     "reading": "better",
+     "chosen_weight": 0.0
+    },
+    "admissions_per_day": {
+     "baseline": 33.91875006755193,
+     "policy": 34.16666658719381,
+     "diff": 0.24791651964187622,
+     "diff_ci95": [
+      -0.09201381852229158,
+      0.7615357299645784
+     ],
+     "pct": 0.7309128996443868,
+     "pct_ci95": [
+      -0.2695301045324468,
+      2.2618618920940214
+     ],
+     "reading": "no significant change",
+     "chosen_weight": 0.0
+    },
+    "transfers_per_day": {
+     "baseline": 2.343749988824129,
+     "policy": 2.41041665772597,
+     "diff": 0.0666666689018407,
+     "diff_ci95": [
+      0.018394093525905954,
+      0.1326476061095788
+     ],
+     "pct": 2.8444445533752383,
+     "pct_ci95": [
+      0.7683116244376285,
+      5.7315891422602006
+     ],
+     "reading": "worse",
+     "chosen_weight": 0.0
+    },
+    "ed_los_mean_min": {
+     "baseline": 362.94874747594196,
+     "policy": 263.0363658269246,
+     "diff": -99.91238164901733,
+     "diff_ci95": [
+      -177.14115861256914,
+      -38.198133099079165
+     ],
+     "pct": -27.527958794138012,
+     "pct_ci95": [
+      -40.12255474404561,
+      -12.880986417225412
+     ],
+     "reading": "better",
+     "chosen_weight": 0.0
+    },
+    "wait_patient_hours_per_day": {
+     "baseline": 229.07713901996613,
+     "policy": 45.29048049449921,
+     "diff": -183.78665852546692,
+     "diff_ci95": [
+      -356.39776029586795,
+      -65.95695239007483
+     ],
+     "pct": -80.22915744091263,
+     "pct_ci95": [
+      -88.91104747797873,
+      -58.0772410993999
+     ],
+     "reading": "better",
+     "chosen_weight": 0.0
+    },
+    "ed_patient_hours_per_day": {
+     "baseline": 1470.6159795125325,
+     "policy": 1050.6204814910889,
+     "diff": -419.9954980214436,
+     "diff_ci95": [
+      -753.2584147135419,
+      -158.8373056729635
+     ],
+     "pct": -28.55915506648175,
+     "pct_ci95": [
+      -41.280582852359046,
+      -13.361186801930241
+     ],
+     "reading": "better",
+     "chosen_weight": 0.0
+    },
+    "hi_acuity_wait_hours_per_day": {
+     "baseline": 9.809374988079071,
+     "policy": 5.294097217420737,
+     "diff": -4.515277770658334,
+     "diff_ci95": [
+      -6.957630172620217,
+      -2.3245399082700424
+     ],
+     "pct": -46.03022900180251,
+     "pct_ci95": [
+      -58.20557565014104,
+      -28.972736873100736
+     ],
+     "reading": "better",
+     "chosen_weight": 0.0
+    },
+    "staff_hours_per_day": {
+     "baseline": 1539.4638926188152,
+     "policy": 1498.8350664774578,
+     "diff": -40.62882614135742,
+     "diff_ci95": [
+      -66.57801901499438,
+      -15.499888833363935
+     ],
+     "pct": -2.639154210511742,
+     "pct_ci95": [
+      -4.369259729308393,
+      -1.0341473266870158
+     ],
+     "reading": "changed",
+     "chosen_weight": 0.0
+    },
+    "revenue_per_day": {
+     "baseline": 1079672.3489583333,
+     "policy": 1115367.81640625,
+     "diff": 35695.467447916744,
+     "diff_ci95": [
+      16821.415380859078,
+      60084.421647135176
+     ],
+     "pct": 3.3061388931888174,
+     "pct_ci95": [
+      1.5392834286009067,
+      5.669437919036897
+     ],
+     "reading": "better",
+     "chosen_weight": 0.0
+    }
+   },
+   "guardrails": {
+    "all_met": false,
+    "rows": [
+     {
+      "metric": "deaths_per_10k",
+      "label": "deaths per 10,000 arrivals",
+      "kind": "safety",
+      "candidate": 5.526952266693115,
+      "baseline": 9.260797500610352,
+      "limit": 9.260797500610352,
+      "met": true,
+      "status": "better",
+      "relative_excess": -0.4031883035636131,
+      "diff_ci95": [
+       -6.928511236142372,
+       -1.332460629194977
+      ]
+     },
+     {
+      "metric": "adverse_events_per_day",
+      "label": "adverse events per day",
+      "kind": "safety",
+      "candidate": 0.48819446563720703,
+      "baseline": 0.9357638359069824,
+      "limit": 0.9357638359069824,
+      "met": true,
+      "status": "better",
+      "relative_excess": -0.47829308324997616,
+      "diff_ci95": [
+       -0.8309288212447423,
+       -0.1728819399645242
+      ]
+     },
+     {
+      "metric": "hi_acuity_wait_hours_per_day",
+      "label": "hours ESI 1-2 patients spend waiting, per day",
+      "kind": "safety",
+      "candidate": 5.294097423553467,
+      "baseline": 9.809374809265137,
+      "limit": 9.809374809265137,
+      "met": true,
+      "status": "better",
+      "relative_excess": -0.4603022591660894,
+      "diff_ci95": [
+       -6.957630172620217,
+       -2.3245399082700424
+      ]
+     },
+     {
+      "metric": "diversion_hours_per_day",
+      "label": "ambulance diversion hours per day",
+      "kind": "hard",
+      "candidate": 0.0,
+      "baseline": 0.0,
+      "limit": 0.0,
+      "met": true,
+      "status": "no worse",
+      "relative_excess": 0.0,
+      "diff_ci95": [
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "metric": "overtime_hours_per_day",
+      "label": "overtime hours per day (cap: baseline + 1% of staff-hours)",
+      "kind": "hard",
+      "candidate": 0.4215277433395386,
+      "baseline": 0.0,
+      "limit": 15.394638671875,
+      "met": true,
+      "status": "no worse",
+      "relative_excess": -14.973110928535462,
+      "diff_ci95": [
+       0.07743054603536922,
+       0.8767446978987813
+      ]
+     },
+     {
+      "metric": "transfers_per_day",
+      "label": "transfers out per day",
+      "kind": "hard",
+      "candidate": 2.410416603088379,
+      "baseline": 2.34375,
+      "limit": 2.390625,
+      "met": false,
+      "status": "worse",
+      "relative_excess": 0.008444417317708333,
+      "diff_ci95": [
+       0.018394093525905954,
+       0.1326476061095788
+      ]
+     }
+    ]
+   }
+  },
+  "nursing_absences": {
+   "index": 0.14265812933444977,
+   "index_change_pct": -85.73418706655502,
+   "index_by_twin": [
+    0.3697764277458191,
+    0.589353621006012,
+    -0.11842112243175507,
+    0.572012722492218,
+    0.24645110964775085,
+    -0.8032239675521851
+   ],
+   "twins_improved": 6,
+   "n_twins": 6,
+   "metrics": {
+    "wait_mean_min": {
+     "baseline": 19.805293301741283,
+     "policy": 14.100593040386835,
+     "diff": -5.704700261354448,
+     "diff_ci95": [
+      -11.933120827625197,
+      -0.5988628777364929
+     ],
+     "pct": -28.80391708641291,
+     "pct_ci95": [
+      -46.3802941152153,
+      -3.956153175231028
+     ],
+     "reading": "better",
+     "chosen_weight": 0.34285714285714286
+    },
+    "wait_p95_min": {
+     "baseline": 55.625,
+     "policy": 28.072916666666668,
+     "diff": -27.552083333333332,
+     "diff_ci95": [
+      -56.618489583333336,
+      -1.6666666666666607
+     ],
+     "pct": -49.5318352059925,
+     "pct_ci95": [
+      -68.21698720424294,
+      -5.333111480865208
+     ],
+     "reading": "better",
+     "chosen_weight": 0.0
+    },
+    "ed_los_median_min": {
+     "baseline": 205.10416666666666,
+     "policy": 196.5625,
+     "diff": -8.541666666666657,
+     "diff_ci95": [
+      -15.522135416666648,
+      -2.343750000000026
+     ],
+     "pct": -4.164550533265612,
+     "pct_ci95": [
+      -7.422329271979749,
+      -1.1635654500291361
+     ],
+     "reading": "better",
+     "chosen_weight": 0.04285714285714285
+    },
+    "lwbs_rate": {
+     "baseline": 0.009651667419044921,
+     "policy": 0.007284899855828068,
+     "diff": -0.002366767563216853,
+     "diff_ci95": [
+      -0.00471188734312212,
+      -0.00041077892092289604
+     ],
+     "pct": -24.521851618578214,
+     "pct_ci95": [
+      -43.82449567506086,
+      -4.736086213689028
+     ],
+     "reading": "better",
+     "chosen_weight": 0.04285714285714285
+    },
+    "cost_per_day": {
+     "baseline": 609397.3098958334,
+     "policy": 606345.560546875,
+     "diff": -3051.749348958372,
+     "diff_ci95": [
+      -5075.970052083401,
+      -1109.8423502607268
+     ],
+     "pct": -0.5007815589931008,
+     "pct_ci95": [
+      -0.8336983889774789,
+      -0.18246089539061272
+     ],
+     "reading": "better",
+     "chosen_weight": 0.0
+    },
+    "margin_per_day": {
+     "baseline": 417590.349609375,
+     "policy": 425136.6435546875,
+     "diff": 7546.2939453125,
+     "diff_ci95": [
+      3460.892667643285,
+      11631.91518554687
+     ],
+     "pct": 1.8071044870580706,
+     "pct_ci95": [
+      0.816381736576075,
+      2.8216298709108014
+     ],
+     "reading": "better",
+     "chosen_weight": -0.5714285714285714
+    },
+    "cost_per_treated": {
+     "baseline": 2809.1699600219727,
+     "policy": 2782.158030192057,
+     "diff": -27.011929829915516,
+     "diff_ci95": [
+      -33.12450421651205,
+      -20.81027730306033
+     ],
+     "pct": -0.9615626756062932,
+     "pct_ci95": [
+      -1.173393511278591,
+      -0.7467274313799717
+     ],
+     "reading": "changed",
+     "chosen_weight": 0.0
+    },
+    "deaths_per_10k": {
+     "baseline": 5.766858631124099,
+     "policy": 5.315934816996257,
+     "diff": -0.450923814127842,
+     "diff_ci95": [
+      -0.9112456428507972,
+      -0.09611272662878051
+     ],
+     "pct": -7.819227814848413,
+     "pct_ci95": [
+      -15.410899351923133,
+      -1.8626852499609499
+     ],
+     "reading": "better",
+     "chosen_weight": 0.0
+    },
+    "boarding_hours_per_day": {
+     "baseline": 18.264409452676773,
+     "policy": 5.184837639331818,
+     "diff": -13.079571813344955,
+     "diff_ci95": [
+      -31.024969263188535,
+      -2.6547800680001625
+     ],
+     "pct": -71.61234447373855,
+     "pct_ci95": [
+      -83.15884639322341,
+      -36.91639435505691
+     ],
+     "reading": "better",
+     "chosen_weight": 0.0
+    },
+    "diversion_hours_per_day": {
+     "baseline": 0.0,
+     "policy": 0.0,
+     "diff": 0.0,
+     "diff_ci95": [
+      0.0,
+      0.0
+     ],
+     "pct": null,
+     "pct_ci95": null,
+     "reading": "no significant change",
+     "chosen_weight": 0.0
+    },
+    "overtime_hours_per_day": {
+     "baseline": 0.0,
+     "policy": 0.12361109800015886,
+     "diff": 0.12361109800015886,
+     "diff_ci95": [
+      0.0003472221627210577,
+      0.3743228774023008
+     ],
+     "pct": null,
+     "pct_ci95": null,
+     "reading": "worse",
+     "chosen_weight": 0.0
+    },
+    "labor_cost_per_day": {
+     "baseline": 103786.48714192708,
+     "policy": 105719.02815755208,
+     "diff": 1932.541015625,
+     "diff_ci95": [
+      -308.4932800292583,
+      3839.729636637393
+     ],
+     "pct": 1.8620352888351137,
+     "pct_ci95": [
+      -0.30593590285592337,
+      3.7281524245999025
+     ],
+     "reading": "no significant change",
+     "chosen_weight": 0.0
+    },
+    "fixed_cost_per_day": {
+     "baseline": 392644.3229166667,
+     "policy": 392710.71875,
+     "diff": 66.39583333331393,
+     "diff_ci95": [
+      0.0,
+      199.1875
+     ],
+     "pct": 0.016909918075500997,
+     "pct_ci95": [
+      0.0,
+      0.050746916750614574
+     ],
+     "reading": "no significant change",
+     "chosen_weight": 0.0
+    },
+    "operating_cost_per_day": {
+     "baseline": 496430.8225911458,
+     "policy": 498429.759765625,
+     "diff": 1998.937174479186,
+     "diff_ci95": [
+      -302.606201171971,
+      3992.4092366535365
+     ],
+     "pct": 0.40266177753541416,
+     "pct_ci95": [
+      -0.06091250159712221,
+      0.8023103329664775
+     ],
+     "reading": "no significant change",
+     "chosen_weight": 0.0
+    },
+    "adverse_events_per_day": {
+     "baseline": 0.43506945359210175,
+     "policy": 0.38298611793046194,
+     "diff": -0.05208333566163981,
+     "diff_ci95": [
+      -0.09201388952399919,
+      -0.017361112233872357
+     ],
+     "pct": -11.97126923796181,
+     "pct_ci95": [
+      -20.257323894997604,
+      -4.088035953957512
+     ],
+     "reading": "better",
+     "chosen_weight": 0.0
+    },
+    "deaths_per_day": {
+     "baseline": 0.12777778141510984,
+     "policy": 0.11770833698877443,
+     "diff": -0.010069444426335408,
+     "diff_ci95": [
+      -0.020486111022182788,
+      -0.002083333665116974
+     ],
+     "pct": -7.880434544111349,
+     "pct_ci95": [
+      -15.53690589009774,
+      -1.88073048887046
+     ],
+     "reading": "better",
+     "chosen_weight": 0.0
+    },
+    "lwbs_per_day": {
+     "baseline": 2.1343750009934106,
+     "policy": 1.6111111125598352,
+     "diff": -0.5232638884335754,
+     "diff_ci95": [
+      -1.0413975624057155,
+      -0.08887154161930064
+     ],
+     "pct": -24.51602404404243,
+     "pct_ci95": [
+      -43.76585562794419,
+      -4.714969218207689
+     ],
+     "reading": "better",
+     "chosen_weight": 0.0
+    },
+    "arrivals_per_day": {
+     "baseline": 221.08958435058594,
+     "policy": 221.08958435058594,
+     "diff": 0.0,
+     "diff_ci95": [
+      0.0,
+      0.0
+     ],
+     "pct": 0.0,
+     "pct_ci95": [
+      0.0,
+      0.0
+     ],
+     "reading": "no significant change",
+     "chosen_weight": 0.0
+    },
+    "diverted_per_day": {
+     "baseline": 0.0,
+     "policy": 0.0,
+     "diff": 0.0,
+     "diff_ci95": [
+      0.0,
+      0.0
+     ],
+     "pct": null,
+     "pct_ci95": null,
+     "reading": "no significant change",
+     "chosen_weight": 0.0
+    },
+    "treated_per_day": {
+     "baseline": 216.97499990463257,
+     "policy": 217.97847175598145,
+     "diff": 1.003471851348877,
+     "diff_ci95": [
+      0.5076395352680543,
+      1.5199045936266495
+     ],
+     "pct": 0.46248270620575405,
+     "pct_ci95": [
+      0.23404568445211946,
+      0.7023206430997486
+     ],
+     "reading": "better",
+     "chosen_weight": 0.0
+    },
+    "admissions_per_day": {
+     "baseline": 31.304166615009308,
+     "policy": 31.12222222487132,
+     "diff": -0.18194439013798913,
+     "diff_ci95": [
+      -0.2711803560455698,
+      -0.10138894766569022
+     ],
+     "pct": -0.5812146107437112,
+     "pct_ci95": [
+      -0.8596039254945724,
+      -0.3265032723756924
+     ],
+     "reading": "changed",
+     "chosen_weight": 0.0
+    },
+    "transfers_per_day": {
+     "baseline": 2.2135416766007743,
+     "policy": 2.2218750144044557,
+     "diff": 0.008333337803681395,
+     "diff_ci95": [
+      -0.0003472218910851588,
+      0.019791677687317134
+     ],
+     "pct": 0.3764707885002864,
+     "pct_ci95": [
+      -0.015865539377096095,
+      0.8955158521857961
+     ],
+     "reading": "no significant change",
+     "chosen_weight": 0.0
+    },
+    "ed_los_mean_min": {
+     "baseline": 253.79841073354086,
+     "policy": 238.1732088724772,
+     "diff": -15.625201861063658,
+     "diff_ci95": [
+      -29.287593106428766,
+      -4.224786078929862
+     ],
+     "pct": -6.15654046686223,
+     "pct_ci95": [
+      -10.934791901497661,
+      -1.7230661469074142
+     ],
+     "reading": "better",
+     "chosen_weight": 0.0
+    },
+    "wait_patient_hours_per_day": {
+     "baseline": 55.27699625492096,
+     "policy": 33.62693876028061,
+     "diff": -21.65005749464035,
+     "diff_ci95": [
+      -45.175711981952205,
+      -2.338384702801699
+     ],
+     "pct": -39.166486895917366,
+     "pct_ci95": [
+      -58.228259724051334,
+      -6.216104344136918
+     ],
+     "reading": "better",
+     "chosen_weight": 0.0
+    },
+    "ed_patient_hours_per_day": {
+     "baseline": 927.8423608144125,
+     "policy": 871.4388891855875,
+     "diff": -56.403471628824946,
+     "diff_ci95": [
+      -107.53161705334978,
+      -14.336774079004867
+     ],
+     "pct": -6.078992942218856,
+     "pct_ci95": [
+      -10.964847636513344,
+      -1.5994758092491572
+     ],
+     "reading": "better",
+     "chosen_weight": 0.0
+    },
+    "hi_acuity_wait_hours_per_day": {
+     "baseline": 5.060069446762403,
+     "policy": 4.067708318432172,
+     "diff": -0.9923611283302307,
+     "diff_ci95": [
+      -2.0261024380102755,
+      -0.14264757527659283
+     ],
+     "pct": -19.611610843902067,
+     "pct_ci95": [
+      -34.00616979852742,
+      -3.2938675592923303
+     ],
+     "reading": "better",
+     "chosen_weight": 0.0
+    },
+    "staff_hours_per_day": {
+     "baseline": 1545.8225695292156,
+     "policy": 1505.1986172993977,
+     "diff": -40.62395222981786,
+     "diff_ci95": [
+      -66.92535848617526,
+      -15.177007134755392
+     ],
+     "pct": -2.6279828636600895,
+     "pct_ci95": [
+      -4.369176639080756,
+      -1.0152245678224492
+     ],
+     "reading": "changed",
+     "chosen_weight": 0.0
+    },
+    "revenue_per_day": {
+     "baseline": 1026987.6555989584,
+     "policy": 1031482.2024739584,
+     "diff": 4494.546875,
+     "diff_ci95": [
+      728.9113769531948,
+      8361.287955729316
+     ],
+     "pct": 0.4376437097852648,
+     "pct_ci95": [
+      0.07072893728278927,
+      0.8171458011640126
+     ],
+     "reading": "better",
+     "chosen_weight": 0.0
+    }
+   },
+   "guardrails": {
+    "all_met": true,
+    "rows": [
+     {
+      "metric": "deaths_per_10k",
+      "label": "deaths per 10,000 arrivals",
+      "kind": "safety",
+      "candidate": 5.315934658050537,
+      "baseline": 5.7668585777282715,
+      "limit": 5.7668585777282715,
+      "met": true,
+      "status": "better",
+      "relative_excess": -0.07819229717531344,
+      "diff_ci95": [
+       -0.9112456428507972,
+       -0.09611272662878051
+      ]
+     },
+     {
+      "metric": "adverse_events_per_day",
+      "label": "adverse events per day",
+      "kind": "safety",
+      "candidate": 0.3829860985279083,
+      "baseline": 0.4350694417953491,
+      "limit": 0.4350694417953491,
+      "met": true,
+      "status": "better",
+      "relative_excess": -0.11971271310739426,
+      "diff_ci95": [
+       -0.09201388952399919,
+       -0.017361112233872357
+      ]
+     },
+     {
+      "metric": "hi_acuity_wait_hours_per_day",
+      "label": "hours ESI 1-2 patients spend waiting, per day",
+      "kind": "safety",
+      "candidate": 4.067708492279053,
+      "baseline": 5.060069561004639,
+      "limit": 5.060069561004639,
+      "met": true,
+      "status": "better",
+      "relative_excess": -0.19611609223185464,
+      "diff_ci95": [
+       -2.0261024380102755,
+       -0.14264757527659283
+      ]
+     },
+     {
+      "metric": "diversion_hours_per_day",
+      "label": "ambulance diversion hours per day",
+      "kind": "hard",
+      "candidate": 0.0,
+      "baseline": 0.0,
+      "limit": 0.0,
+      "met": true,
+      "status": "no worse",
+      "relative_excess": 0.0,
+      "diff_ci95": [
+       0.0,
+       0.0
+      ]
+     },
+     {
+      "metric": "overtime_hours_per_day",
+      "label": "overtime hours per day (cap: baseline + 1% of staff-hours)",
+      "kind": "hard",
+      "candidate": 0.12361109256744385,
+      "baseline": 0.0,
+      "limit": 15.458226318359376,
+      "met": true,
+      "status": "no worse",
+      "relative_excess": -15.334615225791932,
+      "diff_ci95": [
+       0.0003472221627210577,
+       0.3743228774023008
+      ]
+     },
+     {
+      "metric": "transfers_per_day",
+      "label": "transfers out per day",
+      "kind": "hard",
+      "candidate": 2.221874952316284,
+      "baseline": 2.2135417461395264,
+      "limit": 2.257812581062317,
+      "met": true,
+      "status": "no worse",
+      "relative_excess": -0.016235351697662277,
+      "diff_ci95": [
+       -0.0003472218910851588,
+       0.019791677687317134
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "what_changes": [
+  "Providers scheduled per shift (mean people, baseline -> policy): day 07-15: 15.0 -> 16.0; evening 15-23: 15.2 -> 16.0; night 23-07: 7.0 -> 7.0. Scheduled provider-hours per day 297 -> 312.",
+  "Nurses scheduled per shift (mean people, baseline -> policy): day 07-15: 37.0 -> 21.2 (by weekday 18.0-37.0); evening 15-23: 37.0 -> 37.0; night 23-07: 18.0 -> 21.2 (by weekday 18.0-37.0). Scheduled nurse-hours per day 736 -> 635.",
+  "Triage stations staffed: 2.8 -> 3.0 on average.",
+  "Provider time between new patients and dispositions: baseline favor new 67%, favor dispositions 33% -> policy favor new 100%.",
+  "Ward early discharge rounds (share of days): baseline standard 100% -> policy standard 24%, early rounds 76%.",
+  "Overtime call-in requests: 0.00 -> 0.17 per day (one rn 0.17/day); most often at 13:00, 14:00, 15:00.",
+  "Ambulance diversion: unchanged from baseline (locked).",
+  "Admission cap: unchanged from baseline (locked).",
+  "Staffing follows the published weekday arrival pattern: +0.06 provider levels and +0.08 nurse levels per 5% that the weekday runs above average.",
+  "Call-in triggers: a nurse when patients waiting for a bay exceed 80% of the ED's bay count, a provider when patients waiting for a provider exceed 49% of it; thresholds drop by up to 3% when the next hour is forecast 50% busier than typical; also a nurse when bay occupancy exceeds 95% with a typical-or-busier hour ahead.",
+  "Hallway overflow opens when patients waiting for a bay exceed 49% of the bay count (second tier at 98%).",
+  "Early ward discharge rounds are triggered when ward occupancy exceeds 77% or boarders exceed 29% of the bay count at midnight.",
+  "Provider time shifts to new patients when those waiting for a provider exceed 40% of the bay count.",
+  "People counts above use ensemble member 0's level-to-people ladder (the point calibration); the ladders differ between ensemble members, the policy's staffing LEVELS are the same in all of them."
+ ],
+ "staffing": {
+  "md_day": {
+   "values": [
+    5,
+    7,
+    15,
+    16,
+    18
+   ],
+   "baseline": [
+    0.0,
+    0.0,
+    1.0,
+    0.0,
+    0.0
+   ],
+   "policy": [
+    0.0,
+    0.0,
+    0.0,
+    1.0,
+    0.0
+   ]
+  },
+  "md_evening": {
+   "values": [
+    5,
+    7,
+    15,
+    16,
+    18
+   ],
+   "baseline": [
+    0.0,
+    0.0,
+    0.8333333134651184,
+    0.1666666716337204,
+    0.0
+   ],
+   "policy": [
+    0.0,
+    0.0,
+    0.0,
+    1.0,
+    0.0
+   ]
+  },
+  "md_night": {
+   "values": [
+    5,
+    7,
+    15,
+    16,
+    18
+   ],
+   "baseline": [
+    0.0,
+    1.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "policy": [
+    0.0,
+    1.0,
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  "rn_day": {
+   "values": [
+    11,
+    18,
+    37,
+    44,
+    51
+   ],
+   "baseline": [
+    0.0,
+    0.0,
+    1.0,
+    0.0,
+    0.0
+   ],
+   "policy": [
+    0.0,
+    0.8333333134651184,
+    0.1666666716337204,
+    0.0,
+    0.0
+   ]
+  },
+  "rn_evening": {
+   "values": [
+    11,
+    18,
+    37,
+    44,
+    51
+   ],
+   "baseline": [
+    0.0,
+    0.0,
+    1.0,
+    0.0,
+    0.0
+   ],
+   "policy": [
+    0.0,
+    0.0,
+    1.0,
+    0.0,
+    0.0
+   ]
+  },
+  "rn_night": {
+   "values": [
+    11,
+    18,
+    37,
+    44,
+    51
+   ],
+   "baseline": [
+    0.0,
+    1.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "policy": [
+    0.0,
+    0.8333333134651184,
+    0.1666666716337204,
+    0.0,
+    0.0
+   ]
+  }
+ },
+ "params": {
+  "md_day": 0.7424,
+  "md_evening": 0.7072,
+  "md_night": 0.2468,
+  "rn_day": 0.3271,
+  "rn_evening": 0.5095,
+  "rn_night": 0.3326,
+  "md_demand_gain": 0.0,
+  "rn_demand_gain": 0.0,
+  "triage_nurses": 0.9411,
+  "admission_cap": 0.0463,
+  "discharge_push_occ": 0.4572,
+  "priority_rule": 0.3862,
+  "provider_split": 0.2686,
+  "fast_track_thr": 0.0397,
+  "overflow_low_thr": 0.9801,
+  "overflow_high_gap": 0.9756,
+  "callin_rn_thr": 1.0,
+  "callin_md_thr": 0.9894,
+  "divert_thr": 0.6618,
+  "agency_contract": 0.0,
+  "imaging_hours": 0.5605,
+  "md_dow_gain": 0.0771,
+  "rn_dow_gain": 0.0996,
+  "triage_demand_gain": 0.0,
+  "callin_forecast_gain": 0.0309,
+  "callin_late_cut": 0.0,
+  "callin_occ_thr": 0.8672,
+  "push_boarding_thr": 0.9828,
+  "split_dispo_thr": 1.0,
+  "split_new_thr": 0.8068,
+  "ft_close_night": 0.0558
+ },
+ "search": [
+  {
+   "gen": 0,
+   "best_score": 0.3373730182647705,
+   "baseline_score": -0.04781622439622879,
+   "seconds": 33.820021629333496,
+   "best": {
+    "wait_mean_min": 14.65900707244873,
+    "wait_p95_min": 29.6875,
+    "ed_los_median_min": 191.25,
+    "lwbs_rate": 0.008469687774777412,
+    "cost_per_day": 611875.0,
+    "margin_per_day": 423155.5,
+    "cost_per_treated": 2725.311767578125,
+    "deaths_per_10k": 8.380236625671387,
+    "boarding_hours_per_day": 4.709374904632568,
+    "diversion_hours_per_day": 0.0,
+    "overtime_hours_per_day": 0.02499999664723873,
+    "labor_cost_per_day": 106128.21875,
+    "fixed_cost_per_day": 392710.71875,
+    "operating_cost_per_day": 498838.96875,
+    "adverse_events_per_day": 0.35624998807907104,
+    "deaths_per_day": 0.19375000894069672,
+    "lwbs_per_day": 1.9625000953674316,
+    "arrivals_per_day": 231.28749084472656,
+    "diverted_per_day": 0.0,
+    "treated_per_day": 224.8249969482422,
+    "admissions_per_day": 32.01874923706055,
+    "transfers_per_day": 2.34375,
+    "ed_los_mean_min": 233.23114013671875,
+    "wait_patient_hours_per_day": 37.579689025878906,
+    "ed_patient_hours_per_day": 892.9312133789062,
+    "hi_acuity_wait_hours_per_day": 4.212499618530273,
+    "staff_hours_per_day": 1573.9625244140625,
+    "revenue_per_day": 1035030.5
+   }
+  },
+  {
+   "gen": 1,
+   "best_score": 1.313056468963623,
+   "baseline_score": null,
+   "seconds": 34.27711367607117,
+   "best": {
+    "wait_mean_min": 15.587770462036133,
+    "wait_p95_min": 33.75,
+    "ed_los_median_min": 224.6875,
+    "lwbs_rate": 0.010247907601296902,
+    "cost_per_day": 624909.0,
+    "margin_per_day": 472104.5,
+    "cost_per_treated": 2827.036865234375,
+    "deaths_per_10k": 3.4665722846984863,
+    "boarding_hours_per_day": 16.180208206176758,
+    "diversion_hours_per_day": 0.0,
+    "overtime_hours_per_day": 0.17499998211860657,
+    "labor_cost_per_day": 119274.9453125,
+    "fixed_cost_per_day": 392710.71875,
+    "operating_cost_per_day": 511985.65625,
+    "adverse_events_per_day": 0.3187499940395355,
+    "deaths_per_day": 0.08125000447034836,
+    "lwbs_per_day": 2.3500001430511475,
+    "arrivals_per_day": 228.38751220703125,
+    "diverted_per_day": 0.0,
+    "treated_per_day": 221.32501220703125,
+    "admissions_per_day": 33.150001525878906,
+    "transfers_per_day": 1.8250000476837158,
+    "ed_los_mean_min": 271.0017395019531,
+    "wait_patient_hours_per_day": 40.814064025878906,
+    "ed_patient_hours_per_day": 1024.69384765625,
+    "hi_acuity_wait_hours_per_day": 4.418749809265137,
+    "staff_hours_per_day": 1712.6251220703125,
+    "revenue_per_day": 1097013.375
+   }
+  },
+  {
+   "gen": 2,
+   "best_score": 0.7275643348693848,
+   "baseline_score": null,
+   "seconds": 34.15246820449829,
+   "best": {
+    "wait_mean_min": 13.80213737487793,
+    "wait_p95_min": 26.25,
+    "ed_los_median_min": 192.8125,
+    "lwbs_rate": 0.008371853269636631,
+    "cost_per_day": 612833.5,
+    "margin_per_day": 419017.375,
+    "cost_per_treated": 2688.48291015625,
+    "deaths_per_10k": 5.284919738769531,
+    "boarding_hours_per_day": 5.282291412353516,
+    "diversion_hours_per_day": 0.0,
+    "overtime_hours_per_day": 0.01874999701976776,
+    "labor_cost_per_day": 106956.6328125,
+    "fixed_cost_per_day": 392710.71875,
+    "operating_cost_per_day": 499667.375,
+    "adverse_events_per_day": 0.35625001788139343,
+    "deaths_per_day": 0.125,
+    "lwbs_per_day": 1.9624998569488525,
+    "arrivals_per_day": 234.13751220703125,
+    "diverted_per_day": 0.0,
+    "treated_per_day": 228.25,
+    "admissions_per_day": 31.03125,
+    "transfers_per_day": 2.5625,
+    "ed_los_mean_min": 230.13357543945312,
+    "wait_patient_hours_per_day": 34.501564025878906,
+    "ed_patient_hours_per_day": 890.25,
+    "hi_acuity_wait_hours_per_day": 3.7562499046325684,
+    "staff_hours_per_day": 1503.5374755859375,
+    "revenue_per_day": 1031850.875
+   }
+  },
+  {
+   "gen": 3,
+   "best_score": 2.021670341491699,
+   "baseline_score": null,
+   "seconds": 34.29037570953369,
+   "best": {
+    "wait_mean_min": 14.901961326599121,
+    "wait_p95_min": 33.75,
+    "ed_los_median_min": 198.75,
+    "lwbs_rate": 0.00715514225885272,
+    "cost_per_day": 605329.4375,
+    "margin_per_day": 460508.3125,
+    "cost_per_treated": 2643.4140625,
+    "deaths_per_10k": 5.067954063415527,
+    "boarding_hours_per_day": 4.766145706176758,
+    "diversion_hours_per_day": 0.0,
+    "overtime_hours_per_day": 0.7499999403953552,
+    "labor_cost_per_day": 105426.078125,
+    "fixed_cost_per_day": 392710.71875,
+    "operating_cost_per_day": 498136.8125,
+    "adverse_events_per_day": 0.25,
+    "deaths_per_day": 0.11874999850988388,
+    "lwbs_per_day": 1.6875,
+    "arrivals_per_day": 234.9375,
+    "diverted_per_day": 0.0,
+    "treated_per_day": 229.34376525878906,
+    "admissions_per_day": 32.0625,
+    "transfers_per_day": 2.3687498569488525,
+    "ed_los_mean_min": 234.14559936523438,
+    "wait_patient_hours_per_day": 38.97187805175781,
+    "ed_patient_hours_per_day": 909.6687622070312,
+    "hi_acuity_wait_hours_per_day": 4.293749809265137,
+    "staff_hours_per_day": 1431.987548828125,
+    "revenue_per_day": 1065837.75
+   }
+  }
+ ],
+ "protocol": {
+  "held_out_seeds": [
+   9050000,
+   9050015
+  ],
+  "days": 30,
+  "twins": 6,
+  "scenarios": [
+   "normal_week",
+   "flu_surge",
+   "nursing_absences"
+  ],
+  "search": {
+   "pop": 46,
+   "gens": 4,
+   "seeds": 4,
+   "days": 10,
+   "warm_starts": [
+    "tuned_same_budget",
+    "tuned_same_service"
+   ]
+  },
+  "note": "Simulated. Calibrated to public aggregates; not validated on the hospital's operational data. Intervals are 95% bootstrap over twins and seeds, paired with the baseline on the same patients."
+ },
+ "menu": {
+  "profit": {
+   "label": "Profit (operating margin)",
+   "unit": "$/day",
+   "natural": "max",
+   "proxy": false
+  },
+  "revenue": {
+   "label": "Revenue",
+   "unit": "$/day",
+   "natural": "max",
+   "proxy": false
+  },
+  "total_cost": {
+   "label": "Total cost",
+   "unit": "$/day",
+   "natural": "min",
+   "proxy": false
+  },
+  "labor_cost": {
+   "label": "Labour cost",
+   "unit": "$/day",
+   "natural": "min",
+   "proxy": false
+  },
+  "wait": {
+   "label": "Door-to-provider wait (mean)",
+   "unit": "min",
+   "natural": "min",
+   "proxy": false
+  },
+  "wait_p95": {
+   "label": "Worst-case wait (95th percentile)",
+   "unit": "min",
+   "natural": "min",
+   "proxy": false
+  },
+  "length_of_stay": {
+   "label": "ED length of stay (median)",
+   "unit": "min",
+   "natural": "min",
+   "proxy": false
+  },
+  "walkouts": {
+   "label": "Patients who leave without being seen",
+   "unit": "share",
+   "natural": "min",
+   "proxy": false
+  },
+  "boarding": {
+   "label": "Boarding (admitted patients held in the ED)",
+   "unit": "patient-hours/day",
+   "natural": "min",
+   "proxy": false
+  },
+  "deaths": {
+   "label": "Deaths",
+   "unit": "per 10,000 arrivals",
+   "natural": "min",
+   "proxy": false
+  },
+  "adverse_events": {
+   "label": "Adverse events",
+   "unit": "per day",
+   "natural": "min",
+   "proxy": false
+  },
+  "high_acuity_wait": {
+   "label": "Sickest patients (ESI 1-2) waiting",
+   "unit": "patient-hours/day",
+   "natural": "min",
+   "proxy": false
+  },
+  "patients_treated": {
+   "label": "Patients treated",
+   "unit": "per day",
+   "natural": "max",
+   "proxy": false
+  },
+  "overtime": {
+   "label": "Staff overtime",
+   "unit": "hours/day",
+   "natural": "min",
+   "proxy": false
+  },
+  "staff_hours": {
+   "label": "Staff hours scheduled",
+   "unit": "hours/day",
+   "natural": "min",
+   "proxy": false
+  },
+  "patient_experience": {
+   "label": "Patient experience (proxy: shorter wait and stay, fewer walk-outs)",
+   "unit": "index",
+   "natural": "max",
+   "proxy": true
+  }
+ }
+}

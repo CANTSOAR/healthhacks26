@@ -1,0 +1,569 @@
+{
+ "source": {
+  "dataset": "CMS Provider Data Catalog: Timely and Effective Care - Hospital",
+  "dataset_id": "yv7e-xc69",
+  "release": "2026-08-13",
+  "modified": "2026-07-22",
+  "url": "https://data.cms.gov/provider-data/sites/default/files/resources/0437b5494ac61507ad90f2af6b8085a7_1785189967/Timely_and_Effective_Care-Hospital.csv",
+  "landing": "https://data.cms.gov/provider-data/dataset/yv7e-xc69",
+  "raw_file": "data/raw/pdc/yv7e-xc69/Timely_and_Effective_Care-Hospital.csv",
+  "bytes": 34150899,
+  "sha256": "1e5a1ca803c2b09468fe3ae3fe60fef3e910f5f5300630a24791c88a1abff516",
+  "fetched_utc": "2026-10-10T19:36:44+00:00",
+  "filter": "Facility ID == '240010' (all measures); peer groups from Measure ID in ['OP_18b', 'OP_18c', 'OP_22', 'EDV'] over every hospital in the file"
+ },
+ "ccn": "240010",
+ "facility_in_file": {
+  "Facility ID": "240010",
+  "Facility Name": "MAYO CLINIC HOSPITAL ROCHESTER",
+  "Address": "1216 SECOND STREET SOUTHWEST",
+  "City/Town": "ROCHESTER",
+  "State": "MN",
+  "ZIP Code": "55902"
+ },
+ "measures": [
+  {
+   "Measure ID": "EDV",
+   "Measure Name": "Emergency department volume",
+   "Condition": "Emergency Department",
+   "Score": "very high",
+   "Sample": null,
+   "Footnote": null,
+   "Start Date": "01/01/2024",
+   "End Date": "12/31/2024"
+  },
+  {
+   "Measure ID": "GMCS",
+   "Measure Name": "Global Malnutrition Composite Score",
+   "Condition": "Electronic Clinical Quality Measure",
+   "Score": "Not Available",
+   "Sample": "Not Available",
+   "Footnote": "5",
+   "Start Date": "01/01/2024",
+   "End Date": "12/31/2024"
+  },
+  {
+   "Measure ID": "GMCS_Malnutrition_Diagnosis_Documented",
+   "Measure Name": "Global Malnutrition Composite Score: Malnutrition Diagnosis Documented",
+   "Condition": "Electronic Clinical Quality Measure",
+   "Score": "Not Available",
+   "Sample": "Not Available",
+   "Footnote": "5",
+   "Start Date": "01/01/2024",
+   "End Date": "12/31/2024"
+  },
+  {
+   "Measure ID": "GMCS_Malnutrition_Screening",
+   "Measure Name": "Global Malnutrition Composite Score: Malnutrition Risk Screening",
+   "Condition": "Electronic Clinical Quality Measure",
+   "Score": "Not Available",
+   "Sample": "Not Available",
+   "Footnote": "5",
+   "Start Date": "01/01/2024",
+   "End Date": "12/31/2024"
+  },
+  {
+   "Measure ID": "GMCS_Nutrition_Assessment",
+   "Measure Name": "Global Malnutrition Composite Score: Nutrition Assessment",
+   "Condition": "Electronic Clinical Quality Measure",
+   "Score": "Not Available",
+   "Sample": "Not Available",
+   "Footnote": "5",
+   "Start Date": "01/01/2024",
+   "End Date": "12/31/2024"
+  },
+  {
+   "Measure ID": "GMCS_Nutritional_Care_Plan",
+   "Measure Name": "Global Malnutrition Composite Score: Nutritional Care Plan",
+   "Condition": "Electronic Clinical Quality Measure",
+   "Score": "Not Available",
+   "Sample": "Not Available",
+   "Footnote": "5",
+   "Start Date": "01/01/2024",
+   "End Date": "12/31/2024"
+  },
+  {
+   "Measure ID": "HH_HYPER",
+   "Measure Name": "Hospital Harm - Severe Hyperglycemia",
+   "Condition": "Electronic Clinical Quality Measure",
+   "Score": "Not Available",
+   "Sample": "Not Available",
+   "Footnote": "5",
+   "Start Date": "01/01/2024",
+   "End Date": "12/31/2024"
+  },
+  {
+   "Measure ID": "HH_HYPO",
+   "Measure Name": "Hospital Harm - Severe Hypoglycemia",
+   "Condition": "Electronic Clinical Quality Measure",
+   "Score": "1",
+   "Sample": "10588",
+   "Footnote": null,
+   "Start Date": "01/01/2024",
+   "End Date": "12/31/2024"
+  },
+  {
+   "Measure ID": "HH_ORAE",
+   "Measure Name": "Hospital Harm - Opioid Related Adverse Events",
+   "Condition": "Electronic Clinical Quality Measure",
+   "Score": "0",
+   "Sample": "21469",
+   "Footnote": null,
+   "Start Date": "01/01/2024",
+   "End Date": "12/31/2024"
+  },
+  {
+   "Measure ID": "IMM_3",
+   "Measure Name": "Healthcare workers given influenza vaccination",
+   "Condition": "Healthcare Personnel Vaccination",
+   "Score": "60",
+   "Sample": "32454",
+   "Footnote": null,
+   "Start Date": "10/01/2024",
+   "End Date": "03/31/2025"
+  },
+  {
+   "Measure ID": "OP_18a",
+   "Measure Name": "Average (median) time all patients spent in the emergency department before leaving from the visit, including psychiatric/mental health patients and patients who were transferred to another facility. A lower number of minutes is better",
+   "Condition": "Emergency Department",
+   "Score": "252",
+   "Sample": "644",
+   "Footnote": null,
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "Measure ID": "OP_18b",
+   "Measure Name": "Average (median) time patients spent in the emergency department before leaving from the visit, excluding patients transferred to another facility or psychiatric care/mental health patients. A lower number of minutes is better",
+   "Condition": "Emergency Department",
+   "Score": "246",
+   "Sample": "611",
+   "Footnote": null,
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "Measure ID": "OP_18c",
+   "Measure Name": "Average (median) time psychiatric/mental health patients spent in the emergency department before leaving from the visit. A lower number of minutes is better",
+   "Condition": "Emergency Department",
+   "Score": "327",
+   "Sample": "33",
+   "Footnote": null,
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "Measure ID": "OP_18d",
+   "Measure Name": "Average (median) time patients spent in the emergency department before being transferred to another facility. A lower number of minutes is better",
+   "Condition": "Emergency Department",
+   "Score": "Not Available",
+   "Sample": "Not Available",
+   "Footnote": "7",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "Measure ID": "OP_22",
+   "Measure Name": "Left before being seen",
+   "Condition": "Emergency Department",
+   "Score": "3",
+   "Sample": "84799",
+   "Footnote": null,
+   "Start Date": "01/01/2024",
+   "End Date": "12/31/2024"
+  },
+  {
+   "Measure ID": "OP_23",
+   "Measure Name": "Head CT results",
+   "Condition": "Emergency Department",
+   "Score": "58",
+   "Sample": "19",
+   "Footnote": null,
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "Measure ID": "OP_29",
+   "Measure Name": "Endoscopy/polyp surveillance: appropriate follow-up interval for normal colonoscopy in average risk patients",
+   "Condition": "Colonoscopy care",
+   "Score": "77",
+   "Sample": "225",
+   "Footnote": null,
+   "Start Date": "01/01/2024",
+   "End Date": "12/31/2024"
+  },
+  {
+   "Measure ID": "OP_31",
+   "Measure Name": "Improvement in Patient's Visual Function within 90 Days Following Cataract Surgery",
+   "Condition": "Cataract surgery outcome",
+   "Score": "Not Available",
+   "Sample": "Not Available",
+   "Footnote": "5",
+   "Start Date": "01/01/2024",
+   "End Date": "12/31/2024"
+  },
+  {
+   "Measure ID": "OP_40",
+   "Measure Name": "ST-Segment Elevation Myocardial Infarction (STEMI)",
+   "Condition": "Electronic Clinical Quality Measure",
+   "Score": "Not Available",
+   "Sample": "Not Available",
+   "Footnote": "1",
+   "Start Date": "01/01/2024",
+   "End Date": "12/31/2024"
+  },
+  {
+   "Measure ID": "SAFE_USE_OF_OPIOIDS",
+   "Measure Name": "Safe Use of Opioids - Concurrent Prescribing",
+   "Condition": "Electronic Clinical Quality Measure",
+   "Score": "17",
+   "Sample": "13269",
+   "Footnote": null,
+   "Start Date": "01/01/2024",
+   "End Date": "12/31/2024"
+  },
+  {
+   "Measure ID": "SEP_1",
+   "Measure Name": "Appropriate care for severe sepsis and septic shock",
+   "Condition": "Sepsis Care",
+   "Score": "42",
+   "Sample": "145",
+   "Footnote": "2",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "Measure ID": "SEP_SH_3HR",
+   "Measure Name": "Septic Shock 3-Hour Bundle",
+   "Condition": "Sepsis Care",
+   "Score": "46",
+   "Sample": "65",
+   "Footnote": "2",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "Measure ID": "SEP_SH_6HR",
+   "Measure Name": "Septic Shock 6-Hour Bundle",
+   "Condition": "Sepsis Care",
+   "Score": "86",
+   "Sample": "22",
+   "Footnote": "2",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "Measure ID": "SEV_SEP_3HR",
+   "Measure Name": "Severe Sepsis 3-Hour Bundle",
+   "Condition": "Sepsis Care",
+   "Score": "72",
+   "Sample": "145",
+   "Footnote": "2",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "Measure ID": "SEV_SEP_6HR",
+   "Measure Name": "Severe Sepsis 6-Hour Bundle",
+   "Condition": "Sepsis Care",
+   "Score": "92",
+   "Sample": "64",
+   "Footnote": "2",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "Measure ID": "STK_02",
+   "Measure Name": "Discharged on Antithrombotic Therapy",
+   "Condition": "Electronic Clinical Quality Measure",
+   "Score": "99",
+   "Sample": "502",
+   "Footnote": null,
+   "Start Date": "01/01/2024",
+   "End Date": "12/31/2024"
+  },
+  {
+   "Measure ID": "STK_03",
+   "Measure Name": "Anticoagulation Therapy for Atrial Fibrillation/Flutter",
+   "Condition": "Electronic Clinical Quality Measure",
+   "Score": "Not Available",
+   "Sample": "Not Available",
+   "Footnote": "5",
+   "Start Date": "01/01/2024",
+   "End Date": "12/31/2024"
+  },
+  {
+   "Measure ID": "STK_05",
+   "Measure Name": "Antithrombotic Therapy by End of Hospital Day 2",
+   "Condition": "Electronic Clinical Quality Measure",
+   "Score": "Not Available",
+   "Sample": "Not Available",
+   "Footnote": "5",
+   "Start Date": "01/01/2024",
+   "End Date": "12/31/2024"
+  },
+  {
+   "Measure ID": "VTE_1",
+   "Measure Name": "Venous Thromboembolism Prophylaxis",
+   "Condition": "Electronic Clinical Quality Measure",
+   "Score": "Not Available",
+   "Sample": "Not Available",
+   "Footnote": "5",
+   "Start Date": "01/01/2024",
+   "End Date": "12/31/2024"
+  },
+  {
+   "Measure ID": "VTE_2",
+   "Measure Name": "Intensive Care Unit Venous Thromboembolism Prophylaxis",
+   "Condition": "Electronic Clinical Quality Measure",
+   "Score": "Not Available",
+   "Sample": "Not Available",
+   "Footnote": "5",
+   "Start Date": "01/01/2024",
+   "End Date": "12/31/2024"
+  }
+ ],
+ "edv_category": "very high",
+ "peer_group_key": "edv_very_high",
+ "peer_groups": [
+  {
+   "group": "all_hospitals",
+   "measure": "OP_18b",
+   "n_hospitals": 4081,
+   "p10": 100.0,
+   "p25": 119.0,
+   "median": 148.0,
+   "p75": 188.0,
+   "p90": 225.0,
+   "mean": 156.94
+  },
+  {
+   "group": "all_hospitals",
+   "measure": "OP_18c",
+   "n_hospitals": 3023,
+   "p10": 142.0,
+   "p25": 184.0,
+   "median": 247.0,
+   "p75": 324.0,
+   "p90": 428.0,
+   "mean": 276.74
+  },
+  {
+   "group": "all_hospitals",
+   "measure": "OP_22",
+   "n_hospitals": 3821,
+   "p10": 0.0,
+   "p25": 1.0,
+   "median": 1.0,
+   "p75": 2.0,
+   "p90": 4.0,
+   "mean": 1.69
+  },
+  {
+   "group": "edv_low",
+   "measure": "OP_18b",
+   "n_hospitals": 1608,
+   "p10": 90.0,
+   "p25": 104.0,
+   "median": 120.0,
+   "p75": 140.0,
+   "p90": 164.0,
+   "mean": 123.87
+  },
+  {
+   "group": "edv_low",
+   "measure": "OP_18c",
+   "n_hospitals": 1060,
+   "p10": 126.0,
+   "p25": 156.0,
+   "median": 198.0,
+   "p75": 265.25,
+   "p90": 340.1,
+   "mean": 227.13
+  },
+  {
+   "group": "edv_low",
+   "measure": "OP_22",
+   "n_hospitals": 1652,
+   "p10": 0.0,
+   "p25": 0.0,
+   "median": 1.0,
+   "p75": 1.0,
+   "p90": 3.0,
+   "mean": 1.08
+  },
+  {
+   "group": "edv_medium",
+   "measure": "OP_18b",
+   "n_hospitals": 911,
+   "p10": 127.0,
+   "p25": 142.0,
+   "median": 166.0,
+   "p75": 194.0,
+   "p90": 216.0,
+   "mean": 169.83
+  },
+  {
+   "group": "edv_medium",
+   "measure": "OP_18c",
+   "n_hospitals": 733,
+   "p10": 159.2,
+   "p25": 208.0,
+   "median": 266.0,
+   "p75": 338.0,
+   "p90": 435.4000000000002,
+   "mean": 289.68
+  },
+  {
+   "group": "edv_medium",
+   "measure": "OP_22",
+   "n_hospitals": 914,
+   "p10": 0.0,
+   "p25": 1.0,
+   "median": 2.0,
+   "p75": 3.0,
+   "p90": 4.0,
+   "mean": 2.01
+  },
+  {
+   "group": "edv_high",
+   "measure": "OP_18b",
+   "n_hospitals": 551,
+   "p10": 136.0,
+   "p25": 159.0,
+   "median": 191.0,
+   "p75": 220.0,
+   "p90": 252.0,
+   "mean": 192.91
+  },
+  {
+   "group": "edv_high",
+   "measure": "OP_18c",
+   "n_hospitals": 462,
+   "p10": 176.2,
+   "p25": 225.0,
+   "median": 285.5,
+   "p75": 378.0,
+   "p90": 485.90000000000003,
+   "mean": 318.04
+  },
+  {
+   "group": "edv_high",
+   "measure": "OP_22",
+   "n_hospitals": 552,
+   "p10": 0.0,
+   "p25": 1.0,
+   "median": 2.0,
+   "p75": 3.0,
+   "p90": 4.900000000000034,
+   "mean": 2.15
+  },
+  {
+   "group": "edv_very_high",
+   "measure": "OP_18b",
+   "n_hospitals": 702,
+   "p10": 133.10000000000002,
+   "p25": 162.0,
+   "median": 192.5,
+   "p75": 232.0,
+   "p90": 269.0,
+   "mean": 198.53
+  },
+  {
+   "group": "edv_very_high",
+   "measure": "OP_18c",
+   "n_hospitals": 579,
+   "p10": 181.8,
+   "p25": 234.5,
+   "median": 298.0,
+   "p75": 380.5,
+   "p90": 501.0,
+   "mean": 333.61
+  },
+  {
+   "group": "edv_very_high",
+   "measure": "OP_22",
+   "n_hospitals": 703,
+   "p10": 1.0,
+   "p25": 1.0,
+   "median": 2.0,
+   "p75": 3.0,
+   "p90": 5.0,
+   "mean": 2.31
+  },
+  {
+   "group": "state_MN",
+   "measure": "OP_18b",
+   "n_hospitals": 120,
+   "p10": 99.0,
+   "p25": 111.75,
+   "median": 126.0,
+   "p75": 146.75,
+   "p90": 188.20000000000002,
+   "mean": 134.1
+  },
+  {
+   "group": "state_MN",
+   "measure": "OP_18c",
+   "n_hospitals": 100,
+   "p10": 129.6,
+   "p25": 168.75,
+   "median": 216.0,
+   "p75": 275.25,
+   "p90": 339.1,
+   "mean": 228.6
+  },
+  {
+   "group": "state_MN",
+   "measure": "OP_22",
+   "n_hospitals": 112,
+   "p10": 0.0,
+   "p25": 0.0,
+   "median": 1.0,
+   "p75": 2.0,
+   "p90": 3.0,
+   "mean": 1.21
+  },
+  {
+   "group": "state_MN_edv_very_high",
+   "measure": "OP_18b",
+   "n_hospitals": 11,
+   "p10": 178.0,
+   "p25": 182.5,
+   "median": 204.0,
+   "p75": 233.0,
+   "p90": 246.0,
+   "mean": 205.55
+  },
+  {
+   "group": "state_MN_edv_very_high",
+   "measure": "OP_18c",
+   "n_hospitals": 11,
+   "p10": 226.0,
+   "p25": 245.0,
+   "median": 277.0,
+   "p75": 325.5,
+   "p90": 354.0,
+   "mean": 279.91
+  },
+  {
+   "group": "state_MN_edv_very_high",
+   "measure": "OP_22",
+   "n_hospitals": 11,
+   "p10": 2.0,
+   "p25": 3.0,
+   "median": 3.0,
+   "p75": 4.0,
+   "p90": 4.0,
+   "mean": 3.27
+  }
+ ],
+ "edv_category_counts": {
+  "low": 1657,
+  "medium": 914,
+  "Not Available": 832,
+  "very high": 703,
+  "high": 552
+ },
+ "n_hospitals_in_file": 4658
+}

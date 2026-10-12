@@ -3,7 +3,7 @@ import { create } from "zustand";
 import type { Source } from "./api";
 import type { Hospital, ManagerInfo, Results, RolloutListItem, Scenario, Selection, ServiceStatus } from "./types";
 
-export type Mode = "play" | "watch" | "compare" | "tradeoff";
+export type Mode = "home" | "play" | "watch" | "compare" | "tradeoff" | "optimize";
 export type ListTab = "beds" | "staff" | "patients";
 export type PlayState = "idle" | "connecting" | "live" | "fixture" | "ended";
 export interface Toast {
@@ -68,7 +68,7 @@ export interface UIState {
 let camN = 0;
 let toastN = 0;
 export const useUI = create<UIState>((set) => ({
-  mode: "watch",
+  mode: "home",
   selection: null,
   hover: null,
   listTab: "beds",

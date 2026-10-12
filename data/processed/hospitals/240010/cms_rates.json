@@ -1,0 +1,499 @@
+{
+ "source": {
+  "dataset": "CMS IPPS FY 2027 final rule + correction notice (Tables 1A-1E, Table 5, Impact File) and OPPS Addendum B, July 2026 update",
+  "dataset_id": "fy2027-ipps-fr / july-2026-opps-addendum-b",
+  "release": "IPPS FY 2027 final rule correction-notice (CN) sheets; OPPS July 2026",
+  "url": "https://www.cms.gov/files/zip/fy2027-ipps-fr-impact-file.zip",
+  "landing": "https://www.cms.gov/medicare/payment/prospective-payment-systems/acute-inpatient-pps/fy-2027-ipps-final-rule-home-page",
+  "opps_landing": "https://www.cms.gov/medicare/payment/prospective-payment-systems/hospital-outpatient/addendum-a-b-updates",
+  "raw_file": "data/raw/cms_rates/fy2027-ipps-fr-impact-file.zip",
+  "sha256": "6e51b1015b6c5c9320a3cb3a086450787f8fef3723d5cc382f6aa64b2c716f17",
+  "bytes": 2961688,
+  "fetched_utc": "2026-10-10T19:36:30+00:00",
+  "files": {
+   "table5": {
+    "url": "https://www.cms.gov/files/zip/fy2027-ipps-fr-table-5.zip",
+    "sha256": "3b43654767907b1c3fa64b5ea685c5669e4623ceb2c4a1fa488af640d1dc06d4",
+    "bytes": 147208,
+    "fetched_utc": "2026-10-10T19:36:30+00:00"
+   },
+   "table1": {
+    "url": "https://www.cms.gov/files/zip/fy2027-ipps-fr-table-1a-1e.zip",
+    "sha256": "70a89efeeea4f8430ed8e8a1c50d40c4fab3a839e6a2358763835688c448d12c",
+    "bytes": 19779,
+    "fetched_utc": "2026-10-10T19:36:30+00:00"
+   },
+   "impact": {
+    "url": "https://www.cms.gov/files/zip/fy2027-ipps-fr-impact-file.zip",
+    "sha256": "6e51b1015b6c5c9320a3cb3a086450787f8fef3723d5cc382f6aa64b2c716f17",
+    "bytes": 2961688,
+    "fetched_utc": "2026-10-10T19:36:30+00:00"
+   },
+   "opps": {
+    "url": "https://www.cms.gov/files/zip/july-2026-opps-addendum-b.zip",
+    "sha256": "85baa6b3be8c92a2009241f358f767bcc722bf81b219f4740bbb3306648ea9c9",
+    "bytes": 1382240,
+    "fetched_utc": "2026-10-10T19:36:30+00:00"
+   }
+  },
+  "filter": "Impact File 'Provider Number' == '240010'; Addendum B 'HCPCS Code' in the selected ED visit and imaging codes"
+ },
+ "ccn": "240010",
+ "impact_file_row": {
+  "Provider Number": "240010",
+  "Name": "Mayo Clinic Hospital Rochester",
+  "Geographic Labor Market Area": 40340,
+  "Pre-Reclass Labor Market Area": 40340,
+  "Post Reclass Labor Market Area": 40340,
+  "Payment Labor Market Area": 24,
+  "FIPS County Code": 27109,
+  "Region": 4,
+  "URGEO": "OURBAN",
+  "URSPA": "RURAL",
+  "RECLASS": "W",
+  "FY 2027 Wage Index": 1.1183,
+  "Section 401 Hospital": "Y",
+  "Section 401 hospital with a LUGAR or MGCRB Wage Index Reclass": "Y",
+  "Cost of Living Adjustment": 1.0,
+  "Resident to Bed Ratio": 0.3751,
+  "RDAY": 0.5419,
+  "Beds": 1155,
+  "Average Daily Census": 826,
+  "TCHOP": 0.18589,
+  "TCHCP": 0.16524,
+  "DSHPCT": 0.1973,
+  "DSHOPP": 0.01394,
+  "DSHCPP": 0.04076,
+  "DSH_LY": 0.01394,
+  "UCP Per Claim Amount": 0.0,
+  "UCP_ADJ_LY": 0.000665,
+  "UCP Per Claim Amount LY": 308.92,
+  "Operating CCR": 0.377,
+  "Capital CCR": 0.021,
+  "Provider Type": 17,
+  "HSP Rate": 10793.51,
+  "Bills": 15336,
+  "CASETA43": 15249.67,
+  "CMIV43": 2.7447,
+  "TACMIV43": 2.7419,
+  "IME_CASETA43": 9575.6,
+  "IME_TACMIV43": 2.5811,
+  "CASETA44": 15255.03,
+  "CMIV44": 2.7552,
+  "TACMIV44": 2.7522,
+  "IME_CASETA44": 9579.14,
+  "IME_TACMIV44": 2.5868,
+  "GAF": 1.0795748060076606,
+  "Capital Cost of Living Adjustment": 1.0,
+  "OUTFACT_F": 0.20397,
+  "COUTFACT_F": 0.10299,
+  "Medicare Percentage": 0.30496,
+  "Medicaid Percentage": 0.1645,
+  "Proxy Value Based Purchasing Adjustment Factor": 1.01936,
+  "Proxy Readmission Adjustment Factor": 1.0,
+  "Proxy Quality Reduction": 0,
+  "Proxy EHR Reduction": 0,
+  "Ownership Control Type": "G",
+  "Low Volume Hospital Adjustment": 1
+ },
+ "table_1a_full_update_wage_index_gt_1": {
+  "labor_related": 4519.68,
+  "nonlabor_related": 2328.32
+ },
+ "table_1d_capital_rate": 539.95,
+ "computed": {
+  "formula": "operating = (labor*wage_index + nonlabor) * (1 + TCHOP + DSHOPP); capital = capital_rate * GAF * (1 + TCHCP + DSHCPP); payment(weight) = (operating + capital) * weight + UCP per claim. Outliers, VBP/readmission/HAC adjustments, new-technology add-ons, transfers and any hospital-specific (sole community / Medicare-dependent) rate are ignored.",
+  "operating_per_unit_weight": 8857.96,
+  "capital_per_unit_weight": 703.0,
+  "uncompensated_care_per_claim": 0.0,
+  "case_mix_index_TACMIV44": 2.7522,
+  "payment_at_weight_1": 9560.96,
+  "payment_at_hospital_cmi": 26313.66,
+  "opps_wage_adjustment": 1.071
+ },
+ "table5_summary": {
+  "n_ms_drgs": 768,
+  "n_medical_drgs": 367,
+  "unweighted_mean_weight_medical_drgs": 1.4824
+ },
+ "opps_codes": [
+  {
+   "hcpcs": "70450",
+   "status_indicator": "Q3",
+   "apc": "5522",
+   "relative_weight": 1.1684,
+   "payment_rate_national_unadjusted": 106.81,
+   "group": "ct",
+   "payment_rate_wage_adjusted": 114.39
+  },
+  {
+   "hcpcs": "70496",
+   "status_indicator": "Q3",
+   "apc": "5571",
+   "relative_weight": 1.9603,
+   "payment_rate_national_unadjusted": 179.2,
+   "group": "ct",
+   "payment_rate_wage_adjusted": 191.92
+  },
+  {
+   "hcpcs": "70498",
+   "status_indicator": "Q3",
+   "apc": "5571",
+   "relative_weight": 1.9603,
+   "payment_rate_national_unadjusted": 179.2,
+   "group": "ct",
+   "payment_rate_wage_adjusted": 191.92
+  },
+  {
+   "hcpcs": "71250",
+   "status_indicator": "Q3",
+   "apc": "5522",
+   "relative_weight": 1.1684,
+   "payment_rate_national_unadjusted": 106.81,
+   "group": "ct",
+   "payment_rate_wage_adjusted": 114.39
+  },
+  {
+   "hcpcs": "71260",
+   "status_indicator": "Q3",
+   "apc": "5571",
+   "relative_weight": 1.9603,
+   "payment_rate_national_unadjusted": 179.2,
+   "group": "ct",
+   "payment_rate_wage_adjusted": 191.92
+  },
+  {
+   "hcpcs": "71275",
+   "status_indicator": "Q3",
+   "apc": "5571",
+   "relative_weight": 1.9603,
+   "payment_rate_national_unadjusted": 179.2,
+   "group": "ct",
+   "payment_rate_wage_adjusted": 191.92
+  },
+  {
+   "hcpcs": "72125",
+   "status_indicator": "Q3",
+   "apc": "5522",
+   "relative_weight": 1.1684,
+   "payment_rate_national_unadjusted": 106.81,
+   "group": "ct",
+   "payment_rate_wage_adjusted": 114.39
+  },
+  {
+   "hcpcs": "74176",
+   "status_indicator": "Q3",
+   "apc": "5523",
+   "relative_weight": 2.6666,
+   "payment_rate_national_unadjusted": 243.77,
+   "group": "ct",
+   "payment_rate_wage_adjusted": 261.08
+  },
+  {
+   "hcpcs": "74177",
+   "status_indicator": "Q3",
+   "apc": "5572",
+   "relative_weight": 3.899,
+   "payment_rate_national_unadjusted": 356.43,
+   "group": "ct",
+   "payment_rate_wage_adjusted": 381.74
+  },
+  {
+   "hcpcs": "74178",
+   "status_indicator": "Q3",
+   "apc": "5572",
+   "relative_weight": 3.899,
+   "payment_rate_national_unadjusted": 356.43,
+   "group": "ct",
+   "payment_rate_wage_adjusted": 381.74
+  },
+  {
+   "hcpcs": "99281",
+   "status_indicator": "J2",
+   "apc": "5021",
+   "relative_weight": 0.9424,
+   "payment_rate_national_unadjusted": 86.15,
+   "group": "ed_visit",
+   "payment_rate_wage_adjusted": 92.27
+  },
+  {
+   "hcpcs": "99282",
+   "status_indicator": "J2",
+   "apc": "5022",
+   "relative_weight": 1.716,
+   "payment_rate_national_unadjusted": 156.87,
+   "group": "ed_visit",
+   "payment_rate_wage_adjusted": 168.01
+  },
+  {
+   "hcpcs": "99283",
+   "status_indicator": "J2",
+   "apc": "5023",
+   "relative_weight": 3.0508,
+   "payment_rate_national_unadjusted": 278.89,
+   "group": "ed_visit",
+   "payment_rate_wage_adjusted": 298.69
+  },
+  {
+   "hcpcs": "99284",
+   "status_indicator": "J2",
+   "apc": "5024",
+   "relative_weight": 4.6634,
+   "payment_rate_national_unadjusted": 426.3,
+   "group": "ed_visit",
+   "payment_rate_wage_adjusted": 456.57
+  },
+  {
+   "hcpcs": "99285",
+   "status_indicator": "J2",
+   "apc": "5025",
+   "relative_weight": 6.6557,
+   "payment_rate_national_unadjusted": 608.43,
+   "group": "ed_visit",
+   "payment_rate_wage_adjusted": 651.63
+  },
+  {
+   "hcpcs": "99291",
+   "status_indicator": "J2",
+   "apc": "5041",
+   "relative_weight": 9.2318,
+   "payment_rate_national_unadjusted": 843.92,
+   "group": "ed_visit",
+   "payment_rate_wage_adjusted": 903.84
+  },
+  {
+   "hcpcs": "G0380",
+   "status_indicator": "J2",
+   "apc": "5031",
+   "relative_weight": 0.8307,
+   "payment_rate_national_unadjusted": 75.94,
+   "group": "ed_visit",
+   "payment_rate_wage_adjusted": 81.33
+  },
+  {
+   "hcpcs": "G0381",
+   "status_indicator": "J2",
+   "apc": "5032",
+   "relative_weight": 1.0381,
+   "payment_rate_national_unadjusted": 94.9,
+   "group": "ed_visit",
+   "payment_rate_wage_adjusted": 101.64
+  },
+  {
+   "hcpcs": "G0382",
+   "status_indicator": "J2",
+   "apc": "5033",
+   "relative_weight": 1.921,
+   "payment_rate_national_unadjusted": 175.61,
+   "group": "ed_visit",
+   "payment_rate_wage_adjusted": 188.08
+  },
+  {
+   "hcpcs": "G0383",
+   "status_indicator": "J2",
+   "apc": "5034",
+   "relative_weight": 2.9539,
+   "payment_rate_national_unadjusted": 270.03,
+   "group": "ed_visit",
+   "payment_rate_wage_adjusted": 289.2
+  },
+  {
+   "hcpcs": "G0384",
+   "status_indicator": "J2",
+   "apc": "5035",
+   "relative_weight": 4.5903,
+   "payment_rate_national_unadjusted": 419.62,
+   "group": "ed_visit",
+   "payment_rate_wage_adjusted": 449.41
+  },
+  {
+   "hcpcs": "70551",
+   "status_indicator": "Q3",
+   "apc": "5523",
+   "relative_weight": 2.6666,
+   "payment_rate_national_unadjusted": 243.77,
+   "group": "mri",
+   "payment_rate_wage_adjusted": 261.08
+  },
+  {
+   "hcpcs": "70553",
+   "status_indicator": "Q3",
+   "apc": "5572",
+   "relative_weight": 3.899,
+   "payment_rate_national_unadjusted": 356.43,
+   "group": "mri",
+   "payment_rate_wage_adjusted": 381.74
+  },
+  {
+   "hcpcs": "72141",
+   "status_indicator": "Q3",
+   "apc": "5523",
+   "relative_weight": 2.6666,
+   "payment_rate_national_unadjusted": 243.77,
+   "group": "mri",
+   "payment_rate_wage_adjusted": 261.08
+  },
+  {
+   "hcpcs": "72148",
+   "status_indicator": "Q3",
+   "apc": "5523",
+   "relative_weight": 2.6666,
+   "payment_rate_national_unadjusted": 243.77,
+   "group": "mri",
+   "payment_rate_wage_adjusted": 261.08
+  },
+  {
+   "hcpcs": "76700",
+   "status_indicator": "Q3",
+   "apc": "5522",
+   "relative_weight": 1.1684,
+   "payment_rate_national_unadjusted": 106.81,
+   "group": "ultrasound",
+   "payment_rate_wage_adjusted": 114.39
+  },
+  {
+   "hcpcs": "76705",
+   "status_indicator": "Q3",
+   "apc": "5522",
+   "relative_weight": 1.1684,
+   "payment_rate_national_unadjusted": 106.81,
+   "group": "ultrasound",
+   "payment_rate_wage_adjusted": 114.39
+  },
+  {
+   "hcpcs": "76770",
+   "status_indicator": "Q3",
+   "apc": "5522",
+   "relative_weight": 1.1684,
+   "payment_rate_national_unadjusted": 106.81,
+   "group": "ultrasound",
+   "payment_rate_wage_adjusted": 114.39
+  },
+  {
+   "hcpcs": "76830",
+   "status_indicator": "S",
+   "apc": "5522",
+   "relative_weight": 1.1684,
+   "payment_rate_national_unadjusted": 106.81,
+   "group": "ultrasound",
+   "payment_rate_wage_adjusted": 114.39
+  },
+  {
+   "hcpcs": "76856",
+   "status_indicator": "Q3",
+   "apc": "5522",
+   "relative_weight": 1.1684,
+   "payment_rate_national_unadjusted": 106.81,
+   "group": "ultrasound",
+   "payment_rate_wage_adjusted": 114.39
+  },
+  {
+   "hcpcs": "76870",
+   "status_indicator": "Q1",
+   "apc": "5522",
+   "relative_weight": 1.1684,
+   "payment_rate_national_unadjusted": 106.81,
+   "group": "ultrasound",
+   "payment_rate_wage_adjusted": 114.39
+  },
+  {
+   "hcpcs": "93970",
+   "status_indicator": "S",
+   "apc": "5523",
+   "relative_weight": 2.6666,
+   "payment_rate_national_unadjusted": 243.77,
+   "group": "ultrasound",
+   "payment_rate_wage_adjusted": 261.08
+  },
+  {
+   "hcpcs": "93971",
+   "status_indicator": "S",
+   "apc": "5522",
+   "relative_weight": 1.1684,
+   "payment_rate_national_unadjusted": 106.81,
+   "group": "ultrasound",
+   "payment_rate_wage_adjusted": 114.39
+  },
+  {
+   "hcpcs": "71045",
+   "status_indicator": "Q3",
+   "apc": "5521",
+   "relative_weight": 0.9726,
+   "payment_rate_national_unadjusted": 88.91,
+   "group": "xray",
+   "payment_rate_wage_adjusted": 95.22
+  },
+  {
+   "hcpcs": "71046",
+   "status_indicator": "Q3",
+   "apc": "5521",
+   "relative_weight": 0.9726,
+   "payment_rate_national_unadjusted": 88.91,
+   "group": "xray",
+   "payment_rate_wage_adjusted": 95.22
+  },
+  {
+   "hcpcs": "72100",
+   "status_indicator": "Q1",
+   "apc": "5522",
+   "relative_weight": 1.1684,
+   "payment_rate_national_unadjusted": 106.81,
+   "group": "xray",
+   "payment_rate_wage_adjusted": 114.39
+  },
+  {
+   "hcpcs": "73030",
+   "status_indicator": "Q1",
+   "apc": "5521",
+   "relative_weight": 0.9726,
+   "payment_rate_national_unadjusted": 88.91,
+   "group": "xray",
+   "payment_rate_wage_adjusted": 95.22
+  },
+  {
+   "hcpcs": "73110",
+   "status_indicator": "Q1",
+   "apc": "5521",
+   "relative_weight": 0.9726,
+   "payment_rate_national_unadjusted": 88.91,
+   "group": "xray",
+   "payment_rate_wage_adjusted": 95.22
+  },
+  {
+   "hcpcs": "73130",
+   "status_indicator": "Q1",
+   "apc": "5521",
+   "relative_weight": 0.9726,
+   "payment_rate_national_unadjusted": 88.91,
+   "group": "xray",
+   "payment_rate_wage_adjusted": 95.22
+  },
+  {
+   "hcpcs": "73562",
+   "status_indicator": "Q1",
+   "apc": "5521",
+   "relative_weight": 0.9726,
+   "payment_rate_national_unadjusted": 88.91,
+   "group": "xray",
+   "payment_rate_wage_adjusted": 95.22
+  },
+  {
+   "hcpcs": "73610",
+   "status_indicator": "Q1",
+   "apc": "5521",
+   "relative_weight": 0.9726,
+   "payment_rate_national_unadjusted": 88.91,
+   "group": "xray",
+   "payment_rate_wage_adjusted": 95.22
+  },
+  {
+   "hcpcs": "73630",
+   "status_indicator": "Q1",
+   "apc": "5521",
+   "relative_weight": 0.9726,
+   "payment_rate_national_unadjusted": 88.91,
+   "group": "xray",
+   "payment_rate_wage_adjusted": 95.22
+  }
+ ]
+}

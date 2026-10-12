@@ -51,3 +51,13 @@ svc.status()
 argument names, bearer-token auth and Vlada's table names are unverified, and the logical-table -> SQL map
 (`adapters/vlada_tables.json`) does not exist yet. Until it does, every call falls back to the public extract and
 `status()` reports the fallback. Tests: `.venv/bin/python -m pytest data/adapters -q` (5 tests, faked HTTP).
+
+## Per-hospital extracts (`processed/hospitals/<ccn>/`) - the public-data twin builder
+
+`twin/sources/*.py` are the per-hospital generalisation of the fetchers above: one module per public dataset, each
+`fetch(ccn)` writing `processed/hospitals/<ccn>/<source>.json` with a `source` block (URL, release, fetch time, sha256,
+exact filter). `python -m twin.fetch --ccn <ccn>` runs them all (heavy: HCRIS 135 MB, clinician files 0.8 + 3.3 + 1.2 GB -
+run on a workstation and copy the extracts back); `python -m twin.build --ccn <ccn> --id <id>` turns the extracts into
+`catalog/hospitals/<id>.yaml`, `<id>.layout.json` and `twin/reports/<id>/DATA.md`. The roster extract holds NPIs,
+specialties, credentials and graduation years - no names. Hand-entered facts a hospital publishes about itself (with
+quote and URL) go in `twin/published/<ccn>.yaml`.

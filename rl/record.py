@@ -20,7 +20,8 @@ from pathlib import Path
 
 import torch
 
-from .common import IMPULSE_HEADS, RECORD_SEED, RESULTS_DIR, ROLLOUT_DIR, ROOT, TERMS, load_scales, behaviour_fingerprint, now_iso, sim_fingerprint, write_json
+from .common import (IMPULSE_HEADS, RECORD_SEED, ROLLOUT_DIR, ROOT, TERMS, calibration_fingerprint, hospital_id, load_scales, behaviour_fingerprint,
+                     now_iso, paths, sim_fingerprint, write_json)
 from .env import HospitalEnv
 from .managers import list_managers, load_manager
 
@@ -58,19 +59,22 @@ def _busy_candidates(days: int):
     return range(4, days - 1) if days >= 7 else range(min(1, days - 1), days)
 
 
-def busiest_day(scenario: str, seed: int, days: int) -> int:
+def busiest_day(scenario: str, seed: int, days: int, hospital: str | None = None) -> int:
     """Day (>= 2) with the most exogenous arrivals on this seed; from the evaluation part file when
     it covers the seed, else from a hourly-only pass of the fixed manager."""
-    part = RESULTS_DIR / "parts" / f"{scenario}.json"
+    h = hospital_id(hospital)
+    part = paths(h).results / "parts" / f"{scenario}.json"
     if part.exists():
         d = json.loads(part.read_text())
-        if seed in d["seeds"] and d["days"] >= days and d.get("sim_behaviour_fingerprint") == behaviour_fingerprint():
+        if seed in d["seeds"] and d["days"] >= days and d.get("sim_behaviour_fingerprint") == behaviour_fingerprint(h) \
+                and d.get("calibration_fingerprint") in (None, calibration_fingerprint(h)):
             arr = d["daily_exogenous_arrivals"][d["seeds"].index(seed)][:days]
             return max(_busy_candidates(days), key=lambda i: arr[i])
-    env = HospitalEnv(scenario, 1, "cpu", seed, days * 24, auto_reset=False, scales={"scales": {k: 1.0 for k in TERMS}})
-    pol = load_manager("fixed")
+    env = HospitalEnv(scenario, 1, "cpu", seed, days * 24, auto_reset=False, scales={"scales": {k: 1.0 for k in TERMS}}, hospital=h)
+    pol = load_manager("fixed", hospital=h)
+    pol.reset(1, "cpu", env.default_actions())
     obs, arr = env.reset(), []
-    for h in range(days * 24):
+    for _hr in range(days * 24):
         obs, r, d, info = env.step(pol.act(obs, env.action_mask()))
         arr.append(float(info["metrics"]["arrivals"][0] + info["metrics"]["diverted"][0]))
     daily = [sum(arr[i * 24:(i + 1) * 24]) for i in range(days)]
@@ -79,16 +83,18 @@ def busiest_day(scenario: str, seed: int, days: int) -> int:
 
 @torch.no_grad()
 def record(manager_id: str, scenario: str, seed: int = RECORD_SEED, days: int = 30, busy_day: int | None = None,
-           every_ticks: int = 2, out_dir: Path = ROLLOUT_DIR, validate: bool = True) -> dict:
-    pol = load_manager(manager_id, "cpu")
-    scales = load_scales()
+           every_ticks: int = 2, out_dir: Path | None = None, validate: bool = True, hospital: str | None = None) -> dict:
+    hosp = hospital_id(hospital)
+    out_dir = Path(out_dir) if out_dir is not None else paths(hosp).rollouts
+    pol = load_manager(manager_id, "cpu", hospital=hosp)
+    scales = load_scales(hospital=hosp)
     w = torch.tensor([float((pol.reward_weights or {}).get(k, 0.0)) for k in TERMS])
-    env = HospitalEnv(scenario, 1, "cpu", seed, days * 24, stage="stage_3", weights=w, scales=scales, auto_reset=False)
+    env = HospitalEnv(scenario, 1, "cpu", seed, days * 24, stage="stage_3", weights=w, scales=scales, auto_reset=False, hospital=hosp)
     sim = env.sim
     spec = sim.action_spec()
     by_name = {h["name"]: h for h in spec}
     if busy_day is None:
-        busy_day = busiest_day(scenario, seed, days)
+        busy_day = busiest_day(scenario, seed, days, hosp)
     tph = 60 // sim.tick_minutes
     dow = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
     seg_days, windows = [], []
@@ -98,7 +104,7 @@ def record(manager_id: str, scenario: str, seed: int = RECORD_SEED, days: int = 
             windows.append((f"Day {d} ({dow[d % 7]}), 00:00-24:00" + (f" — {why}" if why else ""), d * 24, 24))
     windows.sort(key=lambda x: x[1])
     segs = [dict(label=lab, start_t=h0 * tph, every_ticks=every_ticks, snapshots=[]) for lab, h0, n in windows]
-    pol.reset(1, "cpu")
+    pol.reset(1, "cpu", env.default_actions())
     obs = env.reset()
     layout0 = sim.layout(0)
     hourly = {k: [] for k in sim.metric_names()}
@@ -146,12 +152,13 @@ def record(manager_id: str, scenario: str, seed: int = RECORD_SEED, days: int = 
         man["checkpoint"] = str(pol.config.get("checkpoint"))
     if pol.kind == "learned":
         from .managers import heldout_verdicts
-        man["heldout_verdict"] = heldout_verdicts().get(manager_id) or "not evaluated yet"
+        man["heldout_verdict"] = heldout_verdicts(hosp).get(manager_id) or "not evaluated yet"
     roll = dict(schema_version=1,
                 header=dict(rollout_id=rid, manager=man, scenario=scenario, hospital_id=str(getattr(sim.scn, "hospital_id", "rwjuh_nb")),
                             seed=int(seed), tick_minutes=int(sim.tick_minutes), days=int(days), created=now_iso(), synthetic=True,
                             enums=sim.enums, layout=layout0, action_spec=spec, summary=summary,
-                            sim_fingerprint=sim_fingerprint(), sim_behaviour_fingerprint=behaviour_fingerprint(),
+                            sim_fingerprint=sim_fingerprint(), sim_behaviour_fingerprint=behaviour_fingerprint(hosp),
+                            calibration_fingerprint=calibration_fingerprint(hosp), policy_stale=bool(getattr(pol, "stale", False)),
                             policy_behaviour_fingerprint=getattr(pol, "behaviour_fingerprint", None),
                             invalid_actions=int(sim.invalid_actions[0])),
                 hourly=hourly, decisions=decisions, structural_changes=structural, segments=segs)
@@ -159,11 +166,13 @@ def record(manager_id: str, scenario: str, seed: int = RECORD_SEED, days: int = 
         validate_rollout(roll)
     out_dir.mkdir(parents=True, exist_ok=True)
     path = out_dir / f"{rid}.json.gz"
-    with gzip.open(path, "wt", compresslevel=6) as f:
+    tmp = out_dir / f"{rid}.json.gz.tmp"
+    with gzip.open(tmp, "wt", compresslevel=6) as f:
         json.dump(roll, f, separators=(",", ":"))
+    tmp.replace(path)
     return dict(rollout_id=rid, manager={k: man.get(k) for k in ("id", "kind", "label", "objective")}, scenario=scenario, seed=int(seed),
                 days=int(days), summary=summary, has_segments=bool(segs and segs[0]["snapshots"]), file=path.name,
-                bytes=path.stat().st_size, sim_behaviour_fingerprint=behaviour_fingerprint(), n_decisions=len(decisions))
+                bytes=path.stat().st_size, sim_behaviour_fingerprint=behaviour_fingerprint(hosp), n_decisions=len(decisions))
 
 
 def validate_rollout(roll: dict):
@@ -182,9 +191,10 @@ def validate_rollout(roll: dict):
     jsonschema.Draft202012Validator(schema, registry=reg).validate(roll)
 
 
-def write_index(out_dir: Path = ROLLOUT_DIR):
+def write_index(out_dir: Path | None = None):
     """Rebuild index.json (the /api/rollouts list shape) from the rollout files on disk."""
     rows = []
+    out_dir = Path(out_dir) if out_dir is not None else ROLLOUT_DIR
     for f in sorted(out_dir.glob("*.json.gz")):
         with gzip.open(f, "rt") as fh:
             r = json.load(fh)
@@ -192,7 +202,8 @@ def write_index(out_dir: Path = ROLLOUT_DIR):
         rows.append(dict(rollout_id=h["rollout_id"], manager={k: h["manager"].get(k) for k in ("id", "kind", "label", "objective")},
                          scenario=h["scenario"], seed=h["seed"], days=h["days"], summary=h.get("summary", {}),
                          has_segments=bool(r["segments"] and r["segments"][0]["snapshots"]), file=f.name, bytes=f.stat().st_size,
-                         sim_fingerprint=h.get("sim_fingerprint"), sim_behaviour_fingerprint=h.get("sim_behaviour_fingerprint"), created=h.get("created"), synthetic=True))
+                         sim_fingerprint=h.get("sim_fingerprint"), sim_behaviour_fingerprint=h.get("sim_behaviour_fingerprint"),
+                         hospital_id=h.get("hospital_id"), calibration_fingerprint=h.get("calibration_fingerprint"), created=h.get("created"), synthetic=True))
     write_json(out_dir / "index.json", rows, indent=1)
     return rows
 
@@ -207,23 +218,25 @@ def main():
     ap.add_argument("--every-ticks", type=int, default=2)
     ap.add_argument("--jobs", type=int, default=12)
     ap.add_argument("--threads", type=int, default=1)
-    ap.add_argument("--out", default=str(ROLLOUT_DIR))
+    ap.add_argument("--hospital", default=None)
+    ap.add_argument("--out", default=None)
     ap.add_argument("--busy-day", type=int, default=None)
     ap.add_argument("--single", action="store_true", help="internal: record exactly one manager x scenario in this process")
     a = ap.parse_args()
-    out = Path(a.out)
+    hid = hospital_id(a.hospital)
+    out = Path(a.out or paths(hid).rollouts)
     torch.set_num_threads(a.threads)
-    ids = a.manager or [m["id"] for m in list_managers() if m["available"]]
+    ids = a.manager or [m["id"] for m in list_managers(hid) if m["available"]]
     if a.single:
-        r = record(ids[0], a.scenario[0], a.seed, a.days, a.busy_day, a.every_ticks, out)
+        r = record(ids[0], a.scenario[0], a.seed, a.days, a.busy_day, a.every_ticks, out, hospital=hid)
         print(f"recorded {r['rollout_id']} {r['bytes'] / 1e6:.2f} MB, {r['n_decisions']} decisions")
         return
     jobs = []
     for s in a.scenario:
-        bd = a.busy_day if a.busy_day is not None else busiest_day(s, a.seed, a.days)
+        bd = a.busy_day if a.busy_day is not None else busiest_day(s, a.seed, a.days, hid)
         for m in ids:
             jobs.append([sys.executable, "-m", "rl.record", "--single", "--manager", m, "--scenario", s, "--seed", str(a.seed),
-                         "--days", str(a.days), "--every-ticks", str(a.every_ticks), "--threads", str(a.threads), "--out", str(out),
+                         "--days", str(a.days), "--every-ticks", str(a.every_ticks), "--threads", str(a.threads), "--out", str(out), "--hospital", hid,
                          "--busy-day", str(bd)])
     running, failed = [], 0
     while jobs or running:

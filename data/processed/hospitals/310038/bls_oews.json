@@ -1,0 +1,482 @@
+{
+ "source": {
+  "dataset": "BLS Occupational Employment and Wage Statistics (OEWS), all industries, latest annual estimates through the BLS public API v1",
+  "dataset_id": "OEU series",
+  "release": "May 2025 estimates",
+  "url": "https://api.bls.gov/publicAPI/v1/timeseries/data/",
+  "landing": "https://www.bls.gov/oes/",
+  "fetched_utc": "metro: 2026-10-10 (by data/fetch/bls_oews.py); state: 2026-10-10 (by data/fetch/bls_oews.py)",
+  "sha256": null,
+  "filter": "series OEU<area type><area code>000000<SOC><datatype>, area codes metro=M0035620, state=S3400000; datatypes {'03': 'hourly_mean', '08': 'hourly_median', '07': 'hourly_p25', '09': 'hourly_p75'}",
+  "areas": {
+   "metro": {
+    "area_code": "M0035620",
+    "fetched_utc": "2026-10-10 (by data/fetch/bls_oews.py)",
+    "via": "tracked extract data/processed/bls_oews_staff_wages.csv (same API, no new query)"
+   },
+   "state": {
+    "area_code": "S3400000",
+    "fetched_utc": "2026-10-10 (by data/fetch/bls_oews.py)",
+    "via": "tracked extract data/processed/bls_oews_staff_wages.csv (same API, no new query)"
+   }
+  },
+  "errors": {},
+  "note": "API responses, cached per area under data/raw/bls/; no bulk file, so no file hash. Role -> occupation mapping is ours."
+ },
+ "ccn": "310038",
+ "geography": {
+  "cbsa": "35620",
+  "cbsa_title": "New York-Newark-Jersey City, NY-NJ",
+  "kind": "Metropolitan Statistical Area",
+  "metropolitan_division": "29484",
+  "county": "Middlesex County",
+  "county_fips": "34023",
+  "delineation_url": "https://www2.census.gov/programs-surveys/metro-micro/geographies/reference-files/2023/delineation-files/list1_2023.xlsx",
+  "delineation_sha256": "952c4b1e78acbb54e6ec9412434b7602fedacbf021736351a63c181bdb753629"
+ },
+ "state": "NJ",
+ "areas": {
+  "metro": "M0035620",
+  "state": "S3400000"
+ },
+ "role_to_soc": {
+  "attending": [
+   "29-1214 Emergency Medicine Physicians"
+  ],
+  "app": [
+   "29-1171 Nurse Practitioners",
+   "29-1071 Physician Assistants"
+  ],
+  "rn": [
+   "29-1141 Registered Nurses"
+  ],
+  "charge_rn": [
+   "29-1141 Registered Nurses"
+  ],
+  "tech": [
+   "29-2042 Emergency Medical Technicians",
+   "31-1131 Nursing Assistants"
+  ],
+  "registration": [
+   "43-4111 Interviewers, Except Eligibility and Loan"
+  ],
+  "pharmacist": [
+   "29-1051 Pharmacists"
+  ],
+  "imaging_tech": [
+   "29-2034 Radiologic Technologists and Technicians"
+  ],
+  "transport": [
+   "31-1132 Orderlies"
+  ],
+  "evs": [
+   "37-2011 Janitors and Cleaners, Except Maids and Housekeeping Cleaners"
+  ]
+ },
+ "role_wages": {
+  "attending": {
+   "value": 139.15,
+   "area": "metro",
+   "area_code": "M0035620",
+   "statistic": "hourly_median",
+   "statistic_wanted": "hourly_median",
+   "year": "2025",
+   "components": [
+    {
+     "soc": "29-1214",
+     "occupation": "Emergency Medicine Physicians",
+     "value": 139.15
+    }
+   ]
+  },
+  "app": {
+   "value": 78.41,
+   "area": "metro",
+   "area_code": "M0035620",
+   "statistic": "hourly_mean",
+   "statistic_wanted": "hourly_mean",
+   "year": "2025",
+   "components": [
+    {
+     "soc": "29-1171",
+     "occupation": "Nurse Practitioners",
+     "value": 78.18
+    },
+    {
+     "soc": "29-1071",
+     "occupation": "Physician Assistants",
+     "value": 78.64
+    }
+   ]
+  },
+  "rn": {
+   "value": 57.5,
+   "area": "metro",
+   "area_code": "M0035620",
+   "statistic": "hourly_mean",
+   "statistic_wanted": "hourly_mean",
+   "year": "2025",
+   "components": [
+    {
+     "soc": "29-1141",
+     "occupation": "Registered Nurses",
+     "value": 57.5
+    }
+   ]
+  },
+  "charge_rn": {
+   "value": 64.05,
+   "area": "metro",
+   "area_code": "M0035620",
+   "statistic": "hourly_p75",
+   "statistic_wanted": "hourly_p75",
+   "year": "2025",
+   "components": [
+    {
+     "soc": "29-1141",
+     "occupation": "Registered Nurses",
+     "value": 64.05
+    }
+   ]
+  },
+  "tech": {
+   "value": 25.89,
+   "area": "metro",
+   "area_code": "M0035620",
+   "statistic": "hourly_mean",
+   "statistic_wanted": "hourly_mean",
+   "year": "2025",
+   "components": [
+    {
+     "soc": "29-2042",
+     "occupation": "Emergency Medical Technicians",
+     "value": 27.36
+    },
+    {
+     "soc": "31-1131",
+     "occupation": "Nursing Assistants",
+     "value": 24.43
+    }
+   ]
+  },
+  "registration": {
+   "value": 27.03,
+   "area": "metro",
+   "area_code": "M0035620",
+   "statistic": "hourly_mean",
+   "statistic_wanted": "hourly_mean",
+   "year": "2025",
+   "components": [
+    {
+     "soc": "43-4111",
+     "occupation": "Interviewers, Except Eligibility and Loan",
+     "value": 27.03
+    }
+   ]
+  },
+  "pharmacist": {
+   "value": 68.47,
+   "area": "metro",
+   "area_code": "M0035620",
+   "statistic": "hourly_mean",
+   "statistic_wanted": "hourly_mean",
+   "year": "2025",
+   "components": [
+    {
+     "soc": "29-1051",
+     "occupation": "Pharmacists",
+     "value": 68.47
+    }
+   ]
+  },
+  "imaging_tech": {
+   "value": 49.81,
+   "area": "metro",
+   "area_code": "M0035620",
+   "statistic": "hourly_mean",
+   "statistic_wanted": "hourly_mean",
+   "year": "2025",
+   "components": [
+    {
+     "soc": "29-2034",
+     "occupation": "Radiologic Technologists and Technicians",
+     "value": 49.81
+    }
+   ]
+  },
+  "transport": {
+   "value": 22.26,
+   "area": "metro",
+   "area_code": "M0035620",
+   "statistic": "hourly_mean",
+   "statistic_wanted": "hourly_mean",
+   "year": "2025",
+   "components": [
+    {
+     "soc": "31-1132",
+     "occupation": "Orderlies",
+     "value": 22.26
+    }
+   ]
+  },
+  "evs": {
+   "value": 21.88,
+   "area": "metro",
+   "area_code": "M0035620",
+   "statistic": "hourly_mean",
+   "statistic_wanted": "hourly_mean",
+   "year": "2025",
+   "components": [
+    {
+     "soc": "37-2011",
+     "occupation": "Janitors and Cleaners, Except Maids and Housekeeping Cleaners",
+     "value": 21.88
+    }
+   ]
+  }
+ },
+ "table": [
+  {
+   "area": "metro",
+   "area_code": "M0035620",
+   "soc": "29-1051",
+   "occupation": "Pharmacists",
+   "hourly_mean": 68.47,
+   "year": "2025",
+   "hourly_median": 67.94,
+   "hourly_p25": 62.65,
+   "hourly_p75": 79.52
+  },
+  {
+   "area": "metro",
+   "area_code": "M0035620",
+   "soc": "29-1071",
+   "occupation": "Physician Assistants",
+   "hourly_mean": 78.64,
+   "year": "2025",
+   "hourly_median": 80.6,
+   "hourly_p25": 68.24,
+   "hourly_p75": 86.53
+  },
+  {
+   "area": "metro",
+   "area_code": "M0035620",
+   "soc": "29-1141",
+   "occupation": "Registered Nurses",
+   "hourly_mean": 57.5,
+   "year": "2025",
+   "hourly_median": 57.56,
+   "hourly_p25": 49.99,
+   "hourly_p75": 64.05
+  },
+  {
+   "area": "metro",
+   "area_code": "M0035620",
+   "soc": "29-1171",
+   "occupation": "Nurse Practitioners",
+   "hourly_mean": 78.18,
+   "year": "2025",
+   "hourly_median": 78.53,
+   "hourly_p25": 68.59,
+   "hourly_p75": 83.6
+  },
+  {
+   "area": "metro",
+   "area_code": "M0035620",
+   "soc": "29-1214",
+   "occupation": "Emergency Medicine Physicians",
+   "hourly_mean": 119.74,
+   "year": "2025",
+   "hourly_median": 139.15,
+   "hourly_p25": 45.02,
+   "hourly_p75": 177.65
+  },
+  {
+   "area": "metro",
+   "area_code": "M0035620",
+   "soc": "29-2034",
+   "occupation": "Radiologic Technologists and Technicians",
+   "hourly_mean": 49.81,
+   "year": "2025",
+   "hourly_median": 49.39,
+   "hourly_p25": 42.29,
+   "hourly_p75": 56.3
+  },
+  {
+   "area": "metro",
+   "area_code": "M0035620",
+   "soc": "29-2042",
+   "occupation": "Emergency Medical Technicians",
+   "hourly_mean": 27.36,
+   "year": "2025",
+   "hourly_median": 25.88,
+   "hourly_p25": 22.86,
+   "hourly_p75": 30.89
+  },
+  {
+   "area": "metro",
+   "area_code": "M0035620",
+   "soc": "31-1131",
+   "occupation": "Nursing Assistants",
+   "hourly_mean": 24.43,
+   "year": "2025",
+   "hourly_median": 23.69,
+   "hourly_p25": 22.8,
+   "hourly_p75": 26.53
+  },
+  {
+   "area": "metro",
+   "area_code": "M0035620",
+   "soc": "31-1132",
+   "occupation": "Orderlies",
+   "hourly_mean": 22.26,
+   "year": "2025",
+   "hourly_median": 22.04,
+   "hourly_p25": 18.77,
+   "hourly_p75": 24.79
+  },
+  {
+   "area": "metro",
+   "area_code": "M0035620",
+   "soc": "37-2011",
+   "occupation": "Janitors and Cleaners, Except Maids and Housekeeping Cleaners",
+   "hourly_mean": 21.88,
+   "year": "2025",
+   "hourly_median": 20.6,
+   "hourly_p25": 17.66,
+   "hourly_p75": 24.63
+  },
+  {
+   "area": "metro",
+   "area_code": "M0035620",
+   "soc": "43-4111",
+   "occupation": "Interviewers, Except Eligibility and Loan",
+   "hourly_mean": 27.03,
+   "year": "2025",
+   "hourly_median": 27.56,
+   "hourly_p25": 22.97,
+   "hourly_p75": 29.39
+  },
+  {
+   "area": "state",
+   "area_code": "S3400000",
+   "soc": "29-1051",
+   "occupation": "Pharmacists",
+   "hourly_mean": 67.96,
+   "year": "2025",
+   "hourly_median": 66.16,
+   "hourly_p25": 63.14,
+   "hourly_p75": 77.52
+  },
+  {
+   "area": "state",
+   "area_code": "S3400000",
+   "soc": "29-1071",
+   "occupation": "Physician Assistants",
+   "hourly_mean": 77.93,
+   "year": "2025",
+   "hourly_median": 79.66,
+   "hourly_p25": 64.76,
+   "hourly_p75": 92.48
+  },
+  {
+   "area": "state",
+   "area_code": "S3400000",
+   "soc": "29-1141",
+   "occupation": "Registered Nurses",
+   "hourly_mean": 52.93,
+   "year": "2025",
+   "hourly_median": 51.2,
+   "hourly_p25": 47.94,
+   "hourly_p75": 61.41
+  },
+  {
+   "area": "state",
+   "area_code": "S3400000",
+   "soc": "29-1171",
+   "occupation": "Nurse Practitioners",
+   "hourly_mean": 74.88,
+   "year": "2025",
+   "hourly_median": 76.59,
+   "hourly_p25": 65.74,
+   "hourly_p75": 81.99
+  },
+  {
+   "area": "state",
+   "area_code": "S3400000",
+   "soc": "29-1214",
+   "occupation": "Emergency Medicine Physicians",
+   "hourly_mean": 126.0,
+   "year": "2025",
+   "hourly_median": 151.6,
+   "hourly_p25": 38.18,
+   "hourly_p75": 184.28
+  },
+  {
+   "area": "state",
+   "area_code": "S3400000",
+   "soc": "29-2034",
+   "occupation": "Radiologic Technologists and Technicians",
+   "hourly_mean": 44.83,
+   "year": "2025",
+   "hourly_median": 45.67,
+   "hourly_p25": 38.75,
+   "hourly_p75": 49.76
+  },
+  {
+   "area": "state",
+   "area_code": "S3400000",
+   "soc": "29-2042",
+   "occupation": "Emergency Medical Technicians",
+   "hourly_mean": 26.58,
+   "year": "2025",
+   "hourly_median": 25.78,
+   "hourly_p25": 23.08,
+   "hourly_p75": 29.28
+  },
+  {
+   "area": "state",
+   "area_code": "S3400000",
+   "soc": "31-1131",
+   "occupation": "Nursing Assistants",
+   "hourly_mean": 22.5,
+   "year": "2025",
+   "hourly_median": 22.52,
+   "hourly_p25": 21.13,
+   "hourly_p75": 23.44
+  },
+  {
+   "area": "state",
+   "area_code": "S3400000",
+   "soc": "31-1132",
+   "occupation": "Orderlies",
+   "hourly_mean": 19.28,
+   "year": "2025",
+   "hourly_median": 18.59,
+   "hourly_p25": 17.72,
+   "hourly_p75": 21.08
+  },
+  {
+   "area": "state",
+   "area_code": "S3400000",
+   "soc": "37-2011",
+   "occupation": "Janitors and Cleaners, Except Maids and Housekeeping Cleaners",
+   "hourly_mean": 19.57,
+   "year": "2025",
+   "hourly_median": 18.09,
+   "hourly_p25": 16.92,
+   "hourly_p75": 21.3
+  },
+  {
+   "area": "state",
+   "area_code": "S3400000",
+   "soc": "43-4111",
+   "occupation": "Interviewers, Except Eligibility and Loan",
+   "hourly_mean": 23.47,
+   "year": "2025",
+   "hourly_median": 22.78,
+   "hourly_p25": 19.62,
+   "hourly_p75": 26.37
+  }
+ ]
+}

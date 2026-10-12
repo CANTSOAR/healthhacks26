@@ -60,8 +60,9 @@ def test_learned_policy_roundtrip_cpu(tmp_path):
     obs = torch.rand(3, sp["obs_dim"])
     mask = {n: torch.ones(3, dtype=torch.bool) for n in sp["head_names"]}
     a1, a2 = p.act(obs, mask), p.act(torch.cat([obs, p.w.expand(3, -1)], 1), mask)
+    a3 = p.act(torch.cat([obs, torch.zeros(3, len(TERMS))], 1), mask)     # a shared evaluation env carries no per-agent weights
     for h in sp["action_spec"]:
-        assert torch.equal(a1[h["name"]], a2[h["name"]])
+        assert torch.equal(a1[h["name"]], a2[h["name"]]) and torch.equal(a1[h["name"]], a3[h["name"]])
         if h["cadence"] in ("weekly", "monthly"):
             assert bool((a1[h["name"]] == h["default"]).all())
 
@@ -89,7 +90,7 @@ def test_objective_score_constraint_penalty():
 
 def test_rollouts_validate_and_share_patients(tmp_path, scales, monkeypatch):
     import rl.record as R
-    monkeypatch.setattr(R, "load_scales", lambda: scales)
+    monkeypatch.setattr(R, "load_scales", lambda *a, **k: scales)
     rows = [record(m, "normal_week", days=2, busy_day=1, out_dir=tmp_path) for m in ("fixed", "random")]
     rolls = []
     for r in rows:

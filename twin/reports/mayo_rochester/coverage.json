@@ -1,0 +1,21 @@
+{
+ "hospital_id": "mayo_rochester",
+ "ccn": "240010",
+ "mode": "generated",
+ "hospital": {
+  "measured": 58,
+  "literature": 4,
+  "assumed": 22
+ },
+ "overrides": {
+  "measured": 27,
+  "literature": 0,
+  "assumed": 12
+ },
+ "total": {
+  "measured": 85,
+  "literature": 4,
+  "assumed": 34
+ },
+ "n_attributes": 123
+}

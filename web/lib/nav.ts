@@ -7,13 +7,16 @@ function pickPair(): [string, string] | null {
   const { scenarioId } = useUI.getState();
   const usable = rollouts.filter((r) => r.has_segments);
   if (!usable.length) return null;
-  // Default pair: the cost-tuned against the wait-tuned heuristic on the chosen scenario. The tuned heuristics are the
-  // real result of the evaluation (the learned agents mostly reproduce them), so they are what is shown first.
+  // Default pair: current practice against the recommended plan on the chosen scenario, so the first thing Compare
+  // shows is what the plan changes. Without those recordings: the lowest-cost against the shortest-wait plan.
   const inScenario = usable.filter((r) => r.scenario === scenarioId);
   const pool = inScenario.length ? inScenario : usable;
   const pickObj = (re: RegExp) => pool.find((r) => r.manager.kind === "tuned_heuristic" && re.test(`${r.manager.objective ?? ""} ${r.manager.id}`)) ?? pool.find((r) => re.test(`${r.manager.objective ?? ""} ${r.manager.id}`));
   const cost = pickObj(/min_cost/);
   const wait = pickObj(/min_wait/);
+  const base = pool.find((r) => r.manager.id === "fixed");
+  const rec = pool.find((r) => r.manager.id === "tuned_same_budget");
+  if (!compareIds[0] && !compareIds[1] && base && rec && base.seed === rec.seed) return [base.rollout_id, rec.rollout_id];
   if (!compareIds[0] && !compareIds[1] && cost && wait && cost.rollout_id !== wait.rollout_id && cost.seed === wait.seed) return [cost.rollout_id, wait.rollout_id];
   const a = usable.find((r) => r.rollout_id === compareIds[0]) ?? usable.find((r) => r.scenario === scenarioId) ?? usable[0];
   // prefer a second manager on the same scenario and seed
@@ -29,7 +32,9 @@ export async function enter(mode: Mode) {
   if (s.mode === "play" && mode !== "play" && runIsLive()) s.toast("Your run is paused on the server. Come back to Play within about ten minutes to carry on.", "info");
   s.set({ mode, selection: null, hover: null, drawer: null });
   const url = new URL(window.location.href);
-  url.searchParams.set("mode", mode);
+  // the landing page is the bare address
+  if (mode === "home") url.searchParams.delete("mode");
+  else url.searchParams.set("mode", mode);
   window.history.replaceState(null, "", url);
   // the server re-reads managers and rollouts from disk as training lands: refresh the lists on every mode change
   await loadLists().catch(() => undefined);
@@ -49,5 +54,6 @@ export async function enter(mode: Mode) {
   } else if (mode === "tradeoff") {
     if (!feeds.a.getState().layout) await showLayoutOnly();
   }
+  // "optimize" and "home" load their own data (components/modes/OptimizeView.tsx, HomeView.tsx)
 }
 

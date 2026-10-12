@@ -1,0 +1,234 @@
+{
+ "phase": "done",
+ "hospital_id": "rwjuh_nb",
+ "started": "2026-10-11T03:52:05+0000",
+ "updated": "2026-10-11T03:56:26+0000",
+ "elapsed_s": 261.33110427856445,
+ "gens": 4,
+ "pop": 46,
+ "history": [
+  {
+   "gen": 0,
+   "best_score": 0.3373730182647705,
+   "baseline_score": -0.04781622439622879,
+   "seconds": 33.820021629333496,
+   "best": {
+    "wait_mean_min": 14.65900707244873,
+    "wait_p95_min": 29.6875,
+    "ed_los_median_min": 191.25,
+    "lwbs_rate": 0.008469687774777412,
+    "cost_per_day": 611875.0,
+    "margin_per_day": 423155.5,
+    "cost_per_treated": 2725.311767578125,
+    "deaths_per_10k": 8.380236625671387,
+    "boarding_hours_per_day": 4.709374904632568,
+    "diversion_hours_per_day": 0.0,
+    "overtime_hours_per_day": 0.02499999664723873,
+    "labor_cost_per_day": 106128.21875,
+    "fixed_cost_per_day": 392710.71875,
+    "operating_cost_per_day": 498838.96875,
+    "adverse_events_per_day": 0.35624998807907104,
+    "deaths_per_day": 0.19375000894069672,
+    "lwbs_per_day": 1.9625000953674316,
+    "arrivals_per_day": 231.28749084472656,
+    "diverted_per_day": 0.0,
+    "treated_per_day": 224.8249969482422,
+    "admissions_per_day": 32.01874923706055,
+    "transfers_per_day": 2.34375,
+    "ed_los_mean_min": 233.23114013671875,
+    "wait_patient_hours_per_day": 37.579689025878906,
+    "ed_patient_hours_per_day": 892.9312133789062,
+    "hi_acuity_wait_hours_per_day": 4.212499618530273,
+    "staff_hours_per_day": 1573.9625244140625,
+    "revenue_per_day": 1035030.5
+   }
+  },
+  {
+   "gen": 1,
+   "best_score": 1.313056468963623,
+   "baseline_score": null,
+   "seconds": 34.27711367607117,
+   "best": {
+    "wait_mean_min": 15.587770462036133,
+    "wait_p95_min": 33.75,
+    "ed_los_median_min": 224.6875,
+    "lwbs_rate": 0.010247907601296902,
+    "cost_per_day": 624909.0,
+    "margin_per_day": 472104.5,
+    "cost_per_treated": 2827.036865234375,
+    "deaths_per_10k": 3.4665722846984863,
+    "boarding_hours_per_day": 16.180208206176758,
+    "diversion_hours_per_day": 0.0,
+    "overtime_hours_per_day": 0.17499998211860657,
+    "labor_cost_per_day": 119274.9453125,
+    "fixed_cost_per_day": 392710.71875,
+    "operating_cost_per_day": 511985.65625,
+    "adverse_events_per_day": 0.3187499940395355,
+    "deaths_per_day": 0.08125000447034836,
+    "lwbs_per_day": 2.3500001430511475,
+    "arrivals_per_day": 228.38751220703125,
+    "diverted_per_day": 0.0,
+    "treated_per_day": 221.32501220703125,
+    "admissions_per_day": 33.150001525878906,
+    "transfers_per_day": 1.8250000476837158,
+    "ed_los_mean_min": 271.0017395019531,
+    "wait_patient_hours_per_day": 40.814064025878906,
+    "ed_patient_hours_per_day": 1024.69384765625,
+    "hi_acuity_wait_hours_per_day": 4.418749809265137,
+    "staff_hours_per_day": 1712.6251220703125,
+    "revenue_per_day": 1097013.375
+   }
+  },
+  {
+   "gen": 2,
+   "best_score": 0.7275643348693848,
+   "baseline_score": null,
+   "seconds": 34.15246820449829,
+   "best": {
+    "wait_mean_min": 13.80213737487793,
+    "wait_p95_min": 26.25,
+    "ed_los_median_min": 192.8125,
+    "lwbs_rate": 0.008371853269636631,
+    "cost_per_day": 612833.5,
+    "margin_per_day": 419017.375,
+    "cost_per_treated": 2688.48291015625,
+    "deaths_per_10k": 5.284919738769531,
+    "boarding_hours_per_day": 5.282291412353516,
+    "diversion_hours_per_day": 0.0,
+    "overtime_hours_per_day": 0.01874999701976776,
+    "labor_cost_per_day": 106956.6328125,
+    "fixed_cost_per_day": 392710.71875,
+    "operating_cost_per_day": 499667.375,
+    "adverse_events_per_day": 0.35625001788139343,
+    "deaths_per_day": 0.125,
+    "lwbs_per_day": 1.9624998569488525,
+    "arrivals_per_day": 234.13751220703125,
+    "diverted_per_day": 0.0,
+    "treated_per_day": 228.25,
+    "admissions_per_day": 31.03125,
+    "transfers_per_day": 2.5625,
+    "ed_los_mean_min": 230.13357543945312,
+    "wait_patient_hours_per_day": 34.501564025878906,
+    "ed_patient_hours_per_day": 890.25,
+    "hi_acuity_wait_hours_per_day": 3.7562499046325684,
+    "staff_hours_per_day": 1503.5374755859375,
+    "revenue_per_day": 1031850.875
+   }
+  },
+  {
+   "gen": 3,
+   "best_score": 2.021670341491699,
+   "baseline_score": null,
+   "seconds": 34.29037570953369,
+   "best": {
+    "wait_mean_min": 14.901961326599121,
+    "wait_p95_min": 33.75,
+    "ed_los_median_min": 198.75,
+    "lwbs_rate": 0.00715514225885272,
+    "cost_per_day": 605329.4375,
+    "margin_per_day": 460508.3125,
+    "cost_per_treated": 2643.4140625,
+    "deaths_per_10k": 5.067954063415527,
+    "boarding_hours_per_day": 4.766145706176758,
+    "diversion_hours_per_day": 0.0,
+    "overtime_hours_per_day": 0.7499999403953552,
+    "labor_cost_per_day": 105426.078125,
+    "fixed_cost_per_day": 392710.71875,
+    "operating_cost_per_day": 498136.8125,
+    "adverse_events_per_day": 0.25,
+    "deaths_per_day": 0.11874999850988388,
+    "lwbs_per_day": 1.6875,
+    "arrivals_per_day": 234.9375,
+    "diverted_per_day": 0.0,
+    "treated_per_day": 229.34376525878906,
+    "admissions_per_day": 32.0625,
+    "transfers_per_day": 2.3687498569488525,
+    "ed_los_mean_min": 234.14559936523438,
+    "wait_patient_hours_per_day": 38.97187805175781,
+    "ed_patient_hours_per_day": 909.6687622070312,
+    "hi_acuity_wait_hours_per_day": 4.293749809265137,
+    "staff_hours_per_day": 1431.987548828125,
+    "revenue_per_day": 1065837.75
+   }
+  }
+ ],
+ "objective": {
+  "signed_weights": {
+   "margin_per_day": -0.5714285714285714,
+   "wait_mean_min": 0.34285714285714286,
+   "ed_los_median_min": 0.04285714285714285,
+   "lwbs_rate": 0.04285714285714285
+  },
+  "goals": [
+   {
+    "metric": "profit",
+    "direction": "max",
+    "rank": 1,
+    "weight": 0.5714285714285714,
+    "label": "Profit (operating margin)",
+    "against_the_grain": false,
+    "outcome": [
+     {
+      "metric": "margin_per_day",
+      "pct": 1.8086862014280138,
+      "diff": 7541.513346354128,
+      "achieved": true,
+      "went_against": false
+     }
+    ]
+   },
+   {
+    "metric": "wait",
+    "direction": "min",
+    "rank": 2,
+    "weight": 0.2857142857142857,
+    "label": "Door-to-provider wait (mean)",
+    "against_the_grain": false,
+    "outcome": [
+     {
+      "metric": "wait_mean_min",
+      "pct": -29.002684203972834,
+      "diff": -5.736545026302339,
+      "achieved": true,
+      "went_against": false
+     }
+    ]
+   },
+   {
+    "metric": "patient_experience",
+    "direction": "max",
+    "rank": 3,
+    "weight": 0.14285714285714285,
+    "label": "Patient experience (proxy: shorter wait and stay, fewer walk-outs)",
+    "against_the_grain": false,
+    "outcome": [
+     {
+      "metric": "wait_mean_min",
+      "pct": -29.002684203972834,
+      "diff": -5.736545026302339,
+      "achieved": true,
+      "went_against": false
+     },
+     {
+      "metric": "ed_los_median_min",
+      "pct": -4.189944134078212,
+      "diff": -8.59375,
+      "achieved": true,
+      "went_against": false
+     },
+     {
+      "metric": "lwbs_rate",
+      "pct": -24.450923619327963,
+      "diff": -0.0023510854589403616,
+      "achieved": true,
+      "went_against": false
+     }
+    ]
+   }
+  ],
+  "guardrails": true
+ },
+ "gen": 4,
+ "picked": "elite 1",
+ "headline": "Against current practice in the simulated twin, the plan optimised for your reward gives: Profit (operating margin) +1.8% (rank 1, asked to maximise: moved the way you asked); Door-to-provider wait (mean) -29.0% (rank 2, asked to minimise: moved the way you asked); Patient experience (proxy: shorter wait and stay, fewer walk-outs) +20.2% (rank 3, asked to maximise: moved the way you asked). Better on your reward in 6 of 6 twins consistent with the public record."
+}

@@ -11,22 +11,34 @@ import { Icon, ICONS } from "./atoms";
 import { TourButton } from "./Tour";
 
 const MODES: { id: Mode; label: string }[] = [
+  { id: "optimize", label: "Optimize" },
   { id: "play", label: "Play" },
   { id: "watch", label: "Watch" },
   { id: "compare", label: "Compare" },
   { id: "tradeoff", label: "Trade-off" },
 ];
 
-export function Logo() {
+/** The brand. It goes back to the landing page. */
+export function Logo({ onHome }: { onHome?: () => void }) {
   return (
-    <div className="flex items-center gap-2 pl-1">
+    <a
+      href="/"
+      onClick={(e) => {
+        if (!onHome) return;
+        e.preventDefault();
+        onHome();
+      }}
+      className="flex shrink-0 items-center gap-2 rounded-full pl-1 pr-1.5"
+      aria-label="HospitalGym home"
+      data-testid="logo"
+    >
       <span className="flex h-7 w-7 items-center justify-center rounded-[9px] bg-accent text-white shadow-pill">
         <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden>
           <path d="M7 2v10M2 7h10" stroke="#fff" strokeWidth="2.6" strokeLinecap="round" />
         </svg>
       </span>
       <span className="text-[15px] font-semibold tracking-[-0.01em] text-ink">HospitalGym</span>
-    </div>
+    </a>
   );
 }
 
@@ -70,8 +82,9 @@ export function SpeedControl({ compact = false }: { compact?: boolean }) {
       <button data-on={paused} aria-label={paused ? "Resume" : "Pause"} onClick={() => set({ paused: !paused })} className="!px-2">
         <Icon d={paused ? ICONS.play : ICONS.pause} size={13} stroke={2.4} />
       </button>
-      {paused && !compact && (
-        <button aria-label="Step one tick" onClick={() => transport.step()} className="!px-2" title="Advance one tick">
+      {/* always in the bar (disabled while running) so pausing never shifts the speed buttons */}
+      {!compact && (
+        <button aria-label="Step one tick" onClick={() => transport.step()} disabled={!paused} className="!px-2 disabled:opacity-30">
           <Icon d={ICONS.step} size={13} stroke={2.2} />
         </button>
       )}
@@ -96,13 +109,11 @@ export function StatusIndicator() {
   const origin = useStore(feeds.a, (s) => s.origin);
   const [open, setOpen] = useState(false);
   const ref = useClickAway<HTMLDivElement>(useCallback(() => setOpen(false), []));
-  const label = process.env.NEXT_PUBLIC_STATIC_SNAPSHOT === "1" ? "Recorded snapshot" : online == null ? "Checking…" : online ? "Live" : "Offline · fixture";
+  const label = process.env.NEXT_PUBLIC_STATIC_SNAPSHOT === "1" ? "Recorded snapshot" : online == null ? "Checking…" : online ? "Live" : "Offline · sample data";
   const color = online == null ? "#B4BAD1" : online ? "#1BAF7A" : "#E0A21B";
   const sv = status?.services;
   const rows: [string, boolean, string][] = [
     ["Simulator", !!online && !!sv?.sim.live, online ? (sv?.sim.live ? "live" : "not running") : "unreachable · fixture replay"],
-    ["Language model", !!online && !!sv?.llm.live, online ? `${sv?.llm.provider ?? "offline"}${sv?.llm.model ? ` · ${sv.llm.model}` : ""}` : "offline rules"],
-    ["Voice", !!online && !!sv?.voice.live, online ? (sv?.voice.provider ?? "browser") : "browser speech"],
     ["Data service", !!online && !!sv?.data.live, online ? (sv?.data.provider ?? "public_extracts") : "public extracts"],
   ];
   return (
@@ -135,7 +146,7 @@ export function StatusIndicator() {
             <div>
               Server <span className="font-medium text-ink-2">{apiBase()}</span> {online ? "is answering." : "is not answering."}
             </div>
-            {!online && <div>Showing bundled fixture data: placeholder numbers, not simulator output.</div>}
+            {!online && <div>Showing bundled sample data: placeholder numbers, not simulator output.</div>}
             {origin !== "none" && (
               <div>
                 Scene data: <span className="font-medium text-ink-2">{origin === "live" ? "live simulation" : origin === "replay" ? "recorded rollout from the server" : "bundled fixture"}</span>
@@ -256,56 +267,36 @@ export function Switchers() {
   );
 }
 
-const PAGES: [string, string, string][] = [
-  ["/encounter", "Encounter", "encounter"],
-  ["/studio", "Studio", "studio"],
-  ["/journey", "Journey", "journey"],
-];
-
-/** Links to the other pages of the app. Inline on a wide bar; behind a "More" button on a phone. */
-export function NavLinks({ menu = false }: { menu?: boolean }) {
+/** On a phone the tour button lives behind "More". */
+export function MoreMenu() {
   const [open, setOpen] = useState(false);
   const ref = useClickAway<HTMLDivElement>(useCallback(() => setOpen(false), []));
-  if (!menu)
-    return (
-      <nav className="flex items-center" aria-label="Other pages">
-        {PAGES.map(([href, label, id]) => (
-          <a key={id} href={href} data-nav={id} className="flex h-8 items-center rounded-full px-2.5 text-[12px] font-semibold text-ink-3 transition-colors hover:bg-accent-soft hover:text-accent-dark">
-            {label}
-          </a>
-        ))}
-      </nav>
-    );
   return (
     <div className="relative" ref={ref}>
-      <button className="btn-quiet !px-2.5" aria-label="More pages" aria-expanded={open} onClick={() => setOpen((o) => !o)} data-testid="nav-more">
+      <button className="btn-quiet !px-2.5" aria-label="More" aria-expanded={open} onClick={() => setOpen((o) => !o)} data-testid="nav-more">
         More
       </button>
       {open && (
-        <nav className="glass-solid rise absolute right-0 top-10 z-50 flex w-[170px] flex-col p-1.5" aria-label="Other pages">
-          {PAGES.map(([href, label, id]) => (
-            <a key={id} href={href} data-nav={id} className="rounded-lg px-2.5 py-2 text-[13px] font-semibold text-ink-2 hover:bg-accent-soft hover:text-accent-dark">
-              {label}
-            </a>
-          ))}
-          <div className="mt-1 border-t border-line px-1 pt-2" onClick={() => setOpen(false)}>
-            <TourButton />
-          </div>
-        </nav>
+        <div className="glass-solid rise absolute right-0 top-10 z-50 flex w-[170px] flex-col p-2" onClick={() => setOpen(false)}>
+          <TourButton />
+        </div>
       )}
     </div>
   );
 }
 
 export function TopBar({ narrow, onMode }: { narrow: boolean; onMode: (m: Mode) => void }) {
-  const clockless = useUI((s) => s.mode === "tradeoff");
+  const clockless = useUI((s) => s.mode === "tradeoff" || s.mode === "optimize" || s.mode === "home");
+  // Optimize and the landing page have no run of their own to steer: the scenario row is left out
+  const bare = useUI((s) => s.mode === "optimize" || s.mode === "home");
+  const home = useCallback(() => onMode("home"), [onMode]);
   if (narrow)
     return (
       <div className="pointer-events-auto flex flex-col gap-2">
         <div className="glass relative z-40 flex h-12 items-center gap-1.5 px-2.5">
-          <Logo />
+          <Logo onHome={home} />
           <div className="ml-auto">{!clockless && <Clock compact />}</div>
-          <NavLinks menu />
+          <MoreMenu />
           <StatusIndicator />
         </div>
         <div className="flex items-center gap-2">
@@ -321,26 +312,24 @@ export function TopBar({ narrow, onMode }: { narrow: boolean; onMode: (m: Mode) 
       </div>
     );
   // Two rows: pages and tools on the first, the run's own controls (scenario, clock, speed) on the second.
-  // Everything fits from 1280 px; nothing is hidden by width.
   return (
     <div className="glass pointer-events-auto relative z-40 flex flex-col px-3" data-testid="topbar">
       <div className="flex h-[48px] items-center gap-2">
-        <Logo />
+        <Logo onHome={home} />
         <ModeTabs onMode={onMode} />
-        <NavLinks />
-        <SearchBox />
+        {!bare && <SearchBox />}
         <div className="ml-auto flex shrink-0 items-center gap-2">
           <TourButton />
           <StatusIndicator />
         </div>
       </div>
-      <div className="flex h-[42px] items-center gap-2 border-t border-line">
+      {!bare && <div className="flex h-[42px] items-center gap-2 border-t border-line">
         <Switchers />
         <div className="ml-auto flex shrink-0 items-center gap-2">
           {!clockless && <Clock />}
           {!clockless && <SpeedControl />}
         </div>
-      </div>
+      </div>}
     </div>
   );
 }

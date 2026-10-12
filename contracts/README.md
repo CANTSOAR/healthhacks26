@@ -1,6 +1,6 @@
 # Contracts
 
-Shared formats between `sim/`, `rl/`, `server/`, `web/`, `encounter/` and `catalog/`.
+Shared formats between `sim/`, `rl/`, `twin/`, `server/`, `web/` and `catalog/`.
 Only the orchestrator edits this directory. If you need a change, write it to
 `<your-dir>/CONTRACT_REQUESTS.md`, proceed with your proposed shape, and report it.
 
@@ -12,12 +12,11 @@ Only the orchestrator edits this directory. If you need a change, write it to
 | `rollout.schema.json` | A recorded rollout: header, hourly metrics, decisions, snapshot segments |
 | `metrics.yaml` | Every metric, defined once: unit, denominator, window |
 | `actions.yaml` | Factored action heads, cadence, options, defaults |
-| `interaction.schema.json` | Interaction declaration, latent truth, interaction result (sampled or played) |
-| `case.schema.json` | Encounter case (faculty truth / patient-known / learner-visible / rubric kept separate) |
+| `interaction.schema.json` | Interaction declaration, latent truth, interaction result (sampled from the catalog; the `played` resolver value is unused by this repository) |
 | `catalog.schema.json` | Shape of every `catalog/*.yaml` file |
 | `sim_api.md` | Python API of the simulator that `rl/` and `server/` call |
 | `api.md` | HTTP and websocket API that `web/` calls |
-| `fixtures/` | `make_fixture.py` builds `layout.fixture.json` and `rollout.fixture.json`, both validated against the schemas |
+| `fixtures/` | `make_fixture.py` builds `layout.fixture.json` and `rollout.fixture.json`, both validated against the schemas; `optimize_status.fixture.json` and `optimize_result.fixture.json` are example answers of `GET /api/optimize/{job_id}` |
 
 Conventions
 

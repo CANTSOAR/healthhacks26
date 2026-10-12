@@ -1,0 +1,21 @@
+{
+ "hospital_id": "mount_sinai",
+ "ccn": "330024",
+ "mode": "generated",
+ "hospital": {
+  "measured": 63,
+  "literature": 1,
+  "assumed": 24
+ },
+ "overrides": {
+  "measured": 28,
+  "literature": 0,
+  "assumed": 12
+ },
+ "total": {
+  "measured": 91,
+  "literature": 1,
+  "assumed": 36
+ },
+ "n_attributes": 128
+}

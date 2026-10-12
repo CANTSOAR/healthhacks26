@@ -59,10 +59,10 @@ export const FLOOR: Record<string, string> = {
 /** Manager kinds: three hues (blue / orange / aqua pass the all-pairs colour-vision check together) plus three neutrals.
  * Every kind also has its own marker shape and points are labelled, so identity never rests on colour alone. */
 export const KIND: Record<ManagerKind, { color: string; shape: "circle" | "square" | "diamond" | "triangle" | "cross" | "star"; label: string }> = {
-  learned: { color: "#2F55F5", shape: "circle", label: "Learned" },
-  tuned_heuristic: { color: "#EB6834", shape: "diamond", label: "Tuned heuristic" },
+  learned: { color: "#2F55F5", shape: "circle", label: "Learned agent" },
+  tuned_heuristic: { color: "#EB6834", shape: "diamond", label: "Tuned plan" },
   rule_based: { color: "#1BAF7A", shape: "square", label: "Rule-based" },
-  fixed: { color: "#3A4266", shape: "triangle", label: "Fixed" },
+  fixed: { color: "#3A4266", shape: "triangle", label: "Current practice" },
   random: { color: "#9AA3B5", shape: "cross", label: "Random" },
   human: { color: "#141A33", shape: "star", label: "Human" },
 };

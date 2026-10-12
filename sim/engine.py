@@ -55,6 +55,25 @@ SUM_METRICS = ["arrivals", "first_seen", "door_to_provider_sum_min", "lwbs", "di
 EXTRA_METRICS = ["waiting_patient_minutes"]
 
 
+# ---- learned dispatch (additive; see HospitalSim.set_dispatch_params). One weight per feature; a queued patient's
+# feature vector is a few numbers plus one-hot groups, so the index is computed with table look-ups.
+_ESI = ["esi1", "esi2", "esi3", "esi4", "esi5"]
+_STAGES = ["bay_queue", "new_in_bay", "disposition", "scan_queue"]
+DISPATCH_FEATURES = (
+    ["acuity_x60", "wait_min", "exp_encounter_min", "lwbs_pressure", "deteriorated"]            # 0..4 numeric
+    + [f"{s}:{e}" for s in _STAGES for e in _ESI]                                              # 5..24 queue x triage level (bias)
+    + [f"wait_h:{e}" for e in _ESI]                                                            # 25..29 hours since arrival, per triage level
+    + [f"queue_h:{s}" for s in _STAGES]                                                        # 30..33 hours in the current queue
+    + ["walk_in", "ambulance", "transfer_in"]                                                  # 34..36
+    + ["age_0_17", "age_18_44", "age_45_64", "age_65_plus"]                                    # 37..40
+    + [f"cond{i}" for i in range(9)])                                                          # 41..49 condition group (enums order)
+F_SE, F_EW, F_SW, F_MODE, F_AGE, F_COND = 5, 25, 30, 34, 37, 41
+DISPATCH_SCALE = [300.0, 240.0, 60.0, 1.0, 1.0] + [1.0] * 20 + [4.0] * 5 + [2.0] * 4 + [1.0] * 16    # network input = feature / scale
+DISPATCH_CONTEXT = ["q_bay", "q_new", "q_disposition", "q_boarding", "bay_occupancy", "ward_occupancy", "providers_free",
+                    "hour_sin", "hour_cos", "q_esi12_unseen"]
+ACU_STATS = ["first_seen", "wait_sum_min", "seen_over_60", "lwbs", "unseen_min"]
+
+
 class DistTable:
     """Inverse-CDF sampler for fixed / lognormal / exponential durations indexed by a small table."""
 
@@ -118,6 +137,8 @@ class HospitalSim(ViewerMixin, InteractMixin):
         self.record = self.B <= int(eng["event_log_max_batch"])
         self._seed_arg = seed
         self.start_day = int(eng.get("start_day", 0))
+        self._disp = None                 # learned dispatch (additive; see set_dispatch_params). None = the priority_rule head decides
+        self._acu_track = False           # per-acuity statistics (additive; see enable_acuity_stats)
         self._build_static()
         self.reset(seed)
 
@@ -399,6 +420,8 @@ class HospitalSim(ViewerMixin, InteractMixin):
         self._callin_pending, self._callin_active = 0, False
         self.ft_open = torch.ones((B,), device=dev, dtype=torch.bool)
         self.ct_extra_staffed = torch.ones((B,), device=dev, dtype=torch.bool)
+        if self._acu_track:
+            self.acu_stats = {k: torch.zeros((B, 6), device=dev, dtype=torch.float64) for k in ACU_STATS}
         if self.flags["ward"] and self.cfg["ward_initial_occupancy"] > 0:
             self._init_ward()
         self.initial_census = self.entered.clone()
@@ -1180,6 +1203,8 @@ class HospitalSim(ViewerMixin, InteractMixin):
 
         # ---------------- 6. assignments
         prio = self.k_ac * (aq * 60).float() - self.k_age * wait_min + self.k_sh * self.exp_service[aq]
+        if self._disp is not None:
+            prio = self._dispatch_prio(prio, state, aq, wait_min, t_state, flags)
         prio = torch.where(self.tab_rule[state], prio, self._zf)
         key = (prio.long() << 32) + pid
         key = torch.where(active & ~m_ex, key, self._c_inf)
@@ -1266,6 +1291,13 @@ class HospitalSim(ViewerMixin, InteractMixin):
                 a_dis = torch.minimum(n_dis, freep - a_new0)
                 a_new = a_new0 + torch.minimum(n_new - a_new0, freep - a_new0 - a_dis)
                 sd_, _ = self._select(disc, a_dis)
+                if self._disp is not None and self._disp["unify_any"]:
+                    # learned dispatch, unified provider queue: new patients and ready dispositions compete on the
+                    # learned index for every free provider (the provider_split head is ignored on those rows)
+                    un = self._disp["unify"].unsqueeze(1)
+                    us_, _ = self._select(newc | disc, freep)
+                    sd_ = torch.where(un, us_ & disc, sd_)
+                    a_new = torch.where(un.squeeze(1), (us_ & newc).sum(1), a_new)
                 seen_dis = sd_ if seen_dis is None else seen_dis | sd_
             else:
                 a_new = torch.minimum(n_new, freep)
@@ -1287,6 +1319,8 @@ class HospitalSim(ViewerMixin, InteractMixin):
         acc["door_to_provider_sum_min"] += torch.where(seen_new, wait_min, zf).sum(1)
         acc["cost_variable"] += torch.where(seen_new, self.supply[acu], zf).sum(1)
         self.wait_hist_cur.scatter_add_(1, wait_ticks.clamp(0, self.wait_bins - 1), seen_new.to(torch.int32))
+        if self._acu_track:
+            self._acu_accumulate(aq, seen_new, wait_min, m_lwbs if fl["abandonment"] else None, state)
         if post:
             timer = torch.where(seen_dis, pd[:, :, F_REEVAL], timer)
             phase.masked_fill_(seen_dis, 2)
@@ -1377,6 +1411,140 @@ class HospitalSim(ViewerMixin, InteractMixin):
             acc["adverse_events"] += (rng.unit(tk, 7) < p_err).float()
             self._fatigue_rates()
         self._tick = t + 1
+
+    # ======================================================================================
+    # learned dispatch (ADDITIVE: nothing below runs unless set_dispatch_params / enable_acuity_stats is called)
+    # ======================================================================================
+    def dispatch_spec(self, hidden: int = 0) -> dict:
+        """Layout of one row of dispatch parameters. See set_dispatch_params."""
+        nf, ng = len(DISPATCH_FEATURES), len(DISPATCH_CONTEXT)
+        n_lin = nf + nf * ng
+        h = int(hidden)
+        return dict(features=list(DISPATCH_FEATURES), context=list(DISPATCH_CONTEXT), n_features=nf, n_context=ng, n_linear=n_lin,
+                    hidden=h, n_params=n_lin + ((nf + ng) * h + 2 * h if h > 0 else 0),
+                    layout="[w (nf) | W (nf x ng, row-major: feature, context) | W1 (hidden x (nf+ng)) | b1 (hidden) | w2 (hidden)]")
+
+    def dispatch_rule_theta(self, rule: int | str, hidden: int = 0) -> torch.Tensor:
+        """The parameter row that reproduces one of the four hard-coded priority rules exactly."""
+        names = self.action_spec()[self.head_names.index("priority_rule")]["options"]
+        r = names.index(rule) if isinstance(rule, str) else int(rule)
+        th = torch.zeros(self.dispatch_spec(hidden)["n_params"], dtype=torch.float32)
+        th[0], th[1], th[2] = float(self.rule_ac[r]), -float(self.rule_age[r]), float(self.rule_sh[r])
+        return th
+
+    def set_dispatch_params(self, theta=None, hidden: int = 0, active=None, unify=False) -> None:
+        """Learned per-patient dispatch. theta: FloatTensor[B, n_params] (or [n_params]); None switches it off.
+
+        Every tick each queued patient gets a priority index (LOWER is served first, same convention and unit -
+        "priority minutes" - as the hard-coded rules; ties go to the earlier arrival):
+
+            index_i = x_i . (w + W g)  [+ w2 . tanh(W1 [x_i / scale, g] + b1)  when hidden > 0]
+
+        x_i = DISPATCH_FEATURES of patient i (triage-desk knowledge only: triage acuity, time waited, queue, arrival
+        mode, age band, condition group, catalog means by triage level; never the latent acuity, the sampled patience
+        or the sampled service times), g = DISPATCH_CONTEXT of the hospital. The index orders the bay queue, the
+        provider queue and the scanner queue (the queues the priority_rule head orders).
+        active: BoolTensor[B], rows that use the learned index (others keep their priority_rule head). Default all.
+        unify:  bool or BoolTensor[B]; True = one provider queue in which new patients and ready dispositions compete
+                on the index for each free provider (provider_split is ignored on those rows). False keeps the split.
+        The setting survives reset(). Rows with theta = dispatch_rule_theta(r) and unify False follow rule r exactly."""
+        if theta is None:
+            self._disp = None
+            return
+        B, dev = self.B, self.device
+        sp = self.dispatch_spec(hidden)
+        th = torch.as_tensor(theta, dtype=torch.float32, device=dev)
+        th = th.unsqueeze(0).expand(B, -1) if th.dim() == 1 else th
+        if tuple(th.shape) != (B, sp["n_params"]):
+            raise ValueError(f"dispatch theta must be [{B}, {sp['n_params']}] for hidden={hidden}, got {tuple(th.shape)}")
+        nf, ng, h = sp["n_features"], sp["n_context"], sp["hidden"]
+        c = self.cfg
+        act = torch.ones((B,), device=dev, dtype=torch.bool) if active is None else torch.as_tensor(active, device=dev).bool().reshape(-1).expand(B).clone()
+        un = (torch.as_tensor(unify, device=dev).bool().reshape(-1).expand(B) & act).clone()
+        W = th[:, nf:nf + nf * ng].reshape(B, nf, ng).contiguous()
+        d = dict(theta=th.clone(), w=th[:, :nf].contiguous(), W=W, has_W=bool((W != 0).any()), hidden=h, active=act, all_active=bool(act.all()),
+                 unify=un, unify_any=bool(un.any()))
+        if h > 0:
+            o = sp["n_linear"]
+            W1 = th[:, o:o + h * (nf + ng)].reshape(B, h, nf + ng)
+            d["W1x"] = (W1[:, :, :nf] / torch.tensor(DISPATCH_SCALE, device=dev).view(1, 1, nf)).transpose(1, 2).contiguous()   # [B, nf, h]
+            d["W1g"] = W1[:, :, nf:].contiguous()                                                                         # [B, h, ng]
+            d["b1"] = th[:, o + h * (nf + ng):o + h * (nf + ng) + h].contiguous()
+            d["w2"] = th[:, o + h * (nf + ng) + h:].contiguous()
+        pad = lambda xs: torch.tensor([xs[0]] + list(xs), device=dev, dtype=torch.float32)   # noqa: E731
+        d["pat_mean"] = pad(c["patience"]["mean"]).clamp(min=1.0)
+        d["stage"] = torch.tensor([{S_WP: 1, S_WRES: 2, S_WTEST: 3}.get(i, 0) for i in range(12)], device=dev)
+        d["nb0"] = float(max(1, int(self.bay_exists0.sum())))
+        self._disp = d
+
+    def _dispatch_context(self, state, aq) -> torch.Tensor:
+        """[B, len(DISPATCH_CONTEXT)]: what the charge nurse sees on the board."""
+        d = self._disp
+        cnt = torch.zeros((self.B, 12), device=self.device).scatter_add_(1, state, self._true_bp.float())
+        nb = d["nb0"]
+        hod = (self._tick % self.tpd) / self.tpd * (2.0 * math.pi)
+        occ = self.bay_busy[:, :self.NB].sum(1).float() / self.bay_open[:, :self.NB].sum(1).float().clamp(min=1.0)
+        free = (self.md_eff.float() - cnt[:, S_PROV]).clamp(min=0.0) / self.md_eff.float().clamp(min=1.0)
+        hi = (self.tab_pre[state] & (aq <= 2)).sum(1).float() / 10.0
+        one = torch.ones((self.B,), device=self.device)
+        return torch.stack([cnt[:, S_WB] / nb, cnt[:, S_WP] / nb, cnt[:, S_WRES] / nb, cnt[:, S_BOARD] / nb, occ,
+                            cnt[:, S_WARD] / self.ward_cap.float().clamp(min=1.0), free, one * math.sin(hod), one * math.cos(hod), hi], 1)
+
+    def _dispatch_prio(self, prio, state, aq, wait_min, t_state, flags):
+        """Learned priority index for every patient slot (lower = sooner). `prio` is the hard-coded rule's index,
+        kept on rows where the learned dispatch is not active."""
+        d, ps = self._disp, self.ps
+        w = d["w"]
+        g = None
+        if d["has_W"] or d["hidden"] > 0:
+            g = self._dispatch_context(state, aq)
+            if d["has_W"]:
+                w = w + torch.bmm(d["W"], g.unsqueeze(2)).squeeze(2)
+        a0 = aq - 1
+        stage = d["stage"][state]
+        i_se = F_SE + stage * 5 + a0
+        i_ew = F_EW + a0
+        i_sw = F_SW + stage
+        i_mode = F_MODE + ps[:, :, I_MODE].clamp(0, 2)
+        i_age = F_AGE + ps[:, :, I_AGE].clamp(0, 3)
+        i_cond = F_COND + ps[:, :, I_COND].clamp(0, 8)
+        wait_h = wait_min * (1.0 / 60.0)
+        q_h = (self._tick - t_state).float() * (self.dt / 60.0)
+        unseen_walkin = self.tab_leave[state] & (ps[:, :, I_MODE] == 0)
+        lwbs_p = torch.where(unseen_walkin, (wait_min / d["pat_mean"][aq]).clamp(max=2.0), self._zf)
+        det = ((flags & F_DET) > 0).float()
+        num = ((aq * 60).float(), wait_min, self.exp_service[aq], lwbs_p, det)
+        learned = w[:, 0:1] * num[0] + w[:, 1:2] * num[1] + w[:, 2:3] * num[2] + w[:, 3:4] * num[3] + w[:, 4:5] * num[4] \
+            + w.gather(1, i_se) + w.gather(1, i_ew) * wait_h + w.gather(1, i_sw) * q_h + w.gather(1, i_mode) + w.gather(1, i_age) \
+            + w.gather(1, i_cond)
+        if d["hidden"] > 0:
+            h = d["hidden"]
+            W1x = d["W1x"]                                             # [B, nf, h], already divided by the feature scales
+            tab = lambda idx: W1x.gather(1, idx.unsqueeze(2).expand(-1, -1, h))   # noqa: E731
+            pre = (torch.bmm(d["W1g"], g.unsqueeze(2)).squeeze(2) + d["b1"]).unsqueeze(1)
+            pre = pre + tab(i_se) + tab(i_ew) * wait_h.unsqueeze(2) + tab(i_sw) * q_h.unsqueeze(2) + tab(i_mode) + tab(i_age) + tab(i_cond)
+            for j in range(5):
+                pre = pre + W1x[:, j:j + 1, :] * num[j].unsqueeze(2)
+            learned = learned + (torch.tanh(pre) * d["w2"].unsqueeze(1)).sum(2)
+        learned = torch.nan_to_num(learned, nan=0.0, posinf=1e9, neginf=-1e9).clamp(-1e9, 1e9)
+        return learned if d["all_active"] else torch.where(d["active"].unsqueeze(1), learned, prio)
+
+    def enable_acuity_stats(self, on: bool = True) -> None:
+        """Additive bookkeeping by TRIAGE acuity since reset: sim.acu_stats[k] is [B, 6] (column = ESI level 1..5;
+        column 0 unused) for k in ACU_STATS. Does not touch the dynamics."""
+        self._acu_track = bool(on)
+        if on:
+            self.acu_stats = {k: torch.zeros((self.B, 6), device=self.device, dtype=torch.float64) for k in ACU_STATS}
+
+    def _acu_accumulate(self, aq, seen_new, wait_min, m_lwbs, state):
+        a = self.acu_stats
+        one = seen_new.to(torch.float64)
+        a["first_seen"].scatter_add_(1, aq, one)
+        a["wait_sum_min"].scatter_add_(1, aq, one * wait_min.to(torch.float64))
+        a["seen_over_60"].scatter_add_(1, aq, one * (wait_min > 60.0).to(torch.float64))
+        if m_lwbs is not None:
+            a["lwbs"].scatter_add_(1, aq, m_lwbs.to(torch.float64))
+        a["unseen_min"].scatter_add_(1, aq, (self.tab_pre[state] & ~seen_new).to(torch.float64) * self.dt)
 
     def _fatigue_rates(self):
         """Per-state timer decrement for the next tick (fatigue slows providers and nurses)."""

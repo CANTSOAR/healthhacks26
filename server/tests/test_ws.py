@@ -2,7 +2,7 @@ import time
 
 import pytest
 
-from server import encounter_glue, managers, runs
+from server import managers, runs
 from server.tests.conftest import recv_until
 
 START = dict(type="start", scenario="normal_week", seed=7, manager="human", speed=0, hospital_id="rwjuh_nb")
@@ -192,7 +192,7 @@ def test_detail_entities_and_inject(client):
     assert rid in [r["run_id"] for r in runs.list_runs()]
     assert runs.sweep(now=time.time() + runs.GRACE_S + 1) == [rid]
     with pytest.raises(KeyError):
-        runs.get(rid)
+        runs.get_run(rid)
 
 
 def test_injected_events_are_exogenous():
@@ -200,76 +200,6 @@ def test_injected_events_are_exogenous():
     a, b = runs.Run("normal_week", seed=5), runs.Run("normal_week", seed=5)
     a.inject("mass_casualty")
     assert len(a.sim.scn.events) == 1 and b.sim.scn.events == []
-
-
-def test_played_write_back_through_registry():
-    """The encounter glue: hold a patient, write a played result back, and the next snapshot shows flag bit 8."""
-    run = runs.register(runs.Run("normal_week", seed=3))
-    try:
-        sim, b = runs.get(run.run_id)
-        assert sim.raw is run.sim and b == 0 and runs.lock(run.run_id) is run.lock
-        assert int(sim.t[0]) == run.t and sim.enums is run.sim.enums       # attributes read through
-        h = encounter_glue.sim_provider(run.run_id)
-        s2, b2 = h
-        assert s2.raw is run.sim and b2 == 0
-        sim = run.sim
-        pid = None
-        for _ in range(60):
-            snap = run.advance(6)[-1]["snapshot"]
-            for cand in snap["patients"]["id"]:
-                pend = h.pending_interaction(cand)
-                if pend and pend.get("status") == "waiting":
-                    pid = cand
-                    break
-            if pid is not None:
-                break
-        assert pid is not None, "no patient was waiting for a provider in the first 30 simulated hours"
-        assert h.latent_truth(pid)["patient_id"] == pid and "known_fact_ids" in h.known_state(pid)
-        assert h.hold_for_play(pid) is True
-        assert run.encounters == {f"patient-{pid}"}
-        with_provider = sim.enums["patient_state"].index("with_provider")
-        for _ in range(400):
-            snap = run.advance(1)[-1]["snapshot"]
-            i = snap["patients"]["id"].index(pid)
-            if snap["patients"]["state"][i] == with_provider and (h.pending_interaction(pid) or {}).get("status") == "in_progress":
-                break
-        else:
-            raise AssertionError("held patient never reached a provider")
-        # held: the sampler does not finish the encounter on its own
-        snap = run.advance(60)[-1]["snapshot"]
-        i = snap["patients"]["id"].index(pid)
-        assert snap["patients"]["state"][i] == with_provider and not snap["patients"]["flags"][i] & 8
-        h.apply_interaction_result(dict(interaction_id="enc-test", interaction_type="clinician_encounter", patient_id=pid, resolver="played",
-                                        duration_min=1.0, information_gained=[], quality=0.9, session_ref="enc-test",
-                                        decision=dict(kind="disposition", orders=[], disposition="discharge")))
-        assert run.encounters == set()
-        snap = run.advance(1)[-1]["snapshot"]
-        i = snap["patients"]["id"].index(pid)
-        assert snap["patients"]["flags"][i] & 8
-        moved = False
-        for _ in range(36):
-            snap = run.advance(1)[-1]["snapshot"]
-            if pid not in snap["patients"]["id"] or snap["patients"]["state"][snap["patients"]["id"].index(pid)] != with_provider:
-                moved = True
-                break
-        assert moved, "patient did not move on after the played result"
-        d = run.patient(pid) if pid in snap["patients"]["id"] else None
-        if d:
-            assert "played" in d["live"]["flag_names"] and any(x.get("resolver") == "played" for x in d["interactions"])
-    finally:
-        runs.clear()
-
-
-def test_encounter_keeps_run_alive():
-    run = runs.register(runs.Run("normal_week", seed=1))
-    try:
-        runs.hold_open(run.run_id, "enc-1")
-        runs.disconnect(run)
-        assert runs.sweep(now=time.time() + runs.GRACE_S + 5) == []
-        runs.release(run.run_id, "enc-1")
-        assert runs.sweep(now=time.time() + runs.GRACE_S + 5) == [run.run_id]
-    finally:
-        runs.clear()
 
 
 def test_learned_policy_gets_weights_appended(monkeypatch):
@@ -305,34 +235,3 @@ def test_learned_policy_gets_weights_appended(monkeypatch):
     msgs = run.advance(12)
     errs = [m for m in msgs if m["type"] == "error"]
     assert len(errs) == 1 and "checkpoint mismatch" in errs[0]["message"] and run.manager["id"] == "human"
-
-
-def test_post_encounter_from_sim_patient(client):
-    """POST /api/encounters {run_id, patient_id} reaches the live simulation, whoever handles it."""
-    pytest.importorskip("encounter.session")
-    pytest.importorskip("encounter.templates")
-    assert client.post("/api/encounters", json=dict(run_id="run-nope", patient_id=1)).status_code in (404, 409, 422)
-    run = runs.register(runs.Run("normal_week", seed=3))
-    h = encounter_glue.sim_provider(run.run_id)
-    pid = None
-    for _ in range(60):
-        snap = run.advance(6)[-1]["snapshot"]
-        pid = next((c for c in snap["patients"]["id"] if (h.pending_interaction(c) or {}).get("status") == "waiting"), None)
-        if pid is not None:
-            break
-    r = client.post("/api/encounters", json=dict(run_id=run.run_id, patient_id=pid))
-    assert r.status_code in (200, 201), r.text
-    d = r.json()
-    assert d["encounter_id"] and "case" in d and "chart" in d and "patient" in d and "llm" in d
-    assert "faculty_truth" not in r.text
-    assert run.patient(pid)["live"]["held_for_play"] is True
-    if encounter_glue.state["mounted"]:
-        f = client.post(f"/api/encounters/{d['encounter_id']}/finish", json=dict(disposition="discharge", orders=[], summary="test"))
-        assert f.status_code == 200, f.text
-        wb = f.json()["write_back"]
-        assert wb["status"] in ("applied", "queued") and f.json()["written_back"] is (wb["status"] == "applied")
-        for _ in range(400):
-            snap = run.advance(1)[-1]["snapshot"]
-            if pid not in snap["patients"]["id"] or snap["patients"]["flags"][snap["patients"]["id"].index(pid)] & 8:
-                break
-        assert pid not in snap["patients"]["id"] or snap["patients"]["flags"][snap["patients"]["id"].index(pid)] & 8

@@ -21,10 +21,83 @@ import torch
 
 ROOT = Path(__file__).resolve().parent.parent
 RL_DIR = Path(__file__).resolve().parent
+# Artefacts of the DEFAULT hospital stay where the server and the web app read them; every other hospital
+# lives under rl/hospitals/<id>/ (see `paths`). Headline reports live under rl/hospitals/<id>/ for all.
+DEFAULT_HOSPITAL = "rwjuh_nb"
 POLICY_DIR = RL_DIR / "policies"
 RESULTS_DIR = RL_DIR / "results"
 ROLLOUT_DIR = RL_DIR / "rollouts"
 SCALES_PATH = RL_DIR / "reward_scales.json"
+HOSPITALS_DIR = RL_DIR / "hospitals"
+CATALOG_HOSPITALS = ROOT / "catalog" / "hospitals"
+
+
+def hospital_id(hospital: str | None = None) -> str:
+    """Explicit id > HOSPITAL_ID environment variable > the default hospital (same order as sim.load_scenario)."""
+    return str(hospital or os.environ.get("HOSPITAL_ID") or DEFAULT_HOSPITAL)
+
+
+class HospitalPaths:
+    def __init__(self, hospital: str | None = None):
+        self.hospital = h = hospital_id(hospital)
+        self.home = HOSPITALS_DIR / h                      # headline.json, HEADLINE.md, selection.json
+        legacy = h == DEFAULT_HOSPITAL
+        self.policies = POLICY_DIR if legacy else self.home / "policies"
+        self.results = RESULTS_DIR if legacy else self.home / "results"
+        self.rollouts = ROLLOUT_DIR if legacy else self.home / "rollouts"
+        self.scales = SCALES_PATH if legacy else self.home / "reward_scales.json"
+
+
+def paths(hospital: str | None = None) -> HospitalPaths:
+    return HospitalPaths(hospital)
+
+
+def load_ensemble(hospital: str | None = None) -> dict:
+    """catalog/hospitals/<id>.ensemble.json when the calibration has written one, else a single member
+    with no overrides (the point calibration). Member 0 is always the point calibration."""
+    h = hospital_id(hospital)
+    f = CATALOG_HOSPITALS / f"{h}.ensemble.json"
+    if f.exists():
+        d = json.loads(f.read_text())
+        mem = [dict(id=int(m.get("id", i)), overrides=dict(m.get("overrides") or {}), baseline_actions=dict(m.get("baseline_actions") or {}),
+                    fit=m.get("fit")) for i, m in enumerate(d.get("members") or [])]
+        if mem:
+            return dict(hospital_id=h, members=mem, source=(str(f.relative_to(ROOT)) if f.is_relative_to(ROOT) else str(f)), exists=True)
+    return dict(hospital_id=h, members=[dict(id=0, overrides={}, baseline_actions={}, fit=None)], source=None, exists=False)
+
+
+def member_overrides(hospital: str | None = None, member: int | dict | None = 0, extra: dict | None = None) -> dict:
+    """The `overrides` dict for sim.load_scenario that builds one ensemble member of one hospital."""
+    h = hospital_id(hospital)
+    ov = {"hospital_id": h}
+    if member is not None:
+        m = member if isinstance(member, dict) else load_ensemble(h)["members"][int(member)]
+        ov.update(m.get("overrides") or {})
+        if m.get("baseline_actions"):
+            ov["baseline_actions"] = dict(m["baseline_actions"])
+    ov.update(extra or {})
+    return ov
+
+
+def calibration_fingerprint(hospital: str | None = None) -> str:
+    """Hash of the hospital's calibration inputs (hospital file, calibration file, ensemble file). Artefacts
+    carry it; a different value means they were built against another calibration and are stale."""
+    h = hospital_id(hospital)
+    hh = hashlib.sha256()
+    for suffix in (".yaml", ".calibration.yaml", ".ensemble.json"):
+        f = CATALOG_HOSPITALS / f"{h}{suffix}"
+        hh.update(suffix.encode())
+        hh.update(f.read_bytes() if f.exists() else b"<absent>")
+    return hh.hexdigest()[:16]
+
+
+def calibration_status(hospital: str | None = None) -> dict:
+    h = hospital_id(hospital)
+    ens = load_ensemble(h)
+    cf = CATALOG_HOSPITALS / f"{h}.calibration.yaml"
+    return dict(hospital_id=h, hospital_file=(CATALOG_HOSPITALS / f"{h}.yaml").exists(), calibration_file=cf.exists(),
+                ensemble_file=bool(ens["exists"]), n_members=len(ens["members"]), calibration_fingerprint=calibration_fingerprint(h),
+                calibration_mtime=(time.strftime("%Y-%m-%dT%H:%M:%S%z", time.localtime(cf.stat().st_mtime)) if cf.exists() else None))
 
 SEED_SCALES = 100_000
 SEED_TUNE = 200_000
@@ -36,9 +109,12 @@ RECORD_SEED = 9_000_001
 # the 7 reward_terms of contracts/metrics.yaml in order, plus one rl-side extension, `labor`
 # (cost_labor: wages + overtime + agency, the part of cost a manager controls directly);
 # see rl/CONTRACT_REQUESTS.md. The reward-weight vector appended to the observation has these 8 entries.
-TERMS = ["cost", "wait", "lwbs", "safety", "boarding", "staff", "revenue", "labor"]
+# `los` (ed_census: patient-hours in the ED this hour, the dense proxy of ED length of stay) and `opcost`
+# (cost_labor + cost_fixed: staffing plus staffed-space cost, so opening hallway spaces is not free) were added
+# for the operator objectives. Networks trained with 8 weight entries still load (LearnedPolicy pads/truncates).
+TERMS = ["cost", "wait", "lwbs", "safety", "boarding", "staff", "revenue", "labor", "los", "opcost"]
 FATIGUE_THRESHOLD = 0.5          # assumed: "fatigue above threshold" part of the staff term
-SCALE_FLOORS = {"cost": 1.0, "wait": 60.0, "lwbs": 0.05, "safety": 0.02, "boarding": 0.1, "staff": 1.0, "revenue": 1.0, "labor": 1.0}
+SCALE_FLOORS = {"cost": 1.0, "wait": 60.0, "lwbs": 0.05, "safety": 0.02, "boarding": 0.1, "staff": 1.0, "revenue": 1.0, "labor": 1.0, "los": 1.0, "opcost": 1.0}
 
 # Objective presets. Weights multiply baseline-normalised terms (each term is ~1 at the
 # fixed-default baseline when its scale is not floored), reward = -sum_k w_k * term_k.
@@ -61,7 +137,11 @@ IMPULSE_HEADS = ("bays_delta", "ward_beds_delta", "equipment_buy", "relocate", "
 
 
 def weights_dict(objective_or_dict) -> dict:
-    w = OBJECTIVES[objective_or_dict] if isinstance(objective_or_dict, str) else dict(objective_or_dict)
+    if isinstance(objective_or_dict, str):
+        from .objectives import OPERATOR_OBJECTIVES
+        w = OBJECTIVES[objective_or_dict] if objective_or_dict in OBJECTIVES else OPERATOR_OBJECTIVES[objective_or_dict]["reward_weights"]
+    else:
+        w = dict(objective_or_dict)
     return {k: float(w.get(k, 0.0)) for k in TERMS}
 
 
@@ -85,27 +165,28 @@ _BEHAVIOUR_METRICS = ["arrivals", "diverted", "first_seen", "lwbs", "ed_departur
 
 
 @functools.lru_cache(maxsize=None)
-def behaviour_fingerprint() -> str:
+def _behaviour_fingerprint(hospital: str) -> str:
     """Hash of what the simulator DOES: hourly patient counts (and labour cost rounded to $10) on a
     fixed seed under a fixed action script over the hourly and daily heads, for normal_week (48 h)
     and flu_surge (72 h), 2 hospitals on CPU. Unlike `sim_fingerprint` (a hash of files) it only
     changes when the dynamics change, so staleness of policies, results and rollouts is keyed on it.
-    Cached per file hash in the system temp dir."""
+    Run on the hospital's point calibration (no ensemble member), so it is per hospital.
+    Cached per (file hash, hospital) in the system temp dir."""
     import tempfile
     cache = Path(tempfile.gettempdir()) / "hospitalgym_behaviour_fp.json"
-    fh = sim_fingerprint()
+    fh = sim_fingerprint() + ("" if hospital == DEFAULT_HOSPITAL else ":" + hospital)
     try:
         c = json.loads(cache.read_text())
         if fh in c:
             return c[fh]
     except Exception:
         c = {}
-    from sim import HospitalSim
+    from sim import HospitalSim, load_scenario
     h = hashlib.sha256()
     nt = torch.get_num_threads()
     torch.set_num_threads(1)
     for scen, hours in (("normal_week", 48), ("flu_surge", 72)):
-        sim = HospitalSim(scen, batch_size=2, device="cpu", seed=424242)
+        sim = HospitalSim(load_scenario(scen, {"hospital_id": hospital}), batch_size=2, device="cpu", seed=424242)
         spec = [x for x in sim.action_spec() if x["cadence"] in ("hourly", "daily")]
         for t in range(hours):
             acts = {}
@@ -120,55 +201,97 @@ def behaviour_fingerprint() -> str:
     out = h.hexdigest()[:16]
     try:
         c[fh] = out
-        cache.write_text(json.dumps(c))
+        tmp = cache.with_suffix(f".{os.getpid()}.tmp")
+        tmp.write_text(json.dumps(c))
+        os.replace(tmp, cache)
     except Exception:
         pass
     return out
 
 
-def fingerprints() -> dict:
-    """Both fingerprints, for stamping artefacts."""
-    return dict(sim_fingerprint=sim_fingerprint(), sim_behaviour_fingerprint=behaviour_fingerprint())
+def behaviour_fingerprint(hospital: str | None = None) -> str:
+    return _behaviour_fingerprint(hospital_id(hospital))
+
+
+def fingerprints(hospital: str | None = None) -> dict:
+    """Everything an artefact is stamped with. Staleness = `sim_behaviour_fingerprint` or
+    `calibration_fingerprint` differs from the current one for that hospital (see `is_stale`)."""
+    h = hospital_id(hospital)
+    return dict(hospital_id=h, sim_fingerprint=sim_fingerprint(), sim_behaviour_fingerprint=behaviour_fingerprint(h),
+                calibration_fingerprint=calibration_fingerprint(h))
+
+
+def is_stale(artefact: dict, hospital: str | None = None) -> bool:
+    """True when the artefact was built against other simulator dynamics or another calibration of this
+    hospital. Artefacts that predate a field are not flagged on that field."""
+    if not isinstance(artefact, dict):
+        return False
+    h = hospital_id(hospital or artefact.get("hospital_id"))
+    b, c = artefact.get("sim_behaviour_fingerprint") or artefact.get("behaviour_fingerprint"), artefact.get("calibration_fingerprint")
+    return bool((b and b != behaviour_fingerprint(h)) or (c and c != calibration_fingerprint(h)))
 
 
 @functools.lru_cache(maxsize=None)
-def get_spec(scenario: str = "normal_week") -> dict:
-    """Action spec and observation names taken from a tiny CPU simulator instance."""
-    from sim import HospitalSim
-    sim = HospitalSim(scenario, batch_size=1, device="cpu", seed=0)
+def _get_spec(scenario: str, hospital: str, cfp: str) -> dict:
+    from sim import HospitalSim, load_scenario
+    scn = load_scenario(scenario, {"hospital_id": hospital})
+    sim = HospitalSim(scn, batch_size=1, device="cpu", seed=0)
     spec = sim.action_spec()
+    hosp = scn.cat.get("hospital") or {}
+    val = lambda k: (hosp.get(k) or {}).get("value") if isinstance(hosp.get(k), dict) else None      # noqa: E731
     return dict(action_spec=spec, obs_names=sim.obs_names(), obs_dim=int(sim.obs_dim),
                 head_names=[h["name"] for h in spec], hospital_id=getattr(sim.scn, "hospital_id", None),
-                metric_names=sim.metric_names())
+                hospital_label=getattr(scn, "hospital_label", hospital), metric_names=sim.metric_names(),
+                dow_prof=[float(x) for x in scn.P["dow_prof"]], hour_prof=[float(x) for x in scn.P["hour_prof"]],
+                shift_starts=[int(x) for x in getattr(sim, "shift_starts", (7, 15, 23))],
+                arrivals_per_day=float(scn.P["arrivals_per_day"]),
+                ed_visits_per_year_cms=val("ed_visits_per_year_cms"), ed_visits_per_year=val("ed_visits_per_year"),
+                ed_visits_note=((hosp.get("ed_visits_per_year_cms") or {}).get("note") if isinstance(hosp.get("ed_visits_per_year_cms"), dict) else None))
 
 
-def load_scales(path: Path | None = None) -> dict:
-    path = Path(path or SCALES_PATH)
+def get_spec(scenario: str = "normal_week", hospital: str | None = None) -> dict:
+    """Action spec (defaults = the hospital's calibrated baseline), observation names and the public arrival
+    profiles, from a tiny CPU simulator instance of the hospital's point calibration."""
+    h = hospital_id(hospital)
+    return _get_spec(scenario, h, calibration_fingerprint(h))
+
+
+def load_scales(path: Path | None = None, hospital: str | None = None) -> dict:
+    path = Path(path or paths(hospital).scales)
     if not path.exists():
-        raise FileNotFoundError(f"{path} missing: run `python -m rl.scripts.measure_scales`")
+        raise FileNotFoundError(f"{path} missing: run `python -m rl.scripts.measure_scales --hospital {hospital_id(hospital)}`")
     return json.loads(path.read_text())
 
 
 def scales_vec(scales: dict, device="cpu") -> torch.Tensor:
-    return torch.tensor([float(scales["scales"][k]) for k in TERMS], dtype=torch.float32, device=device)
+    """Scales in TERMS order. Files measured before `los`/`opcost` existed fall back to labour-derived / floor values."""
+    s = dict(scales["scales"])
+    s.setdefault("los", SCALE_FLOORS["los"])
+    s.setdefault("opcost", float(s.get("labor", SCALE_FLOORS["opcost"])))
+    return torch.tensor([float(s[k]) for k in TERMS], dtype=torch.float32, device=device)
 
 
 def now_iso() -> str:
     return time.strftime("%Y-%m-%dT%H:%M:%S%z")
 
 
-def write_json(path, obj, **kw):
+def write_text(path, text: str):
+    """Atomic write (temp file in the same directory, then rename)."""
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    tmp = path.with_suffix(path.suffix + ".tmp")
-    tmp.write_text(json.dumps(obj, **kw))
+    tmp = path.with_suffix(path.suffix + f".{os.getpid()}.tmp")
+    tmp.write_text(text)
     os.replace(tmp, path)
+
+
+def write_json(path, obj, **kw):
+    write_text(path, json.dumps(obj, **kw))
 
 
 def objective_score(objective: str, terms_mean: torch.Tensor, p95: torch.Tensor, threshold: float) -> torch.Tensor:
     """Per-episode score (higher is better) for an objective.
 
-    terms_mean: [..., 7] episode means of the baseline-normalised reward terms.
+    terms_mean: [..., len(TERMS)] episode means of the baseline-normalised reward terms.
     Weighted objectives: mean hourly reward. Constrained: -labor_term - PENALTY * relu(p95/threshold - 1).
     """
     w = weights_vec(objective, terms_mean.device)

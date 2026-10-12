@@ -1,0 +1,121 @@
+[2026-10-10T17:31:48-0400] headline rwjuh_nb: members 1, candidates {'same_budget_better_flow': ['tuned_same_budget', 'ppo_same_budget'], 'same_service_lower_cost': ['tuned_same_service', 'ppo_same_service']}, context ['rule_based', 'tuned_min_wait', 'tuned_balanced']
+  group flu_surge/mNone: flu_surge member None on cuda in 217s
+  group normal_week/mNone: normal_week member None on cuda in 217s
+  2 groups (5 managers x 12 seeds x 30 d) in 218s
+  group normal_week/mNone: normal_week member None on cuda in 282s
+  group flu_surge/mNone: flu_surge member None on cuda in 290s
+  2 groups (8 managers x 32 seeds x 30 d) in 291s
+  group imaging_outage/mNone: imaging_outage member None on cpu in 87s
+  group nursing_absences/mNone: nursing_absences member None on cuda in 215s
+  group discharge_delays/mNone: discharge_delays member None on cuda in 215s
+  3 groups (5 managers x 8 seeds x 30 d) in 216s
+wrote /home/deepstack/projects/hospitalgym_aryan/rl/hospitals/rwjuh_nb/HEADLINE.md
+[UNCALIBRATED PIPELINE SMOKE RUN - NOT A HEADLINE, DO NOT PUBLISH: this hospital has no calibration file yet, so the baseline is an uncalibrated first guess.] In a simulated twin of RWJUH New Brunswick (model) built from public data (no calibration file yet: hand-set baseline), Tuned heuristic: Same budget, better flow (`tuned_same_budget`, tuned heuristic) cut mean door-to-provider wait by 35.6% (95% CI 33.7 to 37.5); cut median ED length of stay by 16.2% (95% CI 15.3 to 17.1); cut walk-outs (left without being seen) by 33.6% (95% CI 31.5 to 35.8); cut boarding hours by 8.9% (95% CI 2.8 to 15.0), with labour cost -1.7% vs baseline (95% CI -1.7 to -1.6; within budget), no ambulance diversion beyond baseline and deaths per 10,000 arrivals -0.99 (95% CI -1.37 to -0.66). Every constraint was met on held-out data. Only the point calibration was available (1/1 twin): robustness to the parameters public data cannot identify is NOT yet assessed. All figures are simulated and not validated on the hospital's operational data.
+[2026-10-10T17:55:46-0400] headline rwjuh_nb: members 1, candidates {'same_budget_better_flow': ['tuned_same_budget', 'ppo_same_budget'], 'same_service_lower_cost': ['tuned_same_service', 'ppo_same_service']}, context ['rule_based', 'tuned_min_wait', 'tuned_balanced']
+  group normal_week/mNone: normal_week member None on cuda in 218s
+  group flu_surge/mNone: flu_surge member None on cuda in 218s
+  2 groups (5 managers x 12 seeds x 30 d) in 219s
+  group normal_week/mNone: normal_week member None on cuda in 272s
+  group flu_surge/mNone: flu_surge member None on cuda in 279s
+  2 groups (8 managers x 32 seeds x 30 d) in 281s
+  group imaging_outage/mNone: imaging_outage member None on cpu in 87s
+  group discharge_delays/mNone: discharge_delays member None on cuda in 196s
+  group nursing_absences/mNone: nursing_absences member None on cuda in 251s
+  3 groups (5 managers x 8 seeds x 30 d) in 253s
+wrote /home/deepstack/projects/hospitalgym_aryan/rl/hospitals/rwjuh_nb/HEADLINE.md
+[UNCALIBRATED PIPELINE SMOKE RUN - NOT A HEADLINE, DO NOT PUBLISH: this hospital has no calibration file yet, so the baseline is an uncalibrated first guess.] In a simulated twin of RWJUH New Brunswick (model) built from public data (no calibration file yet: hand-set baseline), Tuned heuristic: Same budget, better flow (`tuned_same_budget`, tuned heuristic) cut mean door-to-provider wait by 35.6% (95% CI 33.7 to 37.5); cut median ED length of stay by 16.2% (95% CI 15.3 to 17.1); cut walk-outs (left without being seen) by 33.6% (95% CI 31.5 to 35.8); cut boarding hours by 8.9% (95% CI 2.8 to 15.0), with labour cost -1.7% vs baseline (95% CI -1.7 to -1.6; within budget), no ambulance diversion beyond baseline and deaths per 10,000 arrivals -0.99 (95% CI -1.37 to -0.66). Every constraint was met on held-out data. Only the point calibration was available (1/1 twin): robustness to the parameters public data cannot identify is NOT yet assessed. All figures are simulated and not validated on the hospital's operational data.
+[2026-10-10T19:04:17-0400] headline rwjuh_nb: members 1, candidates {'same_budget_better_flow': ['tuned_same_budget', 'ppo_same_budget'], 'same_service_lower_cost': ['tuned_same_service', 'ppo_same_service']}, context ['rule_based', 'tuned_min_wait', 'tuned_balanced']
+  group normal_week/mNone: normal_week member None on cuda in 179s
+  group flu_surge/mNone: flu_surge member None on cuda in 180s
+  2 groups (5 managers x 12 seeds x 30 d) in 181s
+  group normal_week/mNone: normal_week member None on cuda in 135s
+  group flu_surge/mNone: flu_surge member None on cuda in 202s
+  2 groups (8 managers x 32 seeds x 30 d) in 204s
+  group discharge_delays/mNone: discharge_delays member None on cuda in 113s
+  group nursing_absences/mNone: nursing_absences member None on cuda in 113s
+  group imaging_outage/mNone: imaging_outage member None on cpu in 155s
+  3 groups (5 managers x 8 seeds x 30 d) in 156s
+wrote /home/deepstack/projects/hospitalgym_aryan/rl/hospitals/rwjuh_nb/HEADLINE.md
+[UNCALIBRATED PIPELINE SMOKE RUN - NOT A HEADLINE, DO NOT PUBLISH: this hospital has no calibration file yet, so the baseline is an uncalibrated first guess.] In a simulated twin of RWJUH New Brunswick (model) built from public data (no calibration file yet: hand-set baseline), Tuned heuristic: Same budget, better flow (`tuned_same_budget`, tuned heuristic) cut mean door-to-provider wait by 35.6% (95% CI 33.7 to 37.5); cut median ED length of stay by 16.2% (95% CI 15.3 to 17.1); cut walk-outs (left without being seen) by 33.6% (95% CI 31.5 to 35.8); cut boarding hours by 8.9% (95% CI 2.8 to 15.0), with labour cost -1.7% vs baseline (95% CI -1.7 to -1.6; within budget), no ambulance diversion beyond baseline and deaths per 10,000 arrivals -0.99 (95% CI -1.37 to -0.66). Every constraint was met on held-out data. Only the point calibration was available (1/1 twin): robustness to the parameters public data cannot identify is NOT yet assessed. All figures are simulated and not validated on the hospital's operational data.
+[2026-10-10T23:08:18-0400] headline rwjuh_nb: members 24, candidates {'same_budget_better_flow': ['tuned_same_budget', 'ppo_same_budget'], 'same_service_lower_cost': ['tuned_same_service', 'ppo_same_service']}, context ['rule_based', 'tuned_min_wait', 'tuned_balanced']
+  group normal_week/m1: normal_week member 1 on cuda in 179s
+  group normal_week/m6: normal_week member 6 on cpu in 235s
+  group normal_week/m0: normal_week member 0 on cuda in 247s
+  group normal_week/m7: normal_week member 7 on cpu in 252s
+  group flu_surge/m2: flu_surge member 2 on cpu in 253s
+  group flu_surge/m7: flu_surge member 7 on cpu in 259s
+  group flu_surge/m1: flu_surge member 1 on cpu in 288s
+  group flu_surge/m3: flu_surge member 3 on cpu in 293s
+  group flu_surge/m4: flu_surge member 4 on cpu in 293s
+  group flu_surge/m6: flu_surge member 6 on cpu in 297s
+  group flu_surge/m5: flu_surge member 5 on cpu in 298s
+  group normal_week/m2: normal_week member 2 on cuda in 132s
+  group flu_surge/m0: flu_surge member 0 on cpu in 317s
+  group normal_week/m3: normal_week member 3 on cuda in 84s
+  group normal_week/m4: normal_week member 4 on cpu in 123s
+  group normal_week/m5: normal_week member 5 on cpu in 214s
+  16 groups (5 managers x 12 seeds x 30 d) in 451s
+  group normal_week/m1: normal_week member 1 on cuda in 220s
+  group normal_week/m0: normal_week member 0 on cuda in 284s
+  group normal_week/m2: normal_week member 2 on cuda in 228s
+  group normal_week/m3: normal_week member 3 on cuda in 349s
+  group normal_week/m4: normal_week member 4 on cuda in 305s
+  group normal_week/m5: normal_week member 5 on cuda in 255s
+  group flu_surge/m21: flu_surge member 21 on cpu in 1065s
+  group flu_surge/m15: flu_surge member 15 on cpu in 1074s
+  group flu_surge/m23: flu_surge member 23 on cpu in 1077s
+  group flu_surge/m14: flu_surge member 14 on cpu in 1082s
+  group normal_week/m6: normal_week member 6 on cuda in 342s
+  group flu_surge/m22: flu_surge member 22 on cpu in 1101s
+  group flu_surge/m18: flu_surge member 18 on cpu in 1101s
+  group flu_surge/m20: flu_surge member 20 on cpu in 1105s
+  group flu_surge/m17: flu_surge member 17 on cpu in 1108s
+  group flu_surge/m16: flu_surge member 16 on cpu in 1110s
+  group flu_surge/m19: flu_surge member 19 on cpu in 1112s
+  group normal_week/m7: normal_week member 7 on cuda in 349s
+  group normal_week/m8: normal_week member 8 on cuda in 357s
+  group normal_week/m9: normal_week member 9 on cuda in 219s
+  group normal_week/m11: normal_week member 11 on cuda in 315s
+  group normal_week/m10: normal_week member 10 on cuda in 354s
+  group normal_week/m13: normal_week member 13 on cuda in 232s
+  group normal_week/m12: normal_week member 12 on cuda in 342s
+  group flu_surge/m13: flu_surge member 13 on cpu in 1085s
+  group flu_surge/m11: flu_surge member 11 on cpu in 1086s
+  group flu_surge/m10: flu_surge member 10 on cpu in 1091s
+  group flu_surge/m8: flu_surge member 8 on cpu in 1076s
+  group flu_surge/m9: flu_surge member 9 on cpu in 1085s
+  group flu_surge/m12: flu_surge member 12 on cpu in 1111s
+  group flu_surge/m5: flu_surge member 5 on cpu in 1076s
+  group flu_surge/m6: flu_surge member 6 on cpu in 1079s
+  group flu_surge/m7: flu_surge member 7 on cpu in 1099s
+  group flu_surge/m4: flu_surge member 4 on cpu in 1100s
+  group normal_week/m14: normal_week member 14 on cuda in 214s
+  group normal_week/m15: normal_week member 15 on cuda in 208s
+  group normal_week/m17: normal_week member 17 on cuda in 224s
+  group normal_week/m16: normal_week member 16 on cuda in 362s
+  group flu_surge/m3: flu_surge member 3 on cpu in 1049s
+  group flu_surge/m0: flu_surge member 0 on cpu in 1030s
+  group flu_surge/m2: flu_surge member 2 on cpu in 1051s
+  group normal_week/m20: normal_week member 20 on cpu in 1028s
+  group normal_week/m19: normal_week member 19 on cpu in 1014s
+  group normal_week/m18: normal_week member 18 on cpu in 1015s
+  group normal_week/m21: normal_week member 21 on cpu in 1042s
+  group normal_week/m22: normal_week member 22 on cpu in 1044s
+  group flu_surge/m1: flu_surge member 1 on cpu in 1057s
+  group normal_week/m23: normal_week member 23 on cpu in 1050s
+  48 groups (8 managers x 32 seeds x 30 d) in 3238s
+  group discharge_delays/m0: discharge_delays member 0 on cuda in 157s
+  group nursing_absences/m2: nursing_absences member 2 on cpu in 168s
+  group discharge_delays/m1: discharge_delays member 1 on cuda in 168s
+  group discharge_delays/m2: discharge_delays member 2 on cpu in 169s
+  group nursing_absences/m0: nursing_absences member 0 on cpu in 170s
+  group nursing_absences/m3: nursing_absences member 3 on cpu in 188s
+  group imaging_outage/m0: imaging_outage member 0 on cpu in 194s
+  group nursing_absences/m1: nursing_absences member 1 on cpu in 195s
+  group imaging_outage/m3: imaging_outage member 3 on cpu in 196s
+  group imaging_outage/m2: imaging_outage member 2 on cpu in 199s
+  group imaging_outage/m1: imaging_outage member 1 on cpu in 207s
+  group discharge_delays/m3: discharge_delays member 3 on cpu in 207s
+  12 groups (5 managers x 8 seeds x 30 d) in 210s
+wrote /home/deepstack/projects/hospitalgym_aryan/rl/hospitals/rwjuh_nb/HEADLINE.md
+In a simulated twin calibrated to RWJUH New Brunswick (model)'s publicly reported figures, Tuned heuristic: Same budget, better flow (`tuned_same_budget`, tuned heuristic) cut mean door-to-provider wait by 17.0% (95% CI 9.1 to 26.2); cut median ED length of stay by 4.5% (95% CI 3.3 to 5.7); cut walk-outs (left without being seen) by 14.6% (95% CI 8.0 to 22.7); cut boarding hours by 59.6% (95% CI 36.9 to 71.4), with labour cost -4.0% vs baseline (95% CI -5.4 to -2.7; within budget), no ambulance diversion beyond baseline and deaths per 10,000 arrivals -0.27 (95% CI -0.43 to -0.14). Every constraint was met on held-out data. The improvement with budget constraints met holds in 20/24 plausible twins of the calibration ensemble (worst twin: objective at 97.6% of its baseline). All figures are simulated and not validated on the hospital's operational data.

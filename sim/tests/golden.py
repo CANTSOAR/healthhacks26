@@ -45,7 +45,10 @@ def compute(device: str = "cpu") -> dict:
     for sid in SCENARIOS:
         for mode in ("default", "random"):
             seeds = torch.tensor([s + i for s in SEEDS for i in range(2)])
-            sim = HospitalSim(load_scenario(sid), batch_size=4, device=device, seed=seeds)
+            # Freeze simulator dynamics independently of a generated hospital calibration.  A calibration
+            # intentionally changes the default roster and assumed service times; it has its own trajectory
+            # and loader tests under twin/tests/.
+            sim = HospitalSim(load_scenario(sid, overrides={"no_calibration": True}), batch_size=4, device=device, seed=seeds)
             seq = action_sequence(sim.action_spec(), 24 * DAYS) if mode == "random" else None
             rows = []
             for h in range(24 * DAYS):

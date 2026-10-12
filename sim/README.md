@@ -31,3 +31,9 @@ Not modelled: staff turnover, MRI/ultrasound, results-waiting area, a dedicated 
 - `reset(seed, start_day=k)` or engine setting `start_day`: calendar day of tick 0 (weekday and seasonal profiles only; cadence boundaries stay on the episode clock).
 - `apply_interaction_result(b, result, defer=True)` accepts any patient who has not started the encounter; `release_hold` also discards a stored early result; `cancel_deferred_result(b, pid)` is the public cancel for a queued result.
 - Slow test (120 simulated days of structural actions): `SIM_SLOW=1 .venv/bin/python -m pytest sim/tests -q -k structural_actions_120`.
+
+## Learned dispatch hook (additive; off by default)
+
+- `sim.set_dispatch_params(theta[B, n], hidden=0, active=None, unify=False)`: a per-patient priority index replaces the `priority_rule` ordering of the bay, provider and scanner queues on the rows where it is active. Index = `x_i . (w + W g)` plus an optional `tanh` network; `x_i` = `sim.engine.DISPATCH_FEATURES` (triage acuity, time waited, queue, arrival mode, age band, condition group, catalog means by triage level; never latent acuity or sampled patience / service times), `g` = `DISPATCH_CONTEXT`. Lower index goes first; ties go to the earlier arrival. `unify=True` puts new patients and ready dispositions in one provider queue (the `provider_split` head is then ignored). `sim.dispatch_spec(hidden)` gives the layout, `sim.dispatch_rule_theta(rule)` the row that reproduces a hard-coded rule exactly. `set_dispatch_params(None)` switches it off. Nothing in the tick path changes while it is off (golden trajectories unchanged; `sim/tests/test_dispatch.py`).
+- `sim.enable_acuity_stats()`: `sim.acu_stats[k][B, 6]` by triage level (first seen, wait sum, seen after 60 min, walk-outs, unseen patient-minutes). Bookkeeping only.
+- Search, held-out comparison and report: `rl/dispatch.py` (`python -m rl.dispatch tune|eval|report`), results in `rl/hospitals/<id>/DISPATCH.md`.

@@ -4,32 +4,34 @@
   "manager": {
    "id": "fixed",
    "kind": "fixed",
-   "label": "Fixed staffing (contract defaults)",
+   "label": "Current practice (calibrated baseline actions)",
    "objective": null
   },
   "scenario": "flu_surge",
   "seed": 9000001,
   "days": 30,
   "summary": {
-   "wait_mean_min": 28.833715438842773,
-   "wait_p95_min": 95.0,
+   "wait_mean_min": 15.585604667663574,
+   "wait_p95_min": 30.0,
    "ed_los_median_min": 215.0,
-   "lwbs_rate": 0.01755617931485176,
-   "cost_per_day": 580748.75,
-   "margin_per_day": 535234.0,
-   "cost_per_treated": 2511.164794921875,
-   "deaths_per_10k": 2.8089888095855713,
+   "lwbs_rate": 0.009971910156309605,
+   "cost_per_day": 609365.8125,
+   "margin_per_day": 508432.09375,
+   "cost_per_treated": 2610.82177734375,
+   "deaths_per_10k": 1.4044944047927856,
    "boarding_hours_per_day": 5.466666221618652,
    "diversion_hours_per_day": 0.0,
    "overtime_hours_per_day": 0.0,
-   "labor_cost_per_day": 76331.70382333333
+   "labor_cost_per_day": 103909.02232333334
   },
   "has_segments": true,
   "file": "fixed__flu_surge__s9000001.json.gz",
-  "bytes": 926645,
-  "sim_fingerprint": "2d54b0d8fc49f8b1",
-  "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
-  "created": "2026-10-10T09:20:41-0400",
+  "bytes": 958263,
+  "sim_fingerprint": "fb4e48d5e35aa606",
+  "sim_behaviour_fingerprint": "ed6420bf3cdf4b16",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": "13559aa34001a108",
+  "created": "2026-10-11T00:17:21-0400",
   "synthetic": true
  },
  {
@@ -37,32 +39,34 @@
   "manager": {
    "id": "fixed",
    "kind": "fixed",
-   "label": "Fixed staffing (contract defaults)",
+   "label": "Current practice (calibrated baseline actions)",
    "objective": null
   },
   "scenario": "normal_week",
   "seed": 9000001,
   "days": 30,
   "summary": {
-   "wait_mean_min": 20.623445510864258,
-   "wait_p95_min": 50.0,
-   "ed_los_median_min": 185.0,
-   "lwbs_rate": 0.013492793776094913,
-   "cost_per_day": 572952.0,
-   "margin_per_day": 452282.8125,
-   "cost_per_treated": 2679.850341796875,
-   "deaths_per_10k": 3.0665440559387207,
-   "boarding_hours_per_day": 5.066666126251221,
+   "wait_mean_min": 14.054996490478516,
+   "wait_p95_min": 30.0,
+   "ed_los_median_min": 200.0,
+   "lwbs_rate": 0.009659613482654095,
+   "cost_per_day": 601419.3125,
+   "margin_per_day": 424120.0625,
+   "cost_per_treated": 2804.255615234375,
+   "deaths_per_10k": 1.5332720279693604,
+   "boarding_hours_per_day": 5.266666412353516,
    "diversion_hours_per_day": 0.0,
    "overtime_hours_per_day": 0.0,
-   "labor_cost_per_day": 76939.78949333333
+   "labor_cost_per_day": 104747.08693333334
   },
   "has_segments": true,
   "file": "fixed__normal_week__s9000001.json.gz",
-  "bytes": 888165,
-  "sim_fingerprint": "2d54b0d8fc49f8b1",
-  "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
-  "created": "2026-10-10T09:18:07-0400",
+  "bytes": 927272,
+  "sim_fingerprint": "fb4e48d5e35aa606",
+  "sim_behaviour_fingerprint": "ed6420bf3cdf4b16",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": "13559aa34001a108",
+  "created": "2026-10-11T00:17:39-0400",
   "synthetic": true
  },
  {
@@ -95,6 +99,8 @@
   "bytes": 870101,
   "sim_fingerprint": "2d54b0d8fc49f8b1",
   "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": null,
   "created": "2026-10-10T09:20:46-0400",
   "synthetic": true
  },
@@ -128,6 +134,8 @@
   "bytes": 845593,
   "sim_fingerprint": "2d54b0d8fc49f8b1",
   "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": null,
   "created": "2026-10-10T09:18:12-0400",
   "synthetic": true
  },
@@ -161,6 +169,8 @@
   "bytes": 870086,
   "sim_fingerprint": "2d54b0d8fc49f8b1",
   "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": null,
   "created": "2026-10-10T09:20:58-0400",
   "synthetic": true
  },
@@ -194,6 +204,8 @@
   "bytes": 844212,
   "sim_fingerprint": "2d54b0d8fc49f8b1",
   "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": null,
   "created": "2026-10-10T09:17:54-0400",
   "synthetic": true
  },
@@ -227,6 +239,8 @@
   "bytes": 870150,
   "sim_fingerprint": "2d54b0d8fc49f8b1",
   "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": null,
   "created": "2026-10-10T09:21:03-0400",
   "synthetic": true
  },
@@ -260,6 +274,8 @@
   "bytes": 844265,
   "sim_fingerprint": "2d54b0d8fc49f8b1",
   "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": null,
   "created": "2026-10-10T09:18:03-0400",
   "synthetic": true
  },
@@ -293,6 +309,8 @@
   "bytes": 886974,
   "sim_fingerprint": "2d54b0d8fc49f8b1",
   "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": null,
   "created": "2026-10-10T09:20:49-0400",
   "synthetic": true
  },
@@ -326,6 +344,8 @@
   "bytes": 857316,
   "sim_fingerprint": "2d54b0d8fc49f8b1",
   "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": null,
   "created": "2026-10-10T09:18:08-0400",
   "synthetic": true
  },
@@ -359,6 +379,8 @@
   "bytes": 906997,
   "sim_fingerprint": "2d54b0d8fc49f8b1",
   "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": null,
   "created": "2026-10-10T09:20:54-0400",
   "synthetic": true
  },
@@ -392,6 +414,8 @@
   "bytes": 879847,
   "sim_fingerprint": "2d54b0d8fc49f8b1",
   "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": null,
   "created": "2026-10-10T09:18:07-0400",
   "synthetic": true
  },
@@ -425,6 +449,8 @@
   "bytes": 883775,
   "sim_fingerprint": "2d54b0d8fc49f8b1",
   "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": null,
   "created": "2026-10-10T09:20:53-0400",
   "synthetic": true
  },
@@ -458,6 +484,8 @@
   "bytes": 860284,
   "sim_fingerprint": "2d54b0d8fc49f8b1",
   "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": null,
   "created": "2026-10-10T09:18:08-0400",
   "synthetic": true
  },
@@ -491,6 +519,8 @@
   "bytes": 817853,
   "sim_fingerprint": "2d54b0d8fc49f8b1",
   "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": null,
   "created": "2026-10-10T09:21:30-0400",
   "synthetic": true
  },
@@ -524,6 +554,8 @@
   "bytes": 792186,
   "sim_fingerprint": "2d54b0d8fc49f8b1",
   "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": null,
   "created": "2026-10-10T09:18:08-0400",
   "synthetic": true
  },
@@ -557,6 +589,8 @@
   "bytes": 886914,
   "sim_fingerprint": "2d54b0d8fc49f8b1",
   "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": null,
   "created": "2026-10-10T09:20:53-0400",
   "synthetic": true
  },
@@ -590,6 +624,8 @@
   "bytes": 855966,
   "sim_fingerprint": "2d54b0d8fc49f8b1",
   "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": null,
   "created": "2026-10-10T09:19:02-0400",
   "synthetic": true
  },
@@ -623,6 +659,8 @@
   "bytes": 912609,
   "sim_fingerprint": "2d54b0d8fc49f8b1",
   "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": null,
   "created": "2026-10-10T09:20:54-0400",
   "synthetic": true
  },
@@ -656,6 +694,8 @@
   "bytes": 885805,
   "sim_fingerprint": "2d54b0d8fc49f8b1",
   "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": null,
   "created": "2026-10-10T09:19:01-0400",
   "synthetic": true
  },
@@ -689,6 +729,8 @@
   "bytes": 835177,
   "sim_fingerprint": "2d54b0d8fc49f8b1",
   "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": null,
   "created": "2026-10-10T09:21:01-0400",
   "synthetic": true
  },
@@ -722,7 +764,79 @@
   "bytes": 806186,
   "sim_fingerprint": "2d54b0d8fc49f8b1",
   "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": null,
   "created": "2026-10-10T09:18:08-0400",
+  "synthetic": true
+ },
+ {
+  "rollout_id": "ppo_same_service__flu_surge__s9000001",
+  "manager": {
+   "id": "ppo_same_service",
+   "kind": "learned",
+   "label": "Learned (PPO, cloned from tuned heuristic then fine-tuned): Same service, lower cost",
+   "objective": "same_service_lower_cost"
+  },
+  "scenario": "flu_surge",
+  "seed": 9000001,
+  "days": 30,
+  "summary": {
+   "wait_mean_min": 12.745500564575195,
+   "wait_p95_min": 25.0,
+   "ed_los_median_min": 195.0,
+   "lwbs_rate": 0.00828651711344719,
+   "cost_per_day": 596456.625,
+   "margin_per_day": 522041.21875,
+   "cost_per_treated": 2550.4130859375,
+   "deaths_per_10k": 1.4044944047927856,
+   "boarding_hours_per_day": 5.466666221618652,
+   "diversion_hours_per_day": 0.0,
+   "overtime_hours_per_day": 0.0,
+   "labor_cost_per_day": 96625.02419
+  },
+  "has_segments": true,
+  "file": "ppo_same_service__flu_surge__s9000001.json.gz",
+  "bytes": 939752,
+  "sim_fingerprint": "fb4e48d5e35aa606",
+  "sim_behaviour_fingerprint": "ed6420bf3cdf4b16",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": "13559aa34001a108",
+  "created": "2026-10-11T00:18:09-0400",
+  "synthetic": true
+ },
+ {
+  "rollout_id": "ppo_same_service__normal_week__s9000001",
+  "manager": {
+   "id": "ppo_same_service",
+   "kind": "learned",
+   "label": "Learned (PPO, cloned from tuned heuristic then fine-tuned): Same service, lower cost",
+   "objective": "same_service_lower_cost"
+  },
+  "scenario": "normal_week",
+  "seed": 9000001,
+  "days": 30,
+  "summary": {
+   "wait_mean_min": 12.253826141357422,
+   "wait_p95_min": 20.0,
+   "ed_los_median_min": 185.0,
+   "lwbs_rate": 0.007819687016308308,
+   "cost_per_day": 588430.125,
+   "margin_per_day": 438236.78125,
+   "cost_per_treated": 2739.0078125,
+   "deaths_per_10k": 1.5332720279693604,
+   "boarding_hours_per_day": 5.266666412353516,
+   "diversion_hours_per_day": 0.0,
+   "overtime_hours_per_day": 0.0,
+   "labor_cost_per_day": 97351.89949333335
+  },
+  "has_segments": true,
+  "file": "ppo_same_service__normal_week__s9000001.json.gz",
+  "bytes": 907142,
+  "sim_fingerprint": "fb4e48d5e35aa606",
+  "sim_behaviour_fingerprint": "ed6420bf3cdf4b16",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": "13559aa34001a108",
+  "created": "2026-10-11T00:17:41-0400",
   "synthetic": true
  },
  {
@@ -755,6 +869,8 @@
   "bytes": 1096937,
   "sim_fingerprint": "2d54b0d8fc49f8b1",
   "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": null,
   "created": "2026-10-10T09:21:40-0400",
   "synthetic": true
  },
@@ -788,6 +904,8 @@
   "bytes": 1063484,
   "sim_fingerprint": "2d54b0d8fc49f8b1",
   "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": null,
   "created": "2026-10-10T09:18:53-0400",
   "synthetic": true
  },
@@ -821,6 +939,8 @@
   "bytes": 886675,
   "sim_fingerprint": "2d54b0d8fc49f8b1",
   "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": null,
   "created": "2026-10-10T09:21:26-0400",
   "synthetic": true
  },
@@ -854,6 +974,8 @@
   "bytes": 865206,
   "sim_fingerprint": "2d54b0d8fc49f8b1",
   "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": null,
   "created": "2026-10-10T09:18:08-0400",
   "synthetic": true
  },
@@ -887,6 +1009,8 @@
   "bytes": 959063,
   "sim_fingerprint": "2d54b0d8fc49f8b1",
   "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": null,
   "created": "2026-10-10T09:19:24-0400",
   "synthetic": true
  },
@@ -920,6 +1044,8 @@
   "bytes": 926931,
   "sim_fingerprint": "2d54b0d8fc49f8b1",
   "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": null,
   "created": "2026-10-10T09:18:03-0400",
   "synthetic": true
  },
@@ -953,6 +1079,8 @@
   "bytes": 899801,
   "sim_fingerprint": "2d54b0d8fc49f8b1",
   "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": null,
   "created": "2026-10-10T09:19:24-0400",
   "synthetic": true
  },
@@ -986,6 +1114,8 @@
   "bytes": 870222,
   "sim_fingerprint": "2d54b0d8fc49f8b1",
   "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": null,
   "created": "2026-10-10T09:18:06-0400",
   "synthetic": true
  },
@@ -1019,6 +1149,8 @@
   "bytes": 870615,
   "sim_fingerprint": "2d54b0d8fc49f8b1",
   "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": null,
   "created": "2026-10-10T09:19:47-0400",
   "synthetic": true
  },
@@ -1052,6 +1184,8 @@
   "bytes": 843869,
   "sim_fingerprint": "2d54b0d8fc49f8b1",
   "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": null,
   "created": "2026-10-10T09:17:59-0400",
   "synthetic": true
  },
@@ -1085,6 +1219,8 @@
   "bytes": 892697,
   "sim_fingerprint": "2d54b0d8fc49f8b1",
   "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": null,
   "created": "2026-10-10T09:20:34-0400",
   "synthetic": true
  },
@@ -1118,6 +1254,8 @@
   "bytes": 864067,
   "sim_fingerprint": "2d54b0d8fc49f8b1",
   "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": null,
   "created": "2026-10-10T09:18:37-0400",
   "synthetic": true
  },
@@ -1151,6 +1289,8 @@
   "bytes": 886575,
   "sim_fingerprint": "2d54b0d8fc49f8b1",
   "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": null,
   "created": "2026-10-10T09:21:08-0400",
   "synthetic": true
  },
@@ -1184,6 +1324,8 @@
   "bytes": 856066,
   "sim_fingerprint": "2d54b0d8fc49f8b1",
   "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": null,
   "created": "2026-10-10T09:18:07-0400",
   "synthetic": true
  },
@@ -1217,6 +1359,8 @@
   "bytes": 903402,
   "sim_fingerprint": "2d54b0d8fc49f8b1",
   "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": null,
   "created": "2026-10-10T09:19:44-0400",
   "synthetic": true
  },
@@ -1250,6 +1394,8 @@
   "bytes": 879829,
   "sim_fingerprint": "2d54b0d8fc49f8b1",
   "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": null,
   "created": "2026-10-10T09:18:49-0400",
   "synthetic": true
  },
@@ -1283,6 +1429,8 @@
   "bytes": 883024,
   "sim_fingerprint": "2d54b0d8fc49f8b1",
   "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": null,
   "created": "2026-10-10T09:19:47-0400",
   "synthetic": true
  },
@@ -1316,7 +1464,149 @@
   "bytes": 861231,
   "sim_fingerprint": "2d54b0d8fc49f8b1",
   "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": null,
   "created": "2026-10-10T09:18:53-0400",
+  "synthetic": true
+ },
+ {
+  "rollout_id": "tuned_same_budget__flu_surge__s9000001",
+  "manager": {
+   "id": "tuned_same_budget",
+   "kind": "tuned_heuristic",
+   "label": "Tuned heuristic: Same budget, better flow",
+   "objective": "same_budget_better_flow"
+  },
+  "scenario": "flu_surge",
+  "seed": 9000001,
+  "days": 30,
+  "summary": {
+   "wait_mean_min": 14.51674747467041,
+   "wait_p95_min": 30.0,
+   "ed_los_median_min": 205.0,
+   "lwbs_rate": 0.009691011160612106,
+   "cost_per_day": 601017.1875,
+   "margin_per_day": 518942.15625,
+   "cost_per_treated": 2572.84765625,
+   "deaths_per_10k": 1.4044944047927856,
+   "boarding_hours_per_day": 5.466666221618652,
+   "diversion_hours_per_day": 0.0,
+   "overtime_hours_per_day": 0.0,
+   "labor_cost_per_day": 96172.37352333333
+  },
+  "has_segments": true,
+  "file": "tuned_same_budget__flu_surge__s9000001.json.gz",
+  "bytes": 946041,
+  "sim_fingerprint": "fb4e48d5e35aa606",
+  "sim_behaviour_fingerprint": "ed6420bf3cdf4b16",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": "13559aa34001a108",
+  "created": "2026-10-11T00:17:40-0400",
+  "synthetic": true
+ },
+ {
+  "rollout_id": "tuned_same_budget__normal_week__s9000001",
+  "manager": {
+   "id": "tuned_same_budget",
+   "kind": "tuned_heuristic",
+   "label": "Tuned heuristic: Same budget, better flow",
+   "objective": "same_budget_better_flow"
+  },
+  "scenario": "normal_week",
+  "seed": 9000001,
+  "days": 30,
+  "summary": {
+   "wait_mean_min": 13.960042953491211,
+   "wait_p95_min": 30.0,
+   "ed_los_median_min": 200.0,
+   "lwbs_rate": 0.009659613482654095,
+   "cost_per_day": 593163.625,
+   "margin_per_day": 429384.28125,
+   "cost_per_treated": 2765.761474609375,
+   "deaths_per_10k": 1.5332720279693604,
+   "boarding_hours_per_day": 5.266666412353516,
+   "diversion_hours_per_day": 0.0,
+   "overtime_hours_per_day": 0.0,
+   "labor_cost_per_day": 96642.10882666666
+  },
+  "has_segments": true,
+  "file": "tuned_same_budget__normal_week__s9000001.json.gz",
+  "bytes": 914127,
+  "sim_fingerprint": "fb4e48d5e35aa606",
+  "sim_behaviour_fingerprint": "ed6420bf3cdf4b16",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": "13559aa34001a108",
+  "created": "2026-10-11T00:17:41-0400",
+  "synthetic": true
+ },
+ {
+  "rollout_id": "tuned_same_service__flu_surge__s9000001",
+  "manager": {
+   "id": "tuned_same_service",
+   "kind": "tuned_heuristic",
+   "label": "Tuned heuristic: Same service, lower cost",
+   "objective": "same_service_lower_cost"
+  },
+  "scenario": "flu_surge",
+  "seed": 9000001,
+  "days": 30,
+  "summary": {
+   "wait_mean_min": 19.181739807128906,
+   "wait_p95_min": 45.0,
+   "ed_los_median_min": 170.0,
+   "lwbs_rate": 0.013202247209846973,
+   "cost_per_day": 572622.375,
+   "margin_per_day": 538688.625,
+   "cost_per_treated": 2455.148193359375,
+   "deaths_per_10k": 2.8089888095855713,
+   "boarding_hours_per_day": 5.399999618530273,
+   "diversion_hours_per_day": 0.0,
+   "overtime_hours_per_day": 1.4999998807907104,
+   "labor_cost_per_day": 69075.39547999999
+  },
+  "has_segments": true,
+  "file": "tuned_same_service__flu_surge__s9000001.json.gz",
+  "bytes": 888142,
+  "sim_fingerprint": "7a60d1e202609b94",
+  "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": "948e67fcfd0879fa",
+  "created": "2026-10-10T18:19:17-0400",
+  "synthetic": true
+ },
+ {
+  "rollout_id": "tuned_same_service__normal_week__s9000001",
+  "manager": {
+   "id": "tuned_same_service",
+   "kind": "tuned_heuristic",
+   "label": "Tuned heuristic: Same service, lower cost",
+   "objective": "same_service_lower_cost"
+  },
+  "scenario": "normal_week",
+  "seed": 9000001,
+  "days": 30,
+  "summary": {
+   "wait_mean_min": 15.010062217712402,
+   "wait_p95_min": 30.0,
+   "ed_los_median_min": 160.0,
+   "lwbs_rate": 0.009199632331728935,
+   "cost_per_day": 565151.9375,
+   "margin_per_day": 457716.09375,
+   "cost_per_treated": 2630.24462890625,
+   "deaths_per_10k": 1.5332720279693604,
+   "boarding_hours_per_day": 5.199999809265137,
+   "diversion_hours_per_day": 0.0,
+   "overtime_hours_per_day": 0.166666641831398,
+   "labor_cost_per_day": 68822.22084666666
+  },
+  "has_segments": true,
+  "file": "tuned_same_service__normal_week__s9000001.json.gz",
+  "bytes": 859808,
+  "sim_fingerprint": "7a60d1e202609b94",
+  "sim_behaviour_fingerprint": "6ee020eaaf7eca57",
+  "hospital_id": "rwjuh_nb",
+  "calibration_fingerprint": "948e67fcfd0879fa",
+  "created": "2026-10-10T18:19:16-0400",
   "synthetic": true
  }
 ]

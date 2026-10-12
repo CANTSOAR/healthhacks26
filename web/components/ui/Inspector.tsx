@@ -1,17 +1,16 @@
 "use client";
-import Link from "next/link";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { api } from "@/lib/api";
 import { describe, enumsOf, roomState } from "@/lib/describe";
 import type { FeedState } from "@/lib/feed";
 import { duration, formatValue, L, patientId, titleCase } from "@/lib/format";
 import { useApi } from "@/lib/hooks";
-import { findOpenEncounter, giveBack } from "@/lib/encounter/open";
-import { isPlayable, notPlayableReason, playCtl, refreshPlayable } from "@/lib/session";
 import { ACUITY, ACUITY_LABEL } from "@/lib/palette";
 import { useUI } from "@/lib/ui";
 import type { CatalogAttribute, Selection } from "@/lib/types";
+import type { EntityValue } from "@/lib/attribution";
 import { Icon, ICONS, SimTag, SourceChip } from "./atoms";
+import { ResourceValue } from "./ResourceValue";
 
 function Row({ k, children }: { k: string; children: ReactNode }) {
   return (
@@ -281,7 +280,7 @@ function Catalog({ refPath }: { refPath: string }) {
       {loading && <div className="py-3 text-[12px] text-ink-3">Loading…</div>}
       {!loading && !data && (
         <div className="py-1 text-[11.5px] text-ink-3" data-testid="no-catalog">
-          No catalog entry for {plural(titleCase(refPath.split("/").pop() ?? "this reference").toLowerCase())}: nothing is modelled about this kind of {entityType === "space" ? "space" : entityType}, so there are no parameters to show.
+          No catalog entry for {plural(titleCase(refPath.split("/").pop() ?? "this reference").toLowerCase())}: nothing is modeled about this kind of {entityType === "space" ? "space" : entityType}, so there are no parameters to show.
         </div>
       )}
       {data && (
@@ -320,7 +319,7 @@ function Catalog({ refPath }: { refPath: string }) {
   );
 }
 
-type PatientDetail = Record<string, unknown> & { playable?: boolean; playable_code?: string; playable_reason?: string; live?: { held_for_play?: boolean }; pending_interaction?: { playable?: boolean } | null };
+type PatientDetail = Record<string, unknown> & { attribution?: EntityValue | null };
 
 /** What the server says about one entity of a live run (never the latent truth). */
 function useRunDetail(sel: Selection | null, f: FeedState, refresh = 0): PatientDetail | null {
@@ -328,17 +327,18 @@ function useRunDetail(sel: Selection | null, f: FeedState, refresh = 0): Patient
   const runId = f.header?.live ? f.header.id : null;
   const kind = sel?.kind;
   const id = sel?.id;
-  // re-ask when the patient changes state: playability follows the state
-  const stateKey = kind === "patient" && f.snap ? f.snap.patients.state[f.snap.patients.id.indexOf(Number(id))] : 0;
+  // re-ask when the patient changes state
+  // staff, rooms and machines: re-ask each simulated hour, their value and utilisation are by hour of day
+  const stateKey = kind === "patient" && f.snap ? f.snap.patients.state[f.snap.patients.id.indexOf(Number(id))] : f.snap ? Math.floor(f.snap.clock.minute_of_day / 60) : 0;
   const entity = `${runId}|${kind}|${id}`;
   const shown = useRef("");
   useEffect(() => {
     // a different entity starts blank; the same one keeps what it showed until the fresh answer arrives (no flicker)
     if (shown.current !== entity) setData(null);
     shown.current = entity;
-    if (!runId || (kind !== "patient" && kind !== "staff") || id == null) return;
+    if (!runId || kind === "ambulance" || kind == null || id == null) return;
     let dead = false;
-    const p = kind === "patient" ? api.runPatient(runId, Number(id)) : api.runStaff(runId, String(id));
+    const p = kind === "patient" ? api.runPatient(runId, Number(id)) : kind === "staff" ? api.runStaff(runId, String(id)) : kind === "room" ? api.runRoom(runId, String(id)) : api.runEquipment(runId, String(id));
     p.then((d) => !dead && setData(d as PatientDetail)).catch(() => undefined);
     return () => {
       dead = true;
@@ -348,60 +348,6 @@ function useRunDetail(sel: Selection | null, f: FeedState, refresh = 0): Patient
   return data;
 }
 
-/**
- * A patient held by an encounter that was left unfinished: carry on with it, or hand the patient back to the
- * simulation. Without this the patient stays in their bay until the server's thirty-minute expiry.
- */
-function HeldEncounter({ runId, patientId: pid, onReleased }: { runId: string; patientId: number; onReleased: () => void }) {
-  const toast = useUI((s) => s.toast);
-  const [encounterId, setEncounterId] = useState<string | null | undefined>(undefined);
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  useEffect(() => {
-    let dead = false;
-    setEncounterId(undefined);
-    void findOpenEncounter(runId, pid).then((id) => !dead && setEncounterId(id));
-    return () => {
-      dead = true;
-    };
-  }, [runId, pid]);
-  const release = async () => {
-    setBusy(true);
-    setError(null);
-    try {
-      await giveBack(runId, pid);
-      toast(`${patientId(pid)} is back with the simulation. The encounter was left unfinished and nothing was written back.`, "info");
-      await refreshPlayable();
-      onReleased();
-    } catch (e) {
-      setError(`Could not release the patient: ${String((e as Error)?.message ?? e)}`);
-    } finally {
-      setBusy(false);
-    }
-  };
-  return (
-    <div className="mb-3 rounded-xl bg-[#FDF6E7] px-3 py-2.5" data-testid="held-encounter">
-      <div className="text-[11.5px] font-semibold text-[#8A5A00]">An encounter with this patient was left unfinished.</div>
-      <div className="mt-0.5 text-[11px] leading-snug text-[#8A5A00]">The patient waits where they are until you resume it or give them back.</div>
-      <div className="mt-2 flex flex-wrap gap-2">
-        {encounterId ? (
-          <Link href={`/encounter?encounter_id=${encodeURIComponent(encounterId)}`} className="btn-primary !h-8 flex-1 whitespace-nowrap" data-testid="resume-encounter" onClick={() => playCtl.pauseForEncounter()} title="Carry on where you left off; the transcript is kept">
-            <Icon d={ICONS.play} size={12} stroke={2.4} />
-            Resume encounter
-          </Link>
-        ) : (
-          <span className="flex h-8 flex-1 items-center justify-center rounded-full bg-white/60 px-3 text-[11px] text-ink-3" data-testid="resume-unavailable">
-            {encounterId === undefined ? "Looking for the encounter…" : "The open encounter could not be found"}
-          </span>
-        )}
-        <button className="btn-quiet !h-8 flex-1 whitespace-nowrap" onClick={() => void release()} disabled={busy} data-testid="give-back" title="Release the hold: the simulation's own sampler decides this encounter, as for every other patient">
-          {busy ? "Releasing…" : "Give back to the simulation"}
-        </button>
-      </div>
-      {error && <div className="mt-1.5 text-[11px] text-[#B4232A]">{error}</div>}
-    </div>
-  );
-}
 const HIDE_KNOWN = new Set(["patient_id", "known_fact_ids", "run_id"]);
 function SimDetail({ data }: { data: PatientDetail | null }) {
   if (!data) return null;
@@ -427,16 +373,9 @@ function SimDetail({ data }: { data: PatientDetail | null }) {
 export function Inspector({ f, className = "" }: { f: FeedState; className?: string }) {
   const sel = useUI((s) => s.selection);
   const select = useUI((s) => s.select);
-  const [refresh, setRefresh] = useState(0);
-  const detail = useRunDetail(sel && sel.feed === f.key ? sel : null, f, refresh);
+  const detail = useRunDetail(sel && sel.feed === f.key ? sel : null, f);
   if (!sel || sel.feed !== f.key) return null;
   const d = describe(sel, f);
-  const runId = f.header?.id ?? "";
-  // the server's word on playability wins; until it has one, the patient's state decides
-  const fromServer = detail?.playable ?? detail?.pending_interaction?.playable;
-  const playable = sel.kind === "patient" && f.origin === "live" && (d?.index ?? -1) >= 0 && (fromServer ?? isPlayable(f, d?.index ?? -1));
-  const held = sel.kind === "patient" && !playable && f.origin === "live" && !!f.header?.live && (detail?.playable_code === "held" || (detail?.playable_code == null && detail?.live?.held_for_play === true));
-  const why = sel.kind === "patient" && !playable ? (detail?.playable_reason ?? notPlayableReason(f, d?.index ?? -1)) : "";
   return (
     <div className={`glass slidein pointer-events-auto flex min-h-0 flex-col ${className}`} data-testid="inspector">
       <div className="flex items-start gap-2 px-4 pb-2 pt-3.5">
@@ -450,34 +389,13 @@ export function Inspector({ f, className = "" }: { f: FeedState; className?: str
         </button>
       </div>
       <div className="scroll-thin min-h-0 flex-1 overflow-y-auto px-4 pb-4">
-        {sel.kind === "patient" &&
-          (playable ? (
-            <div className="mb-3">
-              <Link
-                href={`/encounter?run_id=${encodeURIComponent(runId)}&patient_id=${encodeURIComponent(String(sel.id))}`}
-                className="btn-primary w-full"
-                data-testid="play-encounter"
-                onClick={() => playCtl.pauseForEncounter()}
-                title="Step into the clinician's role for this patient"
-              >
-                <Icon d={ICONS.play} size={12} stroke={2.4} />
-                Play this encounter
-              </Link>
-              <div className="mt-1 text-center text-[10.5px] leading-snug text-ink-3">The hospital pauses while you play, so this patient stays put. You come back to this run afterwards.</div>
-            </div>
-          ) : held ? (
-            <HeldEncounter runId={runId} patientId={Number(sel.id)} onReleased={() => setRefresh((n) => n + 1)} />
-          ) : (
-            <div className="mb-3 rounded-xl bg-[#141a33]/[0.035] px-3 py-2 text-[11px] leading-snug text-ink-3" data-testid="not-playable">
-              <span className="font-semibold text-ink-2">Encounter not playable now.</span> {why}
-            </div>
-          ))}
         <div className="mb-1 flex items-center gap-2">
           <span className="eyebrow">Live state</span>
           <SimTag>{f.origin === "fixture" ? "fixture" : "simulated"}</SimTag>
         </div>
         <LiveState sel={sel} f={f} />
         <SimDetail data={detail} />
+        {sel.kind !== "patient" && sel.kind !== "ambulance" ? <ResourceValue sel={sel} f={f} server={detail?.attribution ?? null} /> : null}
         {d?.catalogRef ? (
           <div className="mt-3 border-t border-line pt-3">
             <Catalog refPath={d.catalogRef} />

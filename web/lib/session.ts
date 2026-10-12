@@ -39,7 +39,6 @@ if (typeof window !== "undefined") {
       if (!s.paused && s.windowEnd) useUI.setState({ windowEnd: null });
       player?.setPlaying(!s.paused);
       liveSim?.send({ type: s.paused ? "pause" : "resume" });
-      if (s.paused) void refreshPlayable();
       liveB?.send({ type: s.paused ? "pause" : "resume" });
     }
   });
@@ -133,7 +132,7 @@ export async function openCompare(idA: string, idB: string) {
 }
 
 // ------------------------------------------------------------------ the live run this tab owns
-// Kept in sessionStorage so a reload, a mode switch or a trip to /encounter rejoins the run instead of losing it.
+// Kept in sessionStorage so a reload, or a mode switch rejoins the run instead of losing it.
 // The server keeps a run (paused) for at least ten minutes after its socket closes.
 export interface SavedRun {
   run_id: string;
@@ -205,18 +204,6 @@ export const transport = {
   canSeek: () => !!player,
 };
 
-/** While the clock is paused no `hour` message arrives, so ask the server who can be played. */
-export async function refreshPlayable() {
-  const h = feeds.a.getState().header;
-  if (!liveSim || !h?.live) return;
-  try {
-    const r = await api.runPlayable(h.id);
-    if (Array.isArray(r.playable)) feeds.a.setState({ playable: new Set(r.playable.map(Number)) });
-  } catch {
-    /* older server: the state-based rule stays in use */
-  }
-}
-
 /** Names for the scenario and injected events the simulator reports by id ("Scenario event started: flu_wave"). */
 const EVENT_NAME: Record<string, string> = {
   flu_wave: "Flu wave",
@@ -253,7 +240,7 @@ function announce(events: import("./types").SimEvent[]) {
 
 /**
  * Start a live run, or with `attach` rejoin one the server still holds. `select` picks an entity once the first
- * snapshot is in (used when coming back from an encounter, so the camera lands on that patient).
+ * snapshot is in.
  */
 export async function startPlay(opts: { attach?: string; select?: { kind: string; id: string | number } | null } = {}) {
   teardown();
@@ -312,7 +299,6 @@ export async function startPlay(opts: { attach?: string; select?: { kind: string
       ui().toast("Rejoined your run where it was paused.", "info");
     }
     if (opts.select) selectWhenPresent(opts.select, gen);
-    void refreshPlayable();
     return;
   }
   liveSim = null;
@@ -320,7 +306,7 @@ export async function startPlay(opts: { attach?: string; select?: { kind: string
     // never fall back to a fixture when the user expected their own run back
     if (sim.gone) {
       clearRun();
-      ui().setPlay({ state: "idle", note: "That run is no longer on the server. Runs are kept for about ten minutes after their connection closes (thirty with an encounter open). Start a new one below." });
+      ui().setPlay({ state: "idle", note: "That run is no longer on the server. Runs are kept for about ten minutes after their connection closes. Start a new one below." });
     } else ui().setPlay({ state: "idle", note: "Could not reach the simulator to rejoin your run. It may still be there: try “Rejoin run” again in a moment." });
     await showLayoutOnly(true);
     return;
@@ -360,83 +346,7 @@ function selectWhenPresent(sel: { kind: string; id: string | number }, gen: numb
   });
 }
 
-const PLAYABLE_STATES = new Set(["waiting_triage", "in_triage", "waiting_bay", "waiting_provider", "with_provider"]);
-/**
- * Can this patient's clinician encounter be played right now? Only in a live run. The server's list (`hour.playable`)
- * is used when it sends one; otherwise the patient must not have finished with the provider yet.
- */
-export function isPlayable(f: FeedState, patientIdx: number): boolean {
-  if (f.origin !== "live" || !f.header?.live || !f.snap || patientIdx < 0) return false;
-  const id = f.snap.patients.id[patientIdx];
-  // The server's list arrives once a simulated hour and patients move on faster than that, so a listed patient must
-  // also still be in a state before the end of the provider visit.
-  const early = PLAYABLE_STATES.has(f.header.enums.patient_state[f.snap.patients.state[patientIdx]] ?? "");
-  return f.playable ? early && f.playable.has(id) : early;
-}
-/** Why not, in words (used when the per-patient route has not said). */
-export function notPlayableReason(f: FeedState, patientIdx: number): string {
-  if (f.origin !== "live" || !f.header?.live) return "Encounters are played from a live run. Start one in Play, then pick a patient who has not seen the provider yet.";
-  if (patientIdx < 0 || !f.snap) return "This patient is not in the hospital at this moment.";
-  const st = f.header.enums.patient_state[f.snap.patients.state[patientIdx]] ?? "";
-  if (st === "in_ward" || st === "boarding") return "This patient has already been seen and admitted. Pick someone who is still waiting or with the provider.";
-  if (st === "exited") return "This patient has left the hospital.";
-  return "This patient's encounter with the provider has already happened. Pick someone who is still waiting or with the provider.";
-}
-
-const NO_PLAYABLE = "No playable patient right now — let the clock run a moment, then try again.";
-
 export const playCtl = {
-  /** Pause the run before stepping into an encounter, so the patient cannot move on meanwhile. */
-  pauseForEncounter() {
-    if (!liveSim) return;
-    liveSim.send({ type: "pause" });
-    useUI.setState({ paused: true });
-  },
-  /**
-   * Pause the hospital, ask the server who can be played at this instant, and select one of them. Pausing first
-   * matters: at speed, a provider visit lasts a few real seconds and the patient would be gone before the click lands.
-   */
-  async findPlayable(): Promise<boolean> {
-    if (!liveSim) return false;
-    liveSim.send({ type: "pause" });
-    useUI.setState({ paused: true });
-    await new Promise((r) => setTimeout(r, 250)); // let the last snapshot before the pause arrive
-    await refreshPlayable();
-    const f = feeds.a.getState();
-    const snap = f.snap;
-    if (!snap) {
-      ui().setPlay({ note: NO_PLAYABLE });
-      return false;
-    }
-    const en = f.header?.enums.patient_state ?? [];
-    // someone already in a bay waiting for the provider is the best pick; then with the provider; then earlier in the pathway
-    const want = ["waiting_provider", "with_provider", "waiting_bay", "in_triage", "waiting_triage"];
-    let best = -1;
-    let bestRank = 99;
-    const child = f.header?.enums.age_band.indexOf("age_0_17") ?? -1;
-    for (let i = 0; i < snap.patients.id.length; i++) {
-      if (!isPlayable(f, i)) continue;
-      const r = want.indexOf(en[snap.patients.state[i]] ?? "");
-      // adults first: the encounter engine refuses very young children and adult-only teaching cases for children
-      const rank = (r < 0 ? 50 : r) + (snap.patients.age_band[i] === child ? 10 : 0);
-      if (rank < bestRank || (rank === bestRank && best >= 0 && snap.patients.state_min[i] > snap.patients.state_min[best])) {
-        best = i;
-        bestRank = rank;
-      }
-    }
-    if (best < 0) {
-      useUI.setState({ paused: false });
-      // said in the panel as well as in a toast: a toast alone is easy to miss
-      ui().setPlay({ note: NO_PLAYABLE });
-      ui().toast(NO_PLAYABLE, "warn");
-      return false;
-    }
-    if (ui().play.note === NO_PLAYABLE) ui().setPlay({ note: null });
-    ui().select({ kind: "patient", id: snap.patients.id[best], feed: "a" });
-    useUI.setState({ listTab: "patients" });
-    ui().toast("Paused the hospital so this patient stays put. Play their encounter from the panel on the right, or press play to carry on.", "info");
-    return true;
-  },
   action(head: string, value: number) {
     const s = ui();
     s.setPlay({ requested: { ...s.play.requested, [head]: value } });

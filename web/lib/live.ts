@@ -163,10 +163,6 @@ export class LiveSim {
       }
       case "hour": {
         this.syncManager(msg as unknown as { manager?: string; manager_info?: ManagerInfo });
-        {
-          const pl = (msg as unknown as { playable?: unknown }).playable;
-          if (Array.isArray(pl)) feed.setState({ playable: new Set(pl.map((x) => Number(typeof x === "object" && x ? (x as { patient_id?: number; id?: number }).patient_id ?? (x as { id?: number }).id : x))) });
-        }
         // The server also sends `hour` as an immediate acknowledgement of action / manager / inject, with empty
         // metrics: it only updates the queued knobs and the mask, and must not add a point to the charts.
         if (msg.ack || !msg.metrics || Object.keys(msg.metrics).length === 0) {

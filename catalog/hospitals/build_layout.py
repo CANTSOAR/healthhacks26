@@ -255,12 +255,17 @@ def build(cfg):
     ix0, iz0 = cfg["inpatient_origin"]
     inp_note = "Low-detail block. Drawn at ground level beside the ED for readability; in reality inpatient units are on upper floors."
     uw, ud = cfg["ward_size"]
-    x = ix0
+    # ward units fill rows of `wards_per_row` (default: one row, as in the hand-built layouts); the corridor and the
+    # ICU / step-down / OR band sit below the last row
+    per_row = int(cfg.get("wards_per_row") or len(cfg["wards"]))
     for i, beds in enumerate(cfg["wards"]):
-        b.rect(f"ward-{letters(i)}", "ward_unit", f"Inpatient unit {letters(i).upper()}", x, iz0, x + uw, iz0 + ud, beds, "Inpatient", **pv("ward"),
+        wr, wc = divmod(i, per_row)
+        x = ix0 + wc * (uw + 2.0)
+        wz = iz0 + wr * (ud + 2.0)
+        b.rect(f"ward-{letters(i)}", "ward_unit", f"Inpatient unit {letters(i).upper()}", x, wz, x + uw, wz + ud, beds, "Inpatient", **pv("ward"),
                note=inp_note + " Beds counted here are the modelled pool available to ED admissions, not the hospital's licensed beds.")
-        x += uw + 2.0
-    ix1 = x - 2.0
+    ix1 = ix0 + min(per_row, len(cfg["wards"])) * (uw + 2.0) - 2.0
+    iz0 = iz0 + ((len(cfg["wards"]) - 1) // per_row) * (ud + 2.0)      # top of the last ward row
     z2 = iz0 + ud + 6.0
     ctx = [("icu", "icu_bed", "Intensive care unit", cfg["icu_beds"], 0.24), ("stepdown", "stepdown_bed", "Step-down unit", cfg["stepdown_beds"], 0.2),
            ("or", "operating_room", "Operating rooms", cfg["or_rooms"], 0.24), ("recovery", "recovery", "Recovery (PACU)", cfg["recovery_beds"], 0.16)]

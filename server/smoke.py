@@ -115,8 +115,7 @@ def entity_checks(base: str, run_id, patient, staff) -> list[tuple[str, bool, st
     res = []
     with httpx.Client(base_url=base, timeout=15) as c:
         for name, path, need in ((f"GET /api/runs/<run>/patients/<id>", f"/api/runs/{run_id}/patients/{patient}",
-                                  ("live", "latent_truth_available", "known_state", "interactions", "catalog_refs", "playable", "playable_reason")),
-                                 ("GET /api/runs/<run>/playable", f"/api/runs/{run_id}/playable", ("run_id", "t", "playable")),
+                                  ("live", "latent_truth_available", "known_state", "interactions", "catalog_refs")),
                                  (f"GET /api/runs/<run>/staff/<id>", f"/api/runs/{run_id}/staff/{staff}", ("live", "catalog_refs"))):
             try:
                 r = c.get(path)
@@ -131,11 +130,10 @@ def entity_checks(base: str, run_id, patient, staff) -> list[tuple[str, bool, st
 def main(base: str) -> int:
     base = base.rstrip("/")
     with httpx.Client(base_url=base, timeout=30) as c:
-        st = get(c, "/api/status", lambda d: keys("services", "torch", "device", "version")(d) or keys("sim", "llm", "voice", "data")(d["services"]))
+        st = get(c, "/api/status", lambda d: keys("services", "torch", "device", "version")(d) or keys("sim", "rl", "data")(d["services"]))
         if st:
             s = st["services"]
-            print(f"      sim live={s['sim']['live']}  llm={s['llm']['provider']} live={s['llm']['live']}  voice={s['voice']['provider']}  "
-                  f"data={s['data']['provider']}  rl={s.get('rl', {}).get('live')}  encounter={st.get('encounter')}  torch={st['torch']}")
+            print(f"      sim live={s['sim']['live']}  rl={s['rl']['live']}  data={s['data']['provider']}  torch={st['torch']}")
         get(c, "/api/enums", keys("patient_state", "room_type", "staff_role"))
         get(c, "/api/metrics", keys("metrics", "episode_summary"))
         cat = get(c, "/api/catalog", lambda d: keys("entity_types", "totals")(d) or keys("entity_type", "description", "n_variants", "n_attributes", "by_source")(d["entity_types"]))
@@ -167,8 +165,6 @@ def main(base: str) -> int:
         if val is not None:
             print(f"      validation: status={val.get('status')} targets={len(val['targets'])} within={sum(val['within'].values())}/{len(val['within'])}")
         get(c, "/api/runs", is_list)
-        get(c, "/api/cases", lambda d: None, name="GET /api/cases (encounter router)") if (st or {}).get("encounter") == "available" else \
-            print("SKIP  GET /api/cases  - encounter router not mounted")
         get(c, "/api/catalog/ref/space/no_such_thing", lambda d: None if "detail" in d else "no detail", name="GET unknown catalog ref -> 404 JSON", status=404)
 
     scenario = (sc or [{"id": "normal_week"}])[0]["id"]
@@ -191,7 +187,7 @@ def main(base: str) -> int:
         check("WS attach unknown run -> error run_gone", w.get("attach_gone") == "run_gone", str(w.get("attach_gone")))
         with httpx.Client(base_url=base, timeout=15) as c:
             listed = [r for r in c.get("/api/runs").json() if r.get("run_id") == w["run_id"]]
-            need = ("run_id", "scenario", "seed", "manager", "t", "clock", "has_open_encounter", "expires_in_s")
+            need = ("run_id", "scenario", "seed", "manager", "t", "clock", "expires_in_s")
             check("GET /api/runs lists the resumable run", bool(listed) and all(k in listed[0] for k in need),
                   f"expires_in_s={listed[0].get('expires_in_s')}" if listed else "run not listed")
         check("WS no error messages", not w["errors"], "; ".join(str(e) for e in w["errors"])[:300])

@@ -246,8 +246,13 @@ def test_snapshot_layout_metrics_conform(device):
         assert sim.metric_names() == metric_keys
         spec = sim.action_spec()
         assert [h["name"] for h in spec] == [h["name"] for h in heads]
+        # defaults: the contract's, unless the hospital's calibration file sets its own baseline schedule (twin/calibrate.py)
+        own = (sim.scn.calibration or {}).get("baseline_actions") or {}
         for h, ref in zip(spec, heads):
-            assert h["options"] == ref["options"] and h["default"] == ref["default"] and len(h["values"]) == len(h["options"])
+            assert h["options"] == ref["options"] and len(h["values"]) == len(h["options"])
+            assert h["default"] == own.get(h["name"], ref["default"]) and 0 <= h["default"] < len(h["options"])
+        raw = load_scenario(sid, overrides={"no_calibration": True})
+        assert [h["default"] for h in raw.heads] == [h["default"] for h in heads]
         lay = sim.layout(0)
         lay_v.validate(lay)
         for hour in range(34 if sid == "imaging_outage" else 14):

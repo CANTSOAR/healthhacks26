@@ -29,7 +29,7 @@ export function plainText(text: string): string {
 export function RolloutPicker({ value, onChange, testid }: { value: string | null; onChange: (id: string) => void; testid?: string }) {
   const rollouts = useUI((s) => s.rollouts);
   return (
-    <select className="select w-full" value={value ?? ""} onChange={(e) => onChange(e.target.value)} aria-label="Recorded rollout" data-testid={testid}>
+    <select className="select w-full" value={value ?? ""} onChange={(e) => onChange(e.target.value)} aria-label="Recorded run" data-testid={testid}>
       {rollouts.length === 0 && <option value="">No recorded rollouts</option>}
       {rollouts.map((r) => (
         <option key={r.rollout_id} value={r.rollout_id} disabled={!r.has_segments} title={prettyManager(r.manager.label)}>
@@ -123,7 +123,7 @@ export function WatchPanel({ f, className = "" }: { f: FeedState; className?: st
         <div className="flex items-center gap-2">
           <span className="eyebrow">Watching</span>
           {h && <KindChip kind={h.manager.kind} />}
-          {f.origin === "fixture" && <SourceChip tag="fixture" title="Bundled placeholder rollout, shown because the server is unreachable. Not a simulator run." />}
+          {f.origin === "fixture" && <SourceChip tag="fixture" title="Bundled placeholder recording, shown because the server is unreachable. Not a simulator run." />}
           <span className="ml-auto">
             <SimTag />
           </span>
@@ -146,7 +146,7 @@ export function WatchPanel({ f, className = "" }: { f: FeedState; className?: st
       <div className="flex items-center gap-2 border-t border-line px-3.5 pb-1.5 pt-2.5">
         <span className="eyebrow">{f.decisions.length ? "Manager decisions and events" : "Events"}</span>
         <span className="tnum ml-auto text-[10.5px] text-ink-3">
-          {f.decisions.length ? `${f.decisions.filter((d) => d.t <= (f.snap?.t ?? 0)).length} of ${f.decisions.length} decisions` : "this manager never changes a setting"}
+          {f.decisions.length ? `${f.decisions.filter((d) => d.t <= (f.snap?.t ?? 0)).length} of ${f.decisions.length} decisions` : "this plan never changes a setting"}
         </span>
       </div>
       <div className="scroll-thin min-h-0 flex-1 overflow-y-auto px-2.5 pb-2.5">

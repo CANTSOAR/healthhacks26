@@ -14,7 +14,6 @@ if str(ROOT) not in sys.path:
 os.environ["HG_STATE_DIR"] = tempfile.mkdtemp(prefix="hg-server-state-")
 os.environ["HG_VALIDATION_INPROCESS"] = "1"
 os.environ["HG_NO_WARM"] = "1"
-os.environ.setdefault("ENCOUNTER_DATA_DIR", tempfile.mkdtemp(prefix="hg-server-enc-"))   # keep test encounters out of data/
 
 from fastapi.testclient import TestClient  # noqa: E402
 from jsonschema import Draft202012Validator  # noqa: E402
@@ -64,16 +63,3 @@ def recv_until(ws, pred, limit=4000):
         if pred(m):
             return m, seen
     raise AssertionError(f"no matching message in {limit}; types seen: {sorted({m['type'] for m in seen})}")
-
-
-@pytest.fixture(autouse=True)
-def _rewire_encounter_sim_lookup():
-    """Encounter tests reset the package-level sim lookup; re-register the server's before each server test
-    so the suites can run in one pytest session in any order."""
-    try:
-        import encounter.api as enc_api
-        from server import encounter_glue
-        enc_api.register_sim_lookup(encounter_glue.sim_lookup)
-    except Exception:
-        pass
-    yield

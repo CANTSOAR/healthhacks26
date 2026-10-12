@@ -20,7 +20,7 @@ const humanRuns = [];
 const tag = (m) => ({ ...m, label: m.label.replace("[fixture]", "[mock]"), available: true });
 
 const routes = {
-  "/api/status": () => ({ services: { sim: { live: true }, llm: { live: false, provider: "offline", model: null }, voice: { live: false, provider: "browser" }, data: { live: false, provider: "public_extracts" } }, torch: null, device: "mock", version: "mock-server" }),
+  "/api/status": () => ({ services: { sim: { live: true }, data: { live: false, provider: "public_extracts" } }, torch: null, device: "mock", version: "mock-server" }),
   "/api/enums": () => enums,
   "/api/metrics": () => J("metrics.json"),
   "/api/catalog": () => J("catalog.json"),

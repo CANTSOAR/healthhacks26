@@ -72,7 +72,8 @@ def test_determinism_and_reward_recomputation(scales):
             m = info["metrics"]
             staff = m["overtime_hours"] + torch.relu(m["fatigue_mean"] - 0.5) * m["staff_on_shift"]
             raw = dict(cost=m["cost_total"], wait=m.get("waiting_patient_minutes", m["waiting_count"] * 60), lwbs=m["lwbs"], safety=m["adverse_events"],
-                       boarding=m["boarding_hours"], staff=staff, revenue=-m["revenue"], labor=m["cost_labor"])
+                       boarding=m["boarding_hours"], staff=staff, revenue=-m["revenue"], labor=m["cost_labor"],
+                       los=m["ed_census"], opcost=m["cost_labor"] + m["cost_fixed"])
             exp = -sum(OBJECTIVES["min_wait"].get(k, 0.0) * raw[k] / scales["scales"][k] for k in TERMS)
             assert torch.allclose(r, exp, rtol=1e-4, atol=1e-5)
             rs.append(r)

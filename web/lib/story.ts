@@ -39,6 +39,8 @@ const OBJECTIVE_SHORT: Record<string, string> = {
   balanced: "Balanced",
   "cost_s.t._p95_wait": "Cost within wait limit",
   cost_p95: "Cost within wait limit",
+  same_budget_better_flow: "Same budget, better flow",
+  same_service_lower_cost: "Same service, lower cost",
 };
 const OBJECTIVE_WORDS: Record<string, string> = { min_cost: "lowest cost", min_wait: "shortest waits", max_margin: "best margin", balanced: "balanced", "cost_s.t._p95_wait": "lowest cost within a wait limit", cost_p95: "lowest cost within a wait limit" };
 const WEIGHT_WORD: Record<string, string> = { labor: "staffing cost", cost: "total cost", revenue: "revenue", wait: "waits", lwbs: "walk-outs", safety: "safety", boarding: "boarding", staff: "staff strain" };
@@ -73,8 +75,8 @@ export function shortManager(m: Named | null | undefined): string {
     if (method(m) === "conditioned") return `${what ? `${what} dial` : "Any-objective dial"} · ${how}${fixture}`.replace("Lowest cost dial", "Cost dial").replace("Shortest wait dial", "Wait dial").replace("Best margin dial", "Margin dial");
     return `${what || "Learned"} · ${how}${fixture}`;
   }
-  if (m.kind === "tuned_heuristic") return `${what || "Tuned"} · tuned heuristic${fixture}`;
-  if (m.kind === "fixed") return `Fixed staffing${fixture}`;
+  if (m.kind === "tuned_heuristic") return `${what || "Tuned"} · tuned plan${fixture}`;
+  if (m.kind === "fixed") return `Current practice${fixture}`;
   if (m.kind === "rule_based") return `Rule-based${fixture}`;
   if (m.kind === "random") return `Random${fixture}`;
   if (m.kind === "human") return "You";
@@ -94,7 +96,7 @@ export function prettyManager(label: string): string {
 }
 export const fullManager = (m: Named) => prettyManager(m.label);
 /** The short name with its kind where the name does not already say it. */
-export const namedManager = (m: ManagerInfo) => (m.kind === "learned" ? `${shortManager(m)} (a learned agent)` : m.kind === "tuned_heuristic" || m.kind === "human" ? shortManager(m) : `${shortManager(m)} (${kindInfo(m.kind).label.toLowerCase()} baseline)`);
+export const namedManager = (m: ManagerInfo) => (m.kind === "learned" ? `${shortManager(m)} (a learned agent)` : m.kind === "tuned_heuristic" || m.kind === "human" || m.kind === "fixed" ? shortManager(m) : `${shortManager(m)} (${kindInfo(m.kind).label.toLowerCase()} baseline)`);
 
 // ------------------------------------------------------------------ what it was asked to do
 
@@ -116,8 +118,8 @@ const scoreWords = (m: Named | undefined, results?: Results | null) => objective
 function trainingWords(m: Named): string {
   const how = method(m);
   if (how === "scratch") return "trained from scratch";
-  if (how === "conditioned") return "one network that is told the objective weights, cloned from the tuned heuristics then fine-tuned";
-  if (how === "cloned") return "cloned from the tuned heuristic, then fine-tuned";
+  if (how === "conditioned") return "one network that is told the objective weights, cloned from the tuned plans then fine-tuned";
+  if (how === "cloned") return "cloned from the tuned plan, then fine-tuned";
   return "";
 }
 
@@ -147,7 +149,7 @@ function price(a: ResultRow | undefined, b: ResultRow | undefined): { text: stri
     if (A[key]?.mean == null) return;
     const va = A[key].mean;
     const vb = B?.[key]?.mean;
-    parts.push(lead(f(va)) + (vb != null ? ` (heuristic ${f(vb)})` : ""));
+    parts.push(lead(f(va)) + (vb != null ? ` (tuned plan ${f(vb)})` : ""));
     if (vb != null && va > vb * 1.1 && va - vb > tolerance) worse = true;
   };
   item("wait_mean_min", mins, (s) => `mean wait ${s}`, 5);
@@ -173,15 +175,15 @@ export function heldOutVerdict(id: string, scenario: string): string {
   const v = c.verdict.toLowerCase();
   const tiny = d != null && Math.abs(d) < SAME;
   const phrase = tiny
-    ? `is effectively the same as its tuned heuristic on ${on}`
+    ? `is effectively the same as the tuned plan for the same goal on ${on}`
     : /beat/.test(v)
-      ? `beats its tuned heuristic on ${on}`
+      ? `beats the tuned plan for the same goal on ${on}`
       : /lose|worse/.test(v)
-        ? `loses to its tuned heuristic on ${on}`
-        : `cannot be told apart from its tuned heuristic on ${on} (difference not significant)`;
+        ? `loses to the tuned plan for the same goal on ${on}`
+        : `cannot be told apart from the tuned plan for the same goal on ${on} (difference not significant)`;
   const p = price(rowOf(id, scenario), rowOf(c.b, scenario));
   const cost = !p ? "" : /beat/.test(v) && !tiny && p.worse ? `, by letting things slide elsewhere: ${p.text}` : `. With it: ${p.text}`;
-  const where = `On held-out seeds${scenario ? ` (${scenario.replace(/_/g, " ")})` : ""} it`;
+  const where = `On fresh simulated patients${scenario ? ` (${scenario.replace(/_/g, " ")})` : ""} it`;
   return `${where} ${phrase}${margin}${cost}.`;
 }
 
@@ -194,5 +196,5 @@ export function managerStory(id: string, scenario: string): string {
   const how = trainingWords(m);
   const intro = `A learned agent (PPO${how ? `, ${how}` : ""})${goal ? `, rewarded for ${goal}` : ""}.`;
   const verdict = heldOutVerdict(id, scenario);
-  return [intro, verdict || (hasObjective(m.objective) ? "" : "It has no single tuned heuristic to be compared with at its default weights.")].filter(Boolean).join(" ");
+  return [intro, verdict || (hasObjective(m.objective) ? "" : "It has no single tuned plan to be compared with at its default weights.")].filter(Boolean).join(" ");
 }

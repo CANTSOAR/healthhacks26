@@ -1,0 +1,11 @@
+# The Mount Sinai Hospital, New York. Read 2026-10-10. The number of ED treatment spaces was searched for and NOT found.
+attributes:
+  ed_visits_per_year_published:
+    value: 100000
+    unit: visits/year
+    source: literature
+    citation: "'Annual Patient Volume 100,000' for The Mount Sinai Hospital, One Gustave L. Levy Place - Icahn School of Medicine at Mount Sinai, Department of Emergency Medicine, 'Sites' page (read 2026-10-10)"
+    url: https://icahn.mssm.edu/about/departments/emergency-medicine/sites
+    note: Main campus only, rounded, no year. The same page gives 'Annual Patient Volume 70,000' for Mount Sinai Queens. Their sum, 170,000, is close to the 175,125 visits CMS reports for
+      certification number 330024, which is CONSISTENT WITH both campuses reporting under this number - that reading is an inference from the totals, not something a public dataset states. The
+      model uses the CMS count, so this twin is of the certification number (possibly two emergency departments), not of the Manhattan ED alone.

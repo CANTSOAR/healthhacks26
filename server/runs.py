@@ -1,16 +1,10 @@
 """Live simulations and the run registry.
 
 A `Run` owns one HospitalSim (batch 1, CPU) and a lock. Everything that touches the simulator - the
-websocket tick loop, the entity routes, the encounter glue - takes `run.lock` first, so a played
-encounter can read the latent truth and write its result back while the loop keeps ticking.
-
-    from server import runs
-    sim, b = runs.get(run_id)          # KeyError when the run is unknown or has expired
-    with runs.lock(run_id): ...        # the same lock the tick loop holds while it advances the sim
+websocket tick loop and the entity routes - takes `run.lock` first.
 """
 from __future__ import annotations
 
-import contextlib
 import threading
 import time
 import uuid
@@ -18,11 +12,7 @@ import uuid
 from . import cache, catalog, managers
 
 GRACE_S = 600.0            # a run outlives its socket by this long, paused at its tick, and can be re-attached
-ENCOUNTER_GRACE_S = 1800.0  # ... and by this long while an encounter or journey is open on one of its patients
-HOLD_TTL_S = 1800.0         # a hold with no result after this much wall time is an abandoned encounter: released
-MAX_IDLE_RUNS = 12          # detached runs kept at most (oldest without an open encounter go first)
-PRE_PROVIDER = ("waiting_triage", "in_triage", "waiting_bay", "waiting_provider")
-WRITE_BACKS: dict[str, dict] = {}   # encounter id -> {run_id, patient_id, status: applied|queued|rejected, detail}
+MAX_IDLE_RUNS = 12          # detached runs kept at most (oldest go first)
 LATENT_KEYS = ("true_acuity", "severity", "latent_truth", "true_disposition")
 INJECT = {
     "flu_surge": dict(type="flu_wave"),
@@ -160,10 +150,6 @@ class Run:
         self.finished = False
         self.connected = True
         self.created = self.last_seen = time.time()
-        self.encounters: set[str] = set()       # "patient-<id>" marks: a hold or a queued result keeps the run longer
-        self.hold_times: dict[int, float] = {}  # patient id -> wall time the hold was taken (for abandoned encounters)
-        self.queued: dict[int, str] = {}        # patient id -> encounter id of a result queued inside the simulator
-        self.deferred: dict[int, dict] = {}     # same, kept here for a simulator without apply_interaction_result(defer=True)
         self.speed, self.paused = 12.0, False   # remembered across sockets so an attach resumes as it was
         self.owner = None                       # the websocket session driving this run
         self.clock = dict(day=0, minute_of_day=0, dow=0)
@@ -187,7 +173,7 @@ class Run:
     def hour_msg(self, metrics: dict | None = None, ack: bool = False) -> dict:
         with self.lock:
             m = dict(type="hour", t=self.t, metrics=metrics or {}, pending=dict(self.pending), mask=self.mask(),
-                     manager=self.manager["id"], playable=self._try(self.playable_ids, []))
+                     manager=self.manager["id"])
             if ack:
                 m["ack"] = True   # sent in reply to action/manager messages, not at an hour boundary: metrics is empty
             return m
@@ -263,10 +249,6 @@ class Run:
                 actions = self._boundary_actions(errors) if boundary else None
                 self.sim.tick(actions)
                 self.t += 1
-                if self.deferred:
-                    self._apply_deferred(errors)
-                if self.queued:
-                    self._reconcile()
                 out += [dict(type="error", message=m) for m in errors]
                 if self.t % self.tph == 0:
                     metrics = cache.clean({k: _f(v) for k, v in self.sim.metrics_last_hour().items()})
@@ -286,186 +268,6 @@ class Run:
                     self.layout_version = ver
                 out.append(dict(type="snapshot", snapshot=snap))
         return out
-
-    def apply_result(self, result: dict) -> str:
-        """Write a played interaction result into the simulation. Returns "applied", or "queued" when the learner
-        finished before the simulated patient reached a provider (any pre-provider state): the result is kept and
-        applied on the tick that patient's clinician encounter starts, whenever the clock next runs.
-        Raises KeyError (patient gone) or ValueError (encounter already resolved); the hold is released then."""
-        pid = int(result["patient_id"])
-        eid = str(result.get("session_ref") or result.get("interaction_id") or f"patient-{pid}")
-        with self.lock:
-            try:
-                status = self._apply(result, pid)
-            except Exception as e:  # noqa: BLE001
-                self._release(pid)
-                st = self._try(lambda: self.sim.patient_detail(self.b, pid).get("state"), None)
-                if isinstance(e, KeyError):
-                    detail = "The patient is no longer in the hospital, so the result was not used."
-                else:
-                    detail = ("The simulation had already resolved this patient's clinician encounter"
-                              + (f" (the patient is now {str(st).replace('_', ' ')})" if st else "") + ", so the result was not used.")
-                self._note(eid, pid, "rejected", detail, error=f"{type(e).__name__}: {str(e)[:200]}")
-                raise
-            if status == "queued":
-                self.queued[pid] = eid
-                self.encounters.add(f"patient-{pid}")
-                self._note(eid, pid, "queued", "Queued: it will be applied when this patient reaches the provider.")
-            else:
-                self._release(pid, sim_release=False)
-                self._note(eid, pid, "applied", "Applied: the simulated patient continues with your decision.")
-            return status
-
-    def _apply(self, result: dict, pid: int) -> str:
-        sim, b = self.sim, self.b
-        try:
-            sim.apply_interaction_result(b, result, defer=True)
-        except TypeError:
-            # a simulator without defer=: queue here for every pre-provider state
-            try:
-                sim.apply_interaction_result(b, result)
-                return "applied"
-            except ValueError:
-                d = sim.patient_detail(b, pid)
-                if d.get("first_seen_t") is not None or d.get("state") == "exited":
-                    raise
-                self._try(lambda: sim.hold_for_play(b, pid), False)
-                self.deferred[pid] = dict(result)
-                return "queued"
-        d = self._try(lambda: sim.patient_detail(b, pid), None) or {}
-        return "applied" if "played" in (d.get("flag_names") or []) or int(d.get("flags") or 0) & 8 else "queued"
-
-    def _note(self, eid: str, pid: int, status: str, detail: str, **extra) -> None:
-        WRITE_BACKS[eid] = dict(run_id=self.run_id, patient_id=pid, status=status, detail=detail, t=self.t, **extra)
-        while len(WRITE_BACKS) > 500:
-            WRITE_BACKS.pop(next(iter(WRITE_BACKS)))
-
-    def _release(self, pid: int, sim_release: bool = True) -> None:
-        """Forget a hold (and, unless the result was just applied, give the patient back to the sampler)."""
-        self.encounters.discard(f"patient-{pid}")
-        self.hold_times.pop(pid, None)
-        self.queued.pop(pid, None)
-        self.deferred.pop(pid, None)
-        if sim_release:
-            fn = getattr(self.sim, "release_hold", None)
-            if fn:
-                self._try(lambda: fn(self.b, pid), False)
-            dd = getattr(self.sim, "_deferred", None)       # a result queued inside the simulator goes with the hold
-            if isinstance(dd, list) and self.b < len(dd) and isinstance(dd[self.b], dict):
-                dd[self.b].pop(pid, None)
-
-    def _reconcile(self) -> None:
-        """Results queued inside the simulator: notice when one was applied (or its patient left unseen)."""
-        for pid, eid in list(self.queued.items()):
-            try:
-                d = self.sim.patient_detail(self.b, pid)
-            except Exception:  # noqa: BLE001 - gone: exited before reaching a provider, or already left after being seen
-                d = None
-            if d is None:
-                played = eid in WRITE_BACKS and WRITE_BACKS[eid].get("seen_played")
-                self._release(pid, sim_release=False)
-                if not played:
-                    self._note(eid, pid, "rejected", "The patient left the hospital before reaching a provider, so the result was not used.")
-            elif "played" in (d.get("flag_names") or []) or int(d.get("flags") or 0) & 8:
-                self._release(pid, sim_release=False)
-                self._note(eid, pid, "applied", "Applied when the patient reached the provider.")
-
-    def expire_holds(self, now: float | None = None) -> list[int]:
-        """Abandoned encounters: release holds that never got a result."""
-        now = now or time.time()
-        out = []
-        with self.lock:
-            for pid, t0 in list(self.hold_times.items()):
-                if now - t0 > HOLD_TTL_S and pid not in self.queued and pid not in self.deferred:
-                    self._release(pid)
-                    out.append(pid)
-        return out
-
-    def release_all(self) -> None:
-        with self.lock:
-            for pid in list(self.hold_times):
-                if pid not in self.queued and pid not in self.deferred:
-                    self._release(pid)
-
-    # ---------------------------------------------------------------- playability
-    def _case_ok(self, pid: int) -> tuple[bool, str]:
-        """Whether the encounter engine can build a case for this patient (e.g. its template supports the age).
-        Cached per patient so the playable list and the 409 rule agree."""
-        cache = self.__dict__.setdefault("_case_ok_cache", {})
-        if pid not in cache:
-            try:
-                from encounter.resolver import playability
-                r = playability(self.sim.latent_truth(self.b, pid))
-                cache[pid] = (bool(r.get("playable")), str(r.get("reason") or ""))
-            except Exception:  # noqa: BLE001  (engine missing or truth unavailable: do not block)
-                cache[pid] = (True, "")
-        return cache[pid]
-
-    def playable(self, patient_id: int, live: dict | None = None) -> tuple[bool, str, str]:
-        """(playable, code, reason). Playable = before the provider or with the provider, not played, not held."""
-        pid = int(patient_id)
-        with self.lock:
-            if live is None:
-                try:
-                    live = self.sim.patient_detail(self.b, pid)
-                except Exception:  # noqa: BLE001
-                    return False, "not_in_hospital", "This patient is not in the hospital at this moment."
-            state = live.get("state")
-            ok_case, why = self._case_ok(pid)
-            if not ok_case:
-                return False, "no_case", "This patient cannot be played: " + why
-            if "played" in (live.get("flag_names") or []) or int(live.get("flags") or 0) & 8:
-                return False, "already_played", "This patient's clinician encounter has already been played."
-            if pid in self.queued or pid in self.deferred:
-                return False, "result_queued", "A played result is queued for this patient and will be applied when they reach the provider."
-            if live.get("held_for_play") or pid in self.hold_times:
-                return False, "held", "An encounter is already open for this patient."
-            if state in PRE_PROVIDER and live.get("first_seen_t") is None:
-                return True, "pre_provider", ("Not yet seen by a provider: you can play the encounter now; the result is queued and applied "
-                                              "when the patient reaches the provider.")
-            pend = self._try(lambda: self.sim.pending_interaction(self.b, pid), None)
-            if pend:
-                if pend.get("status") == "in_progress":
-                    return True, "with_provider", "The clinician encounter is in progress: your result replaces the sampled one."
-                return True, "pre_provider", "On the way to a provider: the result is queued and applied when the encounter starts."
-            return False, "past_encounter", (f"This patient is past the clinician encounter ({str(state).replace('_', ' ')}); "
-                                             "only patients who have not finished seeing a provider can be played.")
-
-    def playable_ids(self) -> list[int]:
-        with self.lock:
-            snap, E = self._quiet_snapshot(), self.sim.enums
-            p = snap["patients"]
-            pre = {E["patient_state"].index(n) for n in PRE_PROVIDER}
-            maybe = {E["patient_state"].index(n) for n in ("with_provider", "walking")}
-            out = []
-            for pid, st, fl in zip(p["id"], p["state"], p["flags"]):
-                if fl & 8 or pid in self.hold_times or pid in self.queued or pid in self.deferred:
-                    continue
-                if st in pre or (st in maybe and self._try(lambda: self.sim.pending_interaction(self.b, pid), None)):
-                    if self._case_ok(int(pid))[0]:
-                        out.append(pid)
-            return out
-
-    def _apply_deferred(self, errors: list) -> None:
-        for pid, result in list(self.deferred.items()):
-            try:
-                pend = self.sim.pending_interaction(self.b, pid)
-            except Exception:  # noqa: BLE001
-                pend = None
-            eid = str(result.get("session_ref") or result.get("interaction_id") or f"patient-{pid}")
-            gone = self._try(lambda: self.sim.patient_detail(self.b, pid), None) is None
-            if gone:
-                self._release(pid)
-                self._note(eid, pid, "rejected", "The patient left the hospital before reaching a provider, so the result was not used.")
-            elif pend is not None and pend.get("status") == "in_progress":
-                try:
-                    self.sim.apply_interaction_result(self.b, result)
-                    self._release(pid, sim_release=False)
-                    self._note(eid, pid, "applied", "Applied when the patient reached the provider.")
-                except Exception as e:  # noqa: BLE001
-                    self._release(pid)
-                    self._note(eid, pid, "rejected", "The simulation did not accept the result.", error=str(e)[:200])
-                    errors.append(f"played result for patient {pid} was rejected: {str(e)[:160]}")
 
     def inject(self, event: str, params: dict | None = None) -> dict:
         """Add an exogenous scenario event starting at the next simulated hour.
@@ -509,9 +311,7 @@ class Run:
             known = self._try(lambda: sim.known_state(b, pid), None)
             truth_ok = self._try(lambda: bool(sim.latent_truth(b, pid)), False)
             pend = self._try(lambda: sim.pending_interaction(b, pid), None)
-            ok, code, reason = self.playable(pid, live)
         return cache.clean(dict(live=public_live(live), latent_truth_available=bool(truth_ok), known_state=known,
-                                playable=ok, playable_code=code, playable_reason=reason,
                                 interactions=interactions or [], pending_interaction=pend, catalog_refs=refs,
                                 catalog=catalog.resolve_many(refs), synthetic=True))
 
@@ -525,6 +325,7 @@ class Run:
         out = dict(live=live, catalog_refs=refs, catalog=catalog.resolve_many(refs), fictional=True)
         if live.get("name"):
             out["profile"] = dict(name=live["name"], role=live.get("role"), fictional=True)
+        self._add_attribution(out, "staff", live)
         return cache.clean(out)
 
     def room(self, room_id) -> dict:
@@ -546,7 +347,7 @@ class Run:
         live["staff"] = [sid for sid, ri in zip(s.get("id", []), s.get("room", [])) if ri == idx]
         live["equipment"] = [e["id"] for e in lay.get("equipment", []) if e.get("room") == r["id"]]
         refs = [r.get("catalog_ref") or f"space/{r['type']}"]
-        return cache.clean(dict(live=live, catalog_refs=refs, catalog=catalog.resolve_many(refs)))
+        return cache.clean(self._add_attribution(dict(live=live, catalog_refs=refs, catalog=catalog.resolve_many(refs)), "room", live, snap, lay))
 
     def equipment(self, eq_id) -> dict:
         with self.lock:
@@ -560,7 +361,7 @@ class Run:
         if idx < len(st):
             live["status"] = self.sim.enums["equipment_status"][st[idx]]
         refs = [e.get("catalog_ref") or f"equipment/{e['type']}"]
-        return cache.clean(dict(live=live, catalog_refs=refs, catalog=catalog.resolve_many(refs)))
+        return cache.clean(self._add_attribution(dict(live=live, catalog_refs=refs, catalog=catalog.resolve_many(refs)), "equipment", live, snap, lay))
 
     def detail(self, kind: str, entity_id) -> dict:
         """The websocket `detail` reply."""
@@ -581,10 +382,74 @@ class Run:
         primary["catalog_refs"] = refs
         out = dict(type="detail", entity=dict(kind=kind, id=entity_id), live=d.get("live"), catalog=primary,
                    interactions=d.get("interactions") or [], run_id=self.run_id, t=self.t)
-        for k in ("known_state", "latent_truth_available", "pending_interaction", "profile", "playable", "playable_code", "playable_reason"):
+        for k in ("known_state", "latent_truth_available", "pending_interaction", "profile", "attribution"):
             if k in d:
                 out[k] = d[k]
         return out
+
+    # ---------------------------------------------------------------- marginal value (rl/attribution.py; simulated)
+    def _add_attribution(self, out: dict, kind: str, live: dict, snap: dict | None = None, lay: dict | None = None) -> dict:
+        """Adds `attribution` to an entity payload: the entity's resource class, how busy that class is right now
+        and the precomputed marginal value of one unit of it at this hour. Absent when no report exists."""
+        try:
+            a = self._attribution(kind, live, snap, lay)
+        except Exception:  # noqa: BLE001 - the inspector must never fail on an optional block
+            a = None
+        if a is not None:
+            out["attribution"] = a
+        return out
+
+    def _attribution(self, kind: str, live: dict, snap: dict | None, lay: dict | None) -> dict | None:
+        from . import attribution
+        if attribution.load(self.hospital_id) is None:
+            return None
+        with self.lock:
+            snap = snap or self._quiet_snapshot()
+            lay = lay or self.sim.layout(self.b)
+            group = None
+            if kind == "staff":
+                group = self._try(lambda: next((s.get("group") for s in self.sim._roster(self.b) if s["id"] == live.get("staff_id")), None), None)
+        hour = int((snap.get("clock") or {}).get("minute_of_day", 0)) // 60
+        probe = dict(live, group=group) if group else live
+        uid, _ = attribution.unit_id(kind, probe, hour)
+        return attribution.entity_value(self.hospital_id, kind, probe, self.scenario, hour, self._utilisation_now(uid, snap, lay))
+
+    def _utilisation_now(self, uid: str | None, snap: dict, lay: dict) -> dict | None:
+        """How busy the entity's resource class is at this instant of the run (from the live snapshot)."""
+        if not uid:
+            return None
+        k, rooms, rs = snap.get("kpis") or {}, lay.get("rooms") or [], snap.get("rooms") or {}
+        status, E = rs.get("status") or [], self.sim.enums
+        OCC, CLOSED = E["room_status"].index("occupied"), E["room_status"].index("closed")
+
+        def share(idx, what):
+            st = [status[i] for i in idx if i < len(status) and status[i] != CLOSED]
+            if not st:
+                return dict(value=None, in_use=0, of=0, basis=f"no {what} open right now")
+            n = sum(1 for x in st if x == OCC)
+            return dict(value=n / len(st), in_use=n, of=len(st), basis=f"{what} occupied right now")
+
+        if uid.startswith("provider"):
+            return dict(value=k.get("md_utilization"), of=k.get("providers_on_shift"), basis="share of provider time with a patient, last simulated hour")
+        if uid.startswith("nurse"):
+            return dict(value=min(1.0, float(k.get("rn_utilization") or 0.0)), of=k.get("nurses_on_shift"),
+                        basis="nursing care demanded / nursing time on shift, last simulated hour")
+        if uid == "ward_bed":
+            return dict(value=k.get("ward_occupancy"), of=k.get("ward_beds"), basis="inpatient beds occupied right now")
+        if uid in ("ct_scanner", "xray_room"):
+            t = "ct" if uid == "ct_scanner" else "xray"
+            es, names = (snap.get("equipment") or {}).get("status") or [], E["equipment_status"]
+            mine = [names[es[i]] for i, e in enumerate(lay.get("equipment") or []) if e.get("type") == t and i < len(es)]
+            on = [x for x in mine if x in ("idle", "in_use")]
+            n = sum(1 for x in on if x == "in_use")
+            return dict(value=(n / len(on) if on else None), in_use=n, of=len(on), basis=f"{t.upper() if t == 'ct' else 'X-ray'} units scanning right now, of those up and staffed")
+        types = dict(bay_resus=("resus_bay",), bay_fast=("fast_track",), bay_peds=("peds_ed",), triage_station=("triage",), bay_main=("treatment_bay",),
+                     bay_hall=("treatment_bay",)).get(uid)
+        if types:
+            hall = uid == "bay_hall"
+            idx = [i for i, r in enumerate(rooms) if r.get("type") in types and (("hallway" in str(r.get("catalog_ref") or "")) == hall or uid not in ("bay_main", "bay_hall"))]
+            return share(idx, dict(triage_station="triage stations", bay_hall="hallway spaces").get(uid, "spaces of this class"))
+        return None
 
     # ---------------------------------------------------------------- helpers
     @staticmethod
@@ -633,17 +498,12 @@ class Run:
         return dict(staff_id=sid, name=(s.get("name") or [None] * (i + 1))[i], role=role, state=E["staff_state"][s["state"][i]],
                     room_index=s["room"][i], x=s["x"][i], z=s["z"][i], catalog_refs=[f"staff/{role}"], fictional=True)
 
-    def has_open_encounter(self) -> bool:
-        return bool(self.encounters or self.hold_times or self.queued or self.deferred)
-
     def info(self, now: float | None = None) -> dict:
         now = now or time.time()
-        grace = ENCOUNTER_GRACE_S if self.has_open_encounter() else GRACE_S
         return dict(run_id=self.run_id, scenario=self.scenario, seed=self.seed, hospital_id=self.hospital_id, manager=self.manager["id"],
-                    manager_info=self.manager, t=self.t, clock=self.clock, has_open_encounter=self.has_open_encounter(),
-                    expires_in_s=None if self.connected else max(0, int(grace - (now - self.last_seen))),
-                    connected=self.connected, speed=self.speed, paused=self.paused, finished=self.finished,
-                    open_encounters=len(self.encounters | {f"patient-{p}" for p in self.hold_times}))
+                    manager_info=self.manager, t=self.t, clock=self.clock,
+                    expires_in_s=None if self.connected else max(0, int(GRACE_S - (now - self.last_seen))),
+                    connected=self.connected, speed=self.speed, paused=self.paused, finished=self.finished)
 
 
 def _metrics_path():
@@ -660,22 +520,17 @@ def register(run: Run) -> Run:
 
 
 def sweep(now: float | None = None) -> list[str]:
-    """Drop detached runs past their grace period (holds released first) and release abandoned holds on the rest."""
+    """Drop detached runs past their grace period, and the oldest detached runs beyond MAX_IDLE_RUNS."""
     now = now or time.time()
     gone = []
     with _reg_lock:
         for rid, r in list(_runs.items()):
-            r.expire_holds(now)
-            grace = ENCOUNTER_GRACE_S if r.has_open_encounter() else GRACE_S
-            if not r.connected and now - r.last_seen > grace:
+            if not r.connected and now - r.last_seen > GRACE_S:
                 gone.append(rid)
-        idle = sorted((r for r in _runs.values() if not r.connected and r.run_id not in gone and not r.has_open_encounter()),
-                      key=lambda r: r.last_seen)
+        idle = sorted((r for r in _runs.values() if not r.connected and r.run_id not in gone), key=lambda r: r.last_seen)
         gone += [r.run_id for r in idle[:max(0, len(idle) - MAX_IDLE_RUNS)]]
         for rid in gone:
-            r = _runs.pop(rid)
-            with contextlib.suppress(Exception):
-                r.release_all()
+            _runs.pop(rid)
     return gone
 
 
@@ -688,67 +543,6 @@ def get_run(run_id: str) -> Run:
     return r
 
 
-class LockedSim:
-    """What code outside the tick loop gets as "the sim" of a run: every method call takes the run lock, so it is
-    safe from any thread without further care. Three calls of the interaction contract do a little more:
-
-    - hold_for_play marks the run as having an open encounter (it then survives a closed socket for 10 minutes);
-    - apply_interaction_result defers a result that arrives before the patient has reached a provider and
-      applies it on the tick the encounter starts (see Run.apply_result); it also clears the mark;
-    - release_hold clears the mark.
-    Attributes (t, enums, scn, ...) read through to the real HospitalSim, which is `locked.raw`."""
-
-    def __init__(self, run: Run):
-        object.__setattr__(self, "_run", run)
-
-    @property
-    def raw(self):
-        return self._run.sim
-
-    def __getattr__(self, name):
-        run = self._run
-        attr = getattr(run.sim, name)
-        if not callable(attr) or isinstance(attr, type):
-            return attr
-
-        def locked(*a, **kw):
-            with run.lock:
-                return attr(*a, **kw)
-        return locked
-
-    def hold_for_play(self, b, patient_id) -> bool:
-        run, pid = self._run, int(patient_id)
-        with run.lock:
-            if not run.playable(pid)[0]:
-                return False
-            ok = bool(run.sim.hold_for_play(b, pid))
-            if ok:
-                run.encounters.add(f"patient-{pid}")
-                run.hold_times[pid] = time.time()
-        return ok
-
-    def release_hold(self, b, patient_id) -> bool:
-        run, pid = self._run, int(patient_id)
-        with run.lock:
-            known = pid in run.hold_times or pid in run.queued or pid in run.deferred
-            run._release(pid)
-        return known
-
-    def apply_interaction_result(self, b, result: dict, defer: bool = True):
-        """ "applied" or "queued" (see Run.apply_result). Raises when the simulation cannot use the result."""
-        return self._run.apply_result(result)
-
-
-def get(run_id: str):
-    """(sim, b) of a live run; `sim` is a LockedSim, safe to call from any thread. KeyError when the run is not live."""
-    r = get_run(run_id)
-    return LockedSim(r), r.b
-
-
-def lock(run_id: str):
-    return get_run(run_id).lock
-
-
 def disconnect(run: Run) -> None:
     """The socket went away: the run stays, paused at its current tick, until it is attached again or swept."""
     run.connected = False
@@ -756,38 +550,9 @@ def disconnect(run: Run) -> None:
     run.last_seen = time.time()
 
 
-def write_back(encounter_id: str) -> dict | None:
-    """Current write-back state of a played encounter, refreshed against the live run when it was queued."""
-    wb = WRITE_BACKS.get(str(encounter_id))
-    if wb and wb["status"] == "queued":
-        with _reg_lock:
-            r = _runs.get(wb["run_id"])
-        if r is None:
-            wb = dict(wb, status="rejected", detail="The simulation run ended before this patient reached a provider, so the result was not used.")
-            WRITE_BACKS[str(encounter_id)] = wb
-        else:
-            with r.lock:
-                if r.queued:
-                    r._reconcile()
-            wb = WRITE_BACKS.get(str(encounter_id))
-    return dict(wb) if wb else None
-
-
 def remove(run_id: str) -> None:
     with _reg_lock:
         _runs.pop(run_id, None)
-
-
-def hold_open(run_id: str, encounter_id: str) -> None:
-    """An encounter is open on this run: keep it for ENCOUNTER_GRACE_S after its socket closes."""
-    get_run(run_id).encounters.add(str(encounter_id))
-
-
-def release(run_id: str, encounter_id: str) -> None:
-    with _reg_lock:
-        r = _runs.get(run_id)
-    if r is not None:
-        r.encounters.discard(str(encounter_id))
 
 
 def list_runs() -> list[dict]:
@@ -799,4 +564,3 @@ def list_runs() -> list[dict]:
 def clear() -> None:
     with _reg_lock:
         _runs.clear()
-        WRITE_BACKS.clear()

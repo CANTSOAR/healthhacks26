@@ -18,11 +18,6 @@ for (const mode of ["watch", "compare", "tradeoff", "play"]) {
   const text = await page.locator("body").innerText();
   console.log(mode, "| fixture banner:", /fixture data/i.test(text), "| snapshot banner:", /Recorded snapshot/.test(text), "| chars:", text.length);
 }
-for (const p of ["encounter/", "studio/", "journey/"]) {
-  await page.goto(url + p, { waitUntil: "networkidle", timeout: 60000 }).catch(() => {});
-  await page.waitForTimeout(3000);
-  await page.screenshot({ path: path.join(out, `static-${p.replace("/", "")}.png`) });
-}
 console.log("page errors:", errors.length, errors.slice(0, 5));
 console.log("failed requests:", [...new Set(failed)].slice(0, 15));
 await browser.close();

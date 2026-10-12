@@ -9,6 +9,7 @@ from __future__ import annotations
 import copy
 import json
 import math
+import os
 from pathlib import Path
 
 import yaml
@@ -135,6 +136,64 @@ def _set_path(cat: dict, path: str, value):
             node["dist"]["mean"] = value
 
 
+def apply_layout_edit(layout: dict, edit: dict, bay_types: dict | None = None) -> list[dict]:
+    """Counterfactual capacity edit of a layout dict, IN PLACE, before the LayoutModel is built.
+
+        edit = {"remove": {"<type>": n, ...}, "add": {"<type>": n, ...}}
+
+    `<type>` is a layout room type (`treatment_bay`, `resus_bay`, `fast_track`, `peds_ed`, `ward_unit`, `triage`, ...)
+    or a scanner type present in the layout's equipment list (`ct`, `xray`). Rooms: n units of CAPACITY are taken
+    from / added to the rooms of that type nearest the type's centroid (one unit per room, round robin), so the
+    walking distances between zone centroids barely move; an ED bay room left with capacity 0 stays in the file as an
+    empty room, any other room left with capacity 0 is marked not physical (closed). Hallway stretcher spaces are never touched (they belong to the `overflow_bays` action). Scanners: units are
+    removed from / appended to the equipment list and the scanner rooms stay where they are.
+    Returns the list of changes made; raises ValueError when there is nothing left to remove."""
+    rooms, equipment = layout["rooms"], layout.setdefault("equipment", [])
+    eq_types = {e["type"] for e in equipment}
+    multi_ok = set(bay_types or {})          # ED bay rooms hold one patient space per unit of capacity
+    done = []
+    for sign, part in ((-1, "remove"), (1, "add")):
+        for typ, n in ((edit or {}).get(part) or {}).items():
+            n = int(n)
+            if n <= 0:
+                continue
+            if typ in eq_types and typ in ("ct", "xray"):
+                for k in range(n):
+                    units = [e for e in equipment if e["type"] == typ]
+                    if sign < 0:
+                        if not units:
+                            raise ValueError(f"layout_edit: no {typ} unit left to remove")
+                        equipment.remove(units[-1])
+                        done.append(dict(op="remove", type=typ, id=units[-1]["id"]))
+                    else:
+                        src = units[-1]
+                        new = dict(src, id=f"{src['id']}-plus{k + 1}", label=f"{src.get('label', typ)} (added {k + 1})",
+                                   provenance="inferred", source="counterfactual layout_edit")
+                        equipment.append(new)
+                        done.append(dict(op="add", type=typ, id=new["id"]))
+                continue
+            idx = [i for i, r in enumerate(rooms) if r["type"] == typ and r.get("physical", True) is not False
+                   and "hallway" not in (r.get("catalog_ref") or "")]
+            if not idx:
+                raise ValueError(f"layout_edit: no physical room of type '{typ}' in the layout")
+            cx = sum(rooms[i]["x"] for i in idx) / len(idx)
+            cz = sum(rooms[i]["z"] for i in idx) / len(idx)
+            order = sorted(idx, key=lambda i: (abs(rooms[i]["x"] - cx) + abs(rooms[i]["z"] - cz), i))
+            left, k = n, 0
+            while left > 0:
+                if sign < 0:
+                    order = [i for i in order if int(rooms[i].get("capacity") or 0) > 0]
+                    if not order:
+                        raise ValueError(f"layout_edit: no '{typ}' capacity left to remove")
+                r = rooms[order[k % len(order)]]
+                r["capacity"] = int(r.get("capacity") or 0) + sign
+                if sign < 0 and r["capacity"] <= 0 and typ not in multi_ok:
+                    r["physical"] = False                      # a non-bay room with nothing left in it is closed
+                done.append(dict(op=part, type=typ, id=r["id"], capacity=r["capacity"]))
+                left, k = left - 1, k + 1
+    return done
+
+
 def load_scenario(scenario_id: str = "normal_week", overrides: dict | None = None) -> ScenarioConfig:
     overrides = dict(overrides or {})
     path = SCENARIOS / f"{scenario_id}.yaml"
@@ -147,8 +206,12 @@ def load_scenario(scenario_id: str = "normal_week", overrides: dict | None = Non
     c.id = sd.get("id", scenario_id)
     c.label = sd.get("label", scenario_id)
     c.description = sd.get("description", "")
-    c.hospital_id = overrides.pop("hospital_id", sd.get("hospital_id", "rwjuh_nb"))
+    # hospital: explicit override > HOSPITAL_ID environment variable > the scenario file's default
+    c.hospital_id = overrides.pop("hospital_id", None) or os.environ.get("HOSPITAL_ID") or sd.get("hospital_id", "rwjuh_nb")
     c.days_default = int(overrides.pop("days", sd.get("days_default", 7)))
+    base_act_override = dict(overrides.pop("baseline_actions", None) or {})
+    no_calibration = bool(overrides.pop("no_calibration", False))
+    layout_edit = overrides.pop("layout_edit", None)
     c.engine = copy.deepcopy(defaults["engine"])
     for k, v in (sd.get("engine") or {}).items():
         if k == "flags":
@@ -157,7 +220,7 @@ def load_scenario(scenario_id: str = "normal_week", overrides: dict | None = Non
             c.engine[k] = v
     c.flags = c.engine["flags"]
     c.events = copy.deepcopy(sd.get("events") or [])
-    c.overrides = dict(overrides)
+    c.overrides = dict(overrides, **({"layout_edit": layout_edit} if layout_edit else {}))
 
     # ---- catalog
     for f in CAT_FILES:
@@ -171,6 +234,17 @@ def load_scenario(scenario_id: str = "normal_week", overrides: dict | None = Non
     hv = variants.get(c.hospital_id) or next(iter(variants.values()))
     c.cat["hospital"] = copy.deepcopy(hv.get("attributes") or {})
     c.hospital_label = hv.get("label", c.hospital_id)
+    # hospital-specific values of attributes that live in the shared catalog files (arrivals, wages, rosters,
+    # calibrated parameters): `catalog_overrides: {"<file>.<variant|shared>.<key>": value | attribute node}`
+    c.hospital_overrides = dict(hd.get("catalog_overrides") or {}) if own_hospital else {}
+    for pth, v in c.hospital_overrides.items():
+        _set_path(c.cat, pth, v)
+    # calibration (written by twin/calibrate.py, never by hand): fitted values of ASSUMED attributes so the
+    # baseline reproduces the hospital's published figures, and the baseline ("current practice") action defaults
+    cfile = CATALOG / "hospitals" / f"{c.hospital_id}.calibration.yaml"
+    c.calibration = (_yaml(cfile) or {}) if cfile.exists() and not no_calibration else {}
+    for pth, v in (c.calibration.get("catalog_overrides") or {}).items():
+        _set_path(c.cat, pth, v)
     for pth, v in (sd.get("catalog_overrides") or {}).items():
         _set_path(c.cat, pth, v)
     arrival_scale = float(sd.get("arrival_scale", 1.0))
@@ -194,6 +268,11 @@ def load_scenario(scenario_id: str = "normal_week", overrides: dict | None = Non
     c.metric_defs = m["metrics"]
     c.summary_defs = m["episode_summary"]
     c.heads = _yaml(CONTRACTS / "actions.yaml")["heads"]
+    base_act = dict(c.calibration.get("baseline_actions") or {})
+    base_act.update(base_act_override)
+    for h in c.heads:                                # per-hospital baseline policy = the heads' defaults
+        if h["name"] in base_act:
+            h["default"] = max(0, min(len(h["options"]) - 1, int(base_act[h["name"]])))
 
     # ---- layout
     lfile = None
@@ -212,6 +291,8 @@ def load_scenario(scenario_id: str = "normal_week", overrides: dict | None = Non
         layout = json.load(f)
     c.layout_source = str(lfile.relative_to(ROOT))
     H = lambda k, d=None: c.val("hospital", None, k, d)   # noqa: E731
+    # counterfactual capacity edit (rl/attribution.py): default None = the file as it is
+    c.layout_edit = apply_layout_edit(layout, layout_edit, H("ed_bay_room_types")) if layout_edit else []
     eng = c.engine
     hall_opts = [int(x) for x in H("hallway_overflow_spaces")]
     bay_step = int(H("bays_delta_step"))

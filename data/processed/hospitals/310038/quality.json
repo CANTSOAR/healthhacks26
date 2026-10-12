@@ -1,0 +1,714 @@
+{
+ "ccn": "310038",
+ "source": {
+  "hcahps": {
+   "dataset": "CMS Provider Data Catalog: Patient survey (HCAHPS) - Hospital",
+   "dataset_id": "dgck-syfz",
+   "release": "2026-08-13",
+   "modified": "2026-07-22",
+   "url": "https://data.cms.gov/provider-data/sites/default/files/resources/78a50346fbe828ea0ce2837847af6a7c_1785189950/HCAHPS-Hospital.csv",
+   "landing": "https://data.cms.gov/provider-data/dataset/dgck-syfz",
+   "raw_file": "data/raw/pdc/dgck-syfz/HCAHPS-Hospital.csv",
+   "bytes": 105461119,
+   "sha256": "b70e598f29552df302e30ed649d178abd1b3d3c868ae97cf8e55453dd33898fc",
+   "fetched_utc": "2026-10-10T19:37:07+00:00",
+   "filter": "Facility ID == '310038'"
+  },
+  "hrrp": {
+   "dataset": "CMS Provider Data Catalog: Hospital Readmissions Reduction Program",
+   "dataset_id": "9n3s-kdb3",
+   "release": "2026-08-13",
+   "modified": "2026-01-26",
+   "url": "https://data.cms.gov/provider-data/sites/default/files/resources/a171bc36c488d3e0dc33ec63abb469a6_1770163617/FY_2026_Hospital_Readmissions_Reduction_Program_Hospital.csv",
+   "landing": "https://data.cms.gov/provider-data/dataset/9n3s-kdb3",
+   "raw_file": "data/raw/pdc/9n3s-kdb3/FY_2026_Hospital_Readmissions_Reduction_Program_Hospital.csv",
+   "bytes": 2068464,
+   "sha256": "7e7915dd2751a1e59ac46dbc9194fb781e820962a04d47c31344ea2bb30c91f6",
+   "fetched_utc": "2026-10-10T19:36:31+00:00",
+   "filter": "Facility ID == '310038'"
+  }
+ },
+ "unavailable": {},
+ "hcahps": [
+  {
+   "HCAHPS Measure ID": "H_COMP_1_A_P",
+   "HCAHPS Answer Description": "Nurses \"always\" communicated well",
+   "HCAHPS Answer Percent": "78",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_COMP_1_SN_P",
+   "HCAHPS Answer Description": "Nurses \"sometimes\" or \"never\" communicated well",
+   "HCAHPS Answer Percent": "5",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_COMP_1_U_P",
+   "HCAHPS Answer Description": "Nurses \"usually\" communicated well",
+   "HCAHPS Answer Percent": "17",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_COMP_1_LINEAR_SCORE",
+   "HCAHPS Answer Description": "Nurse communication - linear mean score",
+   "HCAHPS Linear Mean Value": "91",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_COMP_1_STAR_RATING",
+   "HCAHPS Answer Description": "Nurse communication - star rating",
+   "Patient Survey Star Rating": "3",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_NURSE_RESPECT_A_P",
+   "HCAHPS Answer Description": "Nurses \"always\" treated them with courtesy and  respect",
+   "HCAHPS Answer Percent": "85",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_NURSE_RESPECT_SN_P",
+   "HCAHPS Answer Description": "Nurses \"sometimes\" or \"never\" treated them with courtesy and  respect",
+   "HCAHPS Answer Percent": "3",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_NURSE_RESPECT_U_P",
+   "HCAHPS Answer Description": "Nurses \"usually\"  treated them with courtesy and  respect",
+   "HCAHPS Answer Percent": "12",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_NURSE_LISTEN_A_P",
+   "HCAHPS Answer Description": "Nurses \"always\" listened carefully",
+   "HCAHPS Answer Percent": "76",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_NURSE_LISTEN_SN_P",
+   "HCAHPS Answer Description": "Nurses \"sometimes\" or \"never\" listened carefully",
+   "HCAHPS Answer Percent": "6",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_NURSE_LISTEN_U_P",
+   "HCAHPS Answer Description": "Nurses \"usually\" listened carefully",
+   "HCAHPS Answer Percent": "18",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_NURSE_EXPLAIN_A_P",
+   "HCAHPS Answer Description": "Nurses \"always\" explained things so they could understand",
+   "HCAHPS Answer Percent": "73",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_NURSE_EXPLAIN_SN_P",
+   "HCAHPS Answer Description": "Nurses \"sometimes\" or \"never\" explained things so they could understand",
+   "HCAHPS Answer Percent": "7",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_NURSE_EXPLAIN_U_P",
+   "HCAHPS Answer Description": "Nurses \"usually\" explained things so they could understand",
+   "HCAHPS Answer Percent": "20",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_COMP_2_A_P",
+   "HCAHPS Answer Description": "Doctors \"always\" communicated well",
+   "HCAHPS Answer Percent": "77",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_COMP_2_SN_P",
+   "HCAHPS Answer Description": "Doctors \"sometimes\" or \"never\" communicated well",
+   "HCAHPS Answer Percent": "6",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_COMP_2_U_P",
+   "HCAHPS Answer Description": "Doctors \"usually\" communicated well",
+   "HCAHPS Answer Percent": "17",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_COMP_2_LINEAR_SCORE",
+   "HCAHPS Answer Description": "Doctor communication - linear mean score",
+   "HCAHPS Linear Mean Value": "90",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_COMP_2_STAR_RATING",
+   "HCAHPS Answer Description": "Doctor communication - star rating",
+   "Patient Survey Star Rating": "3",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_DOCTOR_RESPECT_A_P",
+   "HCAHPS Answer Description": "Doctors \"always\" treated them with courtesy and  respect",
+   "HCAHPS Answer Percent": "84",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_DOCTOR_RESPECT_SN_P",
+   "HCAHPS Answer Description": "Doctors \"sometimes\" or \"never\" treated them with courtesy and  respect",
+   "HCAHPS Answer Percent": "4",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_DOCTOR_RESPECT_U_P",
+   "HCAHPS Answer Description": "Doctors \"usually\"  treated them with courtesy and  respect",
+   "HCAHPS Answer Percent": "12",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_DOCTOR_LISTEN_A_P",
+   "HCAHPS Answer Description": "Doctors \"always\" listened carefully",
+   "HCAHPS Answer Percent": "75",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_DOCTOR_LISTEN_SN_P",
+   "HCAHPS Answer Description": "Doctors \"sometimes\" or \"never\" listened carefully",
+   "HCAHPS Answer Percent": "6",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_DOCTOR_LISTEN_U_P",
+   "HCAHPS Answer Description": "Doctors \"usually\" listened carefully",
+   "HCAHPS Answer Percent": "19",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_DOCTOR_EXPLAIN_A_P",
+   "HCAHPS Answer Description": "Doctors \"always\" explained things so they could understand",
+   "HCAHPS Answer Percent": "71",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_DOCTOR_EXPLAIN_SN_P",
+   "HCAHPS Answer Description": "Doctors \"sometimes\" or \"never\" explained things so they could understand",
+   "HCAHPS Answer Percent": "7",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_DOCTOR_EXPLAIN_U_P",
+   "HCAHPS Answer Description": "Doctors \"usually\" explained things so they could understand",
+   "HCAHPS Answer Percent": "22",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_COMP_5_A_P",
+   "HCAHPS Answer Description": "Staff \"always\" explained",
+   "HCAHPS Answer Percent": "61",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_COMP_5_SN_P",
+   "HCAHPS Answer Description": "Staff \"sometimes\" or \"never\" explained",
+   "HCAHPS Answer Percent": "20",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_COMP_5_U_P",
+   "HCAHPS Answer Description": "Staff \"usually\" explained",
+   "HCAHPS Answer Percent": "19",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_COMP_5_LINEAR_SCORE",
+   "HCAHPS Answer Description": "Communication about medicines - linear mean score",
+   "HCAHPS Linear Mean Value": "77",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_COMP_5_STAR_RATING",
+   "HCAHPS Answer Description": "Communication about medicines - star rating",
+   "Patient Survey Star Rating": "3",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_MED_FOR_A_P",
+   "HCAHPS Answer Description": "Staff \"always\" explained new medications",
+   "HCAHPS Answer Percent": "75",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_MED_FOR_SN_P",
+   "HCAHPS Answer Description": "Staff \"sometimes\" or \"never\" explained new medications",
+   "HCAHPS Answer Percent": "10",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_MED_FOR_U_P",
+   "HCAHPS Answer Description": "Staff \"usually\" explained new medications",
+   "HCAHPS Answer Percent": "15",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_SIDE_EFFECTS_A_P",
+   "HCAHPS Answer Description": "Staff \"always\" explained possible side effects",
+   "HCAHPS Answer Percent": "47",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_SIDE_EFFECTS_SN_P",
+   "HCAHPS Answer Description": "Staff \"sometimes\" or \"never\" explained possible side effects",
+   "HCAHPS Answer Percent": "31",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_SIDE_EFFECTS_U_P",
+   "HCAHPS Answer Description": "Staff \"usually\" explained possible side effects",
+   "HCAHPS Answer Percent": "22",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_COMP_6_N_P",
+   "HCAHPS Answer Description": "No, staff \"did not\" give patients this information",
+   "HCAHPS Answer Percent": "14",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_COMP_6_Y_P",
+   "HCAHPS Answer Description": "Yes, staff \"did\" give patients this information",
+   "HCAHPS Answer Percent": "86",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_COMP_6_LINEAR_SCORE",
+   "HCAHPS Answer Description": "Discharge information - linear mean score",
+   "HCAHPS Linear Mean Value": "86",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_COMP_6_STAR_RATING",
+   "HCAHPS Answer Description": "Discharge information - star rating",
+   "Patient Survey Star Rating": "3",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_DISCH_HELP_N_P",
+   "HCAHPS Answer Description": "No, staff \"did not\" give patients information about help after discharge",
+   "HCAHPS Answer Percent": "16",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_DISCH_HELP_Y_P",
+   "HCAHPS Answer Description": "Yes, staff \"did\" give patients information about help after discharge",
+   "HCAHPS Answer Percent": "84",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_SYMPTOMS_N_P",
+   "HCAHPS Answer Description": "No, staff \"did not\" give patients information about possible symptoms",
+   "HCAHPS Answer Percent": "12",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_SYMPTOMS_Y_P",
+   "HCAHPS Answer Description": "Yes, staff \"did\" give patients information about possible symptoms",
+   "HCAHPS Answer Percent": "88",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_CLEAN_HSP_A_P",
+   "HCAHPS Answer Description": "Room was \"always\" clean",
+   "HCAHPS Answer Percent": "72",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_CLEAN_HSP_SN_P",
+   "HCAHPS Answer Description": "Room was \"sometimes\" or \"never\" clean",
+   "HCAHPS Answer Percent": "8",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_CLEAN_HSP_U_P",
+   "HCAHPS Answer Description": "Room was \"usually\" clean",
+   "HCAHPS Answer Percent": "20",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_CLEAN_LINEAR_SCORE",
+   "HCAHPS Answer Description": "Cleanliness - linear mean score",
+   "HCAHPS Linear Mean Value": "87",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_CLEAN_STAR_RATING",
+   "HCAHPS Answer Description": "Cleanliness - star rating",
+   "Patient Survey Star Rating": "4",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_QUIET_HSP_A_P",
+   "HCAHPS Answer Description": "\"Always\" quiet at night",
+   "HCAHPS Answer Percent": "44",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_QUIET_HSP_SN_P",
+   "HCAHPS Answer Description": "\"Sometimes\" or \"never\" quiet at night",
+   "HCAHPS Answer Percent": "21",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_QUIET_HSP_U_P",
+   "HCAHPS Answer Description": "\"Usually\" quiet at night",
+   "HCAHPS Answer Percent": "35",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_QUIET_LINEAR_SCORE",
+   "HCAHPS Answer Description": "Quietness - linear mean score",
+   "HCAHPS Linear Mean Value": "73",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_QUIET_STAR_RATING",
+   "HCAHPS Answer Description": "Quietness - star rating",
+   "Patient Survey Star Rating": "2",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_HSP_RATING_0_6",
+   "HCAHPS Answer Description": "Patients who gave a rating of \"6\" or lower (low)",
+   "HCAHPS Answer Percent": "10",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_HSP_RATING_7_8",
+   "HCAHPS Answer Description": "Patients who gave a rating of \"7\" or \"8\" (medium)",
+   "HCAHPS Answer Percent": "22",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_HSP_RATING_9_10",
+   "HCAHPS Answer Description": "Patients who gave a rating of \"9\" or \"10\" (high)",
+   "HCAHPS Answer Percent": "68",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_HSP_RATING_LINEAR_SCORE",
+   "HCAHPS Answer Description": "Overall hospital rating - linear mean score",
+   "HCAHPS Linear Mean Value": "87",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_HSP_RATING_STAR_RATING",
+   "HCAHPS Answer Description": "Overall hospital rating - star rating",
+   "Patient Survey Star Rating": "3",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_RECMND_DN",
+   "HCAHPS Answer Description": "\"NO\", patients would not recommend the hospital (they probably would not or definitely would not recommend it)",
+   "HCAHPS Answer Percent": "7",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_RECMND_DY",
+   "HCAHPS Answer Description": "\"YES\", patients would definitely recommend the hospital",
+   "HCAHPS Answer Percent": "70",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_RECMND_PY",
+   "HCAHPS Answer Description": "\"YES\", patients would probably recommend the hospital",
+   "HCAHPS Answer Percent": "23",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_RECMND_LINEAR_SCORE",
+   "HCAHPS Answer Description": "Recommend hospital - linear mean score",
+   "HCAHPS Linear Mean Value": "87",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_RECMND_STAR_RATING",
+   "HCAHPS Answer Description": "Recommend hospital - star rating",
+   "Patient Survey Star Rating": "4",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  },
+  {
+   "HCAHPS Measure ID": "H_STAR_RATING",
+   "HCAHPS Answer Description": "Summary star rating",
+   "Patient Survey Star Rating": "3",
+   "Number of Completed Surveys": "2393",
+   "Survey Response Rate Percent": "17",
+   "Start Date": "10/01/2024",
+   "End Date": "09/30/2025"
+  }
+ ],
+ "hrrp": [
+  {
+   "Measure Name": "READM-30-PN-HRRP",
+   "Number of Discharges": "641",
+   "Footnote": null,
+   "Excess Readmission Ratio": "1.0347",
+   "Predicted Readmission Rate": "18.0425",
+   "Expected Readmission Rate": "17.4382",
+   "Number of Readmissions": "118",
+   "Start Date": "07/01/2021",
+   "End Date": "06/30/2024"
+  },
+  {
+   "Measure Name": "READM-30-HIP-KNEE-HRRP",
+   "Number of Discharges": null,
+   "Footnote": null,
+   "Excess Readmission Ratio": "1.1894",
+   "Predicted Readmission Rate": "6.2434",
+   "Expected Readmission Rate": "5.2491",
+   "Number of Readmissions": "Too Few to Report",
+   "Start Date": "07/01/2021",
+   "End Date": "06/30/2024"
+  },
+  {
+   "Measure Name": "READM-30-HF-HRRP",
+   "Number of Discharges": "1051",
+   "Footnote": null,
+   "Excess Readmission Ratio": "0.9671",
+   "Predicted Readmission Rate": "19.6422",
+   "Expected Readmission Rate": "20.3100",
+   "Number of Readmissions": "204",
+   "Start Date": "07/01/2021",
+   "End Date": "06/30/2024"
+  },
+  {
+   "Measure Name": "READM-30-COPD-HRRP",
+   "Number of Discharges": "148",
+   "Footnote": null,
+   "Excess Readmission Ratio": "0.9671",
+   "Predicted Readmission Rate": "17.1865",
+   "Expected Readmission Rate": "17.7715",
+   "Number of Readmissions": "23",
+   "Start Date": "07/01/2021",
+   "End Date": "06/30/2024"
+  },
+  {
+   "Measure Name": "READM-30-CABG-HRRP",
+   "Number of Discharges": "357",
+   "Footnote": null,
+   "Excess Readmission Ratio": "1.4237",
+   "Predicted Readmission Rate": "16.3638",
+   "Expected Readmission Rate": "11.4936",
+   "Number of Readmissions": "68",
+   "Start Date": "07/01/2021",
+   "End Date": "06/30/2024"
+  },
+  {
+   "Measure Name": "READM-30-AMI-HRRP",
+   "Number of Discharges": "518",
+   "Footnote": null,
+   "Excess Readmission Ratio": "1.1772",
+   "Predicted Readmission Rate": "18.0209",
+   "Expected Readmission Rate": "15.3088",
+   "Number of Readmissions": "102",
+   "Start Date": "07/01/2021",
+   "End Date": "06/30/2024"
+  }
+ ]
+}

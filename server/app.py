@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import asyncio
 import contextlib
+import json
 import os
 import threading
 
@@ -10,8 +11,8 @@ from fastapi import Body, FastAPI, HTTPException, Request, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, Response
 
-from . import __version__, cache, catalog, encounter_glue, live, managers, runs, status as status_mod, validation
-from .paths import CONTRACTS
+from . import __version__, attribution, cache, catalog, live, managers, runs, status as status_mod, validation
+from .paths import CONTRACTS, rl_dir
 
 
 @contextlib.asynccontextmanager
@@ -21,7 +22,6 @@ async def lifespan(app: FastAPI):
             await asyncio.sleep(30)
             with contextlib.suppress(Exception):
                 runs.sweep()
-                encounter_glue.try_mount(app)
     with contextlib.suppress(Exception):
         # batch-1 simulations are faster on one intra-op thread, and several sockets then do not fight for cores
         import torch
@@ -38,10 +38,10 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(title="HospitalGym", version=__version__, lifespan=lifespan)
-app.add_middleware(encounter_glue.SimEncounterMiddleware)     # inside CORS (added first = inner)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    # HG_CORS_ORIGINS: comma-separated extra origins for a deployed site (e.g. http://<host>:3000), or * for any
+    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"] + [o.strip() for o in os.environ.get("HG_CORS_ORIGINS", "").split(",") if o.strip()],
     allow_origin_regex=r"https?://(localhost|127\.0\.0\.1)(:\d+)?",
     allow_methods=["*"], allow_headers=["*"], expose_headers=["Content-Encoding"],
 )
@@ -63,7 +63,6 @@ def not_found(what: str):
 # ---------------------------------------------------------------- status and reference data
 @app.get("/api/status")
 def get_status():
-    encounter_glue.try_mount(app)
     return J(status_mod.status())
 
 
@@ -164,6 +163,44 @@ def post_human_result(body: dict = Body(...)):
     return J(dict(ok=True, stored=runs_[-1], n_human_runs=len(runs_)))
 
 
+from . import optimize as _optimize  # noqa: E402
+app.include_router(_optimize.router)
+
+
+@app.get("/api/headline/{hospital_id}")
+def get_headline(hospital_id: str):
+    """The per-hospital operating-policy headline written by rl/headline.py (all numbers simulated)."""
+    if not hospital_id.replace("_", "").isalnum():
+        not_found(f"no headline for hospital '{hospital_id}'")
+    f = rl_dir() / "hospitals" / hospital_id / "headline.json"
+    if not f.exists():
+        not_found(f"no headline for hospital '{hospital_id}': run rl/scripts/run_hospital.sh {hospital_id}")
+    return J(json.loads(f.read_text()))
+
+
+@app.get("/api/attribution/{hospital_id}")
+def get_attribution(hospital_id: str, objective: str | None = None, weights: str | None = None, view: str | None = None):
+    """Marginal value of every resource unit, written by rl/attribution.py (all numbers simulated). `objective=<preset>`
+    or `weights=<json {term: weight}>` adds `reward.custom` to every row, re-scored from the stored term differences
+    without re-simulating; `view=summary` leaves out the per-seed and per-day arrays."""
+    rep = attribution.load(hospital_id)
+    if rep is None:
+        not_found(f"no attribution for hospital '{hospital_id}': run `python -m rl.attribution --hospital {hospital_id}`")
+    w = None
+    if weights:
+        try:
+            w = json.loads(weights)
+            assert isinstance(w, dict)
+        except Exception:  # noqa: BLE001
+            raise HTTPException(status_code=422, detail="weights must be a JSON object {term: number}") from None
+    if objective and not w and objective not in (rep["reward"].get("objectives") or {}):
+        raise HTTPException(status_code=422, detail=f"unknown objective '{objective}'; have {sorted(rep['reward'].get('objectives') or {})}")
+    ww = attribution.weights_for(rep, objective, w)
+    if ww:
+        rep = attribution.rescored(rep, ww)
+    return J(attribution.summary(rep) if view == "summary" else rep)
+
+
 @app.get("/api/validation")
 def get_validation():
     return J(validation.report())
@@ -221,24 +258,6 @@ def get_run_equipment(run_id: str, equipment_id: str):
         return J(run.equipment(equipment_id))
     except KeyError as e:
         raise HTTPException(status_code=404, detail=str(e.args[0])) from None
-
-
-@app.get("/api/runs/{run_id}/playable")
-def get_run_playable(run_id: str):
-    run = _run(run_id)
-    return J(dict(run_id=run.run_id, t=run.t, playable=run.playable_ids()))
-
-
-@app.delete("/api/runs/{run_id}/patients/{patient_id}/hold")
-def delete_run_patient_hold(run_id: str, patient_id: int):
-    """An encounter was abandoned: give the patient back to the simulation's own sampler."""
-    run = _run(run_id)
-    sim, b = runs.get(run_id)
-    return J(dict(run_id=run.run_id, patient_id=patient_id, released=bool(sim.release_hold(b, patient_id))))
-
-
-# ---------------------------------------------------------------- encounter (optional package)
-encounter_glue.try_mount(app)
 
 
 @app.get("/")
